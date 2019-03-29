@@ -1,0 +1,30 @@
+<div class="col-md-6 col-md-offset-3">
+    <h1>Hi {{ username }}!</h1>
+    <p><a [routerLink]="['/login']" (click) ="logout()">Logout</a></p>
+
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">Edit In Form</th>
+            <th scope="col">Marker Symbol</th>
+            <th scope="col">Consortium</th>
+            <th scope="col">Work unit</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Privacy</th>
+            <th scope="col">Plan type</th>
+        </thead>
+        <tbody>
+            <tr *ngFor="let plan of plans | async">
+                <td>link form EDIT</td>
+                <td>marker symbol EDIT</td>
+                <td>{{ plan.consortium }}</td>
+                <td>{{ plan.workUnit }}</td>
+                <td>{{ plan.status.name }}</td>
+                <td>priority EDIT</td>
+                <td>{{ plan.planPrivacy.name }}</td>
+                <td>{{ plan.planType.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
