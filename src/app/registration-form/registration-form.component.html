@@ -1,74 +1,57 @@
-<form name="form" (ngSubmit)="f.form.valid && singup()" #f="ngForm" novalidate>
-  <div [ngClass]="{ 'has-error': f.submitted && !name.valid }">
-    <label for="name">Name</label>
-    <input type="name" name="name" [(ngModel)]="model.name" #name="ngModel" required />
-    <div *ngIf="f.submitted && !name.valid">Name is required</div>
+
+<h2>Sign up</h2>
+<form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+  <div class="form-group">
+      <label for="name">Name</label>
+      <input type="text" formControlName="name" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.name.errors }" placeholder="Enter name" />
+      <div *ngIf="submitted && f.name.errors" class="invalid-feedback">
+          <div *ngIf="f.name.errors.required">Name is required</div>
+      </div>
   </div>
 
-  <div [ngClass]="{ 'has-error': f.submitted && !password.valid }">
+  <div class="form-group">
       <label for="password">Password</label>
-      <input type="password" name="password" [(ngModel)]="model.password" #password="ngModel" required />
-      <div *ngIf="f.submitted && !password.valid">Password is required</div>
+      <input type="password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" placeholder="Enter password" />
+      <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
+          <div *ngIf="f.password.errors.required">Password is required</div>
+      </div>
   </div>
 
-  <div [ngClass]="{ 'has-error': f.submitted && !password1.valid }">
-      <label for="password">Password</label>
-      <input type="password" name="password1" [(ngModel)]="model.password1" #password1="ngModel" required />
-      <div *ngIf="f.submitted && !password1.valid">Password1 is required</div>
-  </div>
-
-  <div [ngClass]="{ 'has-error': f.submitted && !email.valid }">
+  <div class="form-group">
     <label for="email">Email</label>
-    <input type="email" name="email" [(ngModel)]="model.email" #email="ngModel"  required />
-    <div *ngIf="f.submitted && !email.valid">Email is required</div>
+    <input type="text" formControlName="email" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.email.errors }" placeholder="Enter email" />
+    <div *ngIf="submitted && f.email.errors" class="invalid-feedback">
+        <div *ngIf="f.email.errors.required">Email is required</div>
+    </div>
   </div>
 
-  <div [ngClass]="{ 'has-error': f.submitted && !workUnit.valid }">
-    <label for="workUnit">Work Unit</label>
-    <select type="workUnit" name="workUnit" [(ngModel)]="model.workUnit" #workUnit="ngModel" >
-      <!-- <option *ngFor="let work_unit of workUnits" [value]="work_unit.id" [ngValue]="work_unit.name">{{ work_unit.name }}</option>   -->
-      <option *ngFor="let workUnit of workUnits | async" [value]="workUnit.name" [ngValue]="workUnit.name">{{ workUnit.name }}</option>  
-    </select>
-    <!-- <div *ngIf="f.submitted && !workUnit.valid">workUnit is required</div> -->
-  </div>
-  
-  <!-- <div [ngClass]="{ 'has-error': f.submitted && !workGroup.valid }">
-    <label for="workGroup">Work Group</label>
-    <select type="workGroup" name="workGroup" [(ngModel)]="model.workGroup" #workGroup="ngModel" >
-      <option *ngFor="let workGroup of workGroups | async" [value]="workGroup.name" [ngValue]="workGroup.name">{{ workGroup.name }}</option>  
-    </select>
-    <div *ngIf="f.submitted && !workGroup.valid">workGroup is required</div>
+  <div class="form-group">
+    <label for="workUnit">Work unit</label>
+    <ng-multiselect-dropdown type="text" name="workUnit" formControlName="workUnit" [ngClass]="{ 'alba': submitted && f.workUnit.errors }" [placeholder]="'--Select--'" [data]="workUnits" [settings]="dropdownSettingsWorkUnit" ></ng-multiselect-dropdown>
+    <div *ngIf="submitted && f.workUnit.errors" class="multiselect-dropdown-feedback-invalid">
+      <div *ngIf="f.workUnit.errors.required">Work unit is required</div>
+    </div>
   </div>
 
-  <div [ngClass]="{ 'has-error': f.submitted && !consortium.valid }">
-    <label for="consortium">Consortium</label>
-    <select type="consortium" name="consortium" [(ngModel)]="model.consortium" #consortium="ngModel" required>
-      <option *ngFor="let consortium of consortia | async" [value]="consortium.name" [ngValue]="consortium.name">{{ consortium.name }}</option>  
-    </select>
-    <div *ngIf="f.submitted && !consortium.valid">consortium is required</div>
-  </div> -->
-
-  <div [ngClass]="{ 'has-error': f.submitted && !institute.valid }">
+  <div class="form-group">
     <label for="institute">Institute</label>
-    <select type="institute" name="institute" [(ngModel)]="model.institute" #institute="ngModel" >
-      <option *ngFor="let institute of institutes | async" [value]="institute.name" [ngValue]="institute.name">{{ institute.name }}</option>  
-    </select>
-    <!-- <div *ngIf="f.submitted && !institute.valid">Institute is required</div> -->
+    <ng-multiselect-dropdown type="text" name="institute" formControlName="institute" [ngClass]="{ 'is-invalid': submitted && f.institute.errors }" [placeholder]="'--Select--'" [data]="institutes" [settings]="dropdownSettingsInstitute"></ng-multiselect-dropdown>
+    <div *ngIf="submitted && f.institute.errors" class="multiselect-dropdown-feedback-invalid">
+      <div *ngIf="f.institute.errors.required">Institute is required</div>
+    </div>
   </div>
 
-  <div [ngClass]="{ 'has-error': f.submitted && !role.valid }">
+  <div class="form-group">
     <label for="role">Role</label>
-    <select type="role" name="role" [(ngModel)]="model.role" #role="ngModel" required>
-      <option *ngFor="let role of roles | async" [value]="role.name" [ngValue]="role.name">{{ role.name }}</option>  
-    </select>
-    <div *ngIf="f.submitted && !role.valid">Role is required</div>
+    <ng-multiselect-dropdown type="text" name="role" formControlName="role" [ngClass]="{ 'is-invalid': submitted && f.role.errors }" [placeholder]="'--Select--'" [data]="roles" [settings]="dropdownSettingsRole"></ng-multiselect-dropdown>
+    <div *ngIf="submitted && f.role.errors" class="multiselect-dropdown-feedback-invalid">
+      <div *ngIf="f.role.errors.required">Role is required</div>
+    </div>
   </div>
 
-  <div>
-    <button [disabled]="loading">Sign up</button>
+  <div class="form-group">
+      <button [disabled]="loading" class="btn btn-primary">Sign up</button>
+      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
   </div>
-
-  <ngb-alert *ngIf="dangerMessage" type="danger" (close)="dangerMessage = null">{{ dangerMessage }}</ngb-alert>
-
+  <div *ngIf="error" class="alert alert-danger">{{error}}</div>
 </form>
-
