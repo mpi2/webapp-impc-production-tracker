@@ -11,6 +11,8 @@ import { BearerTokenAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegistrationFormComponent } from './registration-form';
+import { GeneSearchComponent } from './gene-search/gene-search.component';
+import { fakeBackendProvider } from './_helpers/fake-backend';
 
 @NgModule({
     imports: [
@@ -25,11 +27,14 @@ import { RegistrationFormComponent } from './registration-form';
         AppComponent,
         HomeComponent,
         LoginComponent,
-        RegistrationFormComponent
+        RegistrationFormComponent,
+        GeneSearchComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuthInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
+        fakeBackendProvider
     ],
     bootstrap: [AppComponent]
 })
