@@ -12,6 +12,7 @@ export class PlanService {
   constructor(private http: HttpClient) { }
 
   getAll() {
+    console.log('plans access yes');
     return this.http.get<Plan[]>(`${environment.baseUrl}/api/plans`);
   }
 }

@@ -22,6 +22,6 @@ export class HomeComponent implements OnInit {
             this.plans = plans;
         });
 
-        this.username = JSON.parse(sessionStorage.getItem('tokenInfo')).username;
+        // this.username = JSON.parse(sessionStorage.getItem('tokenInfo')).username;
     }
 }

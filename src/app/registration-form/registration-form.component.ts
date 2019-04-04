@@ -112,11 +112,14 @@ export class RegistrationFormComponent implements OnInit {
           .pipe(first())
           .subscribe(
               data => {
-                  this.router.navigate([this.returnUrl]);
+                this.loading = false;
+                console.log('User created!');
+                // this.router.navigate([this.returnUrl]);
               },
               error => {
                   this.error = error;
                   this.loading = false;
+                  console.log('error: ', this.error);
               });
   }
 }

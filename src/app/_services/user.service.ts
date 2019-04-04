@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { User } from '../_models';
 import { environment } from 'src/environments/environment';
+import { empty, Observable, throwError } from 'rxjs';
 
 
 @Injectable({
@@ -16,9 +17,9 @@ export class UserService {
     console.log('user: ', user);
     return this.http.post<User[]>(`${environment.baseUrl}/auth/signup`, user)
         .pipe(map(result => {
-            // login successful if there's a user in the response
+            // Create user successful if there's a user in the response
             if (result) {
-                console.log('result: ', result);
+              console.log('result: ', result);
             }
             return result;
         }));
