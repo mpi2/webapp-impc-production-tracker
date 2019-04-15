@@ -103,9 +103,9 @@ export class RegistrationFormComponent implements OnInit {
         name: this.f.name.value,
         password: this.f.password.value,
         email: this.f.email.value,
-        workUnitName: this.f.workUnit.value,
+        workUnitName: this.f.workUnit.value[0],
         instituteName: this.f.institute.value,
-        roleName: this.f.role.value
+        roleName: this.f.role.value[0]
       };
       console.log('user: ', this.user);
       this.userService.createUser(this.user)
