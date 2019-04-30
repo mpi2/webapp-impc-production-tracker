@@ -13,6 +13,11 @@ import { LoginComponent } from './login';
 import { RegistrationFormComponent } from './registration-form';
 import { GeneSearchComponent } from './gene-search/gene-search.component';
 import { fakeBackendProvider } from './_helpers/fake-backend';
+import { ProjectDetailComponent } from './project/project-detail/project-detail.component';
+import { ProductionPlansComponent } from './project/production-plans/production-plans.component';
+import { ProductionPlanDetailComponent } from './project/production-plan-detail/production-plan-detail.component';
+import { PhenotypePlansComponent } from './project/phenotype-plans/phenotype-plans.component';
+import { PhenotypePlanDetailComponent } from './project/phenotype-plan-detail/phenotype-plan-detail.component';
 
 @NgModule({
     imports: [
@@ -28,7 +33,12 @@ import { fakeBackendProvider } from './_helpers/fake-backend';
         HomeComponent,
         LoginComponent,
         RegistrationFormComponent,
-        GeneSearchComponent
+        GeneSearchComponent,
+        ProjectDetailComponent,
+        ProductionPlansComponent,
+        ProductionPlanDetailComponent,
+        PhenotypePlansComponent,
+        PhenotypePlanDetailComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuthInterceptor, multi: true },
