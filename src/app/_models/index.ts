@@ -1,5 +1,5 @@
-export * from './plan';
-export * from './project';
+export * from './project/plan';
+export * from './project/project';
 export * from './user';
 export * from './workUnit';
 export * from './institute';

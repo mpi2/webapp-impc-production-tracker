@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductionPlanSummary } from 'src/app/_models/productionPlanSummary';
+import { ProductionPlan } from 'src/app/_models/project/productionPlan';
 
 @Component({
   selector: 'app-production-plans',
@@ -7,10 +7,11 @@ import { ProductionPlanSummary } from 'src/app/_models/productionPlanSummary';
   styleUrls: ['./production-plans.component.css']
 })
 export class ProductionPlansComponent implements OnInit {
-  @Input() productionPlanSummaries: ProductionPlanSummary[];
+  @Input() productionPlans: ProductionPlan[];
   constructor() { }
 
   ngOnInit() {
+    console.log('What the ProductionPlansComponent has:::: ', this.productionPlans);
   }
 
 }

@@ -1,17 +1,18 @@
-<h1>Information about project {{project.tpn}}</h1>
+<h1>Information about project {{project.projectDetails.tpn}}</h1>
 <h3>General Information</h3>
 <table>
   <tr>
     <td><b>TPN:</b> </td>
-    <td>{{project.tpn}}</td>
+    <td>{{project.projectDetails.tpn}}</td>
   </tr>
   <tr>
     <td><b>Assignment Status:</b> </td>
-    <td>{{project.assigmentStatusName}}</td>
+    <td>{{project.projectDetails.assigmentStatusName}}</td>
   </tr>
 </table>
-
+<hr>
 <h3>Production Plans:</h3>
-<app-production-plans [productionPlanSummaries]="project.productionPlanSummaries"></app-production-plans>
+<app-production-plans [productionPlans]="project.productionPlans"></app-production-plans>
+<hr>
 <h3>Phenotype Plans:</h3>
-<app-phenotype-plans [phenotypePlanSummaries]="project.phenotypePlanSummaries"></app-phenotype-plans>
+<app-phenotype-plans [phenotypePlans]="project.phenotypePlans"></app-phenotype-plans>

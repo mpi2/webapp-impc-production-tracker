@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PhenotypePlanSummary } from 'src/app/_models/phenotypePlanSummary';
+import { PhenotypePlan } from 'src/app/_models/project/phenotypePlan';
 
 @Component({
   selector: 'app-phenotype-plans',
@@ -7,12 +7,11 @@ import { PhenotypePlanSummary } from 'src/app/_models/phenotypePlanSummary';
   styleUrls: ['./phenotype-plans.component.css']
 })
 export class PhenotypePlansComponent implements OnInit {
-  @Input() phenotypePlanSummaries: PhenotypePlanSummary[];
+  @Input() phenotypePlans: PhenotypePlan[];
   constructor() { }
 
   ngOnInit() {
-    console.log('What the PhenotypePlansComponent has '+ this.phenotypePlanSummaries);
-    
+    console.log('What the PhenotypePlansComponent has:::: ', this.phenotypePlans);
   }
 
 }
