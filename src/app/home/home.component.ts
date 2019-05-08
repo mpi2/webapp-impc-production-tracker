@@ -3,6 +3,7 @@ import { first } from 'rxjs/operators';
 
 import { Plan } from '../_models';
 import { PlanService } from '../_services';
+import { PlanSummary } from '../_models/project/planSummary';
 
 
 @Component({
@@ -12,14 +13,20 @@ import { PlanService } from '../_services';
 
 export class HomeComponent implements OnInit {
 
-    plans: Plan[] = [];
+    plans: PlanSummary[] = [];
     username: any;
 
     constructor(private planService: PlanService) {}
 
     ngOnInit() {
-        this.planService.getAll().pipe(first()).subscribe(plans => {
+        this.planService.getAllPlanSummaries().pipe(first()).subscribe(plans => {
+            console.log('what plans???? ');
+            console.log(plans);
+            
+            
             this.plans = plans;
+            console.log('THIS ');
+            console.log(this.plans );
         });
 
         // this.username = JSON.parse(sessionStorage.getItem('tokenInfo')).username;

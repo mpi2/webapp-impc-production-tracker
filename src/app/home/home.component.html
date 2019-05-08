@@ -1,10 +1,11 @@
 <div class="col-md-6 col-md-offset-3">
-    <h1>Hi {{ username }}!</h1>
-    <p><a [routerLink]="['/login']" (click) ="logout()">Logout</a></p>
+    <h1>Plans</h1>
+    <p><a [routerLink]="['/login']" (click)="logout()">Logout</a></p>
 
     <table class="table table-striped">
         <thead>
-            <th scope="col">Edit In Form</th>
+            <th scope="col">PIN</th>
+            <th scope="col">TPN</th>
             <th scope="col">Marker Symbol</th>
             <th scope="col">Consortium</th>
             <th scope="col">Work unit</th>
@@ -15,16 +16,24 @@
         </thead>
         <tbody>
             <tr *ngFor="let plan of plans">
-                <td>link form EDIT</td>
-                <td>marker symbol EDIT</td>
+                <td>{{ plan.planDetails.pin}}</td>
+                <td>
+                    <a routerLink="/projects/{{ plan.projectDetails.tpn }}">{{ plan.projectDetails.tpn }}</a>
+                </td>
+                <td>
+                    <ul class="heroes">
+                        <li *ngFor="let markerSymbol of plan.projectDetails.markerSymbols">
+                            <span class="badge">{{markerSymbol}}</span>
+                        </li>
+                    </ul>
+                </td>
                 <td>{{ plan.consortium }}</td>
-                <td>{{ plan.workUnit }}</td>
-                <td>{{ plan.status.name }}</td>
-                <td>priority EDIT</td>
-                <td>{{ plan.planPrivacy.name }}</td>
-                <td>{{ plan.planType.name }}</td>
+                <td>{{ plan.planDetails.workUnitName }}</td>
+                <td>{{ plan.planDetails.statusName  }}</td>
+                <td>{{ plan.projectDetails.priorityName }}</td>
+                <td>{{ plan.planDetails.privacyName }}</td>
+                <td>{{ plan.planDetails.planTypeName }}</td>
             </tr>
         </tbody>
     </table>
 </div>
-

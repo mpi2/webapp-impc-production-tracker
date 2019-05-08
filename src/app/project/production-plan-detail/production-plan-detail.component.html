@@ -1,73 +1,73 @@
 <table>
-    <tr>
-      <td>
-        <b>PIN:</b>
-      </td>
-      <td>
-        {{productionPlan.planDetails.pin}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <b>privacyName:</b>
-      </td>
-      <td>
-        {{productionPlan.planDetails.privacyName}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <b>statusName:</b>
-      </td>
-      <td>
-        {{productionPlan.planDetails.statusName}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <b>workUnitName:</b>
-      </td>
-      <td>
-        {{productionPlan.planDetails.workUnitName}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        ---
-      </td>
-      <td>
-        ----
-      </td>
-    </tr>
-    <tr>
-      <td>
-        MicroInjection Details
-      </td>
-      <td>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <b>blastStrain</b>
-      </td>
-      <td>
-        {{productionPlan.microInjectionDetails.blastStrain}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <b>mutagenesisFactorReference</b>
-      </td>
-      <td>
-        {{productionPlan.microInjectionDetails.mutagenesisFactorReference}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <b>predictedAllele</b>
-      </td>
-      <td>
-        {{productionPlan.microInjectionDetails.predictedAllele}}
+  <tr>
+    <td>
+      <b>PIN:</b>
+    </td>
+    <td>
+      {{productionPlan.planDetails.pin}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>privacyName:</b>
+    </td>
+    <td>
+      {{productionPlan.planDetails.privacyName}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>statusName:</b>
+    </td>
+    <td>
+      {{productionPlan.planDetails.statusName}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>workUnitName:</b>
+    </td>
+    <td>
+      {{productionPlan.planDetails.workUnitName}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      ---
+    </td>
+    <td>
+      ----
+    </td>
+  </tr>
+  <tr>
+    <td>
+      MicroInjection Details
+    </td>
+    <td>
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>blastStrain</b>
+    </td>
+    <td>
+        {{ productionPlan.productionPlanSummary.microInjectionDetails.blastStrain }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>mutagenesisFactorReference</b>
+    </td>
+    <td>
+      {{ productionPlan.productionPlanSummary.microInjectionDetails.mutagenesisFactorReference }}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      <b>predictedAllele</b>
+    </td>
+    <td>
+      {{ productionPlan.productionPlanSummary.microInjectionDetails.predictedAllele }}
       </td>
     </tr>
     <tr>
@@ -75,7 +75,7 @@
         <b>reference</b>
       </td>
       <td>
-        {{productionPlan.microInjectionDetails.reference}}
+          {{ productionPlan.productionPlanSummary.microInjectionDetails.reference }}
       </td>
     </tr>
     <tr>
@@ -83,7 +83,7 @@
         <b>testCrossStrain</b>
       </td>
       <td>
-        {{productionPlan.microInjectionDetails.testCrossStrain}}
+          {{ productionPlan.productionPlanSummary.microInjectionDetails.testCrossStrain }}
       </td>
     </tr>
     <tr>
@@ -106,7 +106,7 @@
         <b>alleleName</b>
       </td>
       <td>
-        {{productionPlan.f1ColonyDetails.alleleName}}
+          {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleName }}
       </td>
     </tr>
 
@@ -115,7 +115,7 @@
         <b>alleleName</b>
       </td>
       <td>
-        {{productionPlan.f1ColonyDetails.alleleName}}
+          {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleName }}
       </td>
     </tr>
 
@@ -124,7 +124,7 @@
         <b>alleleOutput</b>
       </td>
       <td>
-        {{productionPlan.f1ColonyDetails.alleleOutput}}
+          {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleOutput }}
       </td>
     </tr>
 
@@ -133,7 +133,7 @@
         <b>colonyBackgroundStrain</b>
       </td>
       <td>
-        {{productionPlan.f1ColonyDetails.colonyBackgroundStrain}}
+          {{ productionPlan.productionPlanSummary.f1ColonyDetails.colonyBackgroundStrain }}
       </td>
     </tr>
 
@@ -142,7 +142,7 @@
         <b>colonyName</b>
       </td>
       <td>
-        {{productionPlan.f1ColonyDetails.colonyName}}
+          {{ productionPlan.productionPlanSummary.f1ColonyDetails.colonyName }}
       </td>
     </tr>
 
@@ -151,7 +151,7 @@
         <b>distributionCentres</b>
       </td>
       <td>
-        {{productionPlan.f1ColonyDetails.distributionCentres}}
+          {{ productionPlan.productionPlanSummary.f1ColonyDetails.distributionCentres }}
       </td>
     </tr>
   </table>
