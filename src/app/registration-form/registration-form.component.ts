@@ -28,8 +28,8 @@ export class RegistrationFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
-    private router: Router,
+    //private route: ActivatedRoute,
+    //private router: Router,
     private userService: UserService,
     private workUnitService: WorkUnitService,
     private instituteService: InstituteService,
@@ -62,8 +62,8 @@ export class RegistrationFormComponent implements OnInit {
 
       this.dropdownSettingsWorkUnit = {
         singleSelection: true,
-        idField: 'code',
-        textField: 'code',
+        idField: 'ilarCode',
+        textField: 'ilarCode',
         enableCheckAll: false,
         allowSearchFilter: true
       };

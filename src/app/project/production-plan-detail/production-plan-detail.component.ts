@@ -8,6 +8,8 @@ import { ProductionPlan } from 'src/app/_models/project/productionPlan';
 })
 export class ProductionPlanDetailComponent implements OnInit {
   @Input() productionPlan: ProductionPlan;
+  public isCollapsed = true;
+
   constructor() { }
 
   ngOnInit() {

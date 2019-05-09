@@ -5,7 +5,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { MultiselectDropdownModule } from 'angular-2-dropdown-multiselect';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { BearerTokenAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
@@ -26,7 +26,7 @@ import { PhenotypePlanDetailComponent } from './project/phenotype-plan-detail/ph
         HttpClientModule,
         routing,
         NgMultiSelectDropDownModule.forRoot(),
-        MultiselectDropdownModule
+        NgbModule
     ],
     declarations: [
         AppComponent,

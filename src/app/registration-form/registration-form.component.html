@@ -27,7 +27,7 @@
 
   <div class="form-group">
     <label for="workUnit">Work unit</label>
-    <ng-multiselect-dropdown type="text" name="workUnit" formControlName="workUnit" [ngClass]="{ 'alba': submitted && f.workUnit.errors }" [placeholder]="'--Select--'" [data]="workUnits" [settings]="dropdownSettingsWorkUnit" ></ng-multiselect-dropdown>
+    <ng-multiselect-dropdown type="text" name="workUnit" formControlName="workUnit" [ngClass]="{ 'is-invalid': submitted && f.workUnit.errors }" [placeholder]="'--Select--'" [data]="workUnits" [settings]="dropdownSettingsWorkUnit" ></ng-multiselect-dropdown>
     <div *ngIf="submitted && f.workUnit.errors" class="multiselect-dropdown-feedback-invalid">
       <div *ngIf="f.workUnit.errors.required">Work unit is required</div>
     </div>
