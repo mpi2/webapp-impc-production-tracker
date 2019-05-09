@@ -1,15 +1,34 @@
-<h1>Information about project {{project.projectDetails.tpn}}</h1>
-<h3>General Information</h3>
-<table>
-  <tr>
-    <td><b>TPN:</b> </td>
-    <td>{{project.projectDetails.tpn}}</td>
-  </tr>
-  <tr>
-    <td><b>Assignment Status:</b> </td>
-    <td>{{project.projectDetails.assigmentStatusName}}</td>
-  </tr>
-</table>
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+      <li class="breadcrumb-item active" aria-current="page">Project {{project.projectDetails.tpn}}</li>
+    </ol>
+  </nav>
+
+
+<h1>Project Summary {{project.projectDetails.tpn}}</h1>
+<div class="card">
+    <span class="card-title">Project Details</span>
+  <div class="card-body">
+    <table>
+      <tr>
+        <td>Marker Symbol(s)</td>
+        <td>
+          <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+              <span class="badge badge-pill badge-primary">{{markerSymbol}}</span>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>Assignment Status:</td>
+        <td>{{project.projectDetails.assigmentStatusName}}</td>
+      </tr>
+      <tr>
+        <td>Priority:</td>
+        <td>{{project.projectDetails.priorityName}}</td>
+      </tr>
+    </table>
+  </div>
+</div>
 <hr>
 <h3>Production Plans:</h3>
 <app-production-plans [productionPlans]="project.productionPlans"></app-production-plans>
