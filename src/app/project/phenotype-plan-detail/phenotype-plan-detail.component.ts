@@ -8,6 +8,7 @@ import { PhenotypePlan } from 'src/app/_models/project/phenotypePlan';
 })
 export class PhenotypePlanDetailComponent implements OnInit {
   @Input() phenotypePlan: PhenotypePlan;
+  public isCollapsed = true;
   constructor() { }
 
   ngOnInit() {
