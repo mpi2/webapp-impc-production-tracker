@@ -26,6 +26,14 @@
         <td>Priority:</td>
         <td>{{project.projectDetails.priorityName}}</td>
       </tr>
+      <tr>
+          <td>Allele Intention(s)</td>
+          <td>
+            <div *ngFor="let alleleIntention of project.projectDetails.alleleIntentions">
+                <span class="badge badge-pill badge-secondary">{{alleleIntention}}</span>
+            </div>
+          </td>
+        </tr>
     </table>
   </div>
 </div>

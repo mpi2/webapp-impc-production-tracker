@@ -1,4 +1,4 @@
-import { PlanDetails } from './planDetails';
+import { PlanDetails } from '../planDetails';
 import { PhenotypePlanSummary } from './phenotypePlanSummary';
 
 export class PhenotypePlan {

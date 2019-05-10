@@ -4,166 +4,205 @@
     {{productionPlan.planDetails.pin}}
   </button>
 </p>
+<div></div>
 <div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card">
     <div class="card-body">
-      <table>
-        <tr>
-          <td>
-            <b>PIN:</b>
-          </td>
-          <td>
-            {{productionPlan.planDetails.pin}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>privacyName:</b>
-          </td>
-          <td>
-            {{productionPlan.planDetails.privacyName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>statusName:</b>
-          </td>
-          <td>
-            {{productionPlan.planDetails.statusName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>workUnitName:</b>
-          </td>
-          <td>
-            {{productionPlan.planDetails.workUnitName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            ---
-          </td>
-          <td>
-            ----
-          </td>
-        </tr>
-        <tr>
-          <td>
-            MicroInjection Details
-          </td>
-          <td>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>blastStrain</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.microInjectionDetails.blastStrain }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>mutagenesisFactorReference</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.microInjectionDetails.mutagenesisFactorReference }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>predictedAllele</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.microInjectionDetails.predictedAllele }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>reference</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.microInjectionDetails.reference }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>testCrossStrain</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.microInjectionDetails.testCrossStrain }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            ---
-          </td>
-          <td>
-            ----
-          </td>
-        </tr>
-        <tr>
-          <td>
-            f1ColonyDetails
-          </td>
-          <td>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>alleleName</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleName }}
-          </td>
-        </tr>
 
-        <tr>
-          <td>
-            <b>alleleName</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleName }}
-          </td>
-        </tr>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title"><u>Plan Details</u></div>
+          <table>
+            <tr>
+              <td>
+                PIN:
+              </td>
+              <td>
+                {{productionPlan.planDetails.pin}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Privacy:
+              </td>
+              <td>
+                {{productionPlan.planDetails.privacyName}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Status:
+              </td>
+              <td>
+                {{productionPlan.planDetails.statusName}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                WorkUnit:
+              </td>
+              <td>
+                {{productionPlan.planDetails.workUnitName}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
 
-        <tr>
-          <td>
-            <b>alleleOutput</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleOutput }}
-          </td>
-        </tr>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title"><u>Microinjection Details</u></div>
+          <table>
+            <tr>
+              <td>
+                Blast Strain:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.microInjectionDetails.blastStrain }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Mutagenesis Factor Reference:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.microInjectionDetails.mutagenesisFactorReference }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Predicted Allele:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.microInjectionDetails.predictedAllele }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Reference:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.microInjectionDetails.reference }}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Test Cross Strain:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.microInjectionDetails.testCrossStrain }}
+              </td>
+            </tr>
+            <tr>
+          </table>
+        </div>
+      </div>
 
-        <tr>
-          <td>
-            <b>colonyBackgroundStrain</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.f1ColonyDetails.colonyBackgroundStrain }}
-          </td>
-        </tr>
 
-        <tr>
-          <td>
-            <b>colonyName</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.f1ColonyDetails.colonyName }}
-          </td>
-        </tr>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title"><u>F1 Colony Details</u></div>
+          <table>
+            <tr>
+              <td>
+                Allele Name:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleName }}
+              </td>
+            </tr>
 
-        <tr>
-          <td>
-            <b>distributionCentres</b>
-          </td>
-          <td>
-            {{ productionPlan.productionPlanSummary.f1ColonyDetails.distributionCentres }}
-          </td>
-        </tr>
-      </table>
+            <tr>
+              <td>
+                Allele Output:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.f1ColonyDetails.alleleOutput }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Colony Background Strain:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.f1ColonyDetails.colonyBackgroundStrain }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Colony:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.f1ColonyDetails.colonyName }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Distribution Centre(s):
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.f1ColonyDetails.distributionCentres }}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title"><u>CRISPR Attempt Details</u></div>
+          <table>
+            <tr>
+              <td>
+                MI Date:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.crisprAttemptDetails.miDate }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Experimental?:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.crisprAttemptDetails.experimental }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Comments:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.crisprAttemptDetails.comments }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                MI External Ref:
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.crisprAttemptDetails.miExternalRef }}
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                Distribution Centre(s):
+              </td>
+              <td>
+                {{ productionPlan.productionPlanSummary.f1ColonyDetails.distributionCentres }}
+              </td>
+            </tr>
+          </table>
+
+        </div>
+      </div>
     </div>
   </div>
 </div>
