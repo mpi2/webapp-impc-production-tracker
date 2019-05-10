@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductionPlan } from 'src/app/_models/project/productionPlan';
+import { ProductionPlan } from 'src/app/_models/project/production_plan/productionPlan';
 
 @Component({
   selector: 'app-production-plans',

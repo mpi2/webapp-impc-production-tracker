@@ -9,64 +9,45 @@
   <div class="card">
     <div class="card-body">
 
-      <table>
-        <tr>
-          <td>
-            <b>PIN:</b>
-          </td>
-          <td>
-            {{phenotypePlan.planDetails.pin}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>privacyName:</b>
-          </td>
-          <td>
-            {{phenotypePlan.planDetails.privacyName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>statusName:</b>
-          </td>
-          <td>
-            {{phenotypePlan.planDetails.statusName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>workUnitName:</b>
-          </td>
-          <td>
-            {{phenotypePlan.planDetails.workUnitName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            ---
-          </td>
-          <td>
-            ----
-          </td>
-        </tr>
-        <tr>
-          <td>
-            x Details
-          </td>
-          <td>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <b>field 1</b>
-          </td>
-          <td>
-
-          </td>
-        </tr>
-
-      </table>
+      <div class="card">
+        <div class="card-body">
+          <div class="card-title"><u>Plan Details</u></div>
+          <table>
+            <tr>
+              <td>
+                PIN:
+              </td>
+              <td>
+                {{phenotypePlan.planDetails.pin}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Privacy:
+              </td>
+              <td>
+                {{phenotypePlan.planDetails.privacyName}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                Status:
+              </td>
+              <td>
+                {{phenotypePlan.planDetails.statusName}}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                WorkUnit:
+              </td>
+              <td>
+                {{phenotypePlan.planDetails.workUnitName}}
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
     </div>
   </div>
 </div>

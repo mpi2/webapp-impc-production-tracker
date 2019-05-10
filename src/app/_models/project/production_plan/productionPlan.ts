@@ -1,4 +1,4 @@
-import { PlanDetails } from './planDetails';
+import { PlanDetails } from '../planDetails';
 import { ProductionPlanSummary } from './productionPlanSummary';
 
 export class ProductionPlan {

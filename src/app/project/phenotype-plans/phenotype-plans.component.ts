@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PhenotypePlan } from 'src/app/_models/project/phenotypePlan';
+import { PhenotypePlan } from 'src/app/_models/project/phenotype_plan/phenotypePlan';
 
 @Component({
   selector: 'app-phenotype-plans',

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/_core/adapter';
 import { ProjectDetails } from './projectDetails';
 import { PlanDetails } from './planDetails';
-import { ProductionPlan } from './productionPlan';
-import { PhenotypePlan } from './phenotypePlan';
+import { ProductionPlan } from './production_plan/productionPlan';
+import { PhenotypePlan } from './phenotype_plan/phenotypePlan';
 
 export class Project {
     projectDetails: ProjectDetails = new ProjectDetails();
@@ -24,7 +24,7 @@ export class ProjectAdapter implements Adapter<Project> {
        
         for (let plan of item.plans) {
             let planDetails: PlanDetails = plan.planDetails;
-            if (planDetails.planTypeName === 'Production') {
+            if (planDetails.planTypeName === 'production') {
                 let productionPlan: ProductionPlan = new ProductionPlan;
                 productionPlan.planDetails = plan.planDetails;
                 productionPlan.productionPlanSummary = plan.productionPlanSummary;
