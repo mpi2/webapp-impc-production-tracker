@@ -15,7 +15,7 @@
             <th scope="col">Plan type</th>
         </thead>
         <tbody>
-            <tr *ngFor="let plan of plans">
+            <tr *ngFor="let plan of plans | paginate: { id: 'server', itemsPerPage: 10, currentPage: p, totalItems: page.totalElements }">
                 <td>{{ plan.planDetails.pin}}</td>
                 <td>
                     <a routerLink="/projects/{{ plan.projectDetails.tpn }}">{{ plan.projectDetails.tpn }}</a>
@@ -36,4 +36,5 @@
             </tr>
         </tbody>
     </table>
+    <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
 </div>

@@ -20,6 +20,7 @@ export class ProjectDetailComponent implements OnInit {
   ngOnInit() {
     let id = this.route.snapshot.params['id'];
     this.projectService.getProject(id).pipe(first()).subscribe(data => {
+
       this.project = this.adapter.adapt(data);
       console.log('Project (Adapted):::', this.project);
       
