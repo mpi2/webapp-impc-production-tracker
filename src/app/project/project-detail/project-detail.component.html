@@ -13,8 +13,8 @@
       <tr>
         <td>Marker Symbol(s)</td>
         <td>
-          <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
-              <span class="badge badge-pill badge-primary">{{markerSymbol}}</span>
+          <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols | keyvalue">
+              <span class="badge badge-pill badge-primary">{{markerSymbol.key}}</span>
           </div>
         </td>
       </tr>
