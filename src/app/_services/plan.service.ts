@@ -21,4 +21,8 @@ export class PlanService {
     console.log('Getting all Plan Summaries the user can see');
     return this.http.get<PlanSummary[]>(`${environment.baseUrl}/api/planSummaries`);
   }
+  getAllPlanSummariesWithPage(page: number) {
+    console.log('Getting all Plan Summaries the user can see with page');
+    return this.http.get<PlanSummary[]>(`${environment.baseUrl}/api/planSummaries?page=${page}`);
+  }
 }

@@ -6,6 +6,7 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {NgxPaginationModule} from 'ngx-pagination';
 
 import { BearerTokenAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
@@ -26,7 +27,8 @@ import { PhenotypePlanDetailComponent } from './project/phenotype-plan-detail/ph
         HttpClientModule,
         routing,
         NgMultiSelectDropDownModule.forRoot(),
-        NgbModule
+        NgbModule,
+        NgxPaginationModule
     ],
     declarations: [
         AppComponent,
