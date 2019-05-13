@@ -20,20 +20,20 @@ export class HomeComponent implements OnInit {
     constructor(private planService: PlanService) {}
 
     ngOnInit() {
-        this.planService.getAllPlanSummariesWithPage(1).pipe(first()).subscribe(plans => {
-            this.getPage(1);
-        });
-
-        // this.username = JSON.parse(sessionStorage.getItem('tokenInfo')).username;
+        this.getPage(1);
     }
 
     getPage(page: number)
     {
+        console.log('Calling getPage with number ', page);
+        
         this.loading = true;
         this.planService.getAllPlanSummariesWithPage(page).pipe(first()).subscribe(plans => {
             this.plans = plans['_embedded']['planSummaryDToes'];
             this.page = plans['page'];
             this.p = page;
+            console.log('Plans::', this.plans);
+            console.log('page::', this.page);
         });
     }
 }
