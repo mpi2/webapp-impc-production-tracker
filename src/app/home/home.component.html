@@ -21,9 +21,11 @@
                     <a routerLink="/projects/{{ plan.projectDetails.tpn }}">{{ plan.projectDetails.tpn }}</a>
                 </td>
                 <td>
-                    <ul class="heroes">
-                        <li *ngFor="let markerSymbol of plan.projectDetails.markerSymbols">
-                            <span class="badge">{{markerSymbol}}</span>
+                    <ul>
+                        <li *ngFor="let markerSymbol of plan.projectDetails.markerSymbols | keyvalue">
+                            <span>
+                                <a href="{{markerSymbol.value}}" target="_blank">{{markerSymbol.key}}</a>
+                            </span>
                         </li>
                     </ul>
                 </td>
