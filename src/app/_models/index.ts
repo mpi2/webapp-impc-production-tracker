@@ -1,4 +1,3 @@
-export * from './project/plan';
 export * from './project/project';
 export * from './user';
 export * from './workUnit';

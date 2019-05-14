@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { Plan } from '../_models';
 import { environment } from 'src/environments/environment';
 import { PlanSummary } from '../_models/project/planSummary';
 
@@ -11,11 +10,6 @@ import { PlanSummary } from '../_models/project/planSummary';
 export class PlanService {
 
   constructor(private http: HttpClient) { }
-
-  getAll() {
-    console.log('plans access yes');
-    return this.http.get<Plan[]>(`${environment.baseUrl}/api/plans`);
-  }
 
   getAllPlanSummaries() {
     console.log('Getting all Plan Summaries the user can see');
