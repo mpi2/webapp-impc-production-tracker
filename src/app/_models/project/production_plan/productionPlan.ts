@@ -1,7 +1,7 @@
 import { PlanDetails } from '../planDetails';
-import { ProductionPlanSummary } from './productionPlanSummary';
+import { Attempt } from './attempt';
 
 export class ProductionPlan {
     planDetails: PlanDetails = new PlanDetails();
-    productionPlanSummary: ProductionPlanSummary = new ProductionPlanSummary();
+    attempt: Attempt = new Attempt();
 }

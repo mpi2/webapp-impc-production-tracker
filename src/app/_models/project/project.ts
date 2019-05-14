@@ -25,9 +25,9 @@ export class ProjectAdapter implements Adapter<Project> {
         for (let plan of item.plans) {
             let planDetails: PlanDetails = plan.planDetails;
             if (planDetails.planTypeName === 'production') {
-                let productionPlan: ProductionPlan = new ProductionPlan;
+                let productionPlan: ProductionPlan = new ProductionPlan();
                 productionPlan.planDetails = plan.planDetails;
-                productionPlan.productionPlanSummary = plan.productionPlanSummary;
+                productionPlan.attempt = plan.productionPlan.attempt;
                 productionPlans.push(productionPlan);
             }
             else

@@ -25,12 +25,13 @@ export class HomeComponent implements OnInit {
 
     getPage(page: number)
     {
-        console.log('Calling getPage with number ', page);
-        
         this.loading = true;
-        this.planService.getAllPlanSummariesWithPage(page).pipe(first()).subscribe(plans => {
-            this.plans = plans['_embedded']['planSummaryDToes'];
-            this.page = plans['page'];
+        // The end point starts page in number 0, while the component starts with 1.
+        let apiPageNumber = page -1;
+        this.planService.getAllPlanSummariesWithPage(apiPageNumber).pipe(first()).subscribe(data => {
+            console.log('Raw data from service::', data);
+            this.plans = data['_embedded']['planSummaryDToes'];
+            this.page = data['page'];
             this.p = page;
             console.log('Plans::', this.plans);
             console.log('page::', this.page);
