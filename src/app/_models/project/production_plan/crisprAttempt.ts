@@ -30,4 +30,5 @@ export class CrisprAttempt {
     embryoSurvived2Cell: string;
     comment: string;
     grnaConcentration: number;
+    mutagenesisDonors = [];
 }

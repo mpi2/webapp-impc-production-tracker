@@ -20,4 +20,9 @@ export class ProjectService {
     console.log('getting the project ' + tpn);
     return this.http.get<Project>(`${environment.baseUrl}/api/projects/${tpn}`);
   }
+
+  deleteMutagenesisDonor(url: string) {
+    console.log('ProjectService::deleteMutagenesisDonor');
+    return this.http.delete(url);
+  }
 }
