@@ -19,6 +19,7 @@ import { ProductionPlansComponent } from './project/production-plans/production-
 import { ProductionPlanDetailComponent } from './project/production-plan-detail/production-plan-detail.component';
 import { PhenotypePlansComponent } from './project/phenotype-plans/phenotype-plans.component';
 import { PhenotypePlanDetailComponent } from './project/phenotype-plan-detail/phenotype-plan-detail.component';
+import { ConfirmationComponent } from './shared/confirmation/confirmation.component';
 
 @NgModule({
     imports: [
@@ -40,7 +41,8 @@ import { PhenotypePlanDetailComponent } from './project/phenotype-plan-detail/ph
         ProductionPlansComponent,
         ProductionPlanDetailComponent,
         PhenotypePlansComponent,
-        PhenotypePlanDetailComponent
+        PhenotypePlanDetailComponent,
+        ConfirmationComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuthInterceptor, multi: true },
@@ -48,7 +50,8 @@ import { PhenotypePlanDetailComponent } from './project/phenotype-plan-detail/ph
 
         fakeBackendProvider
     ],
-    bootstrap: [AppComponent]
+    bootstrap: [AppComponent],
+    entryComponents: [ConfirmationComponent]
 })
 
 export class AppModule { }
