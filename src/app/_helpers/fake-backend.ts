@@ -3,17 +3,17 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
-import { GeneSummary } from '../_models';
+import { GenesSummary } from '../_models';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        const genes: GeneSummary[] = [
-            { project: '1', mouseGeneSymbol: 'test', humanGeneSymbols: 'test', planId: 1, planType: 'Production',
-            status: 'Micro-injection in progress',
-            workUnit: 'string',
-            alleleIntention: 'Point mutation', planPrivacy: 'Public' }
-        ];
+        // const genes: GeneSummary[] = [
+            // { project: '1', mouseGeneSymbol: 'test', humanGeneSymbols: 'test', planId: 1, planType: 'Production',
+            // status: 'Micro-injection in progress',
+            // workUnit: 'string',
+            // alleleIntention: 'Point mutation', planPrivacy: 'Public' }
+        // ];
 
         const authHeader = request.headers.get('Authorization');
         const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token');
@@ -22,10 +22,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         return of(null).pipe(mergeMap(() => {
 
             // get all genes
-            if (request.url.endsWith('/genes') && request.method === 'GET') {
-                // if (!isLoggedIn) { return unauthorised(); }
-                return ok(genes);
-            }
+            // if (request.url.endsWith('/genes') && request.method === 'GET') {
+            //     // if (!isLoggedIn) { return unauthorised(); }
+            //     return ok(genes);
+            // }
 
             // pass through any requests not handled above
             return next.handle(request);

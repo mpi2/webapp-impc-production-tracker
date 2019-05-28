@@ -1,11 +1,11 @@
-export class GeneSummary {
-    project: string;
+export class GenesSummary {
+    alleleIntentions: string[];
     mouseGeneSymbol: string;
     humanGeneSymbols: string;
     planId: number;
     planType: string;
     status: string;
     workUnit: string;
-    alleleIntention: string;
+    consortium: string;
     planPrivacy: string;
 }
