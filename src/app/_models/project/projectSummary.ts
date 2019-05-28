@@ -1,0 +1,64 @@
+import { PlanDetails } from './planDetails';
+import { ProjectDetails } from './projectDetails';
+import { Adapter } from 'src/app/_core/adapter';
+import { Injectable } from '@angular/core';
+
+export class ProjectSummary {
+    projectDetails: ProjectDetails;
+    planDetails: PlanDetails[];
+    numberOfPlans: number;
+    abortedMis = [];
+    misInProgress = [];
+    genotypeConfirmedMis = [];
+    breedingAttempts = [];
+    phenotypeAttempts = [];
+}
+
+@Injectable({
+    providedIn: 'root'
+})
+
+export class ProjectSummaryAdapter implements Adapter<ProjectSummary> {
+    adapt(item: any): ProjectSummary {
+        const projectSummary: ProjectSummary = new ProjectSummary();
+        projectSummary.planDetails = item.planDetails;
+        projectSummary.projectDetails = item.projectDetails;
+
+        const abortedMis = [];
+        const misInProgress = [];
+        const genotypeConfirmedMis = [];
+        const breedingAttempts = [];
+        const phenotypeAttempts = [];
+        const breedingStatuses = ['Mouse Allele Modification Registered', 'Rederivation Started', 'Rederivation Complete',
+        'Cre Excision Started', 'Cre Excision Complete', 'Mouse Allele Modification Aborted'];
+        const miInProgress = [' Micro-injection in progress', 'Chimeras obtained', 'Founder obtained', 'Chimeras/Founder obtained'];
+
+        item.planDetails.forEach(element => {
+            const workUnit = element.workUnitName;
+            const consortium = element.consortiumName;
+            const status = element.statusName;
+            const planInfo = '[' + workUnit + '::' + consortium + '::' + status + ']';
+            if (element.planTypeName === 'phenotyping') {
+                phenotypeAttempts.push(planInfo);
+            } else if (breedingStatuses.includes(element.statusName)) {
+                breedingAttempts.push(planInfo);
+            } else if (element.statusName === 'Micro-injection aborted') {
+                abortedMis.push(planInfo);
+            } else if (miInProgress.includes(element.statusName)) {
+                misInProgress.push(planInfo);
+            } else if (element.statusName === 'Genotype confirmed') {
+                genotypeConfirmedMis.push(planInfo);
+            }
+        });
+
+        projectSummary.phenotypeAttempts = phenotypeAttempts;
+        projectSummary.breedingAttempts = breedingAttempts;
+        projectSummary.abortedMis = abortedMis;
+        projectSummary.misInProgress = misInProgress;
+        projectSummary.genotypeConfirmedMis = genotypeConfirmedMis;
+
+        return projectSummary;
+    }
+}
+
+

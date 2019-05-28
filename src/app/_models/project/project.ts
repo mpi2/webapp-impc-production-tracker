@@ -14,29 +14,28 @@ export class Project {
 @Injectable({
     providedIn: 'root'
 })
+
 export class ProjectAdapter implements Adapter<Project> {
-    adapt(item: any): Project {        
-        let project: Project = new Project();
+    adapt(item: any): Project {
+        const project: Project = new Project();
         project.projectDetails = item.projectDetails;
 
-        let productionPlans: ProductionPlan[] = [];
-        let phenotypePlans: PhenotypePlan[] = [];
-       
-        for (let plan of item.plans) {
-            let planDetails: PlanDetails = plan.planDetails;
+        const productionPlans: ProductionPlan[] = [];
+        const phenotypePlans: PhenotypePlan[] = [];
+
+        for (const plan of item.plans) {
+            const planDetails: PlanDetails = plan.planDetails;
             if (planDetails.planTypeName === 'production') {
-                let productionPlan: ProductionPlan = new ProductionPlan();
+                const productionPlan: ProductionPlan = new ProductionPlan();
                 productionPlan.planDetails = plan.planDetails;
                 productionPlan.attempt = plan.productionPlan.attempt;
                 productionPlans.push(productionPlan);
-            }
-            else
-            {
+            } else {
                 // Phenotype
-                let phenotypePlan: PhenotypePlan = new PhenotypePlan;
+                const phenotypePlan: PhenotypePlan = new PhenotypePlan();
                 phenotypePlan.planDetails = plan.planDetails;
                 phenotypePlan.phenotypePlanSummary = plan.phenotypePlanSummary;
-                phenotypePlans.push(phenotypePlan)
+                phenotypePlans.push(phenotypePlan);
             }
         }
         project.productionPlans = productionPlans;

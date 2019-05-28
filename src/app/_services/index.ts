@@ -6,3 +6,5 @@ export * from './institute.service';
 export * from './user.service';
 export * from './role.service';
 export * from './gene.service';
+export * from './consortium.service';
+export * from './work-group.service';

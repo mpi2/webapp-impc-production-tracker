@@ -1,0 +1,55 @@
+<div class="col-md-12">
+    <h1>Projects</h1>    
+    <table class="table table-striped">
+        <thead>
+            <th scope="col">Edit form</th>
+            <th scope="col">Marker Symbol</th>
+            <th scope="col">Plan type</th>
+            <th scope="col">Consortium</th>
+            <th scope="col">Work unit</th>
+            <th scope="col">Status</th>
+            <th scope="col">Priority</th>
+            <th scope="col">Privacy</th>
+        </thead>
+        <tbody>
+            <ng-template ngFor let-project [ngForOf]="projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
+                <tr>
+                    <td [attr.rowspan]="project.numberOfPlans"><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+                    <td [attr.rowspan]="project.numberOfPlans">
+                        <ul>
+                            <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols | keyvalue">
+                                <span>
+                                    <a href="{{ markerSymbol.value }}" target="_blank">{{markerSymbol.key}}</a>
+                                </span>
+                            </li>
+                        </ul>
+                    </td>
+                </tr>
+                <tr *ngFor="let plan of project.planDetails">
+                    <!-- <ng-template ngFor let-plan [ngForOf]="project.planDetails"> -->
+                            <td>{{ plan.planTypeName }}</td>
+                            <td>{{ plan.consortiumName }}</td>
+                            <td>{{ plan.workUnitName }}</td>
+                            <td>{{ plan.statusName  }}</td>
+                            <td>{{ project.projectDetails.priorityName }}</td>
+                            <td>{{ plan.privacyName }}</td>
+                    <!-- </ng-template> -->
+                </tr>
+            </ng-template>
+                
+                    <!-- <table>
+                        <tr *ngFor="let plan of project.planDetails">
+                            <td>{{ plan.planTypeName }}</td>
+                            <td>{{ plan.consortiumName }}</td>
+                            <td>{{ plan.workUnitName }}</td>
+                            <td>{{ plan.statusName  }}</td>
+                            <td>{{ project.projectDetails.priorityName }}</td>
+                            <td>{{ plan.privacyName }}</td>
+                        </tr>
+                    </table> -->
+                
+            
+        </tbody>
+    </table>
+    <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+</div>

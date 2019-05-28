@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from 'src/environments/environment';
-import { PlanSummary } from '../_models/project/planSummary';
+import { ProjectSummary } from '../_models/project/projectSummary';
 
 @Injectable({
   providedIn: 'root'
@@ -13,10 +13,10 @@ export class PlanService {
 
   getAllPlanSummaries() {
     console.log('Getting all Plan Summaries the user can see');
-    return this.http.get<PlanSummary[]>(`${environment.baseUrl}/api/planSummaries`);
+    return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries`);
   }
   getAllPlanSummariesWithPage(page: number) {
     console.log('Getting all Plan Summaries the user can see with page');
-    return this.http.get<PlanSummary[]>(`${environment.baseUrl}/api/planSummaries?page=${page}`);
+    return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries?page=${page}`);
   }
 }
