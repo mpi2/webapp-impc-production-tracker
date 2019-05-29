@@ -3,6 +3,5 @@ export class ProjectDetails {
     assigmentStatusName: string;
     priorityName: string;
     locations: string;
-    alleleIntentions: string[];
-    markerSymbols: { [id: string]: string; } = {};
+    intentions = [];
 }

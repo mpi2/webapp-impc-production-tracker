@@ -1,20 +1,22 @@
 <nav aria-label="breadcrumb">
-    <ol class="breadcrumb">
-      <li class="breadcrumb-item active" aria-current="page">Project {{project.projectDetails.tpn}}</li>
-    </ol>
-  </nav>
+  <ol class="breadcrumb">
+    <li class="breadcrumb-item active" aria-current="page">Project {{project.projectDetails.tpn}}</li>
+  </ol>
+</nav>
 
-
-<h1>Project Summary {{project.projectDetails.tpn}}</h1>
 <div class="card">
-    <span class="card-title">Project Details</span>
+  <div class="card-title"><u>Project Details</u></div>
   <div class="card-body">
     <table>
       <tr>
-        <td>Marker Symbol(s)</td>
+        <td>Project id:</td>
+        <td>{{ project.projectDetails.tpn }}</td>
+      </tr>
+      <tr>
+        <td>Marker Symbol(s)/ Intentions</td>
         <td>
-          <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols | keyvalue">
-              <span class="badge badge-pill badge-primary">{{markerSymbol.key}}</span>
+          <div *ngFor="let intention of project.projectDetails.intentions">
+            <span class="badge badge-pill badge-primary">{{intention.markerSymbol}} / {{intention.alleleType}}</span>
           </div>
         </td>
       </tr>
@@ -26,20 +28,19 @@
         <td>Priority:</td>
         <td>{{project.projectDetails.priorityName}}</td>
       </tr>
-      <tr>
-          <td>Allele Intention(s)</td>
-          <td>
-            <div *ngFor="let alleleIntention of project.projectDetails.alleleIntentions">
-                <span class="badge badge-pill badge-secondary">{{alleleIntention}}</span>
-            </div>
-          </td>
-        </tr>
     </table>
   </div>
 </div>
 <hr>
-<h3>Production Plans:</h3>
-<app-production-plans [productionPlans]="project.productionPlans"></app-production-plans>
+
+<div *ngIf="project.productionPlans.length > 0">
+    <h4>Production Plans:</h4>
+  <app-production-plans [productionPlans]="project.productionPlans"></app-production-plans>
+</div>
+
 <hr>
-<h3>Phenotype Plans:</h3>
-<app-phenotype-plans [phenotypePlans]="project.phenotypePlans"></app-phenotype-plans>
+
+<div *ngIf="project.phenotypePlans.length > 0">
+    <h4>Phenotype Plans:</h4>
+    <app-phenotype-plans [phenotypePlans]="project.phenotypePlans"></app-phenotype-plans>
+</div>
