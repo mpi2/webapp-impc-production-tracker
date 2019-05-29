@@ -3,7 +3,7 @@
     <table class="table table-striped">
         <thead>
             <th scope="col">Edit form</th>
-            <th scope="col">Marker Symbol</th>
+            <th scope="col">Marker Symbol(s) / intention</th>
             <th scope="col">Plan type</th>
             <th scope="col">Consortium</th>
             <th scope="col">Work unit</th>
@@ -17,9 +17,9 @@
                     <td [attr.rowspan]="project.numberOfPlans"><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
                     <td [attr.rowspan]="project.numberOfPlans">
                         <ul>
-                            <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols | keyvalue">
+                            <li *ngFor="let intention of project.projectDetails.intentions">
                                 <span>
-                                    <a href="{{ markerSymbol.value }}" target="_blank">{{markerSymbol.key}}</a>
+                                    <a href="{{ intention.mgiLink }}" target="_blank">{{intention.markerSymbol}}</a> / {{intention.alleleType}}
                                 </span>
                             </li>
                         </ul>
