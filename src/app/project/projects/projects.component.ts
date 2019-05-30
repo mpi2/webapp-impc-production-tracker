@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectSummary } from 'src/app/_models/project/projectSummary';
+import { ProjectSummary, ProjectSummaryAdapter } from 'src/app/_models/project/projectSummary';
 import { ProjectService } from 'src/app/_services';
 import { first } from 'rxjs/operators';
 
@@ -16,7 +16,7 @@ export class ProjectsComponent implements OnInit {
   page: any = {};
   loading = false;
 
-  constructor(private projectService: ProjectService) { }
+  constructor(private projectService: ProjectService, private adapter: ProjectSummaryAdapter) { }
 
   ngOnInit() {
     this.getPage(1);
@@ -28,6 +28,7 @@ export class ProjectsComponent implements OnInit {
       const apiPageNumber = pageNumber - 1;
       this.projectService.getAllProjectSummariesWithPage(apiPageNumber).pipe(first()).subscribe(data => {
           this.projects = data['_embedded']['projectSummaryDToes'];
+          this.projects = this.projects.map(x => this.adapter.adapt(x));
           this.page = data['page'];
           this.p = pageNumber;
           console.log('Projects in ProjectsComponent: ', this.projects);
