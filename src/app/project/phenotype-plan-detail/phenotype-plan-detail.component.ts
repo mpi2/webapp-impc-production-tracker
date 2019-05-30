@@ -14,6 +14,8 @@ export class PhenotypePlanDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('Input for PhenotypePlanDetailComponent: ', this.phenotypePlan);
+    
   }
 
   onCollapsed() {
