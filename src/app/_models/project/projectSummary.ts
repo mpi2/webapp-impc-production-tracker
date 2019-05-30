@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class ProjectSummary {
     projectDetails: ProjectDetails;
     planDetails: PlanDetails[];
-    numberOfPlans: number;
     abortedMis = [];
     misInProgress = [];
     genotypeConfirmedMis = [];

@@ -22,26 +22,16 @@ export class ProjectsComponent implements OnInit {
     this.getPage(1);
   }
 
-  getPage(page: number) {
+  getPage(pageNumber: number) {
       this.loading = true;
       // The end point starts page in number 0, while the component starts with 1.
-      const apiPageNumber = page - 1;
+      const apiPageNumber = pageNumber - 1;
       this.projectService.getAllProjectSummariesWithPage(apiPageNumber).pipe(first()).subscribe(data => {
-          console.log('Raw data from service::', data);
           this.projects = data['_embedded']['projectSummaryDToes'];
           this.page = data['page'];
-          this.p = page;
-          this.projects.map(x => x.numberOfPlans = this.getNumberOfRows(x));
-          console.log('Projects::', this.projects);
-          console.log('page::', this.page);
+          this.p = pageNumber;
+          console.log('Projects in ProjectsComponent: ', this.projects);
+          console.log('Pagination info:', this.page);
       });
   }
-
-  getNumberOfRows(project) {
-    if (project['planDetails'].length > 1) {
-      return project['planDetails'].length + 1;
-    }
-    return project['planDetails'].length + 1;
-  }
-
 }

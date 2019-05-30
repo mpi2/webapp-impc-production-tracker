@@ -1,6 +1,6 @@
 <div class="col-md-12">
-    <h1>Projects</h1>    
-    <table class="table table-striped">
+    <h3>Projects</h3>
+    <table class="table">
         <thead>
             <th scope="col">Edit form</th>
             <th scope="col">Marker Symbol(s) / intention</th>
@@ -12,43 +12,32 @@
             <th scope="col">Privacy</th>
         </thead>
         <tbody>
-            <ng-template ngFor let-project [ngForOf]="projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
-                <tr>
-                    <td [attr.rowspan]="project.numberOfPlans"><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
-                    <td [attr.rowspan]="project.numberOfPlans">
-                        <ul>
-                            <li *ngFor="let intention of project.projectDetails.intentions">
-                                <span>
-                                    <a href="{{ intention.mgiLink }}" target="_blank">{{intention.markerSymbol}}</a> / {{intention.alleleType}}
-                                </span>
-                            </li>
-                        </ul>
-                    </td>
-                </tr>
-                <tr *ngFor="let plan of project.planDetails">
-                    <!-- <ng-template ngFor let-plan [ngForOf]="project.planDetails"> -->
-                            <td>{{ plan.planTypeName }}</td>
-                            <td>{{ plan.consortiumName }}</td>
-                            <td>{{ plan.workUnitName }}</td>
-                            <td>{{ plan.statusName  }}</td>
-                            <td>{{ project.projectDetails.priorityName }}</td>
-                            <td>{{ plan.privacyName }}</td>
-                    <!-- </ng-template> -->
-                </tr>
+            <ng-template ngFor let-project
+                [ngForOf]="projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
+                <ng-template ngFor let-plan let-isFirst="first" [ngForOf]="project.planDetails">
+                    <tr>
+                        <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length"><a
+                                routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+                        <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
+                            <ul>
+                                <li *ngFor="let intention of project.projectDetails.intentions">
+                                    <span>
+                                        <a href="{{ intention.mgiLink }}" target="_blank">{{intention.markerSymbol}}</a>
+                                        /
+                                        {{intention.alleleType}}
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>{{ plan.planTypeName }}</td>
+                        <td>{{ plan.consortiumName }}</td>
+                        <td>{{ plan.workUnitName }}</td>
+                        <td>{{ plan.statusName  }}</td>
+                        <td>{{ project.projectDetails.priorityName }}</td>
+                        <td>{{ plan.privacyName }}</td>
+                    </tr>
+                </ng-template>
             </ng-template>
-                
-                    <!-- <table>
-                        <tr *ngFor="let plan of project.planDetails">
-                            <td>{{ plan.planTypeName }}</td>
-                            <td>{{ plan.consortiumName }}</td>
-                            <td>{{ plan.workUnitName }}</td>
-                            <td>{{ plan.statusName  }}</td>
-                            <td>{{ project.projectDetails.priorityName }}</td>
-                            <td>{{ plan.privacyName }}</td>
-                        </tr>
-                    </table> -->
-                
-            
         </tbody>
     </table>
     <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
