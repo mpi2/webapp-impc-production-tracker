@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { GeneService, ProjectService, WorkUnitService, WorkGroupService } from '../_services';
-import { GenesSummary, WorkUnit, WorkGroup } from '../_models';
+import { ProjectService, WorkUnitService, WorkGroupService } from '../_services';
+import { WorkUnit, WorkGroup } from '../_models';
 import { ProjectSummary, ProjectSummaryAdapter } from '../_models/project/projectSummary';
 
 @Component({
@@ -17,7 +17,6 @@ export class GeneSearchComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-  // genes: GenesSummary[] = [];
   projects: ProjectSummary[] = [];
   username: any;
   p = 1;
@@ -29,10 +28,6 @@ export class GeneSearchComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    // private route: ActivatedRoute,
-    // private router: Router,
-    // private authenticationService: AuthenticationService
-    // private geneService: GeneService
     private projectService: ProjectService,
     private workUnitService: WorkUnitService,
     private workGroupService: WorkGroupService,
@@ -45,12 +40,6 @@ export class GeneSearchComponent implements OnInit {
       geneSymbol: ['']
     });
     this.getPage(1);
-
-    // this.geneService.getAll().pipe(first()).subscribe(genes => {
-    //   this.genes = genes;
-    //   console.log('genes => ' + this.genes);
-    // });
-
   }
 
   getPage(page: number) {
