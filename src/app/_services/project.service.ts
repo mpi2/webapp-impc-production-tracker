@@ -28,7 +28,7 @@ export class ProjectService {
   }
 
   getAllProjectSummariesWithPage(page: number) {
-    console.log('Getting all Plan Summaries the user can see with page');
+    console.log('Getting all Project Summaries the user can see with page');
     return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries?page=${page}`);
   }
 }
