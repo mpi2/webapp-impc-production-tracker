@@ -37,6 +37,23 @@
                         <td>{{ plan.privacyName }}</td>
                     </tr>
                 </ng-template>
+                <!-- If no plan information at all, show at least the project information -->
+                <ng-container *ngIf="project.planDetails.length == 0">
+                    <tr>
+                        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+                        <td>
+                            <ul>
+                                <li *ngFor="let intention of project.projectDetails.intentions">
+                                    <span>
+                                        <a href="{{ intention.mgiLink }}" target="_blank">{{intention.markerSymbol}}</a>
+                                        /
+                                        {{intention.alleleType}}
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                </ng-container>
             </ng-template>
         </tbody>
     </table>
