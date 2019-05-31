@@ -34,7 +34,8 @@ export class ProjectAdapter implements Adapter<Project> {
                 // Phenotype
                 const phenotypePlan: PhenotypePlan = new PhenotypePlan();
                 phenotypePlan.planDetails = plan.planDetails;
-                phenotypePlan.additionalData = plan.phenotypePlan;
+                phenotypePlan.productionPlanReference = plan.phenotypePlan.productionPlanReference;
+                phenotypePlan.phenotypingProduction = plan.phenotypePlan.phenotypingProduction;
                 phenotypePlans.push(phenotypePlan);
             }
         }

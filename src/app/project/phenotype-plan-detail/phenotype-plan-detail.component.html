@@ -12,13 +12,13 @@
         </td>
       </tr>
       <tr>
-          <td>
-            Production Plan reference:
-          </td>
-          <td>
-            {{phenotypePlan.additionalData.productionPlanReference}}
-          </td>
-        </tr>
+        <td>
+          Production Plan reference:
+        </td>
+        <td>
+          {{phenotypePlan.productionPlanReference}}
+        </td>
+      </tr>
       <tr>
         <td>
           Privacy:
@@ -45,11 +45,11 @@
       </tr>
     </table>
     <p>
-        <button type="button" class="btn btn-outline-primary" (click)="onCollapsed()"
-          [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-          {{ collapseButtonText }}
-        </button>
-      </p>
+      <button type="button" class="btn btn-outline-primary" (click)="onCollapsed()" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample">
+        {{ collapseButtonText }}
+      </button>
+    </p>
   </div>
 </div>
 
@@ -57,7 +57,57 @@
 <div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card">
     <div class="card-body">
-      WIP: Information about the Phenotype plan...
+      <div class="card-title"><u>Phenotyping production details</u></div>
+      <table>
+        <tr>
+          <td>
+            Colony Name:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.colonyName}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Colony Strain Name:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.colonyStrainName}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Complete?:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.complete}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            doNotCountTowardsCompleteness:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.doNotCountTowardsCompleteness}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Experiment Started On:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.experimentStartedOn}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Started:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.started}}
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>
