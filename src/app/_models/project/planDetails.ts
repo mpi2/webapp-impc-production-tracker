@@ -3,5 +3,6 @@ export class PlanDetails {
     privacyName: string;
     planTypeName: string;
     workUnitName: string;
+    workGroupName: string;
     statusName: string;
 }

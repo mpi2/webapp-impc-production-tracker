@@ -1,200 +1,240 @@
-<p>
-  <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
-    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-    {{productionPlan.planDetails.pin}}
-  </button>
-</p>
-<div></div>
+<!-- Project details section -->
+<div class="card">
+  <div class="card-body">
+    <div class="card-title"><u>Plan Details</u></div>
+    <table>
+      <tr>
+        <td>
+          Plan id:
+        </td>
+        <td>
+          {{productionPlan.planDetails.pin}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Privacy:
+        </td>
+        <td>
+          {{productionPlan.planDetails.privacyName}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Status:
+        </td>
+        <td>
+          {{productionPlan.planDetails.statusName}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          WorkUnit:
+        </td>
+        <td>
+          {{productionPlan.planDetails.workUnitName}}
+        </td>
+      </tr>
+    </table>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="onCollapsed()"
+        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+        {{ collapseButtonText }}
+      </button>
+    </p>
+  </div>
+</div>
+
+<!-- Collapsable section with plan's information -->
 <div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card">
     <div class="card-body">
+      <div class="card-title"><u>Attempt Details</u></div>
+      <table>
+        <tr>
+          <td>
+            Attempt Type:
+          </td>
+          <td>
+            {{productionPlan.attempt.attemptType}}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title"><u>Plan Details</u></div>
-          <table>
-            <tr>
-              <td>
-                PIN:
-              </td>
-              <td>
-                {{productionPlan.planDetails.pin}}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Privacy:
-              </td>
-              <td>
-                {{productionPlan.planDetails.privacyName}}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Status:
-              </td>
-              <td>
-                {{productionPlan.planDetails.statusName}}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                WorkUnit:
-              </td>
-              <td>
-                {{productionPlan.planDetails.workUnitName}}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title"><u>Attempt Details</u></div>
-          <table>
-            <tr>
-              <td>
-                Attempt Type:
-              </td>
-              <td>
-                {{productionPlan.attempt.attemptType}}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Crispr Attempt Details</u></div>
+      <table>
+        <tr>
+          <td>
+            MI date:
+          </td>
+          <td>
+            {{productionPlan.attempt.crisprAttempt.miDate}}
+          </td>
+        </tr>
 
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title"><u>Crispr Attempt Details</u></div>
-          <table>
-            <tr>
-              <td>
-                MI date:
-              </td>
-              <td>
-                {{productionPlan.attempt.crisprAttempt.miDate}}
-              </td>
-            </tr>
+        <tr>
+          <td>
+            MI external Ref:
+          </td>
+          <td>
+            {{productionPlan.attempt.crisprAttempt.miExternalRef}}
+          </td>
+        </tr>
 
-            <tr>
-              <td>
-                MI external Ref:
-              </td>
-              <td>
-                {{productionPlan.attempt.crisprAttempt.miExternalRef}}
-              </td>
-            </tr>
+        <tr>
+          <td>
+            Experimental?:
+          </td>
+          <td>
+            {{productionPlan.attempt.crisprAttempt.experimental}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Comments:
+          </td>
+          <td>
+            {{productionPlan.attempt.crisprAttempt.comment}}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-            <tr>
-              <td>
-                Experimental?:
-              </td>
-              <td>
-                {{productionPlan.attempt.crisprAttempt.experimental}}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Comments:
-              </td>
-              <td>
-                {{productionPlan.attempt.crisprAttempt.comment}}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Mutagenesis Details</u></div>
+      <table>
+        <tr>
+          <td>
+            Mutagenesis External Ref:
+          </td>
+          <td>
+            {{ productionPlan.attempt.crisprAttempt.mutagenesisExternalRef }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Delivery Method:
+          </td>
+          <td>
+            {{ productionPlan.attempt.crisprAttempt.deliveryMethod }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Voltage:
+          </td>
+          <td>
+            {{ productionPlan.attempt.crisprAttempt.voltage }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Number of pulses:
+          </td>
+          <td>
+            {{ productionPlan.attempt.crisprAttempt.numberOfPulses }}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
 
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title"><u>Mutagenesis Details</u></div>
-          <table>
-            <tr>
-              <td>
-                Mutagenesis External Ref:
-              </td>
-              <td>
-                {{ productionPlan.attempt.crisprAttempt.mutagenesisExternalRef }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Delivery Method:
-              </td>
-              <td>
-                {{ productionPlan.attempt.crisprAttempt.deliveryMethod }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Voltage:
-              </td>
-              <td>
-                {{ productionPlan.attempt.crisprAttempt.voltage }}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Number of pulses:
-              </td>
-              <td>
-                {{ productionPlan.attempt.crisprAttempt.numberOfPulses }}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Genotype Primers</u></div>
+      <table mdbTable bordered="true">
+        <thead>
+          <tr>
+            <th scope="col">Name </th>
+            <th scope="col">Sequence </th>
+            <th scope="col">Coordinate Start </th>
+            <th scope="col">Coordinate End</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let el of productionPlan.attempt.crisprAttempt.primers">
+            <td>{{el.name}}</td>
+            <td>{{el.sequence}}</td>
+            <td>{{el.startCoordinate}}</td>
+            <td>{{el.endCoordinate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
 
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title"><u>Genotype Primers</u></div>
-          <table mdbTable bordered="true">
-            <thead>
-              <tr>
-                <th scope="col">Name </th>
-                <th scope="col">Sequence </th>
-                <th scope="col">Coordinate Start </th>
-                <th scope="col">Coordinate End</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr mdbTableCol *ngFor="let el of productionPlan.attempt.crisprAttempt.primers">
-                <td>{{el.name}}</td>
-                <td>{{el.sequence}}</td>
-                <td>{{el.startCoordinate}}</td>
-                <td>{{el.endCoordinate}}</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Vector/Ologos (Mutagenesis Donors)</u></div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Concentration </th>
+            <th scope="col">Sequence </th>
+            <th scope="col">Preparation </th>
+            <th scope="col"> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let el of productionPlan.attempt.crisprAttempt.mutagenesisDonors">
+            <td>{{el.concentration}}</td>
+            <td>{{el.oligoSequence}}</td>
+            <td>{{el.preparation}}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary"
+                (click)="openModalToDeleteMutagenesisDonor(el)">Remove</button>
+            </td>
+          </tr>
+          <tr>
+            <!-- Come back to this when defined the way to edit -->
+            <!-- <td><button class="btn btn-sm btn-outline-primary" (click)="openModalToCreateMutagenesisDonor()">Add
+                Mutagenesis Donor</button></td>
 
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title"><u>Vector/Ologos (Mutagenesis Donors)</u></div>
-          <table mdbTable bordered="true">
-            <thead>
-              <tr>
-                <th scope="col">Concentration </th>
-                <th scope="col">Sequence </th>
-                <th scope="col">Preparation </th>
-                <th scope="col"> </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr mdbTableCol *ngFor="let el of productionPlan.attempt.crisprAttempt.mutagenesisDonors">
-                <td>{{el.concentration}}</td>
-                <td>{{el.oligoSequence}}</td>
-                <td>{{el.preparation}}</td>
-                <td>
-                  <button class="btn btn-lg btn-outline-primary" (click)="open(el)">Remove</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+            <ng-template #content let-modal>
+              <div class="modal-header">
+                <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+                <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+                  <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" formControlName="firstName" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.firstName.errors }" />
+                    <div *ngIf="submitted && f.firstName.errors" class="invalid-feedback">
+                      <div *ngIf="f.firstName.errors.required">First Name is required</div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" formControlName="lastName" class="form-control"
+                      [ngClass]="{ 'is-invalid': submitted && f.lastName.errors }" />
+                    <div *ngIf="submitted && f.lastName.errors" class="invalid-feedback">
+                      <div *ngIf="f.lastName.errors.required">Last Name is required</div>
+                    </div>
+                  </div>
+
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" (click)="saveMuta('Save click')">Save</button>
+                  </div>
+                </form>
+              </div>
+
+            </ng-template> -->
+            <!-- Come back to this when defined the way to edit -->
+            <!-- <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Add
+                Mutagenesis Donor</button> -->
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </div>

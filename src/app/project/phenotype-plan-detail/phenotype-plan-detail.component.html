@@ -1,53 +1,113 @@
-<p>
-  <button type="button" class="btn btn-outline-primary" (click)="isCollapsed = !isCollapsed"
-    [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
-    {{phenotypePlan.planDetails.pin}}
-  </button>
-</p>
+<!-- Project details section -->
+<div class="card">
+  <div class="card-body">
+    <div class="card-title"><u>Plan Details</u></div>
+    <table>
+      <tr>
+        <td>
+          Plan id:
+        </td>
+        <td>
+          {{phenotypePlan.planDetails.pin}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Production Plan reference:
+        </td>
+        <td>
+          {{phenotypePlan.productionPlanReference}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Privacy:
+        </td>
+        <td>
+          {{phenotypePlan.planDetails.privacyName}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Status:
+        </td>
+        <td>
+          {{phenotypePlan.planDetails.statusName}}
+        </td>
+      </tr>
+      <tr>
+        <td>
+          WorkUnit:
+        </td>
+        <td>
+          {{phenotypePlan.planDetails.workUnitName}}
+        </td>
+      </tr>
+    </table>
+    <p>
+      <button type="button" class="btn btn-outline-primary" (click)="onCollapsed()" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample">
+        {{ collapseButtonText }}
+      </button>
+    </p>
+  </div>
+</div>
 
+<!-- Collapsable section with plan' information -->
 <div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card">
     <div class="card-body">
-
-      <div class="card">
-        <div class="card-body">
-          <div class="card-title"><u>Plan Details</u></div>
-          <table>
-            <tr>
-              <td>
-                PIN:
-              </td>
-              <td>
-                {{phenotypePlan.planDetails.pin}}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Privacy:
-              </td>
-              <td>
-                {{phenotypePlan.planDetails.privacyName}}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                Status:
-              </td>
-              <td>
-                {{phenotypePlan.planDetails.statusName}}
-              </td>
-            </tr>
-            <tr>
-              <td>
-                WorkUnit:
-              </td>
-              <td>
-                {{phenotypePlan.planDetails.workUnitName}}
-              </td>
-            </tr>
-          </table>
-        </div>
-      </div>
+      <div class="card-title"><u>Phenotyping production details</u></div>
+      <table>
+        <tr>
+          <td>
+            Colony Name:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.colonyName}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Colony Strain Name:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.colonyStrainName}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Complete?:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.complete}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            doNotCountTowardsCompleteness:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.doNotCountTowardsCompleteness}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Experiment Started On:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.experimentStartedOn}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Started:
+          </td>
+          <td>
+            {{phenotypePlan.phenotypingProduction.started}}
+          </td>
+        </tr>
+      </table>
     </div>
   </div>
 </div>

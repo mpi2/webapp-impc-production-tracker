@@ -8,10 +8,23 @@ import { PhenotypePlan } from 'src/app/_models/project/phenotype_plan/phenotypeP
 })
 export class PhenotypePlanDetailComponent implements OnInit {
   @Input() phenotypePlan: PhenotypePlan;
-  public isCollapsed = true;
+  isCollapsed = true;
+  collapseButtonText = 'See more...';
+
   constructor() { }
 
   ngOnInit() {
+    console.log('Input for PhenotypePlanDetailComponent: ', this.phenotypePlan);
+    
+  }
+
+  onCollapsed() {
+    this.isCollapsed = !this.isCollapsed;
+    if (this.isCollapsed) {
+      this.collapseButtonText = 'See more...';
+    } else {
+      this.collapseButtonText = 'See less...';
+    }
   }
 
 }

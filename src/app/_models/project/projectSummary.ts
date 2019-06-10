@@ -6,7 +6,6 @@ import { Injectable } from '@angular/core';
 export class ProjectSummary {
     projectDetails: ProjectDetails;
     planDetails: PlanDetails[];
-    numberOfPlans: number;
     abortedMis = [];
     misInProgress = [];
     genotypeConfirmedMis = [];
@@ -22,6 +21,19 @@ export class ProjectSummaryAdapter implements Adapter<ProjectSummary> {
     adapt(item: any): ProjectSummary {
         const projectSummary: ProjectSummary = new ProjectSummary();
         projectSummary.planDetails = item.planDetails;
+        // Sort so production plans come first that phenotype plans.
+        projectSummary.planDetails.sort(function (a, b) {
+            var nameA = a.planTypeName.toUpperCase();
+            var nameB = b.planTypeName.toUpperCase();
+            if (nameA < nameB) {
+                return 1;
+            }
+            if (nameA > nameB) {
+                return -1;
+            }
+            return 0;
+        });
+
         projectSummary.projectDetails = item.projectDetails;
 
         const abortedMis = [];
@@ -30,7 +42,7 @@ export class ProjectSummaryAdapter implements Adapter<ProjectSummary> {
         const breedingAttempts = [];
         const phenotypeAttempts = [];
         const breedingStatuses = ['Mouse Allele Modification Registered', 'Rederivation Started', 'Rederivation Complete',
-        'Cre Excision Started', 'Cre Excision Complete', 'Mouse Allele Modification Aborted'];
+            'Cre Excision Started', 'Cre Excision Complete', 'Mouse Allele Modification Aborted'];
         const miInProgress = [' Micro-injection in progress', 'Chimeras obtained', 'Founder obtained', 'Chimeras/Founder obtained'];
 
         item.planDetails.forEach(element => {
