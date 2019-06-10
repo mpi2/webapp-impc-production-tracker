@@ -13,13 +13,21 @@
         <td>{{ project.projectDetails.tpn }}</td>
       </tr>
       <tr>
-        <td>Marker Symbol(s)/ Intentions</td>
+        <td>Marker Symbol(s)</td>
         <td>
-          <div *ngFor="let intention of project.projectDetails.intentions">
-            <span class="badge badge-pill badge-primary">{{intention.markerSymbol}} / {{intention.alleleType}}</span>
+          <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+            <span class="badge badge-pill badge-primary">{{markerSymbol.markerSymbol}}</span>
           </div>
         </td>
       </tr>
+      <tr>
+          <td>Intentions</td>
+          <td>
+            <div *ngFor="let intention of project.projectDetails.alleleIntentions">
+              <span class="badge badge-pill badge-primary">{{intention}}</span>
+            </div>
+          </td>
+        </tr>
       <tr>
         <td>Assignment Status:</td>
         <td>{{project.projectDetails.assigmentStatusName}}</td>

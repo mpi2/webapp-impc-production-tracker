@@ -86,21 +86,22 @@
                 <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Graph</a></td>
                 <td>
                     <ul>
-                        <li *ngFor="let intention of project.projectDetails.intentions">
+                        <li *ngFor="let intention of project.projectDetails.alleleIntentions">
                             <span>
-                                {{ intention.alleleType }}
+                                {{ intention }}
                             </span>
                         </li>
                     </ul>
                 </td>
                 <td>
                     <ul>
-                        <li *ngFor="let intention of project.projectDetails.intentions">
+                        <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
                             <span>
-                                <a href="{{ intention.mgiLink }}" target="_blank">{{intention.markerSymbol}}</a>
+                                <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{markerSymbol.markerSymbol}}</a>
                             </span>
                         </li>
                     </ul>
+                    
                 </td>
                 <td>Human gene (Orthologs)</td>
 
