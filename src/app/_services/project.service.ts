@@ -27,8 +27,42 @@ export class ProjectService {
     return this.http.delete(url);
   }
 
-  getAllProjectSummariesWithPage(page: number) {
-    console.log('Getting all Project Summaries the user can see with page');
+  getPaginatedProjectSummaries(page: number) {
+    console.log('Getting all Project Summaries');
     return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries?page=${page}`);
+  }
+
+  getPaginatedProjectSummariesWithFilters(page: number, markerSymbols: string[], workUnits: string[], workGroups: string[]) {
+    let markerSymbolsAsParameter = '';
+    let workUnitsAsParameter = '';
+    let workGroupsAsParameter = '';
+
+    if (markerSymbols.length > 0) {
+      markerSymbolsAsParameter = markerSymbols.map(x => 'markerSymbol=' + x).join('&');
+    }
+
+    if (workUnits.length > 0) {
+      workUnitsAsParameter = workUnits.map(x => 'workUnit=' + x).join('&');
+    }
+
+    if (workGroups.length > 0) {
+      workGroupsAsParameter = workGroups.map(x => 'workGroup=' + x).join('&');
+    }
+
+    let queryParameters = '';
+
+    if (markerSymbolsAsParameter != '') {
+      queryParameters += '&' + markerSymbolsAsParameter;
+    }
+    if (workUnitsAsParameter != '') {
+      queryParameters += '&' + workUnitsAsParameter;
+    }
+    if (workGroupsAsParameter != '') {
+      queryParameters += '&' + workGroupsAsParameter;
+    }
+    const url = `${environment.baseUrl}/api/projectSummaries?page=${page}${queryParameters}`;
+    console.log('URL ', url);
+
+    return this.http.get<ProjectSummary[]>(url);
   }
 }
