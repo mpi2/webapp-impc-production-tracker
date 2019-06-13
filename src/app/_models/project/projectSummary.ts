@@ -47,9 +47,9 @@ export class ProjectSummaryAdapter implements Adapter<ProjectSummary> {
 
         item.planDetails.forEach(element => {
             const workUnit = element.workUnitName;
-            const consortium = element.consortiumName;
+            const workGroup = element.workGroupName;
             const status = element.statusName;
-            const planInfo = '[' + workUnit + '::' + consortium + '::' + status + ']';
+            const planInfo = '[' + workUnit + '::' + workGroup + '::' + status + ']';
             if (element.planTypeName === 'phenotyping') {
                 phenotypeAttempts.push(planInfo);
             } else if (breedingStatuses.includes(element.statusName)) {
