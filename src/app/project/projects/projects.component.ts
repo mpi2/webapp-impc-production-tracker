@@ -23,16 +23,42 @@ export class ProjectsComponent implements OnInit {
   }
 
   getPage(pageNumber: number) {
-      this.loading = true;
-      // The end point starts page in number 0, while the component starts with 1.
-      const apiPageNumber = pageNumber - 1;
-      this.projectService.getPaginatedProjectSummaries(apiPageNumber).pipe(first()).subscribe(data => {
-          this.projects = data['_embedded']['projectSummaryDToes'];
-          this.projects = this.projects.map(x => this.adapter.adapt(x));
-          this.page = data['page'];
-          this.p = pageNumber;
-          console.log('Projects in ProjectsComponent: ', this.projects);
-          console.log('Pagination info:', this.page);
-      });
+    this.loading = true;
+    // The end point starts page in number 0, while the component starts with 1.
+    const apiPageNumber = pageNumber - 1;
+    const workUnitNameFilter = this.getWorkUnitNameFilter();
+    this.projectService.getPaginatedProjectSummariesWithFilters(apiPageNumber, [], workUnitNameFilter, []).pipe(first()).subscribe(data => {
+      if (data['_embedded']) {
+        this.projects = data['_embedded']['projectSummaryDToes'];
+        this.projects = this.projects.map(x => this.adapter.adapt(x));
+      } else {
+        this.projects = [];
+      }
+      this.page = data['page'];
+      this.p = pageNumber;
+    });
+  }
+
+  getWorkUnitNameFilter() {
+    const tokenInfo = JSON.parse(sessionStorage.getItem('tokenInfo'));
+    let workUnitFilter = [];
+    if (tokenInfo && tokenInfo.workUnitName) {
+      if (!'admin' === tokenInfo.role) {
+        workUnitFilter.push(tokenInfo.workUnitName);
+      }
+    } else {
+      console.error('The logged user does not have a defined workUnit in the token...');
+      if ('admin' === tokenInfo.role) {
+        // TODO: Just a test to see if filter works...
+        workUnitFilter.push('JAX');
+        console.error('Setting a value because is admin');
+      } else {
+        workUnitFilter.push('---');
+      }
+    }
+
+    console.log('workUnitFilter: ', workUnitFilter);
+
+    return workUnitFilter;
   }
 }

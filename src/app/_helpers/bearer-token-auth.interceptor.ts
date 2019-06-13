@@ -18,4 +18,3 @@ export class BearerTokenAuthInterceptor implements HttpInterceptor {
         return next.handle(request);
     }
 }
-// Basic ${currentUser.authdata}
