@@ -48,14 +48,21 @@
                 <!-- If no plan information at all, show at least the project information -->
                 <ng-container *ngIf="project.planDetails.length == 0">
                     <tr>
-                        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+                        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form...</a></td>
                         <td>
                             <ul>
-                                <li *ngFor="let intention of project.projectDetails.intentions">
+                                <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
                                     <span>
-                                        <a href="{{ intention.mgiLink }}" target="_blank">{{intention.markerSymbol}}</a>
-                                        /
-                                        {{intention.alleleType}}
+                                        <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{markerSymbol.markerSymbol}}</a>
+                                    </span>
+                                </li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul>
+                                <li *ngFor="let intention of project.projectDetails.alleleIntentions">
+                                    <span>
+                                        {{intention}}
                                     </span>
                                 </li>
                             </ul>

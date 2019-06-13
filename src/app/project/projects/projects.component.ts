@@ -26,7 +26,7 @@ export class ProjectsComponent implements OnInit {
       this.loading = true;
       // The end point starts page in number 0, while the component starts with 1.
       const apiPageNumber = pageNumber - 1;
-      this.projectService.getAllProjectSummariesWithPage(apiPageNumber).pipe(first()).subscribe(data => {
+      this.projectService.getPaginatedProjectSummaries(apiPageNumber).pipe(first()).subscribe(data => {
           this.projects = data['_embedded']['projectSummaryDToes'];
           this.projects = this.projects.map(x => this.adapter.adapt(x));
           this.page = data['page'];
