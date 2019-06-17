@@ -75,7 +75,15 @@ export class GeneSearchComponent implements OnInit {
   
     const geneSymbols = this.getGeneSymbolsAsArray();
 
-    this.projectService.getPaginatedProjectSummariesWithFilters(apiPageNumber, geneSymbols, selectedWorkUnits, selectedWorkGroups).pipe(first()).subscribe(data => {
+    this.projectService.getPaginatedProjectSummariesWithFilters(
+      apiPageNumber,
+      geneSymbols,
+      selectedWorkUnits,
+      selectedWorkGroups,
+      [],
+      [],
+      [],
+      [],).pipe(first()).subscribe(data => {
       if (data['_embedded']){
         this.projects = data['_embedded']['projectSummaryDToes'];
         this.projects = this.projects.map(x => this.projectAdapter.adapt(x));

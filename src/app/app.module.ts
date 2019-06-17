@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -7,6 +8,9 @@ import { routing } from './app.routing';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DropdownModule} from 'primeng/dropdown';
+import { MultiSelectModule} from 'primeng/multiselect';
+import {PaginatorModule} from 'primeng/paginator';
 
 import { BearerTokenAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
@@ -27,12 +31,16 @@ import { FooterComponent } from './footer/footer.component';
 @NgModule({
     imports: [
         BrowserModule,
+        BrowserAnimationsModule,
         ReactiveFormsModule,
         HttpClientModule,
         routing,
         NgMultiSelectDropDownModule.forRoot(),
         NgbModule,
-        NgxPaginationModule
+        NgxPaginationModule,
+        DropdownModule,
+        MultiSelectModule,
+        PaginatorModule
     ],
     declarations: [
         AppComponent,

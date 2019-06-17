@@ -12,18 +12,48 @@
             <th scope="col">Priority</th>
             <th scope="col">Privacy</th>
         </thead>
+        <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>
+                <p-multiSelect [options]="planTypes" defaultLabel="All plan type"
+                    (onChange)="filter($event.value, 'plan_type')"></p-multiSelect>
+            </th>
+            <th>
+                <p-multiSelect [options]="workGroups" defaultLabel="All work groups"
+                    (onChange)="filter($event.value, 'work_group')"></p-multiSelect>
+            </th>
+            <th>
+                <p-multiSelect [options]="workUnits" defaultLabel="All work units"
+                    (onChange)="filter($event.value, 'work_unit')"></p-multiSelect>
+            </th>
+            <th>
+                <p-multiSelect [options]="statuses" defaultLabel="All statuses"
+                    (onChange)="filter($event.value, 'status')"></p-multiSelect>
+            </th>
+            <th>
+                <p-multiSelect [options]="priorities" defaultLabel="All priority"
+                    (onChange)="filter($event.value, 'priority')"></p-multiSelect>
+            </th>
+            <th>
+                <p-multiSelect [options]="privacies" defaultLabel="All privacy"
+                    (onChange)="filter($event.value, 'privacy')"></p-multiSelect>
+            </th>
+        </tr>
         <tbody>
             <ng-template ngFor let-project
                 [ngForOf]="projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
                 <ng-template ngFor let-plan let-isFirst="first" [ngForOf]="project.planDetails">
                     <tr>
                         <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length"><a
-                                routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+                                routerLink="/projects/{{ project.projectDetails.tpn }}">{{ project.projectDetails.tpn }}</a></td>
                         <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
                             <ul>
                                 <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
                                     <span>
-                                        <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{markerSymbol.markerSymbol}}</a>
+                                        <a href="{{ markerSymbol.mgiLink }}"
+                                            target="_blank">{{markerSymbol.markerSymbol}}</a>
                                     </span>
                                 </li>
                             </ul>
@@ -53,7 +83,8 @@
                             <ul>
                                 <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
                                     <span>
-                                        <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{markerSymbol.markerSymbol}}</a>
+                                        <a href="{{ markerSymbol.mgiLink }}"
+                                            target="_blank">{{markerSymbol.markerSymbol}}</a>
                                     </span>
                                 </li>
                             </ul>
