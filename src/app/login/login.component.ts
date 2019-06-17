@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AuthenticationService } from '../_services';
+import { ConfigurationService } from '../_services/configuration.service';
 
 @Component({
     selector: 'login',
@@ -21,7 +22,8 @@ export class LoginComponent implements OnInit {
         private formBuilder: FormBuilder,
         private route: ActivatedRoute,
         private router: Router,
-        private authenticationService: AuthenticationService) {}
+        private authenticationService: AuthenticationService,
+        private configurationService: ConfigurationService) {}
 
     ngOnInit() {
         this.loginForm = this.formBuilder.group({

@@ -32,10 +32,39 @@ export class ProjectService {
     return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries?page=${page}`);
   }
 
-  getPaginatedProjectSummariesWithFilters(page: number, markerSymbols: string[], workUnits: string[], workGroups: string[]) {
+  getPaginatedProjectSummariesWithFilters(
+    page: number,
+    markerSymbols: string[],
+    workUnits: string[],
+    workGroups: string[],
+    planTypes: string[],
+    statuses: string[],
+    priorities: string[],
+    privacies: string[]) {
+
+    const queryParameters = this.buildFilterQueryParameters(markerSymbols, workUnits, workGroups, planTypes, statuses, priorities, privacies);
+    const url = `${environment.baseUrl}/api/projectSummaries?page=${page}${queryParameters}`;
+    console.log('URL ', url);
+
+    return this.http.get<ProjectSummary[]>(url);
+  }
+
+  buildFilterQueryParameters(
+    markerSymbols: string[],
+    workUnits: string[],
+    workGroups: string[],
+    planTypes: string[],
+    statuses: string[],
+    priorities: string[],
+    privacies: string[]) {
+
     let markerSymbolsAsParameter = '';
     let workUnitsAsParameter = '';
     let workGroupsAsParameter = '';
+    let planTypesAsParameter = '';
+    let statusesAsParameter = '';
+    let prioritiesAsParameter = '';
+    let privaciesAsParameter = '';
 
     if (markerSymbols.length > 0) {
       markerSymbolsAsParameter = markerSymbols.map(x => 'markerSymbol=' + x).join('&');
@@ -49,6 +78,22 @@ export class ProjectService {
       workGroupsAsParameter = workGroups.map(x => 'workGroup=' + x).join('&');
     }
 
+    if (planTypes.length > 0) {
+      planTypesAsParameter = planTypes.map(x => 'planType=' + x).join('&');
+    }
+
+    if (statuses.length > 0) {
+      statusesAsParameter = statuses.map(x => 'status=' + x).join('&');
+    }
+
+    if (priorities.length > 0) {
+      prioritiesAsParameter = priorities.map(x => 'priority=' + x).join('&');
+    }
+
+    if (privacies.length > 0) {
+      privaciesAsParameter = privacies.map(x => 'privacy=' + x).join('&');
+    }
+
     let queryParameters = '';
 
     if (markerSymbolsAsParameter != '') {
@@ -60,9 +105,20 @@ export class ProjectService {
     if (workGroupsAsParameter != '') {
       queryParameters += '&' + workGroupsAsParameter;
     }
-    const url = `${environment.baseUrl}/api/projectSummaries?page=${page}${queryParameters}`;
-    console.log('URL ', url);
+    if (planTypesAsParameter != '') {
+      queryParameters += '&' + planTypesAsParameter;
+    }
+    if (statusesAsParameter != '') {
+      queryParameters += '&' + statusesAsParameter;
+    }
+    if (prioritiesAsParameter != '') {
+      queryParameters += '&' + prioritiesAsParameter;
+    }
+    if (privaciesAsParameter != '') {
+      queryParameters += '&' + privaciesAsParameter;
+    }
+    console.log('queryParameters', queryParameters);
 
-    return this.http.get<ProjectSummary[]>(url);
+    return queryParameters;
   }
 }
