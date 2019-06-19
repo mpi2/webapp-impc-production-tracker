@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProductionPlan } from 'src/app/_models/project/production_plan/productionPlan';
+import { ProductionPlan } from 'src/app/projects/model/production_plan/productionPlan';
 import { ProjectService } from 'src/app/_services';
 import { first } from 'rxjs/operators';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { MessageService } from '../_services/message.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -7,21 +9,37 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  role: any;
-  username: any;
-  logout: boolean;
+  role = "";
+  username = "";
+  login = false;
+  subscription: Subscription;
+  loginInfo: any;
 
-  constructor() { }
+  constructor(private messageService: MessageService) { }
 
   ngOnInit() {
-    if (sessionStorage.length > 0) {
-      this.role = JSON.parse(sessionStorage.getItem('tokenInfo'))['role'];
-      this.username = JSON.parse(sessionStorage.getItem('tokenInfo'))['username'];
-      this.logout = false;
-    } else {
-      this.role = "";
-      this.logout = true;
-    }
+    this.loginInfo = this.messageService.getCurrentLoginInfo();
+    this.setInitialInformation();
+
+    this.subscription = this.messageService.getMessage().subscribe(message => {
+      if (message) {
+        if (message['loginInfo']) {
+          this.loginInfo = message['loginInfo'];
+          this.setInitialInformation();
+        }
+      }
+    });
   }
 
+  setInitialInformation() {
+    if (this.loginInfo) {
+      if (this.loginInfo.role) {
+        this.role = this.loginInfo.role;
+      }
+      if (this.loginInfo.username) {
+        this.username = this.loginInfo.username;
+      }
+      this.login = true;
+    }
+  }
 }

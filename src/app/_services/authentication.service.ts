@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment.prod';
 import { ConfigurationService } from './configuration.service';
+import { MessageService } from './message.service';
 
 @Injectable({ providedIn: 'root' })
 
@@ -10,7 +11,7 @@ import { ConfigurationService } from './configuration.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  constructor(private http: HttpClient, private conf: ConfigurationService) { }
+  constructor(private http: HttpClient, private conf: ConfigurationService, private messageService: MessageService) { }
 
   login(username: string, password: string) {
     return this.http.post<any>(`${environment.baseUrl}/auth/signin`, { username, password })
@@ -24,6 +25,7 @@ export class AuthenticationService {
           console.log('loadInitialConfiguration');
 
           this.loadInitialConfiguration();
+          this.messageService.sendUpdatedLoginInfo(user);
         }
 
         return user;
