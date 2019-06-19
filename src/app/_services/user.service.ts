@@ -4,7 +4,6 @@ import { map, catchError } from 'rxjs/operators';
 
 import { User } from '../_models';
 import { environment } from 'src/environments/environment';
-import { empty, Observable, throwError } from 'rxjs';
 
 
 @Injectable({

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app.component';
@@ -27,17 +26,21 @@ import { ConfirmationComponent } from './shared/confirmation/confirmation.compon
 import { ProjectsComponent } from './project/projects/projects.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
+import { CrisprAttemptComponent } from './crispr-attempt/crispr-attempt.component';
+import { CreateProjectComponent } from './create-project/create-project.component';
+import { AutocompleteLibModule } from 'angular-ng-autocomplete';
+
 
 @NgModule({
     imports: [
         BrowserModule,
-        BrowserAnimationsModule,
         ReactiveFormsModule,
         HttpClientModule,
         routing,
         NgMultiSelectDropDownModule.forRoot(),
         NgbModule,
         NgxPaginationModule,
+        AutocompleteLibModule,
         DropdownModule,
         MultiSelectModule,
         PaginatorModule
@@ -56,7 +59,9 @@ import { FooterComponent } from './footer/footer.component';
         ConfirmationComponent,
         ProjectsComponent,
         HeaderComponent,
-        FooterComponent
+        FooterComponent,
+        CrisprAttemptComponent,
+        CreateProjectComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuthInterceptor, multi: true },

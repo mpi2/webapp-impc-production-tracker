@@ -8,3 +8,5 @@ export * from './role.service';
 export * from './gene.service';
 export * from './consortium.service';
 export * from './work-group.service';
+export * from './allele-type.service';
+export * from './priority.service';
