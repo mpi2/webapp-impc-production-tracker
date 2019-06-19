@@ -7,6 +7,9 @@ import { routing } from './app.routing';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxPaginationModule } from 'ngx-pagination';
+import { DropdownModule} from 'primeng/dropdown';
+import { MultiSelectModule} from 'primeng/multiselect';
+import {PaginatorModule} from 'primeng/paginator';
 
 import { BearerTokenAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { HomeComponent } from './home';
@@ -37,7 +40,10 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
         NgMultiSelectDropDownModule.forRoot(),
         NgbModule,
         NgxPaginationModule,
-        AutocompleteLibModule
+        AutocompleteLibModule,
+        DropdownModule,
+        MultiSelectModule,
+        PaginatorModule
     ],
     declarations: [
         AppComponent,
