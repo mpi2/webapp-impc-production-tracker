@@ -1,4 +1,4 @@
-export * from './project/project';
+export * from '../projects/model/project';
 export * from './user';
 export * from './workUnit';
 export * from './institute';

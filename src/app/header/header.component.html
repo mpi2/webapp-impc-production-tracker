@@ -2,16 +2,16 @@
     <div class="header__nav-top d-none d-lg-block">
         <div class="container">
             <div class="row">
-                <div class="col-sm-8"><p *ngIf="logout == false">You are logged in as <b>{{ username }}</b></p></div>
+                <div class="col-sm-8"><p *ngIf="login">You are logged in as <b>{{ username }}</b></p></div>
                 <div class="col-sm-4 text-right">
                     <div class="menu-top-nav-container">
                         <ul id="menu-top-nav" class="menu">
                             <li id="" class="menu-item dropdown"><a class="menu-link dropdown-toggle" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Account<span class="caret"></span></a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <a *ngIf="logout == true" class="dropdown-item" routerLink="/login">Sign in</a>
-                                    <a *ngIf="logout == false" class="dropdown-item" routerLink="">Edit your profile</a>
-                                    <a *ngIf="logout == false && role == 'admin'" class="dropdown-item" routerLink="">Admin</a>
-                                    <a *ngIf="logout == false" class="dropdown-item" routerLink="/login" (click)="logout()">Logout</a>
+                                    <a *ngIf="!login" class="dropdown-item" routerLink="/login">Sign in</a>
+                                    <a *ngIf="login" class="dropdown-item" routerLink="">Edit your profile</a>
+                                    <a *ngIf="login && role == 'admin'" class="dropdown-item" routerLink="">Admin</a>
+                                    <a *ngIf="login" class="dropdown-item" routerLink="/login" (click)="logout()">Logout</a>
                                 </div>
                             </li>
                             <li id="" class=""><a href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy Notice</a></li>

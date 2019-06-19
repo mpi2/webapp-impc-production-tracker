@@ -1,16 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectSummary, ProjectSummaryAdapter } from 'src/app/_models/project/projectSummary';
+import { ProjectSummary, ProjectSummaryAdapter } from 'src/app/projects/model/projectSummary';
 import { ProjectService } from 'src/app/_services';
 import { first } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
 import { Project } from 'src/app/_models';
 
 @Component({
-  selector: 'app-plan',
-  templateUrl: './projects.component.html',
-  styleUrls: ['./projects.component.css']
+  selector: 'app-project-list',
+  templateUrl: './project-list.component.html',
+  styleUrls: ['./project-list.component.css']
 })
-export class ProjectsComponent implements OnInit {
+export class ProjectListComponent implements OnInit {
   projects: ProjectSummary[] = [];
   username: any;
   p = 1;

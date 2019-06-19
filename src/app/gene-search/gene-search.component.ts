@@ -4,7 +4,7 @@ import { first } from 'rxjs/operators';
 
 import { ProjectService, WorkUnitService, WorkGroupService } from '../_services';
 import { WorkUnit, WorkGroup, WorkUnitAdapter, WorkGroupAdapter } from '../_models';
-import { ProjectSummary, ProjectSummaryAdapter } from '../_models/project/projectSummary';
+import { ProjectSummary, ProjectSummaryAdapter } from '../projects/model/projectSummary';
 
 @Component({
   selector: 'app-gene-search',

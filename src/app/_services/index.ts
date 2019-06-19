@@ -1,6 +1,6 @@
 export * from './authentication.service';
 export * from './plan.service';
-export * from './project.service';
+export * from '../projects/services/project.service';
 export * from './work-unit.service';
 export * from './institute.service';
 export * from './user.service';
