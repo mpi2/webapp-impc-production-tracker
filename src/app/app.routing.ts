@@ -12,6 +12,11 @@ const appRoutes: Routes = [
     { path: 'create_project', component: CreateProjectComponent },
     { path: 'crispr_attempt', component: CrisprAttemptComponent },
 
+    {
+      path: 'registerUser',
+      loadChildren: './admin/admin.module#AdminModule', canActivate: [AuthGuard]
+    },
+
     { path: '**', redirectTo: '' }
 ];
 

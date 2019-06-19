@@ -5,6 +5,8 @@ import { DropdownModule} from 'primeng/dropdown';
 import { MultiSelectModule} from 'primeng/multiselect';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import {BrowserModule} from '@angular/platform-browser';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [],
@@ -13,7 +15,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     DropdownModule,
     MultiSelectModule,
     NgxPaginationModule,
-    NgbModule
+    NgbModule,
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   exports: [
     CommonModule,
