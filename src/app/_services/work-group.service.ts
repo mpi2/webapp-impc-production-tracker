@@ -13,4 +13,8 @@ export class WorkGroupService {
   getAll() {
     return this.http.get<WorkGroup[]>(`${environment.baseUrl}/tracking-api/workGroups`);
   }
+
+  getByWorkUnit(name: string) {
+    return this.http.get<WorkGroup[]>(`${environment.baseUrl}/api/workGroups?workUnitName=${name}`);
+  }
 }

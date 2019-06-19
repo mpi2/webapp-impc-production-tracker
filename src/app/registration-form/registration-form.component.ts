@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
 import { UserService, WorkUnitService, InstituteService, RoleService } from '../_services';
 import { Institute, WorkUnit, User, Role } from '../_models';
 
@@ -13,9 +12,8 @@ import { Institute, WorkUnit, User, Role } from '../_models';
 export class RegistrationFormComponent implements OnInit {
   signupForm: FormGroup;
 
-  dropdownSettingsWorkUnit = {};
-  dropdownSettingsInstitute = {};
-  dropdownSettingsRole = {};
+  dropdownSettingsSingle = {};
+  dropdownSettingsMultiple = {};
 
   loading = false;
   submitted = false;
@@ -28,8 +26,6 @@ export class RegistrationFormComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    //private route: ActivatedRoute,
-    //private router: Router,
     private userService: UserService,
     private workUnitService: WorkUnitService,
     private instituteService: InstituteService,
@@ -60,28 +56,20 @@ export class RegistrationFormComponent implements OnInit {
         console.log('roles: ', this.roles);
       });
 
-      this.dropdownSettingsWorkUnit = {
+      this.dropdownSettingsSingle = {
         singleSelection: true,
-        idField: 'ilarCode',
-        textField: 'ilarCode',
+        idField: 'name',
+        textField: 'name',
         enableCheckAll: false,
         allowSearchFilter: true
       };
 
-      this.dropdownSettingsInstitute = {
+      this.dropdownSettingsMultiple = {
         singleSelection: false,
         idField: 'name',
         textField: 'name',
         selectAllText: 'Select All',
         unSelectAllText: 'UnSelect All',
-        allowSearchFilter: true
-      };
-
-      this.dropdownSettingsRole = {
-        singleSelection: true,
-        idField: 'name',
-        textField: 'name',
-        enableCheckAll: false,
         allowSearchFilter: true
       };
     }
