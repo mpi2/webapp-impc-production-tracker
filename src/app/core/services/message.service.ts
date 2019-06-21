@@ -5,16 +5,12 @@ import { Observable, Subject } from 'rxjs';
 export class MessageService {
     private subject = new Subject<any>();
 
-    sendUpdatedLoginInfo(loginInfo: any) {
-        this.subject.next({ loginInfo: loginInfo});
+    setUserLoggedIn(loggedIn: boolean) {
+        this.subject.next( { isUserLoggedIn: loggedIn} );
     }
 
-    getUpdatedLoginInfo(): Observable<any> {
+    getUserLoggedIn(): Observable<any> {
         return this.subject.asObservable();
-    }
-
-    getCurrentLoginInfo() {
-        return JSON.parse(sessionStorage.getItem('tokenInfo'));
     }
 
     getMessage(): Observable<any> {

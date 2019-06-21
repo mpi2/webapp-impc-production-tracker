@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Adapter } from '../_core/adapter';
+import { Adapter } from '../core/model/adapter';
 
 export class WorkUnit {
     name: string;

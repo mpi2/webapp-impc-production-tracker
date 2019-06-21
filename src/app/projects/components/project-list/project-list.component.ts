@@ -3,7 +3,9 @@ import { ProjectSummary, ProjectSummaryAdapter } from 'src/app/projects/model/pr
 import { ProjectService } from 'src/app/_services';
 import { first } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
-import { Project } from 'src/app/_models';
+import { LoggedUserService } from 'src/app/core/services/logged-user.service';
+import { ConfigurationData } from 'src/app/core/model/configuration-data';
+import { ConfigurationDataService } from 'src/app/core/services/configuration-data.service';
 
 @Component({
   selector: 'app-project-list',
@@ -30,28 +32,24 @@ export class ProjectListComponent implements OnInit {
   prioritiesFilterValues: string[] = [];
   privaciesFilterValues: string[] = [];
 
+  configurationData: ConfigurationData;
 
-  constructor(private projectService: ProjectService, private adapter: ProjectSummaryAdapter) { }
+  constructor(
+    private projectService: ProjectService,
+    private adapter: ProjectSummaryAdapter,
+    private loggedUserService: LoggedUserService,
+    private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
-
-    const conf = JSON.parse(sessionStorage.getItem('conf'));
-    console.log('The conf', conf);
-    if (conf) {
-      this.planTypes = conf.planTypes.map(p => { return { label: p, value: p } });
-      this.workGroups = conf.workGroups.map(p => { return { label: p, value: p } });
-      this.workUnits = conf.workUnits.map(p => { return { label: p, value: p } });
-      this.privacies = conf.privacies.map(p => { return { label: p, value: p } });
-      this.priorities = conf.priorities.map(p => { return { label: p, value: p } });
-      this.statuses = conf.statuses.map(p => { return { label: p, value: p } });
+    this.configurationData = this.configurationDataService.getConfigurationInfo();
+    if (this.configurationData ) {
+      this.planTypes = this.configurationData.planTypes.map(p => { return { label: p, value: p } });
+      this.workGroups = this.configurationData.workGroups.map(p => { return { label: p, value: p } });
+      this.workUnits = this.configurationData.workUnits.map(p => { return { label: p, value: p } });
+      this.privacies = this.configurationData.privacies.map(p => { return { label: p, value: p } });
+      this.priorities = this.configurationData.priorities.map(p => { return { label: p, value: p } });
+      this.statuses = this.configurationData.statuses.map(p => { return { label: p, value: p } });
     }
-    console.log('planTypes', this.planTypes);
-    console.log('workGroups', this.workGroups);
-    console.log('workUnits', this.workUnits);
-    console.log('privacies', this.privacies);
-    console.log('priorities', this.priorities);
-    console.log('statuses', this.statuses);
-
     this.getPage(1);
   }
 
@@ -69,35 +67,33 @@ export class ProjectListComponent implements OnInit {
       this.getStatusFilter(),
       this.getPriorityFilter(),
       this.getPrivacyFilter()).pipe(first()).subscribe(data => {
-      if (data['_embedded']) {
-        this.projects = data['_embedded']['projectSummaryDToes'];
-        this.projects = this.projects.map(x => this.adapter.adapt(x));
-      } else {
-        this.projects = [];
-      }
-      this.page = data['page'];
-      this.p = pageNumber;
-    });
+        if (data['_embedded']) {
+          this.projects = data['_embedded']['projectSummaryDToes'];
+          this.projects = this.projects.map(x => this.adapter.adapt(x));
+        } else {
+          this.projects = [];
+        }
+        this.page = data['page'];
+        this.p = pageNumber;
+      });
   }
 
   getWorkUnitNameFilter() {
-    const tokenInfo = JSON.parse(sessionStorage.getItem('tokenInfo'));
+    const loggedUser = this.loggedUserService.getLoggerUser();
     let workUnitFilter = [];
-    if (tokenInfo && tokenInfo.workUnitName) {
-      if (!'admin' === tokenInfo.role) {
-        workUnitFilter.push(tokenInfo.workUnitName);
+    if (loggedUser) {
+      if ('admin' != loggedUser.role) {
+        if (loggedUser.workUnitName) {
+          workUnitFilter.push(loggedUser.workUnitName);
+        } else {
+          console.error('The logged user does not have a defined workUnit.');
+          workUnitFilter.push('---');
+        }
       }
     } else {
-      console.error('The logged user does not have a defined workUnit in the token...');
-      if ('admin' === tokenInfo.role) {
-        // TODO: Just a test to see if filter works...
-        workUnitFilter.push('JAX');
-        console.error('Setting a value because is admin');
-      } else {
-        workUnitFilter.push('---');
-      }
+      console.error('User must be logged into the application');
+      workUnitFilter.push('---');
     }
-
     console.log('workUnitFilter: ', workUnitFilter);
 
     return workUnitFilter;

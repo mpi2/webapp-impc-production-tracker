@@ -4,9 +4,10 @@ import { RegistrationComponent } from './registration/registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AdminRouting } from './admin.routing';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @NgModule({
-  declarations: [RegistrationComponent],
+  declarations: [RegistrationComponent, DashboardComponent],
   imports: [
     CommonModule,
     ReactiveFormsModule,

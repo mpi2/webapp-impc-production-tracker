@@ -1,9 +1,9 @@
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
-import { AuthGuard } from './_guards';
+import { AuthGuard } from './core/guards';
 import { GeneSearchComponent } from './gene-search/gene-search.component';
-import { CreateProjectComponent } from './create-project/create-project.component';
+import { CreateProjectComponent } from './projects/components/create-project/create-project.component';
 import { CrisprAttemptComponent } from './crispr-attempt/crispr-attempt.component';
 
 const appRoutes: Routes = [
@@ -13,8 +13,8 @@ const appRoutes: Routes = [
     { path: 'crispr_attempt', component: CrisprAttemptComponent },
 
     {
-      path: 'registerUser',
-      loadChildren: './admin/admin.module#AdminModule', canActivate: [AuthGuard]
+      path: 'admin',
+      loadChildren: './admin/admin.module#AdminModule', canActivate:[AuthGuard], canLoad: [AuthGuard]
     },
 
     { path: '**', redirectTo: '' }
