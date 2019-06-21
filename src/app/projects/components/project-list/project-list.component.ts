@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ProjectSummary, ProjectSummaryAdapter } from 'src/app/projects/model/projectSummary';
-import { ProjectService } from 'src/app/_services';
 import { first } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
 import { LoggedUserService } from 'src/app/core/services/logged-user.service';
 import { ConfigurationData } from 'src/app/core/model/configuration-data';
 import { ConfigurationDataService } from 'src/app/core/services/configuration-data.service';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-project-list',

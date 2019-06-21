@@ -49,6 +49,6 @@ import { SharedModule } from './shared/shared.module';
 
 export class AppModule {
     constructor() {
-        console.log('AppModule loaded.');
+        console.log('[[AppModule loaded]]');
     }
 }

@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { User, WorkUnit, Institute, Role } from 'src/app/_models';
-import { UserService, WorkUnitService, InstituteService, RoleService } from 'src/app/_services';
+import { User } from 'src/app/core/model';
 import { first } from 'rxjs/operators';
+import { ConfigurationDataService } from 'src/app/core/services/configuration-data.service';
+import { ConfigurationData } from 'src/app/core/model/configuration-data';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-registration',
@@ -22,16 +24,16 @@ export class RegistrationComponent implements OnInit {
   returnUrl: string;
   error = '';
   user: User;
-  workUnits: WorkUnit[] = [];
-  institutes: Institute[] = [];
-  roles: Role[] = [];
+  workUnits: string[] = [];
+  institutes: string[] = [];
+  roles: string[] = [];
+
+  configurationData: ConfigurationData;
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private workUnitService: WorkUnitService,
-    private instituteService: InstituteService,
-    private roleService: RoleService) { }
+    private configurationService: ConfigurationDataService) { }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
@@ -43,25 +45,18 @@ export class RegistrationComponent implements OnInit {
       role: ['', Validators.required]
     });
 
-    this.workUnitService.getAll().pipe(first()).subscribe(workUnits => {
-      this.workUnits = workUnits['_embedded']['workUnits'];
-      console.log('workUnits: ', this.workUnits);
-    });
+    this.configurationData = this.configurationService.getConfigurationInfo();
 
-    this.instituteService.getAll().pipe(first()).subscribe(institutes => {
-      this.institutes = institutes['_embedded']['institutes'];
-      console.log('institutes: ', this.institutes);
-    });
+    this.workUnits = this.configurationData.workUnits;
 
-    this.roleService.getAll().pipe(first()).subscribe(roles => {
-      this.roles = roles['_embedded']['roles'];
-      console.log('roles: ', this.roles);
-    });
+    this.institutes = this.configurationData.institutes;
+
+    this.roles = this.configurationData.roles;
 
     this.dropdownSettingsWorkUnit = {
       singleSelection: true,
-      idField: 'ilarCode',
-      textField: 'ilarCode',
+      idField: 'name',
+      textField: 'name',
       enableCheckAll: false,
       allowSearchFilter: true
     };

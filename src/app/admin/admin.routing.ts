@@ -3,7 +3,8 @@ import { Routes, RouterModule } from '@angular/router';
 
 import { RegistrationComponent } from './registration/registration.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AuthGuard } from '../core/guards';
+import { PermissionsService } from '../core/services/permissions.service';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -11,7 +12,7 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: 'register-user',
+    path: PermissionsService.REGISTER_USER,
     component: RegistrationComponent,
     canActivate: [AuthGuard]
   }
@@ -21,4 +22,5 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class AdminRouting { }
+export class AdminRouting { 
+}

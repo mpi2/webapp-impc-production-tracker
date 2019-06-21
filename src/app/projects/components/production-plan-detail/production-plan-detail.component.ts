@@ -1,10 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ProductionPlan } from 'src/app/projects/model/production_plan/productionPlan';
-import { ProjectService } from 'src/app/_services';
 import { first } from 'rxjs/operators';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormBuilder } from '@angular/forms';
 import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
+import { ProjectService } from '../../services/project.service';
 
 @Component({
   selector: 'app-production-plan-detail',

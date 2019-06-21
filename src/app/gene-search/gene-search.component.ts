@@ -2,9 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { ProjectService, WorkUnitService, WorkGroupService } from '../_services';
-import { WorkUnit, WorkGroup, WorkUnitAdapter, WorkGroupAdapter } from '../_models';
+import { WorkUnit, WorkGroup } from '../core/model';
 import { ProjectSummary, ProjectSummaryAdapter } from '../projects/model/projectSummary';
+import { ProjectService } from '../projects/services/project.service';
+import { ConfigurationDataService } from '../core/services/configuration-data.service';
+import { ConfigurationData } from '../core/model/configuration-data';
 
 @Component({
   selector: 'app-gene-search',
@@ -21,40 +23,33 @@ export class GeneSearchComponent implements OnInit {
   masterSelected: boolean;
   checkedList: any;
   myTextarea: string;
+  configurationData: ConfigurationData;
 
   constructor(
     private formBuilder: FormBuilder,
     private projectService: ProjectService,
-    private workUnitService: WorkUnitService,
-    private workGroupService: WorkGroupService,
-    private projectAdapter: ProjectSummaryAdapter,
-    private workUnitAdapter: WorkUnitAdapter,
-    private workGroupAdapter: WorkGroupAdapter
-  ) { }
+    private configurationDataService: ConfigurationDataService,
+    private projectAdapter: ProjectSummaryAdapter) { }
 
   ngOnInit() {
     this.geneSearchForm = this.formBuilder.group({
       geneSymbol: ['']
     });
-    
-    this.workUnitService.getAll().pipe(first()).subscribe(workUnits => {
-      this.workUnits = workUnits['_embedded']['workUnits'];
-      this.workUnits = this.workUnits.map(x => {
-        x = this.workUnitAdapter.adapt(x);
-        x["isSelected"] = true;
-        return x;
-      });
-    });
 
-    this.workGroupService.getAll().pipe(first()).subscribe(workGroups => {
-      this.workGroups = workGroups['_embedded']['workGroups'];
-      this.workGroups = this.workGroups.map(x => {
-        x = this.workGroupAdapter.adapt(x);
-        x["isSelected"] = true;
-        return x;
-      });
-    });
+    this.configurationData = this.configurationDataService.getConfigurationInfo();
 
+    this.workUnits = this.configurationData.workUnits.map(x => {
+      const workUnit: WorkUnit = new WorkUnit();
+      workUnit.name = x;
+      workUnit["isSelected"] = true;
+      return workUnit
+    });
+    this.workGroups= this.configurationData.workGroups.map(x => {
+      const workGroup: WorkGroup = new WorkGroup();
+      workGroup.name = x;
+      workGroup["isSelected"] = true;
+      return workGroup
+    });
     this.getPage(1);
   }
 

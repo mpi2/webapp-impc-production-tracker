@@ -20,6 +20,6 @@ import { LoginRouting } from './login.routing';
 })
 export class LoginModule { 
   constructor() {
-    console.log('LoginModule loaded.');
+    console.log('[[LoginModule loaded]]');
   }
 }
