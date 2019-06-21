@@ -6,4 +6,6 @@ export class ConfigurationData {
     workGroups: string[];
     workUnits: string[];
     alleleTypes: string[];
+    institutes: string[];
+    roles: string[];
 }

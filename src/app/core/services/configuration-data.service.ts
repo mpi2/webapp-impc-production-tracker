@@ -16,7 +16,6 @@ export class ConfigurationDataService {
     writeConfiguration() {
         this.basicDataService.getConfiguration().subscribe(data => {
             if (data) {
-                console.log('Writing confi info:', data);
                 sessionStorage.setItem(this.CONFIGURATIONKEY, JSON.stringify(data));
             }
         });

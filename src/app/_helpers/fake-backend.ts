@@ -3,7 +3,7 @@ import { HttpRequest, HttpResponse, HttpHandler, HttpEvent, HttpInterceptor, HTT
 import { Observable, of, throwError } from 'rxjs';
 import { delay, mergeMap, materialize, dematerialize } from 'rxjs/operators';
 
-import { GenesSummary } from '../_models';
+import { GenesSummary } from '../core/model';
 
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {

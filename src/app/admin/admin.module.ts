@@ -17,6 +17,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 })
 export class AdminModule { 
   constructor() {
-    console.log('AdminModule loaded.');
+    console.log('[[AdminModule loaded]]');
   }
 }

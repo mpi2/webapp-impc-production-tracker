@@ -3,6 +3,7 @@ import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanLo
 import { LoggedUserService } from '../services/logged-user.service';
 import { Observable, of } from 'rxjs';
 import { BasicDataService } from '../services/basic-data.service';
+import { PermissionsService } from '../services/permissions.service';
 
 @Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate, CanLoad {
@@ -10,15 +11,13 @@ export class AuthGuard implements CanActivate, CanLoad {
     constructor(
         private router: Router,
         private loggedUserService: LoggedUserService,
-        private basicDataService: BasicDataService) { }
+        //private basicDataService: BasicDataService,
+        private permissionsService: PermissionsService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         const url = state.url;
         const path = route.routeConfig.path;
         const loggedUser = this.loggedUserService.getLoggerUser();
-        console.log(loggedUser);
-
-        console.log('url', url, 'path', path);
 
         if (!loggedUser) {
             console.log('NO LOGGED');
@@ -27,17 +26,11 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
 
         if ('admin' === path) {
-            console.log('check execute-manager-tasks');
-            this.evaluateAdminPermission('execute-manager-tasks').subscribe(v => console.log('execute-manager-tasks', v)
-            )
-
-            return this.evaluateAdminPermission('execute-manager-tasks');
+            return this.permissionsService.evaluateAdminPermission(PermissionsService.EXECUTE_MANAGER_TASKS);
         }
 
         if (url.indexOf('/admin/') >= 0) {
-            console.log('Adminn');
-
-            return this.evaluateAdminPermission(path);
+            return this.permissionsService.evaluateAdminPermission(path);
         }
     }
 
@@ -63,22 +56,5 @@ export class AuthGuard implements CanActivate, CanLoad {
         }
 
         return canLoad;
-    }
-
-    evaluateAdminPermission(path: string): Observable<boolean> {
-        let canAccess: boolean;
-        return this.basicDataService.getPermissions().map(v => {
-            switch (path) {
-                case 'register-user':
-                    canAccess = v.canRegisterUser;
-                    break;
-                case 'execute-manager-tasks':
-                    canAccess = v.canExecuteManagerTasks;
-                    break;
-                default:
-                    canAccess = false;
-            }
-            return canAccess;
-        });
     }
 }

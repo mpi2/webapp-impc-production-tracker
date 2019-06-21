@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { WorkGroup, Gene } from '../../../_models';
-import { WorkGroupService, GeneService } from '../../../_services';
+import { WorkGroup, Gene } from '../../../core/model';
 import { first } from 'rxjs/operators';
 import { LoggedUserService } from '../../../core/services/logged-user.service';
 import { LoggedUser } from '../../../core/model/logged-user';
 import { ConfigurationDataService } from '../../../core/services/configuration-data.service';
 import { ConfigurationData } from '../../../core/model/configuration-data';
+import { BasicDataService } from 'src/app/core/services/basic-data.service';
 
 
 @Component({
@@ -45,8 +45,7 @@ export class CreateProjectComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-    private workGroupService: WorkGroupService,
-    private geneService: GeneService,
+    private basicDataService: BasicDataService,
     private loogedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService
   ) { }
@@ -71,7 +70,7 @@ export class CreateProjectComponent implements OnInit {
     }
     console.log(this.workUnit);
 
-    this.workGroupService.getByWorkUnit(this.workUnit).pipe(first()).subscribe(data => {
+    this.basicDataService.getWorkGroupByWorkUnit(this.workUnit).pipe(first()).subscribe(data => {
       if (data) {
         this.workGroups = data;
         console.log('workGroups: ', this.workGroups);
@@ -119,7 +118,7 @@ export class CreateProjectComponent implements OnInit {
     this.symbol = val;
     console.log(this.symbol);
     if (this.symbol.length > 2) {
-      this.geneService.findGeneBySymbol(this.symbol, this.specie).pipe(first()).subscribe(genes => {
+      this.basicDataService.findGeneBySymbol(this.symbol, this.specie).pipe(first()).subscribe(genes => {
         console.log('entra al service');
         this.genes = genes;
         console.log(this.genes);

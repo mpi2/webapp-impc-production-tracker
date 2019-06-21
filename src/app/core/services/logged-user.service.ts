@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoggedUser } from '../model/logged-user';
 import { MessageService } from './message.service';
-import { Permission } from '../model/permission';
 import { BasicDataService } from './basic-data.service';
 import { Observable } from 'rxjs';
 import 'rxjs/add/operator/map';
