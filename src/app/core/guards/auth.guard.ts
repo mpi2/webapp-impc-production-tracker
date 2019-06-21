@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Router, CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, CanLoad, Route, UrlSegment } from '@angular/router';
 import { LoggedUserService } from '../services/logged-user.service';
 import { Observable, of } from 'rxjs';
-import { BasicDataService } from '../services/basic-data.service';
 import { PermissionsService } from '../services/permissions.service';
 
 @Injectable({ providedIn: 'root' })
@@ -11,13 +10,15 @@ export class AuthGuard implements CanActivate, CanLoad {
     constructor(
         private router: Router,
         private loggedUserService: LoggedUserService,
-        //private basicDataService: BasicDataService,
         private permissionsService: PermissionsService) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         const url = state.url;
         const path = route.routeConfig.path;
+        console.log('url', url, 'path', path);
+
         const loggedUser = this.loggedUserService.getLoggerUser();
+        console.log('loggedUser', loggedUser);
 
         if (!loggedUser) {
             console.log('NO LOGGED');
@@ -31,6 +32,8 @@ export class AuthGuard implements CanActivate, CanLoad {
 
         if (url.indexOf('/admin/') >= 0) {
             return this.permissionsService.evaluateAdminPermission(path);
+        } else {
+            return true;
         }
     }
 
