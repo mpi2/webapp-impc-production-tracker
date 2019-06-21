@@ -1,9 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
-import { WorkGroup, AlleleType, Priority, Gene } from '../_models';
-import { WorkGroupService, PriorityService, AlleleTypeService, GeneService } from '../_services';
-import { Observable } from 'rxjs';
-import { first, debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/operators';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { WorkGroup, Gene } from '../../../_models';
+import { WorkGroupService, GeneService } from '../../../_services';
+import { first } from 'rxjs/operators';
+import { LoggedUserService } from '../../../core/services/logged-user.service';
+import { LoggedUser } from '../../../core/model/logged-user';
+import { ConfigurationDataService } from '../../../core/services/configuration-data.service';
+import { ConfigurationData } from '../../../core/model/configuration-data';
 
 
 @Component({
@@ -12,6 +15,7 @@ import { first, debounceTime, distinctUntilChanged, tap, switchMap } from 'rxjs/
   styleUrls: ['./create-project.component.css']
 })
 export class CreateProjectComponent implements OnInit {
+
   createProjectForm: FormGroup;
 
   dropdownSettingsSingle = {};
@@ -21,11 +25,11 @@ export class CreateProjectComponent implements OnInit {
   submitted = false;
   returnUrl: string;
   error = '';
-  workUnit: '';
+  workUnit = '';
   workGroups: WorkGroup[] = [];
-  priorities: Priority[] = [];
-  projectLocation: Gene[] =  [];
-  projectIntentions: AlleleType[] = [];
+  priorities: string[] = [];
+  projectLocation: Gene[] = [];
+  projectIntentions: string[] = [];
   symbol: string;
   genes: Gene[] = [];
   gene: Gene;
@@ -36,12 +40,15 @@ export class CreateProjectComponent implements OnInit {
   placeHolder: string;
   showGeneTable = false;
 
+  loggerUser: LoggedUser;
+  configurationData: ConfigurationData;
+
   constructor(
     private formBuilder: FormBuilder,
     private workGroupService: WorkGroupService,
-    private priorityService: PriorityService,
-    private alleleTypeService: AlleleTypeService,
-    private geneService: GeneService
+    private geneService: GeneService,
+    private loogedUserService: LoggedUserService,
+    private configurationDataService: ConfigurationDataService
   ) { }
 
   ngOnInit() {
@@ -54,11 +61,18 @@ export class CreateProjectComponent implements OnInit {
       priority: ['', Validators.required],
       projectIntention: ['', Validators.required],
     });
-    this.workUnit = JSON.parse(sessionStorage.getItem('tokenInfo'))['workUnitName'];
+
+    this.loggerUser = this.loogedUserService.getLoggerUser();
+    this.configurationData = this.configurationDataService.getConfigurationInfo();
+
+    this.workUnit = this.loggerUser.workUnitName;
+    if (!this.workUnit) {
+      this.workUnit = '';
+    }
     console.log(this.workUnit);
 
     this.workGroupService.getByWorkUnit(this.workUnit).pipe(first()).subscribe(data => {
-      if (data.length > 0) {
+      if (data) {
         this.workGroups = data;
         console.log('workGroups: ', this.workGroups);
       } else {
@@ -67,15 +81,8 @@ export class CreateProjectComponent implements OnInit {
       }
     });
 
-    this.priorityService.getAll().pipe(first()).subscribe(priorities => {
-      this.priorities = priorities['_embedded']['projectPriorities'];
-      console.log('priorities: ', this.priorities);
-    });
-
-    this.alleleTypeService.getAll().pipe(first()).subscribe(alleleTypes => {
-      this.projectIntentions = alleleTypes['_embedded']['alleleTypes'];
-      console.log('projectIntentions: ', this.projectIntentions);
-    });
+    this.priorities = this.configurationData.priorities;
+    this.projectIntentions = this.configurationData.alleleTypes;
 
     this.dropdownSettingsSingle = {
       singleSelection: true,

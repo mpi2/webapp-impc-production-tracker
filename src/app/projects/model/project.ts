@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Adapter } from 'src/app/_core/adapter';
+import { Adapter } from 'src/app/core/model/adapter';
 import { ProjectDetails } from './projectDetails';
 import { PlanDetails } from './planDetails';
 import { ProductionPlan } from './production_plan/productionPlan';

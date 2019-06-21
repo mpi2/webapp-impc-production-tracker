@@ -4,7 +4,7 @@ import { ProjectService } from 'src/app/_services';
 import { first } from 'rxjs/operators';
 import { NgbModal, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, FormGroup, FormBuilder } from '@angular/forms';
-import { ConfirmationComponent } from 'src/app/shared/confirmation/confirmation.component';
+import { ConfirmationComponent } from 'src/app/shared/components/confirmation/confirmation.component';
 
 @Component({
   selector: 'app-production-plan-detail',

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { MessageService } from '../_services/message.service';
+import { MessageService } from '../core/services/message.service';
 import { Subscription } from 'rxjs';
+import { LoggedUserService } from '../core/services/logged-user.service';
+import { LoggedUser } from '../core/model/logged-user';
 
 @Component({
   selector: 'app-header',
@@ -13,18 +15,18 @@ export class HeaderComponent implements OnInit {
   username = "";
   login = false;
   subscription: Subscription;
-  loginInfo: any;
+  loggedUser: LoggedUser
 
-  constructor(private messageService: MessageService) { }
+  constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
-    this.loginInfo = this.messageService.getCurrentLoginInfo();
+    this.loggedUser = this.loggedUserService.getLoggerUser();
     this.setInitialInformation();
 
-    this.subscription = this.messageService.getMessage().subscribe(message => {
+    this.subscription = this.messageService.getUserLoggedIn().subscribe(message => {
       if (message) {
-        if (message['loginInfo']) {
-          this.loginInfo = message['loginInfo'];
+        if (message.isUserLoggedIn) {
+          this.loggedUser = this.loggedUserService.getLoggerUser();
           this.setInitialInformation();
         }
       }
@@ -32,12 +34,12 @@ export class HeaderComponent implements OnInit {
   }
 
   setInitialInformation() {
-    if (this.loginInfo) {
-      if (this.loginInfo.role) {
-        this.role = this.loginInfo.role;
+    if (this.loggedUser) {
+      if (this.loggedUser.role) {
+        this.role = this.loggedUser.role;
       }
-      if (this.loginInfo.username) {
-        this.username = this.loginInfo.username;
+      if (this.loggedUser.userName) {
+        this.username = this.loggedUser.userName;
       }
       this.login = true;
     }

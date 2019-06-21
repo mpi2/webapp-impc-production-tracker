@@ -10,7 +10,7 @@
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a *ngIf="!login" class="dropdown-item" routerLink="/login">Sign in</a>
                                     <a *ngIf="login" class="dropdown-item" routerLink="">Edit your profile</a>
-                                    <a *ngIf="login && role == 'admin'" class="dropdown-item" routerLink="">Admin</a>
+                                    <a *ngIf="login && role == 'admin'" class="dropdown-item" routerLink="/admin">Admin</a>
                                     <a *ngIf="login" class="dropdown-item" routerLink="/login" (click)="logout()">Logout</a>
                                 </div>
                             </li>
