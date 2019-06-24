@@ -2,16 +2,12 @@
     <h3>Projects</h3>
 
     <br>
-
-    <!-- <form action="/create_project">
-        <button class="btn btn-primary" type="submit">Create new project</button>
-    </form> -->
-    
-    <a routerLink="/create_project" class="btn btn-primary active" role="button" aria-pressed="true">Create new project</a>
+    <a routerLink="/create-project" class="btn btn-primary active" role="button" aria-pressed="true">Create new
+        project</a>
 
     <br>
     <br>
-      
+
     <table class="table">
         <thead>
             <th scope="col">Edit form</th>
@@ -59,7 +55,7 @@
                 <ng-template ngFor let-plan let-isFirst="first" [ngForOf]="project.planDetails">
                     <tr>
                         <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length"><a
-                                routerLink="/projects/{{ project.projectDetails.tpn }}">{{ project.projectDetails.tpn }}</a></td>
+                                routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
                         <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
                             <ul>
                                 <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
@@ -90,7 +86,7 @@
                 <!-- If no plan information at all, show at least the project information -->
                 <ng-container *ngIf="project.planDetails.length == 0">
                     <tr>
-                        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form...</a></td>
+                        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
                         <td>
                             <ul>
                                 <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
