@@ -25,6 +25,9 @@ export class GeneSearchComponent implements OnInit {
   myTextarea: string;
   configurationData: ConfigurationData;
 
+  error;
+  loading = true;
+
   constructor(
     private formBuilder: FormBuilder,
     private projectService: ProjectService,
@@ -44,7 +47,7 @@ export class GeneSearchComponent implements OnInit {
       workUnit["isSelected"] = true;
       return workUnit
     });
-    this.workGroups= this.configurationData.workGroups.map(x => {
+    this.workGroups = this.configurationData.workGroups.map(x => {
       const workGroup: WorkGroup = new WorkGroup();
       workGroup.name = x;
       workGroup["isSelected"] = true;
@@ -61,14 +64,16 @@ export class GeneSearchComponent implements OnInit {
     let selectedWorkUnits = [];
     let selectedWorkGroups = [];
 
-    if (!workUnitSelectAll.checked){
+    if (!workUnitSelectAll.checked) {
       selectedWorkUnits = this.workUnits.filter(x => x["isSelected"]).map(element => element.name);
     }
-    if (!workGroupSelectAll.checked){
+    if (!workGroupSelectAll.checked) {
       selectedWorkGroups = this.workGroups.filter(x => x["isSelected"]).map(element => element.name);
     }
-  
+
     const geneSymbols = this.getGeneSymbolsAsArray();
+
+    this.loading = true;
 
     this.projectService.getPaginatedProjectSummariesWithFilters(
       apiPageNumber,
@@ -78,22 +83,26 @@ export class GeneSearchComponent implements OnInit {
       [],
       [],
       [],
-      [],).pipe(first()).subscribe(data => {
-      if (data['_embedded']){
-        this.projects = data['_embedded']['projectSummaryDToes'];
-        this.projects = this.projects.map(x => this.projectAdapter.adapt(x));
-      } else {
-        this.projects = [];
-      }
-      this.page = data['page'];
-      this.p = page;
-    });
+      []).pipe(first()).subscribe(data => {
+        if (data['_embedded']) {
+          this.projects = data['_embedded']['projectSummaryDToes'];
+          this.projects = this.projects.map(x => this.projectAdapter.adapt(x));
+        } else {
+          this.projects = [];
+        }
+        this.page = data['page'];
+        this.p = page;
+        this.loading = false;
+      }, error => {
+        this.error = error;
+        this.loading = false;
+      });
   }
 
   getGeneSymbolsAsArray() {
-    if (this.geneSearchForm.get('geneSymbol').value){
+    if (this.geneSearchForm.get('geneSymbol').value) {
       const geneSymbols = [];
-      geneSymbols.push(this.geneSearchForm.get('geneSymbol').value); 
+      geneSymbols.push(this.geneSearchForm.get('geneSymbol').value);
       return geneSymbols;
     }
     return [];
@@ -122,7 +131,7 @@ export class GeneSearchComponent implements OnInit {
     element["isSelected"] = isSelected;
     let workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
     workUnitSelectAll.checked = this.workUnits.filter(x => x["isSelected"]).length === this.workUnits.length;
-    
+
     return isSelected;
   }
 
@@ -131,7 +140,7 @@ export class GeneSearchComponent implements OnInit {
     element["isSelected"] = isSelected;
     let workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
     workGroupSelectAll.checked = this.workGroups.filter(x => x["isSelected"]).length === this.workGroups.length;
-    
+
     return isSelected;
   }
 

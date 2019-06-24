@@ -8,12 +8,16 @@
     <div class="form-group">
       <label for="workGroups">Work Group</label><br>
       **User work group based on his work unit.**
-      <ng-multiselect-dropdown type="text" name="workGroup" formControlName="workGroup" [ngClass]="{ 'is-invalid': submitted && f.workGroup.errors }" [placeholder]="'--Select--'" [data]="workGroups" [settings]="dropdownSettingsSingle" ></ng-multiselect-dropdown>
+      <ng-multiselect-dropdown type="text" name="workGroup" formControlName="workGroup"
+        [ngClass]="{ 'is-invalid': submitted && f.workGroup.errors }" [placeholder]="'--Select--'" [data]="workGroups"
+        [settings]="dropdownSettingsSingle"></ng-multiselect-dropdown>
     </div>
 
     <div class="form-group">
       <label for="priority">Priority </label>
-      <ng-multiselect-dropdown type="text" name="priority" formControlName="priority" [ngClass]="{ 'is-invalid': submitted && f.priority.errors }" [placeholder]="'--Select--'" [data]="priorities" [settings]="dropdownSettingsSingle" ></ng-multiselect-dropdown>
+      <ng-multiselect-dropdown type="text" name="priority" formControlName="priority"
+        [ngClass]="{ 'is-invalid': submitted && f.priority.errors }" [placeholder]="'--Select--'" [data]="priorities"
+        [settings]="dropdownSettingsSingle"></ng-multiselect-dropdown>
     </div>
 
     <div class="form-group">
@@ -21,13 +25,15 @@
 
       <p>Species</p>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="specie" value="mouse" id="mouseCheck" (change)="specieCheck($event)" checked>
+        <input class="form-check-input" type="radio" name="specie" value="mouse" id="mouseCheck"
+          (change)="specieCheck($event)" checked>
         <label class="form-check-label" for="mouseCheck">
           Mouse
         </label>
       </div>
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="specie" value="human" id="humanCheck" (change)="specieCheck($event)">
+        <input class="form-check-input" type="radio" name="specie" value="human" id="humanCheck"
+          (change)="specieCheck($event)">
         <label class="form-check-label" for="humanCheck">
           Human
         </label>
@@ -35,22 +41,15 @@
       <br>
 
       <div class="ng-autocomplete">
-        <ng-autocomplete 
-          [data]="genes"
-          [searchKeyword]="keyword"
-          [isLoading]="isLoading"
-          [placeHolder]="placeHolder"
-          (selected)='selectEvent($event)'
-          (inputChanged)='onChangeSearch($event)'
-          (inputFocused)='onFocused($event)'
-          [itemTemplate]="itemTemplate"
-          [notFoundTemplate]="notFoundTemplate">                                 
+        <ng-autocomplete [data]="genes" [searchKeyword]="keyword" [isLoading]="isLoading" [placeHolder]="placeHolder"
+          (selected)='selectEvent($event)' (inputChanged)='onChangeSearch($event)' (inputFocused)='onFocused($event)'
+          [itemTemplate]="itemTemplate" [notFoundTemplate]="notFoundTemplate">
         </ng-autocomplete>
-        
+
         <ng-template #itemTemplate let-gene>
           <a [innerHTML]="gene.symbol"></a>
         </ng-template>
-        
+
         <ng-template #notFoundTemplate let-notFound>
           <div [innerHTML]="notFound"></div>
         </ng-template>
@@ -59,32 +58,24 @@
       <a class="badge badge-primary" (click)="addGene($event)">Add</a>
 
       <!-- <div *ngIf="showGeneTable"> -->
-        <ng2-smart-table #tableLocation
-          [settings]="settings" 
-          [source]="source" 
-          (editConfirm)="onSaveConfirm($event)" >
-        </ng2-smart-table>
+      <ng2-smart-table #tableLocation [settings]="settings" [source]="source" (editConfirm)="onSaveConfirm($event)">
+      </ng2-smart-table>
       <!-- </div> -->
 
     </div>
 
     <div class="form-group">
       <label for="projectIntention">Project intention(s) </label>
-      <ng-multiselect-dropdown type="text" name="projectIntention" formControlName="priority" [ngClass]="{ 'is-invalid': submitted && f.projectIntention.errors }" [placeholder]="'--Select--'" [data]="projectIntentions" [settings]="dropdownSettingsMultiple" ></ng-multiselect-dropdown>
+      <ng-multiselect-dropdown type="text" name="projectIntention" formControlName="priority"
+        [ngClass]="{ 'is-invalid': submitted && f.projectIntention.errors }" [placeholder]="'--Select--'"
+        [data]="projectIntentions" [settings]="dropdownSettingsMultiple"></ng-multiselect-dropdown>
     </div>
-    
+
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-success">Create</button>
-      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+      <img *ngIf="loading"
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
     </div>
     <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
   </form>
 </div>
-
-
-
-
-
-
-
-

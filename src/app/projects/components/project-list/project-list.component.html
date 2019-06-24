@@ -1,6 +1,6 @@
 <div class="col-md-12 container">
     <h3>Projects</h3>
-
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
     <br>
     <a routerLink="/create-project" class="btn btn-primary active" role="button" aria-pressed="true">Create new
         project</a>
