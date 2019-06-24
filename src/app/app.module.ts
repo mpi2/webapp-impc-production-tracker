@@ -5,7 +5,6 @@ import { routing } from './app.routing';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 import { HomeComponent } from './home';
-import { GeneSearchComponent } from './gene-search/gene-search.component';
 import { ConfirmationComponent } from './shared/components/confirmation/confirmation.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -15,9 +14,9 @@ import { fakeBackendProvider } from './_helpers/fake-backend';
 import { BearerTokenAuthInterceptor, ErrorInterceptor } from './_helpers';
 import { LoginModule } from './login/login.module';
 import { ProjectsModule } from './projects/projects.module';
+import { GenesModule } from './genes/genes.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-
 
 @NgModule({
     imports: [
@@ -26,13 +25,13 @@ import { SharedModule } from './shared/shared.module';
         NgMultiSelectDropDownModule.forRoot(),
         LoginModule,
         ProjectsModule,
+        GenesModule,
         CoreModule,
         SharedModule,
     ],
     declarations: [
         AppComponent,
         HomeComponent,
-        GeneSearchComponent,
         HeaderComponent,
         FooterComponent,
         CrisprAttemptComponent

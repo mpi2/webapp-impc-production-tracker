@@ -1,15 +1,12 @@
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
-import { GeneSearchComponent } from './gene-search/gene-search.component';
-import { CreateProjectComponent } from './projects/components/create-project/create-project.component';
+import { GeneSearchComponent } from './genes/gene-search/gene-search.component';
 import { CrisprAttemptComponent } from './crispr-attempt/crispr-attempt.component';
 import { AuthGuard } from './core/guards/auth.guard';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'search', component: GeneSearchComponent },
-    { path: 'create_project', component: CreateProjectComponent },
     { path: 'crispr_attempt', component: CrisprAttemptComponent },
 
     {

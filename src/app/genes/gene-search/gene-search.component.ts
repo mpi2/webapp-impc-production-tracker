@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
-import { WorkUnit, WorkGroup } from '../core/model';
-import { ProjectSummary, ProjectSummaryAdapter } from '../projects/model/projectSummary';
-import { ProjectService } from '../projects/services/project.service';
-import { ConfigurationDataService } from '../core/services/configuration-data.service';
-import { ConfigurationData } from '../core/model/configuration-data';
+import { WorkUnit, WorkGroup } from '../../core/model';
+import { ProjectSummary, ProjectSummaryAdapter } from '../../projects/model/projectSummary';
+import { ProjectService } from '../../projects/services/project.service';
+import { ConfigurationDataService } from '../../core/services/configuration-data.service';
+import { ConfigurationData } from '../../core/model/configuration-data';
 
 @Component({
   selector: 'app-gene-search',
