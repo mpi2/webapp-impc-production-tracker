@@ -9,37 +9,58 @@ import { AuthenticationService } from '../core/services/authentication.service';
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
 
-    constructor(private authenticationService: AuthenticationService, private router: Router) {}
+    constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
-            if (err.status === 401) {
-                // auto logout if 401 response returned from api
-                this.authenticationService.logout();
-                location.reload(true);
-            }
-            if (err.status === 403) {
-                // redirect to login if 403
-                this.router.navigateByUrl(`/login`);
-            }
-
-            console.log('err interceptor: ', err);
-
-            let error = '';
-
-            if (err.error.apiexception) {
-                error = err.error.apiexception.message || err.statusText;
-                if (err.error.apiexception.subErrors != null) {
-                    error += ': ' + err.error.apiexception.subErrors[0].message;
-                }
-                if (err.error.apiexception.debubMessage != null) {
-                    error += ': ' + err.error.apiexception.debubMessage;
-                }
-            } else {
-                error = err.error.message;
-            }
-
-            return throwError(error);
+            return this.handleError(err);
         }));
+    }
+
+    handleError(error) {
+        if (this.isUnauthorisedError(error) || this.isForbiddenError(error)) {
+            window.alert('Access denied. Please log as a user with the corresponding permissions to execute the required action.');
+            this.authenticationService.logout();
+                //location.reload(true);
+                this.router.navigateByUrl(`/login`);
+        } else {
+            let errorMessage = '';
+            if (this.hasApiErrorFormat(error)) {
+                errorMessage = this.getApiErrorMessage(error);
+
+            } else {
+                if ('HttpErrorResponse' === error.name) {
+                    console.log(error);
+                    
+                    errorMessage = 'Error while comminicating with the server. Check that the server is available.';
+                } else {
+                    errorMessage = 'Unknown error';
+                }
+            }
+            return throwError(errorMessage);
+        }
+    }
+
+    isUnauthorisedError(error): boolean {
+        return error.status === 401
+    }
+
+    isForbiddenError(error): boolean {
+        return error.status === 403
+    }
+
+    hasApiErrorFormat(error): boolean {
+        return error.error.apierror;
+    }
+
+    getApiErrorMessage(error) {
+        let errorMessage = error.error.apierror.message || error.statusText;
+        if (error.error.apierror.subErrors != null) {
+            errorMessage += ': ' + error.error.apierror.subErrors[0].message;
+        }
+        if (error.error.apierror.debubMessage != null) {
+            errorMessage += ': ' + error.error.apierror.debubMessage;
+        }
+        return errorMessage;
     }
 }

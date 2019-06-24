@@ -121,6 +121,9 @@ export class CreateProjectComponent implements OnInit {
         this.workGroups = [];
         console.log('workGroups: ', this.workGroups);
       }
+    },
+    error => {
+      this.error = error;
     });
 
     this.priorities = this.configurationData.priorities;

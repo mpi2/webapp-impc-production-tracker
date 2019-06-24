@@ -34,6 +34,8 @@ export class ProjectListComponent implements OnInit {
 
   configurationData: ConfigurationData;
 
+  error;
+
   constructor(
     private projectService: ProjectService,
     private adapter: ProjectSummaryAdapter,
@@ -42,7 +44,7 @@ export class ProjectListComponent implements OnInit {
 
   ngOnInit() {
     this.configurationData = this.configurationDataService.getConfigurationInfo();
-    if (this.configurationData ) {
+    if (this.configurationData) {
       this.planTypes = this.configurationData.planTypes.map(p => { return { label: p, value: p } });
       this.workGroups = this.configurationData.workGroups.map(p => { return { label: p, value: p } });
       this.workUnits = this.configurationData.workUnits.map(p => { return { label: p, value: p } });
@@ -75,7 +77,13 @@ export class ProjectListComponent implements OnInit {
         }
         this.page = data['page'];
         this.p = pageNumber;
-      });
+      },
+        error => {
+          console.log('An error', error);
+          
+          this.error = error;
+        }
+      );
   }
 
   getWorkUnitNameFilter() {
