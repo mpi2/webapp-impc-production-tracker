@@ -1,4 +1,6 @@
 export class Gene {
+  specie: string;
   symbol: any;
-  mgiId: any;
+  geneId: any;
+  sequence: string;
 }

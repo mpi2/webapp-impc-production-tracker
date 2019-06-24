@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { WorkGroup, Gene } from '../../../core/model';
@@ -7,6 +8,7 @@ import { LoggedUser } from '../../../core/model/logged-user';
 import { ConfigurationDataService } from '../../../core/services/configuration-data.service';
 import { ConfigurationData } from '../../../core/model/configuration-data';
 import { BasicDataService } from 'src/app/core/services/basic-data.service';
+import { LocalDataSource } from 'ng2-smart-table';
 
 
 @Component({
@@ -28,32 +30,73 @@ export class CreateProjectComponent implements OnInit {
   workUnit = '';
   workGroups: WorkGroup[] = [];
   priorities: string[] = [];
-  projectLocation: Gene[] = [];
+  // projectLocation: Gene[] = [];
   projectIntentions: string[] = [];
   symbol: string;
   genes: Gene[] = [];
-  gene: Gene;
+  gene: any;
   genesLoading = false;
   specie: string;
   keyword: string;
   isLoading = false;
   placeHolder: string;
   showGeneTable = false;
-
   loggerUser: LoggedUser;
   configurationData: ConfigurationData;
+
+  source: LocalDataSource;
+  settings = {
+    mode: external,
+    hideSubHeader: true,
+    columns: {
+      specie: {
+        title: 'Specie',
+        editable: false
+      },
+      symbol: {
+        title: 'Gene Symbol',
+        editable: false
+      },
+      geneId: {
+        title: 'Gene id',
+        editable: false
+      },
+      sequence: {
+        title: 'Sequence',
+        editable: true
+      }
+    },
+    actions: {
+      add: false,
+      edit: true,
+      delete: true
+    },
+    // add: {
+    //   confirmCreate: true,
+    // },
+    edit: {
+      editButtonContent: '<i class="material-icons inline-block">edit</i>',
+      saveButtonContent: '<i class="material-icons inline-block">save</i>',
+      cancelButtonContent: '<i class="material-icons inline-block text-danger">cancel</i>',
+      editConfirm: true
+    },
+    delete: {
+      deleteButtonContent: '<i class="material-icons text-danger">delete</i>'
+    },
+  };
 
   constructor(
     private formBuilder: FormBuilder,
     private basicDataService: BasicDataService,
     private loogedUserService: LoggedUserService,
-    private configurationDataService: ConfigurationDataService
-  ) { }
+    private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
     this.specie = 'mouse';
     this.keyword = 'symbol';
     this.placeHolder = 'Search for a gene';
+
+    this.source = new LocalDataSource();
 
     this.createProjectForm = this.formBuilder.group({
       workGroup: ['', Validators.required],
@@ -132,16 +175,25 @@ export class CreateProjectComponent implements OnInit {
   }
 
   addGene(e) {
-    this.projectLocation.push(this.gene);
-    console.log(this.projectLocation);
-    if (this.projectLocation.length > 0) {
-      this.showGeneTable = true;
+    // Create object for adding
+    let gene = new Gene();
+    if (this.specie === 'mouse') {
+      gene = { specie: this.specie, symbol: this.gene.symbol, geneId: this.gene.mgiId, sequence: '' };
     } else {
-      this.showGeneTable = false;
+      gene = { specie: this.specie, symbol: this.gene.symbol, geneId: this.gene.hgncId, sequence: '' };
     }
+    this.onCreateConfirm(gene);
+  }
+
+  onCreateConfirm(e) {
+    this.source.add(e);
+    console.log('onCreateConfirm gene => ', e);
+    this.source.refresh();
+    console.log('onCreateConfirm projectLocation => ', this.source);
   }
 
   onSubmit() {
+    console.log('Entra onSubmit.');
   }
 
 }

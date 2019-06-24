@@ -11,6 +11,7 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     BrowserAnimationsModule,
     AutocompleteLibModule,
     NgMultiSelectDropDownModule.forRoot(),
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Ng2SmartTableModule
   ],
   exports: [
     CommonModule,
@@ -40,7 +42,8 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
     BrowserAnimationsModule,
     AutocompleteLibModule,
     NgMultiSelectDropDownModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Ng2SmartTableModule
   ]
 })
 export class SharedModule { }
