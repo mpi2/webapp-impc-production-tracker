@@ -58,39 +58,13 @@
 
       <a class="badge badge-primary" (click)="addGene($event)">Add</a>
 
-      <table *ngIf="showGeneTable">
-        <thead>
-          <th scope="col">Specie</th>
-          <th scope="col">Gene Symbol</th>
-          <th scope="col">Gene id</th>
-          <th scope="col">Sequence</th>
-        </thead>
-        <tbody>
-
-          
-        </tbody>
-
-      </table>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      <!-- <div *ngIf="showGeneTable"> -->
+        <ng2-smart-table #tableLocation
+          [settings]="settings" 
+          [source]="source" 
+          (editConfirm)="onSaveConfirm($event)" >
+        </ng2-smart-table>
+      <!-- </div> -->
 
     </div>
 

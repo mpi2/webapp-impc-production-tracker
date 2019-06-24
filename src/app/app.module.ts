@@ -27,7 +27,7 @@ import { SharedModule } from './shared/shared.module';
         LoginModule,
         ProjectsModule,
         CoreModule,
-        SharedModule
+        SharedModule,
     ],
     declarations: [
         AppComponent,
