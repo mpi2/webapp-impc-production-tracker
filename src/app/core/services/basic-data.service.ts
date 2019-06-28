@@ -5,7 +5,7 @@ import { ConfigurationData } from '../model/configuration-data';
 import { Permission } from '../model/permission';
 import { AlleleType, Consortium, Gene, GenesSummary, Institute, WorkGroup } from '../model';
 import { of } from 'rxjs';
-import { ProjectSummary } from 'src/app/projects/model/projectSummary';
+import { ProjectSummary } from 'src/app/projects/model/project-summary';
 
 @Injectable()
 export class BasicDataService {

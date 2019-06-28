@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
-import { ProjectDetails } from './projectDetails';
-import { PlanDetails } from './planDetails';
+import { ProjectDetails } from './project-details';
+import { PlanDetails } from './plan-details';
 import { ProductionPlan } from './production_plan/productionPlan';
-import { PhenotypePlan } from './phenotype_plan/phenotypePlan';
+import { PhenotypePlan } from './phenotype_plan/phenotype-plan';
+import { PlanHistoryAdapter } from './plan-history';
 
 export class Project {
     projectDetails: ProjectDetails = new ProjectDetails();
@@ -16,7 +17,9 @@ export class Project {
 })
 
 export class ProjectAdapter implements Adapter<Project> {
+
     adapt(item: any): Project {
+        const historyAdapter = new PlanHistoryAdapter();
         const project: Project = new Project();
         project.projectDetails = item.projectDetails;
 
@@ -25,17 +28,21 @@ export class ProjectAdapter implements Adapter<Project> {
 
         for (const plan of item.plans) {
             const planDetails: PlanDetails = plan.planDetails;
+            const history = plan.history.map(x => x = historyAdapter.adapt(x));
             if (planDetails.planTypeName === 'production') {
                 const productionPlan: ProductionPlan = new ProductionPlan();
                 productionPlan.planDetails = plan.planDetails;
                 productionPlan.attempt = plan.productionPlan.attempt;
+                productionPlan.history = history
                 productionPlans.push(productionPlan);
+                
             } else {
                 // Phenotype
                 const phenotypePlan: PhenotypePlan = new PhenotypePlan();
                 phenotypePlan.planDetails = plan.planDetails;
                 phenotypePlan.productionPlanReference = plan.phenotypePlan.productionPlanReference;
                 phenotypePlan.phenotypingProduction = plan.phenotypePlan.phenotypingProduction;
+                phenotypePlan.history = history
                 phenotypePlans.push(phenotypePlan);
             }
         }

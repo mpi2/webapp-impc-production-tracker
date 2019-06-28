@@ -1,5 +1,5 @@
-import { PlanDetails } from './planDetails';
-import { ProjectDetails } from './projectDetails';
+import { PlanDetails } from './plan-details';
+import { ProjectDetails } from './project-details';
 import { Adapter } from 'src/app/core/model/adapter';
 import { Injectable } from '@angular/core';
 
