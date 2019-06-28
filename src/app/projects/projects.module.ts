@@ -10,6 +10,7 @@ import { ProductionPlanDetailComponent } from './components/production-plan-deta
 import { PhenotypePlanDetailComponent } from './components/phenotype-plan-detail/phenotype-plan-detail.component';
 
 import { SharedModule } from '../shared/shared.module';
+import { PlanHistoryComponent } from './components/plan-history/plan-history.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { SharedModule } from '../shared/shared.module';
     ProductionPlansComponent,
     PhenotypePlansComponent,
     ProductionPlanDetailComponent,
-    PhenotypePlanDetailComponent
+    PhenotypePlanDetailComponent,
+    PlanHistoryComponent
   ],
   imports: [
     ProjectsRoutingModule,

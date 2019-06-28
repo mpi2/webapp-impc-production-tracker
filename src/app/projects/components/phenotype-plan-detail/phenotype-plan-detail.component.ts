@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PhenotypePlan } from 'src/app/projects/model/phenotype_plan/phenotypePlan';
+import { PhenotypePlan } from 'src/app/projects/model/phenotype_plan/phenotype-plan';
 
 @Component({
   selector: 'app-phenotype-plan-detail',
@@ -10,6 +10,8 @@ export class PhenotypePlanDetailComponent implements OnInit {
   @Input() phenotypePlan: PhenotypePlan;
   isCollapsed = true;
   collapseButtonText = 'See more...';
+  historyCollapseButtonText = 'See more...';
+  isHistoryCollapsed = true;
 
   constructor() { }
 
@@ -24,6 +26,15 @@ export class PhenotypePlanDetailComponent implements OnInit {
       this.collapseButtonText = 'See more...';
     } else {
       this.collapseButtonText = 'See less...';
+    }
+  }
+
+  onHistoryCollapsed() {
+    this.isHistoryCollapsed = !this.isHistoryCollapsed;
+    if (this.isHistoryCollapsed) {
+      this.historyCollapseButtonText = 'See more...';
+    } else {
+      this.historyCollapseButtonText = 'See less...';
     }
   }
 

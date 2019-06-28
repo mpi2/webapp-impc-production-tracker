@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
@@ -12,6 +12,8 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+import { MatSortModule } from '@angular/material/sort';
+import { MatTableModule } from '@angular/material/table';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     AutocompleteLibModule,
     NgMultiSelectDropDownModule.forRoot(),
     ReactiveFormsModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    MatSortModule,
+    MatTableModule,
   ],
   exports: [
     CommonModule,
@@ -43,7 +47,9 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
     AutocompleteLibModule,
     NgMultiSelectDropDownModule,
     ReactiveFormsModule,
-    Ng2SmartTableModule
+    Ng2SmartTableModule,
+    MatSortModule,
+    MatTableModule
   ]
 })
 export class SharedModule { }

@@ -6,11 +6,13 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
 import { CreateProjectComponent } from './components/create-project/create-project.component';
 
 import { AuthGuard } from '../core/guards/auth.guard';
+import { PlanHistoryComponent } from './components/plan-history/plan-history.component';
 
 const routes: Routes = [
   { path: 'projects/:id', component: ProjectDetailComponent, canActivate: [AuthGuard] },
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard] },
   { path: 'create-project', component: CreateProjectComponent, canActivate: [AuthGuard] },
+  { path: 'history', component: PlanHistoryComponent, canActivate: [AuthGuard] },
 ];
 
 @NgModule({

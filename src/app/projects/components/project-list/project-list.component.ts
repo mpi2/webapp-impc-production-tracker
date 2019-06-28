@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ProjectSummary, ProjectSummaryAdapter } from 'src/app/projects/model/projectSummary';
+import { ProjectSummary, ProjectSummaryAdapter } from 'src/app/projects/model/project-summary';
 import { first } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
 import { LoggedUserService } from 'src/app/core/services/logged-user.service';

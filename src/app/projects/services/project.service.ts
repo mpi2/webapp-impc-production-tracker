@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { Project } from '../../core/model';
 import { environment } from 'src/environments/environment';
-import { ProjectSummary } from '../model/projectSummary';
+import { ProjectSummary } from '../model/project-summary';
 
 @Injectable({
   providedIn: 'root'

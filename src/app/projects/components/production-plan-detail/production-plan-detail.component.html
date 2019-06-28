@@ -37,8 +37,8 @@
       </tr>
     </table>
     <p>
-      <button type="button" class="btn btn-outline-primary" (click)="onCollapsed()"
-        [attr.aria-expanded]="!isCollapsed" aria-controls="collapseExample">
+      <button type="button" class="btn btn-outline-primary" (click)="onCollapsed()" [attr.aria-expanded]="!isCollapsed"
+        aria-controls="collapseExample">
         {{ collapseButtonText }}
       </button>
     </p>
@@ -49,6 +49,17 @@
 <div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card">
     <div class="card-body">
+      <div id="history-section">
+        <button type="button" class="btn btn-outline-primary" (click)="onHistoryCollapsed()"
+          [attr.aria-expanded]="!isHistoryCollapsed" aria-controls="historyCollapse">
+          History
+        </button>
+        <div id="historyCollapse" [ngbCollapse]="isHistoryCollapsed">
+          <div>
+            <app-plan-history [planHistories]="productionPlan.history"></app-plan-history>
+          </div>
+        </div>
+      </div>
       <div class="card-title"><u>Attempt Details</u></div>
       <table>
         <tr>

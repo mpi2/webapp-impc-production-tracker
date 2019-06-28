@@ -15,6 +15,8 @@ export class ProductionPlanDetailComponent implements OnInit {
   @Input() productionPlan: ProductionPlan;
   isCollapsed = true;
   collapseButtonText = 'See more...';
+  historyCollapseButtonText = 'See more...';
+  isHistoryCollapsed = true;
 
   registerForm: FormGroup;
   closeResult: string;
@@ -23,6 +25,7 @@ export class ProductionPlanDetailComponent implements OnInit {
 
   ngOnInit() {
     console.log('<<productionPlan in class ProductionPlanDetailComponent>>:: ', this.productionPlan);
+
     this.registerForm = this.formBuilder.group({
       firstName: [''],
       lastName: ['']
@@ -36,6 +39,15 @@ export class ProductionPlanDetailComponent implements OnInit {
       this.collapseButtonText = 'See more...';
     } else {
       this.collapseButtonText = 'See less...';
+    }
+  }
+
+  onHistoryCollapsed() {
+    this.isHistoryCollapsed = !this.isHistoryCollapsed;
+    if (this.isHistoryCollapsed) {
+      this.historyCollapseButtonText = 'See more...';
+    } else {
+      this.historyCollapseButtonText = 'See less...';
     }
   }
 

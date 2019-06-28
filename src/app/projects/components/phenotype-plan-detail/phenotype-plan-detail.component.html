@@ -57,6 +57,17 @@
 <div id="collapseExample" [ngbCollapse]="isCollapsed">
   <div class="card">
     <div class="card-body">
+        <div id="history-section">
+            <button type="button" class="btn btn-outline-primary" (click)="onHistoryCollapsed()"
+              [attr.aria-expanded]="!isHistoryCollapsed" aria-controls="historyCollapse">
+              History
+            </button>
+            <div id="historyCollapse" [ngbCollapse]="isHistoryCollapsed">
+              <div>
+                <app-plan-history [planHistories]="phenotypePlan.history"></app-plan-history>
+              </div>
+            </div>
+          </div>
       <div class="card-title"><u>Phenotyping production details</u></div>
       <table>
         <tr>
