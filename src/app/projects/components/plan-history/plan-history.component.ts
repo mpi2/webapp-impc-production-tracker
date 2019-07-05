@@ -13,12 +13,10 @@ export class PlanHistoryComponent implements OnInit {
   sortedData: PlanHistory[];
 
   constructor() { 
-  }
+}
 
   ngOnInit() {
-    console.log('PlanHistoryComponent:', this.planHistories);
     this.sortedData = this.planHistories.slice();
-    
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
@@ -42,7 +40,6 @@ export class PlanHistoryComponent implements OnInit {
       }
     });
   }
-
 }
 
 function compare(a: number | string | Date, b: number | string | Date, isAsc: boolean ) {

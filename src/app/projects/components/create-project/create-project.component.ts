@@ -149,7 +149,6 @@ export class CreateProjectComponent implements OnInit {
 
   specieCheck(e) {
     this.specie = e.target.value;
-    console.log(this.specie);
   }
 
   selectEvent(item) {
@@ -162,12 +161,9 @@ export class CreateProjectComponent implements OnInit {
     // And reassign the 'data' which is binded to 'data' property.
     this.isLoading = true;
     this.symbol = val;
-    console.log(this.symbol);
     if (this.symbol.length > 2) {
       this.basicDataService.findGeneBySymbol(this.symbol, this.specie).pipe(first()).subscribe(genes => {
-        console.log('entra al service');
         this.genes = genes;
-        console.log(this.genes);
       });
     }
     this.isLoading = false;
