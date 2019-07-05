@@ -37,5 +37,9 @@ export class PhenotypePlanDetailComponent implements OnInit {
       this.historyCollapseButtonText = 'See less...';
     }
   }
+  planDetailsChanged(e) {
+    console.log('Parent component [PhenotypePlanDetailComponent] now has updated info plan detail ', e);
+    
+  }
 
 }

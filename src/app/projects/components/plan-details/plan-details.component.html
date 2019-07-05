@@ -1,0 +1,113 @@
+<form [formGroup]="editPlanDetails" (ngSubmit)="onSubmit()">
+  <table>
+    <tr>
+      <td>
+        Plan id:
+      </td>
+      <td>
+        {{planDetails.pin}}
+      </td>
+    </tr>
+    <ng-template [ngIf]="planDetails.planTypeName === 'phenotyping'">
+      <tr>
+        <td>
+          Production Plan reference:
+        </td>
+        <td>
+          {{planDetails.productionPlanReference}}
+        </td>
+      </tr>
+    </ng-template>
+    <!-- <tr>
+      <td>
+        Privacy:
+      </td>
+      <td>
+        {{planDetails.privacyName}}
+      </td>
+    </tr> -->
+
+
+    <tr>
+      <td>
+        Privacy:
+      </td>
+      <div *ngIf="canUpdatePlan; then privacyEditable else privacyReadOnly"></div>
+      <ng-template #privacyEditable>
+        <td>
+          <div class="form-group">
+            <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
+              [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'"
+              [data]="privacies" [settings]="dropdownSettingsSingle"
+              (onSelect)="onItemSelect($event)"></ng-multiselect-dropdown>
+          </div>
+        </td>
+      </ng-template>
+
+      <ng-template #privacyReadOnly>
+        <td>
+          {{planDetails.privacyName}}
+        </td>
+      </ng-template>
+    </tr>
+    <!-- <tr>
+      <td>
+        Privacy Editable
+      </td>
+      <td>
+        <div class="form-group">
+          <label for="priority">Privacy </label>
+          <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
+            [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'" [data]="privacies"
+            [settings]="dropdownSettingsSingle"></ng-multiselect-dropdown>
+        </div>
+      </td>
+    </tr> -->
+
+    <!-- <div *ngIf="canUpdatePlan; then privacyEditable else privacyReadOnly"></div>
+    <ng-template #privacyEditable>
+      <tr>
+        <td>
+          Privacy Editable
+        </td>
+        <td>
+          <div class="form-group">
+            <label for="priority">Privacy </label>
+            <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
+              [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'"
+              [data]="privacies" [settings]="dropdownSettingsSingle"></ng-multiselect-dropdown>
+          </div>
+        </td>
+      </tr>
+    </ng-template>
+
+    <ng-template #privacyReadOnly>
+      <tr>
+        <td>
+          Privacy:
+        </td>
+        <td>
+          {{planDetails.privacyName}}
+        </td>
+      </tr>
+    </ng-template> -->
+
+
+    <tr>
+      <td>
+        Status:
+      </td>
+      <td>
+        {{planDetails.statusName}}
+      </td>
+    </tr>
+    <tr>
+      <td>
+        WorkUnit:
+      </td>
+      <td>
+        {{planDetails.workUnitName}}
+      </td>
+    </tr>
+  </table>
+</form>

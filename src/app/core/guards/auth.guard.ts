@@ -15,23 +15,19 @@ export class AuthGuard implements CanActivate, CanLoad {
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | boolean {
         const url = state.url;
         const path = route.routeConfig.path;
-        console.log('url', url, 'path', path);
-
         const loggedUser = this.loggedUserService.getLoggerUser();
-        console.log('loggedUser', loggedUser);
 
         if (!loggedUser) {
-            console.log('NO LOGGED');
             this.redirectToLoginPage(url);
             return false;
         }
 
         if ('admin' === path) {
-            return this.permissionsService.evaluateAdminPermission(PermissionsService.EXECUTE_MANAGER_TASKS);
+            return this.permissionsService.evaluatePermission(PermissionsService.EXECUTE_MANAGER_TASKS);
         }
 
         if (url.indexOf('/admin/') >= 0) {
-            return this.permissionsService.evaluateAdminPermission(path);
+            return this.permissionsService.evaluatePermission(path);
         } else {
             return true;
         }

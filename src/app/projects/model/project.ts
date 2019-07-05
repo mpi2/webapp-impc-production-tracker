@@ -28,7 +28,12 @@ export class ProjectAdapter implements Adapter<Project> {
 
         for (const plan of item.plans) {
             const planDetails: PlanDetails = plan.planDetails;
-            const history = plan.history.map(x => x = historyAdapter.adapt(x));
+            console.log('plan',plan);
+            let history;
+            if (plan.history) {
+                history = plan.history.map(x => x = historyAdapter.adapt(x));
+            }
+
             if (planDetails.planTypeName === 'production') {
                 const productionPlan: ProductionPlan = new ProductionPlan();
                 productionPlan.planDetails = plan.planDetails;
@@ -40,8 +45,12 @@ export class ProjectAdapter implements Adapter<Project> {
                 // Phenotype
                 const phenotypePlan: PhenotypePlan = new PhenotypePlan();
                 phenotypePlan.planDetails = plan.planDetails;
-                phenotypePlan.productionPlanReference = plan.phenotypePlan.productionPlanReference;
-                phenotypePlan.phenotypingProduction = plan.phenotypePlan.phenotypingProduction;
+                if (plan.phenotypePlan) {
+                    phenotypePlan.planDetails.productionPlanReference = plan.phenotypePlan.productionPlanReference;
+                    phenotypePlan.productionPlanReference = plan.phenotypePlan.productionPlanReference;
+                    phenotypePlan.phenotypingProduction = plan.phenotypePlan.phenotypingProduction;
+                }
+            
                 phenotypePlan.history = history
                 phenotypePlans.push(phenotypePlan);
             }

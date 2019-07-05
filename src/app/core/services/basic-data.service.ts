@@ -22,6 +22,11 @@ export class BasicDataService {
         return this.http.get<Permission>(`${environment.baseUrl}/api/permissions`);
     }
 
+    // Returns if an action over an object is allowed.
+    getPermissionByActionOnResource(action: string, resourceId: string) {
+      return this.http.get<boolean>(`${environment.baseUrl}/api/permissionByActionOnResource?action=${action}&resourceId=${resourceId}`);
+  }
+
     // Entityes related end points:
 
     getAllAlleleTypes() {

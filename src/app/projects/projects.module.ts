@@ -11,6 +11,7 @@ import { PhenotypePlanDetailComponent } from './components/phenotype-plan-detail
 
 import { SharedModule } from '../shared/shared.module';
 import { PlanHistoryComponent } from './components/plan-history/plan-history.component';
+import { PlanDetailsComponent } from './components/plan-details/plan-details.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { PlanHistoryComponent } from './components/plan-history/plan-history.com
     PhenotypePlansComponent,
     ProductionPlanDetailComponent,
     PhenotypePlanDetailComponent,
-    PlanHistoryComponent
+    PlanHistoryComponent,
+    PlanDetailsComponent
   ],
   imports: [
     ProjectsRoutingModule,

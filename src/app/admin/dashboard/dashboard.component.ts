@@ -13,7 +13,7 @@ export class DashboardComponent implements OnInit {
   constructor(private permissionsService: PermissionsService) { }
 
   ngOnInit() {
-    this.permissionsService.evaluateAdminPermission(PermissionsService.REGISTER_USER).subscribe(canRegisterUser => {
+    this.permissionsService.evaluatePermission(PermissionsService.REGISTER_USER).subscribe(canRegisterUser => {
       this.canRegisterUser = canRegisterUser;
     })
   }

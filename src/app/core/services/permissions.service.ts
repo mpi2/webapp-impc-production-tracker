@@ -5,25 +5,33 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class PermissionsService {
 
+    // Paths
     static readonly REGISTER_USER = 'register-user';
     static readonly EXECUTE_MANAGER_TASKS = 'execute-manager-tasks';
 
+    // Actions
+    static readonly UPDATE_PLAN_ACTION = 'canUpdatePlan';
+
     constructor(private basicDataService: BasicDataService) { }
 
-    evaluateAdminPermission(path: string): Observable<boolean> {
-        let canAccess: boolean;
+    evaluatePermission(path: string): Observable<boolean> {
+        let hasPermission: boolean;
         return this.basicDataService.getPermissions().map(v => {
             switch (path) {
                 case PermissionsService.REGISTER_USER:
-                    canAccess = v.canRegisterUser;
+                    hasPermission = v.canRegisterUser;
                     break;
                 case PermissionsService.EXECUTE_MANAGER_TASKS:
-                    canAccess = v.canExecuteManagerTasks;
+                    hasPermission = v.canExecuteManagerTasks;
                     break;
                 default:
-                    canAccess = false;
+                    hasPermission = false;
             }
-            return canAccess;
+            return hasPermission;
         });
+    }
+
+    evaluatePermissionByActionOnResource(action: string, resourceId: string): Observable<boolean> {
+        return this.basicDataService.getPermissionByActionOnResource(action, resourceId);
     }
 }

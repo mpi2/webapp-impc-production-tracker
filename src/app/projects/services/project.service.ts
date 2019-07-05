@@ -40,7 +40,6 @@ export class ProjectService {
 
     const queryParameters = this.buildFilterQueryParameters(markerSymbols, workUnits, workGroups, planTypes, statuses, priorities, privacies);
     const url = `${environment.baseUrl}/api/projectSummaries?page=${page}${queryParameters}`;
-    console.log('URL ', url);
 
     return this.http.get<ProjectSummary[]>(url);
   }
@@ -113,7 +112,6 @@ export class ProjectService {
     if (privaciesAsParameter != '') {
       queryParameters += '&' + privaciesAsParameter;
     }
-    console.log('queryParameters', queryParameters);
 
     return queryParameters;
   }
