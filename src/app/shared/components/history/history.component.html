@@ -1,0 +1,24 @@
+<p>History</p>
+<a [routerLink]="" (click)="backClicked()">Go back</a>
+<table matSort (matSortChange)="sortData($event)" class="table table-bordered table-sm">
+  <tr>
+    <!-- Sort disabled
+      <th mat-sort-header="#">#</th>
+      <th mat-sort-header="user">User</th>
+      <th mat-sort-header="date">Date</th>
+      <th>Action</th>
+       -->
+    <th>#</th>
+    <th>User</th>
+    <th>Date</th>
+    <th>Action</th>
+  </tr>
+
+  <tr *ngFor="let historyRecord of sortedData">
+    <td>{{historyRecord.id}}
+    </td>
+    <td>{{historyRecord.user}}</td>
+    <td>{{historyRecord.date | date : 'medium'}}</td>
+    <td class="wrap-text-style">{{historyRecord.action}} </td>
+  </tr>
+</table>

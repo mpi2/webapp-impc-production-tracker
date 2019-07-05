@@ -4,7 +4,7 @@ import { Adapter } from 'src/app/core/model/adapter';
 import { Injectable } from '@angular/core';
 
 export class ProjectSummary {
-    projectDetails: ProjectDetails;
+    projectDetails: ProjectDetails = new ProjectDetails();
     planDetails: PlanDetails[];
     abortedMis = [];
     misInProgress = [];

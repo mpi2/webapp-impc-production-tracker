@@ -24,6 +24,10 @@ export class ProjectService {
     return this.http.delete(url);
   }
 
+  getProjectSummaryById(tpn: string) {
+    return this.http.get<ProjectSummary>(`${environment.baseUrl}/api/projectSummaries/${tpn}`);
+  }
+
   getPaginatedProjectSummaries(page: number) {
     return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries?page=${page}`);
   }

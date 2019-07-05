@@ -21,13 +21,13 @@
         </td>
       </tr>
       <tr>
-          <td>Intentions</td>
-          <td>
-            <div *ngFor="let intention of project.projectDetails.alleleIntentions">
-              <span class="badge badge-pill badge-primary">{{intention}}</span>
-            </div>
-          </td>
-        </tr>
+        <td>Intentions</td>
+        <td>
+          <div *ngFor="let intention of project.projectDetails.alleleIntentions">
+            <span class="badge badge-pill badge-primary">{{intention}}</span>
+          </div>
+        </td>
+      </tr>
       <tr>
         <td>Assignment Status:</td>
         <td>{{project.projectDetails.assigmentStatusName}}</td>
@@ -41,14 +41,26 @@
 </div>
 <hr>
 
-<div *ngIf="project.productionPlans.length > 0">
-    <h4>Production Plans:</h4>
-  <app-production-plans [productionPlans]="project.productionPlans"></app-production-plans>
+<div *ngIf="productionPlansDetails.length > 0">
+  <h4>Production Plans:</h4>
+  <table>
+    <tbody>
+      <tr *ngFor="let productionPlanDetail of productionPlansDetails">
+        <app-plan-summary [planDetails]="productionPlanDetail"></app-plan-summary>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 <hr>
 
-<div *ngIf="project.phenotypePlans.length > 0">
-    <h4>Phenotype Plans:</h4>
-    <app-phenotype-plans [phenotypePlans]="project.phenotypePlans"></app-phenotype-plans>
+<div *ngIf="phenotypingPlansDetails.length > 0">
+  <h4>Phenotype Plans:</h4>
+  <table>
+    <tbody>
+      <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
+        <app-plan-summary [planDetails]="phenotypingPlanDetail"></app-plan-summary>
+      </tr>
+    </tbody>
+  </table>
 </div>
