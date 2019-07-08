@@ -10,7 +10,7 @@ import { Plan, PlanAdapter } from '../../model/plan';
 })
 export class ProductionPlanComponent implements OnInit {
 
-  plan: Plan;
+  plan: Plan = new Plan();
 
   constructor(
     private route: ActivatedRoute,
@@ -24,6 +24,11 @@ export class ProductionPlanComponent implements OnInit {
       this.plan = this.adapter.adapt(data);
       console.log('ProductionPlanComponent =>', this.plan );
     });
+  }
+
+  planDetailsChanged(e) {
+    console.log('Parent component [PhenotypePlanDetailComponent] now has updated info plan detail ', e);
+    
   }
 
 }

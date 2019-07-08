@@ -6,13 +6,15 @@ import { ProductionPlanComponent } from './components/production-plan/production
 import { PhenotypingPlanComponent } from './components/phenotyping-plan/phenotyping-plan.component';
 import { PlanHistoryComponent } from './components/plan-history/plan-history.component';
 import { PlanSummaryComponent } from './components/plan-summary/plan-summary.component';
+import { PlanDetailsComponent } from './components/plan-details/plan-details.component';
 
 @NgModule({
   declarations: [
     ProductionPlanComponent,
     PhenotypingPlanComponent,
     PlanHistoryComponent,
-    PlanSummaryComponent],
+    PlanSummaryComponent,
+    PlanDetailsComponent],
   imports: [
     SharedModule,
     PlansRoutingModule

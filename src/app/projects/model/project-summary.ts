@@ -1,7 +1,8 @@
-import { PlanDetails } from './plan-details';
+
 import { ProjectDetails } from './project-details';
 import { Adapter } from 'src/app/core/model/adapter';
 import { Injectable } from '@angular/core';
+import { PlanDetails } from 'src/app/plans';
 
 export class ProjectSummary {
     projectDetails: ProjectDetails = new ProjectDetails();

@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute }    from '@angular/router';
-import { Project, ProjectAdapter } from 'src/app/core/model';
-import { first } from 'rxjs/operators';
+import { ProjectAdapter } from 'src/app/core/model';
 import { ProjectService } from '../../services/project.service';
 import { ProjectSummary } from '../../model/project-summary';
-import { PlanDetails } from '../../model/plan-details';
+import { PlanDetails } from 'src/app/plans';
 
 @Component({
   selector: 'app-project-detail',

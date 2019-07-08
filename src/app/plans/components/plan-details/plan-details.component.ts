@@ -1,9 +1,8 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
-import { PlanDetails } from '../../model/plan-details';
-import { PermissionsService } from 'src/app/core/services/permissions.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfigurationDataService } from 'src/app/core/services/configuration-data.service';
-import { ConfigurationData } from 'src/app/core/model/configuration-data';
+import { PlanDetails } from '../..';
+import { ConfigurationData, PermissionsService, ConfigurationDataService } from 'src/app/core';
+
 
 @Component({
   selector: 'app-plan-details',
@@ -32,13 +31,13 @@ export class PlanDetailsComponent implements OnInit {
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
-    console.log('Plan details:', this.planDetails);
+    this.configurationData = this.configurationDataService.getConfigurationInfo();
+    console.log('PlanDetailsComponent::planDetails:', this.planDetails);
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PLAN_ACTION, this.planDetails.pin).subscribe(canUpdatePlan => {
         this.canUpdatePlan = canUpdatePlan;
+        console.log('checked if can ', PermissionsService.UPDATE_PLAN_ACTION, 'on', this.planDetails.pin, ':', this.canUpdatePlan);
       });
-
-    this.configurationData = this.configurationDataService.getConfigurationInfo();
 
     this.dropdownSettingsSingle = {
       singleSelection: true,
@@ -66,7 +65,6 @@ export class PlanDetailsComponent implements OnInit {
 
     this.selectedPrivacy = [{ name: this.planDetails.privacyName }];
     this.editPlanDetails.get('privacy').setValue(this.selectedPrivacy);
-
   }
 
   updatePlanDetails() {
