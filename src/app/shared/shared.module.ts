@@ -14,10 +14,13 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
+import { HistoryComponent } from './components/history/history.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
-    ConfirmationComponent
+    ConfirmationComponent,
+    HistoryComponent
   ],
   imports: [
     CommonModule,
@@ -33,6 +36,7 @@ import { MatTableModule } from '@angular/material/table';
     Ng2SmartTableModule,
     MatSortModule,
     MatTableModule,
+    RouterModule
   ],
   exports: [
     CommonModule,
@@ -49,7 +53,9 @@ import { MatTableModule } from '@angular/material/table';
     ReactiveFormsModule,
     Ng2SmartTableModule,
     MatSortModule,
-    MatTableModule
+    MatTableModule,
+    HistoryComponent,
+    RouterModule
   ]
 })
 export class SharedModule { }

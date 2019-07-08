@@ -4,7 +4,6 @@ import { AppComponent } from './app.component';
 import { routing } from './app.routing';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
-import { HomeComponent } from './home';
 import { ConfirmationComponent } from './shared/components/confirmation/confirmation.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
@@ -17,6 +16,9 @@ import { ProjectsModule } from './projects/projects.module';
 import { GenesModule } from './genes/genes.module';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { PlansModule } from './plans/plans.module';
+import { HomeComponent } from './home/home.component';
+import { HistoryComponent } from './shared/components/history/history.component';
 
 @NgModule({
     imports: [
@@ -25,6 +27,7 @@ import { SharedModule } from './shared/shared.module';
         NgMultiSelectDropDownModule.forRoot(),
         LoginModule,
         ProjectsModule,
+        PlansModule,
         GenesModule,
         CoreModule,
         SharedModule,
@@ -43,7 +46,7 @@ import { SharedModule } from './shared/shared.module';
         fakeBackendProvider
     ],
     bootstrap: [AppComponent],
-    entryComponents: [ConfirmationComponent]
+    entryComponents: [ConfirmationComponent, HistoryComponent]
 })
 
 export class AppModule {

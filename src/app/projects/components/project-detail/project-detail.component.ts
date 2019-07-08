@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute }    from '@angular/router';
-import { Project, ProjectAdapter } from 'src/app/core/model';
-import { first } from 'rxjs/operators';
+import { ProjectAdapter } from 'src/app/core/model';
 import { ProjectService } from '../../services/project.service';
+import { ProjectSummary } from '../../model/project-summary';
+import { PlanDetails } from 'src/app/plans';
 
 @Component({
   selector: 'app-project-detail',
@@ -10,7 +11,11 @@ import { ProjectService } from '../../services/project.service';
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
-  project: Project = new Project()
+
+  project: ProjectSummary = new ProjectSummary();
+
+  productionPlansDetails: PlanDetails[] = [];
+  phenotypingPlansDetails: PlanDetails[] = [];
 
   constructor(
     private route: ActivatedRoute,
@@ -18,9 +23,17 @@ export class ProjectDetailComponent implements OnInit {
     private adapter: ProjectAdapter) { }
 
   ngOnInit() {
+    console.log('ProjectDetailComponent');
+    
     let id = this.route.snapshot.params['id'];
-    this.projectService.getProject(id).pipe(first()).subscribe(data => {
-      this.project = this.adapter.adapt(data);
+    this.projectService.getProjectSummaryById(id).subscribe(data => {
+      this.project = data;
+      console.log('ProjectDetailComponent {project} =>', this.project);
+      this.productionPlansDetails = this.project.planDetails.filter(x => 'production' === x.planTypeName);
+      this.phenotypingPlansDetails = this.project.planDetails.filter(x => 'phenotyping' === x.planTypeName);
+      console.log('this.productionPlans', this.productionPlansDetails);
+      console.log('this.phenotypingPlans', this.phenotypingPlansDetails);
+      
     });
   }
 }

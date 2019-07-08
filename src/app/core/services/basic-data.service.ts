@@ -24,6 +24,8 @@ export class BasicDataService {
 
     // Returns if an action over an object is allowed.
     getPermissionByActionOnResource(action: string, resourceId: string) {
+      console.log('getPermissionByActionOnResource::', action,resourceId);
+      
       return this.http.get<boolean>(`${environment.baseUrl}/api/permissionByActionOnResource?action=${action}&resourceId=${resourceId}`);
   }
 
