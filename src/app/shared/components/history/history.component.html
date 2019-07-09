@@ -1,24 +1,46 @@
-<p>History</p>
-<a [routerLink]="" (click)="backClicked()">Go back</a>
-<table matSort (matSortChange)="sortData($event)" class="table table-bordered table-sm">
+<div class="card">
+<div class="col-md-12 container">
+    
+<app-go-back></app-go-back>
+
+<table matSort (matSortChange)="sortData($event)" class="table table-bordered table-sm tablename">
   <tr>
-    <!-- Sort disabled
-      <th mat-sort-header="#">#</th>
-      <th mat-sort-header="user">User</th>
-      <th mat-sort-header="date">Date</th>
-      <th>Action</th>
-       -->
-    <th>#</th>
-    <th>User</th>
-    <th>Date</th>
-    <th>Action</th>
+    <th rowspan="2">Id</th>
+    <th rowspan="2">User</th>
+    <th rowspan="2">Date</th>
+    <th colspan="2">Action</th>
+  </tr>
+  <tr>
+    <th>Property</th>
+    <th>Change</th>
   </tr>
 
-  <tr *ngFor="let historyRecord of sortedData">
+  <ng-template ngFor let-historyRecord [ngForOf]="sortedData">
+    <ng-template ngFor let-change let-isFirst="first" [ngForOf]="historyRecord.changes">
+      <tr>
+        <td *ngIf="isFirst" [attr.rowspan]="historyRecord.changes.length">
+          {{historyRecord.id}}
+        </td>
+        <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.changes.length">
+          {{historyRecord.user}}
+        </td>
+        <td class="nowrap-text-style" *ngIf="isFirst" [attr.rowspan]="historyRecord.changes.length">
+          {{historyRecord.date | date : 'medium'}}
+        </td>
+        <td>{{ change.property }}</td>
+        <td>{{ change.oldValue }} => {{ change.newValue }} </td>
+
+      </tr>
+    </ng-template>
+  </ng-template>
+
+  <!-- <tr *ngFor="let historyRecord of sortedData">
     <td>{{historyRecord.id}}
     </td>
     <td>{{historyRecord.user}}</td>
-    <td>{{historyRecord.date | date : 'medium'}}</td>
+    <td class="nowrap-text-style">{{historyRecord.date | date : 'medium'}}</td>
     <td class="wrap-text-style">{{historyRecord.action}} </td>
-  </tr>
+  </tr> -->
 </table>
+</div>
+</div>

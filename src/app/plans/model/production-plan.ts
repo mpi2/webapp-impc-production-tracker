@@ -1,4 +1,4 @@
 export class ProductionPlan {
     attemptType: string;
-    crisprAttempt: any = {};
+    crisprAttempt: any = null;
 }

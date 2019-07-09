@@ -1,46 +1,42 @@
-<div class="card">
-  <div class="card-body">
-    <div class="card-title"><u>Plan Details</u></div>
-    <table>
-      <tr>
-        <td>
-          Plan id:
-        </td>
-        <td>
-          {{planDetails.pin}}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Privacy:
-        </td>
-        <td>
-          {{planDetails.privacyName}}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Status:
-        </td>
-        <td>
-          {{planDetails.statusName}}
-        </td>
-      </tr>
-      <tr>
-        <td>
-          WorkUnit:
-        </td>
-        <td>
-          {{planDetails.workUnitName}}
-        </td>
-      </tr>
-    </table>
-    <p>
-      <a *ngIf="'production' === planDetails.planTypeName" [routerLink]="['production-plan', planDetails.pin]">See
-        plan</a>
+<div class="card-title"><u>Plan Details</u></div>
+<table>
+  <tr>
+    <td>
+      Plan id:
+    </td>
+    <td>
+      {{planDetails.pin}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Privacy:
+    </td>
+    <td>
+      {{planDetails.privacyName}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      Status:
+    </td>
+    <td>
+      {{planDetails.statusName}}
+    </td>
+  </tr>
+  <tr>
+    <td>
+      WorkUnit:
+    </td>
+    <td>
+      {{planDetails.workUnitName}}
+    </td>
+  </tr>
+</table>
+<p>
+  <a *ngIf="'production' === planDetails.planTypeName" [routerLink]="['production-plan', planDetails.pin]">See
+    plan</a>
 
-      <a *ngIf="'phenotyping' === planDetails.planTypeName" [routerLink]="['phenotyping-plan', planDetails.pin]">See
-        plan</a>
-    </p>
-  </div>
-</div>
+  <a *ngIf="'phenotyping' === planDetails.planTypeName" [routerLink]="['phenotyping-plan', planDetails.pin]">See
+    plan</a>
+</p>

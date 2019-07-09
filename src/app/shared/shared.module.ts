@@ -12,15 +12,19 @@ import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { ConfirmationComponent } from './components/confirmation/confirmation.component';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
+
 import { MatSortModule } from '@angular/material/sort';
+import { MatDatepickerModule} from '@angular/material/datepicker';
 import { MatTableModule } from '@angular/material/table';
 import { HistoryComponent } from './components/history/history.component';
+import { GoBackComponent } from './components/go-back/go-back.component';
 import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     ConfirmationComponent,
-    HistoryComponent
+    HistoryComponent,
+    GoBackComponent
   ],
   imports: [
     CommonModule,
@@ -54,7 +58,9 @@ import { RouterModule } from '@angular/router';
     Ng2SmartTableModule,
     MatSortModule,
     MatTableModule,
+    MatDatepickerModule,
     HistoryComponent,
+    GoBackComponent,
     RouterModule
   ]
 })

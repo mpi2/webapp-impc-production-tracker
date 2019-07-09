@@ -6,4 +6,5 @@ export class PlanDetails {
     workGroupName: string;
     statusName: string;
     productionPlanReference: string;
+    comments: string;
 }

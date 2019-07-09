@@ -8,7 +8,7 @@ export class ChangesHistory {
     id: number;
     user: string;
     date: Date = new Date();
-    action: string;
+    changes: any[] = []
 }
 
 @Injectable({
@@ -21,18 +21,15 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         history.id = item.id;
         history.user = item.user;
         history.date = new Date(item.date);
-        history.action = item.action;
-
-        let changes: string[] = item.action.split('\n');
-        changes = changes.map(x => {
+        
+        history.changes = item.action.split('\n').map(x => {
             const values = x.split('|');
             const property = values[0].replace('field:','').trim();
             const oldValue = values[1].replace('old:','');
             const newValue = values[2].replace('new:','');
 
-            return property + ":" + '[' + oldValue + '] => [' + newValue + ']'
+            return { property: property, oldValue: oldValue, newValue: newValue }
         });
-        history.action = changes.join('\n');
 
         return history;
     }

@@ -38,9 +38,39 @@
       </tr>
     </table>
   </div>
-</div>
-<hr>
 
+  <div class="card-body">
+      <div *ngIf="productionPlansDetails.length > 0">
+          <h4>Production Plans:</h4>
+          <table>
+            <tbody>
+              <tr *ngFor="let productionPlanDetail of productionPlansDetails">
+                <app-plan-summary [planDetails]="productionPlanDetail"></app-plan-summary>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+  </div>
+
+  <div class="card-body">
+      <div *ngIf="phenotypingPlansDetails.length > 0">
+          <h4>Phenotype Plans:</h4>
+          <table>
+            <tbody>
+              <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
+                <app-plan-summary [planDetails]="phenotypingPlanDetail"></app-plan-summary>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+  </div>
+
+
+
+</div>
+
+<!-- <div class="card">
 <div *ngIf="productionPlansDetails.length > 0">
   <h4>Production Plans:</h4>
   <table>
@@ -52,8 +82,6 @@
   </table>
 </div>
 
-<hr>
-
 <div *ngIf="phenotypingPlansDetails.length > 0">
   <h4>Phenotype Plans:</h4>
   <table>
@@ -64,3 +92,4 @@
     </tbody>
   </table>
 </div>
+</div> -->

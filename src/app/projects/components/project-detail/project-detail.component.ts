@@ -23,17 +23,11 @@ export class ProjectDetailComponent implements OnInit {
     private adapter: ProjectAdapter) { }
 
   ngOnInit() {
-    console.log('ProjectDetailComponent');
-    
     let id = this.route.snapshot.params['id'];
     this.projectService.getProjectSummaryById(id).subscribe(data => {
       this.project = data;
-      console.log('ProjectDetailComponent {project} =>', this.project);
       this.productionPlansDetails = this.project.planDetails.filter(x => 'production' === x.planTypeName);
       this.phenotypingPlansDetails = this.project.planDetails.filter(x => 'phenotyping' === x.planTypeName);
-      console.log('this.productionPlans', this.productionPlansDetails);
-      console.log('this.phenotypingPlans', this.phenotypingPlansDetails);
-      
     });
   }
 }

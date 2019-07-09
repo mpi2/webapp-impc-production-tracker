@@ -15,7 +15,7 @@ export class LoggedUserService {
     }
 
     getAccessToken() {
-        const logginInfo = JSON.parse(sessionStorage.getItem(this.TOKEN_INFO_KEY));
+        const logginInfo = JSON.parse(localStorage.getItem(this.TOKEN_INFO_KEY));
         let token = null;
         if (logginInfo) {
             token = logginInfo.access_token;
@@ -24,16 +24,16 @@ export class LoggedUserService {
     }
 
     storeLoggedUser(userInfo: any) {
-        sessionStorage.setItem(this.TOKEN_INFO_KEY, JSON.stringify(userInfo));
+        localStorage.setItem(this.TOKEN_INFO_KEY, JSON.stringify(userInfo));
         this.messageService.setUserLoggedIn(true);
     }
 
     removeLoggedUser() {
-        sessionStorage.removeItem(this.TOKEN_INFO_KEY);
+        localStorage.removeItem(this.TOKEN_INFO_KEY);
     }
 
     readLoggedUser() {
-        const tokenInfo = JSON.parse(sessionStorage.getItem(this.TOKEN_INFO_KEY));
+        const tokenInfo = JSON.parse(localStorage.getItem(this.TOKEN_INFO_KEY));
         if (tokenInfo) {
             this.loggedUser = new LoggedUser();
             this.loggedUser.role = tokenInfo.role;

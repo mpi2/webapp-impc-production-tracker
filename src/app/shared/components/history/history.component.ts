@@ -23,20 +23,16 @@ export class HistoryComponent implements OnInit {
     private location: Location) { }
 
   ngOnInit() {
-    console.log('this.route.snapshot.params', this.route.snapshot.params);
-
     let pid = this.route.snapshot.params['pid'];
     if (pid) {
       this.planService.getHistoryByPid(pid).subscribe(data => {
         this.historyRecords = data;
         this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
         this.sortedData = this.historyRecords.slice();
+        console.log('history', this.sortedData );
+        
       });
     }
-  }
-
-  backClicked() {
-    this.location.back();
   }
 
   compare(a: number | string, b: number | string, isAsc: boolean) {
