@@ -31,12 +31,12 @@ export class PlanDetailsComponent implements OnInit {
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
+    console.log('PlanDetailsComponent::planDetails', this.planDetails);
+
     this.configurationData = this.configurationDataService.getConfigurationInfo();
-    console.log('PlanDetailsComponent::planDetails:', this.planDetails);
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PLAN_ACTION, this.planDetails.pin).subscribe(canUpdatePlan => {
         this.canUpdatePlan = canUpdatePlan;
-        console.log('checked if can ', PermissionsService.UPDATE_PLAN_ACTION, 'on', this.planDetails.pin, ':', this.canUpdatePlan);
       });
 
     this.dropdownSettingsSingle = {
@@ -58,24 +58,28 @@ export class PlanDetailsComponent implements OnInit {
 
     this.editPlanDetails = this.formBuilder.group({
       privacy: ['', Validators.required],
+      comments: ['', Validators.required],
     });
 
     this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
-    console.log('this.privacies', this.privacies);
+    this.editPlanDetails.get('comments').setValue(this.planDetails.comments);
 
     this.selectedPrivacy = [{ name: this.planDetails.privacyName }];
     this.editPlanDetails.get('privacy').setValue(this.selectedPrivacy);
   }
 
   updatePlanDetails() {
-    console.log('Emmits change', this.planDetails);
     this.modifiedPlanDetailsEmmiter.emit(this.planDetails);
   }
 
   onItemSelect(e) {
-    console.log('This is the event', e);
-    console.log('this.selectedPrivacy ', this.selectedPrivacy);
     this.planDetails.privacyName = e;
+    this.updatePlanDetails();
+  }
+
+  onTextCommentChanged(e) {
+    const newComments = this.editPlanDetails.get('comments').value;
+    this.planDetails.comments = newComments;
     this.updatePlanDetails();
   }
 

@@ -19,28 +19,30 @@ export class PlanAdapter implements Adapter<Plan> {
 
     adapt(item: any): Plan {
         console.log('{item}', item);
-        
+
         const plan = new Plan();
 
         const historyAdapter = new ChangesHistoryAdapter();
 
         const projectDetails = item.projectDetails;
         const planDetails = item.planInformation.planDetails;
-        const changesHistory = item.planInformation.history.map(x => x = historyAdapter.adapt(x));
+        //const changesHistory = item.planInformation.history.map(x => x = historyAdapter.adapt(x));
         let productionPlan = new ProductionPlan();
-        
+
         if (planDetails.planTypeName === 'production') {
             const element = item.planInformation.productionPlan;
-            productionPlan.attemptType = element.attempt.attemptType;
-            productionPlan.crisprAttempt = element.attempt.crisprAttempt;
-            
+            if (element) {
+                productionPlan.attemptType = element.attempt.attemptType;
+                productionPlan.crisprAttempt = element.attempt.crisprAttempt;
+            }
+
         } else if (item.projectDetails.planTypeName === 'phenotyping') {
             ///
         }
 
         plan.planDetails = planDetails;
         plan.projectDetails = projectDetails;
-        plan.changesHistory = changesHistory;
+        //plan.changesHistory = changesHistory;
         plan.productionPlan = productionPlan;
 
         return plan;

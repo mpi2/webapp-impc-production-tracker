@@ -7,6 +7,7 @@ import { PhenotypingPlanComponent } from './components/phenotyping-plan/phenotyp
 import { PlanHistoryComponent } from './components/plan-history/plan-history.component';
 import { PlanSummaryComponent } from './components/plan-summary/plan-summary.component';
 import { PlanDetailsComponent } from './components/plan-details/plan-details.component';
+import { CrisprAttemptComponent } from './components/crispr-attempt/crispr-attempt.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { PlanDetailsComponent } from './components/plan-details/plan-details.com
     PhenotypingPlanComponent,
     PlanHistoryComponent,
     PlanSummaryComponent,
-    PlanDetailsComponent],
+    PlanDetailsComponent,
+    CrisprAttemptComponent],
   imports: [
     SharedModule,
     PlansRoutingModule

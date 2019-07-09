@@ -16,13 +16,13 @@ export class ConfigurationDataService {
     writeConfiguration() {
         this.basicDataService.getConfiguration().subscribe(data => {
             if (data) {
-                sessionStorage.setItem(this.CONFIGURATIONKEY, JSON.stringify(data));
+                localStorage.setItem(this.CONFIGURATIONKEY, JSON.stringify(data));
             }
         });
     }
 
     getConfigurationInfo(): ConfigurationData {
-        const configurationData: ConfigurationData = JSON.parse(sessionStorage.getItem(this.CONFIGURATIONKEY));
+        const configurationData: ConfigurationData = JSON.parse(localStorage.getItem(this.CONFIGURATIONKEY));
         return configurationData;
     }
 }

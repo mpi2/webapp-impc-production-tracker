@@ -1,3 +1,9 @@
 .wrap-text-style{
     white-space: pre-wrap
 }
+
+.nowrap-text-style{
+    white-space: nowrap
+}
+
+table.tablename td {font-size: 15px;}

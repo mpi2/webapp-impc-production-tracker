@@ -1,0 +1,167 @@
+<form [formGroup]="editCrisprAttempt">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Attempt Details</u></div>
+      <table>
+        <tr>
+          <td>
+            Attempt Type:
+          </td>
+          <td>
+            {{attemptType}}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Crispr Attempt Details</u></div>
+      <table>
+        <tr>
+          <td>
+            MI date:
+          </td>
+          <div *ngIf="canUpdatePlan; then miDateEditable else miDateReadOnly"></div>
+
+          <ng-template #miDateEditable>
+            <td>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" formControlName="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onDateSelected()">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle();" type="button"></button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-template>
+
+          <ng-template #miDateReadOnly>
+            <td>
+              {{crisprAttempt.miDate | date}}
+            </td>
+          </ng-template>
+        </tr>
+
+        <tr>
+          <td>
+            MI external Ref:
+          </td>
+          <td>
+            {{crisprAttempt.miExternalRef}}
+          </td>
+        </tr>
+
+        <tr>
+          <td>
+            Experimental?:
+          </td>
+          <td>
+            {{crisprAttempt.experimental}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Comments:
+          </td>
+          <td>
+            {{crisprAttempt.comment}}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Mutagenesis Details</u></div>
+      <table>
+        <tr>
+          <td>
+            Mutagenesis External Ref:
+          </td>
+          <td>
+            {{ crisprAttempt.mutagenesisExternalRef }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Delivery Method:
+          </td>
+          <td>
+            {{ crisprAttempt.deliveryMethod }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Voltage:
+          </td>
+          <td>
+            {{ crisprAttempt.voltage }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Number of pulses:
+          </td>
+          <td>
+            {{ crisprAttempt.numberOfPulses }}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Genotype Primers</u></div>
+      <table mdbTable bordered="true">
+        <thead>
+          <tr>
+            <th scope="col">Name </th>
+            <th scope="col">Sequence </th>
+            <th scope="col">Coordinate Start </th>
+            <th scope="col">Coordinate End</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr mdbTableCol *ngFor="let el of crisprAttempt.primers">
+            <td>{{el.name}}</td>
+            <td>{{el.sequence}}</td>
+            <td>{{el.startCoordinate}}</td>
+            <td>{{el.endCoordinate}}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Vector/Ologos (Mutagenesis Donors)</u></div>
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Concentration </th>
+            <th scope="col">Sequence </th>
+            <th scope="col">Preparation </th>
+            <th scope="col"> </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let el of crisprAttempt.mutagenesisDonors">
+            <td>{{el.concentration}}</td>
+            <td>{{el.oligoSequence}}</td>
+            <td>{{el.preparation}}</td>
+            <td>
+              <button class="btn btn-sm btn-outline-primary"
+                (click)="openModalToDeleteMutagenesisDonor(el)">Remove</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</form>

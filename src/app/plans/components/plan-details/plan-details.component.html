@@ -18,15 +18,6 @@
         </td>
       </tr>
     </ng-template>
-    <!-- <tr>
-      <td>
-        Privacy:
-      </td>
-      <td>
-        {{planDetails.privacyName}}
-      </td>
-    </tr> -->
-
 
     <tr>
       <td>
@@ -38,8 +29,8 @@
           <div class="form-group">
             <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
               [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'"
-              [data]="privacies" [settings]="dropdownSettingsSingle"
-              (onSelect)="onItemSelect($event)"></ng-multiselect-dropdown>
+              [data]="privacies" [settings]="dropdownSettingsSingle" (onSelect)="onItemSelect($event)">
+            </ng-multiselect-dropdown>
           </div>
         </td>
       </ng-template>
@@ -50,49 +41,6 @@
         </td>
       </ng-template>
     </tr>
-    <!-- <tr>
-      <td>
-        Privacy Editable
-      </td>
-      <td>
-        <div class="form-group">
-          <label for="priority">Privacy </label>
-          <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
-            [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'" [data]="privacies"
-            [settings]="dropdownSettingsSingle"></ng-multiselect-dropdown>
-        </div>
-      </td>
-    </tr> -->
-
-    <!-- <div *ngIf="canUpdatePlan; then privacyEditable else privacyReadOnly"></div>
-    <ng-template #privacyEditable>
-      <tr>
-        <td>
-          Privacy Editable
-        </td>
-        <td>
-          <div class="form-group">
-            <label for="priority">Privacy </label>
-            <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
-              [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'"
-              [data]="privacies" [settings]="dropdownSettingsSingle"></ng-multiselect-dropdown>
-          </div>
-        </td>
-      </tr>
-    </ng-template>
-
-    <ng-template #privacyReadOnly>
-      <tr>
-        <td>
-          Privacy:
-        </td>
-        <td>
-          {{planDetails.privacyName}}
-        </td>
-      </tr>
-    </ng-template> -->
-
-
     <tr>
       <td>
         Status:
@@ -108,6 +56,26 @@
       <td>
         {{planDetails.workUnitName}}
       </td>
+    </tr>
+    <tr>
+      <td>
+        Comments:
+      </td>
+      <div *ngIf="canUpdatePlan; then commentsEditable else commentsReadOnly"></div>
+      <ng-template #commentsEditable>
+        <td>
+          <div class="form-group">
+            <textarea type="text" formControlName="comments" class="form-control"
+              (change)="onTextCommentChanged($event)"></textarea>
+          </div>
+        </td>
+      </ng-template>
+
+      <ng-template #commentsReadOnly>
+        <td>
+          {{planDetails.comments}}
+        </td>
+      </ng-template>
     </tr>
   </table>
 </form>
