@@ -1,0 +1,93 @@
+<form [formGroup]="editCrisprAttemptDetails">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title"><u>Crispr Attempt Details</u></div>
+      <table>
+        <tr>
+          <td>
+            MI date:
+          </td>
+          <div *ngIf="canUpdatePlan; then miDateEditable else miDateReadOnly"></div>
+
+          <ng-template #miDateEditable>
+            <td>
+              <div class="form-group">
+                <div class="input-group">
+                  <input class="form-control" formControlName="dp" ngbDatepicker #d="ngbDatepicker"
+                    (dateSelect)="onDateChanged()"  (change)="onDateChanged()">
+                  <div class="input-group-append">
+                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle();" type="button"></button>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </ng-template>
+
+          <ng-template #miDateReadOnly>
+            <td>
+              {{crisprAttempt.miDate | date}}
+            </td>
+          </ng-template>
+        </tr>
+
+        <tr>
+          <td>
+            MI external Ref:
+          </td>
+          <div *ngIf="canUpdatePlan; then miExternalRefEditable else miExternalRefReadOnly"></div>
+          <ng-template #miExternalRefEditable>
+            <td>
+              <div class="form-group">
+                <textarea type="text" formControlName="miExternalRef" class="form-control"
+                  (change)="onTextmiExternalRefChanged($event)"></textarea>
+              </div>
+            </td>
+          </ng-template>
+    
+          <ng-template #miExternalRefReadOnly>
+            <td>
+              {{crisprAttempt.miExternalRef}}
+            </td>
+          </ng-template>
+        </tr>
+
+        <tr>
+          <td>
+            Experimental?:
+          </td>
+          <td>
+            {{crisprAttempt.experimental}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Comments:
+          </td>
+          <div *ngIf="canUpdatePlan; then commentsEditable else commentsReadOnly"></div>
+          <ng-template #commentsEditable>
+            <td>
+              <div class="form-group">
+                <textarea type="text" formControlName="comments" class="form-control"
+                  (change)="onTextCommentChanged($event)"></textarea>
+              </div>
+            </td>
+          </ng-template>
+    
+          <ng-template #commentsReadOnly>
+            <td>
+              {{crisprAttempt.comments}}
+            </td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>
+            Comments:
+          </td>
+          <td>
+            {{crisprAttempt.comment}}
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</form>

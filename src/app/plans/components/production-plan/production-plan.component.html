@@ -19,6 +19,6 @@
 
 <div class="card">
   <div class="card-body">
-    <button [disabled]="!(planDetailsChanged || attemptChanged)" *ngIf="canUpdatePlan" class="btn btn-primary" (click)="updatePlan()">Update</button>
+    <button [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan" class="btn btn-primary" (click)="updatePlan()">Update</button>
   </div>
 </div>
