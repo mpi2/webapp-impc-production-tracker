@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { CrisprAttempt } from 'src/app/attempts/model/crispr/crispr-attempt';
 
 @Component({
   selector: 'app-crispr-attempt',
@@ -12,7 +13,7 @@ export class CrisprAttemptComponent implements OnInit {
   editCrisprAttempt: FormGroup;
 
   @Input() attemptType: string;
-  @Input() crisprAttempt: any = {};
+  @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
 
   @Output() modifiedAttemptEmmiter = new EventEmitter<any>();
@@ -39,6 +40,11 @@ export class CrisprAttemptComponent implements OnInit {
 
   notifyCrisprAttemptChanged() {
     this.modifiedAttemptEmmiter.emit(this.crisprAttempt);
+  }
+
+  onAttemptChangedByChildren(e) {
+    console.log('CrisprAttemptComponent changed...');
+    this.notifyCrisprAttemptChanged();
   }
 
 }

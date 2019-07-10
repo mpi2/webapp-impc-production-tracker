@@ -1,14 +1,10 @@
 import { Routes, RouterModule } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 
-import { GeneSearchComponent } from './genes/gene-search/gene-search.component';
-import { CrisprAttemptComponent } from './crispr-attempt/crispr-attempt.component';
 import { AuthGuard } from './core/guards/auth.guard';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
-    { path: 'crispr_attempt', component: CrisprAttemptComponent },
-
     {
       path: 'admin',
       loadChildren: './admin/admin.module#AdminModule', canActivate:[AuthGuard], canLoad: [AuthGuard]

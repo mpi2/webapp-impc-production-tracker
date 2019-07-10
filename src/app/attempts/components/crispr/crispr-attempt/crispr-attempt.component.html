@@ -15,64 +15,11 @@
     </div>
   </div>
 
-  <div class="card">
-    <div class="card-body">
-      <div class="card-title"><u>Crispr Attempt Details</u></div>
-      <table>
-        <tr>
-          <td>
-            MI date:
-          </td>
-          <div *ngIf="canUpdatePlan; then miDateEditable else miDateReadOnly"></div>
-
-          <ng-template #miDateEditable>
-            <td>
-              <div class="form-group">
-                <div class="input-group">
-                  <input class="form-control" formControlName="dp" ngbDatepicker #d="ngbDatepicker" (dateSelect)="onDateSelected()">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary calendar" (click)="d.toggle();" type="button"></button>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </ng-template>
-
-          <ng-template #miDateReadOnly>
-            <td>
-              {{crisprAttempt.miDate | date}}
-            </td>
-          </ng-template>
-        </tr>
-
-        <tr>
-          <td>
-            MI external Ref:
-          </td>
-          <td>
-            {{crisprAttempt.miExternalRef}}
-          </td>
-        </tr>
-
-        <tr>
-          <td>
-            Experimental?:
-          </td>
-          <td>
-            {{crisprAttempt.experimental}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Comments:
-          </td>
-          <td>
-            {{crisprAttempt.comment}}
-          </td>
-        </tr>
-      </table>
-    </div>
-  </div>
+  <app-crispr-attempt-details
+    [crisprAttempt]="crisprAttempt"
+    [canUpdatePlan]="canUpdatePlan"
+    (modifiedAttemptEmmiter)="onAttemptChangedByChildren($event)">
+  </app-crispr-attempt-details>
 
   <div class="card">
     <div class="card-body">

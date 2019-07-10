@@ -7,7 +7,6 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { ConfirmationComponent } from './shared/components/confirmation/confirmation.component';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { CrisprAttemptComponent } from './crispr-attempt/crispr-attempt.component';
 
 import { fakeBackendProvider } from './_helpers/fake-backend';
 import { BearerTokenAuthInterceptor, ErrorInterceptor } from './_helpers';
@@ -19,6 +18,7 @@ import { SharedModule } from './shared/shared.module';
 import { PlansModule } from './plans/plans.module';
 import { HomeComponent } from './home/home.component';
 import { HistoryComponent } from './shared/components/history/history.component';
+import { AttemptsModule } from './attempts/attempts.module';
 
 @NgModule({
     imports: [
@@ -28,6 +28,7 @@ import { HistoryComponent } from './shared/components/history/history.component'
         LoginModule,
         ProjectsModule,
         PlansModule,
+        AttemptsModule,
         GenesModule,
         CoreModule,
         SharedModule,
@@ -36,8 +37,7 @@ import { HistoryComponent } from './shared/components/history/history.component'
         AppComponent,
         HomeComponent,
         HeaderComponent,
-        FooterComponent,
-        CrisprAttemptComponent
+        FooterComponent
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuthInterceptor, multi: true },
