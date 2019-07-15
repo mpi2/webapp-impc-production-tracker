@@ -19,12 +19,15 @@ import { PlansModule } from './plans/plans.module';
 import { HomeComponent } from './home/home.component';
 import { HistoryComponent } from './shared/components/history/history.component';
 import { AttemptsModule } from './attempts/attempts.module';
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
     imports: [
         HttpClientModule,
         routing,
         NgMultiSelectDropDownModule.forRoot(),
+        CommonModule,
         LoginModule,
         ProjectsModule,
         PlansModule,

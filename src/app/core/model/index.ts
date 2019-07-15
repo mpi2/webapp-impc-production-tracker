@@ -9,3 +9,5 @@ export * from './workGroup';
 export * from './alleleType';
 export * from './priority';
 export * from './gene';
+export * from './funder';
+export * from './trackedStrain';

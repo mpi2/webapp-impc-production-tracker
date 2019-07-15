@@ -3,3 +3,24 @@
     width: 100%;
 }
 
+:host /deep/ .multiselect-dropdown .dropdown-btn {
+    background-color: white !important;
+}
+
+:host /deep/ .is-invalid .multiselect-dropdown .dropdown-btn {
+    border-color: #dc3545 !important;
+}
+
+:host /deep/ .invalid-feedback .multiselect-dropdown .dropdown-btn {
+    border-color: #dc3545 !important;
+}
+
+/* .ng2-smart-filter select {
+    height: calc(2rem + 4px) !important;
+    padding: 0 10px !important;
+}
+  
+table-cell-default-editor select-editor select {
+    height: calc(2rem + 8px) !important;
+    padding: 0 10px !important;
+} */
