@@ -6,7 +6,6 @@ import { ProjectListComponent } from './components/project-list/project-list.com
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { SharedModule } from '../shared/shared.module';
 import { PlansModule } from '../plans/plans.module';
-
 @NgModule({
   declarations: [
     CreateProjectComponent,

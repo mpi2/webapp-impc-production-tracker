@@ -1,7 +1,7 @@
 export class NewProject {
   workUnit: string;
   workGroup: string;
-  priority: string;
-  locations: [];
-  intentions: [];
+  funder: string;
+  genes: any;
+  locations: any;
 }

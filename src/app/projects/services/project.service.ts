@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Project } from '../../core/model';
 import { environment } from 'src/environments/environment';
 import { ProjectSummary } from '../model/project-summary';
+import { NewProject } from '../model/newProject';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class ProjectService {
 
   getProject(tpn: string) {
     return this.http.get<Project>(`${environment.baseUrl}/api/projects/${tpn}`);
+  }
+
+  postProject(newProject: NewProject) {
+    return this.http.post<Project>(`${environment.baseUrl}/api/createProject/`, newProject);
   }
 
   deleteMutagenesisDonor(url: string) {
@@ -119,4 +124,5 @@ export class ProjectService {
 
     return queryParameters;
   }
+
 }
