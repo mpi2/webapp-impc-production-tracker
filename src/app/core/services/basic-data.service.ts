@@ -21,7 +21,6 @@ export class BasicDataService {
       return this.http.get<Permission>(`${environment.baseUrl}/api/permissions`);
   }
 
-<<<<<<< Updated upstream
   
 
   // Entityes related end points:
@@ -75,60 +74,6 @@ export class BasicDataService {
     return this.http.get<WorkGroup[]>(`${environment.baseUrl}/tracking-api/funders`);
   }
 
-=======
-  // Returns if an action over an object is allowed.
-  getPermissionByActionOnResource(action: string, resourceId: string) {
-    console.log('getPermissionByActionOnResource::', action,resourceId);
-    return this.http.get<boolean>(`${environment.baseUrl}/api/permissionByActionOnResource?action=${action}&resourceId=${resourceId}`);
-  }
-
-  // Entityes related end points:
-
-  getAllAlleleTypes() {
-      return this.http.get<AlleleType[]>(`${environment.baseUrl}/tracking-api/alleleTypes`);
-  }
-
-  getAllConsortia() {
-      return this.http.get<Consortium[]>(`${environment.baseUrl}/tracking-api/consortia`);
-  }
-
-  getAllGenes() {
-      return this.http.get<GenesSummary[]>(`${environment.baseUrl}/api/genes`);
-  }
-
-  findGeneBySymbol(symbol: string) {
-      // if (!symbol || !specie) {
-      //     return of([]);
-      // }
-      return this.http.get<Gene[]>(`${environment.baseUrl}/api/genes?symbol=${symbol}`);
-  }
-
-  getAllInstitutes() {
-    return this.http.get<Institute[]>(`${environment.baseUrl}/tracking-api/institutes`);
-  }
-
-  getAllProyectSummaries() {
-    console.log('Getting all Plan Summaries the user can see');
-    return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries`);
-  }
-  getAllProyectsSummariesWithPage(page: number) {
-    console.log('Getting all Plan Summaries the user can see with page');
-    return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries?page=${page}`);
-  }
-
-  getAllWorkGroups() {
-    return this.http.get<WorkGroup[]>(`${environment.baseUrl}/tracking-api/workGroups`);
-  }
-
-  getWorkGroupByWorkUnit(name: string) {
-    return this.http.get<WorkGroup[]>(`${environment.baseUrl}/api/workGroups?workUnitName=${name}`);
-  }
-
-  getAllFunders() {
-    return this.http.get<WorkGroup[]>(`${environment.baseUrl}/tracking-api/funders`);
-  }
-
->>>>>>> Stashed changes
   getAllFundersByWorkGroup(name: string) {
     return this.http.get<WorkGroup[]>(`${environment.baseUrl}/api/funders?workGroupName=${name}`);
   }
