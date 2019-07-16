@@ -47,7 +47,7 @@ export class CreateProjectComponent implements OnInit {
   configurationData: ConfigurationData;
   isDisabled = true;
 
-  @ViewChild('autocomplete') autocomplete;
+  @ViewChild('autocomplete', {static: false}) autocomplete;
 
   projectGenes: LocalDataSource;
   geneSettings = {
