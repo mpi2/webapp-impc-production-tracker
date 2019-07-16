@@ -1,0 +1,16 @@
+.ng-autocomplete {
+    display: inline-block;
+    width: 100%;
+}
+
+:host ::ng-deep .multiselect-dropdown .dropdown-btn {
+    background-color: white !important;
+}
+
+:host ::ng-deep.is-invalid .multiselect-dropdown .dropdown-btn {
+    border-color: #dc3545 !important;
+}
+
+:host ::ng-deep .invalid-feedback .multiselect-dropdown .dropdown-btn {
+    border-color: #dc3545 !important;
+}

@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { map, catchError } from 'rxjs/operators';
-
+import { User } from '../model/user/user';
+import { map } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
-import { User } from '../model';
-
+import { HttpClient } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+
   constructor(private http: HttpClient) { }
 
   createUser(user: User) {
