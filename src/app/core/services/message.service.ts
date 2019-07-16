@@ -1,19 +1,27 @@
 import { Injectable } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root'
+})
+/**
+ * Service to send some messages between other services/components in the application.
+ */
 export class MessageService {
-    private subject = new Subject<any>();
 
-    setUserLoggedIn(loggedIn: boolean) {
-        this.subject.next( { isUserLoggedIn: loggedIn} );
-    }
+  private subject = new Subject<any>();
 
-    getUserLoggedIn(): Observable<any> {
-        return this.subject.asObservable();
-    }
+  constructor() { }
 
-    getMessage(): Observable<any> {
-        return this.subject.asObservable();
-    }
+  setUserLoggedIn(loggedIn: boolean) {
+    this.subject.next({ isUserLoggedIn: loggedIn });
+  }
+
+  getUserLoggedIn(): Observable<any> {
+    return this.subject.asObservable();
+  }
+
+  getMessage(): Observable<any> {
+    return this.subject.asObservable();
+  }
 }

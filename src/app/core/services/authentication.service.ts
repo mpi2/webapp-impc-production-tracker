@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment.prod';
+import { environment } from 'src/environments/environment';
 import { LoggedUserService } from './logged-user.service';
 import { ConfigurationDataService } from './configuration-data.service';
 
@@ -9,25 +9,25 @@ import { ConfigurationDataService } from './configuration-data.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
+
   constructor(
     private http: HttpClient,
-    private loggedUserService: LoggedUserService, private configurationDataService: ConfigurationDataService) { }
+    private loggedUserService: LoggedUserService,
+    private configurationDataService: ConfigurationDataService) { }
 
-  login(username: string, password: string) {
-    return this.http.post<any>(`${environment.baseUrl}/auth/signin`, { username, password })
-      .pipe(map(user => {
-        // login successful if there's a user in the response
-        if (user) {
-          this.loggedUserService.storeLoggedUser(user);
-          //this.loadInitialConfiguration();
-          this.configurationDataService.writeConfiguration();
-        }
+    login(username: string, password: string) {
+      return this.http.post<any>(`${environment.baseUrl}/auth/signin`, { username, password })
+        .pipe(map(user => {
+          // login successful if there's a user in the response
+          if (user) {
+            this.loggedUserService.storeLoggedUser(user);
+            this.configurationDataService.writeConfiguration();
+          }
+          return user;
+        }));
+    }
 
-        return user;
-      }));
-  }
-
-  logout() {
-    this.loggedUserService.removeLoggedUser();
-  }
+    logout() {
+      this.loggedUserService.removeLoggedUser();
+    }
 }
