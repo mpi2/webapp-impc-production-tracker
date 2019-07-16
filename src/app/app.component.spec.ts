@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'web-production-tracker'`, () => {
+  it(`should have as title 'angular-web-production-tracker'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('web-production-tracker');
+    expect(app.title).toEqual('angular-web-production-tracker');
   });
 
   it('should render title in a h1 tag', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Welcome to web-production-tracker!');
+    expect(compiled.querySelector('h1').textContent).toContain('Welcome to angular-web-production-tracker!');
   });
 });

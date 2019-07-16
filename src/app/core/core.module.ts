@@ -1,25 +1,20 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-import { FooterComponent } from './components/footer/footer.component';
 import { LoggedUserService } from './services/logged-user.service';
 import { ConfigurationDataService } from './services/configuration-data.service';
+import { BasicDataService } from './services/basic-data.service';
 import { PermissionsService } from './services/permissions.service';
-import { SharedModule } from '../shared/shared.module';
-import { HomeComponent } from './components/home/home.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, HomeComponent, NotFoundComponent],
-  imports: [
-    SharedModule
-  ],
+  declarations: [],
   providers: [
     LoggedUserService,
+    BasicDataService,
     ConfigurationDataService,
     PermissionsService
   ],
-  exports: [HeaderComponent, FooterComponent]
+  imports: [
+    CommonModule
+  ]
 })
 export class CoreModule { }
