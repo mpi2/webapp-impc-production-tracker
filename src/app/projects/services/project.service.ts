@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Project } from '../../core/model';
 import { environment } from 'src/environments/environment';
 import { ProjectSummary } from '../model/project-summary';
+import { NewProject } from '../model/newProject';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,10 @@ export class ProjectService {
 
   getProject(tpn: string) {
     return this.http.get<Project>(`${environment.baseUrl}/api/projects/${tpn}`);
+  }
+
+  postProject(newProject: NewProject) {
+    return this.http.post<Project>(`${environment.baseUrl}/api/createProject/`, newProject);
   }
 
   deleteMutagenesisDonor(url: string) {
@@ -39,11 +44,13 @@ export class ProjectService {
     workGroups: string[],
     planTypes: string[],
     statuses: string[],
-    priorities: string[],
+    // priorities: string[],
     privacies: string[]) {
 
-    const queryParameters = this.buildFilterQueryParameters(markerSymbols, workUnits, workGroups, planTypes, statuses, priorities, privacies);
+    const queryParameters = this.buildFilterQueryParameters(markerSymbols, workUnits, workGroups, planTypes, statuses, privacies);
     const url = `${environment.baseUrl}/api/projectSummaries?page=${page}${queryParameters}`;
+
+    console.log(url);
 
     return this.http.get<ProjectSummary[]>(url);
   }
@@ -54,7 +61,7 @@ export class ProjectService {
     workGroups: string[],
     planTypes: string[],
     statuses: string[],
-    priorities: string[],
+    // priorities: string[],
     privacies: string[]) {
 
     let markerSymbolsAsParameter = '';
@@ -62,7 +69,7 @@ export class ProjectService {
     let workGroupsAsParameter = '';
     let planTypesAsParameter = '';
     let statusesAsParameter = '';
-    let prioritiesAsParameter = '';
+    // let prioritiesAsParameter = '';
     let privaciesAsParameter = '';
 
     if (markerSymbols.length > 0) {
@@ -85,9 +92,9 @@ export class ProjectService {
       statusesAsParameter = statuses.map(x => 'status=' + x).join('&');
     }
 
-    if (priorities.length > 0) {
-      prioritiesAsParameter = priorities.map(x => 'priority=' + x).join('&');
-    }
+    // if (priorities.length > 0) {
+    //   prioritiesAsParameter = priorities.map(x => 'priority=' + x).join('&');
+    // }
 
     if (privacies.length > 0) {
       privaciesAsParameter = privacies.map(x => 'privacy=' + x).join('&');
@@ -110,13 +117,14 @@ export class ProjectService {
     if (statusesAsParameter != '') {
       queryParameters += '&' + statusesAsParameter;
     }
-    if (prioritiesAsParameter != '') {
-      queryParameters += '&' + prioritiesAsParameter;
-    }
+    // if (prioritiesAsParameter != '') {
+    //   queryParameters += '&' + prioritiesAsParameter;
+    // }
     if (privaciesAsParameter != '') {
       queryParameters += '&' + privaciesAsParameter;
     }
 
     return queryParameters;
   }
+
 }

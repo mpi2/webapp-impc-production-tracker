@@ -18,13 +18,19 @@ import { SharedModule } from './shared/shared.module';
 import { PlansModule } from './plans/plans.module';
 import { HomeComponent } from './home/home.component';
 import { HistoryComponent } from './shared/components/history/history.component';
+<<<<<<< Updated upstream
 import { AttemptsModule } from './attempts/attempts.module';
+=======
+>>>>>>> Stashed changes
+import { CommonModule } from '@angular/common';
+
 
 @NgModule({
     imports: [
         HttpClientModule,
         routing,
         NgMultiSelectDropDownModule.forRoot(),
+        CommonModule,
         LoginModule,
         ProjectsModule,
         PlansModule,

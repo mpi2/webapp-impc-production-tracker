@@ -8,4 +8,5 @@ export class ConfigurationData {
     alleleTypes: string[];
     institutes: string[];
     roles: string[];
+    trackedStrains: string[];
 }

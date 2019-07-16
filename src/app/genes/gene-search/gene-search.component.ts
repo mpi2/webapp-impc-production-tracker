@@ -82,7 +82,7 @@ export class GeneSearchComponent implements OnInit {
       selectedWorkGroups,
       [],
       [],
-      [],
+      // [],
       []).pipe(first()).subscribe(data => {
         if (data['_embedded']) {
           this.projects = data['_embedded']['projectSummaryDToes'];
