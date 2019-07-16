@@ -22,14 +22,14 @@ export class ProjectListComponent implements OnInit {
   workUnits: SelectItem[];
   workGroups: SelectItem[];
   statuses: SelectItem[];
-  priorities: SelectItem[];
+  // priorities: SelectItem[];
   privacies: SelectItem[];
 
   workUnitFilterValues: string[] = [];
   workGroupFilterValues: string[] = [];
   planTypeFilterValues: string[] = [];
   statusFilterValues: string[] = [];
-  prioritiesFilterValues: string[] = [];
+  // prioritiesFilterValues: string[] = [];
   privaciesFilterValues: string[] = [];
 
   configurationData: ConfigurationData;
@@ -49,7 +49,7 @@ export class ProjectListComponent implements OnInit {
       this.workGroups = this.configurationData.workGroups.map(p => { return { label: p, value: p } });
       this.workUnits = this.configurationData.workUnits.map(p => { return { label: p, value: p } });
       this.privacies = this.configurationData.privacies.map(p => { return { label: p, value: p } });
-      this.priorities = this.configurationData.priorities.map(p => { return { label: p, value: p } });
+      // this.priorities = this.configurationData.priorities.map(p => { return { label: p, value: p } });
       this.statuses = this.configurationData.statuses.map(p => { return { label: p, value: p } });
     }
     this.getPage(1);
@@ -67,7 +67,7 @@ export class ProjectListComponent implements OnInit {
       this.getWorkGroupFilter(),
       this.getPlanTypeFilter(),
       this.getStatusFilter(),
-      this.getPriorityFilter(),
+      // this.getPriorityFilter(),
       this.getPrivacyFilter()).pipe(first()).subscribe(data => {
         if (data['_embedded']) {
           this.projects = data['_embedded']['projectSummaryDToes'];
@@ -80,7 +80,6 @@ export class ProjectListComponent implements OnInit {
       },
         error => {
           console.log('An error', error);
-          
           this.error = error;
         }
       );
@@ -88,7 +87,7 @@ export class ProjectListComponent implements OnInit {
 
   getWorkUnitNameFilter() {
     const loggedUser = this.loggedUserService.getLoggerUser();
-    let workUnitFilter = [];
+    const workUnitFilter = [];
     if (loggedUser) {
       if ('admin' != loggedUser.role) {
         if (loggedUser.workUnitName) {
@@ -122,9 +121,9 @@ export class ProjectListComponent implements OnInit {
       case 'status':
         this.statusFilterValues = e;
         break;
-      case 'priority':
-        this.prioritiesFilterValues = e;
-        break;
+      // case 'priority':
+      //   this.prioritiesFilterValues = e;
+      //   break;
       case 'privacy':
         this.privaciesFilterValues = e;
         break;
@@ -166,13 +165,13 @@ export class ProjectListComponent implements OnInit {
     }
   }
 
-  getPriorityFilter(): string[] {
-    if (this.prioritiesFilterValues.length === this.priorities.length) {
-      return [];
-    } else {
-      return this.prioritiesFilterValues;
-    }
-  }
+  // getPriorityFilter(): string[] {
+  //   if (this.prioritiesFilterValues.length === this.priorities.length) {
+  //     return [];
+  //   } else {
+  //     return this.prioritiesFilterValues;
+  //   }
+  // }
 
   getPrivacyFilter(): string[] {
     if (this.privaciesFilterValues.length === this.privacies.length) {
