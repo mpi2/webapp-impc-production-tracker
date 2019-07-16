@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ChangesHistory, ChangesHistoryAdapter } from 'src/app/core/model/changes-history';
+import { ChangesHistory, ChangesHistoryAdapter } from 'src/app/core/model/history/changes-history';
 import { Sort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
-import { PlanService } from 'src/app/plans';
-import { Location } from '@angular/common';
+import { PlanService } from 'src/app/feature-modules/plans';
 
 @Component({
   selector: 'app-history',
@@ -13,14 +12,12 @@ import { Location } from '@angular/common';
 export class HistoryComponent implements OnInit {
 
   historyRecords: ChangesHistory[] = [];
-
   sortedData: ChangesHistory[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private planService: PlanService,
-    private adapter: ChangesHistoryAdapter,
-    private location: Location) { }
+    private adapter: ChangesHistoryAdapter) { }
 
   ngOnInit() {
     let pid = this.route.snapshot.params['pid'];
@@ -56,6 +53,7 @@ export class HistoryComponent implements OnInit {
       }
     });
   }
+
 }
 
 function compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {

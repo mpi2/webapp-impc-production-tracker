@@ -1,0 +1,106 @@
+<div class="col-md-8 offset-sm-1">
+  <form [formGroup]="createProjectForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+      <label for="workUnit" class="col-form-label">Work Unit</label>
+      <input type="text" readonly class="form-control-plaintext" formControlName="workUnit" >
+    </div>
+
+    <div class="form-group">
+      <label for="workGroup">Work Group</label><br>
+      <ng-multiselect-dropdown type="text" name="workGroup" formControlName="workGroup" [ngClass]="{ 'is-invalid': submitted && f.workGroup.errors }" [placeholder]="'-- Select --'" [data]="workGroups" [settings]="dropdownSettingsSingle" (onSelect)="enableFunders($event)" (onDeSelect)="disabledFunder()" ></ng-multiselect-dropdown>
+      
+      <div *ngIf="submitted && f.workGroup.errors" class="invalid-feedback">
+        <div *ngIf="submitted && f.workGroup.errors.required">Work group is required</div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label for="funder">Funder</label><br>
+      <ng-multiselect-dropdown type="text" name="funder" formControlName="funder" [ngClass]="{ 'is-invalid': submitted && f.funder.errors }" [placeholder]="'-- Select --'" [data]="funders" [settings]="dropdownSettingsSingle" ></ng-multiselect-dropdown> <!-- [disabled]="isDisabled" -->
+      <div *ngIf="submitted && f.funder.errors" class="invalid-feedback">
+        <div *ngIf="f.funder.errors.required">Funder is required</div>
+      </div>
+    </div>
+
+    <!-- <div class="form-group">
+      <label for="projectIntentions">Project intention(s) </label>
+      <ng-multiselect-dropdown type="text" name="projectIntentions" formControlName="projectIntentions" [ngClass]="{ 'is-invalid': submitted && f.projectIntentions.errors }" [placeholder]="'-- Select --'" [data]="projectIntentions" [settings]="dropdownSettingsMultiple" ></ng-multiselect-dropdown>
+      <div *ngIf="submitted && f.projectIntentions.errors" class="invalid-feedback">
+        <div *ngIf="f.projectIntentions.errors.required">At least one intentions is required</div>
+      </div>
+    </div> -->
+
+    <div class="form-group">
+      <label for="projectLocations">Project target gene(s) </label><br>
+
+      <div class="ng-autocomplete">
+        <ng-autocomplete #autocomplete
+          [data]="genes"
+          [searchKeyword]="keyword"
+          [isLoading]="isLoading"
+          [placeHolder]="placeHolder"
+          (selected)='selectEvent($event)'
+          (inputChanged)='onChangeSearch($event)'
+          [itemTemplate]="itemTemplate"
+          [notFoundTemplate]="notFoundTemplate">                                 
+        </ng-autocomplete>
+
+        <ng-template #itemTemplate let-gene>
+          <a [innerHTML]="gene.symbol"></a>
+        </ng-template>
+
+        <ng-template #notFoundTemplate let-notFound>
+          <div [innerHTML]="notFound"></div>
+        </ng-template>
+      </div>
+      
+      <a class="badge badge-primary" (click)="addGene($event)">Add</a>
+
+      <ng2-smart-table #tableGenes [ngClass]="{ 'is-invalid': submitted && f.projectGenes.errors }"
+        [settings]="geneSettings" 
+        [source]="projectGenes" 
+        (editConfirm)="onSaveConfirm($event)" 
+      >
+      </ng2-smart-table>
+      
+      <div *ngIf="submitted && f.projectGenes.errors" class="invalid-feedback">
+        <div *ngIf="f.projectGenes.errors.required">At least one gene is required</div>
+      </div>
+    </div>
+
+    <!-- <p>Species</p>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="specie" value="mouse" id="mouseCheck"
+        (change)="specieCheck($event)" checked>
+      <label class="form-check-label" for="mouseCheck">
+        Mouse
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="specie" value="human" id="humanCheck"
+        (change)="specieCheck($event)">
+      <label class="form-check-label" for="humanCheck">
+        Human
+      </label>
+    </div>
+    <br> -->
+
+    <div class="form-group">
+      <label for="projectLocations">Project target location(s) </label><br>
+
+      <ng2-smart-table #tableLocation [ngClass]="{ 'is-invalid': submitted && f.projectLocations.errors }"
+        [settings]="locationSettings" 
+        [source]="projectLocations" 
+        (editConfirm)="onSaveConfirm($event)" 
+        (createConfirm)="onCreateConfirm($event)" 
+      >
+      </ng2-smart-table>
+    </div>
+
+    <div class="form-group">
+      <button type="submit" [disabled]="loading" class="btn btn-success">Create</button>
+      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    </div>
+    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+  </form>
+</div>

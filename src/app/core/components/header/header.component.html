@@ -1,0 +1,63 @@
+<div class="header">
+    <div class="header__nav-top d-none d-lg-block">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <p *ngIf="login">You are logged in as <b>{{ username }}</b></p>
+                </div>
+                <div class="col-sm-4 text-right">
+                    <div class="menu-top-nav-container">
+                        <ul id="menu-top-nav" class="menu">
+                            <li ngbDropdown><a ngbDropdownToggle>Account</a>
+                                <div ngbDropdownMenu>
+                                    <a ngbDropdownItem *ngIf="!login" routerLink="login">Sign
+                                        in</a>
+                                    <a ngbDropdownItem *ngIf="login" routerLink="">Edit your
+                                        profile</a>
+                                    <a ngbDropdownItem *ngIf="login && role == 'admin'" routerLink="/admin">Admin</a>
+                                    <a ngbDropdownItem *ngIf="login" routerLink="/login">Logout</a>
+                                </div>
+                            </li>
+                            <li id="" class=""><a
+                                    href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy
+                                    Notice</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header__nav">
+        <div class="container">
+            <div class="row">
+                <div class="col-6 col-md-3">
+                    <a href="/" class="header__logo-link active"><img class="header__logo" src="#"></a>
+                </div>
+                <div class="col-6 col-md-9 text-right">
+                    <span class="d-none d-lg-block">
+                        <div class="menu-main-nav-container">
+                            <ul id="menu-main-nav" class="menu">
+                                <li id="" class="menu-item menu-item-16"><a routerLink="/search" class="">Search</a>
+                                </li>
+                                <li id="" class="menu-item menu-item-17"><a routerLink="/projects" class="">Projects</a>
+                                </li>
+                                <li id="" class="menu-item menu-item-18 dropdown"><a class="menu-link dropdown-toggle"
+                                        role="button" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">Create an attempt</a>
+                                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        <a *ngIf="logout == false" class="dropdown-item" routerLink="">CRISPR</a>
+                                        <a *ngIf="logout == false" class="dropdown-item" routerLink="">ES Cell</a>
+                                        <a *ngIf="logout == false" class="dropdown-item" routerLink="">Breading</a>
+                                    </div>
+                                </li>
+                                <li id="" class="menu-item menu-item-19"><a routerLink="" class="">Reports</a></li>
+                                <li id="" class="menu-item menu-item-897"><a routerLink="" class="">Manual</a></li>
+                            </ul>
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

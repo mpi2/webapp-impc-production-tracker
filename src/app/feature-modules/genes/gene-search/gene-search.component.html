@@ -1,0 +1,132 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<div class="col-md-10">
+  <form [formGroup]="geneSearchForm" (ngSubmit)="onSubmit($event)">
+    <div class="form-group">
+      <label for="geneSymbol">Gene symbol</label>
+      <textarea id="geneSymbolTextArea" type="text" formControlName="geneSymbol" class="form-control"></textarea>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-3">Work units</div>
+      <div class="col-sm-9">
+        <input id="workUnitsSelectAll" class="form-check-input" type="checkbox" checked
+          (change)="checkUncheckWorkUnits($event)">
+        <label class="form-check-label" style="font-size: small;">
+          <strong>Select/ Unselect All</strong>
+        </label>
+      </div>
+
+      <div class="col-sm-3" *ngFor="let workUnit of workUnits">
+        <div class="form-check-inline">
+          <input id="{{getIdFromWorkUnitName(workUnit.name)}}" class="form-check-input" type="checkbox"
+            value="{{ workUnit.name }}" checked (change)="onCheckedWorkUnitElement(workUnit)" />
+          <label class="form-check-label" style="font-size: small;">
+            {{ workUnit.name }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-sm-3">Work groups</div>
+      <div class="col-sm-9">
+        <input id="workGroupsSelectAll" class="form-check-input" type="checkbox" checked
+          (change)="checkUncheckWorkGroups($event)">
+        <label class="form-check-label" style="font-size: small;">
+          <strong>Select/ Unselect All</strong>
+        </label>
+      </div>
+
+      <div class="col-sm-3" *ngFor="let workGroup of workGroups">
+        <div class="form-check-inline">
+          <input id="{{getIdFromWorkGroupName(workGroup.name)}}" class="form-check-input" type="checkbox"
+            value="{{ workGroup.name }}" checked (change)="onCheckedWorkGroupElement(workGroup)" />
+          <label class="form-check-label" style="font-size: small;">
+            {{ workGroup.name }}
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <button [disabled]="loading" class="btn btn-success">Search</button>
+      <img *ngIf="loading"
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    </div>
+  </form>
+</div>
+
+<div class="col-md-12 col-md-offset-3">
+  <table class="table table-striped table-bordered table-sm" width="100%">
+    <thead>
+      <th scope="col">Project summary</th>
+      <th scope="col">Allele Intentions</th>
+      <th scope="col">Mouse Gene Symbol / Location</th>
+      <th scope="col">Human Gene Symbol(s)</th>
+
+      <th scope="col">Project Assigment</th>
+      <th scope="col">Aborted MIs</th>
+      <th scope="col">MIs in Progress</th>
+      <th scope="col">Genotype Confirmed Mis</th>
+      <th scope="col">Breeding Attempts</th>
+      <th scope="col">Phenotype Attempts</th>
+    </thead>
+    <tbody>
+      <tr
+        *ngFor="let project of projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
+        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Graph</a></td>
+        <td>
+          <ul>
+            <li *ngFor="let intention of project.projectDetails.alleleIntentions">
+              <span>
+                {{ intention }}
+              </span>
+            </li>
+          </ul>
+        </td>
+        <td>
+          <ul>
+            <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+              <span>
+                <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{markerSymbol.markerSymbol}}</a>
+              </span>
+            </li>
+          </ul>
+        </td>
+        <td>Human gene (Orthologs)</td>
+
+        <td>{{ project.projectDetails.assigmentStatusName }}</td>
+
+        <td *ngFor="let planInfo of project.abortedMis">
+          {{ planInfo }}
+        </td>
+        <td *ngIf="project.abortedMis.length == 0"></td>
+
+        <td *ngFor="let planInfo of project.misInProgress">
+          {{ planInfo }}
+        </td>
+        <td *ngIf="project.misInProgress.length == 0"></td>
+
+        <td *ngFor="let planInfo of project.genotypeConfirmedMis">
+          {{ planInfo }}
+        </td>
+        <td *ngIf="project.genotypeConfirmedMis.length == 0"></td>
+
+        <td *ngFor="let planInfo of project.breedingAttempts">
+          {{ planInfo }}
+        </td>
+        <td *ngIf="project.breedingAttempts.length == 0"></td>
+
+        <td *ngFor="let planInfo of project.phenotypeAttempts">
+          {{ planInfo }}
+        </td>
+        <td *ngIf="project.phenotypeAttempts.length == 0"></td>
+      </tr>
+    </tbody>
+  </table>
+  <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+</div>
+
+
+
+<!-- https://www.mousephenotype.org/data/search/gene?kw=${} -->
