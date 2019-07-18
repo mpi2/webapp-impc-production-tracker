@@ -20,10 +20,14 @@ export class HistoryComponent implements OnInit {
     private adapter: ChangesHistoryAdapter) { }
 
   ngOnInit() {
+    console.log('Enter');
+    
     let pid = this.route.snapshot.params['pid'];
     if (pid) {
       this.planService.getHistoryByPid(pid).subscribe(data => {
         this.historyRecords = data;
+        console.log(data);
+        
         this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
         this.sortedData = this.historyRecords.slice();
         console.log('history', this.sortedData );

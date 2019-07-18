@@ -10,7 +10,7 @@ export class ChangesHistory {
     id: number;
     user: string;
     date: Date = new Date();
-    changes: any[] = []
+    details: any[];
 }
 
 @Injectable({
@@ -23,16 +23,8 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         history.id = item.id;
         history.user = item.user;
         history.date = new Date(item.date);
-
-        history.changes = item.action.split('\n').map(x => {
-            const values = x.split('|');
-            let property = values[0].replace('field:', '').trim();
-            property = this.formatPropertyName(property);
-            const oldValue = values[1].replace('old:', '');
-            const newValue = values[2].replace('new:', '');
-
-            return { property: property, oldValue: oldValue, newValue: newValue }
-        });
+        history.details = item.details;
+        history.details.map(x => x.field = this.formatPropertyName(x.field));
 
         return history;
     }
