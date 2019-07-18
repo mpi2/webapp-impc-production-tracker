@@ -16,18 +16,18 @@
       </tr>
     
       <ng-template ngFor let-historyRecord [ngForOf]="sortedData">
-        <ng-template ngFor let-change let-isFirst="first" [ngForOf]="historyRecord.changes">
+        <ng-template ngFor let-change let-isFirst="first" [ngForOf]="historyRecord.details">
           <tr>
-            <td *ngIf="isFirst" [attr.rowspan]="historyRecord.changes.length">
+            <td *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
               {{historyRecord.id}}
             </td>
-            <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.changes.length">
+            <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
               {{historyRecord.user}}
             </td>
-            <td class="nowrap-text-style" *ngIf="isFirst" [attr.rowspan]="historyRecord.changes.length">
+            <td class="nowrap-text-style" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
               {{historyRecord.date | date : 'medium'}}
             </td>
-            <td>{{ change.property }}</td>
+            <td>{{ change.field }}</td>
             <td>{{ change.oldValue }} => {{ change.newValue }} </td>
     
           </tr>
