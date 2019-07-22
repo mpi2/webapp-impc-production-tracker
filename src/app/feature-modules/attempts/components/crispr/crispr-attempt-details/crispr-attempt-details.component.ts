@@ -23,9 +23,10 @@ export class CrisprAttemptDetailsComponent implements OnInit {
     this.editCrisprAttemptDetails = this.formBuilder.group({
       dp: ['', Validators.required],
       miExternalRef: [this.crisprAttempt.miExternalRef, Validators.required],
-      comments: [this.crisprAttempt.comment]
+      comments: [this.crisprAttempt.comment],
+      experimental: []
     });
-
+  
     const date = new Date(this.crisprAttempt.miDate);
     this.dateModel = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
     this.editCrisprAttemptDetails.get('dp').setValue(this.dateModel);
@@ -52,9 +53,9 @@ export class CrisprAttemptDetailsComponent implements OnInit {
     this.notifyChangeToParent();
   }
 
-  onChange() {
-    console.log('CHANGED TO',this.editCrisprAttemptDetails.get('dp').value);
-    
+  onExperimentalChecked() {
+    this.crisprAttempt.experimental = !this.crisprAttempt.experimental;
+    this.notifyChangeToParent();
   }
 
   notifyChangeToParent() {
