@@ -1,52 +1,65 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<div class="col-md-10">
+<div class="col-md-10 offset-md-1">
   <form [formGroup]="geneSearchForm" (ngSubmit)="onSubmit($event)">
     <div class="form-group">
-      <label for="geneSymbol">Gene symbol</label>
+      <label for="geneSymbol">Mouse gene symbol (s)</label>
       <textarea id="geneSymbolTextArea" type="text" formControlName="geneSymbol" class="form-control"></textarea>
     </div>
 
-    <div class="form-group row">
-      <div class="col-sm-3">Work units</div>
-      <div class="col-sm-9">
-        <input id="workUnitsSelectAll" class="form-check-input" type="checkbox" checked
-          (change)="checkUncheckWorkUnits($event)">
-        <label class="form-check-label" style="font-size: small;">
-          <strong>Select/ Unselect All</strong>
-        </label>
-      </div>
+    <mat-accordion>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Filters
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div id="filters">
+          <div class="card card-body">
+            <div class="form-group row">
+              <div class="col-sm-3">Work units</div>
+              <div class="col-sm-9">
+                <input id="workUnitsSelectAll" class="form-check-input" type="checkbox" checked
+                  (change)="checkUncheckWorkUnits($event)">
+                <label class="form-check-label" style="font-size: small;">
+                  <strong>Select/ Unselect All</strong>
+                </label>
+              </div>
 
-      <div class="col-sm-3" *ngFor="let workUnit of workUnits">
-        <div class="form-check-inline">
-          <input id="{{getIdFromWorkUnitName(workUnit.name)}}" class="form-check-input" type="checkbox"
-            value="{{ workUnit.name }}" checked (change)="onCheckedWorkUnitElement(workUnit)" />
-          <label class="form-check-label" style="font-size: small;">
-            {{ workUnit.name }}
-          </label>
+              <div class="col-sm-3" *ngFor="let workUnit of workUnits">
+                <div class="form-check-inline">
+                  <input id="{{getIdFromWorkUnitName(workUnit.name)}}" class="form-check-input" type="checkbox"
+                    value="{{ workUnit.name }}" checked (change)="onCheckedWorkUnitElement(workUnit)" />
+                  <label class="form-check-label" style="font-size: small;">
+                    {{ workUnit.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group row">
+              <div class="col-sm-3">Work groups</div>
+              <div class="col-sm-9">
+                <input id="workGroupsSelectAll" class="form-check-input" type="checkbox" checked
+                  (change)="checkUncheckWorkGroups($event)">
+                <label class="form-check-label" style="font-size: small;">
+                  <strong>Select/ Unselect All</strong>
+                </label>
+              </div>
+
+              <div class="col-sm-3" *ngFor="let workGroup of workGroups">
+                <div class="form-check-inline">
+                  <input id="{{getIdFromWorkGroupName(workGroup.name)}}" class="form-check-input" type="checkbox"
+                    value="{{ workGroup.name }}" checked (change)="onCheckedWorkGroupElement(workGroup)" />
+                  <label class="form-check-label" style="font-size: small;">
+                    {{ workGroup.name }}
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <div class="col-sm-3">Work groups</div>
-      <div class="col-sm-9">
-        <input id="workGroupsSelectAll" class="form-check-input" type="checkbox" checked
-          (change)="checkUncheckWorkGroups($event)">
-        <label class="form-check-label" style="font-size: small;">
-          <strong>Select/ Unselect All</strong>
-        </label>
-      </div>
-
-      <div class="col-sm-3" *ngFor="let workGroup of workGroups">
-        <div class="form-check-inline">
-          <input id="{{getIdFromWorkGroupName(workGroup.name)}}" class="form-check-input" type="checkbox"
-            value="{{ workGroup.name }}" checked (change)="onCheckedWorkGroupElement(workGroup)" />
-          <label class="form-check-label" style="font-size: small;">
-            {{ workGroup.name }}
-          </label>
-        </div>
-      </div>
-    </div>
+      </mat-expansion-panel>
+    </mat-accordion>
 
     <div class="form-group">
       <button [disabled]="loading" class="btn btn-success">Search</button>
@@ -68,13 +81,13 @@
       <th scope="col">Aborted MIs</th>
       <th scope="col">MIs in Progress</th>
       <th scope="col">Genotype Confirmed Mis</th>
-      <th scope="col">Breeding Attempts</th>
+      <!-- <th scope="col">Breeding Attempts</th> -->
       <th scope="col">Phenotype Attempts</th>
     </thead>
     <tbody>
       <tr
         *ngFor="let project of projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
-        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Graph</a></td>
+        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Summary</a></td>
         <td>
           <ul>
             <li *ngFor="let intention of project.projectDetails.alleleIntentions">
@@ -84,16 +97,34 @@
             </li>
           </ul>
         </td>
+
         <td>
           <ul>
             <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
               <span>
-                <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{markerSymbol.markerSymbol}}</a>
+                <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{ markerSymbol.markerSymbol }}</a>
               </span>
             </li>
           </ul>
         </td>
-        <td>Human gene (Orthologs)</td>
+
+        <td>
+          <ul>
+            <li *ngFor="let human_gene of project.projectDetails.humanGenes">
+              <span>
+                {{ human_gene.symbol }} 
+                <button
+                        matTooltip="faafasdfafasfaafds"
+                        aria-label="Button that displays a tooltip when focused or hovered over">
+                        ({{ human_gene.support_count }})
+                </button>
+                
+                
+                
+              </span>
+            </li>
+          </ul>
+        </td>
 
         <td>{{ project.projectDetails.assigmentStatusName }}</td>
 
@@ -112,10 +143,10 @@
         </td>
         <td *ngIf="project.genotypeConfirmedMis.length == 0"></td>
 
-        <td *ngFor="let planInfo of project.breedingAttempts">
+        <!-- <td *ngFor="let planInfo of project.breedingAttempts">
           {{ planInfo }}
         </td>
-        <td *ngIf="project.breedingAttempts.length == 0"></td>
+        <td *ngIf="project.breedingAttempts.length == 0"></td> -->
 
         <td *ngFor="let planInfo of project.phenotypeAttempts">
           {{ planInfo }}
@@ -130,3 +161,4 @@
 
 
 <!-- https://www.mousephenotype.org/data/search/gene?kw=${} -->
+

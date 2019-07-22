@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { GenesRouting } from './genes.routing';
 import { GeneSearchComponent } from './gene-search';
 import { SharedModule } from 'src/app/shared/shared.module';
+// import { MatExpansionPanel } from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -9,7 +10,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
   ],
   imports: [
     SharedModule,
-    GenesRouting
+    GenesRouting,
+    // MatExpansionPanel
+  ],
+  exports: [
+    // MatExpansionPanel
   ]
 })
 export class GenesModule { }
