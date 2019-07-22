@@ -14,7 +14,7 @@
               <div class="form-group">
                 <div class="input-group">
                   <input class="form-control" formControlName="dp" ngbDatepicker #d="ngbDatepicker"
-                    (dateSelect)="onDateChanged()"  (change)="onDateChanged()">
+                    (dateSelect)="onDateChanged()" (change)="onDateChanged()">
                   <div class="input-group-append">
                     <button class="btn btn-outline-secondary calendar" (click)="d.toggle();" type="button"></button>
                   </div>
@@ -43,7 +43,7 @@
               </div>
             </td>
           </ng-template>
-    
+
           <ng-template #miExternalRefReadOnly>
             <td>
               {{crisprAttempt.miExternalRef}}
@@ -53,10 +53,18 @@
 
         <tr>
           <td>
-            Experimental?:
+            Experimental:
           </td>
           <td>
-            {{crisprAttempt.experimental}}
+          
+            <div class="input-group">
+              <div class="form-group">
+                  <input type="checkbox"
+                  (change)="onExperimentalChecked()"
+                  [checked]="this.crisprAttempt.experimental"
+                  [disabled]="!canUpdatePlan">
+              </div>
+            </div>
           </td>
         </tr>
         <tr>
@@ -72,7 +80,7 @@
               </div>
             </td>
           </ng-template>
-    
+
           <ng-template #commentsReadOnly>
             <td>
               {{crisprAttempt.comments}}
