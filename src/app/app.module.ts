@@ -28,6 +28,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     PlansModule,
     GenesModule,
     AppRoutingModule,
+    
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuth, multi: true },

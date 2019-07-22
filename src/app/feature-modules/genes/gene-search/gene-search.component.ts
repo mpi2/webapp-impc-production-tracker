@@ -12,6 +12,7 @@ import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from
   styleUrls: ['./gene-search.component.css']
 })
 export class GeneSearchComponent implements OnInit {
+  panelOpenState = false;
   geneSearchForm: FormGroup;
   projects: ProjectSummary[] = [];
   p = 1;
