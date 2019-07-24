@@ -23,7 +23,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
-
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [GoBackComponent, HistoryComponent],
@@ -53,7 +53,8 @@ import { HistoryComponent } from './components/history/history.component';
     CdkTableModule,
     CdkTreeModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatSidenavModule
   ],
   exports: [
     CommonModule,
@@ -81,7 +82,8 @@ import { HistoryComponent } from './components/history/history.component';
     CdkTableModule,
     CdkTreeModule,
     MatCardModule,
-    MatInputModule
+    MatInputModule,
+    MatSidenavModule
   ]
 })
 export class SharedModule { }

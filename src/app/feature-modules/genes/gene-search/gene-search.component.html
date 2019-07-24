@@ -1,35 +1,37 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<mat-sidenav-container>
+    <mat-sidenav mode="side" opened>
 <div class="col-md-10 offset-md-1">
   <form [formGroup]="geneSearchForm" (ngSubmit)="onSubmit($event)">
       <mat-card>
-      
+       <div class="form-group">
+          <mat-form-field>
+              <mat-label>Mouse gene symbol (s)</mat-label>
+            <input matInput placeholder="Input" id="geneSymbolTextArea" formControlName="geneSymbol">
+          </mat-form-field>
+      <!-- <button [disabled]="loading" class="btn btn-success">Search</button> -->
+      <button mat-raised-button color="primary">Search</button>
+      <img *ngIf="loading"
+        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+    </div>
       <!-- <textarea id="geneSymbolTextArea" type="text" formControlName="geneSymbol" class="form-control"></textarea> -->
-      <mat-form-field>
-          <mat-label>Mouse gene symbol (s)</mat-label>
-        <input matInput placeholder="Input" id="geneSymbolTextArea" formControlName="geneSymbol">
-      </mat-form-field>
     </mat-card>
-
+    Filters
     <mat-accordion>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
-            Filters
+              Work units
           </mat-panel-title>
         </mat-expansion-panel-header>
-        <div id="filters">
-          <div class="card card-body">
-            <div class="form-group row">
-              <div class="col-sm-3">Work units</div>
-              <div class="col-sm-9">
                 <input id="workUnitsSelectAll" class="form-check-input" type="checkbox" checked
                   (change)="checkUncheckWorkUnits($event)">
                 <label class="form-check-label" style="font-size: small;">
                   <strong>Select/ Unselect All</strong>
                 </label>
-              </div>
+              
 
-              <div class="col-sm-3" *ngFor="let workUnit of workUnits">
+              <div *ngFor="let workUnit of workUnits">
                 <div class="form-check-inline">
                   <input id="{{getIdFromWorkUnitName(workUnit.name)}}" class="form-check-input" type="checkbox"
                     value="{{ workUnit.name }}" checked (change)="onCheckedWorkUnitElement(workUnit)" />
@@ -38,11 +40,16 @@
                   </label>
                 </div>
               </div>
-            </div>
+            
+          </mat-expansion-panel>
 
-            <div class="form-group row">
-              <div class="col-sm-3">Work groups</div>
-              <div class="col-sm-9">
+          <mat-expansion-panel>
+          <mat-expansion-panel-header>
+              <mat-panel-title>
+                  Work groups
+              </mat-panel-title>
+            </mat-expansion-panel-header> 
+              <div>
                 <input id="workGroupsSelectAll" class="form-check-input" type="checkbox" checked
                   (change)="checkUncheckWorkGroups($event)">
                 <label class="form-check-label" style="font-size: small;">
@@ -50,7 +57,7 @@
                 </label>
               </div>
 
-              <div class="col-sm-3" *ngFor="let workGroup of workGroups">
+              <div *ngFor="let workGroup of workGroups">
                 <div class="form-check-inline">
                   <input id="{{getIdFromWorkGroupName(workGroup.name)}}" class="form-check-input" type="checkbox"
                     value="{{ workGroup.name }}" checked (change)="onCheckedWorkGroupElement(workGroup)" />
@@ -59,21 +66,18 @@
                   </label>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
+            
       </mat-expansion-panel>
     </mat-accordion>
 
-    <div class="form-group">
-      <!-- <button [disabled]="loading" class="btn btn-success">Search</button> -->
-      <button mat-raised-button color="primary">Search</button>
-      <img *ngIf="loading"
-        src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-    </div>
+   
   </form>
 </div>
+</mat-sidenav>
 
+
+
+<mat-sidenav-content>
 <div class="col-md-12 col-md-offset-3">
   <table class="table table-striped table-bordered table-sm" width="100%">
     <thead>
@@ -163,6 +167,8 @@
   <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
 </div>
 
+</mat-sidenav-content>
+</mat-sidenav-container>
 
 
 <!-- https://www.mousephenotype.org/data/search/gene?kw=${} -->

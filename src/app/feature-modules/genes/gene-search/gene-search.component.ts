@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
+// import {MatSidenavModule} from '@angular/material/sidenav';
 
 import { first } from 'rxjs/operators';
 
@@ -14,7 +15,7 @@ import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from
 })
 export class GeneSearchComponent implements OnInit {
   panelOpenState = false;
-  geneSearchForm: FormGroup;
+  // geneSearchForm: FormGroup;
   searchControl = new FormControl();
   projects: ProjectSummary[] = [];
   p = 1;
