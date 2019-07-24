@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
+
 import { first } from 'rxjs/operators';
 
 import { ProjectSummary, ProjectSummaryAdapter } from '../../projects/model/project-summary';
@@ -14,6 +15,7 @@ import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from
 export class GeneSearchComponent implements OnInit {
   panelOpenState = false;
   geneSearchForm: FormGroup;
+  searchControl = new FormControl();
   projects: ProjectSummary[] = [];
   p = 1;
   page: any = {};
