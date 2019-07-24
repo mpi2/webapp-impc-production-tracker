@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule, FormControl } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
@@ -8,7 +8,8 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule, MatTooltipModule, MatButtonModule } from '@angular/material';
+import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
+   MatTooltipModule, MatButtonModule, MatCardModule} from '@angular/material';
 import {A11yModule} from '@angular/cdk/a11y';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {PortalModule} from '@angular/cdk/portal';
@@ -22,6 +23,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
+
 
 @NgModule({
   declarations: [GoBackComponent, HistoryComponent],
@@ -49,7 +51,9 @@ import { HistoryComponent } from './components/history/history.component';
     ScrollingModule,
     CdkStepperModule,
     CdkTableModule,
-    CdkTreeModule
+    CdkTreeModule,
+    MatCardModule,
+    MatInputModule
   ],
   exports: [
     CommonModule,
@@ -75,7 +79,9 @@ import { HistoryComponent } from './components/history/history.component';
     ScrollingModule,
     CdkStepperModule,
     CdkTableModule,
-    CdkTreeModule
+    CdkTreeModule,
+    MatCardModule,
+    MatInputModule
   ]
 })
 export class SharedModule { }
