@@ -26,6 +26,7 @@ import { HistoryComponent } from './components/history/history.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatIconModule} from '@angular/material/icon';
+import {MatChipsModule} from '@angular/material/chips';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -63,7 +64,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatGridListModule,
     FlexLayoutModule,
     MatBadgeModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule
   ],
   exports: [
     CommonModule,
@@ -97,7 +99,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatGridListModule,
     FlexLayoutModule,
     MatBadgeModule,
-    MatIconModule
+    MatIconModule,
+    MatChipsModule
   ]
 })
 export class SharedModule { }

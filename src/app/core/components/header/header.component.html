@@ -1,8 +1,9 @@
 <mat-toolbar  fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-evenly center">
-   
-        <p fxFlex="20%" *ngIf="login"><mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ username }}</b></p>
-                    <div fxFlex="25%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-around center">
-                        <button fxFlex="20%" mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
+        <div  fxFlex="10%">
+            <p *ngIf="login"><mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ username }}</b></p>
+        </div>            
+                <div fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="start center">
+                        <button mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
                             Account
                         </button>
                             <mat-menu #account_menu="matMenu">
@@ -15,7 +16,7 @@
                             </mat-menu>
                         <button mat-flat-button routerLink="/search" routerLinkActive="active">Search</button>    
                     
-                        <button fxFlex="10%" mat-flat-button [matMenuTriggerFor]="project_menu" routerLink="/projects" routerLinkActive="active">Projects</button>
+                        <button  mat-flat-button [matMenuTriggerFor]="project_menu" routerLink="/projects" routerLinkActive="active">Projects</button>
                             <mat-menu #project_menu="matMenu">
                                 <button mat-menu-item [matMenuTriggerFor]="attempt">Create an attempt</button> 
                                 <button mat-menu-item routerLink="">Reports</button>
