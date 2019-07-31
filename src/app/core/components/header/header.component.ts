@@ -3,6 +3,8 @@ import { LoggedUser } from '../../model/user/logged-user';
 import { Subscription } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { LoggedUserService } from '../../services/logged-user.service';
+import { MatMenuModule, MatToolbarModule,
+  MatTooltipModule} from '@angular/material';
 
 @Component({
   selector: 'app-header',
@@ -11,8 +13,8 @@ import { LoggedUserService } from '../../services/logged-user.service';
 })
 export class HeaderComponent implements OnInit {
 
-  role = "";
-  username = "";
+  role = '';
+  username = '';
   login = false;
   subscription: Subscription;
   loggedUser: LoggedUser

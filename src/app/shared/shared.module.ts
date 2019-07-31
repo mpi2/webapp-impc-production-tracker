@@ -9,7 +9,7 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
-   MatTooltipModule, MatButtonModule, MatCardModule} from '@angular/material';
+   MatTooltipModule, MatButtonModule, MatCardModule, MatMenuModule, MatGridListModule} from '@angular/material';
 import {A11yModule} from '@angular/cdk/a11y';
 import {DragDropModule} from '@angular/cdk/drag-drop';
 import {PortalModule} from '@angular/cdk/portal';
@@ -24,6 +24,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [GoBackComponent, HistoryComponent],
@@ -54,7 +55,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     CdkTreeModule,
     MatCardModule,
     MatInputModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule,
+    MatGridListModule,
+    FlexLayoutModule
   ],
   exports: [
     CommonModule,
@@ -83,7 +87,10 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     CdkTreeModule,
     MatCardModule,
     MatInputModule,
-    MatSidenavModule
+    MatSidenavModule,
+    MatMenuModule,
+    MatGridListModule,
+    FlexLayoutModule
   ]
 })
 export class SharedModule { }

@@ -1,3 +1,49 @@
-.header__logo {
+.menu{
+    font-size: 1.3rem;
+}
+
+/* .header__logo {
     width: 170px;
  }
+
+ .example-spacer {
+    flex: 1 1 auto;
+    height: 100px;
+  }
+
+  .software {
+    font-size: 0.5em;
+    padding-left: 10%;
+    color: white;
+  }
+
+  .bottom{
+    background-color: darkgrey;
+    color: white;
+  } */
+
+  
+
+/* .button.active .mat-button-focus-overlay{
+  background-color:orange !important;
+} */
+
+/* .no-hover-effect.mat-button.mat-primary .mat-button-focus-overlay,
+.no-hover-effect.mat-button.mat-accent .mat-button-focus-overlay,
+.no-hover-effect.mat-button.mat-warn .mat-button-focus-overlay
+{
+  background-color: orange !important;
+} */
+.active {
+  background-color:orange;
+  padding:0.2em;
+}
+
+/* .menu-center-container  > a > button.active .mat-button-focus-overlay{
+  background-color:green;
+} */
+
+/* button{
+  background-color:green;
+  color: purple;
+} */

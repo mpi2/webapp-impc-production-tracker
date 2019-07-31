@@ -15,7 +15,7 @@ import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from
 })
 export class GeneSearchComponent implements OnInit {
   panelOpenState = false;
-  // geneSearchForm: FormGroup;
+  geneSearchForm: FormGroup;
   searchControl = new FormControl();
   projects: ProjectSummary[] = [];
   p = 1;
