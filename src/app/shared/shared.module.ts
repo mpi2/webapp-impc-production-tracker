@@ -24,6 +24,9 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatBadgeModule} from '@angular/material/badge';
+import {MatIconModule} from '@angular/material/icon';
+
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -58,7 +61,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSidenavModule,
     MatMenuModule,
     MatGridListModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatBadgeModule,
+    MatIconModule
   ],
   exports: [
     CommonModule,
@@ -90,7 +95,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatSidenavModule,
     MatMenuModule,
     MatGridListModule,
-    FlexLayoutModule
+    FlexLayoutModule,
+    MatBadgeModule,
+    MatIconModule
   ]
 })
 export class SharedModule { }

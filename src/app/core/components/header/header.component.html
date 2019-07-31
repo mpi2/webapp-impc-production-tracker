@@ -1,32 +1,34 @@
-<mat-toolbar  fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-between center">
-                    <p fxFlex="30%" *ngIf="login">You are logged in as <b>{{ username }}</b></p>
-                    <button fxFlex="10%" mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
-                        Account
-                    </button>
-                        <mat-menu #account_menu="matMenu">
-                            <button mat-flat-button  [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
-                                        in</button>
-                            <button  mat-menu-item  [routerLink]="['./edit_profile']" *ngIf="login">Edit your
-                                        profile</button>
-                            <button mat-menu-item *ngIf="login && role == 'admin'" routerLink="/admin">Admin</button>
-                            <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
-                        </mat-menu>
-                    <button mat-flat-button routerLink="/search" routerLinkActive="active">Search</button>    
-                 
-                    <button fxFlex="10%" mat-flat-button [matMenuTriggerFor]="project_menu" routerLink="/projects" routerLinkActive="active">Projects</button>
-                        <mat-menu #project_menu="matMenu">
-                            <button mat-menu-item [matMenuTriggerFor]="attempt">Create an attempt</button> 
-                            <button mat-menu-item routerLink="">Reports</button>
-                            <button mat-menu-item routerLink="">Manual</button>
-                        </mat-menu>
-
-                            <mat-menu  #attempt="matMenu">
-                                    <button mat-menu-item *ngIf="logout == false" routerLink="">CRISPR</button>
-                                    <button mat-menu-item *ngIf="logout == false"  routerLink="">ES Cell</button>
-                                    <button mat-menu-item *ngIf="logout == false"  routerLink="">Breading</button>
+<mat-toolbar  fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-evenly center">
+   
+        <p fxFlex="20%" *ngIf="login"><mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ username }}</b></p>
+                    <div fxFlex="25%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-around center">
+                        <button fxFlex="20%" mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
+                            Account
+                        </button>
+                            <mat-menu #account_menu="matMenu">
+                                <button mat-flat-button  [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
+                                            in</button>
+                                <button  mat-menu-item  [routerLink]="['./edit_profile']" *ngIf="login">Edit your
+                                            profile</button>
+                                <button mat-menu-item *ngIf="login && role == 'admin'" routerLink="/admin">Admin</button>
+                                <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
                             </mat-menu>
+                        <button mat-flat-button routerLink="/search" routerLinkActive="active">Search</button>    
                     
-                    <a class="privacy" fxFlex="10%"
+                        <button fxFlex="10%" mat-flat-button [matMenuTriggerFor]="project_menu" routerLink="/projects" routerLinkActive="active">Projects</button>
+                            <mat-menu #project_menu="matMenu">
+                                <button mat-menu-item [matMenuTriggerFor]="attempt">Create an attempt</button> 
+                                <button mat-menu-item routerLink="">Reports</button>
+                                <button mat-menu-item routerLink="">Manual</button>
+                            </mat-menu>
+
+                                <mat-menu  #attempt="matMenu">
+                                        <button mat-menu-item *ngIf="logout == false" routerLink="">CRISPR</button>
+                                        <button mat-menu-item *ngIf="logout == false"  routerLink="">ES Cell</button>
+                                        <button mat-menu-item *ngIf="logout == false"  routerLink="">Breading</button>
+                                </mat-menu>
+                    </div>
+                    <a class="privacy" fxFlex="10%" fxLayoutAlign="end" matBadge="i"
                                 href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy
                                 Notice</a>
                        
