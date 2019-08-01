@@ -14,6 +14,7 @@ import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from
   styleUrls: ['./gene-search.component.css']
 })
 export class GeneSearchComponent implements OnInit {
+  selectAllWorkUnits = true;
   panelOpenState = false;
   geneSearchForm: FormGroup;
   searchControl = new FormControl();
@@ -35,6 +36,7 @@ export class GeneSearchComponent implements OnInit {
     private projectService: ProjectService,
     private configurationDataService: ConfigurationDataService,
     private projectAdapter: ProjectSummaryAdapter) { }
+
 
   ngOnInit() {
     this.geneSearchForm = this.formBuilder.group({
