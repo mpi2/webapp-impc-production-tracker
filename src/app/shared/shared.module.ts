@@ -28,6 +28,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatTableModule} from '@angular/material/table';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -67,7 +68,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatBadgeModule,
     MatIconModule,
     MatChipsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule
   ],
   exports: [
     CommonModule,
@@ -103,7 +105,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatBadgeModule,
     MatIconModule,
     MatChipsModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatTableModule
   ]
 })
 export class SharedModule { }
