@@ -93,39 +93,34 @@
         <!-- Name Column -->
         <ng-container matColumnDef="Allele Intentions">
           <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
-          <td mat-cell *matCellDef="let project"> <ul>
-              <li *ngFor="let intention of project.projectDetails.alleleIntentions">
-                <span>
+          <td mat-cell *matCellDef="let project">
+              <div *ngFor="let intention of project.projectDetails.alleleIntentions">
                   {{ intention }}
-                </span>
-              </li>
-            </ul> </td>
+              </div>
+            </td>
         </ng-container>
       
         <!-- Weight Column -->
         <ng-container matColumnDef="Mouse Gene Symbol / Location">
           <th mat-header-cell *matHeaderCellDef>Mouse Gene Symbol / Location</th>
           <td mat-cell *matCellDef="let project"> 
-              <ul>
-                  <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
-                    <span>
+              
+                  <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
                       <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{ markerSymbol.markerSymbol }}</a>
-                    </span>
-                  </li>
-                </ul>
+                    </div>
+                  
           </td>
         </ng-container>
       
         <!-- Symbol Column -->
         <ng-container matColumnDef="Human Gene Symbol(s)">
           <th mat-header-cell *matHeaderCellDef>Human Gene Symbol(s)</th>
-          <td mat-cell *matCellDef="let project"><ul>
-              <li *ngFor="let human_gene of project.projectDetails.humanGenes">
+          <td mat-cell *matCellDef="let project">
+              <div *ngFor="let human_gene of project.projectDetails.humanGenes">
                 <span matBadge=" {{ human_gene.support_count }}" matBadgeOverlap="false" matBadgePosition="after" matBadgeSize="small">
                   {{ human_gene.symbol }} 
                 </span>
-              </li>
-            </ul></td>
+              </div>
         </ng-container>
 
         <ng-container matColumnDef="Project Assignment">
@@ -157,7 +152,7 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
-
+      <mat-paginator [length]="resultsLength" [pageSize]="30"></mat-paginator>
 
 <div class="col-md-12 col-md-offset-3">
   <table class="table table-striped table-bordered table-sm" width="100%">

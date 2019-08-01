@@ -29,6 +29,7 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatChipsModule} from '@angular/material/chips';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatTableModule} from '@angular/material/table';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -69,7 +70,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     MatChipsModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ],
   exports: [
     CommonModule,
@@ -106,7 +108,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatIconModule,
     MatChipsModule,
     MatCheckboxModule,
-    MatTableModule
+    MatTableModule,
+    MatPaginatorModule
   ]
 })
 export class SharedModule { }
