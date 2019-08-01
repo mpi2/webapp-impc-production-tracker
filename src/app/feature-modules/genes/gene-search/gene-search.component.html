@@ -123,13 +123,35 @@
               <li *ngFor="let human_gene of project.projectDetails.humanGenes">
                 <span matBadge=" {{ human_gene.support_count }}" matBadgeOverlap="false" matBadgePosition="after" matBadgeSize="small">
                   {{ human_gene.symbol }} 
-                
-                  
-                  
-                  
                 </span>
               </li>
             </ul></td>
+        </ng-container>
+
+        <ng-container matColumnDef="Project Assignment">
+            <th mat-header-cell *matHeaderCellDef>Project Assigment</th>
+            <td mat-cell *matCellDef="let project">{{ project.projectDetails.assigmentStatusName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Aborted MIs">
+            <th mat-header-cell *matHeaderCellDef>Aborted MIs</th>
+            <td mat-cell *matCellDef="let project">{{ project.abortedMis }}
+            </td>
+        </ng-container> 
+
+        <ng-container matColumnDef="MIs in Progress">
+            <th mat-header-cell *matHeaderCellDef>MIs in Progress</th>
+            <td mat-cell *matCellDef="let project">{{ project.misInProgress }}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="Genotype Confirmed Mis">
+            <th mat-header-cell *matHeaderCellDef>Genotype Confirmed Mis</th>
+            <td mat-cell *matCellDef="let project">{{ project.genotypeConfirmedMis }}</td>
+        </ng-container>
+        
+        <ng-container matColumnDef="Phenotype Attempts">
+            <th mat-header-cell *matHeaderCellDef>Phenotype Attempts</th>
+            <td mat-cell *matCellDef="let project">{{ project.phenotypeAttempts }}</td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

@@ -33,8 +33,8 @@ const ELEMENT_DATA: PeriodicElement[] = [
 })
 export class GeneSearchComponent implements OnInit {
 
-  displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 'Human Gene Symbol(s)'];
-  // 'Project Assigment', 'Aborted MIs', 'MIs in Progress', 'Genotype Confirmed Mis', 'Breeding Attempts', 'Phenotype Attempts'];
+  displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 'Human Gene Symbol(s)',
+'Project Assignment' , 'Aborted MIs', 'MIs in Progress', 'Genotype Confirmed Mis', 'Phenotype Attempts'];
   dataSource = [];
   selectAllWorkUnits = true;
   panelOpenState = false;
