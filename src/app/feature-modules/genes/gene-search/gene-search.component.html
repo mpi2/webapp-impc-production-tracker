@@ -119,7 +119,17 @@
         <!-- Symbol Column -->
         <ng-container matColumnDef="Human Gene Symbol(s)">
           <th mat-header-cell *matHeaderCellDef>Human Gene Symbol(s)</th>
-          <td mat-cell *matCellDef="let element"> {{element.symbol}} </td>
+          <td mat-cell *matCellDef="let project"><ul>
+              <li *ngFor="let human_gene of project.projectDetails.humanGenes">
+                <span matBadge=" {{ human_gene.support_count }}" matBadgeOverlap="false" matBadgePosition="after" matBadgeSize="small">
+                  {{ human_gene.symbol }} 
+                
+                  
+                  
+                  
+                </span>
+              </li>
+            </ul></td>
         </ng-container>
       
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
