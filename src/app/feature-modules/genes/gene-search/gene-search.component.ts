@@ -20,7 +20,6 @@ export class GeneSearchComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-
   displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 'Human Gene Symbol(s)',
 'Project Assignment' , 'Aborted MIs', 'MIs in Progress', 'Genotype Confirmed Mis', 'Phenotype Attempts'];
   selectAllWorkUnits = true;
@@ -65,7 +64,8 @@ export class GeneSearchComponent implements OnInit {
     workGroup["isSelected"] = true;
     return workGroup
   });
-
+  
+  this.isLoadingResults = true;
   this.getPage(0);
   }
 
