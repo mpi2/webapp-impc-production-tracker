@@ -16,9 +16,10 @@ import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from
 })
 export class GeneSearchComponent implements OnInit {
 
+ //@ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+
   displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 'Human Gene Symbol(s)',
 'Project Assignment' , 'Aborted MIs', 'MIs in Progress', 'Genotype Confirmed Mis', 'Phenotype Attempts'];
-  dataSource = [];
   selectAllWorkUnits = true;
   panelOpenState = false;
   geneSearchForm: FormGroup;
@@ -65,6 +66,38 @@ export class GeneSearchComponent implements OnInit {
     this.getPage(1);
   }
 
+  ngAfterViewInit() {
+   // this.exampleDatabase = new ExampleHttpDatabase(this._httpClient);
+
+    // If the user changes the sort order, reset back to the first page.
+    //this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
+
+  //   merge(this.sort.sortChange, this.paginator.page)
+  //     .pipe(
+  //       startWith({}),
+  //       switchMap(() => {
+  //         this.isLoadingResults = true;
+  //         return this.exampleDatabase!.getRepoIssues(
+  //           this.sort.active, this.sort.direction, this.paginator.pageIndex);
+  //       }),
+  //       map(data => {
+  //         // Flip flag to show that loading has finished.
+  //         this.isLoadingResults = false;
+  //         this.isRateLimitReached = false;
+  //         this.resultsLength = data.total_count;
+
+  //         return data.items;
+  //       }),
+  //       catchError(() => {
+  //         this.isLoadingResults = false;
+  //         // Catch if the GitHub API has reached its rate limit. Return empty data.
+  //         this.isRateLimitReached = true;
+  //         return observableOf([]);
+  //       })
+  //     ).subscribe(data => this.data = data);
+  // }
+}
+
   getPage(page: number) {
     // The end point starts page in number 0, while the component starts with 1.
     const apiPageNumber = page - 1;
@@ -95,7 +128,6 @@ export class GeneSearchComponent implements OnInit {
         if (data['_embedded']) {
           this.projects = data['_embedded']['projectSummaryDToes'];
           this.projects = this.projects.map(x => this.projectAdapter.adapt(x));
-          this.dataSource = this.projects;
         } else {
           this.projects = [];
         }
