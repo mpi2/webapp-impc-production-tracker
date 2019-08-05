@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
 // import {MatSidenavModule} from '@angular/material/sidenav';
 
@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { ProjectSummary, ProjectSummaryAdapter } from '../../projects/model/project-summary';
 import { ProjectService } from '../../projects/services/project.service';
 import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from 'src/app/core';
+import { MatPaginator, MatSort } from '@angular/material';
 
 
 @Component({
@@ -16,7 +17,9 @@ import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from
 })
 export class GeneSearchComponent implements OnInit {
 
- //@ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
+
 
   displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 'Human Gene Symbol(s)',
 'Project Assignment' , 'Aborted MIs', 'MIs in Progress', 'Genotype Confirmed Mis', 'Phenotype Attempts'];
@@ -25,7 +28,7 @@ export class GeneSearchComponent implements OnInit {
   geneSearchForm: FormGroup;
   searchControl = new FormControl();
   projects: ProjectSummary[] = [];
-  p = 1;
+  p = 0;
   page: any = {};
   workUnits: WorkUnit[] = [];
   workGroups: WorkGroup[] = [];
@@ -48,22 +51,22 @@ export class GeneSearchComponent implements OnInit {
     this.geneSearchForm = this.formBuilder.group({
       geneSymbol: ['']
     });
-
     this.configurationData = this.configurationDataService.getConfigurationInfo();
 
-    this.workUnits = this.configurationData.workUnits.map(x => {
-      const workUnit: WorkUnit = new WorkUnit();
-      workUnit.name = x;
-      workUnit["isSelected"] = true;
-      return workUnit
-    });
-    this.workGroups = this.configurationData.workGroups.map(x => {
-      const workGroup: WorkGroup = new WorkGroup();
-      workGroup.name = x;
-      workGroup["isSelected"] = true;
-      return workGroup
-    });
-    this.getPage(1);
+  this.workUnits = this.configurationData.workUnits.map(x => {
+    const workUnit: WorkUnit = new WorkUnit();
+    workUnit.name = x;
+    workUnit["isSelected"] = true;
+    return workUnit
+  });
+  this.workGroups = this.configurationData.workGroups.map(x => {
+    const workGroup: WorkGroup = new WorkGroup();
+    workGroup.name = x;
+    workGroup["isSelected"] = true;
+    return workGroup
+  });
+
+  this.getPage(0);
   }
 
   ngAfterViewInit() {
@@ -96,11 +99,14 @@ export class GeneSearchComponent implements OnInit {
   //       })
   //     ).subscribe(data => this.data = data);
   // }
+
+ 
 }
 
   getPage(page: number) {
+    console.log('page number=' + page);
     // The end point starts page in number 0, while the component starts with 1.
-    const apiPageNumber = page - 1;
+    const apiPageNumber = page;
     let workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
     let workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
     let selectedWorkUnits = [];
@@ -186,7 +192,7 @@ export class GeneSearchComponent implements OnInit {
   }
 
   onSubmit(e) {
-    this.getPage(1);
+    this.getPage(0);
   }
 
   getIdFromWorkUnitName(workUnitName: String) {
