@@ -37,7 +37,8 @@ export class GeneSearchComponent implements OnInit {
   configurationData: ConfigurationData;
 
   error;
-  loading = true;
+  isLoading = true;
+  isRateLimitReached = false;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,7 +66,7 @@ export class GeneSearchComponent implements OnInit {
     return workGroup
   });
   
-  this.isLoadingResults = true;
+  this.isLoading = true;
   this.getPage(0);
   }
 
@@ -121,7 +122,7 @@ export class GeneSearchComponent implements OnInit {
 
     const geneSymbols = this.getGeneSymbolsAsArray();
 
-    this.loading = true;
+    this.isLoading = true;
 
     this.projectService.getPaginatedProjectSummariesWithFilters(
       apiPageNumber,
@@ -139,10 +140,10 @@ export class GeneSearchComponent implements OnInit {
         }
         this.page = data['page'];
         this.p = page;
-        this.loading = false;
+        this.isLoading = false;
       }, error => {
         this.error = error;
-        this.loading = false;
+        this.isLoading = false;
       });
   }
 
