@@ -1,5 +1,5 @@
-<div class="col-md-12 container">
-    <h3>Projects</h3>
+
+    <h3>My Projects</h3>
     <div *ngIf="error" class="alert alert-danger">{{error}}</div>
     <br>
     <a routerLink="/create-project" class="btn btn-primary active" role="button" aria-pressed="true">Create new
@@ -8,108 +8,214 @@
     <br>
     <br>
 
-    <table class="table">
-        <thead>
-            <th scope="col">Edit form</th>
-            <th scope="col">Marker Symbol(s)</th>
-            <th scope="col">Intention</th>
-            <th scope="col">Plan type</th>
-            <th scope="col">Work Group</th>
-            <th scope="col">Work unit</th>
-            <th scope="col">Status</th>
-            <th scope="col">Priority</th>
-            <th scope="col">Privacy</th>
-        </thead>
-        <tr>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th>
-                <p-multiSelect [options]="planTypes" [(ngModel)]="selectedPlanTypes" defaultLabel="All plan type"
-                    (onChange)="filter($event.value, 'plan_type')"></p-multiSelect>
-            </th>
-            <th>
-                <p-multiSelect [options]="workGroups" [(ngModel)]="selectedWorkGroups" defaultLabel="All work groups"
-                    (onChange)="filter($event.value, 'work_group')"></p-multiSelect>
-            </th>
-            <th>
-                <p-multiSelect [options]="workUnits" [(ngModel)]="selectedWorkUnits" defaultLabel="All work units"
-                    (onChange)="filter($event.value, 'work_unit')"></p-multiSelect>
-            </th>
-            <th>
-                <p-multiSelect [options]="statuses" [(ngModel)]="selectedStatuses" defaultLabel="All statuses"
-                    (onChange)="filter($event.value, 'status')"></p-multiSelect>
-            </th>
-            <th>
-                <p-multiSelect [options]="priorities" [(ngModel)]="selectedPriorities" defaultLabel="All priority"
-                    (onChange)="filter($event.value, 'priority')"></p-multiSelect>
-            </th>
-            <th>
-                <p-multiSelect [options]="privacies" [(ngModel)]="selectedPrivacies" defaultLabel="All privacy"
-                    (onChange)="filter($event.value, 'privacy')"></p-multiSelect>
-            </th>
-        </tr>
-        <tbody>
-            <ng-template ngFor let-project
-                [ngForOf]="projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
-                <ng-template ngFor let-plan let-isFirst="first" [ngForOf]="project.planDetails">
-                    <tr>
-                        <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length"><a
-                                routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
-                        <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
-                            <ul>
-                                <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
-                                    <span>
-                                        <a href="{{ markerSymbol.mgiLink }}"
-                                            target="_blank">{{markerSymbol.markerSymbol}}</a>
-                                    </span>
-                                </li>
-                            </ul>
-                        </td>
-                        <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
-                            <ul>
-                                <li *ngFor="let intention of project.projectDetails.alleleIntentions">
-                                    <span>
-                                        {{intention}}
-                                    </span>
-                                </li>
-                            </ul>
-                        </td>
-                        <td>{{ plan.planTypeName }}</td>
-                        <td>{{ plan.workGroupName }}</td>
-                        <td>{{ plan.workUnitName }}</td>
-                        <td>{{ plan.statusName  }}</td>
-                        <td>{{ project.projectDetails.priorityName }}</td>
-                        <td>{{ plan.privacyName }}</td>
-                    </tr>
-                </ng-template>
-                <!-- If no plan information at all, show at least the project information -->
-                <ng-container *ngIf="project.planDetails.length == 0">
-                    <tr>
-                        <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
-                        <td>
-                            <ul>
-                                <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
-                                    <span>
-                                        <a href="{{ markerSymbol.mgiLink }}"
-                                            target="_blank">{{markerSymbol.markerSymbol}}</a>
-                                    </span>
-                                </li>
-                            </ul>
-                        </td>
-                        <td>
-                            <ul>
-                                <li *ngFor="let intention of project.projectDetails.alleleIntentions">
-                                    <span>
-                                        {{intention}}
-                                    </span>
-                                </li>
-                            </ul>
-                        </td>
-                    </tr>
+
+    <div class="example-container mat-elevation-z8">
+        <div class="example-loading-shade"
+             *ngIf="isLoading || isRateLimitReached">
+          <mat-spinner *ngIf="isLoading"></mat-spinner>
+          <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+            The API rate limit has been reached. It will be reset in one minute.
+          </div>
+        </div>
+    
+
+    <div class="example-table-container">
+        <table mat-table [dataSource]="projects" class="mat-elevation-z8" width="100%">
+                
+            <ng-container matColumnDef="Edit Form">
+                <th mat-header-cell *matHeaderCellDef>Edit Form</th>
+                <td mat-cell *matCellDef="let project"><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+            </ng-container>
+             <!-- <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length"><a
+                routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td> -->
+            <ng-container matColumnDef="Marker Symbol(s)">
+                <th mat-header-cell *matHeaderCellDef>Marker Symbol(s)</th>
+                <td mat-cell *matCellDef="let project"><span *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+                    
+                        <a href="{{ markerSymbol.mgiLink }}"
+                            target="_blank">{{markerSymbol.markerSymbol}}</a>
+                </span>
+            </td>
+            </ng-container>
+            <!-- <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
+                <ul>
+                    <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+                        <span>
+                            <a href="{{ markerSymbol.mgiLink }}"
+                                target="_blank">{{markerSymbol.markerSymbol}}</a>
+                        </span>
+                    </li>
+                </ul>
+            </td> -->
+            <ng-container matColumnDef="Intention">
+                <th mat-header-cell *matHeaderCellDef>Intention</th>
+                <td mat-cell *matCellDef="let project"><span *ngFor="let intention of project.projectDetails.alleleIntentions">
+                    <span *ngFor="let intention of project.projectDetails.alleleIntentions">
+                        
+                            {{intention}}
+                       
+                    </span>
+                </span>
+                </td>
+            </ng-container>
+<!-- 
+            <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
+                <ul>
+                    <li *ngFor="let intention of project.projectDetails.alleleIntentions">
+                        <span>
+                            {{intention}}
+                        </span>
+                    </li>
+                </ul>
+            </td> -->
+           <ng-container matColumnDef="Plan Type">
+                <th mat-header-cell *matHeaderCellDef>Plan Type</th>
+                <td mat-cell *matCellDef="let project">
+                        <span *ngFor="let plan of project.planDetails">
+                    {{ plan.planTypeName }}
+                        </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Work Group">
+                    <th mat-header-cell *matHeaderCellDef>Plan Type</th>
+                    <td mat-cell *matCellDef="let project">
+                            <span *ngFor="let plan of project.planDetails">
+                        {{ plan.workGroupName }}
+                            </span>
+                    </td>
                 </ng-container>
-            </ng-template>
-        </tbody>
-    </table>
-    <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
+            <!-- <td>{{ plan.workGroupName }}</td> -->
+                <!-- <td>{{ plan.workUnitName }}</td> -->
+                <ng-container matColumnDef="Work Unit">
+                        <th mat-header-cell *matHeaderCellDef>Work Unit</th>
+                        <td mat-cell *matCellDef="let project">
+                                <span *ngFor="let plan of project.planDetails">
+                                        {{ plan.workUnitName }}
+                                </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Status">
+                            <th mat-header-cell *matHeaderCellDef>Status</th>
+                            <td mat-cell *matCellDef="let project">
+                                    <span *ngFor="let plan of project.planDetails">
+                                {{ plan.status }}
+                                    </span>
+                            </td>
+                        </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        
+        
+        
+        
+        
+        
+        <table class="table">
+            <thead>
+                <th scope="col">Edit form</th>
+                <th scope="col">Marker Symbol(s)</th>
+                <th scope="col">Intention</th>
+                <th scope="col">Plan type</th>
+                <th scope="col">Work Group</th>
+                <th scope="col">Work unit</th>
+                <th scope="col">Status</th>
+                <th scope="col">Priority</th>
+                <th scope="col">Privacy</th>
+            </thead>
+            <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th>
+                    <p-multiSelect [options]="planTypes" [(ngModel)]="selectedPlanTypes" defaultLabel="All plan type"
+                        (onChange)="filter($event.value, 'plan_type')"></p-multiSelect>
+                </th>
+                <th>
+                    <p-multiSelect [options]="workGroups" [(ngModel)]="selectedWorkGroups" defaultLabel="All work groups"
+                        (onChange)="filter($event.value, 'work_group')"></p-multiSelect>
+                </th>
+                <th>
+                    <p-multiSelect [options]="workUnits" [(ngModel)]="selectedWorkUnits" defaultLabel="All work units"
+                        (onChange)="filter($event.value, 'work_unit')"></p-multiSelect>
+                </th>
+                <th>
+                    <p-multiSelect [options]="statuses" [(ngModel)]="selectedStatuses" defaultLabel="All statuses"
+                        (onChange)="filter($event.value, 'status')"></p-multiSelect>
+                </th>
+                <th>
+                    <p-multiSelect [options]="priorities" [(ngModel)]="selectedPriorities" defaultLabel="All priority"
+                        (onChange)="filter($event.value, 'priority')"></p-multiSelect>
+                </th>
+                <th>
+                    <p-multiSelect [options]="privacies" [(ngModel)]="selectedPrivacies" defaultLabel="All privacy"
+                        (onChange)="filter($event.value, 'privacy')"></p-multiSelect>
+                </th>
+            </tr>
+            <tbody>
+                <ng-template ngFor let-project
+                    [ngForOf]="projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }">
+                    <ng-template ngFor let-plan let-isFirst="first" [ngForOf]="project.planDetails">
+                        <tr>
+                            <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length"><a
+                                    routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+                            <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
+                                <ul>
+                                    <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+                                        <span>
+                                            <a href="{{ markerSymbol.mgiLink }}"
+                                                target="_blank">{{markerSymbol.markerSymbol}}</a>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
+                                <ul>
+                                    <li *ngFor="let intention of project.projectDetails.alleleIntentions">
+                                        <span>
+                                            {{intention}}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>{{ plan.planTypeName }}</td>
+                            <td>{{ plan.workGroupName }}</td>
+                            <td>{{ plan.workUnitName }}</td>
+                            <td>{{ plan.statusName  }}</td>
+                            <td>{{ project.projectDetails.priorityName }}</td>
+                            <td>{{ plan.privacyName }}</td>
+                        </tr>
+                    </ng-template>
+                    <!-- If no plan information at all, show at least the project information -->
+                    <ng-container *ngIf="project.planDetails.length == 0">
+                        <tr>
+                            <td><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
+                            <td>
+                                <ul>
+                                    <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+                                        <span>
+                                            <a href="{{ markerSymbol.mgiLink }}"
+                                                target="_blank">{{markerSymbol.markerSymbol}}</a>
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                            <td>
+                                <ul>
+                                    <li *ngFor="let intention of project.projectDetails.alleleIntentions">
+                                        <span>
+                                            {{intention}}
+                                        </span>
+                                    </li>
+                                </ul>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </ng-template>
+            </tbody>
+        </table>
+        </div>
+        <pagination-controls (pageChange)="getPage($event)" id="server"></pagination-controls>
 </div>
