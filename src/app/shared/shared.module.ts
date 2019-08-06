@@ -8,29 +8,32 @@ import { MultiSelectModule } from 'primeng/multiselect';
 import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
-import { MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
-   MatTooltipModule, MatButtonModule, MatCardModule, MatMenuModule, MatGridListModule} from '@angular/material';
-import {A11yModule} from '@angular/cdk/a11y';
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {PortalModule} from '@angular/cdk/portal';
-import {ScrollingModule} from '@angular/cdk/scrolling';
-import {CdkStepperModule} from '@angular/cdk/stepper';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
+import {
+  MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
+  MatTooltipModule, MatButtonModule, MatCardModule, MatMenuModule, MatGridListModule
+} from '@angular/material';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { A11yModule } from '@angular/cdk/a11y';
+import { DragDropModule } from '@angular/cdk/drag-drop';
+import { PortalModule } from '@angular/cdk/portal';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkStepperModule } from '@angular/cdk/stepper';
+import { CdkTableModule } from '@angular/cdk/table';
+import { CdkTreeModule } from '@angular/cdk/tree';
 
 import { NgxPaginationModule } from 'ngx-pagination';
 
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
-import {MatSidenavModule} from '@angular/material/sidenav';
-import {MatBadgeModule} from '@angular/material/badge';
-import {MatIconModule} from '@angular/material/icon';
-import {MatChipsModule} from '@angular/material/chips';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatTableModule} from '@angular/material/table';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatIconModule } from '@angular/material/icon';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -73,7 +76,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCheckboxModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
+
   ],
   exports: [
     CommonModule,
@@ -112,7 +117,8 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     MatCheckboxModule,
     MatTableModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ]
 })
 export class SharedModule { }
