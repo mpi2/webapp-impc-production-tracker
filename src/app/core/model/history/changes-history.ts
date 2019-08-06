@@ -24,12 +24,12 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         history.user = item.user;
         history.date = new Date(item.date);
         history.details = item.details;
-        history.details.map(x => x.field = this.formatPropertyName(x.field));
+        history.details.map(x => x.field = ChangesHistoryAdapter.formatPropertyName(x.field));
 
         return history;
     }
 
-    private formatPropertyName(name: string): string {
+    public static formatPropertyName(name: string): string {
         let result = name;
         let words = this.convertToArray(name);
         words = this.removeNameAtEnd(words);
@@ -40,12 +40,12 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         return result;
     }
 
-    private convertToArray(name: string): string[] {
+    private static convertToArray(name: string): string[] {
         const WORDS_SEPARATOR = '.';
         return name.split(WORDS_SEPARATOR);
     }
 
-    private capitalizeWord(word: string): string {
+    private static capitalizeWord(word: string): string {
         let result = null;
         if (word && word.length > 0) {
             result = word[0].toUpperCase() + word.slice(1);
@@ -53,7 +53,7 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         return result;
     }
 
-    private removeNameAtEnd(words: string[]): string[] {
+    private static removeNameAtEnd(words: string[]): string[] {
         let result = words;
         if (words.length > 1 && 'name' === words[words.length - 1]) {
             result = words.slice(0, words.length - 1);

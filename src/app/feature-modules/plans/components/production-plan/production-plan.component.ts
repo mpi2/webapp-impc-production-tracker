@@ -1,8 +1,11 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
 import { Plan, PlanAdapter } from '../../model/plan';
-import { PermissionsService } from 'src/app/core';
+import { PermissionsService, ChangesHistory, ChangesHistoryAdapter } from 'src/app/core';
+import { MatSnackBar } from '@angular/material';
+import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
+
 
 @Component({
   selector: 'app-production-plan',
@@ -17,8 +20,11 @@ export class ProductionPlanComponent implements OnInit {
   attemptChanged: boolean = false;
   loading: boolean = false;
 
+  changeDetails: ChangesHistory;
+
   constructor(
     private route: ActivatedRoute,
+    private _snackBar: MatSnackBar,
     private planService: PlanService,
     private permissionsService: PermissionsService,
     private adapter: PlanAdapter) { }
@@ -48,8 +54,8 @@ export class ProductionPlanComponent implements OnInit {
   onAttemptChanged(e) {
     console.log('Production Plan component notified of change in attempt');
     console.log(e);
-    
-    
+
+
     this.attemptChanged = true;
   }
 
@@ -58,27 +64,36 @@ export class ProductionPlanComponent implements OnInit {
    */
   updatePlan() {
     this.loading = true;
-    console.log('About to call api');
-    
+
     this.planService.updateProductionPlan(
       this.plan.planDetails.pin, this.plan, this.planDetailsChanged, this.attemptChanged).subscribe(
-      data => {
-        this.loading = false;
-        this.planDetailsChanged = false;
-        this.attemptChanged = false;
-      }, error => {
-        console.log('Error while updating plan', error);
+        data => {
+          this.loading = false;
+          this.planDetailsChanged = false;
+          this.attemptChanged = false;
 
-      }
-    );
+          this.changeDetails = data;
+          this.changeDetails.details.map(x => x.field = ChangesHistoryAdapter.formatPropertyName(x.field));
+          console.log('updated:', this.changeDetails);
+
+          this._snackBar.openFromComponent(UpdateNotificationComponent, {
+            duration: 3000,
+            data: this.changeDetails
+          });
+
+        }, error => {
+          console.log('Error while updating plan', error);
+
+        }
+      );
   }
- 
+
   shouldShowUpdateButton() {
     // console.log('shouldShowUpdateButton',!this.loading && (this.planDetailsChanged || this.attemptChanged));
     // console.log('this.loading', this.loading);
     // console.log('this.planDetailsChanged', this.planDetailsChanged);
     // console.log('this.attemptChanged', this.attemptChanged);
-    
+
     return !this.loading && (this.planDetailsChanged || this.attemptChanged)
   }
 }
