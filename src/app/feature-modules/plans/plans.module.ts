@@ -8,6 +8,7 @@ import { PlanSummaryComponent } from './components/plan-summary/plan-summary.com
 import { PlanDetailsComponent } from './components/plan-details/plan-details.component';
 import { AttemptsModule } from '../attempts/attempts.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { UpdateNotificationComponent } from './components/update-notification/update-notification.component';
 
 @NgModule({
   declarations: [
@@ -15,14 +16,16 @@ import { SharedModule } from 'src/app/shared/shared.module';
     PhenotypingPlanComponent,
     PlanHistoryComponent,
     PlanSummaryComponent,
-    PlanDetailsComponent],
+    PlanDetailsComponent,
+    UpdateNotificationComponent],
   imports: [
     SharedModule,
     PlansRoutingModule,
     AttemptsModule
   ],
   exports: [
-    PlanSummaryComponent
+    PlanSummaryComponent,
+    UpdateNotificationComponent
   ]
 })
 export class PlansModule { }

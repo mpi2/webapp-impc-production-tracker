@@ -1,0 +1,13 @@
+<div class="notifier__notification--success notifier__notification--material">
+    Plan sucessfully updated.
+    <table>
+        <tr>
+            <th>Property</th>
+            <th>Change</th>
+        </tr>
+        <tr *ngFor="let detail of changeDetails.details">
+            <td> {{ detail.field }} </td>
+            <td> {{ detail.oldValue }} => {{ detail.newValue }} </td>
+        </tr>
+    </table>
+</div>

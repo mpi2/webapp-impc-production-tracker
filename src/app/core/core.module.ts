@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoggedUserService } from './services/logged-user.service';
@@ -8,6 +7,7 @@ import { PermissionsService } from './services/permissions.service';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { UpdateNotificationComponent } from '../feature-modules/plans/components/update-notification/update-notification.component';
 
 
 @NgModule({
@@ -20,6 +20,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     ConfigurationDataService,
     PermissionsService
   ],
-  exports: [HeaderComponent, FooterComponent]
+  exports: [HeaderComponent, FooterComponent],
+  entryComponents: [UpdateNotificationComponent]
 })
 export class CoreModule { }
