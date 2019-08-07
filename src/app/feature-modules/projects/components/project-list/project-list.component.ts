@@ -16,13 +16,13 @@ export class ProjectListComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
+  isLoading = true;
   displayedColumns: string[] = ['Edit Form', 'Marker Symbol(s)', 'Intention', 'Plan Type', 'Work Group', 'Work Unit', 'Status', 'Priority',
    'Privacy'];
   projects: ProjectSummary[] = [];
   username: any;
   p = 0;
   page: any = {};
-  loading = false;
   planTypes: SelectItem[];
   workUnits: SelectItem[];
   workGroups: SelectItem[];
@@ -63,11 +63,12 @@ export class ProjectListComponent implements OnInit {
       console.log('planTypes', this.planTypes);
 
     }
+    this.isLoading = true;
     this.getPage(0);
   }
 
   getPage(pageNumber: number) {
-    this.loading = true;
+    this.isLoading = true;
     // The end point starts page in number 0, while the component starts with 1.
     const apiPageNumber = pageNumber;
     const workUnitNameFilter = this.getWorkUnitNameFilter();
@@ -87,8 +88,10 @@ export class ProjectListComponent implements OnInit {
         }
         this.page = data['page'];
         this.p = pageNumber;
+        this.isLoading = false;
       },
         error => {
+          this.isLoading = false;
           console.log('An error', error);
 
           this.error = error;
@@ -138,6 +141,7 @@ export class ProjectListComponent implements OnInit {
       default:
         console.error('invalid option', column);
     }
+    this.isLoading = true;
     this.getPage(1);
   }
 
