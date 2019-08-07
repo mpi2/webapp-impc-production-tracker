@@ -14,29 +14,19 @@ export class CrisprAttemptDetailsComponent implements OnInit {
 
   @Output() modifiedAttemptEmmiter = new EventEmitter<any>();
 
-  dateModel: any = {};
   editCrisprAttemptDetails: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.editCrisprAttemptDetails = this.formBuilder.group({
-      dp: ['', Validators.required],
       miExternalRef: [this.crisprAttempt.miExternalRef, Validators.required],
       comments: [this.crisprAttempt.comment],
       experimental: []
     });
-  
-    const date = new Date(this.crisprAttempt.miDate);
-    this.dateModel = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
-    this.editCrisprAttemptDetails.get('dp').setValue(this.dateModel);
   }
 
   onDateChanged() {
-    const pickedDateModel = this.editCrisprAttemptDetails.get('dp').value;
-    const newDate = new Date(pickedDateModel.year,  pickedDateModel.month - 1 , pickedDateModel.day, 0);
-  
-    this.crisprAttempt.miDate = newDate;
     this.notifyChangeToParent();
   }
 
