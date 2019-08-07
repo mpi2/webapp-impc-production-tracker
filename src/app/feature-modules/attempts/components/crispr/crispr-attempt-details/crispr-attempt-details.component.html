@@ -1,7 +1,7 @@
 <form [formGroup]="editCrisprAttemptDetails">
-  <div class="card">
-    <div class="card-body">
-      <div class="card-title"><u>Crispr Attempt Details</u></div>
+  <mat-card>
+    <mat-card-subtitle>Crispr Attempt Details</mat-card-subtitle>
+    <mat-card-content>
       <table>
         <tr>
           <td>
@@ -11,16 +11,12 @@
 
           <ng-template #miDateEditable>
             <td>
-              <div class="form-group">
-                <div class="input-group">
-                  <mat-form-field>
-                    <input matInput [matDatepicker]="datePicker" [(ngModel)]="crisprAttempt.miDate"
-                      [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
-                    <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-                    <mat-datepicker #datePicker></mat-datepicker>
-                  </mat-form-field>
-                </div>
-              </div>
+              <mat-form-field>
+                <input matInput [matDatepicker]="datePicker" [(ngModel)]="crisprAttempt.miDate"
+                  [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
+                <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                <mat-datepicker #datePicker></mat-datepicker>
+              </mat-form-field>
             </td>
           </ng-template>
 
@@ -57,13 +53,8 @@
             Experimental:
           </td>
           <td>
-
-            <div class="input-group">
-              <div class="form-group">
-                <input type="checkbox" (change)="onExperimentalChecked()" [checked]="this.crisprAttempt.experimental"
-                  [disabled]="!canUpdatePlan">
-              </div>
-            </div>
+            <input type="checkbox" (change)="onExperimentalChecked()" [checked]="this.crisprAttempt.experimental"
+              [disabled]="!canUpdatePlan">
           </td>
         </tr>
         <tr>
@@ -87,6 +78,6 @@
           </ng-template>
         </tr>
       </table>
-    </div>
-  </div>
+    </mat-card-content>
+  </mat-card>
 </form>

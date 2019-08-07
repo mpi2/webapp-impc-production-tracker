@@ -10,6 +10,7 @@ import { CrisprAttempt } from '../../../model/crispr/crispr-attempt';
 export class CrisprAttemptComponent implements OnInit {
 
   dateModel;
+  displayedColumns: string[] = [ 'name', 'sequence', 'startCoordinate', 'endCoordinate'];
   editCrisprAttempt: FormGroup;
 
   @Input() attemptType: string;
