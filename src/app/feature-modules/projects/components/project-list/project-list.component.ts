@@ -13,7 +13,8 @@ import { FormGroup, FormControl } from '@angular/forms';
 })
 export class ProjectListComponent implements OnInit {
 
-  displayedColumns: string[] = ['Edit Form', 'Marker Symbol(s)', 'Intention', 'Plan Type', 'Work Group', 'Work Unit'];
+  displayedColumns: string[] = ['Edit Form', 'Marker Symbol(s)', 'Intention', 'Plan Type', 'Work Group', 'Work Unit', 'Status', 'Priority',
+   'Privacy'];
   projects: ProjectSummary[] = [];
   username: any;
   p = 1;
