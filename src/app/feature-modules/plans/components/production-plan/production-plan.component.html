@@ -1,24 +1,23 @@
-<div class="card">
-  <div class="card-body">
+<mat-card>
+  <mat-card-content>
     <a [routerLink]="['history']">History</a>
     <div>
-    <app-go-back></app-go-back></div>
-    <div class="card-title"><u>Plan Details</u></div>
-    <app-plan-details *ngIf="plan.planDetails.pin" [planDetails]="plan.planDetails"
-      (modifiedPlanDetailsEmmiter)="onPlanDetailsChange($event)">
-    </app-plan-details>
-  </div>
-</div>
+      <app-go-back></app-go-back>
+    </div>
+  </mat-card-content>
+</mat-card>
 
-<app-crispr-attempt *ngIf="plan.productionPlan.crisprAttempt"
-  [attemptType]="plan.productionPlan.attemptType"
-  [crisprAttempt]="plan.productionPlan.crisprAttempt"
-  [canUpdatePlan]="canUpdatePlan"
+<app-plan-details *ngIf="plan.planDetails.pin" [planDetails]="plan.planDetails"
+  (modifiedPlanDetailsEmmiter)="onPlanDetailsChange($event)">
+</app-plan-details>
+
+<app-crispr-attempt *ngIf="plan.productionPlan.crisprAttempt" [attemptType]="plan.productionPlan.attemptType"
+  [crisprAttempt]="plan.productionPlan.crisprAttempt" [canUpdatePlan]="canUpdatePlan"
   (modifiedAttemptEmmiter)="onAttemptChanged($event)">
 </app-crispr-attempt>
 
-<div class="card">
-  <div class="card-body">
-    <button [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan" class="btn btn-primary" (click)="updatePlan()">Update</button>
-  </div>
-</div>
+<mat-card>
+  <mat-card-content>
+    <button mat-raised-button color="primary" [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan" (click)="updatePlan()">Update</button>
+  </mat-card-content>
+</mat-card>

@@ -4,9 +4,9 @@
   </ol>
 </nav>
 
-<div class="card">
-  <div class="card-title"><u>Project Details</u></div>
-  <div class="card-body">
+<mat-card>
+  <mat-card-subtitle>Project Details</mat-card-subtitle>
+  <mat-card-content>
     <table>
       <tr>
         <td>Project id:</td>
@@ -16,7 +16,9 @@
         <td>Marker Symbol(s)</td>
         <td>
           <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
-            <span class="badge badge-pill badge-primary">{{markerSymbol.markerSymbol}}</span>
+            <mat-chip-list>
+              <mat-chip color="primary" selected>{{ markerSymbol.markerSymbol }}</mat-chip>
+            </mat-chip-list>
           </div>
         </td>
       </tr>
@@ -24,7 +26,9 @@
         <td>Intentions</td>
         <td>
           <div *ngFor="let intention of project.projectDetails.alleleIntentions">
-            <span class="badge badge-pill badge-primary">{{intention}}</span>
+            <mat-chip-list>
+              <mat-chip color="primary" selected>{{ intention }}</mat-chip>
+            </mat-chip-list>
           </div>
         </td>
       </tr>
@@ -37,59 +41,32 @@
         <td>{{project.projectDetails.priorityName}}</td>
       </tr>
     </table>
+  </mat-card-content>
+
+  <div class="mat-card-content">
+    <div *ngIf="productionPlansDetails.length > 0">
+      <h4>Production Plans:</h4>
+      <table style="width: 100%;">
+        <tbody>
+          <tr *ngFor="let productionPlanDetail of productionPlansDetails">
+            <app-plan-summary [planDetails]="productionPlanDetail"></app-plan-summary>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
 
-  <div class="card-body">
-      <div *ngIf="productionPlansDetails.length > 0">
-          <h4>Production Plans:</h4>
-          <table>
-            <tbody>
-              <tr *ngFor="let productionPlanDetail of productionPlansDetails">
-                <app-plan-summary [planDetails]="productionPlanDetail"></app-plan-summary>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-  </div>
-
-  <div class="card-body">
-      <div *ngIf="phenotypingPlansDetails.length > 0">
-          <h4>Phenotype Plans:</h4>
-          <table>
-            <tbody>
-              <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
-                <app-plan-summary [planDetails]="phenotypingPlanDetail"></app-plan-summary>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+  <div class=" mat-card-content">
+    <div *ngIf="phenotypingPlansDetails.length > 0">
+      <h4>Phenotype Plans:</h4>
+      <table>
+        <tbody>
+          <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
+            <app-plan-summary [planDetails]="phenotypingPlanDetail"></app-plan-summary>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
   </div>
-
-
-
-</div>
-
-<!-- <div class="card">
-<div *ngIf="productionPlansDetails.length > 0">
-  <h4>Production Plans:</h4>
-  <table>
-    <tbody>
-      <tr *ngFor="let productionPlanDetail of productionPlansDetails">
-        <app-plan-summary [planDetails]="productionPlanDetail"></app-plan-summary>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div *ngIf="phenotypingPlansDetails.length > 0">
-  <h4>Phenotype Plans:</h4>
-  <table>
-    <tbody>
-      <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
-        <app-plan-summary [planDetails]="phenotypingPlanDetail"></app-plan-summary>
-      </tr>
-    </tbody>
-  </table>
-</div>
-</div> -->
+</mat-card>

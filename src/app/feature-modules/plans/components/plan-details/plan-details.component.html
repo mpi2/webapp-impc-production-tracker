@@ -1,81 +1,86 @@
-<form [formGroup]="editPlanDetails" (ngSubmit)="onSubmit()">
-  <table>
-    <tr>
-      <td>
-        Plan id:
-      </td>
-      <td>
-        {{planDetails.pin}}
-      </td>
-    </tr>
-    <ng-template [ngIf]="planDetails.planTypeName === 'phenotyping'">
-      <tr>
-        <td>
-          Production Plan reference:
-        </td>
-        <td>
-          {{planDetails.productionPlanReference}}
-        </td>
-      </tr>
-    </ng-template>
+<mat-card>
+  <mat-card-subtitle>Plan Details</mat-card-subtitle>
+  <mat-card-content>
+    <form [formGroup]="editPlanDetails" (ngSubmit)="onSubmit()">
+      <table>
+        <tr>
+          <td>
+            Plan id:
+          </td>
+          <td>
+            {{planDetails.pin}}
+          </td>
+        </tr>
+        <ng-template [ngIf]="planDetails.planTypeName === 'phenotyping'">
+          <tr>
+            <td>
+              Production Plan reference:
+            </td>
+            <td>
+              {{planDetails.productionPlanReference}}
+            </td>
+          </tr>
+        </ng-template>
 
-    <tr>
-      <td>
-        Privacy:
-      </td>
-      <div *ngIf="canUpdatePlan; then privacyEditable else privacyReadOnly"></div>
-      <ng-template #privacyEditable>
-        <td>
-          <div class="form-group">
-            <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
-              [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'"
-              [data]="privacies" [settings]="dropdownSettingsSingle" (onSelect)="onItemSelect($event)">
-            </ng-multiselect-dropdown>
-          </div>
-        </td>
-      </ng-template>
+        <tr>
+          <td>
+            Privacy:
+          </td>
+          <div *ngIf="canUpdatePlan; then privacyEditable else privacyReadOnly"></div>
+          <ng-template #privacyEditable>
+            <td>
+              <div class="form-group">
+                <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
+                  [ngClass]="{ 'is-invalid': submitted && f.privacy.errors }" [placeholder]="'--Select--'"
+                  [data]="privacies" [settings]="dropdownSettingsSingle" (onSelect)="onItemSelect($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </td>
+          </ng-template>
 
-      <ng-template #privacyReadOnly>
-        <td>
-          {{planDetails.privacyName}}
-        </td>
-      </ng-template>
-    </tr>
-    <tr>
-      <td>
-        Status:
-      </td>
-      <td>
-        {{planDetails.statusName}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        WorkUnit:
-      </td>
-      <td>
-        {{planDetails.workUnitName}}
-      </td>
-    </tr>
-    <tr>
-      <td>
-        Comments:
-      </td>
-      <div *ngIf="canUpdatePlan; then commentsEditable else commentsReadOnly"></div>
-      <ng-template #commentsEditable>
-        <td>
-          <div class="form-group">
-            <textarea type="text" formControlName="comments" class="form-control"
-              (change)="onTextCommentChanged($event)"></textarea>
-          </div>
-        </td>
-      </ng-template>
+          <ng-template #privacyReadOnly>
+            <td>
+              {{planDetails.privacyName}}
+            </td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>
+            Status:
+          </td>
+          <td>
+            {{planDetails.statusName}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            WorkUnit:
+          </td>
+          <td>
+            {{planDetails.workUnitName}}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Comments:
+          </td>
+          <div *ngIf="canUpdatePlan; then commentsEditable else commentsReadOnly"></div>
+          <ng-template #commentsEditable>
+            <td>
+              <div class="form-group">
+                <textarea type="text" formControlName="comments" class="form-control"
+                  (change)="onTextCommentChanged($event)"></textarea>
+              </div>
+            </td>
+          </ng-template>
 
-      <ng-template #commentsReadOnly>
-        <td>
-          {{planDetails.comments}}
-        </td>
-      </ng-template>
-    </tr>
-  </table>
-</form>
+          <ng-template #commentsReadOnly>
+            <td>
+              {{planDetails.comments}}
+            </td>
+          </ng-template>
+        </tr>
+      </table>
+    </form>
+  </mat-card-content>
+</mat-card>
