@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
 import { ProjectService } from '../../services/project.service';
 import { ProjectSummary, ProjectSummaryAdapter } from '../../model/project-summary';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { MatPaginator, MatSort } from '@angular/material';
 
 @Component({
   selector: 'app-project-list',
@@ -12,12 +13,14 @@ import { FormGroup, FormControl } from '@angular/forms';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
+  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   displayedColumns: string[] = ['Edit Form', 'Marker Symbol(s)', 'Intention', 'Plan Type', 'Work Group', 'Work Unit', 'Status', 'Priority',
    'Privacy'];
   projects: ProjectSummary[] = [];
   username: any;
-  p = 1;
+  p = 0;
   page: any = {};
   loading = false;
   planTypes: SelectItem[];
@@ -60,13 +63,13 @@ export class ProjectListComponent implements OnInit {
       console.log('planTypes', this.planTypes);
 
     }
-    this.getPage(1);
+    this.getPage(0);
   }
 
   getPage(pageNumber: number) {
     this.loading = true;
     // The end point starts page in number 0, while the component starts with 1.
-    const apiPageNumber = pageNumber - 1;
+    const apiPageNumber = pageNumber;
     const workUnitNameFilter = this.getWorkUnitNameFilter();
     this.projectService.getPaginatedProjectSummariesWithFilters(
       apiPageNumber,

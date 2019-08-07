@@ -125,7 +125,7 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
-        <mat-paginator  (page)="pageEvent = getPage(p)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
+        <mat-paginator  (page)="pageEvent = getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
         
         
         
