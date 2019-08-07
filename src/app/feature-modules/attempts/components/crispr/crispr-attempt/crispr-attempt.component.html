@@ -19,75 +19,11 @@
     (modifiedAttemptEmmiter)="onAttemptChangedByChildren($event)">
   </app-crispr-attempt-details>
 
-  <mat-card>
-    <mat-card-subtitle>Mutagenesis Details</mat-card-subtitle>
-    <mat-card-content>
-      <table>
-        <tr>
-          <td>
-            Mutagenesis External Ref:
-          </td>
-          <td>
-            {{ crisprAttempt.mutagenesisExternalRef }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Delivery Method:
-          </td>
-          <td>
-            {{ crisprAttempt.deliveryMethod }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Voltage:
-          </td>
-          <td>
-            {{ crisprAttempt.voltage }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Number of pulses:
-          </td>
-          <td>
-            {{ crisprAttempt.numberOfPulses }}
-          </td>
-        </tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
+  <app-mutagenesis-details [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan">
+  </app-mutagenesis-details>
 
-  <mat-card>
-    <mat-card-subtitle>Genotype Primers</mat-card-subtitle>
-    <mat-card-content>
-      <table mat-table [dataSource]="crisprAttempt.primers" class="mat-elevation-z8">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="sequence">
-          <th mat-header-cell *matHeaderCellDef> Sequence </th>
-          <td mat-cell *matCellDef="let element"> {{element.sequence}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="startCoordinate">
-          <th mat-header-cell *matHeaderCellDef> Start Coordinate </th>
-          <td mat-cell *matCellDef="let element"> {{element.startCoordinate || "Not defined"}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="endCoordinate">
-          <th mat-header-cell *matHeaderCellDef> End Coordinate </th>
-          <td mat-cell *matCellDef="let element"> {{element.endCoordinate || "Not defined"}} </td>
-        </ng-container>
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
+  <app-genotype-primers [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan">
+  </app-genotype-primers>
 
   <mat-card>
     <mat-card-subtitle>Vector/Ologos (Mutagenesis Donors)</mat-card-subtitle>
