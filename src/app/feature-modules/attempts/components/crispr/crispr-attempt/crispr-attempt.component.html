@@ -25,28 +25,7 @@
   <app-genotype-primers [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan">
   </app-genotype-primers>
 
-  <mat-card>
-    <mat-card-subtitle>Vector/Ologos (Mutagenesis Donors)</mat-card-subtitle>
-    <table>
-      <thead>
-        <tr>
-          <th scope="col">Concentration </th>
-          <th scope="col">Sequence </th>
-          <th scope="col">Preparation </th>
-          <th scope="col"> </th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let el of crisprAttempt.mutagenesisDonors">
-          <td>{{el.concentration}}</td>
-          <td>{{el.oligoSequence}}</td>
-          <td>{{el.preparation}}</td>
-          <td>
-            <button class="btn btn-sm btn-outline-primary"
-              (click)="openModalToDeleteMutagenesisDonor(el)">Remove</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </mat-card>
+  <app-mutagenesis-donors [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan">
+  </app-mutagenesis-donors>
+
 </form>

@@ -6,13 +6,15 @@ import { CrisprAttemptComponent } from './components/crispr/crispr-attempt/crisp
 import { SharedModule } from 'src/app/shared/shared.module';
 import { MutagenesisDetailsComponent } from './components/crispr/mutagenesis-details/mutagenesis-details.component';
 import { GenotypePrimersComponent } from './components/crispr/genotype-primers/genotype-primers.component';
+import { MutagenesisDonorsComponent } from './components/crispr/mutagenesis-donors/mutagenesis-donors.component';
 
 @NgModule({
   declarations: [
     CrisprAttemptComponent,
     CrisprAttemptDetailsComponent,
     MutagenesisDetailsComponent,
-    GenotypePrimersComponent
+    GenotypePrimersComponent,
+    MutagenesisDonorsComponent
   ],
   imports: [
     SharedModule,
