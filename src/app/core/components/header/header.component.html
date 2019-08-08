@@ -14,10 +14,14 @@
                                 <button mat-menu-item *ngIf="login && role == 'admin'" routerLink="/admin">Admin</button>
                                 <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
                             </mat-menu>
-                        <button mat-flat-button routerLink="/search" routerLinkActive="active">Search</button>    
-                    
-                        <button  mat-flat-button [matMenuTriggerFor]="project_menu" routerLink="/projects" routerLinkActive="active">Projects</button>
+                        <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>    
+                            <mat-menu #search_menu="matMenu">
+                                <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
+                                <button mat-menu-item routerLink="/searchDocumentation" routerLinkActive="active">Search Documentation</button>
+                            </mat-menu>
+                        <button  mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
                             <mat-menu #project_menu="matMenu">
+                                <button mat-menu-item *ngIf="login" routerLink="/projects" routerLinkActive="active">My Projects</button>
                                 <button mat-menu-item [matMenuTriggerFor]="attempt">Create an attempt</button> 
                                 <button mat-menu-item routerLink="">Reports</button>
                                 <button mat-menu-item routerLink="">Manual</button>
