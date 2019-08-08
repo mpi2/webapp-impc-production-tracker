@@ -7,3 +7,11 @@
 }
 
 table.tablename td {font-size: 15px;}
+
+table, th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+  }
