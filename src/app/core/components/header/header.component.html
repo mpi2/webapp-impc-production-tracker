@@ -25,16 +25,17 @@
                         <button  mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
                             <mat-menu #project_menu="matMenu">
                                 <button mat-menu-item *ngIf="login" routerLink="/projects" routerLinkActive="active">My Projects</button>
-                                <button mat-menu-item [matMenuTriggerFor]="attempt">Create an attempt</button> 
-                                <button mat-menu-item routerLink="">Reports</button>
-                                <button mat-menu-item routerLink="">Manual</button>
+                                <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
+                                <mat-menu  #attempt="matMenu">
+                                        <button mat-menu-item *ngIf="login" routerLink="">CRISPR</button>
+                                        <button mat-menu-item *ngIf="login"  routerLink="">ES Cell</button>
+                                        <button mat-menu-item *ngIf="login"  routerLink="">Breading</button>
+                                </mat-menu> 
+                                <button mat-menu-item routerLink="reports" *ngIf="login">Reports</button>
+                                <button mat-menu-item routerLink="manual" *ngIf="login">Manual</button>
                             </mat-menu>
 
-                                <mat-menu  #attempt="matMenu">
-                                        <button mat-menu-item *ngIf="logout == false" routerLink="">CRISPR</button>
-                                        <button mat-menu-item *ngIf="logout == false"  routerLink="">ES Cell</button>
-                                        <button mat-menu-item *ngIf="logout == false"  routerLink="">Breading</button>
-                                </mat-menu>
+                                
                     </div>
                     <a class="privacy" fxFlex="10%" fxLayoutAlign="end" matBadge="i"
                                 href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy
