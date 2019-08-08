@@ -3,6 +3,13 @@
             <p *ngIf="login"><mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ username }}</b></p>
         </div>            
                 <div fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="start center">
+                        
+                        <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>    
+                        <mat-menu #search_menu="matMenu">
+                            <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
+                            <button mat-menu-item routerLink="/searchDocumentation" routerLinkActive="active">Search Documentation</button>
+                        </mat-menu>
+
                         <button mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
                             Account
                         </button>
@@ -14,11 +21,7 @@
                                 <button mat-menu-item *ngIf="login && role == 'admin'" routerLink="/admin">Admin</button>
                                 <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
                             </mat-menu>
-                        <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>    
-                            <mat-menu #search_menu="matMenu">
-                                <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
-                                <button mat-menu-item routerLink="/searchDocumentation" routerLinkActive="active">Search Documentation</button>
-                            </mat-menu>
+                    
                         <button  mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
                             <mat-menu #project_menu="matMenu">
                                 <button mat-menu-item *ngIf="login" routerLink="/projects" routerLinkActive="active">My Projects</button>
