@@ -31,5 +31,6 @@ export class CrisprAttempt {
     reagents: [] = [];
     primers: [] = [];
     mutagenesisDonors: [] = [];
+    guides: [] = [];
 }
 
