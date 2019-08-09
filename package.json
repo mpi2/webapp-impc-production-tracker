@@ -28,6 +28,7 @@
     "ng-multiselect-dropdown": "^0.2.3",
     "ng2-completer": "^3.0.2",
     "ng2-smart-table": "^1.5.0",
+    "ng7-bootstrap-breadcrumb": "^2.0.0",
     "ngx-pagination": "^4.1.0",
     "primeicons": "^1.0.0",
     "primeng": "^8.0.1",
