@@ -30,6 +30,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { Ng7BootstrapBreadcrumbModule } from "ng7-bootstrap-breadcrumb";
 
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
@@ -77,7 +78,8 @@ import { HistoryComponent } from './components/history/history.component';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    Ng7BootstrapBreadcrumbModule
 
   ],
   exports: [
@@ -120,7 +122,8 @@ import { HistoryComponent } from './components/history/history.component';
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    Ng7BootstrapBreadcrumbModule
   ]
 })
 export class SharedModule { }
