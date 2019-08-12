@@ -11,6 +11,7 @@ export class ChangesHistory {
     user: string;
     date: Date = new Date();
     details: any[];
+    comment: string;
 }
 
 @Injectable({
@@ -24,6 +25,7 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         history.user = item.user;
         history.date = new Date(item.date);
         history.details = item.details;
+        history.comment = item.comment;
         history.details.map(x => x.field = ChangesHistoryAdapter.formatPropertyName(x.field));
 
         return history;

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChangesHistory, ChangesHistoryAdapter } from 'src/app/core/model/history/changes-history';
-import { Sort } from '@angular/material/sort';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from 'src/app/feature-modules/plans';
+import { ProjectService } from 'src/app/feature-modules/projects';
 
 @Component({
   selector: 'app-history',
@@ -13,53 +13,68 @@ export class HistoryComponent implements OnInit {
 
   historyRecords: ChangesHistory[] = [];
   sortedData: ChangesHistory[] = [];
+  private entity: string;
+  private id: string;
 
   constructor(
     private route: ActivatedRoute,
     private planService: PlanService,
+    private projectService: ProjectService,
     private adapter: ChangesHistoryAdapter) { }
 
   ngOnInit() {
-    console.log('Enter');
-    
-    let pid = this.route.snapshot.params['pid'];
-    if (pid) {
-      this.planService.getHistoryByPid(pid).subscribe(data => {
-        this.historyRecords = data;
-        console.log(data);
+    this.getData()
+  }
+
+  private getData() {
+    this.route.data.subscribe(
+      v => {
+        this.entity = v.entity;
+        console.log('v.id -> ', v.id);
         
-        this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
-        this.sortedData = this.historyRecords.slice();
-        console.log('history', this.sortedData );
-        
+        this.id = this.route.snapshot.params[v.id];
+
+        console.log('entity', this.entity);
+        console.log('id', this.id);
+
+        this.getHistory()
       });
+  }
+
+  private getHistory() {
+    switch (this.entity) {
+      case 'project':
+        console.log('Get project history');
+        
+        this.getProjectHistory(this.id);
+        break;
+      case 'plan':
+        this.getPlanHistory(this.id);
+        break;
+
     }
   }
 
-  compare(a: number | string, b: number | string, isAsc: boolean) {
-    return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
-  }
-
-  sortData(sort: Sort) {
-    const data = this.historyRecords.slice();
-    if (!sort.active || sort.direction === '') {
-      this.sortedData = data;
-      return;
-    }
-
-    this.sortedData = data.sort((a, b) => {
-      const isAsc = sort.direction === 'asc';
-      switch (sort.active) {
-        case '#': return compare(a.id, b.id, isAsc);
-        case 'user': return compare(a.user, b.user, isAsc);
-        case 'date': return compare(a.date, b.date, isAsc);
-        default: return 0;
-      }
+  private getProjectHistory(tpn: string) {
+    this.projectService.getHistoryByTpn(tpn).subscribe(data => {
+      console.log('data hist project', data);
+      
+      this.historyRecords = data;
+      this.adaptData();
     });
   }
 
-}
+  private getPlanHistory(pid: string) {
+    this.planService.getHistoryByPid(pid).subscribe(data => {
+      this.historyRecords = data;
+      this.adaptData();
+    });
+  }
 
-function compare(a: number | string | Date, b: number | string | Date, isAsc: boolean) {
-  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+  private adaptData() {
+    this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
+    this.sortedData = this.historyRecords.slice();
+    console.log('sortedData', this.sortedData);
+    
+  }
 }

@@ -49,9 +49,31 @@ const routes: Routes = [
       ]
     }
   },
+
+  {
+    path: 'projects/:id/history', component: HistoryComponent,
+    data: {
+      title: 'Project History',
+      id: 'id',
+      entity: 'project',
+      breadcrumb: [
+        {
+          label: 'Project {{ id }}',
+          url: 'projects/:id'
+        },
+        {
+          label: 'History',
+          url: ''
+        }
+      ]
+    }
+  },
+  
   {
     path: 'projects/:id/production-plan/:pid/history', component: HistoryComponent
     ,data: {
+      id: 'pid',
+      entity: 'plan',
       title: 'Phenotyping Plan',
       breadcrumb: [
         {
