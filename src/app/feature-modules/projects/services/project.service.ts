@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { ProjectSummary } from '../model/project-summary';
 import { Project } from '../model/project';
 import { NewProject } from '../model/newProject';
+import { ChangesHistory } from 'src/app/core';
 
 @Injectable({
   providedIn: 'root'
@@ -113,5 +114,14 @@ export class ProjectService {
     }
 
     return queryParameters;
+  }
+
+  /**
+   * Gets the history of the changes for a project.
+   * @param tpn The identifier for the project.
+   */
+  getHistoryByTpn(tpn: String) {
+    return this.http.get<ChangesHistory[]>(`${environment.baseUrl}/api/projects/${tpn}/history`);
+    
   }
 }

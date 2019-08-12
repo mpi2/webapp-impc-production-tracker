@@ -1,8 +1,11 @@
-<nav aria-label="breadcrumb">
-  <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">Project {{project.projectDetails.tpn}}</li>
-  </ol>
-</nav>
+<mat-card>
+  <mat-card-content>
+    <a [routerLink]="['history']">History</a>
+    <div>
+      <app-go-back></app-go-back>
+    </div>
+  </mat-card-content>
+</mat-card>
 
 <mat-card>
   <mat-card-subtitle>Project Details</mat-card-subtitle>
