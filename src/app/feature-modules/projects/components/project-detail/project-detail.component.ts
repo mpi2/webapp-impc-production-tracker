@@ -17,6 +17,8 @@ export class ProjectDetailComponent implements OnInit {
   productionPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
 
+  assignmentStatusDatesColumns = ['name', 'date'];
+
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
@@ -30,6 +32,8 @@ export class ProjectDetailComponent implements OnInit {
     let id = this.route.snapshot.params['id'];
     this.projectService.getProject(id).subscribe(data => {
       this.project = data;
+      console.log('this.project', this.project );
+      
       this.getProductionPlans();
     });
   }
