@@ -97,7 +97,33 @@
     </mat-expansion-panel>
   </mat-accordion>
 
-  <div class="mat-card-content">
+  <mat-card *ngIf="productionPlansDetails.length > 0">
+    <mat-card-subtitle>Production Plans</mat-card-subtitle>
+    <mat-card-content>
+      <table style="width: 100%;">
+        <tbody>
+          <tr *ngFor="let productionPlanDetail of productionPlansDetails">
+            <app-plan-summary [plan]="productionPlanDetail"></app-plan-summary>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="phenotypingPlansDetails.length > 0">
+      <mat-card-subtitle>Phenotyping Plans</mat-card-subtitle>
+      <mat-card-content>
+        <table style="width: 100%;">
+          <tbody>
+            <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
+              <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
+            </tr>
+          </tbody>
+        </table>
+      </mat-card-content>
+    </mat-card>
+
+  <!-- <div class="mat-card-content">
     <div *ngIf="productionPlansDetails.length > 0">
       <h4>Production Plans:</h4>
       <table style="width: 100%;">
@@ -122,4 +148,4 @@
       </table>
     </div>
   </div>
-</mat-card>
+</mat-card>  -->

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CrisprAttempt } from '../../../model/crispr/crispr-attempt';
+import { CrisprAttempt } from '../../../../model/production/crispr/crispr-attempt';
 
 @Component({
   selector: 'app-crispr-attempt',

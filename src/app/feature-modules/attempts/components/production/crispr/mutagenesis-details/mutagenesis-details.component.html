@@ -23,7 +23,7 @@
                 Voltage:
               </td>
               <td>
-                {{ crisprAttempt.voltage }}
+                {{ crisprAttempt.voltage || 'Not Defined' }}
               </td>
             </tr>
             <tr>
@@ -31,7 +31,7 @@
                 Number of pulses:
               </td>
               <td>
-                {{ crisprAttempt.number_of_pulses }}
+                {{ crisprAttempt.number_of_pulses || 'Not Defined' }}
               </td>
             </tr>
           </table>

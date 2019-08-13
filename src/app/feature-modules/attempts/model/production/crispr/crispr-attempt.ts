@@ -1,4 +1,4 @@
-import { Nuclease, Guide, Donor, Reagent, GenotypePrimer, Assay, StrainInjected } from '../..';
+import { Nuclease, Guide, Donor, Reagent, GenotypePrimer, Assay, StrainInjected } from '../../..';
 
 export class CrisprAttempt {
     plan_id: number;
