@@ -1,3 +1,22 @@
-<p>
-  phenotyping-plan works!
-</p>
+<mat-card>
+  <mat-card-content>
+    <a [routerLink]="['history']">History</a>
+    <div>
+      <app-go-back></app-go-back>
+    </div>
+  </mat-card-content>
+</mat-card>
+
+<app-plan-details *ngIf="plan.pin" [plan]="plan" (modifiedPlanDetailsEmmiter)="onPlanDetailsChange($event)">
+  </app-plan-details>
+
+  <app-phenotyping-attempt *ngIf="plan.phenotyping_attempt_attributes" [phenotypingAttempt]="plan.phenotyping_attempt_attributes"
+  [canUpdatePlan]="canUpdatePlan" (modifiedAttemptEmmiter)="onAttemptChanged($event)">
+</app-phenotyping-attempt>
+
+<mat-card>
+  <mat-card-content>
+    <button mat-raised-button color="primary" [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan"
+      (click)="updatePlan()">Update</button>
+  </mat-card-content>
+</mat-card>

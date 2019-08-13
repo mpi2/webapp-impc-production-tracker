@@ -4,18 +4,14 @@ import { Routes, RouterModule } from '@angular/router';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
 import { CreateProjectComponent } from './components/create-project/create-project.component';
-
-import { ProductionPlanComponent, PhenotypingPlanComponent } from '../plans';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { HistoryComponent } from 'src/app/shared/components/history/history.component';
+import { ProductionPlanComponent } from '../plans/components/production-plan/production-plan.component';
+import { PhenotypingPlanComponent } from '../plans/components/phenotyping-plan/phenotyping-plan.component';
 
 const routes: Routes = [
   {
     path: 'projects/:id', component: ProjectDetailComponent, canActivate: [AuthGuard],
-    // children: [
-    //   { path: 'production-plan/:pid', component: ProductionPlanComponent },
-    //   { path: 'phenotyping-plan/:pid', component: PhenotypingPlanComponent},
-    // ]
   },
   {
     path: 'projects/:id/production-plan/:pid', component: ProductionPlanComponent,

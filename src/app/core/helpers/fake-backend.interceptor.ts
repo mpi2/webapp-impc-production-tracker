@@ -13,18 +13,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
-            if (request.url.includes('/projects/') && !request.url.includes('/history')  && request.method === 'GET') {
+            if (request.url.includes('/projects/') && !request.url.includes('/history') && request.method === 'GET') {
                 // if (!isLoggedIn) { return unauthorised(); }
                 return ok(getProject());
             }
-            if (request.url.includes('plans/PIN:0000') && !request.url.includes('/history') && request.method === 'GET') {
+            if ((request.url.includes('plans/PIN:0000000002')) && !request.url.includes('/history') && request.method === 'GET') {
                 // if (!isLoggedIn) { return unauthorised(); }
-                return ok(getPlan());
+                return ok(getPlanWithCrisprAttempt());
+            }
+
+            if (request.url.includes('plans/PIN:0000000012') && !request.url.includes('/history') && request.method === 'GET') {
+                // if (!isLoggedIn) { return unauthorised(); }
+                return ok(getPlanWithPhenotypingAttempt());
             }
 
             // pass through any requests not handled above
             console.log('No faked');
-            
+
             return next.handle(request);
         }))
             // call materialize and dematerialize to ensure delay even if an error is thrown 
@@ -103,17 +108,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                         "production_plans": [
                             {
                                 "href": "http://localhost:8080/api/plans/PIN:0000000002"
-                            },
-                            {
-                                "href": "http://localhost:8080/api/plans/PIN:0000000003"
                             }
                         ],
                         "phenotyping_plans": [
                             {
-                                "href": "http://localhost:8080/api/plans/PIN:0000000004"
-                            },
-                            {
-                                "href": "http://localhost:8080/api/plans/PIN:0000000005"
+                                "href": "http://localhost:8080/api/plans/PIN:0000000012"
                             }
                         ]
                     }
@@ -123,11 +122,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             return projects[0];
         }
 
-        function getPlan() {
+        function getPlanWithCrisprAttempt() {
             const plan = [
                 {
                     "id": 16420,
-                    "pin": "PIN:0000000011",
+                    "pin": "PIN:0000000002",
                     "project_id": 123,
                     "funder_name": "",
                     "consortium_name": "",
@@ -260,6 +259,72 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                             "type": "blast"
                         },
                         "outcomes_count": 3
+                    }
+                }
+            ];
+
+            return plan[0];
+        }
+
+        function getPlanWithPhenotypingAttempt() {
+            const plan = [
+                {
+                    "id": 16421,
+                    "pin": "PIN:0000000012",
+                    "project_id": 123,
+                    "funder_name": "",
+                    "consortium_name": "",
+                    "work_group_name": "DTCC",
+                    "work_unit_name": "UCD",
+                    "is_active": true,
+                    "status_name": "Production completed",
+                    "status_dates": [
+                        {
+                            "name": "Micro-injection in progress",
+                            "date": "2014-12-18"
+                        },
+                        {
+                            "name": "Founder obtained",
+                            "date": "2015-01-06"
+                        },
+                        {
+                            "name": "Chimeras/Founder obtained",
+                            "date": "2015-01-06"
+                        },
+                        {
+                            "name": "Production complete",
+                            "date": "2015-02-16"
+                        }
+                    ],
+                    "type_name": "phenotyping",
+                    "privacy_name": "public",
+                    "parent_colony_name": "",
+                    "comment": null,
+                    "products_available_for_general_public": true,
+                    "attempts_count": 2,
+                    "phenotyping_attempt_attributes": {
+                        "plan_id": 1,
+                        "imits_phenotype_attempt_id": 1,
+                        "imits_phenotyping_production_id": 1,
+                        "phenotyping_experiments_started": "2015-02-16",
+                        "phenotyping_started": true,
+                        "phenotyping_complete": true,
+                        "do_not_count_towards_completeness": false,
+                        "tissue_distribution_centre_attributes": [
+                            {
+                                "id": 1,
+                                "phenotype_attempt_plan_id": 1,
+                                "start_date": "2015-02-16",
+                                "end_date": "2015-02-16",
+                                "work_unit_name": "UCD",
+                                "material_type_attributes": [
+                                    {
+                                        "id": 1,
+                                        "name": "Embedded tissue"
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 }
             ];

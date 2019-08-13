@@ -35,13 +35,28 @@ export class ProjectDetailComponent implements OnInit {
       console.log('this.project', this.project );
       
       this.getProductionPlans();
+      this.gethenotypingPlans();
     });
   }
 
   private getProductionPlans() {
     this.project._links.production_plans.map(x => {
       this.planService.getPlanByUrl(x.href).subscribe(plan => {
+        console.log('the url', x.href);
+        
+        console.log('Got a production plan', plan);
+        
         this.productionPlansDetails.push(plan);
+      }, error => {
+        console.log('Error getting plan...', error);
+      });
+    });
+  }
+
+  private gethenotypingPlans() {
+    this.project._links.phenotyping_plans.map(x => {
+      this.planService.getPlanByUrl(x.href).subscribe(plan => {
+        this.phenotypingPlansDetails.push(plan);
       }, error => {
         console.log('Error getting plan...', error);
       });

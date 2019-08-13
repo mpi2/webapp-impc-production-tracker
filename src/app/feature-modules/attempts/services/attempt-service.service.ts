@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { CrisprAttempt } from '../model/crispr/crispr-attempt';
+import { CrisprAttempt } from '../model/production/crispr/crispr-attempt';
 
 @Injectable({
   providedIn: 'root'
