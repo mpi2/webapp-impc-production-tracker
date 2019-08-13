@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CrisprAttempt } from '../../..';
+import { CrisprAttempt } from '../../../..';
 
 @Component({
   selector: 'app-mutagenesis-donors',
