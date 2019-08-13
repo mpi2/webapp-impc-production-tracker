@@ -1,6 +1,6 @@
 <mat-card>
         <mat-card-subtitle>Vector/Ologos (Mutagenesis Donors)</mat-card-subtitle>
-        <table>
+        <table class="mat-elevation-z8">
           <thead>
             <tr>
               <th scope="col">Concentration </th>
@@ -10,9 +10,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let el of crisprAttempt.mutagenesisDonors">
+            <tr *ngFor="let el of crisprAttempt.donors_attributes">
               <td>{{el.concentration}}</td>
-              <td>{{el.oligoSequence}}</td>
+              <td>{{el.oligo_sequence_fa}}</td>
               <td>{{el.preparation}}</td>
               <td>
                 <button class="btn btn-sm btn-outline-primary"

@@ -1,20 +1,4 @@
 <form [formGroup]="editCrisprAttempt">
-  <mat-card>
-    <mat-card-subtitle>Attempt Details</mat-card-subtitle>
-    <mat-card-content>
-      <table>
-        <tr>
-          <td>
-            Attempt Type:
-          </td>
-          <td>
-            {{attemptType}}
-          </td>
-        </tr>
-      </table>
-    </mat-card-content>
-  </mat-card>
-
   <app-crispr-attempt-details [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan"
     (modifiedAttemptEmmiter)="onAttemptChangedByChildren($event)">
   </app-crispr-attempt-details>

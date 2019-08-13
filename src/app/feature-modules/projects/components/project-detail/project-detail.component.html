@@ -13,35 +13,60 @@
     <table>
       <tr>
         <td>Project id:</td>
-        <td>{{ project.projectDetails.tpn }}</td>
+        <td>{{ project.tpn }}</td>
       </tr>
       <tr>
-        <td>Marker Symbol(s)</td>
-        <td>
-          <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
+        <td>Intentions:</td>
+        <td *ngIf="project.intention_by_gene_attributes">
+          <div *ngFor="let gene_attribute of project.intention_by_gene_attributes">
             <mat-chip-list>
-              <mat-chip color="primary" selected>{{ markerSymbol.markerSymbol }}</mat-chip>
+              <mat-chip color="primary" selected>{{ gene_attribute.marker_symbol || 'Gene Not defined' }} -
+                {{ gene_attribute.allele_type_name }}</mat-chip>
             </mat-chip-list>
           </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Intentions</td>
-        <td>
-          <div *ngFor="let intention of project.projectDetails.alleleIntentions">
+          <div *ngFor="let gene_attribute of project.intention_by_location_attributes">
             <mat-chip-list>
-              <mat-chip color="primary" selected>{{ intention }}</mat-chip>
+              <mat-chip color="primary" selected>
+                [ {{ gene_attribute.start || 'Start Not defined' }} : {{ gene_attribute.end || 'End Not defined' }} ]
+                - {{ gene_attribute.allele_type_name }}</mat-chip>
             </mat-chip-list>
           </div>
         </td>
       </tr>
       <tr>
         <td>Assignment Status:</td>
-        <td>{{project.projectDetails.assigmentStatusName}}</td>
+        <td>{{project.assignment_status_name}}</td>
       </tr>
       <tr>
-        <td>Priority:</td>
-        <td>{{project.projectDetails.priorityName}}</td>
+        <td>
+          Active?:
+        </td>
+        <td>
+          <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.is_active"
+            [disabled]="!canUpdatePlan">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Withdrawn?:
+        </td>
+        <td>
+          <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.withdrawn"
+            [disabled]="!canUpdatePlan">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          Recovery?:
+        </td>
+        <td>
+          <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.recovery"
+            [disabled]="!canUpdatePlan">
+        </td>
+      </tr>
+      <tr>
+        <td>Comment:</td>
+        <td>{{project.comment}}</td>
       </tr>
     </table>
   </mat-card-content>
@@ -52,7 +77,7 @@
       <table style="width: 100%;">
         <tbody>
           <tr *ngFor="let productionPlanDetail of productionPlansDetails">
-            <app-plan-summary [planDetails]="productionPlanDetail"></app-plan-summary>
+            <app-plan-summary [plan]="productionPlanDetail"></app-plan-summary>
           </tr>
         </tbody>
       </table>
@@ -65,11 +90,10 @@
       <table>
         <tbody>
           <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
-            <app-plan-summary [planDetails]="phenotypingPlanDetail"></app-plan-summary>
+            <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
           </tr>
         </tbody>
       </table>
     </div>
-
   </div>
 </mat-card>

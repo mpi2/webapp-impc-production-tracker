@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { PlanDetails } from '../../model/plan-details';
+import { Plan } from '../../model/plan';
 
 @Component({
   selector: 'app-plan-summary',
@@ -8,12 +8,12 @@ import { PlanDetails } from '../../model/plan-details';
 })
 export class PlanSummaryComponent implements OnInit {
 
-  @Input() planDetails: PlanDetails;
+  @Input() plan: Plan;
 
   constructor() { }
 
   ngOnInit() {
-    console.log('PlanSummaryComponent=>', this.planDetails);
+    console.log('PlanSummaryComponent=>', this.plan);
     
   }
 

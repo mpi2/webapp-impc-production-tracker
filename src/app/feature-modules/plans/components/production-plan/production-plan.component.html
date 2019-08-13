@@ -1,3 +1,4 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-card>
   <mat-card-content>
     <a [routerLink]="['history']">History</a>
@@ -7,17 +8,16 @@
   </mat-card-content>
 </mat-card>
 
-<app-plan-details *ngIf="plan.planDetails.pin" [planDetails]="plan.planDetails"
-  (modifiedPlanDetailsEmmiter)="onPlanDetailsChange($event)">
+<app-plan-details *ngIf="plan.pin" [plan]="plan" (modifiedPlanDetailsEmmiter)="onPlanDetailsChange($event)">
 </app-plan-details>
 
-<app-crispr-attempt *ngIf="plan.productionPlan.crisprAttempt" [attemptType]="plan.productionPlan.attemptType"
-  [crisprAttempt]="plan.productionPlan.crisprAttempt" [canUpdatePlan]="canUpdatePlan"
-  (modifiedAttemptEmmiter)="onAttemptChanged($event)">
+<app-crispr-attempt *ngIf="plan.crispr_attempt_attributes" [crisprAttempt]="plan.crispr_attempt_attributes"
+  [canUpdatePlan]="canUpdatePlan" (modifiedAttemptEmmiter)="onAttemptChanged($event)">
 </app-crispr-attempt>
 
 <mat-card>
   <mat-card-content>
-    <button mat-raised-button color="primary" [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan" (click)="updatePlan()">Update</button>
+    <button mat-raised-button color="primary" [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan"
+      (click)="updatePlan()">Update</button>
   </mat-card-content>
 </mat-card>

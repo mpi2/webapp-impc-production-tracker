@@ -16,22 +16,22 @@
                 <th>Truncated Guide</th>
                 <th>gRNA Concentration</th>
             </tr>
-            <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides">
+            <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides_attributes">
                 <tr>
                     <td>
                         {{guide.sequence}}
                     </td>
                     <td>
-                        {{guide.chromosome}}
+                        {{guide.chr}}
                     </td>
                     <td>
-                        {{guide.chrStart || "Not defined"}}
+                        {{guide.start || "Not defined"}}
                     </td>
                     <td>
-                        {{guide.chrStop || "Not defined"}}
+                        {{guide.end || "Not defined"}}
                     </td>
                     <td>
-                        {{guide.truncatedGuide}}
+                        {{guide.truncated_guide}}
                     </td>
                     <div
                         *ngIf="sameConcentrationForAll; then sameConcentrationForAllTemplate else individualConcentrationTemplate ">
@@ -41,10 +41,10 @@
                             <div *ngIf="canUpdatePlan; then concentrationEditable else concentrationReadOnly ">
                             </div>
                             <ng-template #concentrationEditable>
-                                <input type="text" name="fname" value="{{ guide.grnaConcentration }}"> ng/uL
+                                <input type="text" name="fname" value="{{ guide.grna_concentration }}"> ng/uL
                             </ng-template>
                             <ng-template #concentrationReadOnly>
-                                {{ guide.grnaConcentration ? guide.grnaConcentration || 'ng/uL' : ''}}
+                                {{ guide.grna_concentration ? guide.grna_concentration || 'ng/uL' : ''}}
                             </ng-template>
                         </td>
                     </ng-template>
@@ -53,10 +53,10 @@
                             <div *ngIf="canUpdatePlan; then concentrationEditable else concentrationReadOnly">
                             </div>
                             <ng-template #concentrationEditable>
-                                <input type="text" name="fname" [value]="guide.grnaConcentration"> ng/uL
+                                <input type="text" name="fname" [value]="guide.grna_concentration"> ng/uL
                             </ng-template>
                             <ng-template #concentrationReadOnly>
-                                {{ guide.grnaConcentration ? guide.grnaConcentration || 'ng/uL' : ''}}
+                                {{ guide.grna_concentration ? guide.grna_concentration || 'ng/uL' : ''}}
                             </ng-template>
                         </td>
                     </ng-template>

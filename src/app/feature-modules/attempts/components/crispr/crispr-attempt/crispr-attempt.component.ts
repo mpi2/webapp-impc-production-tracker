@@ -9,11 +9,8 @@ import { CrisprAttempt } from '../../../model/crispr/crispr-attempt';
 })
 export class CrisprAttemptComponent implements OnInit {
 
-  dateModel;
-  displayedColumns: string[] = [ 'name', 'sequence', 'startCoordinate', 'endCoordinate'];
   editCrisprAttempt: FormGroup;
 
-  @Input() attemptType: string;
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
 
@@ -23,20 +20,7 @@ export class CrisprAttemptComponent implements OnInit {
 
   ngOnInit() {
     this.editCrisprAttempt = this.formBuilder.group({
-      dp: ['', Validators.required],
     });
-
-    const date = new Date(this.crisprAttempt.miDate);
-    this.dateModel = { year: date.getFullYear(), month: date.getMonth() + 1, day: date.getDate() };
-    this.editCrisprAttempt.get('dp').setValue(this.dateModel);
-  }
-
-  onDateSelected() {
-    const pickedDateModel = this.editCrisprAttempt.get('dp').value;
-    const newDate = new Date(pickedDateModel.year,  pickedDateModel.month - 1 , pickedDateModel.day, 0);
-  
-    this.crisprAttempt.miDate = newDate;
-    this.notifyCrisprAttemptChanged();
   }
 
   notifyCrisprAttemptChanged() {

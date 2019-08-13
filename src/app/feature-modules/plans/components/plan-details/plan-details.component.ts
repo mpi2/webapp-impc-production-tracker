@@ -1,7 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { PlanDetails } from '../..';
 import { ConfigurationData, PermissionsService, ConfigurationDataService } from 'src/app/core';
+import { Plan } from '../../model/plan';
 
 
 @Component({
@@ -11,8 +11,8 @@ import { ConfigurationData, PermissionsService, ConfigurationDataService } from 
 })
 export class PlanDetailsComponent implements OnInit {
 
-  @Input() planDetails: PlanDetails;
-  @Output() modifiedPlanDetailsEmmiter = new EventEmitter<PlanDetails>();
+  @Input() plan: Plan;
+  @Output() modifiedPlanDetailsEmmiter = new EventEmitter<Plan>();
   canUpdatePlan: boolean;
 
   dropdownSettingsSingle = {};
@@ -31,12 +31,19 @@ export class PlanDetailsComponent implements OnInit {
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
-    console.log('PlanDetailsComponent::planDetails', this.planDetails);
+    console.log('PlanDetailsComponent::plan', this.plan);
 
     this.configurationData = this.configurationDataService.getConfigurationInfo();
+    console.log('Init...');
+    
     this.permissionsService.evaluatePermissionByActionOnResource(
-      PermissionsService.UPDATE_PLAN_ACTION, this.planDetails.pin).subscribe(canUpdatePlan => {
+      PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
         this.canUpdatePlan = canUpdatePlan;
+        console.log('canUpdatePlan=>',canUpdatePlan);
+        
+      }, error => {
+        console.log('Error getting permissions');
+        
       });
 
     this.dropdownSettingsSingle = {
@@ -62,24 +69,24 @@ export class PlanDetailsComponent implements OnInit {
     });
 
     this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
-    this.editPlanDetails.get('comments').setValue(this.planDetails.comments);
+    this.editPlanDetails.get('comments').setValue(this.plan.comment);
 
-    this.selectedPrivacy = [{ name: this.planDetails.privacyName }];
+    this.selectedPrivacy = [{ name: this.plan.privacy_name }];
     this.editPlanDetails.get('privacy').setValue(this.selectedPrivacy);
   }
 
   updatePlanDetails() {
-    this.modifiedPlanDetailsEmmiter.emit(this.planDetails);
+    this.modifiedPlanDetailsEmmiter.emit(this.plan);
   }
 
   onItemSelect(e) {
-    this.planDetails.privacyName = e;
+    this.plan.privacy_name = e;
     this.updatePlanDetails();
   }
 
   onTextCommentChanged(e) {
     const newComments = this.editPlanDetails.get('comments').value;
-    this.planDetails.comments = newComments;
+    this.plan.comment = newComments;
     this.updatePlanDetails();
   }
 

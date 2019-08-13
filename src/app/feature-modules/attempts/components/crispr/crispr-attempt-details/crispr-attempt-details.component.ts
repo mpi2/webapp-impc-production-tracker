@@ -20,8 +20,8 @@ export class CrisprAttemptDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.editCrisprAttemptDetails = this.formBuilder.group({
-      miExternalRef: [this.crisprAttempt.miExternalRef, Validators.required],
-      comments: [this.crisprAttempt.comment],
+      miExternalRef: [this.crisprAttempt.attempt_external_ref, Validators.required],
+      comments: [this.crisprAttempt.comments],
       experimental: []
     });
   }
@@ -32,14 +32,14 @@ export class CrisprAttemptDetailsComponent implements OnInit {
 
   onTextmiExternalRefChanged() {
     const newmiExternalRef = this.editCrisprAttemptDetails.get('miExternalRef').value;
-    this.crisprAttempt.miExternalRef = newmiExternalRef;
+    this.crisprAttempt.attempt_external_ref = newmiExternalRef;
     this.notifyChangeToParent();
   }
 
   onTextCommentChanged() 
   {
     const newComment = this.editCrisprAttemptDetails.get('comments').value;
-    this.crisprAttempt.comment = newComment;
+    this.crisprAttempt.comments = newComment;
     this.notifyChangeToParent();
   }
 
