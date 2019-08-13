@@ -1,51 +1,22 @@
-import { PlanDetails } from './plan-details';
-import { ProductionPlan } from './production-plan';
-import { Injectable } from '@angular/core';
-import { Adapter } from 'src/app/core/model/adapter';
-import { ChangesHistory, ChangesHistoryAdapter } from 'src/app/core/model/history/changes-history';
-import { ProjectDetails } from '../../projects/model/project-details';
+import { StatusDate } from '../../projects';
+import { CrisprAttempt } from '../../attempts';
 
 export class Plan {
-    projectDetails = new ProjectDetails();
-    planDetails = new PlanDetails();
-    changesHistory = new ChangesHistory();
-    productionPlan = new ProductionPlan();
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-export class PlanAdapter implements Adapter<Plan> {
-
-    adapt(item: any): Plan {
-        console.log('{item}', item);
-
-        const plan = new Plan();
-
-        const historyAdapter = new ChangesHistoryAdapter();
-
-        const projectDetails = item.projectDetails;
-        const planDetails = item.planInformation.planDetails;
-        //const changesHistory = item.planInformation.history.map(x => x = historyAdapter.adapt(x));
-        let productionPlan = new ProductionPlan();
-
-        if (planDetails.planTypeName === 'production') {
-            const element = item.planInformation.productionPlan;
-            if (element) {
-                productionPlan.attemptType = element.attempt.attemptType;
-                productionPlan.crisprAttempt = element.attempt.crisprAttempt;
-            }
-
-        } else if (item.projectDetails.planTypeName === 'phenotyping') {
-            ///
-        }
-
-        plan.planDetails = planDetails;
-        plan.projectDetails = projectDetails;
-        //plan.changesHistory = changesHistory;
-        plan.productionPlan = productionPlan;
-
-        return plan;
-    }
-
+    id: number;
+    pin: string;
+    project_id: number;
+    tpn: string;
+    funder_name: string;
+    consortium_name: string;
+    work_group_name: string;
+    work_unit_name: string;
+    is_active: boolean;
+    status_name: string;
+    status_dates: StatusDate[];
+    type_name: string;
+    privacy_name: string;
+    parent_colony_name: string;
+    comment: string;
+    products_available_for_general_public: boolean;
+    crispr_attempt_attributes: CrisprAttempt;
 }

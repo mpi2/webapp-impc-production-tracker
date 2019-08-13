@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute }    from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
-import { ProjectSummary } from '../../model/project-summary';
-import { ProjectAdapter } from '../../model/project';
-import { PlanDetails } from 'src/app/feature-modules/plans';
+import { Project } from '../../model/project';
+import { PlanService } from 'src/app/feature-modules/plans';
+import { Plan } from 'src/app/feature-modules/plans/model/plan';
 
 @Component({
   selector: 'app-project-detail',
@@ -12,22 +12,35 @@ import { PlanDetails } from 'src/app/feature-modules/plans';
 })
 export class ProjectDetailComponent implements OnInit {
 
-  project: ProjectSummary = new ProjectSummary();
+  project: Project = new Project();
 
-  productionPlansDetails: PlanDetails[] = [];
-  phenotypingPlansDetails: PlanDetails[] = [];
+  productionPlansDetails: Plan[] = [];
+  phenotypingPlansDetails: Plan[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private projectService: ProjectService,
-    private adapter: ProjectAdapter) { }
+    private planService: PlanService) { }
 
   ngOnInit() {
+    this.getProjectData();
+  }
+
+  private getProjectData() {
     let id = this.route.snapshot.params['id'];
-    this.projectService.getProjectSummaryById(id).subscribe(data => {
+    this.projectService.getProject(id).subscribe(data => {
       this.project = data;
-      this.productionPlansDetails = this.project.planDetails.filter(x => 'production' === x.planTypeName);
-      this.phenotypingPlansDetails = this.project.planDetails.filter(x => 'phenotyping' === x.planTypeName);
+      this.getProductionPlans();
+    });
+  }
+
+  private getProductionPlans() {
+    this.project._links.production_plans.map(x => {
+      this.planService.getPlanByUrl(x.href).subscribe(plan => {
+        this.productionPlansDetails.push(plan);
+      }, error => {
+        console.log('Error getting plan...', error);
+      });
     });
   }
 }

@@ -23,6 +23,14 @@ export class PlanService {
   }
 
   /**
+   * Get a plan using its identifier.
+   * @param pin The identifier for the plan.
+   */
+  getPlanByUrl(url: string) {
+    return this.http.get<Plan>(url);
+  }
+
+  /**
    * Gets the history of the changes for a plan.
    * @param pin The identifier for the plan.
    */
@@ -31,38 +39,40 @@ export class PlanService {
   }
 
   updatePlan(pin, plan) {
+    console.log('Plan to update', plan);
+
     return this.http.put<any>(`${environment.baseUrl}/api/plans/${pin}`, plan);
   }
 
   updateProductionPlan(pin: string, plan: Plan, updatePlanDetails: boolean, updateAttempt: boolean) {
     const payLoad = this.getProductionPlanPayload(plan, updatePlanDetails, updateAttempt);
     console.log('payLoad', payLoad);
-    
+
     return this.http.put<any>(`${environment.baseUrl}/api/plans/${pin}`, payLoad);
   }
 
-  /**
-   * Returns an object with the structure needed by the server to be able to update a plan.
-   * @param plan Plan object to convert.
-   */
-  getPayloadObject(plan: Plan, updatePlanDetails: boolean, updateAttempt) {
-    const payload: any = {};
-    payload.planDetails = plan.planDetails
-
-  }
-
   getProductionPlanPayload(plan: Plan, updatePlanDetails: boolean, updateAttempt: boolean) {
-    const payload: any = {};
+    let payload: any = {};
     if (updatePlanDetails) {
-      payload.planDetails = plan.planDetails;
+      payload = this.getPayloadForBasicDataPlan(plan);
     }
     if (updateAttempt) {
-      let attempt: any = {};
-      payload.productionPlan = {};
-      attempt.attemptType = plan.productionPlan.attemptType;
-      attempt.crisprAttempt = plan.productionPlan.crisprAttempt;
-      payload.productionPlan.attempt = attempt;
+      payload.crispr_attempt_attributes = plan.crispr_attempt_attributes;
     }
+    return payload;
+  }
+
+  private getPayloadForBasicDataPlan(plan: Plan) {
+    let payload: any = {};
+    payload.id = plan.id;
+    payload.pin = plan.pin;
+    payload.work_group_name = plan.work_group_name;
+    payload.work_unit_name = plan.work_unit_name;
+    payload.products_available_for_general_public = plan.products_available_for_general_public;
+    payload.funder_name = plan.funder_name;
+    payload.consortium_name = plan.consortium_name;
+    payload.comment = plan.comment;
+
     return payload;
   }
 }

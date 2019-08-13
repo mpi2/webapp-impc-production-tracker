@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-content>
     <app-go-back></app-go-back>
-
+    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
     <table>
       <tr>
         <th rowspan="2">Id</th>

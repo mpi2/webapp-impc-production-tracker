@@ -1,7 +1,7 @@
 <mat-card>
     <mat-card-subtitle>Genotype Primers</mat-card-subtitle>
     <mat-card-content>
-        <table mat-table [dataSource]="crisprAttempt.primers" class="mat-elevation-z8">
+        <table mat-table [dataSource]="crisprAttempt.genotype_primers_attributes" class="mat-elevation-z8">
             <ng-container matColumnDef="name">
                 <th mat-header-cell *matHeaderCellDef> Name </th>
                 <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -14,12 +14,12 @@
 
             <ng-container matColumnDef="startCoordinate">
                 <th mat-header-cell *matHeaderCellDef> Start Coordinate </th>
-                <td mat-cell *matCellDef="let element"> {{element.startCoordinate || "Not defined"}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.genomic_start_coordinate || "Not defined"}} </td>
             </ng-container>
 
             <ng-container matColumnDef="endCoordinate">
                 <th mat-header-cell *matHeaderCellDef> End Coordinate </th>
-                <td mat-cell *matCellDef="let element"> {{element.endCoordinate || "Not defined"}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.genomic_end_coordinate || "Not defined"}} </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

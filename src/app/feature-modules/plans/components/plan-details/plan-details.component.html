@@ -8,16 +8,16 @@
             Plan id:
           </td>
           <td>
-            {{planDetails.pin}}
+            {{plan.pin}}
           </td>
         </tr>
-        <ng-template [ngIf]="planDetails.planTypeName === 'phenotyping'">
+        <ng-template [ngIf]="plan.type_name === 'phenotyping'">
           <tr>
             <td>
               Production Plan reference:
             </td>
             <td>
-              {{planDetails.productionPlanReference}}
+              {{plan.productionPlanReference}}
             </td>
           </tr>
         </ng-template>
@@ -40,7 +40,7 @@
 
           <ng-template #privacyReadOnly>
             <td>
-              {{planDetails.privacyName}}
+              {{plan.privacy_name}}
             </td>
           </ng-template>
         </tr>
@@ -49,20 +49,53 @@
             Status:
           </td>
           <td>
-            {{planDetails.statusName}}
+            {{plan.status_name}}
           </td>
         </tr>
         <tr>
           <td>
-            WorkUnit:
+            Work Unit:
           </td>
           <td>
-            {{planDetails.workUnitName}}
+            {{plan.work_unit_name || 'Not defined' }}
           </td>
         </tr>
         <tr>
           <td>
-            Comments:
+            Work Group:
+          </td>
+          <td>
+            {{plan.work_group_name || 'Not defined' }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Consortium:
+          </td>
+          <td>
+            {{plan.consortium_name || 'Not defined' }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Funder:
+          </td>
+          <td>
+            {{plan.funder_name || 'Not defined' }}
+          </td>
+        </tr>
+        <tr>
+            <td>
+                Products available for general public?:
+            </td>
+            <td>
+              <input type="checkbox" (change)="onActiveSelected()" [checked]="plan.products_available_for_general_public"
+                [disabled]="!canUpdatePlan">
+            </td>
+          </tr>
+        <tr>
+          <td>
+            Comment:
           </td>
           <div *ngIf="canUpdatePlan; then commentsEditable else commentsReadOnly"></div>
           <ng-template #commentsEditable>
@@ -76,7 +109,7 @@
 
           <ng-template #commentsReadOnly>
             <td>
-              {{planDetails.comments}}
+              {{plan.comment}}
             </td>
           </ng-template>
         </tr>

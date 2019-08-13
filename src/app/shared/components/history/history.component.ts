@@ -15,6 +15,7 @@ export class HistoryComponent implements OnInit {
   sortedData: ChangesHistory[] = [];
   private entity: string;
   private id: string;
+  error: string;
 
   constructor(
     private route: ActivatedRoute,
@@ -31,7 +32,7 @@ export class HistoryComponent implements OnInit {
       v => {
         this.entity = v.entity;
         console.log('v.id -> ', v.id);
-        
+
         this.id = this.route.snapshot.params[v.id];
 
         console.log('entity', this.entity);
@@ -45,7 +46,7 @@ export class HistoryComponent implements OnInit {
     switch (this.entity) {
       case 'project':
         console.log('Get project history');
-        
+
         this.getProjectHistory(this.id);
         break;
       case 'plan':
@@ -58,9 +59,11 @@ export class HistoryComponent implements OnInit {
   private getProjectHistory(tpn: string) {
     this.projectService.getHistoryByTpn(tpn).subscribe(data => {
       console.log('data hist project', data);
-      
+
       this.historyRecords = data;
       this.adaptData();
+    }, error => {
+      this.error = error;
     });
   }
 
@@ -68,6 +71,8 @@ export class HistoryComponent implements OnInit {
     this.planService.getHistoryByPid(pid).subscribe(data => {
       this.historyRecords = data;
       this.adaptData();
+    }, error => {
+      this.error = error;
     });
   }
 
@@ -75,6 +80,5 @@ export class HistoryComponent implements OnInit {
     this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
     this.sortedData = this.historyRecords.slice();
     console.log('sortedData', this.sortedData);
-    
   }
 }

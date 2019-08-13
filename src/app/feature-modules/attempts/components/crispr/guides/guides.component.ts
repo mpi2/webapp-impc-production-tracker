@@ -16,7 +16,7 @@ export class GuidesComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.numOfRows = this.crisprAttempt.guides.length;
+    this.numOfRows = this.crisprAttempt.guides_attributes.length;
     let sameConcentration = this.isConcentrationTheSameForAllGuides();
     console.log('sameConcentration',sameConcentration);
     
@@ -24,7 +24,7 @@ export class GuidesComponent implements OnInit {
   }
 
   isConcentrationTheSameForAllGuides(): boolean {
-    let concentrations = this.crisprAttempt.guides.filter(x => x['grnaConcentration']).map(x => x['grnaConcentration']);
+    let concentrations = this.crisprAttempt.guides_attributes.filter(x => x['grna_concentration']).map(x => x['grna_concentration']);
     console.log('concentrations', concentrations);
 
     return  concentrations.every(v => v === concentrations[0]);

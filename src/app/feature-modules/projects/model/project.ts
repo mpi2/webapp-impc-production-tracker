@@ -1,21 +1,17 @@
-import { Injectable } from '@angular/core';
-import { Adapter } from 'src/app/core/model/adapter';
-import { ProjectDetails } from './project-details';
+import { StatusDate, IntentionByGeneAttribute, IntentionByLocationAttribute } from '..';
+import { ProjectLinks } from './project-links';
 
 export class Project {
-    projectDetails: ProjectDetails = new ProjectDetails();
-}
-
-@Injectable({
-    providedIn: 'root'
-})
-
-export class ProjectAdapter implements Adapter<Project> {
-
-    adapt(item: any): Project {
-        const project: Project = new Project();
-        project.projectDetails = item.projectDetails;
-        return project;
-    }
-
+    id: number;
+    tpn: string;
+    assignment_status_name: string;
+    assignment_status_dates: StatusDate[];
+    withdrawn: boolean;
+    recovery: boolean;
+    intention_by_gene_attributes: IntentionByGeneAttribute[];
+    intention_by_location_attributes: IntentionByLocationAttribute[];
+    imits_mi_plan_id: number;
+    comment: string;
+    is_active: boolean;
+    _links: ProjectLinks;
 }

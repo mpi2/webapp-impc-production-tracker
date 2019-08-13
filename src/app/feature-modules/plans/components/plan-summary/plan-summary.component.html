@@ -6,7 +6,7 @@
         Plan id:
       </td>
       <td>
-        {{planDetails.pin}}
+        {{plan.pin}}
       </td>
     </tr>
     <tr>
@@ -14,7 +14,7 @@
         Privacy:
       </td>
       <td>
-        {{planDetails.privacyName}}
+        {{plan.privacy_name}}
       </td>
     </tr>
     <tr>
@@ -22,7 +22,7 @@
         Status:
       </td>
       <td>
-        {{planDetails.statusName}}
+        {{plan.status_name}}
       </td>
     </tr>
     <tr>
@@ -30,15 +30,15 @@
         WorkUnit:
       </td>
       <td>
-        {{planDetails.workUnitName}}
+        {{plan.work_unit_name}}
       </td>
     </tr>
   </table>
   <p>
-    <a *ngIf="'production' === planDetails.planTypeName" [routerLink]="['production-plan', planDetails.pin]">See
+    <a *ngIf="'production' === plan.type_name" [routerLink]="['production-plan', plan.pin]">See
       plan</a>
 
-    <a *ngIf="'phenotyping' === planDetails.planTypeName" [routerLink]="['phenotyping-plan', planDetails.pin]">See
+    <a *ngIf="'phenotyping' === plan.type_name" [routerLink]="['phenotyping-plan', plan.pin]">See
       plan</a>
   </p>
 </mat-card>
