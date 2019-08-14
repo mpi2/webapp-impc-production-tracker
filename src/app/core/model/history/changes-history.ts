@@ -11,6 +11,7 @@ export class ChangesHistory {
     user: string;
     date: Date = new Date();
     details: any[];
+    action: string;
     comment: string;
 }
 
@@ -26,6 +27,7 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         history.date = new Date(item.date);
         history.details = item.details;
         history.comment = item.comment;
+        history.action = item.action;
         history.details.map(x => x.field = ChangesHistoryAdapter.formatPropertyName(x.field));
 
         return history;
