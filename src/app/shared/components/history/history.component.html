@@ -4,31 +4,14 @@
     <div *ngIf="error" class="alert alert-danger">{{error}}</div>
     <table>
       <tr>
-        <th rowspan="2">Id</th>
-        <th rowspan="2">User</th>
-        <th rowspan="2">Date</th>
-        <th style="text-align: center" colspan="2">Action</th>
-      </tr>
-      <tr>
+        <th>Id</th>
+        <th>User</th>
+        <th>Date</th>
+        <th>Action</th>
         <th>Property</th>
         <th>Change</th>
       </tr>
-
       <ng-template ngFor let-historyRecord [ngForOf]="sortedData">
-        <tr *ngIf="historyRecord.comment">
-          <td>
-            {{historyRecord.id}}
-          </td>
-          <td class="tablename">
-            {{historyRecord.user}}
-          </td>
-          <td class="nowrap-text-style">
-            {{historyRecord.date | date : 'medium'}}
-          </td>
-          <td> -- </td>
-          <td>{{ historyRecord.comment }} </td>
-        </tr>
-
         <ng-template *ngIf="historyRecord.details" ngFor let-change let-isFirst="first"
           [ngForOf]="historyRecord.details">
           <tr>
@@ -41,11 +24,15 @@
             <td class="nowrap-text-style" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
               {{historyRecord.date | date : 'medium'}}
             </td>
+            <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+              {{ historyRecord.comment }}
+            </td>
             <td>{{ change.field }}</td>
-            <td>{{ change.oldValue }} => {{ change.newValue }} </td>
+            <td>{{ change.oldValue || 'null'}} => {{ change.newValue || 'null' }} </td>
           </tr>
         </ng-template>
       </ng-template>
     </table>
+
   </mat-card-content>
 </mat-card>
