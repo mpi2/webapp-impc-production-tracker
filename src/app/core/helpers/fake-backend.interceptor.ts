@@ -317,12 +317,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                                 "start_date": "2015-02-16",
                                 "end_date": "2015-02-16",
                                 "work_unit_name": "UCD",
-                                "material_type_attributes": [
-                                    {
-                                        "id": 1,
-                                        "name": "Embedded tissue"
-                                    }
-                                ]
+                                "material_type_name": "Paraffin-embedded Sections"
                             }
                         ]
                     }

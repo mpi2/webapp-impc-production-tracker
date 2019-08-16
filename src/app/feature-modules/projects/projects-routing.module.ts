@@ -64,18 +64,18 @@ const routes: Routes = [
       ]
     }
   },
-  
+
   {
     path: 'projects/:id/production-plan/:pid/history', component: HistoryComponent
-    ,data: {
+    , data: {
       id: 'pid',
       entity: 'plan',
-      title: 'Phenotyping Plan',
+      title: 'Production Plan',
       breadcrumb: [
         {
           label: 'Project {{ id }}',
           url: 'projects/:id'
-         },
+        },
         {
           label: 'Plan {{ pid }}',
           url: 'projects/:id/production-plan/:pid'
@@ -88,7 +88,28 @@ const routes: Routes = [
       ]
     }
   },
-  { path: 'projects/:id/phenotyping-plan/:pid/history', component: HistoryComponent },
+  {
+    path: 'projects/:id/phenotyping-plan/:pid/history', component: HistoryComponent, data: {
+      id: 'pid',
+      entity: 'plan',
+      title: 'Phenotyping Plan',
+      breadcrumb: [
+        {
+          label: 'Project {{ id }}',
+          url: 'projects/:id'
+        },
+        {
+          label: 'Phenotyping plan {{ pid }}',
+          url: 'projects/:id/phenotyping-plan/:pid'
+        }
+        ,
+        {
+          label: 'History',
+          url: ''
+        }
+      ]
+    }
+  },
 
   { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard] },
   { path: 'create-project', component: CreateProjectComponent, canActivate: [AuthGuard] },

@@ -1,1 +1,52 @@
-<p>phenotyping-attempt works!</p>
+<form [formGroup]="phenotypingAttemptForm">
+    <mat-card>
+        <mat-card-subtitle>Phenotyping Attempt</mat-card-subtitle>
+        <mat-card-content>
+            <table>
+                <tr>
+                    <td>
+                        Phenotyping Experiments Started:
+                    </td>
+                    <td>
+                        {{phenotypingAttempt.phenotyping_experiments_started}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        phenotyping_started:
+                    </td>
+                    <td>
+                        <input type="checkbox" (change)="onPhenotypingStarted()"
+                            [checked]="this.phenotypingAttempt.phenotyping_started" [disabled]="!canUpdatePlan">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        phenotyping_complete:
+                    </td>
+                    <td>
+                        <input type="checkbox" (change)="onPhenotypingComplete()"
+                            [checked]="this.phenotypingAttempt.phenotyping_complete" [disabled]="!canUpdatePlan">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        do_not_count_towards_completeness:
+                    </td>
+                    <td>
+                        <input type="checkbox" (change)="onNoCountTowardsCompleteness()"
+                            [checked]="this.phenotypingAttempt.do_not_count_towards_completeness"
+                            [disabled]="!canUpdatePlan">
+                    </td>
+                </tr>
+
+            </table>
+
+            <app-tissue-distribution-centre [phenotypingAttempt]="phenotypingAttempt" [canUpdatePlan]="canUpdatePlan">
+            </app-tissue-distribution-centre>
+        </mat-card-content>
+    </mat-card>
+</form>
