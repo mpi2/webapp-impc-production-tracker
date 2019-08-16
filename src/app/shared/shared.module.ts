@@ -11,7 +11,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {
   MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
   MatTooltipModule, MatButtonModule, MatCardModule, MatMenuModule, MatGridListModule,
-  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule
+  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule
 } from '@angular/material';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -25,6 +25,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -35,9 +36,10 @@ import { Ng7BootstrapBreadcrumbModule } from "ng7-bootstrap-breadcrumb";
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
+import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 
 @NgModule({
-  declarations: [GoBackComponent, HistoryComponent],
+  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -52,6 +54,7 @@ import { HistoryComponent } from './components/history/history.component';
     NgxPaginationModule,
     MatExpansionModule,
     MatFormFieldModule,
+    MatSelectModule,
     MatInputModule,
     MatToolbarModule,
     MatTooltipModule,
@@ -64,13 +67,13 @@ import { HistoryComponent } from './components/history/history.component';
     CdkTableModule,
     CdkTreeModule,
     MatCardModule,
-    MatInputModule,
     MatSidenavModule,
     MatMenuModule,
     MatGridListModule,
     FlexLayoutModule,
     MatBadgeModule,
     MatIconModule,
+    MatDialogModule,
     MatChipsModule,
     MatCheckboxModule,
     MatTableModule,
@@ -108,6 +111,7 @@ import { HistoryComponent } from './components/history/history.component';
     CdkTableModule,
     CdkTreeModule,
     MatCardModule,
+    MatSelectModule,
     MatInputModule,
     MatSidenavModule,
     MatMenuModule,
@@ -115,6 +119,7 @@ import { HistoryComponent } from './components/history/history.component';
     FlexLayoutModule,
     MatBadgeModule,
     MatIconModule,
+    MatDialogModule,
     MatChipsModule,
     MatCheckboxModule,
     MatTableModule,
@@ -124,6 +129,9 @@ import { HistoryComponent } from './components/history/history.component';
     MatDatepickerModule,
     MatNativeDateModule,
     Ng7BootstrapBreadcrumbModule
-  ]
+  ],
+  entryComponents: [
+    DeleteConfirmationComponent
+  ],
 })
 export class SharedModule { }

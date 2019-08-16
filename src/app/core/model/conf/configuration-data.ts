@@ -12,4 +12,5 @@ export class ConfigurationData {
     institutes: string[];
     roles: string[];
     trackedStrains: string[];
+    materialTypes: string[];
 }

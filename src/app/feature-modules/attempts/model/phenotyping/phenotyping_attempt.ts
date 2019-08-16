@@ -1,15 +1,10 @@
-export interface MaterialTypeAttribute {
-    id: number;
-    name: string;
-}
-
-export interface TissueDistributionCentreAttribute {
+export interface TissueDistributionCentre {
     id: number;
     phenotype_attempt_plan_id: number;
     start_date: string;
     end_date: string;
     work_unit_name: string;
-    material_type_attributes: MaterialTypeAttribute[];
+    material_type_name: string;
 }
 
 export interface PhenotypingAttempt {
@@ -20,5 +15,5 @@ export interface PhenotypingAttempt {
     phenotyping_started: boolean;
     phenotyping_complete: boolean;
     do_not_count_towards_completeness: boolean;
-    tissue_distribution_centre_attributes: TissueDistributionCentreAttribute[];
+    tissue_distribution_centre_attributes: TissueDistributionCentre[];
 }
