@@ -15,3 +15,11 @@ table, th, td {
     border-bottom-width: 1px;
     border-bottom-color: rgba(0, 0, 0, 0.12);
   }
+  th, td  {
+      width:  10px;
+  }
+
+  .mat-column-to {
+    flex: 0 0 35% !important;
+    width: 35% !important;
+  }

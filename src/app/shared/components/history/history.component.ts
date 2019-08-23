@@ -17,6 +17,9 @@ export class HistoryComponent implements OnInit {
   private id: string;
   error: string;
 
+  private readonly LENGTH_LIMIT = 100;
+  private isContentLengthGreaterThanLimit: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private planService: PlanService,
@@ -31,13 +34,7 @@ export class HistoryComponent implements OnInit {
     this.route.data.subscribe(
       v => {
         this.entity = v.entity;
-        console.log('v.id -> ', v.id);
-
         this.id = this.route.snapshot.params[v.id];
-
-        console.log('entity', this.entity);
-        console.log('id', this.id);
-
         this.getHistory()
       });
   }
@@ -45,8 +42,6 @@ export class HistoryComponent implements OnInit {
   private getHistory() {
     switch (this.entity) {
       case 'project':
-        console.log('Get project history');
-
         this.getProjectHistory(this.id);
         break;
       case 'plan':
@@ -58,8 +53,6 @@ export class HistoryComponent implements OnInit {
 
   private getProjectHistory(tpn: string) {
     this.projectService.getHistoryByTpn(tpn).subscribe(data => {
-      console.log('data hist project', data);
-
       this.historyRecords = data;
       this.adaptData();
     }, error => {
@@ -79,6 +72,9 @@ export class HistoryComponent implements OnInit {
   private adaptData() {
     this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
     this.sortedData = this.historyRecords.slice();
-    console.log('sortedData', this.sortedData);
+  }
+
+  private isTextLargerThanLimit(text: string) {
+    return text.length > this.LENGTH_LIMIT;
   }
 }
