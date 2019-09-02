@@ -23,7 +23,7 @@ export class ProjectService {
   }
 
   postProject(newProject: NewProject) {
-    return this.http.post<Project>(`${environment.baseUrl}/api/createProject/`, newProject);
+    return this.http.post<Project>(`${environment.baseUrl}/api/projects/`, newProject);
   }
 
   deleteMutagenesisDonor(url: string) {
