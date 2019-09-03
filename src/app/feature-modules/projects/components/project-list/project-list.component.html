@@ -116,20 +116,6 @@
                                         </span>
                                 </td>
                     </ng-container>
-                    <!-- <td>{{ project.projectDetails.priorityName }}</td> -->
-                    <ng-container matColumnDef="Priority">
-                            <th mat-header-cell *matHeaderCellDef>Priority
-                                <div>
-                                        <p-multiSelect [options]="priorities" [(ngModel)]="selectedPriorities" defaultLabel="All priority"
-                                        (onChange)="filter($event.value, 'priority')"></p-multiSelect>
-                                </div>
-                            </th>
-                            <td mat-cell *matCellDef="let project">
-                                    <span *ngFor="let plan of project.planDetails">
-                                {{ plan.priorityName }}
-                                    </span>
-                            </td>
-                    </ng-container>
 
                     <ng-container matColumnDef="Privacy">
                             <th mat-header-cell *matHeaderCellDef>Privacy
@@ -148,5 +134,5 @@
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
             </table>
         </div>
-        <mat-paginator  (page)="pageEvent = getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
+        <mat-paginator  (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
     </div>

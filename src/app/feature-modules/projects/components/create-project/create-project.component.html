@@ -59,7 +59,7 @@
       <ng2-smart-table #tableGenes [ngClass]="{ 'is-invalid': submitted && f.projectGenes.errors }"
         [settings]="geneSettings" 
         [source]="projectGenes" 
-        (editConfirm)="onSaveConfirm($event)" 
+        (editConfirm)="onSaveConfirm()" 
       >
       </ng2-smart-table>
       
@@ -91,7 +91,7 @@
       <ng2-smart-table #tableLocation [ngClass]="{ 'is-invalid': submitted && f.projectLocations.errors }"
         [settings]="locationSettings" 
         [source]="projectLocations" 
-        (editConfirm)="onSaveConfirm($event)" 
+        (editConfirm)="onSaveConfirm()" 
         (createConfirm)="onCreateConfirm($event)" 
       >
       </ng2-smart-table>

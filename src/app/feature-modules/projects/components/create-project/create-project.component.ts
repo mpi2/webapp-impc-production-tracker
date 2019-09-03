@@ -2,7 +2,8 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { first } from 'rxjs/operators';
-import { WorkGroup, Gene, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService, WorkGroupService, GeneService } from 'src/app/core';
+import { WorkGroup, Gene, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService, 
+  WorkGroupService, GeneService } from 'src/app/core';
 import { NewProject } from '../../model/newProject';
 import { FunderService } from 'src/app/core/services/funder.service';
 import { ProjectService } from '../..';
@@ -405,6 +406,10 @@ export class CreateProjectComponent implements OnInit {
     this.createProjectForm.reset();
     console.log(this.createProjectForm);
     console.log('createProjectForm cleaned.');
+  }
+
+  onSaveConfirm() {
+    // METHOD TO DO
   }
 
 }
