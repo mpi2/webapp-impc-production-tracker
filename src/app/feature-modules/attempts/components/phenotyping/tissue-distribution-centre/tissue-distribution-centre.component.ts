@@ -64,6 +64,10 @@ export class TissueDistributionCentreComponent implements OnInit {
     console.log('Delete TissueDistributionCentre ', e);
     
   }
+  onDateChanged() {
+    console.log('To be implemented');
+    
+  }
 
 
 }

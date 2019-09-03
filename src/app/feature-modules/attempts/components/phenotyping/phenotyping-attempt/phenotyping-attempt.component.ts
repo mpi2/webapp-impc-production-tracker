@@ -20,4 +20,16 @@ export class PhenotypingAttemptComponent implements OnInit {
     });
   }
 
+  onPhenotypingStarted() {
+    console.log('To be implemented');
+  }
+
+  onPhenotypingComplete() {
+    console.log('To be implemented');
+  }
+
+  onNoCountTowardsCompleteness() {
+    console.log('To be implemented');
+  }
+
 }

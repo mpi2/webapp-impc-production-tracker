@@ -16,4 +16,9 @@ export class MutagenesisDonorsComponent implements OnInit {
   ngOnInit() {
   }
 
+  openModalToDeleteMutagenesisDonor()
+  {
+    
+  }
+
 }

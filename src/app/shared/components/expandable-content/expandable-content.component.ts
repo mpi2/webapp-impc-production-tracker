@@ -9,7 +9,7 @@ export class ExpandableContentComponent implements OnInit {
 
   @Input() content: string;
 
-  private title: string;
+  title: string;
 
   private readonly TITLE_LENGTH_LIMIT = 35;
 
