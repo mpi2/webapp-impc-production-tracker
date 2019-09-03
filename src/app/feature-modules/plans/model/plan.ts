@@ -19,4 +19,6 @@ export class Plan {
     comment: string;
     products_available_for_general_public: boolean;
     crispr_attempt_attributes: CrisprAttempt;
+    phenotyping_attempt_attributes: any; //TODO: Create class
+    production_plan_reference: string;
 }

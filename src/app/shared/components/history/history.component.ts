@@ -74,7 +74,7 @@ export class HistoryComponent implements OnInit {
     this.sortedData = this.historyRecords.slice();
   }
 
-  private isTextLargerThanLimit(text: string) {
+  isTextLargerThanLimit(text: string) {
     return text.length > this.LENGTH_LIMIT;
   }
 }
