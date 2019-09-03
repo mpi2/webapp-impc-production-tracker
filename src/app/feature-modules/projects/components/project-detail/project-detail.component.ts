@@ -16,6 +16,7 @@ export class ProjectDetailComponent implements OnInit {
 
   productionPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
+  canUpdatePlan: false;
 
   assignmentStatusDatesColumns = ['name', 'date'];
 
@@ -61,5 +62,17 @@ export class ProjectDetailComponent implements OnInit {
         console.log('Error getting plan...', error);
       });
     });
+  }
+
+  onActiveSelected() {
+    // METHOD TO BE DONE
+  }
+
+  onWithdrawnSelected() {
+    // METHOD TO BE DONE
+  }
+
+  onRecoverySelected() {
+    // METHOD TO BE DONE
   }
 }

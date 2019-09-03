@@ -163,7 +163,7 @@
       </table>
     </div>
       <!-- *ngFor="let project of projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }"> -->
-      <mat-paginator  (page)="pageEvent = getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
+      <mat-paginator  (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
     </div>
     </mat-sidenav-content>
 </mat-sidenav-container>

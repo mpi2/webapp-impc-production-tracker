@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-subtitle>Plan Details</mat-card-subtitle>
   <mat-card-content>
-    <form [formGroup]="editPlanDetails" (ngSubmit)="onSubmit()">
+    <form [formGroup]="editPlanDetails">
       <table>
         <tr>
           <td>
@@ -97,7 +97,7 @@
                 Products available for general public?:
             </td>
             <td>
-              <input type="checkbox" (change)="onActiveSelected()" [checked]="plan.products_available_for_general_public"
+              <input type="checkbox" (change)="onProductsAvailableGeneralPublicSelected()" [checked]="plan.products_available_for_general_public"
                 [disabled]="!canUpdatePlan">
             </td>
           </tr>

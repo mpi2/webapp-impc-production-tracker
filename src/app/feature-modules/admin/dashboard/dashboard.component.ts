@@ -8,7 +8,7 @@ import { PermissionsService } from 'src/app/core/services/permissions.service';
 })
 export class DashboardComponent implements OnInit {
 
-  private canRegisterUser: boolean;
+  public canRegisterUser: boolean;
 
   constructor(private permissionsService: PermissionsService) { }
 

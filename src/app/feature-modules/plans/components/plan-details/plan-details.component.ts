@@ -35,15 +35,13 @@ export class PlanDetailsComponent implements OnInit {
 
     this.configurationData = this.configurationDataService.getConfigurationInfo();
     console.log('Init...');
-    
+
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
         this.canUpdatePlan = canUpdatePlan;
         console.log('canUpdatePlan=>',canUpdatePlan);
-        
       }, error => {
         console.log('Error getting permissions');
-        
       });
 
     this.dropdownSettingsSingle = {
@@ -92,7 +90,10 @@ export class PlanDetailsComponent implements OnInit {
 
   onProductsAvailableGeneralPublic() {
     console.log('To be implemented');
-    
+  }
+
+  onProductsAvailableGeneralPublicSelected() {
+    // METHOD TO DO
   }
 
 }
