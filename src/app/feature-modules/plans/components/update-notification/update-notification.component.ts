@@ -9,7 +9,7 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material';
 })
 export class UpdateNotificationComponent implements OnInit {
 
-  private changeDetails: ChangesHistory;
+  changeDetails: ChangesHistory;
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
     this.changeDetails = data;

@@ -8,10 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 export class LargeTableContentComponent implements OnInit {
   @Input() content: string;
 
-  private splittedCollection: string[];
-  private readonly LENGTH_LIMIT = 100;
-  private isContentLengthGreaterThanLimit: boolean;
-  private isContentACollection: boolean;
+  splittedCollection: string[];
+  readonly LENGTH_LIMIT = 100;
+  isContentLengthGreaterThanLimit: boolean;
+  isContentACollection: boolean;
 
   constructor() { }
 

@@ -90,4 +90,9 @@ export class PlanDetailsComponent implements OnInit {
     this.updatePlanDetails();
   }
 
+  onProductsAvailableGeneralPublic() {
+    console.log('To be implemented');
+    
+  }
+
 }

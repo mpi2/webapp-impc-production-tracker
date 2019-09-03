@@ -7,7 +7,7 @@
   </mat-card-content>
 </mat-card>
 
-<app-plan-details *ngIf="plan.pin" [plan]="plan" (modifiedPlanDetailsEmmiter)="onPlanDetailsChange($event)">
+<app-plan-details *ngIf="plan.pin" [plan]="plan" (modifiedPlanDetailsEmmiter)="onPlanDetailsChange()">
   </app-plan-details>
 
   <app-phenotyping-attempt *ngIf="plan.phenotyping_attempt_attributes" [phenotypingAttempt]="plan.phenotyping_attempt_attributes"

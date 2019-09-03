@@ -54,4 +54,16 @@ export class PhenotypingPlanComponent implements OnInit {
     return !this.loading && (this.planDetailsChanged || this.attemptChanged)
   }
 
+  onPlanDetailsChange() {
+    console.log('To be implemented');
+  }
+
+  updatePlan() {
+    console.log('To be implemented');
+  }
+
+  onAttemptChanged(e) {
+    console.log('To be implemented');
+  }
+
 }
