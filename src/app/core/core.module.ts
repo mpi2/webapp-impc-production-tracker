@@ -8,10 +8,11 @@ import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UpdateNotificationComponent } from '../feature-modules/plans/components/update-notification/update-notification.component';
+import { ReportsComponent } from './components/reports/reports.component';
 
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, HomeComponent, NotFoundComponent],
+  declarations: [HeaderComponent, FooterComponent, HomeComponent, NotFoundComponent, ReportsComponent],
   imports: [
     SharedModule
   ],

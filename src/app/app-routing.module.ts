@@ -4,10 +4,12 @@ import { HomeComponent } from './core/components/home/home.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
 import { GeneSearchComponent } from './feature-modules/genes/gene-search';
+import { ReportsComponent } from './core/components/reports/reports.component';
 
 
 const routes: Routes = [
   { path: '', component: GeneSearchComponent },
+  { path: 'reports', component: ReportsComponent },
   {
     path: 'admin',
     loadChildren:  () => import('./feature-modules/admin/admin.module').then(m => m.AdminModule), canActivate:[AuthGuard], canLoad: [AuthGuard]
