@@ -43,6 +43,8 @@ export class ProjectListComponent implements OnInit {
 
   configurationData: ConfigurationData;
 
+  isRateLimitReached: false;
+
   error;
 
 

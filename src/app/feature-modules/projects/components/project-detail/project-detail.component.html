@@ -51,7 +51,7 @@
           Withdrawn?:
         </td>
         <td>
-          <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.withdrawn"
+          <input type="checkbox" (change)="onWithdrawnSelected()" [checked]="this.project.withdrawn"
             [disabled]="!canUpdatePlan">
         </td>
       </tr>
@@ -60,7 +60,7 @@
           Recovery?:
         </td>
         <td>
-          <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.recovery"
+          <input type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
             [disabled]="!canUpdatePlan">
         </td>
       </tr>
