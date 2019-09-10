@@ -35,10 +35,10 @@ export class ProjectService {
   }
 
   getPaginatedProjectSummaries(page: number) {
-    return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projectSummaries?page=${page}`);
+    return this.http.get<ProjectSummary[]>(`${environment.baseUrl}/api/projects?page=${page}`);
   }
 
-  getPaginatedProjectSummariesWithFilters(
+  getPaginatedProjectsWithFilters(
     page: number,
     markerSymbols: string[],
     workUnits: string[],
@@ -48,7 +48,7 @@ export class ProjectService {
     privacies: string[]) {
 
     const queryParameters = this.buildFilterQueryParameters(markerSymbols, workUnits, workGroups, planTypes, statuses, privacies);
-    const url = `${environment.baseUrl}/api/projectSummaries?page=${page}${queryParameters}`;
+    const url = `${environment.baseUrl}/api/projects?page=${page}${queryParameters}`;
 
     return this.http.get<ProjectSummary[]>(url);
   }
