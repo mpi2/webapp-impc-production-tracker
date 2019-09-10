@@ -17,8 +17,7 @@ export class ProjectListComponent implements OnInit {
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
   isLoading = true;
-  displayedColumns: string[] = ['Edit Form', 'Marker Symbol(s)', 'Intention', 'Plan Type', 'Work Group', 'Work Unit', 'Status', 'Priority',
-   'Privacy'];
+  displayedColumns: string[] = ['Project', 'ExternalReference', 'Marker Symbol(s)', 'Intention','Project Assignment','Privacy', 'Is active', 'Consortium'];
   projects: ProjectSummary[] = [];
   username: any;
   p = 0;
@@ -42,8 +41,6 @@ export class ProjectListComponent implements OnInit {
   privaciesFilterValues: string[] = [];
 
   configurationData: ConfigurationData;
-
-  isRateLimitReached: false;
 
   error;
 
@@ -70,11 +67,13 @@ export class ProjectListComponent implements OnInit {
   }
 
   getPage(pageNumber: number) {
+    console.log('Get Page Projects');
+    
     this.isLoading = true;
     // The end point starts page in number 0, while the component starts with 1.
     const apiPageNumber = pageNumber;
     const workUnitNameFilter = this.getWorkUnitNameFilter();
-    this.projectService.getPaginatedProjectSummariesWithFilters(
+    this.projectService.getPaginatedProjectsWithFilters(
       apiPageNumber,
       [],
       workUnitNameFilter,
@@ -82,12 +81,18 @@ export class ProjectListComponent implements OnInit {
       this.getPlanTypeFilter(),
       this.getStatusFilter(),
       this.getPrivacyFilter()).pipe(first()).subscribe(data => {
+        console.log('Projects data ',data);
+        
         if (data['_embedded']) {
-          this.projects = data['_embedded']['projectSummaryDToes'];
+          this.projects = data['_embedded']['projectDToes'];
+          console.log('--->this.projects ',this.projects );
+          
           this.projects = this.projects.map(x => this.adapter.adapt(x));
         } else {
           this.projects = [];
         }
+        console.log('this.projects', this.projects);
+        
         this.page = data['page'];
         this.p = pageNumber;
         this.isLoading = false;

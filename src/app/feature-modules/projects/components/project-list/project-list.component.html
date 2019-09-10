@@ -1,41 +1,75 @@
-    <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-    <mat-card>
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<mat-card>
     <a routerLink="/create-project" class="btn btn-primary active" role="button" aria-pressed="true">Create new
         project</a>
-    </mat-card>
-    
+</mat-card>
 
 
-    <div class="example-container mat-elevation-z8">
-        <div class="example-loading-shade"
-             *ngIf="isLoading || isRateLimitReached">
-          <mat-spinner *ngIf="isLoading"></mat-spinner>
-          <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
-            The API rate limit has been reached. It will be reset in one minute.
-          </div>
-        </div>
-    
 
-        <div class="example-table-container">
-            
-                <table mat-table [dataSource]="projects" class="mat-elevation-z8" width="100%">
-                        
-                    <ng-container matColumnDef="Edit Form">
-                        <th mat-header-cell *matHeaderCellDef>Edit Form</th>
-                        <td mat-cell *matCellDef="let project"><a routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td>
-                    </ng-container>
-                    <!-- <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length"><a
-                        routerLink="/projects/{{ project.projectDetails.tpn }}">Form</a></td> -->
-                    <ng-container matColumnDef="Marker Symbol(s)">
-                    <th mat-header-cell *matHeaderCellDef>Marker Symbol(s)</th>
-                    <td mat-cell *matCellDef="let project"><span *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
-                        
-                            <a href="{{ markerSymbol.mgiLink }}"
-                                target="_blank">{{markerSymbol.markerSymbol}}</a>
-                    </span>
+<div class="example-container mat-elevation-z8">
+    <div class="example-loading-shade" *ngIf="isLoading">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </div>
+
+    <div class="example-table-container">
+
+        <table mat-table [dataSource]="projects" class="mat-elevation-z8" width="100%">
+
+            <ng-container matColumnDef="Project">
+                <th mat-header-cell *matHeaderCellDef>Project</th>
+                <td mat-cell *matCellDef="let project"><a routerLink="/projects/{{ project.tpn }}">Edit</a></td>
+            </ng-container>
+            <ng-container matColumnDef="ExternalReference">
+                <th mat-header-cell *matHeaderCellDef>External Reference</th>
+                <td mat-cell *matCellDef="let project">
+                    {{ project.external_reference }}
                 </td>
-                </ng-container>
-                <!-- <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
+            </ng-container>
+    
+
+            <ng-container matColumnDef="Marker Symbol(s)">
+                <th mat-header-cell *matHeaderCellDef>Marker Symbol(s)</th>
+                <td mat-cell *matCellDef="let project">
+    
+                  <div *ngFor="let gene of project.intention_by_gene_attributes">
+                    <a href="" target="_blank">{{ gene.gene.symbol }}</a>
+                  </div>
+    
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Intention">
+                <th mat-header-cell *matHeaderCellDef>Intention</th>
+                <td mat-cell *matCellDef="let project">
+                  <div *ngFor="let intention of project.intention_by_gene_attributes">
+                    {{ intention.alleleTypeName }}
+                  </div>
+                </td>
+              </ng-container>
+
+       
+
+            <ng-container matColumnDef="Project Assignment">
+                <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
+                <td mat-cell *matCellDef="let project">{{ project.assigment_status_name }}</td>
+              </ng-container>
+
+              <ng-container matColumnDef="Privacy">
+                <th mat-header-cell *matHeaderCellDef>Privacy</th>
+                <td mat-cell *matCellDef="let project"> Public </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Is active">
+                <th mat-header-cell *matHeaderCellDef>Is active</th>
+                <td mat-cell *matCellDef="let project"> True </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Consortium">
+                <th mat-header-cell *matHeaderCellDef>Consortium</th>
+                <td mat-cell *matCellDef="let project"> CMG </td>
+              </ng-container>
+
+            <!-- <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
                     <ul>
                         <li *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
                             <span>
@@ -45,94 +79,80 @@
                         </li>
                     </ul>
                 </td> -->
-                <ng-container matColumnDef="Intention">
-                    <th mat-header-cell *matHeaderCellDef>Intention</th>
-                    <td mat-cell *matCellDef="let project"><span *ngFor="let intention of project.projectDetails.alleleIntentions">
+            <!-- <ng-container matColumnDef="Intention">
+                <th mat-header-cell *matHeaderCellDef>Intention</th>
+                <td mat-cell *matCellDef="let project"><span
+                        *ngFor="let intention of project.projectDetails.alleleIntentions">
                         <span *ngFor="let intention of project.projectDetails.alleleIntentions">
-                            
-                                {{intention}}
-                        
+
+                            {{intention}}
+
                         </span>
                     </span>
-                    </td>
-                </ng-container>
-    <!-- 
-                <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
-                    <ul>
-                        <li *ngFor="let intention of project.projectDetails.alleleIntentions">
-                            <span>
-                                {{intention}}
-                            </span>
-                        </li>
-                    </ul>
-                </td> -->
+                </td>
+            </ng-container>
+     
             <ng-container matColumnDef="Plan Type">
-                    <th mat-header-cell *matHeaderCellDef>Plan Type<div><p-multiSelect [options]="planTypes" [(ngModel)]="selectedPlanTypes" defaultLabel="All plan type"
-                        (onChange)="filter($event.value, 'plan_type')"></p-multiSelect></div></th>
-                    <td mat-cell *matCellDef="let project">
-                            <span *ngFor="let plan of project.planDetails">
+                <th mat-header-cell *matHeaderCellDef>Plan Type<div>
+                        <p-multiSelect [options]="planTypes" [(ngModel)]="selectedPlanTypes"
+                            defaultLabel="All plan type" (onChange)="filter($event.value, 'plan_type')"></p-multiSelect>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let project">
+                    <span *ngFor="let plan of project.planDetails">
                         {{ plan.planTypeName }}
-                            </span>
-                    </td>
-                </ng-container>
+                    </span>
+                </td>
+            </ng-container>
 
-                <ng-container matColumnDef="Work Group">
-                    <th mat-header-cell *matHeaderCellDef>Work Group<div>
-                            <p-multiSelect [options]="workGroups" [(ngModel)]="selectedWorkGroups" defaultLabel="All work groups"
-                            (onChange)="filter($event.value, 'work_group')"></p-multiSelect>
-                        </div>
-                    </th>
-                        <td mat-cell *matCellDef="let project">
-                                <span *ngFor="let plan of project.planDetails">
-                            {{ plan.workGroupName }}
-                                </span>
-                        </td>
-                    </ng-container>
-                <!-- <td>{{ plan.workGroupName }}</td> -->
-                    <!-- <td>{{ plan.workUnitName }}</td> -->
-                    <ng-container matColumnDef="Work Unit">
-                        <th mat-header-cell *matHeaderCellDef>Work Unit
-                                <div><p-multiSelect [options]="workUnits" [(ngModel)]="selectedWorkUnits" defaultLabel="All work units"
-                                (onChange)="filter($event.value, 'work_unit')"></p-multiSelect>
-                            </div>
-                        </th>
-                            <td mat-cell *matCellDef="let project">
-                                    <span *ngFor="let plan of project.planDetails">
-                                            {{ plan.workUnitName }}
-                                    </span>
-                            </td>
-                    </ng-container>
+            <ng-container matColumnDef="Work Group">
+                <th mat-header-cell *matHeaderCellDef>Work Group<div>
+                        <p-multiSelect [options]="workGroups" [(ngModel)]="selectedWorkGroups"
+                            defaultLabel="All work groups" (onChange)="filter($event.value, 'work_group')">
+                        </p-multiSelect>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let project">
+                    <span *ngFor="let plan of project.planDetails">
+                        {{ plan.workGroupName }}
+                    </span>
+                </td>
+            </ng-container> -->
+            <!-- <td>{{ plan.workGroupName }}</td> -->
+            <!-- <td>{{ plan.workUnitName }}</td> -->
 
-                    <ng-container matColumnDef="Status">
-                                <th mat-header-cell *matHeaderCellDef>Status
-                                    <div>
-                                            <p-multiSelect [options]="statuses" [(ngModel)]="selectedStatuses" defaultLabel="All statuses"
-                                            (onChange)="filter($event.value, 'status')"></p-multiSelect>
-                                    </div>
-                                </th>
-                                <td mat-cell *matCellDef="let project">
-                                        <span *ngFor="let plan of project.planDetails">
-                                    {{ plan.statusName }}
-                                        </span>
-                                </td>
-                    </ng-container>
 
-                    <ng-container matColumnDef="Privacy">
-                            <th mat-header-cell *matHeaderCellDef>Privacy
-                                <div>
-                                        <p-multiSelect [options]="privacies" [(ngModel)]="selectedPrivacies" defaultLabel="All privacy"
-                                        (onChange)="filter($event.value, 'privacy')"></p-multiSelect>
-                                </div>
-                            </th>
-                            <td mat-cell *matCellDef="let project">
-                                    <span *ngFor="let plan of project.planDetails">
-                                {{ plan.privacyName }}
-                                    </span>
-                            </td>
-                    </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>
-        <mat-paginator  (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
+            <!-- <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef>Status
+                    <div>
+                        <p-multiSelect [options]="statuses" [(ngModel)]="selectedStatuses" defaultLabel="All statuses"
+                            (onChange)="filter($event.value, 'status')"></p-multiSelect>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let project">
+                    <span *ngFor="let plan of project.planDetails">
+                        {{ plan.statusName }}
+                    </span>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Privacy">
+                <th mat-header-cell *matHeaderCellDef>Privacy
+                    <div>
+                        <p-multiSelect [options]="privacies" [(ngModel)]="selectedPrivacies" defaultLabel="All privacy"
+                            (onChange)="filter($event.value, 'privacy')"></p-multiSelect>
+                    </div>
+                </th>
+                <td mat-cell *matCellDef="let project">
+                    <span *ngFor="let plan of project.planDetails">
+                        {{ plan.privacyName }}
+                    </span>
+                </td>
+            </ng-container> -->
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
     </div>
+    <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
+        id="server"></mat-paginator>
+</div>

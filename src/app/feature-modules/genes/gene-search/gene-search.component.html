@@ -1,173 +1,145 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-sidenav-container>
-    <mat-sidenav mode="side" opened>
-<div class="col-md-10 offset-md-1">
-  <form [formGroup]="geneSearchForm" (ngSubmit)="onSubmit($event)">
-      <mat-card>
-       <div class="form-group">
-          <mat-form-field>
+  <mat-sidenav mode="side" opened>
+    <div class="col-md-10 offset-md-1">
+      <form [formGroup]="geneSearchForm" (ngSubmit)="onSubmit($event)">
+        <mat-card>
+          <div class="form-group">
+            <mat-form-field>
               <mat-label>Mouse gene symbol (s)</mat-label>
-            <input matInput placeholder="Input" id="geneSymbolTextArea" formControlName="geneSymbol">
-          </mat-form-field>
-      <!-- <button [disabled]="isLoading" class="btn btn-success">Search</button> -->
-      <button mat-raised-button color="primary">Search</button>
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
-    </div>
-      <!-- <textarea id="geneSymbolTextArea" type="text" formControlName="geneSymbol" class="form-control"></textarea> -->
-    </mat-card>
-    <h3>Filters</h3>
-    <mat-accordion>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-              Work units
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-                <input id="workUnitsSelectAll" class="form-check-input" type="checkbox" checked
-                  (change)="checkUncheckWorkUnits($event)">
-                <label class="form-check-label" style="font-size: small;">
-                  <strong>Select/ Unselect All</strong>
-                </label>
-              
+              <input matInput placeholder="Input" id="geneSymbolTextArea" formControlName="geneSymbol">
+            </mat-form-field>
+            <!-- <button [disabled]="isLoading" class="btn btn-success">Search</button> -->
+            <button mat-raised-button color="primary">Search</button>
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+          </div>
+          <!-- <textarea id="geneSymbolTextArea" type="text" formControlName="geneSymbol" class="form-control"></textarea> -->
+        </mat-card>
+        <h3>Filters</h3>
+        <mat-accordion>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                Work units
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <input id="workUnitsSelectAll" class="form-check-input" type="checkbox" checked
+              (change)="checkUncheckWorkUnits($event)">
+            <label class="form-check-label" style="font-size: small;">
+              <strong>Select/ Unselect All</strong>
+            </label>
 
-              <div *ngFor="let workUnit of workUnits">
-                <div class="form-check-inline">
-                  <input id="{{getIdFromWorkUnitName(workUnit.name)}}" class="form-check-input" type="checkbox"
-                    value="{{ workUnit.name }}" checked (change)="onCheckedWorkUnitElement(workUnit)" />
-                  <label class="form-check-label" style="font-size: small;">
-                    {{ workUnit.name }}
-                  </label>
-                </div>
+
+            <div *ngFor="let workUnit of workUnits">
+              <div class="form-check-inline">
+                <input id="{{getIdFromWorkUnitName(workUnit.name)}}" class="form-check-input" type="checkbox"
+                  value="{{ workUnit.name }}" checked (change)="onCheckedWorkUnitElement(workUnit)" />
+                <label class="form-check-label" style="font-size: small;">
+                  {{ workUnit.name }}
+                </label>
               </div>
-            
+            </div>
+
           </mat-expansion-panel>
 
           <mat-expansion-panel>
-          <mat-expansion-panel-header>
+            <mat-expansion-panel-header>
               <mat-panel-title>
-                  Work groups
+                Work groups
               </mat-panel-title>
-            </mat-expansion-panel-header> 
-              <div>
-                <input id="workGroupsSelectAll" class="form-check-input" type="checkbox" checked
-                  (change)="checkUncheckWorkGroups($event)">
+            </mat-expansion-panel-header>
+            <div>
+              <input id="workGroupsSelectAll" class="form-check-input" type="checkbox" checked
+                (change)="checkUncheckWorkGroups($event)">
+              <label class="form-check-label" style="font-size: small;">
+                <strong>Select/ Unselect All</strong>
+              </label>
+            </div>
+
+            <div *ngFor="let workGroup of workGroups">
+              <div class="form-check-inline">
+                <input id="{{getIdFromWorkGroupName(workGroup.name)}}" class="form-check-input" type="checkbox"
+                  value="{{ workGroup.name }}" checked (change)="onCheckedWorkGroupElement(workGroup)" />
                 <label class="form-check-label" style="font-size: small;">
-                  <strong>Select/ Unselect All</strong>
+                  {{ workGroup.name }}
                 </label>
               </div>
+            </div>
 
-              <div *ngFor="let workGroup of workGroups">
-                <div class="form-check-inline">
-                  <input id="{{getIdFromWorkGroupName(workGroup.name)}}" class="form-check-input" type="checkbox"
-                    value="{{ workGroup.name }}" checked (change)="onCheckedWorkGroupElement(workGroup)" />
-                  <label class="form-check-label" style="font-size: small;">
-                    {{ workGroup.name }}
-                  </label>
-                </div>
-              </div>
-            
-      </mat-expansion-panel>
-    </mat-accordion>
+          </mat-expansion-panel>
+        </mat-accordion>
 
-   
-  </form>
-</div>
-</mat-sidenav>
+
+      </form>
+    </div>
+  </mat-sidenav>
 
 
 
-<mat-sidenav-content>
+  <mat-sidenav-content>
     <div class="example-container mat-elevation-z8">
-        <div class="example-loading-shade"
-             *ngIf="isLoading || isRateLimitReached">
-          <mat-spinner *ngIf="isLoading"></mat-spinner>
-          <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
-            The API rate limit has been reached. It will be reset in one minute.
-          </div>
+      <div class="example-loading-shade" *ngIf="isLoading || isRateLimitReached">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
+          The API rate limit has been reached. It will be reset in one minute.
         </div>
-    
+      </div>
 
-    <div class="example-table-container">
-    <table mat-table [dataSource]="projects" class="mat-elevation-z8" width="100%">
 
-        <!--- Note that these columns can be defined in any order.
+      <div class="example-table-container">
+        <table mat-table [dataSource]="projects" class="mat-elevation-z8" width="100%">
+
+          <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
-      
-        <!-- Position Column -->
-        <ng-container matColumnDef="Project summary">
-          <th mat-header-cell *matHeaderCellDef>Project summary</th>
-          <td mat-cell *matCellDef="let project"><a routerLink="/projects/{{ project.projectDetails.tpn }}">Summary</a></td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="Allele Intentions">
-          <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
-          <td mat-cell *matCellDef="let project">
-              <div *ngFor="let intention of project.projectDetails.alleleIntentions">
-                  {{ intention }}
+
+          <!-- Position Column -->
+          <ng-container matColumnDef="Project summary">
+            <th mat-header-cell *matHeaderCellDef>Project summary</th>
+            <td mat-cell *matCellDef="let project"><a
+                routerLink="/projects/{{ project.tpn }}">Summary</a></td>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="Allele Intentions">
+            <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
+            <td mat-cell *matCellDef="let project">
+              <div *ngFor="let intention of project.intention_by_gene_attributes">
+                {{ intention.alleleTypeName }}
               </div>
             </td>
-        </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="Mouse Gene Symbol / Location">
-          <th mat-header-cell *matHeaderCellDef>Mouse Gene Symbol / Location</th>
-          <td mat-cell *matCellDef="let project"> 
-              
-                  <div *ngFor="let markerSymbol of project.projectDetails.markerSymbols">
-                      <a href="{{ markerSymbol.mgiLink }}" target="_blank">{{ markerSymbol.markerSymbol }}</a>
-                    </div>
-                  
-          </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="Human Gene Symbol(s)">
-          <th mat-header-cell *matHeaderCellDef>Human Gene Symbol(s)</th>
-          <td mat-cell *matCellDef="let project">
-              <div *ngFor="let human_gene of project.projectDetails.humanGenes">
-                <span matBadge=" {{ human_gene.support_count }}" matBadgeOverlap="false" matBadgePosition="after" matBadgeSize="small">
-                  {{ human_gene.symbol }} 
-                </span>
-              </div>
-        </ng-container>
+          </ng-container>
 
-        <ng-container matColumnDef="Project Assignment">
+          <!-- Weight Column -->
+          <ng-container matColumnDef="Mouse Gene Symbol / Location">
+            <th mat-header-cell *matHeaderCellDef>Mouse Gene Symbol / Location</th>
+            <td mat-cell *matCellDef="let project">
+
+              <div *ngFor="let gene of project.intention_by_gene_attributes">
+                <a href="" target="_blank">{{ gene.gene.symbol }}</a>
+              </div>
+
+            </td>
+          </ng-container>
+
+
+
+          <ng-container matColumnDef="Project Assignment">
             <th mat-header-cell *matHeaderCellDef>Project Assigment</th>
-            <td mat-cell *matCellDef="let project">{{ project.projectDetails.assigmentStatusName }}</td>
-        </ng-container>
+            <td mat-cell *matCellDef="let project">{{ project.assigment_status_name }}</td>
+          </ng-container>
 
-        <ng-container matColumnDef="Aborted MIs">
-            <th mat-header-cell *matHeaderCellDef>Aborted MIs</th>
-            <td mat-cell *matCellDef="let project">{{ project.abortedMis }}
-            </td>
-        </ng-container> 
+  
 
-        <ng-container matColumnDef="MIs in Progress">
-            <th mat-header-cell *matHeaderCellDef>MIs in Progress</th>
-            <td mat-cell *matCellDef="let project">{{ project.misInProgress }}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="Genotype Confirmed Mis">
-            <th mat-header-cell *matHeaderCellDef>Genotype Confirmed Mis</th>
-            <td mat-cell *matCellDef="let project">{{ project.genotypeConfirmedMis }}</td>
-        </ng-container>
-        
-        <ng-container matColumnDef="Phenotype Attempts">
-            <th mat-header-cell *matHeaderCellDef>Phenotype Attempts</th>
-            <td mat-cell *matCellDef="let project">{{ project.phenotypeAttempts }}</td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </div>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
       <!-- *ngFor="let project of projects | paginate: { id: 'server', itemsPerPage: page.size, currentPage: p, totalItems: page.totalElements }"> -->
-      <mat-paginator  (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size" id="server"></mat-paginator>
+      <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
+        id="server"></mat-paginator>
     </div>
-    </mat-sidenav-content>
+  </mat-sidenav-content>
 </mat-sidenav-container>
 
 
 <!-- https://www.mousephenotype.org/data/search/gene?kw=${} -->
-

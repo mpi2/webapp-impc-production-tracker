@@ -20,8 +20,8 @@ export class GeneSearchComponent implements OnInit {
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: false}) sort: MatSort;
 
-  displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 'Human Gene Symbol(s)',
-'Project Assignment' , 'Aborted MIs', 'MIs in Progress', 'Genotype Confirmed Mis', 'Phenotype Attempts'];
+  displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 
+'Project Assignment' ];
   selectAllWorkUnits = true;
   panelOpenState = false;
   geneSearchForm: FormGroup;
@@ -124,7 +124,7 @@ export class GeneSearchComponent implements OnInit {
 
     this.isLoading = true;
 
-    this.projectService.getPaginatedProjectSummariesWithFilters(
+    this.projectService.getPaginatedProjectsWithFilters(
       apiPageNumber,
       geneSymbols,
       selectedWorkUnits,
@@ -133,11 +133,16 @@ export class GeneSearchComponent implements OnInit {
       [],
       []).pipe(first()).subscribe(data => {
         if (data['_embedded']) {
-          this.projects = data['_embedded']['projectSummaryDToes'];
+          console.log('DATA0::::',data);
+          
+          this.projects = data['_embedded']['projectDToes'];
+          console.log('DATA1::::',this.projects);
           this.projects = this.projects.map(x => this.projectAdapter.adapt(x));
         } else {
           this.projects = [];
         }
+        console.log('---> ',this.projects);
+        
         this.page = data['page'];
         this.p = page;
         this.isLoading = false;

@@ -20,6 +20,7 @@ export class ProjectSummary {
 
 export class ProjectSummaryAdapter implements Adapter<ProjectSummary> {
     adapt(item: any): ProjectSummary {
+        return item;
         const projectSummary: ProjectSummary = new ProjectSummary();
         projectSummary.planDetails = item.planDetails;
         // Sort so production plans come first that phenotype plans.
