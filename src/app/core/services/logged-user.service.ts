@@ -47,10 +47,13 @@ export class LoggedUserService {
   readLoggedUser() {
     const tokenInfo = JSON.parse(localStorage.getItem(this.TOKEN_INFO_KEY));
     if (tokenInfo) {
+      console.log('tokenInfo: ', tokenInfo);
       this.loggedUser = new LoggedUser();
-      this.loggedUser.role = tokenInfo.role;
       this.loggedUser.userName = tokenInfo.user_name;
-      this.loggedUser.workUnitName = tokenInfo.workUnitName;
+
+      this.loggedUser.rolesWorkUnits = tokenInfo.roles_work_units;
+      this.loggedUser.rolesConsortia = tokenInfo.roles_consortia;
+      console.log('this.loggedUser: ', this.loggedUser);
     } else {
       this.loggedUser = null;
     }
