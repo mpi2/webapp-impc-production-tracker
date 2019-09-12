@@ -49,7 +49,7 @@ export class LoggedUserService {
     if (tokenInfo) {
       this.loggedUser = new LoggedUser();
       this.loggedUser.role = tokenInfo.role;
-      this.loggedUser.userName = tokenInfo.username;
+      this.loggedUser.userName = tokenInfo.user_name;
       this.loggedUser.workUnitName = tokenInfo.workUnitName;
     } else {
       this.loggedUser = null;

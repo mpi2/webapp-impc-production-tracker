@@ -19,7 +19,7 @@ export class ProjectListComponent implements OnInit {
   isLoading = true;
   displayedColumns: string[] = ['Project', 'ExternalReference', 'Marker Symbol(s)', 'Intention','Project Assignment','Privacy', 'Is active', 'Consortium'];
   projects: ProjectSummary[] = [];
-  username: any;
+  user_name: any;
   p = 0;
   page: any = {};
   planTypes: SelectItem[];

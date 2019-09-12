@@ -14,9 +14,9 @@
                 <div class="form-group">
                     <mat-form-field>
                             <mat-label>Username</mat-label>
-                            <input matInput placeholder="username" id="username" formControlName="username" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" >
-                            <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
-                                <div *ngIf="f.username.errors.required">Username is required</div>
+                            <input matInput placeholder="user_name" id="user_name" formControlName="user_name" [ngClass]="{ 'is-invalid': submitted && f.user_name.errors }" >
+                            <div *ngIf="submitted && f.user_name.errors" class="invalid-feedback">
+                                <div *ngIf="f.user_name.errors.required">Username is required</div>
                             </div>
                     </mat-form-field>            
                     
