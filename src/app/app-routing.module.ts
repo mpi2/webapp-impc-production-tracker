@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { HomeComponent } from './core/components/home/home.component';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
 import { GeneSearchComponent } from './feature-modules/genes/gene-search';
@@ -12,7 +11,8 @@ const routes: Routes = [
   { path: 'reports', component: ReportsComponent },
   {
     path: 'admin',
-    loadChildren:  () => import('./feature-modules/admin/admin.module').then(m => m.AdminModule), canActivate:[AuthGuard], canLoad: [AuthGuard]
+    loadChildren:  () => import('./feature-modules/admin/admin.module').then(m => m.AdminModule), canActivate:[AuthGuard], 
+    canLoad: [AuthGuard]
   },
   { path: '**', component: NotFoundComponent }
 ];
@@ -25,5 +25,4 @@ export class AppRoutingModule {
   constructor() {
     console.log('[[AppRoutingModule loaded]]');
   }
-    
  }

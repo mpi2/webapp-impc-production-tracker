@@ -238,6 +238,7 @@ export class CreateProjectComponent implements OnInit {
     this.createProjectForm.patchValue({
       workUnit: this.loggerUser.workUnitName,
     });
+    console.log(this.loggerUser);
 
     this.workGroupService.getWorkGroupByWorkUnit(this.f.workUnit.value).pipe(first()).subscribe(data => {
         if (data) {
