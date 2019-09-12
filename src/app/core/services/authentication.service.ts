@@ -15,8 +15,8 @@ export class AuthenticationService {
     private loggedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService) { }
 
-    login(username: string, password: string) {
-      return this.http.post<any>(`${environment.baseUrl}/auth/signin`, { username, password })
+    login(user_name: string, password: string) {
+      return this.http.post<any>(`${environment.baseUrl}/auth/signin`, { user_name, password })
         .pipe(map(user => {
           // login successful if there's a user in the response
           if (user) {

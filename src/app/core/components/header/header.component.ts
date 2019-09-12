@@ -14,14 +14,14 @@ import { MatMenuModule, MatToolbarModule,
 export class HeaderComponent implements OnInit {
 
   role = '';
-  username = '';
+  user_name = '';
   login = false;
   subscription: Subscription;
   loggedUser: LoggedUser
 
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) { }
 
-  ngOnInit() {    
+  ngOnInit() {
     this.loggedUser = this.loggedUserService.getLoggerUser();
     this.setInitialInformation();
 
@@ -45,7 +45,7 @@ export class HeaderComponent implements OnInit {
         this.role = this.loggedUser.role;
       }
       if (this.loggedUser.userName) {
-        this.username = this.loggedUser.userName;
+        this.user_name = this.loggedUser.userName;
       }
       this.login = true;
     }
