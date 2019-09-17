@@ -14,7 +14,6 @@ export class Plan {
     status_name: string;
     status_dates: StatusDate[];
     type_name: string;
-    privacy_name: string;
     parent_colony_name: string;
     comment: string;
     products_available_for_general_public: boolean;

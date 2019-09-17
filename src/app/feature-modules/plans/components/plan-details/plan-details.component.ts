@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfigurationData, PermissionsService, ConfigurationDataService } from 'src/app/core';
 import { Plan } from '../../model/plan';
 
-
 @Component({
   selector: 'app-plan-details',
   templateUrl: './plan-details.component.html',
@@ -68,9 +67,6 @@ export class PlanDetailsComponent implements OnInit {
 
     this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
     this.editPlanDetails.get('comments').setValue(this.plan.comment);
-
-    this.selectedPrivacy = [{ name: this.plan.privacy_name }];
-    this.editPlanDetails.get('privacy').setValue(this.selectedPrivacy);
   }
 
   updatePlanDetails() {
@@ -78,7 +74,7 @@ export class PlanDetailsComponent implements OnInit {
   }
 
   onItemSelect(e) {
-    this.plan.privacy_name = e;
+    //this.plan.privacy_name = e;
     this.updatePlanDetails();
   }
 
