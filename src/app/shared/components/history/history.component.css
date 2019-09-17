@@ -23,3 +23,7 @@ table, th, td {
     flex: 0 0 35% !important;
     width: 35% !important;
   }
+
+  .description {
+    width: 25% 
+  }

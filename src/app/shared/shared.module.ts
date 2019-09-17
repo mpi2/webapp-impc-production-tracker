@@ -38,10 +38,9 @@ import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ExpandableContentComponent } from './components/expandable-content/expandable-content.component';
-import { LargeTableContentComponent } from './components/large-table-content/large-table-content.component';
 
 @NgModule({
-  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent, ExpandableContentComponent, LargeTableContentComponent],
+  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent, ExpandableContentComponent],
   imports: [
     CommonModule,
     FormsModule,

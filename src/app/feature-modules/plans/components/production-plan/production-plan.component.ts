@@ -30,6 +30,7 @@ export class ProductionPlanComponent implements OnInit {
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
     private planService: PlanService,
+    private changeHistoryAdapter: ChangesHistoryAdapter,
     private permissionsService: PermissionsService) { }
 
   ngOnInit() {
@@ -83,7 +84,7 @@ export class ProductionPlanComponent implements OnInit {
           this.changeDetails = data;
           console.log('data because of change', data);
           
-          this.changeDetails.details.map(x => x.field = ChangesHistoryAdapter.formatPropertyName(x.field));
+          this.changeDetails.details.map(x => x.field = this.changeHistoryAdapter.formatPropertyName(x.field));
           console.log('updated:', this.changeDetails);
 
           this._snackBar.openFromComponent(UpdateNotificationComponent, {

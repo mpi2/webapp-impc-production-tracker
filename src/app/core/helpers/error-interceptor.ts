@@ -17,6 +17,8 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     handleError(error) {
+        console.log('Handle this', error);
+        
         if (this.isUnauthorisedError(error) || this.isForbiddenError(error)) {
             window.alert('Access denied. Please log as a user with the corresponding permissions to execute the required action.');
             this.authenticationService.logout();
@@ -24,7 +26,11 @@ export class ErrorInterceptor implements HttpInterceptor {
             this.router.navigateByUrl(`/login`);
         } else {
             let errorMessage = '';
-            if (this.hasApiErrorFormat(error)) {
+
+            if (this.isNotFoundError(error)) {
+                errorMessage = 'The server cannot find the requested resource. Path: ' + error.error.path;
+            }
+            else if (this.hasApiErrorFormat(error)) {
                 errorMessage = this.getApiErrorMessage(error);
 
             } else {
@@ -46,6 +52,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     isForbiddenError(error): boolean {
         return error.status === 403
+    }
+
+    isNotFoundError(error): boolean {
+        return error.status === 404
     }
 
     hasApiErrorFormat(error): boolean {
