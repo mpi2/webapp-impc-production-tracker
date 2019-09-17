@@ -47,7 +47,6 @@ export class HistoryComponent implements OnInit {
       case 'plan':
         this.getPlanHistory(this.id);
         break;
-
     }
   }
 
@@ -74,7 +73,12 @@ export class HistoryComponent implements OnInit {
     this.sortedData = this.historyRecords.slice();
   }
 
-  isTextLargerThanLimit(text: string) {
-    return text.length > this.LENGTH_LIMIT;
+  isTextLargerThanLimit(text: string) {  
+    return text === null ? false : (text.length > this.LENGTH_LIMIT);
+  }
+
+  getTitleForExpandable(): string
+  {    
+    return 'Click to see element';
   }
 }

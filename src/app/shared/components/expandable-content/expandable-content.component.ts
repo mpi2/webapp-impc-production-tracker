@@ -7,19 +7,18 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class ExpandableContentComponent implements OnInit {
 
+  @Input() title: string;
   @Input() content: string;
-
-  title: string;
 
   private readonly TITLE_LENGTH_LIMIT = 35;
 
   constructor() { }
 
   ngOnInit() {
-    this.title = this.getTruncatedTitle(this.content);
   }
 
   private getTruncatedTitle(text: string): string {
     return text.substr(0, this.TITLE_LENGTH_LIMIT) + " ...";
   }
+
 }

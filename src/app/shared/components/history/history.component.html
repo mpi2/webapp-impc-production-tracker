@@ -8,7 +8,7 @@
         <th>User</th>
         <th>Date</th>
         <th>Action</th>
-        <th>Property</th>
+        <th>Description</th>
         <th>From</th>
         <th>To</th>
       </tr>
@@ -28,22 +28,29 @@
             <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
               {{ historyRecord.comment }}
             </td>
-            <td>{{ change.field }}
 
+            <td class="tablename description"> {{ change.description }}
             </td>
             <td>
-              <div *ngIf="isTextLargerThanLimit(change.newValue); then showLargeTextContentOldValue else showContentOldValue"></div>
+              <div
+                *ngIf="isTextLargerThanLimit(change.oldValue); then showLargeTextContentOldValue else showContentOldValue">
+              </div>
               <ng-template #showLargeTextContentOldValue>
-                <app-large-table-content [content]="change.oldValue"></app-large-table-content>
+                <app-expandable-content [title]="getTitleForExpandable()" [content]="change.oldValue">
+                </app-expandable-content>
               </ng-template>
               <ng-template #showContentOldValue>
                 {{ change.oldValue || 'null'}}
               </ng-template>
             </td>
             <td>
-              <div *ngIf="isTextLargerThanLimit(change.newValue); then showLargeTextContentNewValue else showContentNewValue"></div>
+              <div
+                *ngIf="isTextLargerThanLimit(change.newValue); then showLargeTextContentNewValue else showContentNewValue">
+              </div>
               <ng-template #showLargeTextContentNewValue>
-                <app-large-table-content [content]="change.newValue"></app-large-table-content>
+                <app-expandable-content [title]="getTitleForExpandable()" [content]="change.newValue">
+                </app-expandable-content>
+
               </ng-template>
               <ng-template #showContentNewValue>
                 {{ change.newValue || 'null'}}
