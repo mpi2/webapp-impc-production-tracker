@@ -1,6 +1,5 @@
 <form [formGroup]="editCrisprAttempt">
-  <app-crispr-attempt-details [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan"
-    (modifiedAttemptEmmiter)="onAttemptChangedByChildren($event)">
+  <app-crispr-attempt-details [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan">
   </app-crispr-attempt-details>
 
   <app-mutagenesis-details [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan">

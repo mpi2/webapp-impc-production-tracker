@@ -18,8 +18,6 @@ export class AuthGuard implements CanActivate, CanLoad {
       const url = state.url;
       const path = next.routeConfig.path;
       const loggedUser = this.loggedUserService.getLoggerUser();
-      console.log('AuthGuard::canActivate');
-      
 
       if (!loggedUser) {
           this.redirectToLoginPage(url);

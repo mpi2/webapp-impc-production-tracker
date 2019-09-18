@@ -6,14 +6,12 @@ import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log('request.url', request.url);
-
         const authHeader = request.headers.get('Authorization');
         const isLoggedIn = authHeader && authHeader.startsWith('Bearer fake-jwt-token');
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
-            if (request.url.includes('/projects/') && !request.url.includes('/history') && request.method === 'GET') {
+            if (request.url.includes('/projectsx/') && !request.url.includes('/history') && request.method === 'GET') {
                 // if (!isLoggedIn) { return unauthorised(); }
                 return ok(getProject());
             }
@@ -332,6 +330,6 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 export let fakeBackendProvider = {
     // use fake backend in place of Http service for backend-less development
     provide: HTTP_INTERCEPTORS,
-    useClass: FakeBackendInterceptor,
+    //useClass: FakeBackendInterceptor,
     multi: true
 }

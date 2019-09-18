@@ -14,17 +14,11 @@ export class CrisprAttemptComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
 
-  @Output() modifiedAttemptEmmiter = new EventEmitter<any>();
-
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
     this.editCrisprAttempt = this.formBuilder.group({
     });
-  }
-
-  notifyCrisprAttemptChanged() {
-    this.modifiedAttemptEmmiter.emit(this.crisprAttempt);
   }
 
   onAttemptChangedByChildren(e) {

@@ -1,15 +1,10 @@
-import {DragDropModule} from '@angular/cdk/drag-drop';
-import {ScrollingModule} from '@angular/cdk/scrolling';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {CdkTableModule} from '@angular/cdk/table';
-import {CdkTreeModule} from '@angular/cdk/tree';
 import { AppRoutingModule } from './app-routing.module';
-import { ReactiveFormsModule} from '@angular/forms';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-import { fakeBackendProvider } from './core/helpers/fake-backend.interceptor';
+//import { fakeBackendProvider } from './core/helpers/fake-backend.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './core/helpers/error-interceptor';
 import { BearerTokenAuth } from './core/helpers/bearer-token-auth';
@@ -40,7 +35,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuth, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
-    fakeBackendProvider
+    //fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })

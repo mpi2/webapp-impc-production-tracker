@@ -1,8 +1,7 @@
-import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfigurationData, PermissionsService, ConfigurationDataService } from 'src/app/core';
 import { Plan } from '../../model/plan';
-
 
 @Component({
   selector: 'app-plan-details',
@@ -12,7 +11,7 @@ import { Plan } from '../../model/plan';
 export class PlanDetailsComponent implements OnInit {
 
   @Input() plan: Plan;
-  @Output() modifiedPlanDetailsEmmiter = new EventEmitter<Plan>();
+
   canUpdatePlan: boolean;
 
   dropdownSettingsSingle = {};
@@ -31,17 +30,14 @@ export class PlanDetailsComponent implements OnInit {
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
-    console.log('PlanDetailsComponent::plan', this.plan);
-
     this.configurationData = this.configurationDataService.getConfigurationInfo();
-    console.log('Init...');
 
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
         this.canUpdatePlan = canUpdatePlan;
-        console.log('canUpdatePlan=>',canUpdatePlan);
+
       }, error => {
-        console.log('Error getting permissions');
+        console.error('Error getting permissions');
       });
 
     this.dropdownSettingsSingle = {
@@ -63,37 +59,20 @@ export class PlanDetailsComponent implements OnInit {
 
     this.editPlanDetails = this.formBuilder.group({
       privacy: ['', Validators.required],
-      comments: ['', Validators.required],
+      comment: ['', Validators.required],
     });
 
     this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
-    this.editPlanDetails.get('comments').setValue(this.plan.comment);
-
-    this.selectedPrivacy = [{ name: this.plan.privacy_name }];
-    this.editPlanDetails.get('privacy').setValue(this.selectedPrivacy);
+    this.editPlanDetails.get('comment').setValue(this.plan.comment);
   }
 
-  updatePlanDetails() {
-    this.modifiedPlanDetailsEmmiter.emit(this.plan);
-  }
-
-  onItemSelect(e) {
-    this.plan.privacy_name = e;
-    this.updatePlanDetails();
-  }
-
-  onTextCommentChanged(e) {
-    const newComments = this.editPlanDetails.get('comments').value;
+  onTextCommentChanged() {
+    const newComments = this.editPlanDetails.get('comment').value;
     this.plan.comment = newComments;
-    this.updatePlanDetails();
   }
 
   onProductsAvailableGeneralPublic() {
-    console.log('To be implemented');
-  }
-
-  onProductsAvailableGeneralPublicSelected() {
-    // METHOD TO DO
+    this.plan.products_available_for_general_public = !this.plan.products_available_for_general_public;
   }
 
 }

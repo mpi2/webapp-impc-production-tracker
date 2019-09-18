@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
-import { Plan } from '../../model/plan';
+import { Plan, PlanAdapter } from '../../model/plan';
 import { PermissionsService, ChangesHistory, ChangesHistoryAdapter } from 'src/app/core';
 import { MatSnackBar } from '@angular/material';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
-
 
 @Component({
   selector: 'app-production-plan',
@@ -16,14 +15,13 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 export class ProductionPlanComponent implements OnInit {
 
   plan: Plan = new Plan();
+  originalPlanAsString: string;
   canUpdatePlan: boolean;
-  planDetailsChanged: boolean = false;
-  attemptChanged: boolean = false;
+  dataChanged: boolean = false;
   loading: boolean = false;
   error: string;
 
   crisptAttempt: CrisprAttempt;
-
   changeDetails: ChangesHistory;
 
   constructor(
@@ -31,12 +29,14 @@ export class ProductionPlanComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private planService: PlanService,
     private changeHistoryAdapter: ChangesHistoryAdapter,
+    private planAdapter: PlanAdapter,
     private permissionsService: PermissionsService) { }
 
   ngOnInit() {
     let pid = this.route.snapshot.params['pid'];
     this.planService.getPlanByPid(pid).subscribe(data => {
-      this.plan = data;
+      this.plan = this.planAdapter.adapt(data);
+      this.originalPlanAsString = JSON.stringify(this.plan);
       console.log('ProductionPlanComponent =>', this.plan);
       this.evaluateUpdatePermissions()
     }, error => {
@@ -48,24 +48,11 @@ export class ProductionPlanComponent implements OnInit {
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
         this.canUpdatePlan = canUpdatePlan;
-        console.log('canUpdatePlan', canUpdatePlan);
-        
         this.error = null;
-      }, 
-      error => {
-        this.error = error;
-      });
-  }
-
-  onPlanDetailsChange(e) {
-    this.planDetailsChanged = true;
-  }
-
-  onAttemptChanged(e) {
-    console.log('Production Plan component notified of change in attempt');
-    console.log(e);
-
-    this.attemptChanged = true;
+      },
+        error => {
+          this.error = error;
+        });
   }
 
   /**
@@ -75,18 +62,12 @@ export class ProductionPlanComponent implements OnInit {
     this.loading = true;
 
     this.planService.updateProductionPlan(
-      this.plan.pin, this.plan, this.planDetailsChanged, this.attemptChanged).subscribe(
+      this.plan.pin, this.plan).subscribe(
         data => {
           this.loading = false;
-          this.planDetailsChanged = false;
-          this.attemptChanged = false;
-
+          this.originalPlanAsString = JSON.stringify(this.plan);
           this.changeDetails = data;
-          console.log('data because of change', data);
-          
           this.changeDetails.details.map(x => x.field = this.changeHistoryAdapter.formatPropertyName(x.field));
-          console.log('updated:', this.changeDetails);
-
           this._snackBar.openFromComponent(UpdateNotificationComponent, {
             duration: 3000,
             data: this.changeDetails
@@ -99,12 +80,7 @@ export class ProductionPlanComponent implements OnInit {
       );
   }
 
-  shouldShowUpdateButton() {
-    // console.log('shouldShowUpdateButton',!this.loading && (this.planDetailsChanged || this.attemptChanged));
-    // console.log('this.loading', this.loading);
-    // console.log('this.planDetailsChanged', this.planDetailsChanged);
-    // console.log('this.attemptChanged', this.attemptChanged);
-
-    return !this.loading && (this.planDetailsChanged || this.attemptChanged)
+  planHasChanged() {
+    return this.originalPlanAsString != JSON.stringify(this.plan);
   }
 }

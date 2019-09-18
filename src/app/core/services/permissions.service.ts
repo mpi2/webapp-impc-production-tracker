@@ -16,6 +16,7 @@ export class PermissionsService {
 
   // Actions
   static readonly UPDATE_PLAN_ACTION = 'canUpdatePlan';
+  static readonly UPDATE_PROJECT_ACTION = 'canUpdateProject';
 
   constructor(private http: HttpClient) { }
 

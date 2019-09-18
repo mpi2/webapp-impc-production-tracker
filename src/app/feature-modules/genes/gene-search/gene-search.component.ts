@@ -133,16 +133,11 @@ export class GeneSearchComponent implements OnInit {
       [],
       []).pipe(first()).subscribe(data => {
         if (data['_embedded']) {
-          console.log('DATA0::::',data);
-          
           this.projects = data['_embedded']['projectDToes'];
-          console.log('DATA1::::',this.projects);
           this.projects = this.projects.map(x => this.projectAdapter.adapt(x));
         } else {
           this.projects = [];
         }
-        console.log('---> ',this.projects);
-        
         this.page = data['page'];
         this.p = page;
         this.isLoading = false;

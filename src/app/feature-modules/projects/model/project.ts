@@ -4,6 +4,7 @@ import { ProjectLinks } from './project-links';
 export class Project {
     id: number;
     tpn: string;
+    privacy_name: string;
     assignment_status_name: string;
     assignment_status_dates: StatusDate[];
     withdrawn: boolean;

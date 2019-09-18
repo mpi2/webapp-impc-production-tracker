@@ -10,66 +10,113 @@
 <mat-card>
   <mat-card-subtitle>Project Details.</mat-card-subtitle>
   <mat-card-content>
-    <table>
-      <tr>
-        <td>Project id:</td>
-        <td>{{ project.tpn }}</td>
-      </tr>
-      <tr>
-        <td>Intentions:</td>
-        <td *ngIf="project.intention_by_gene_attributes">
-          <div *ngFor="let gene_attribute of project.intention_by_gene_attributes">
-            <mat-chip-list>
-              <mat-chip color="primary" selected>{{ gene_attribute.marker_symbol || 'Gene Not defined' }} -
-                {{ gene_attribute.allele_type_name }}</mat-chip>
-            </mat-chip-list>
-          </div>
-          <div *ngFor="let gene_attribute of project.intention_by_location_attributes">
-            <mat-chip-list>
-              <mat-chip color="primary" selected>
-                [ {{ gene_attribute.start || 'Start Not defined' }} : {{ gene_attribute.end || 'End Not defined' }} ]
-                - {{ gene_attribute.allele_type_name }}</mat-chip>
-            </mat-chip-list>
-          </div>
-        </td>
-      </tr>
-      <tr>
-        <td>Assignment Status:</td>
-        <td>{{project.assignment_status_name}}</td>
-      </tr>
-      <tr>
-        <td>
-          Active?:
-        </td>
-        <td>
-          <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.is_active"
-            [disabled]="!canUpdatePlan">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Withdrawn?:
-        </td>
-        <td>
-          <input type="checkbox" (change)="onWithdrawnSelected()" [checked]="this.project.withdrawn"
-            [disabled]="!canUpdatePlan">
-        </td>
-      </tr>
-      <tr>
-        <td>
-          Recovery?:
-        </td>
-        <td>
-          <input type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
-            [disabled]="!canUpdatePlan">
-        </td>
-      </tr>
-      <tr>
-        <td>Comment:</td>
-        <td>{{project.comment}}</td>
-      </tr>
-    </table>
+    <form [formGroup]="projectForm">
+      <table>
+        <tr>
+          <td>Project id:</td>
+          <td>{{ project.tpn }}</td>
+        </tr>
+        <tr>
+          <td>Intentions:</td>
+          <td *ngIf="project.intention_by_gene_attributes">
+            <div *ngFor="let gene_attribute of project.intention_by_gene_attributes">
+              <mat-chip-list>
+                <mat-chip color="primary" selected>{{ gene_attribute.marker_symbol || 'Gene Not defined' }} -
+                  {{ gene_attribute.allele_type_name }}</mat-chip>
+              </mat-chip-list>
+            </div>
+            <div *ngFor="let gene_attribute of project.intention_by_location_attributes">
+              <mat-chip-list>
+                <mat-chip color="primary" selected>
+                  [ {{ gene_attribute.start || 'Start Not defined' }} : {{ gene_attribute.end || 'End Not defined' }} ]
+                  - {{ gene_attribute.allele_type_name }}</mat-chip>
+              </mat-chip-list>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>Assignment Status:</td>
+          <td>{{project.assignment_status_name}}</td>
+        </tr>
+        <tr>
+          <td>
+            Active?:
+          </td>
+          <td>
+            <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.is_active"
+              [disabled]="!canUpdateProject">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Privacy:
+          </td>
+          <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
+          <ng-template #privacyEditable>
+            <td>
+              <div class="form-group">
+                <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
+                  [placeholder]="'--Select--'" [data]="privacies" [settings]="dropdownSettingsSingle"
+                  (onSelect)="onItemSelect($event)">
+                </ng-multiselect-dropdown>
+              </div>
+            </td>
+          </ng-template>
+
+          <ng-template #privacyReadOnly>
+            <td>
+              {{project.privacy_name}}
+            </td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>
+            Withdrawn?:
+          </td>
+          <td>
+            <input type="checkbox" (change)="onWithdrawnSelected()" [checked]="this.project.withdrawn"
+              [disabled]="!canUpdateProject">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Recovery?:
+          </td>
+          <td>
+            <input type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
+              [disabled]="!canUpdateProject">
+          </td>
+        </tr>
+        <tr>
+            <td>
+              Comment:
+            </td>
+            <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
+            <ng-template #commentsEditable>
+              <td>
+                <div class="form-group">
+                  <textarea type="text" formControlName="comments" class="form-control"
+                    (change)="onTextCommentChanged($event)"></textarea>
+                </div>
+              </td>
+            </ng-template>
+  
+            <ng-template #commentsReadOnly>
+              <td>
+                {{project.comment}}
+              </td>
+            </ng-template>
+          </tr>
+      </table>
+    </form>
   </mat-card-content>
+
+  <mat-card>
+      <mat-card-content>
+        <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
+          (click)="updateProject()">Update</button>
+      </mat-card-content>
+    </mat-card>
 
   <mat-accordion>
     <mat-expansion-panel>
@@ -93,7 +140,6 @@
         <tr mat-header-row *matHeaderRowDef="assignmentStatusDatesColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: assignmentStatusDatesColumns;"></tr>
       </table>
-
     </mat-expansion-panel>
   </mat-accordion>
 
@@ -111,17 +157,17 @@
   </mat-card>
 
   <mat-card *ngIf="phenotypingPlansDetails.length > 0">
-      <mat-card-subtitle>Phenotyping Plans</mat-card-subtitle>
-      <mat-card-content>
-        <table style="width: 100%;">
-          <tbody>
-            <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
-              <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
-            </tr>
-          </tbody>
-        </table>
-      </mat-card-content>
-    </mat-card>
+    <mat-card-subtitle>Phenotyping Plans</mat-card-subtitle>
+    <mat-card-content>
+      <table style="width: 100%;">
+        <tbody>
+          <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
+            <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
+          </tr>
+        </tbody>
+      </table>
+    </mat-card-content>
+  </mat-card>
 
   <!-- <div class="mat-card-content">
     <div *ngIf="productionPlansDetails.length > 0">

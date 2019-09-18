@@ -11,7 +11,7 @@
   </app-plan-details>
 
   <app-phenotyping-attempt *ngIf="plan.phenotyping_attempt_attributes" [phenotypingAttempt]="plan.phenotyping_attempt_attributes"
-  [canUpdatePlan]="canUpdatePlan" (modifiedAttemptEmmiter)="onAttemptChanged($event)">
+  [canUpdatePlan]="canUpdatePlan">
 </app-phenotyping-attempt>
 
 <mat-card>
