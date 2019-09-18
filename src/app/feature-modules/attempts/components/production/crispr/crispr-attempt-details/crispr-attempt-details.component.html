@@ -3,14 +3,14 @@
     <mat-card-subtitle>Crispr Attempt Details</mat-card-subtitle>
     <mat-card-content>
       <table>
-          <tr>
-              <td>
-                Attempt Type:
-              </td>
-              <td>
-                {{crisprAttempt.attempt_type_name}}
-              </td>
-            </tr>
+        <tr>
+          <td>
+            Attempt Type:
+          </td>
+          <td>
+            {{crisprAttempt.attempt_type_name}}
+          </td>
+        </tr>
         <tr>
           <td>
             MI date:
@@ -44,7 +44,7 @@
             <td>
               <div class="form-group">
                 <textarea type="text" formControlName="miExternalRef" class="form-control"
-                  (change)="onTextmiExternalRefChanged()"></textarea>
+                (keyup)="onTextmiExternalRefChanged()"></textarea>
               </div>
             </td>
           </ng-template>
@@ -69,19 +69,19 @@
           <td>
             Comments:
           </td>
-          <div *ngIf="canUpdatePlan; then commentsEditable else commentsReadOnly"></div>
-          <ng-template #commentsEditable>
+          <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
+          <ng-template #commentEditable>
             <td>
               <div class="form-group">
-                <textarea type="text" formControlName="comments" class="form-control"
-                  (change)="onTextCommentChanged()"></textarea>
+                <textarea type="text" #box formControlName="comment" class="form-control"
+                  (keyup)="onTextCommentChanged()"></textarea>
               </div>
             </td>
           </ng-template>
 
-          <ng-template #commentsReadOnly>
+          <ng-template #commentReadOnly>
             <td>
-              {{crisprAttempt.comments}}
+              {{crisprAttempt.comment}}
             </td>
           </ng-template>
         </tr>

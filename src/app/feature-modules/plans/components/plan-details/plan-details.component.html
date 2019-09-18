@@ -5,20 +5,20 @@
       <table>
         <tr>
           <td>
-            Plan id:
+            Id:
           </td>
           <td>
             {{plan.pin}}
           </td>
         </tr>
         <tr>
-            <td>
-              Plan type:
-            </td>
-            <td>
-              {{plan.type_name}}
-            </td>
-          </tr>
+          <td>
+            Type:
+          </td>
+          <td>
+            {{plan.type_name}}
+          </td>
+        </tr>
         <ng-template [ngIf]="plan.type_name === 'phenotyping'">
           <tr>
             <td>
@@ -29,29 +29,6 @@
             </td>
           </tr>
         </ng-template>
-
-        <tr>
-          <td>
-            Privacy:
-          </td>
-          <div *ngIf="canUpdatePlan; then privacyEditable else privacyReadOnly"></div>
-          <ng-template #privacyEditable>
-            <td>
-              <div class="form-group">
-                <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
-                  [placeholder]="'--Select--'"
-                  [data]="privacies" [settings]="dropdownSettingsSingle" (onSelect)="onItemSelect($event)">
-                </ng-multiselect-dropdown>
-              </div>
-            </td>
-          </ng-template>
-
-          <ng-template #privacyReadOnly>
-            <td>
-              {{plan.privacy_name}}
-            </td>
-          </ng-template>
-        </tr>
         <tr>
           <td>
             Status:
@@ -70,22 +47,6 @@
         </tr>
         <tr>
           <td>
-            Work Group:
-          </td>
-          <td>
-            {{plan.work_group_name || 'Not defined' }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Consortium:
-          </td>
-          <td>
-            {{plan.consortium_name || 'Not defined' }}
-          </td>
-        </tr>
-        <tr>
-          <td>
             Funder:
           </td>
           <td>
@@ -93,29 +54,29 @@
           </td>
         </tr>
         <tr>
-            <td>
-                Products available for general public?:
-            </td>
-            <td>
-              <input type="checkbox" (change)="onProductsAvailableGeneralPublicSelected()" [checked]="plan.products_available_for_general_public"
-                [disabled]="!canUpdatePlan">
-            </td>
-          </tr>
+          <td>
+            Products available for general public?:
+          </td>
+          <td>
+            <input type="checkbox" (change)="onProductsAvailableGeneralPublic()"
+              [checked]="plan.products_available_for_general_public" [disabled]="!canUpdatePlan">
+          </td>
+        </tr>
         <tr>
           <td>
             Comment:
           </td>
-          <div *ngIf="canUpdatePlan; then commentsEditable else commentsReadOnly"></div>
-          <ng-template #commentsEditable>
+          <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
+          <ng-template #commentEditable>
             <td>
               <div class="form-group">
-                <textarea type="text" formControlName="comments" class="form-control"
-                  (change)="onTextCommentChanged($event)"></textarea>
+                <textarea type="text" formControlName="comment" class="form-control"
+                  (keyup)="onTextCommentChanged()"></textarea>
               </div>
             </td>
           </ng-template>
 
-          <ng-template #commentsReadOnly>
+          <ng-template #commentReadOnly>
             <td>
               {{plan.comment}}
             </td>

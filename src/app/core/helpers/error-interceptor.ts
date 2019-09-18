@@ -17,8 +17,6 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     handleError(error) {
-        console.log('Handle this', error);
-        
         if (this.isUnauthorisedError(error) || this.isForbiddenError(error)) {
             window.alert('Access denied. Please log as a user with the corresponding permissions to execute the required action.');
             this.authenticationService.logout();

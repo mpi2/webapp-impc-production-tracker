@@ -44,35 +44,7 @@ export class PlanService {
     return this.http.put<any>(`${environment.baseUrl}/api/plans/${pin}`, plan);
   }
 
-  updateProductionPlan(pin: string, plan: Plan, updatePlanDetails: boolean, updateAttempt: boolean) {
-    const payLoad = this.getProductionPlanPayload(plan, updatePlanDetails, updateAttempt);
-    console.log('payLoad', payLoad);
-
-    return this.http.put<any>(`${environment.baseUrl}/api/plans/${pin}`, payLoad);
-  }
-
-  getProductionPlanPayload(plan: Plan, updatePlanDetails: boolean, updateAttempt: boolean) {
-    let payload: any = {};
-    if (updatePlanDetails) {
-      payload = this.getPayloadForBasicDataPlan(plan);
-    }
-    if (updateAttempt) {
-      payload.crispr_attempt_attributes = plan.crispr_attempt_attributes;
-    }
-    return payload;
-  }
-
-  private getPayloadForBasicDataPlan(plan: Plan) {
-    let payload: any = {};
-    payload.id = plan.id;
-    payload.pin = plan.pin;
-    payload.work_group_name = plan.work_group_name;
-    payload.work_unit_name = plan.work_unit_name;
-    payload.products_available_for_general_public = plan.products_available_for_general_public;
-    payload.funder_name = plan.funder_name;
-    payload.consortium_name = plan.consortium_name;
-    payload.comment = plan.comment;
-
-    return payload;
+  updateProductionPlan(pin: string, plan: Plan) {
+    return this.http.put<any>(`${environment.baseUrl}/api/plans/${pin}`, plan);
   }
 }

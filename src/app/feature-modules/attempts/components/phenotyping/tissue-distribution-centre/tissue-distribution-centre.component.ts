@@ -29,16 +29,10 @@ export class TissueDistributionCentreComponent implements OnInit {
   constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog) { }
 
   ngOnInit() {
-    console.log('canUpdatePlan', this.canUpdatePlan);
-    //this.selectedMaterailType = this.phenotypingAttempt.
     this.configurationData = this.configurationDataService.getConfigurationInfo();
-    console.log('this.configurationData', this.configurationData);
 
     this.materialTypes = this.configurationData.materialTypes;
     this.workUnits = this.configurationData.workUnits;
-    console.log('this.materialTypes', this.materialTypes);
-
-
   }
   onDeleteElement(e) {
     console.log('delete', e);

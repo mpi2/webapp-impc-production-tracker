@@ -12,12 +12,12 @@
 </app-plan-details>
 
 <app-crispr-attempt *ngIf="plan.crispr_attempt_attributes" [crisprAttempt]="plan.crispr_attempt_attributes"
-  [canUpdatePlan]="canUpdatePlan" (modifiedAttemptEmmiter)="onAttemptChanged($event)">
+  [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>
 
 <mat-card>
   <mat-card-content>
-    <button mat-raised-button color="primary" [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan"
+    <button mat-raised-button color="primary" [disabled]="!planHasChanged()" *ngIf="canUpdatePlan"
       (click)="updatePlan()">Update</button>
   </mat-card-content>
 </mat-card>

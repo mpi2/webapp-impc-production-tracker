@@ -28,9 +28,7 @@ export class ProjectDetailComponent implements OnInit {
   privacies: any[] = [];
   selectedPrivacy = [];
 
-  editProjectDetails: FormGroup;
-
-  editingProject: boolean;
+  projectForm: FormGroup;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -42,7 +40,7 @@ export class ProjectDetailComponent implements OnInit {
 
   ngOnInit() {
 
-    this.editProjectDetails = this.formBuilder.group({
+    this.projectForm = this.formBuilder.group({
       privacy: ['', Validators.required],
       comments: ['', Validators.required],
     });
@@ -61,10 +59,10 @@ export class ProjectDetailComponent implements OnInit {
 
   private setFormValues() {
     this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
-    this.editProjectDetails.get('comments').setValue(this.project.comment);
+    this.projectForm.get('comments').setValue(this.project.comment);
 
     this.selectedPrivacy = [{ name: this.project.privacy_name }];
-    this.editProjectDetails.get('privacy').setValue(this.selectedPrivacy);
+    this.projectForm.get('privacy').setValue(this.selectedPrivacy);
   }
 
   private getProjectData() {
@@ -130,7 +128,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   onTextCommentChanged(e) {
-    const newComments = this.editProjectDetails.get('comments').value;
+    const newComments = this.projectForm.get('comments').value;
     this.project.comment = newComments;
     console.log('Updated comment in memory...');
   }
@@ -144,7 +142,6 @@ export class ProjectDetailComponent implements OnInit {
   updateProject() {
     console.log('Update project...', this.project);
     console.log('originalProject', this.originalProjectAsString);
-    
   }
 
   shouldUpdateBeEnabled() {

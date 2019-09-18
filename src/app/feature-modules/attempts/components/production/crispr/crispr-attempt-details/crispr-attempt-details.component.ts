@@ -12,8 +12,6 @@ export class CrisprAttemptDetailsComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
 
-  @Output() modifiedAttemptEmmiter = new EventEmitter<any>();
-
   editCrisprAttemptDetails: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
@@ -21,35 +19,29 @@ export class CrisprAttemptDetailsComponent implements OnInit {
   ngOnInit() {
     this.editCrisprAttemptDetails = this.formBuilder.group({
       miExternalRef: [this.crisprAttempt.attempt_external_ref, Validators.required],
-      comments: [this.crisprAttempt.comments],
+      comment: [this.crisprAttempt.comment],
       experimental: []
     });
   }
 
   onDateChanged() {
-    this.notifyChangeToParent();
+    let selectedDate = this.crisprAttempt.mi_date;
+    this.crisprAttempt.mi_date = new Date(Date.UTC(selectedDate.getFullYear(),selectedDate.getMonth(), selectedDate.getDate()));
   }
 
   onTextmiExternalRefChanged() {
     const newmiExternalRef = this.editCrisprAttemptDetails.get('miExternalRef').value;
     this.crisprAttempt.attempt_external_ref = newmiExternalRef;
-    this.notifyChangeToParent();
   }
 
   onTextCommentChanged() 
   {
-    const newComment = this.editCrisprAttemptDetails.get('comments').value;
-    this.crisprAttempt.comments = newComment;
-    this.notifyChangeToParent();
+    const newComment = this.editCrisprAttemptDetails.get('comment').value;
+    this.crisprAttempt.comment = newComment;
   }
 
   onExperimentalChecked() {
     this.crisprAttempt.experimental = !this.crisprAttempt.experimental;
-    this.notifyChangeToParent();
-  }
-
-  notifyChangeToParent() {
-    this.modifiedAttemptEmmiter.emit(this.crisprAttempt);
   }
 
 }
