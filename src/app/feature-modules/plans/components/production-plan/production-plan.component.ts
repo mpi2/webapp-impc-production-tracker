@@ -81,6 +81,14 @@ export class ProductionPlanComponent implements OnInit {
   }
 
   planHasChanged() {
+    if (this.originalPlanAsString != JSON.stringify(this.plan))
+    {
+      // console.log('**changed**');
+      // console.log(this.originalPlanAsString );
+      // console.log(JSON.stringify(this.plan) );
+      // console.log('**end**');
+      
+    }
     return this.originalPlanAsString != JSON.stringify(this.plan);
   }
 }
