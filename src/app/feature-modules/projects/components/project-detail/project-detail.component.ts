@@ -147,4 +147,20 @@ export class ProjectDetailComponent implements OnInit {
   shouldUpdateBeEnabled() {
     return this.originalProjectAsString != JSON.stringify(this.project);
   }
+
+  sortByPid(plans: Plan[]) {
+     plans.sort(function(a, b) {
+      var nameA = a.pin; 
+      var nameB = b.pin;
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+    return plans;
+  }
+  
 }
