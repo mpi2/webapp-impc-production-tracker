@@ -20,13 +20,10 @@ export class GenotypePrimersComponent implements OnInit {
 
   editionStatusByGuide = new Map<number, string>();
 
-  constructor(public dialog: MatDialog, private messageService: MessageService,private changeDetector: ChangeDetectorRef) { }
+  constructor(public dialog: MatDialog, private messageService: MessageService, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
-    this.dataSource = this.crisprAttempt.genotype_primers_attributes;
-    this.setEmptyEditionStatuses();
-    this.setOriginalPrimers();
-    //this.checkForUpdates();
+    this.setInitialData();
   }
 
   setInitialData() {
@@ -36,12 +33,9 @@ export class GenotypePrimersComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('HELLO',changes);
     if (changes.crisprAttempt) {
-      console.log('CRISPR ATTEMPT CHANGED!!!!!!!!!');
       this.crisprAttempt = changes.crisprAttempt.currentValue;
       this.setInitialData();
-      console.log('Now my datasource: ', this.dataSource);
     }
   }
 
@@ -50,29 +44,9 @@ export class GenotypePrimersComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  // getDeepCopy(object: any) {
-  //   return JSON.parse(JSON.stringify(object));
-  // }
-
   setOriginalPrimers() {
     this.originaPrimers = JSON.parse(JSON.stringify(this.crisprAttempt.genotype_primers_attributes));
   }
-
-  // checkForUpdates() {
-  //   console.log('reloading datasource...');
-    
-  //   this.messageService.getMessage().subscribe(data => {
-  //     console.log('Got an update message in child');
-  //     console.log('My primers are now', this.crisprAttempt.genotype_primers_attributes);
-      
-      
-  //     if (data.message.planUpdated) {
-  //       this.dataSource = [...this.crisprAttempt.genotype_primers_attributes];
-  //       this.setOriginalPrimers();
-  //       this.updateAllRowsStatus();
-  //     }
-  //   });
-  // }
 
   setEmptyEditionStatuses() {
     this.crisprAttempt.genotype_primers_attributes.map(x => this.editionStatusByGuide.set(x.id, ''));
@@ -88,6 +62,7 @@ export class GenotypePrimersComponent implements OnInit {
 
     this.updateRowStatus(primer);
   }
+
   updateAllRowsStatus() {
     this.crisprAttempt.genotype_primers_attributes.map(x => this.updateRowStatus(x));
   }
@@ -112,29 +87,16 @@ export class GenotypePrimersComponent implements OnInit {
   }
 
   addPrimer() {
-   // var result = document.getElementsByName("name");
-    //console.log(result);
-    
-
     let genotypePrimer: GenotypePrimer = new GenotypePrimer();
     genotypePrimer.id = this.nextNewId--;
-
-    // this.dataSource.push(genotypePrimer);
-    // let genotypePrimerWithoutId = this.getDeepCopy(genotypePrimer);
-    // genotypePrimerWithoutId.id = null;
-    // this.crisprAttempt.genotype_primers_attributes.push(genotypePrimerWithoutId);
 
     this.crisprAttempt.genotype_primers_attributes.push(genotypePrimer);
     this.editionStatusByGuide.set(genotypePrimer.id, 'Created in memory');
     this.dataSource = [...this.crisprAttempt.genotype_primers_attributes];
-    console.log('pri', this.crisprAttempt.genotype_primers_attributes);
-    console.log('ds', this.dataSource);
   }
 
   onClickToDeleteElement(primer: GenotypePrimer) {
     if (this.isElementCreatedOnlyInMemory(primer)) {
-      console.log('Deleting this memo', primer);
-      
       this.deletePrimerInMemory(primer);
     } else {
       const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
@@ -158,5 +120,4 @@ export class GenotypePrimersComponent implements OnInit {
     this.crisprAttempt.genotype_primers_attributes = this.crisprAttempt.genotype_primers_attributes.filter(x => x.id != primer.id);
     this.dataSource = [...this.crisprAttempt.genotype_primers_attributes];
   }
-
 }
