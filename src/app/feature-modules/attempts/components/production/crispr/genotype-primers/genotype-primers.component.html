@@ -17,12 +17,12 @@
                     <tr>
                         <td>
                             <input [ngClass]="{'required': name.invalid}" name="name" #name="ngModel"
-                                [(ngModel)]="primer.name"  placeholder="Primer's name"
-                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
+                                [(ngModel)]="primer.name" placeholder="Primer's name" (keyup)="onPrimerChanged(primer)"
+                                [ngModelOptions]="{standalone: true}" required>
                         </td>
-                        <td >
-                            <input  [ngClass]="{'required': sequence.invalid, 'sequence_input':true}" name="sequence" #sequence="ngModel"
-                                [(ngModel)]="primer.sequence"  placeholder="Sequence"
+                        <td>
+                            <input [ngClass]="{'required': sequence.invalid, 'sequence_input':true}" name="sequence"
+                                #sequence="ngModel" [(ngModel)]="primer.sequence" placeholder="Sequence"
                                 (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
                         </td>
                         <td>
@@ -62,7 +62,7 @@
                 </ng-template>
             </ng-template>
             <tr>
-                <td class="no_border"><button (click)="addPrimer()" [disabled]="false" *ngIf="true">
+                <td class="no_border"><button (click)="addPrimer()" [disabled]="false" *ngIf="canUpdatePlan">
                         <mat-icon aria-hidden="false" aria-label="Example add icon">add</mat-icon>
                     </button>
                 </td>
