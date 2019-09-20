@@ -1,24 +1,66 @@
 <mat-card>
-        <mat-card-subtitle>Vector/Ologos (Mutagenesis Donors)</mat-card-subtitle>
-        <table class="mat-elevation-z8">
-          <thead>
-            <tr>
-              <th scope="col">Concentration </th>
-              <th scope="col">Sequence </th>
-              <th scope="col">Preparation </th>
-              <th scope="col"> </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let el of crisprAttempt.mutagenesis_donors_attributes">
-              <td>{{el.concentration}}</td>
-              <td>{{el.oligo_sequence_fa}}</td>
-              <td>{{el.preparation}}</td>
-              <td>
-                <button class="btn btn-sm btn-outline-primary"
-                  (click)="openModalToDeleteMutagenesisDonor()">Remove</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </mat-card>
+  <mat-card-subtitle>Vector/Ologos (Mutagenesis Donors)</mat-card-subtitle>
+  <table class="mat-elevation-z8">
+    <thead>
+      <tr>
+        <th scope="col">Concentration </th>
+        <th scope="col">Sequence </th>
+        <th scope="col">Preparation </th>
+        <th scope="col"> </th>
+        <th scope="col"> </th>
+      </tr>
+    </thead>
+
+    <ng-template ngFor let-donor [ngForOf]="dataSource">
+      <div *ngIf="canUpdatePlan; then editableRow else readOnlyRow">
+      </div>
+      <ng-template #editableRow>
+        <tr>
+          <td>
+            <input [ngClass]="{'required': concentration.invalid}" name="concentration" #concentration="ngModel"
+              [(ngModel)]="donor.concentration" placeholder="Donor's concentration" (keyup)="onDonorChanged(donor)"
+              [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input [ngClass]="{'required': oligo_sequence_fa.invalid}" name="oligo_sequence_fa"
+              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligo_sequence_fa" placeholder="oligo_sequence_fa"
+              (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <input [(ngModel)]="donor.preparation" (keyup)="onDonorChanged(donor)"
+              [ngModelOptions]="{standalone: true}">
+          </td>
+          <td>
+            <button (click)="onClickToDeleteElement(donor)">
+              <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+            </button>
+          </td>
+          <td class="status">
+            {{ getEditionStatusForDonor(donor.id)}}
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #readOnlyRow>
+        <tr>
+          <td>
+            {{donor.concentration}}
+          </td>
+          <td>
+            {{donor.oligo_sequence_fa}}
+          </td>
+          <td>
+            {{donor.preparation || "Not defined"}}
+          </td>
+
+        </tr>
+      </ng-template>
+    </ng-template>
+    <tr>
+      <td class="no_border"><button (click)="addDonor()" [disabled]="false" *ngIf="canUpdatePlan">
+          <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+        </button>
+      </td>
+    </tr>
+
+  </table>
+</mat-card>
