@@ -38,9 +38,10 @@ import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ExpandableContentComponent } from './components/expandable-content/expandable-content.component';
+import { DigitOnlyDirective } from './directives/digit-only.directive';
 
 @NgModule({
-  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent, ExpandableContentComponent],
+  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent, ExpandableContentComponent, DigitOnlyDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -93,6 +94,7 @@ import { ExpandableContentComponent } from './components/expandable-content/expa
     RouterModule,
     HttpClientModule,
     NgbModule,
+    DigitOnlyDirective,
     NgMultiSelectDropDownModule,
     AutocompleteLibModule,
     Ng2SmartTableModule,

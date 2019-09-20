@@ -22,7 +22,7 @@ export class CrisprAttempt {
     no_founder_pups: number;
     nuclease_attributes: Nuclease[] = [];
     guides_attributes: Guide[] = [];
-    donors_attributes: Donor[] = [];
+    mutagenesis_donors_attributes: Donor[] = [];
     reagents_attributes: Reagent[] = [];
     genotype_primers_attributes: GenotypePrimer[] = [];
     assay_attributes: Assay[] = [];
@@ -39,6 +39,7 @@ export class CrisprAttemptAdapter implements Adapter<CrisprAttempt> {
         crisprAttempt.comment = this.getEmptyIfNull(crisprAttempt.comment);
         crisprAttempt.attempt_external_ref = this.getEmptyIfNull(crisprAttempt.attempt_external_ref);
         crisprAttempt.experimental = this.getFalseIfNull(crisprAttempt.experimental);
+        
         return crisprAttempt;
     }
 

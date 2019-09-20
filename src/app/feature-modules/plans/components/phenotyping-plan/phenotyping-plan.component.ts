@@ -27,8 +27,8 @@ export class PhenotypingPlanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let pid = this.route.snapshot.params['pid'];
-    this.planService.getPlanByPid(pid).subscribe(data => {
+    let pin = this.route.snapshot.params['pid'];
+    this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = data;
       console.log('PhenotypingPlanComponent =>', this.plan);
       this.evaluateUpdatePermissions()

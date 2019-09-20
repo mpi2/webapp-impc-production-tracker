@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CrisprAttempt, Guide } from '../../../..';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { GenotypePrimer } from 'src/app/feature-modules/attempts/model/production/crispr/genotype-primer';
 
 @Component({
   selector: 'app-guides',
