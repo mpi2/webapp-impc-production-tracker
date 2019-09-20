@@ -148,7 +148,7 @@
     <mat-card-content>
       <table style="width: 100%;">
         <tbody>
-          <tr *ngFor="let productionPlanDetail of productionPlansDetails">
+          <tr *ngFor="let productionPlanDetail of sortByPid(productionPlansDetails)">
             <app-plan-summary [plan]="productionPlanDetail"></app-plan-summary>
           </tr>
         </tbody>
@@ -161,7 +161,7 @@
     <mat-card-content>
       <table style="width: 100%;">
         <tbody>
-          <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
+          <tr *ngFor="let phenotypingPlanDetail of sortByPid(phenotypingPlansDetails)">
             <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
           </tr>
         </tbody>
