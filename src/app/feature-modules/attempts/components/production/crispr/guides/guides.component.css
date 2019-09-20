@@ -5,32 +5,3 @@ table, th, tr, td {
   border-bottom-width: 1px;
   border-bottom-color: rgba(0, 0, 0, 0.12);
 }
-.mat-column {
-  word-wrap: break-word !important;
-  white-space: unset !important;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  -ms-hyphens: auto;
-  -moz-hyphens: auto;
-  -webkit-hyphens: auto;
-  hyphens: auto;
-}
-.mat-column-sequence {
-  width: 30% 
-}
-.mat-column-chromosome {
-  width: 28%;
-}
-.mat-column-chrStart {
-  width: 10% !important;
-}
-.mat-column-chrStop {
-  width: 10% !important;
-}
-.mat-column-truncatedGuide {
-  width: 12% !important;
-}
-.mat-column-gRnaConcentration {
-  width: 10px !important;
-}
