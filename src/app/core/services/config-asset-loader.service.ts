@@ -19,15 +19,13 @@ export class ConfigAssetLoaderService {
   }
 
   public loadConfigurations(): any {
-    console.log('A CONFIGURATION WAS CALLED!!!');
-    
+
     if (!this.configuration$) {
       this.configuration$ = this.http.get<AssetConfiguration>(this.CONFIG_URL).pipe(
         shareReplay(1)
       );
     }
-    console.log('the configuration:', this.configuration$);
-    
+
     return this.configuration$;
   }
 }
