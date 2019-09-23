@@ -15,6 +15,10 @@ table, th, tr, td {
     width: 30% 
   }
 
+  .preparation {
+    width: 150px;
+  }
+
   .sequence_input {
     font-size: 14px;
     width: 230px; 

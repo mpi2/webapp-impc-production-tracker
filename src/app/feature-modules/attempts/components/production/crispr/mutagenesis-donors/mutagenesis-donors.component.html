@@ -17,9 +17,9 @@
       <ng-template #editableRow>
         <tr>
           <td>
-            <input [ngClass]="{'required': concentration.invalid}" name="concentration" #concentration="ngModel"
-              [(ngModel)]="donor.concentration" placeholder="Donor's concentration" (keyup)="onDonorChanged(donor)"
-              [ngModelOptions]="{standalone: true}">
+            <input digitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"
+              #concentration="ngModel" [(ngModel)]="donor.concentration" placeholder="Donor's concentration"
+              (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
           </td>
           <td>
             <input [ngClass]="{'required': oligo_sequence_fa.invalid}" name="oligo_sequence_fa"
@@ -27,8 +27,11 @@
               (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
           </td>
           <td>
-            <input [(ngModel)]="donor.preparation" (keyup)="onDonorChanged(donor)"
-              [ngModelOptions]="{standalone: true}">
+            <mat-select (selectionChange)="onDonorChanged(donor)" class="preparation" [(value)]="donor.preparation">
+              <mat-option *ngFor="let preparationType of preparationTypes" [value]="preparationType.name">
+                {{preparationType.name}}
+              </mat-option>
+            </mat-select>
           </td>
           <td>
             <button (click)="onClickToDeleteElement(donor)">
