@@ -17,13 +17,14 @@ export class AuthenticationService {
     private http: HttpClient,
     private loggedUserService: LoggedUserService,
     private configAssetLoaderService: ConfigAssetLoaderService,
-    private configurationDataService: ConfigurationDataService) { }
+    private configurationDataService: ConfigurationDataService) {
+      this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+     }
 
     login(user_name: string, password: string) {
-      console.log('this is  a test');
-      this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url=data.appServerUrl);
+      console.log('URL',this.url);
       
-      return this.http.post<any>(`${environment.baseUrl}/auth/signin`, { user_name, password })
+      return this.http.post<any>(this.url + '/auth/signin', { user_name, password })
         .pipe(map(user => {
           console.log('the url is ',this.url);
           
