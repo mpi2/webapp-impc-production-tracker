@@ -2,7 +2,6 @@ import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef } from '@ang
 import { CrisprAttempt, GenotypePrimer } from '../../../..';
 import { MatDialog } from '@angular/material';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
   selector: 'app-genotype-primers',
@@ -20,7 +19,7 @@ export class GenotypePrimersComponent implements OnInit {
 
   editionStatusByGuide = new Map<number, string>();
 
-  constructor(public dialog: MatDialog, private messageService: MessageService, private changeDetector: ChangeDetectorRef) { }
+  constructor(public dialog: MatDialog, private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit() {
     this.setInitialData();
