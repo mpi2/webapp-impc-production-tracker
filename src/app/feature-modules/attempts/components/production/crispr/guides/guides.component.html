@@ -1,6 +1,6 @@
 <mat-card>
     <mat-card-subtitle>Guides</mat-card-subtitle>
-    <mat-card-content> {{sameConcentration}}
+    <mat-card-content>
         <div *ngIf="canUpdatePlan">
             Set individual Concentrations: <input type="checkbox"
                 (change)="onSetIndividualConcentrationsClicked($event)"
