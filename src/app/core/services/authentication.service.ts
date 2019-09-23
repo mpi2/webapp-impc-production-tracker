@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
 import { LoggedUserService } from './logged-user.service';
 import { ConfigurationDataService } from './configuration-data.service';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
@@ -11,23 +10,19 @@ import { ConfigAssetLoaderService } from './config-asset-loader.service';
 })
 export class AuthenticationService {
 
-  private url;
+  private apiServiceUrl;
 
   constructor(
     private http: HttpClient,
     private loggedUserService: LoggedUserService,
     private configAssetLoaderService: ConfigAssetLoaderService,
     private configurationDataService: ConfigurationDataService) {
-      this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+      this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
      }
 
     login(user_name: string, password: string) {
-      console.log('URL',this.url);
-      
-      return this.http.post<any>(this.url + '/auth/signin', { user_name, password })
+      return this.http.post<any>(this.apiServiceUrl + '/auth/signin', { user_name, password })
         .pipe(map(user => {
-          console.log('the url is ',this.url);
-          
           // login successful if there's a user in the response
           if (user) {
             this.loggedUserService.storeLoggedUser(user);

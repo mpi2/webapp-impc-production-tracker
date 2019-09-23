@@ -3,7 +3,6 @@ import { LoggedUser } from '../model/user/logged-user';
 import { Observable } from 'rxjs';
 import { MessageService } from './message.service';
 import { Permission } from '../model/conf/permission';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import {ConfigAssetLoaderService} from './config-asset-loader.service';
@@ -16,7 +15,7 @@ import {ConfigAssetLoaderService} from './config-asset-loader.service';
  */
 export class LoggedUserService {
 
-  private url;
+  private apiServiceUrl;
 
   private loggedUser: LoggedUser;
   readonly TOKEN_INFO_KEY = 'tokenInfo';
@@ -25,12 +24,12 @@ export class LoggedUserService {
     private http: HttpClient,
     private messageService: MessageService,
     private configAssetLoaderService: ConfigAssetLoaderService) {
-      this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+      this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   // Returns an object with permissions for the logged user.
   getPermissions() {
-    return this.http.get<Permission>(this.url + '/api/permissions');
+    return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
   }
 
   getAccessToken() {

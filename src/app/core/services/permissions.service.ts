@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Permission } from '../model/conf/permission';
-import { environment } from 'src/environments/environment';
 import { map } from 'rxjs/operators';
 import {ConfigAssetLoaderService} from './config-asset-loader.service';
 
@@ -11,7 +10,7 @@ import {ConfigAssetLoaderService} from './config-asset-loader.service';
 })
 export class PermissionsService {
 
-  private url;
+  private apiServiceUrl;
 
   // Paths
   static readonly REGISTER_USER = 'register-user';
@@ -22,17 +21,17 @@ export class PermissionsService {
   static readonly UPDATE_PROJECT_ACTION = 'canUpdateProject';
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   // Returns an object with permissions for the logged user.
   getPermissions() {
-    return this.http.get<Permission>(this.url + '/api/permissions');
+    return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
   }
 
   // Returns if an action over an object is allowed.
   getPermissionByActionOnResource(action: string, resourceId: string) {
-    return this.http.get<boolean>(this.url + '/api/permissionByActionOnResource?action=' + action + '&resourceId=' + resourceId );
+    return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action=' + action + '&resourceId=' + resourceId );
   }
 
   evaluatePermission(path: string): Observable<boolean> {

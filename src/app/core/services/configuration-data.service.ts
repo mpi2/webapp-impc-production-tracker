@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationData } from '../model/conf/configuration-data';
-import { environment } from 'src/environments/environment';
 import {ConfigAssetLoaderService} from './config-asset-loader.service';
 
 @Injectable({
@@ -9,17 +8,17 @@ import {ConfigAssetLoaderService} from './config-asset-loader.service';
 })
 export class ConfigurationDataService {
 
-  private url;
+  private apiServiceUrl;
 
   readonly CONFIGURATIONKEY = 'conf';
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   // Returns an object with configuration information: The available work units, work groups, priorities, plan types, etc.
   private getConfiguration() {
-    return this.http.get<ConfigurationData>(this.url + '/api/conf');
+    return this.http.get<ConfigurationData>(this.apiServiceUrl + '/api/conf');
   }
 
   writeConfiguration() {

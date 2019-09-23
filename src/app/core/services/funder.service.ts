@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import {ConfigAssetLoaderService} from './config-asset-loader.service';
 
 @Injectable({
@@ -8,13 +7,13 @@ import {ConfigAssetLoaderService} from './config-asset-loader.service';
 })
 export class FunderService {
 
-  private url;
+  private apiServiceUrl;
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   getAllFundersByWorkGroup(name: string) {
-    return this.http.get<any[]>(this.url + '/api/funders?workGroupName=' + name );
+    return this.http.get<any[]>(this.apiServiceUrl + '/api/funders?workGroupName=' + name );
   }
 }

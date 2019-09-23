@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { environment } from 'src/environments/environment';
 import { ProjectSummary } from '../model/project-summary';
 import { Project } from '../model/project';
 import { NewProject } from '../model/newProject';
@@ -13,23 +12,23 @@ import {ConfigAssetLoaderService} from '../../../core/services/config-asset-load
 })
 export class ProjectService {
 
-  private url;
+  private apiServiceUrl;
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
   }
 
 
   getAll() {
-    return this.http.get<Project[]>(this.url + '/api/projects');
+    return this.http.get<Project[]>(this.apiServiceUrl + '/api/projects');
   }
 
   getProject(tpn: string) {
-    return this.http.get<Project>(this.url + '/api/projects/' + tpn);
+    return this.http.get<Project>(this.apiServiceUrl + '/api/projects/' + tpn);
   }
 
   postProject(newProject: NewProject) {
-    return this.http.post<Project>(this.url + '/api/projects/', newProject);
+    return this.http.post<Project>(this.apiServiceUrl + '/api/projects/', newProject);
   }
 
   deleteMutagenesisDonor(url: string) {
@@ -37,7 +36,7 @@ export class ProjectService {
   }
 
   getPaginatedProjectSummaries(page: number) {
-    return this.http.get<ProjectSummary[]>(this.url + '/api/projects?page=' + page);
+    return this.http.get<ProjectSummary[]>(this.apiServiceUrl + '/api/projects?page=' + page);
   }
 
   getPaginatedProjectsWithFilters(
@@ -50,7 +49,7 @@ export class ProjectService {
     privacies: string[]) {
 
     const queryParameters = this.buildFilterQueryParameters(markerSymbols, workUnits, workGroups, planTypes, statuses, privacies);
-    const url = this.url + '/api/projects?page=' + page + queryParameters;
+    const url = this.apiServiceUrl + '/api/projects?page=' + page + queryParameters;
 
     return this.http.get<ProjectSummary[]>(url);
   }
@@ -123,7 +122,7 @@ export class ProjectService {
    * @param tpn The identifier for the project.
    */
   getHistoryByTpn(tpn: String) {
-    return this.http.get<ChangesHistory[]>(this.url + '/api/projects/' + tpn + '/history');
+    return this.http.get<ChangesHistory[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/history');
     
   }
 }

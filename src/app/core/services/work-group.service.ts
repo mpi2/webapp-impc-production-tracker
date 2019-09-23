@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { WorkGroup } from '../model/organisation/work-group';
-import { environment } from 'src/environments/environment';
 import {ConfigAssetLoaderService} from './config-asset-loader.service';
 
 @Injectable({
@@ -9,17 +8,17 @@ import {ConfigAssetLoaderService} from './config-asset-loader.service';
 })
 export class WorkGroupService {
 
-  private url;
+  private apiServiceUrl;
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.url = data.appServerUrl);
+    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   getAllWorkGroups() {
-    return this.http.get<WorkGroup[]>(this.url + '/tracking-api/workGroups');
+    return this.http.get<WorkGroup[]>(this.apiServiceUrl + '/tracking-api/workGroups');
   }
 
   getWorkGroupByWorkUnit(name: string) {
-    return this.http.get<WorkGroup[]>(this.url + '/api/workGroups?workUnitName=' + name );
+    return this.http.get<WorkGroup[]>(this.apiServiceUrl + '/api/workGroups?workUnitName=' + name );
   }
 }
