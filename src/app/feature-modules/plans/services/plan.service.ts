@@ -18,7 +18,7 @@ export class PlanService {
    * Get a plan using its identifier.
    * @param pin The identifier for the plan.
    */
-  getPlanByPid(pin: String) {
+  getPlanByPin(pin: String) {
     return this.http.get<Plan>(`${environment.baseUrl}/api/plans/${pin}`);
   }
 

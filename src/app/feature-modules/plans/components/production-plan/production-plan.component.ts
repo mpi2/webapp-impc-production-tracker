@@ -31,14 +31,19 @@ export class ProductionPlanComponent implements OnInit {
     private changeHistoryAdapter: ChangesHistoryAdapter,
     private planAdapter: PlanAdapter,
     private permissionsService: PermissionsService) { }
-
+    
   ngOnInit() {
-    let pid = this.route.snapshot.params['pid'];
-    this.planService.getPlanByPid(pid).subscribe(data => {
+    let pin = this.route.snapshot.params['pid'];
+    this.reloadForPin(pin);
+  }
+
+  reloadForPin(pin: string) {
+    this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = this.planAdapter.adapt(data);
       this.originalPlanAsString = JSON.stringify(this.plan);
       console.log('ProductionPlanComponent =>', this.plan);
-      this.evaluateUpdatePermissions()
+      this.error = null;
+      this.evaluateUpdatePermissions();
     }, error => {
       this.error = error;
     });
@@ -59,8 +64,9 @@ export class ProductionPlanComponent implements OnInit {
    * Update the plan with the information that each child component changed.
    */
   updatePlan() {
+    console.log('Plan to update', this.plan);
+    
     this.loading = true;
-
     this.planService.updateProductionPlan(
       this.plan.pin, this.plan).subscribe(
         data => {
@@ -72,23 +78,17 @@ export class ProductionPlanComponent implements OnInit {
             duration: 3000,
             data: this.changeDetails
           });
-
+          this.error = null;
+          this.reloadForPin(this.plan.pin);
         }, error => {
           console.log('Error while updating plan', error);
+          this.error = error;
 
         }
       );
   }
 
   planHasChanged() {
-    if (this.originalPlanAsString != JSON.stringify(this.plan))
-    {
-      // console.log('**changed**');
-      // console.log(this.originalPlanAsString );
-      // console.log(JSON.stringify(this.plan) );
-      // console.log('**end**');
-      
-    }
     return this.originalPlanAsString != JSON.stringify(this.plan);
   }
 }
