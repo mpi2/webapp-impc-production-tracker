@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
 import { Plan } from '../model/plan';
 import { ChangesHistory } from 'src/app/core';
+import {ConfigAssetLoaderService} from '../../../core/services/config-asset-loader.service';
 
 /**
  * Class that provides information for plans.
@@ -12,14 +12,18 @@ import { ChangesHistory } from 'src/app/core';
 })
 export class PlanService {
 
-  constructor(private http: HttpClient) { }
+  private apiServiceUrl;
+
+  constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
+    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+  }
 
   /**
    * Get a plan using its identifier.
    * @param pin The identifier for the plan.
    */
-  getPlanByPin(pin: String) {
-    return this.http.get<Plan>(`${environment.baseUrl}/api/plans/${pin}`);
+  getPlanByPin(pin: string) {
+    return this.http.get<Plan>(this.apiServiceUrl + '/api/plans/' + pin );
   }
 
   /**
@@ -34,17 +38,17 @@ export class PlanService {
    * Gets the history of the changes for a plan.
    * @param pin The identifier for the plan.
    */
-  getHistoryByPid(pin: String) {
-    return this.http.get<ChangesHistory[]>(`${environment.baseUrl}/api/plans/${pin}/history`);
+  getHistoryByPid(pin: string) {
+    return this.http.get<ChangesHistory[]>(this.apiServiceUrl + '/api/plans/' + pin + '/history');
   }
 
   updatePlan(pin, plan) {
     console.log('Plan to update', plan);
 
-    return this.http.put<any>(`${environment.baseUrl}/api/plans/${pin}`, plan);
+    return this.http.put<any>(this.apiServiceUrl + '/api/plans/' + pin, plan);
   }
 
   updateProductionPlan(pin: string, plan: Plan) {
-    return this.http.put<any>(`${environment.baseUrl}/api/plans/${pin}`, plan);
+    return this.http.put<any>(this.apiServiceUrl + '/api/plans/' + pin, plan);
   }
 }

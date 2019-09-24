@@ -3,9 +3,9 @@ import { LoggedUser } from '../model/user/logged-user';
 import { Observable } from 'rxjs';
 import { MessageService } from './message.service';
 import { Permission } from '../model/conf/permission';
-import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import {ConfigAssetLoaderService} from './config-asset-loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -15,15 +15,22 @@ import { map } from 'rxjs/operators';
  */
 export class LoggedUserService {
 
+  private apiServiceUrl;
+
   private loggedUser: LoggedUser;
   readonly TOKEN_INFO_KEY = 'tokenInfo';
 
-  constructor(private http: HttpClient, private messageService: MessageService) { }
+  constructor(
+    private http: HttpClient,
+    private messageService: MessageService,
+    private configAssetLoaderService: ConfigAssetLoaderService) {
+      this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+  }
 
   // Returns an object with permissions for the logged user.
   getPermissions() {
-    return this.http.get<Permission>(`${environment.baseUrl}/api/permissions`);
-}
+    return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
+  }
 
   getAccessToken() {
     const logginInfo = JSON.parse(localStorage.getItem(this.TOKEN_INFO_KEY));

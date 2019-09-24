@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
+import {ConfigAssetLoaderService} from '../../services/config-asset-loader.service';
 
 @Component({
   selector: 'app-reports',
@@ -7,8 +7,12 @@ import { environment } from 'src/environments/environment';
   styleUrls: ['./reports.component.css']
 })
 export class ReportsComponent implements OnInit {
-  environment = environment;
-  constructor() { }
+
+  apiServiceUrl;
+
+  constructor(private configAssetLoaderService: ConfigAssetLoaderService) {
+    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+  }
 
   ngOnInit() {
   }
