@@ -8,4 +8,4 @@ if [ -n "${API_SERVICE_PORT}" ]; then
    /bin/sed -i 's/8080/'"${API_SERVICE_PORT}"'/g' /usr/share/nginx/html/assets/config/config.json
 fi
 
-/usr/sbin/nginx -g daemon off;
+/usr/sbin/nginx -g 'daemon off;'
