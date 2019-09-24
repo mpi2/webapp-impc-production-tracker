@@ -13,4 +13,5 @@ export class ConfigurationData {
     roles: string[];
     trackedStrains: string[];
     materialTypes: string[];
+    preparationTypes: string[];
 }

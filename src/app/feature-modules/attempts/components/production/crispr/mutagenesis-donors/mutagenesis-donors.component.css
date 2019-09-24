@@ -1,4 +1,34 @@
-th, td {
-    border-collapse:separate; 
-    padding:5px 
-}
+table, th, tr, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    font-size: 14px;
+  }
+
+  td.no_border {
+    border-bottom-style: none;
+  }
+
+  .sequence {
+    width: 30% 
+  }
+
+  .preparation {
+    width: 150px;
+  }
+
+  .sequence_input {
+    font-size: 14px;
+    width: 230px; 
+  }
+
+  .required {
+    border-color: #dd2030;
+  }
+
+  td.status {
+    font-style: italic;
+    color: #D83D3D;
+  }
