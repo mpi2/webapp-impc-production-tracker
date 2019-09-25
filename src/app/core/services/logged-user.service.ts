@@ -38,17 +38,17 @@ export class LoggedUserService {
   }
 
   getAccessToken(): string {
-    const logginInfo: AuthenticationResponse = JSON.parse(sessionStorage.getItem(this.TOKEN_INFO_KEY));
+    const logginInfo: AuthenticationResponse = JSON.parse(localStorage.getItem(this.TOKEN_INFO_KEY));
     return logginInfo ? logginInfo.accessToken : null;
   }
 
   storeToken(tokenInfo: any): void {
-    sessionStorage.setItem(this.TOKEN_INFO_KEY, JSON.stringify(tokenInfo));
+    localStorage.setItem(this.TOKEN_INFO_KEY, JSON.stringify(tokenInfo));
     this.messageService.setUserLoggedIn(true);
   }
 
   removeToken(): void {
-    sessionStorage.removeItem(this.TOKEN_INFO_KEY);
+    localStorage.removeItem(this.TOKEN_INFO_KEY);
     this.messageService.setUserLoggedIn(false);
   }
 
