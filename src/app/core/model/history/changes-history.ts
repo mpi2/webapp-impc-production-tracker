@@ -48,17 +48,13 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         return description;
     }
 
-    private buildDetailDescriptionForCollectionElement(formattedField, newValue, oldValue) {
-        let actionOnField;
-        let description;
-
-        actionOnField = this.getActionOnCollectionElement(newValue, oldValue);
-
-        description = 'Element in ' + formattedField + ' ' + actionOnField;
+    private buildDetailDescriptionForCollectionElement(formattedField, newValue, oldValue): string {
+        const actionOnField = this.getActionOnCollectionElement(newValue, oldValue);
+        const description = 'Element in ' + formattedField + ' ' + actionOnField;
         return description;
     }
 
-    private getActionOnCollectionElement(newValue, oldValue) {
+    private getActionOnCollectionElement(newValue, oldValue): string {
         let action;
         if (newValue && oldValue) {
             action = 'updated'
@@ -86,9 +82,9 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         return formattedProperty;
     }
 
-    private removeCollectionSymbol(text) {
+    private removeCollectionSymbol(text): string {
         let result = text;
-        let indexOfSymbol = text.indexOf(this.COLLECTION_SYMBOL);
+        const indexOfSymbol = text.indexOf(this.COLLECTION_SYMBOL);
         if (indexOfSymbol > 0) {
             result = result.substr(0, indexOfSymbol);
         }

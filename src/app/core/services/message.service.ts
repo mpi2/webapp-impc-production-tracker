@@ -11,9 +11,7 @@ export class MessageService {
 
   private subject = new Subject<any>();
 
-  constructor() { }
-
-  setUserLoggedIn(loggedIn: boolean) {
+  setUserLoggedIn(loggedIn: boolean): void {
     this.subject.next({ isUserLoggedIn: loggedIn });
   }
 
@@ -25,7 +23,7 @@ export class MessageService {
     return this.subject.asObservable();
   }
 
-  setMessage(message) {
+  setMessage(message): void {
     this.subject.next({ message });
   }
 }

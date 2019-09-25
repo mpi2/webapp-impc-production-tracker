@@ -6,8 +6,8 @@ import { ProductionPlanComponent } from './components/production-plan/production
 import { PhenotypingPlanComponent } from './components/phenotyping-plan/phenotyping-plan.component';
 
 const routes: Routes = [
-  { path: 'production-plan/:pid', component: ProductionPlanComponent, canActivate: [AuthGuard] },
-  { path: 'phenotyping-plan/:pid', component: PhenotypingPlanComponent, canActivate: [AuthGuard] },
+  { path: 'production-plan/:pid', component: ProductionPlanComponent },
+  { path: 'phenotyping-plan/:pid', component: PhenotypingPlanComponent },
   { path: 'production-plan/:pid/history', component: HistoryComponent},
   { path: 'phenotyping-plan/:pid/history', component: HistoryComponent },
 ];

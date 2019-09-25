@@ -1,44 +1,47 @@
-<mat-toolbar  fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-evenly center">
-        <div  fxFlex="10%">
-            <p *ngIf="login"><mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ user_name }}</b></p>
-        </div>            
-                <div fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="start center">
-                        
-                        <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>    
-                        <mat-menu #search_menu="matMenu">
-                            <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
-                            <button mat-menu-item routerLink="/searchDocumentation" routerLinkActive="active">Search Documentation</button>
-                        </mat-menu>
+<mat-toolbar fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-evenly center">
+    <div fxFlex="10%">
+        <p *ngIf="login">
+            <mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ userName }}</b>
+        </p>
+    </div>
+    <div fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="start center">
 
-                        <button mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
-                            Account
-                        </button>
-                            <mat-menu #account_menu="matMenu">
-                                <button mat-flat-button  [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
-                                            in</button>
-                                <button  mat-menu-item  [routerLink]="['./edit_profile']" *ngIf="login">Edit your
-                                            profile</button>
-                                <button mat-menu-item *ngIf="login && role == 'admin'" routerLink="/admin">Admin</button>
-                                <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
-                            </mat-menu>
-                    
-                        <button  mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
-                            <mat-menu #project_menu="matMenu">
-                                <button mat-menu-item *ngIf="login" routerLink="/projects" routerLinkActive="active">My Projects</button>
-                                <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
-                                <mat-menu  #attempt="matMenu">
-                                        <button mat-menu-item *ngIf="login" routerLink="">CRISPR</button>
-                                        <button mat-menu-item *ngIf="login"  routerLink="">ES Cell</button>
-                                        <button mat-menu-item *ngIf="login"  routerLink="">Breading</button>
-                                </mat-menu> 
-                                <button mat-menu-item routerLink="reports" *ngIf="login">Reports</button>
-                                <button mat-menu-item routerLink="manual" *ngIf="login">Manual</button>
-                            </mat-menu>
+        <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>
+        <mat-menu #search_menu="matMenu">
+            <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
+            <button mat-menu-item routerLink="/searchDocumentation" routerLinkActive="active">Search
+                Documentation</button>
+        </mat-menu>
 
-                                
-                    </div>
-                    <a class="privacy" fxFlex="10%" fxLayoutAlign="end" matBadge="i"
-                                href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy
-                                Notice</a>
-                       
-    </mat-toolbar>
+        <button mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
+            Account
+        </button>
+        <mat-menu #account_menu="matMenu">
+            <button mat-flat-button [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
+                in</button>
+            <button mat-menu-item [routerLink]="['./edit_profile']" *ngIf="login">Edit your
+                profile</button>
+            <button mat-menu-item *ngIf="login && isAdmin" routerLink="/admin">Admin</button>
+            <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
+        </mat-menu>
+
+        <button mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
+        <mat-menu #project_menu="matMenu">
+            <button mat-menu-item *ngIf="login" routerLink="/projects" routerLinkActive="active">My Projects</button>
+            <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
+            <mat-menu #attempt="matMenu">
+                <button mat-menu-item *ngIf="login" routerLink="">CRISPR</button>
+                <button mat-menu-item *ngIf="login" routerLink="">ES Cell</button>
+                <button mat-menu-item *ngIf="login" routerLink="">Breading</button>
+            </mat-menu>
+            <button mat-menu-item routerLink="reports" *ngIf="login">Reports</button>
+            <button mat-menu-item routerLink="manual" *ngIf="login">Manual</button>
+        </mat-menu>
+
+
+    </div>
+    <a class="privacy" fxFlex="10%" fxLayoutAlign="end" matBadge="i"
+        href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy
+        Notice</a>
+
+</mat-toolbar>

@@ -30,7 +30,10 @@ export class PlanDetailsComponent implements OnInit {
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
-    this.configurationData = this.configurationDataService.getConfigurationInfo();
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
+    });
 
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
@@ -62,7 +65,7 @@ export class PlanDetailsComponent implements OnInit {
       comment: ['', Validators.required],
     });
 
-    this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
+    
     this.editPlanDetails.get('comment').setValue(this.plan.comment);
   }
 
@@ -72,7 +75,7 @@ export class PlanDetailsComponent implements OnInit {
   }
 
   onProductsAvailableGeneralPublic() {
-    this.plan.products_available_for_general_public = !this.plan.products_available_for_general_public;
+    this.plan.productsAvailableForGeneralPublic = !this.plan.productsAvailableForGeneralPublic;
   }
 
 }

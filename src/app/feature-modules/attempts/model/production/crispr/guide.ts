@@ -1,15 +1,14 @@
 export class Guide {
     id: number;
-    crispr_attempt_plan_id: number;
     chr: number;
     end: number;
-    grna_concentration: number;
+    grnaConcentration: number;
     sequence: string;
     start: number;
-    truncated_guide: boolean;
+    truncatedGuide: boolean;
     strand: string;
     genome_build: string;
     pam3: string;
     pam5: string;
-    protospacer_sequence: string;
+    protospacerSequence: string;
 }

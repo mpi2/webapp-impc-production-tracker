@@ -16,16 +16,16 @@
             Type:
           </td>
           <td>
-            {{plan.type_name}}
+            {{plan.typeName}}
           </td>
         </tr>
-        <ng-template [ngIf]="plan.type_name === 'phenotyping'">
+        <ng-template [ngIf]="plan.typeName === 'phenotyping'">
           <tr>
             <td>
               Production Plan reference:
             </td>
             <td>
-              {{plan.production_plan_reference}}
+              {{plan.productionPlanReference}}
             </td>
           </tr>
         </ng-template>
@@ -34,7 +34,7 @@
             Status:
           </td>
           <td>
-            {{plan.status_name}}
+            {{plan.statusName}}
           </td>
         </tr>
         <tr>
@@ -42,7 +42,7 @@
             Work Unit:
           </td>
           <td>
-            {{plan.work_unit_name || 'Not defined' }}
+            {{plan.workUnitName || 'Not defined' }}
           </td>
         </tr>
         <tr>
@@ -50,7 +50,7 @@
             Funder:
           </td>
           <td>
-            {{plan.funder_name || 'Not defined' }}
+            {{plan.funderName || 'Not defined' }}
           </td>
         </tr>
         <tr>
@@ -59,7 +59,7 @@
           </td>
           <td>
             <input type="checkbox" (change)="onProductsAvailableGeneralPublic()"
-              [checked]="plan.products_available_for_general_public" [disabled]="!canUpdatePlan">
+              [checked]="plan.productsAvailableForGeneralPublic" [disabled]="!canUpdatePlan">
           </td>
         </tr>
         <tr>

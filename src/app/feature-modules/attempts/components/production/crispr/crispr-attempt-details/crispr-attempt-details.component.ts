@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CrisprAttempt } from '../../../..';
 
@@ -18,29 +18,28 @@ export class CrisprAttemptDetailsComponent implements OnInit {
 
   ngOnInit() {
     this.editCrisprAttemptDetails = this.formBuilder.group({
-      miExternalRef: [this.crisprAttempt.attempt_external_ref, Validators.required],
+      miExternalRef: [this.crisprAttempt.attemptExternalRef, Validators.required],
       comment: [this.crisprAttempt.comment],
       experimental: []
     });
   }
 
   onDateChanged() {
-    let selectedDate = this.crisprAttempt.mi_date;
-    this.crisprAttempt.mi_date = new Date(Date.UTC(selectedDate.getFullYear(),selectedDate.getMonth(), selectedDate.getDate()));
+    const selectedDate = this.crisprAttempt.miDate;
+    this.crisprAttempt.miDate = new Date(Date.UTC(selectedDate.getFullYear(), selectedDate.getMonth(), selectedDate.getDate()));
   }
 
-  onTextmiExternalRefChanged() {
+  onTextmiExternalRefChanged(): void {
     const newmiExternalRef = this.editCrisprAttemptDetails.get('miExternalRef').value;
-    this.crisprAttempt.attempt_external_ref = newmiExternalRef;
+    this.crisprAttempt.attemptExternalRef = newmiExternalRef;
   }
 
-  onTextCommentChanged() 
-  {
+  onTextCommentChanged(): void {
     const newComment = this.editCrisprAttemptDetails.get('comment').value;
     this.crisprAttempt.comment = newComment;
   }
 
-  onExperimentalChecked() {
+  onExperimentalChecked(): void {
     this.crisprAttempt.experimental = !this.crisprAttempt.experimental;
   }
 

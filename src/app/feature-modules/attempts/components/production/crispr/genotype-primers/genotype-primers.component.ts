@@ -25,8 +25,8 @@ export class GenotypePrimersComponent implements OnInit {
     this.setInitialData();
   }
 
-  setInitialData() {
-    this.dataSource = this.crisprAttempt.genotype_primers_attributes;
+  setInitialData(): void {
+    this.dataSource = this.crisprAttempt.genotypePrimersAttributes;
     this.setEmptyEditionStatuses();
     this.setOriginalPrimers();
   }
@@ -43,31 +43,31 @@ export class GenotypePrimersComponent implements OnInit {
     this.changeDetector.detectChanges();
   }
 
-  setOriginalPrimers() {
-    this.originaPrimers = JSON.parse(JSON.stringify(this.crisprAttempt.genotype_primers_attributes));
+  setOriginalPrimers(): void {
+    this.originaPrimers = JSON.parse(JSON.stringify(this.crisprAttempt.genotypePrimersAttributes));
   }
 
-  setEmptyEditionStatuses() {
-    this.crisprAttempt.genotype_primers_attributes.map(x => this.editionStatusByGuide.set(x.id, ''));
+  setEmptyEditionStatuses(): void {
+    this.crisprAttempt.genotypePrimersAttributes.map(x => this.editionStatusByGuide.set(x.id, ''));
   }
 
   getEditionStatusForGuideId(id: number): string {
     return this.editionStatusByGuide.get(id);
   }
 
-  onPrimerChanged(primer: GenotypePrimer) {
-    primer.genomic_start_coordinate = this.getNumericValueOrNull(primer.genomic_start_coordinate);
-    primer.genomic_end_coordinate = this.getNumericValueOrNull(primer.genomic_end_coordinate);
+  onPrimerChanged(primer: GenotypePrimer): void {
+    primer.genomicStartCoordinate = this.getNumericValueOrNull(primer.genomicStartCoordinate);
+    primer.genomicEndCoordinate = this.getNumericValueOrNull(primer.genomicEndCoordinate);
 
     this.updateRowStatus(primer);
   }
 
-  updateAllRowsStatus() {
-    this.crisprAttempt.genotype_primers_attributes.map(x => this.updateRowStatus(x));
+  updateAllRowsStatus(): void {
+    this.crisprAttempt.genotypePrimersAttributes.map(x => this.updateRowStatus(x));
   }
 
-  updateRowStatus(primer: GenotypePrimer) {
-    let originalPrimer = this.originaPrimers.find(x => x.id === primer.id);
+  updateRowStatus(primer: GenotypePrimer): void {
+    const originalPrimer = this.originaPrimers.find(x => x.id === primer.id);
     if (originalPrimer) {
       if (JSON.stringify(originalPrimer) != JSON.stringify(primer)) {
         this.editionStatusByGuide.set(primer.id, 'Modified in memory')
@@ -78,23 +78,23 @@ export class GenotypePrimersComponent implements OnInit {
     }
   }
 
-  getNumericValueOrNull(value) {
+  getNumericValueOrNull(value): number {
     if (!value || isNaN(value) || '' === value) {
       return null;
     }
     return Number(value)
   }
 
-  addPrimer() {
-    let genotypePrimer: GenotypePrimer = new GenotypePrimer();
+  addPrimer(): void {
+    const genotypePrimer: GenotypePrimer = new GenotypePrimer();
     genotypePrimer.id = this.nextNewId--;
 
-    this.crisprAttempt.genotype_primers_attributes.push(genotypePrimer);
+    this.crisprAttempt.genotypePrimersAttributes.push(genotypePrimer);
     this.editionStatusByGuide.set(genotypePrimer.id, 'Created in memory');
-    this.dataSource = [...this.crisprAttempt.genotype_primers_attributes];
+    this.dataSource = [...this.crisprAttempt.genotypePrimersAttributes];
   }
 
-  onClickToDeleteElement(primer: GenotypePrimer) {
+  onClickToDeleteElement(primer: GenotypePrimer): void {
     if (this.isElementCreatedOnlyInMemory(primer)) {
       this.deletePrimerInMemory(primer);
     } else {
@@ -115,8 +115,8 @@ export class GenotypePrimersComponent implements OnInit {
     return primer.id < 0;
   }
 
-  deletePrimerInMemory(primer: GenotypePrimer) {
-    this.crisprAttempt.genotype_primers_attributes = this.crisprAttempt.genotype_primers_attributes.filter(x => x.id != primer.id);
-    this.dataSource = [...this.crisprAttempt.genotype_primers_attributes];
+  deletePrimerInMemory(primer: GenotypePrimer): void {
+    this.crisprAttempt.genotypePrimersAttributes = this.crisprAttempt.genotypePrimersAttributes.filter(x => x.id != primer.id);
+    this.dataSource = [...this.crisprAttempt.genotypePrimersAttributes];
   }
 }

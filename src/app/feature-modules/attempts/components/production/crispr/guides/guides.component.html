@@ -18,7 +18,7 @@
                     <th>Truncated Guide</th>
                     <th>gRNA Concentration</th>
                 </tr>
-                <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides_attributes">
+                <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guidesAttributes">
                     <tr>
                         <td>
                             {{guide.sequence}}
@@ -47,7 +47,7 @@
                                         (keyup)="onGroupConcentrationChanged()"> ng/uL
                                 </ng-template>
                                 <ng-template #concentrationReadOnly>
-                                    {{ guide.grna_concentration ? guide.grna_concentration || 'ng/uL' : ''}}
+                                    {{ guide.grnaConcentration ? guide.grnaConcentration || 'ng/uL' : ''}}
                                 </ng-template>
                             </td>
                         </ng-template>
@@ -58,11 +58,11 @@
                                 <ng-template #concentrationEditable>
                                         <div [formGroup]="concentrationForm">
                                                 <input (keyup)="onIndividualConcentrationChanged(guide)"
-                                                [(ngModel)]="guide.grna_concentration" [ngModelOptions]="{standalone: true}">
+                                                [(ngModel)]="guide.grnaConcentration" [ngModelOptions]="{standalone: true}">
                                              </div> 
                                 </ng-template>
                                 <ng-template #concentrationReadOnly>
-                                    {{ guide.grna_concentration ? guide.grna_concentration || 'ng/uL' : ''}}
+                                    {{ guide.grnaCncentration ? guide.grnaConcentration || 'ng/uL' : ''}}
                                 </ng-template>
                             </td>
                         </ng-template>

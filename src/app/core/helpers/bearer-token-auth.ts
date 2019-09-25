@@ -19,7 +19,6 @@ export class BearerTokenAuth implements HttpInterceptor{
                 }
             });
         }
-
         return next.handle(request);
     }
 }

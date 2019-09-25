@@ -25,8 +25,8 @@ export class ProjectSummaryAdapter implements Adapter<ProjectSummary> {
         projectSummary.planDetails = item.planDetails;
         // Sort so production plans come first that phenotype plans.
         projectSummary.planDetails.sort(function (a, b) {
-            var nameA = a.planTypeName.toUpperCase();
-            var nameB = b.planTypeName.toUpperCase();
+            const nameA = a.planTypeName.toUpperCase();
+            const nameB = b.planTypeName.toUpperCase();
             if (nameA < nameB) {
                 return 1;
             }

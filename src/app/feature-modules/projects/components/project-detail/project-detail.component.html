@@ -1,3 +1,4 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-card>
   <mat-card-content>
     <a [routerLink]="['history']">History</a>
@@ -18,32 +19,32 @@
         </tr>
         <tr>
           <td>Intentions:</td>
-          <td *ngIf="project.intention_by_gene_attributes">
-            <div *ngFor="let gene_attribute of project.intention_by_gene_attributes">
+          <td *ngIf="project.intentionByGeneAttributes">
+            <div *ngFor="let geneAttribute of project.intentionByGeneAttributes">
               <mat-chip-list>
-                <mat-chip color="primary" selected>{{ gene_attribute.marker_symbol || 'Gene Not defined' }} -
-                  {{ gene_attribute.allele_type_name }}</mat-chip>
+                <mat-chip color="primary" selected>{{ geneAttribute.markerSymbol || 'Gene Not defined' }} -
+                  {{ geneAttribute.alleleTypeName }}</mat-chip>
               </mat-chip-list>
             </div>
-            <div *ngFor="let gene_attribute of project.intention_by_location_attributes">
+            <div *ngFor="let geneAttribute of project.intentionByLocationAttributes">
               <mat-chip-list>
                 <mat-chip color="primary" selected>
-                  [ {{ gene_attribute.start || 'Start Not defined' }} : {{ gene_attribute.end || 'End Not defined' }} ]
-                  - {{ gene_attribute.allele_type_name }}</mat-chip>
+                  [ {{ geneAttribute.start || 'Start Not defined' }} : {{ geneAttribute.end || 'End Not defined' }} ]
+                  - {{ geneAttribute.alleleTypeName }}</mat-chip>
               </mat-chip-list>
             </div>
           </td>
         </tr>
         <tr>
           <td>Assignment Status:</td>
-          <td>{{project.assignment_status_name}}</td>
+          <td>{{project.assignmentStatusName}}</td>
         </tr>
         <tr>
           <td>
             Active?:
           </td>
           <td>
-            <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.is_active"
+            <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.isActive"
               [disabled]="!canUpdateProject">
           </td>
         </tr>
@@ -65,7 +66,7 @@
 
           <ng-template #privacyReadOnly>
             <td>
-              {{project.privacy_name}}
+              {{project.privacyName}}
             </td>
           </ng-template>
         </tr>
@@ -126,7 +127,7 @@
         </mat-panel-title>
       </mat-expansion-panel-header>
 
-      <table mat-table [dataSource]="project.assignment_status_dates" class="mat-elevation-z8">
+      <table mat-table [dataSource]="project.assignmentStatusDates" class="mat-elevation-z8">
         <ng-container matColumnDef="name">
           <th mat-header-cell *matHeaderCellDef> Name </th>
           <td mat-cell *matCellDef="let element"> {{element.name}} </td>
@@ -168,30 +169,3 @@
       </table>
     </mat-card-content>
   </mat-card>
-
-  <!-- <div class="mat-card-content">
-    <div *ngIf="productionPlansDetails.length > 0">
-      <h4>Production Plans:</h4>
-      <table style="width: 100%;">
-        <tbody>
-          <tr *ngFor="let productionPlanDetail of productionPlansDetails">
-            <app-plan-summary [plan]="productionPlanDetail"></app-plan-summary>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-
-  <div class=" mat-card-content">
-    <div *ngIf="phenotypingPlansDetails.length > 0">
-      <h4>Phenotype Plans:</h4>
-      <table>
-        <tbody>
-          <tr *ngFor="let phenotypingPlanDetail of phenotypingPlansDetails">
-            <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</mat-card>  -->

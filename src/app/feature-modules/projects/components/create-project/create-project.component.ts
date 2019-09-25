@@ -24,7 +24,6 @@ export class CreateProjectComponent implements OnInit {
   returnUrl: string;
   error = '';
   workGroups: WorkGroup[] = [];
-  // priorities: string[] = [];
   projectIntentions: string[] = [];
   projectIntentionsTable: any;
   funders: any[] = [];
@@ -218,7 +217,8 @@ export class CreateProjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loggerUser = this.loogedUserService.getLoggerUser();
+    // TODO: CHeck how does it work with multiple work units
+    // this.loggerUser = this.loogedUserService.getLoggerUser();
     this.configurationData = this.configurationDataService.getConfigurationInfo();
 
     this.keyword = 'symbol';
@@ -235,10 +235,10 @@ export class CreateProjectComponent implements OnInit {
       projectLocations: [[], Validators.required]
     });
 
-    this.createProjectForm.patchValue({
-      workUnit: this.loggerUser.workUnitName,
-    });
-    console.log(this.loggerUser);
+    // TODO: CHeck how does it work with multiple work units
+    // this.createProjectForm.patchValue({
+    //   workUnit: this.loggerUser.workUnitName,
+    // });
 
     this.workGroupService.getWorkGroupByWorkUnit(this.f.workUnit.value).pipe(first()).subscribe(data => {
         if (data) {

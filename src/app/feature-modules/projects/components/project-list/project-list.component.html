@@ -4,8 +4,6 @@
         project</a>
 </mat-card>
 
-
-
 <div class="example-container mat-elevation-z8">
     <div class="example-loading-shade" *ngIf="isLoading">
         <mat-spinner *ngIf="isLoading"></mat-spinner>
@@ -25,49 +23,49 @@
                     {{ project.external_reference }}
                 </td>
             </ng-container>
-    
+
 
             <ng-container matColumnDef="Marker Symbol(s)">
                 <th mat-header-cell *matHeaderCellDef>Marker Symbol(s)</th>
                 <td mat-cell *matCellDef="let project">
-    
-                  <div *ngFor="let gene of project.intention_by_gene_attributes">
-                    <a href="" target="_blank">{{ gene.gene.symbol }}</a>
-                  </div>
-    
-                </td>
-              </ng-container>
 
-              <ng-container matColumnDef="Intention">
+                    <div *ngFor="let gene of project.intention_by_gene_attributes">
+                        <a href="" target="_blank">{{ gene.gene.symbol }}</a>
+                    </div>
+
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Intention">
                 <th mat-header-cell *matHeaderCellDef>Intention</th>
                 <td mat-cell *matCellDef="let project">
-                  <div *ngFor="let intention of project.intention_by_gene_attributes">
-                    {{ intention.alleleTypeName }}
-                  </div>
+                    <div *ngFor="let intention of project.intention_by_gene_attributes">
+                        {{ intention.alleleTypeName }}
+                    </div>
                 </td>
-              </ng-container>
+            </ng-container>
 
-       
+
 
             <ng-container matColumnDef="Project Assignment">
                 <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
                 <td mat-cell *matCellDef="let project">{{ project.assigment_status_name }}</td>
-              </ng-container>
+            </ng-container>
 
-              <ng-container matColumnDef="Privacy">
+            <ng-container matColumnDef="Privacy">
                 <th mat-header-cell *matHeaderCellDef>Privacy</th>
                 <td mat-cell *matCellDef="let project"> Public </td>
-              </ng-container>
+            </ng-container>
 
-              <ng-container matColumnDef="Is active">
+            <ng-container matColumnDef="Is active">
                 <th mat-header-cell *matHeaderCellDef>Is active</th>
                 <td mat-cell *matCellDef="let project"> True </td>
-              </ng-container>
+            </ng-container>
 
-              <ng-container matColumnDef="Consortium">
+            <ng-container matColumnDef="Consortium">
                 <th mat-header-cell *matHeaderCellDef>Consortium</th>
                 <td mat-cell *matCellDef="let project"> CMG </td>
-              </ng-container>
+            </ng-container>
 
             <!-- <td *ngIf="isFirst" [attr.rowspan]="project.planDetails.length">
                     <ul>

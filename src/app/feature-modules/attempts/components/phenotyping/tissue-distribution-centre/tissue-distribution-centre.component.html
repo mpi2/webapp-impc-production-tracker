@@ -5,17 +5,17 @@
             <tr class="mat-header-row">
                 <th class="mat-header-cell mat-column-start_date">Start Date</th>
                 <th class="mat-header-cell mat-column-end_date">End Date</th>
-                <th class="mat-header-cell mat-column-work_unit_name">Work Unit</th>
+                <th class="mat-header-cell mat-column-workUnitName">Work Unit</th>
                 <th class="mat-header-cell mat-column-material_type_name">Material Type</th>
                 <th class="mat-header-cell mat-column-action">Action</th>
             </tr>
-            <ng-template ngFor let-element [ngForOf]="phenotypingAttempt.tissue_distribution_centre_attributes">
+            <ng-template ngFor let-element [ngForOf]="phenotypingAttempt.tissueDistributionCentreAttributes">
                 <tr class="mat-row ng-star-inserted">
                     <div *ngIf="canUpdatePlan; then editableFields else readOnlyFields"></div>
                     <ng-template #editableFields>
                         <td class="mat-cell">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="datePickerStartDate" [(ngModel)]="element.start_date"
+                                <input matInput [matDatepicker]="datePickerStartDate" [(ngModel)]="element.startDate"
                                     [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
                                 <mat-datepicker-toggle matSuffix [for]="datePickerStartDate"></mat-datepicker-toggle>
                                 <mat-datepicker #datePickerStartDate></mat-datepicker>
@@ -24,7 +24,7 @@
 
                         <td class="mat-cell">
                             <mat-form-field>
-                                <input matInput [matDatepicker]="datePickerEndDate" [(ngModel)]="element.end_date"
+                                <input matInput [matDatepicker]="datePickerEndDate" [(ngModel)]="element.endDate"
                                     [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
                                 <mat-datepicker-toggle matSuffix [for]="datePickerEndDate"></mat-datepicker-toggle>
                                 <mat-datepicker #datePickerEndDate></mat-datepicker>
@@ -33,7 +33,7 @@
 
                         <td class="mat-cell">
                             <mat-form-field>
-                                <mat-select value={{element.work_unit_name}}>
+                                <mat-select value={{element.workUnitName}}>
                                     <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit">
                                         {{ workUnit }}
                                     </mat-option>
@@ -68,7 +68,7 @@
                         </td>
 
                         <td class="mat-cell">
-                            {{element.work_unit_name}}
+                            {{element.workUnitName}}
                         </td>
                         <td class="mat-cell">
                             {{element.material_type_name}}

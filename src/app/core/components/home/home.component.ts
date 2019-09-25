@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { SelectItem } from 'primeng/api';
 
 @Component({
   selector: 'app-home',
@@ -7,8 +6,6 @@ import { SelectItem } from 'primeng/api';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
-  constructor() { }
 
   ngOnInit() {
   }

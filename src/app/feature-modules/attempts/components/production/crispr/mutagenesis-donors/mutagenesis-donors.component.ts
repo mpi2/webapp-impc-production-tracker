@@ -29,39 +29,41 @@ export class MutagenesisDonorsComponent implements OnInit {
     this.setInitialData();
   }
 
-  setFormValues() {
-    this.configurationData = this.configurationDataService.getConfigurationInfo();
-    this.preparationTypes = this.configurationData.preparationTypes.map(x => { return { name: x } });
+  setFormValues(): void {
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.preparationTypes = this.configurationData.preparationTypes.map(x => { return { name: x } });
+    });
   }
 
-  setInitialData() {
-    this.dataSource = this.crisprAttempt.mutagenesis_donors_attributes;
+  setInitialData(): void {
+    this.dataSource = this.crisprAttempt.mutagenesisDonorsAttributes;
     this.setEmptyEditionStatuses();
     this.setOriginalDonors();
   }
 
-  setEmptyEditionStatuses() {
-    this.crisprAttempt.mutagenesis_donors_attributes.map(x => this.editionStatusByDonor.set(x.id, ''));
+  setEmptyEditionStatuses(): void {
+    this.crisprAttempt.mutagenesisDonorsAttributes.map(x => this.editionStatusByDonor.set(x.id, ''));
   }
 
-  setOriginalDonors() {
-    this.originalData = JSON.parse(JSON.stringify(this.crisprAttempt.mutagenesis_donors_attributes));
+  setOriginalDonors(): void {
+    this.originalData = JSON.parse(JSON.stringify(this.crisprAttempt.mutagenesisDonorsAttributes));
   }
 
   getEditionStatusForDonor(id: number): string {
     return this.editionStatusByDonor.get(id);
   }
 
-  addDonor() {
-    let donor: Donor = new Donor();
+  addDonor(): void {
+    const donor: Donor = new Donor();
     donor.id = this.nextNewId--;
 
-    this.crisprAttempt.mutagenesis_donors_attributes.push(donor);
+    this.crisprAttempt.mutagenesisDonorsAttributes.push(donor);
     this.editionStatusByDonor.set(donor.id, 'Created in memory');
-    this.dataSource = [...this.crisprAttempt.mutagenesis_donors_attributes];
+    this.dataSource = [...this.crisprAttempt.mutagenesisDonorsAttributes];
   }
 
-  onClickToDeleteElement(donor: Donor) {
+  onClickToDeleteElement(donor: Donor): void {
     if (this.isElementCreatedOnlyInMemory(donor)) {
       this.deletePrimerInMemory(donor);
     } else {
@@ -78,24 +80,24 @@ export class MutagenesisDonorsComponent implements OnInit {
     }
   }
 
-  onDonorChanged(donor: Donor) {
+  onDonorChanged(donor: Donor): void {
     this.convertNumericFields(donor);
     this.updateRowStatus(donor);
   }
 
-  convertNumericFields(donor: Donor) {
-    let concentrationAsString = donor.concentration ? donor.concentration.toString() : '';
+  convertNumericFields(donor: Donor): void {
+    const concentrationAsString = donor.concentration ? donor.concentration.toString() : '';
     if (concentrationAsString.charAt(concentrationAsString.length -1) != '.') {
       donor.concentration = this.getNumericValueOrNull(donor.concentration);
     }
   }
 
-  updateAllRowsStatus() {
-    this.crisprAttempt.mutagenesis_donors_attributes.map(x => this.updateRowStatus(x));
+  updateAllRowsStatus(): void{
+    this.crisprAttempt.mutagenesisDonorsAttributes.map(x => this.updateRowStatus(x));
   }
 
-  updateRowStatus(donor: Donor) {
-    let originalDonor = this.originalData.find(x => x.id === donor.id);
+  updateRowStatus(donor: Donor): void {
+    const originalDonor = this.originalData.find(x => x.id === donor.id);
     if (originalDonor) {
       if (JSON.stringify(originalDonor) != JSON.stringify(donor)) {
         this.editionStatusByDonor.set(donor.id, 'Modified in memory');
@@ -108,7 +110,7 @@ export class MutagenesisDonorsComponent implements OnInit {
     }
   }
 
-  getNumericValueOrNull(value) {
+  getNumericValueOrNull(value): number {
     if (!value || isNaN(value) || '' === value) {
       return null;
     }
@@ -119,9 +121,9 @@ export class MutagenesisDonorsComponent implements OnInit {
     return donor.id < 0;
   }
 
-  deletePrimerInMemory(donor: Donor) {
-    this.crisprAttempt.mutagenesis_donors_attributes = this.crisprAttempt.mutagenesis_donors_attributes.filter(x => x.id != donor.id);
-    this.dataSource = [...this.crisprAttempt.mutagenesis_donors_attributes];
+  deletePrimerInMemory(donor: Donor): void {
+    this.crisprAttempt.mutagenesisDonorsAttributes = this.crisprAttempt.mutagenesisDonorsAttributes.filter(x => x.id != donor.id);
+    this.dataSource = [...this.crisprAttempt.mutagenesisDonorsAttributes];
   }
 
 }

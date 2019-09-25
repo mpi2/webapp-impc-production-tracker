@@ -11,7 +11,7 @@ import { PhenotypingPlanComponent } from '../plans/components/phenotyping-plan/p
 
 const routes: Routes = [
   {
-    path: 'projects/:id', component: ProjectDetailComponent, canActivate: [AuthGuard],
+    path: 'projects/:id', component: ProjectDetailComponent,
   },
   {
     path: 'projects/:id/production-plan/:pid', component: ProductionPlanComponent,
@@ -111,7 +111,7 @@ const routes: Routes = [
     }
   },
 
-  { path: 'projects', component: ProjectListComponent, canActivate: [AuthGuard] },
+  { path: 'projects', component: ProjectListComponent },
   { path: 'create-project', component: CreateProjectComponent, canActivate: [AuthGuard] },
 ];
 
