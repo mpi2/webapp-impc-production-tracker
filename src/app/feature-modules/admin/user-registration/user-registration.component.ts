@@ -44,13 +44,12 @@ export class UserRegistrationComponent implements OnInit {
       role: ['', Validators.required]
     });
 
-    this.configurationData = this.configurationService.getConfigurationInfo();
-
-    this.workUnits = this.configurationData.workUnits;
-
-    this.institutes = this.configurationData.institutes;
-
-    this.roles = this.configurationData.roles;
+    this.configurationService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.workUnits = this.configurationData.workUnits;
+      this.institutes = this.configurationData.institutes;
+      this.roles = this.configurationData.roles;
+    });
 
     this.dropdownSettingsWorkUnit = {
       singleSelection: true,

@@ -10,8 +10,6 @@ import { shareReplay } from 'rxjs/operators';
 })
 export class ConfigurationDataService {
 
-  private dataSubject = new ReplaySubject<ConfigurationData>(1);
-  data$: Observable<ConfigurationData> = this.dataSubject.asObservable();
   private cache$: Observable<ConfigurationData>;
 
   private apiServiceUrl;
@@ -31,29 +29,7 @@ export class ConfigurationDataService {
   }
 
   private fetchConf() {
-    console.warn('@@@fetchConf>>');
-    
+    console.warn('Fetch configuration data. Must occur only once.');
     return this.http.get<ConfigurationData>(this.apiServiceUrl + '/api/conf');
   }
-
-  writeConfiguration() {
-    // console.log('called writeConfiguration');
-    
-    // this.getConfiguration().subscribe(data => {
-    //   if (data) {
-    //     sessionStorage.setItem(this.CONFIGURATIONKEY, JSON.stringify(data));
-    //   }
-    // });
-  }
-
-  getConfigurationInfo(): ConfigurationData {
-    const configurationData: ConfigurationData = JSON.parse(sessionStorage.getItem(this.CONFIGURATIONKEY));
-    return configurationData;
-  }
-
-  // fetchConfigurationData() {
-  //   console.log('called fetchConfigurationData');
-    
-  //   this.getConfiguration().subscribe(res => {this.dataSubject.next(res)});
-  // }
 }
