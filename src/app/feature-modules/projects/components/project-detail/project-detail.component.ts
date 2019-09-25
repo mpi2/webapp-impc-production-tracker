@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
-import { Project } from '../../model/project';
+import { Project, ProjectAdapter } from '../../model/project';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ConfigurationData, PermissionsService, ConfigurationDataService } from 'src/app/core';
@@ -19,13 +19,14 @@ export class ProjectDetailComponent implements OnInit {
   productionPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
   canUpdateProject: boolean;
+  error;
 
   assignmentStatusDatesColumns = ['name', 'date'];
 
   dropdownSettingsSingle = {};
   configurationData: ConfigurationData;
 
-  privacies: any[] = [];
+  privacies: NamedValue[] = [];
   selectedPrivacy = [];
 
   projectForm: FormGroup;
@@ -34,6 +35,7 @@ export class ProjectDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private projectService: ProjectService,
+    private projectAdapter: ProjectAdapter,
     private planService: PlanService,
     private permissionsService: PermissionsService,
     private configurationDataService: ConfigurationDataService) { }
@@ -44,7 +46,9 @@ export class ProjectDetailComponent implements OnInit {
       privacy: ['', Validators.required],
       comments: ['', Validators.required],
     });
-    this.configurationData = this.configurationDataService.getConfigurationInfo();
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+    });
 
     this.dropdownSettingsSingle = {
       singleSelection: true,
@@ -57,20 +61,21 @@ export class ProjectDetailComponent implements OnInit {
     this.getProjectData();
   }
 
-  private setFormValues() {
+  private setFormValues(): void {
     this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
     this.projectForm.get('comments').setValue(this.project.comment);
 
-    this.selectedPrivacy = [{ name: this.project.privacy_name }];
+    this.selectedPrivacy = [{ name: this.project.privacyName }];
     this.projectForm.get('privacy').setValue(this.selectedPrivacy);
   }
 
-  private getProjectData() {
-    let id = this.route.snapshot.params['id'];
+  private getProjectData(): void {
+    const id = this.route.snapshot.params['id'];
     this.projectService.getProject(id).subscribe(data => {
-      this.project = data;
+      this.project = this.projectAdapter.adapt(data);
+      console.log('project:', data);
+      
       this.originalProjectAsString = JSON.stringify(data);
-      console.log('this.project', this.project);
       this.getProductionPlans();
       this.gethenotypingPlans();
       this.loadPermissions();
@@ -78,80 +83,83 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
-  loadPermissions() {
+  loadPermissions(): void {
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PROJECT_ACTION, this.project.tpn).subscribe(canUpdateProject => {
         this.canUpdateProject = canUpdateProject;
-        console.log('canUpdateProject=>', canUpdateProject);
+        this.error = null;
       }, error => {
-        console.log('Error getting permissions');
+        this.error = error;
       });
   }
 
-  private getProductionPlans() {
-    this.project._links.production_plans.map(x => {
-      this.planService.getPlanByUrl(x.href).subscribe(plan => {
-        console.log('the url', x.href);
-
-        console.log('Got a production plan', plan);
-
-        this.productionPlansDetails.push(plan);
-      }, error => {
-        console.log('Error getting plan...', error);
+  private getProductionPlans(): void {
+    if (this.project._links.production_plans) {
+      this.project._links.production_plans.map(x => {
+        this.planService.getPlanByUrl(x.href).subscribe(plan => {
+          this.productionPlansDetails.push(plan);
+          this.error = null;
+        }, error => {
+          this.error = error;
+        });
       });
-    });
+    }
   }
 
-  private gethenotypingPlans() {
-    this.project._links.phenotyping_plans.map(x => {
-      this.planService.getPlanByUrl(x.href).subscribe(plan => {
-        this.phenotypingPlansDetails.push(plan);
-      }, error => {
-        console.log('Error getting plan...', error);
+  private gethenotypingPlans(): void {
+    if (this.project._links.phenotyping_plans) {
+      this.project._links.phenotyping_plans.map(x => {
+        this.planService.getPlanByUrl(x.href).subscribe(plan => {
+          this.phenotypingPlansDetails.push(plan);
+          this.error = null;
+        }, error => {
+          this.error = error;
+        });
       });
-    });
+    }
   }
 
-  onActiveSelected() {
-    this.project.is_active = !this.project.is_active;
+
+  onActiveSelected(): void {
+    this.project.isActive = !this.project.isActive;
     console.log('Updated is_active in memory...');
   }
 
-  onWithdrawnSelected() {
+  onWithdrawnSelected(): void {
     this.project.withdrawn = !this.project.withdrawn;
     console.log('Updated withdrawn in memory...');
   }
 
-  onRecoverySelected() {
+  onRecoverySelected(): void {
     this.project.recovery = !this.project.recovery;
     console.log('Updated recovery in memory...');
   }
 
-  onTextCommentChanged(e) {
+  onTextCommentChanged(e): void {
     const newComments = this.projectForm.get('comments').value;
     this.project.comment = newComments;
     console.log('Updated comment in memory...');
   }
 
-  onItemSelect(e) {
-    this.project.privacy_name = e;
+  onItemSelect(e): void {
+    this.project.privacyName = e;
     console.log('Updated privacy in memory...');
-    
+
   }
 
-  updateProject() {
+  updateProject(): void {
     console.log('Update project...', this.project);
     console.log('originalProject', this.originalProjectAsString);
   }
 
-  shouldUpdateBeEnabled() {
+  shouldUpdateBeEnabled(): boolean {
     return this.originalProjectAsString != JSON.stringify(this.project);
   }
 
-  sortByPid(plans: Plan[]) {
-     plans.sort(function(a, b) {
-      var nameA = a.pin; 
-      var nameB = b.pin;
+  sortByPid(plans: Plan[]): Plan[] {
+    plans.sort(function (a, b) {
+      const nameA = a.pin;
+      const nameB = b.pin;
       if (nameA < nameB) {
         return -1;
       }
@@ -162,5 +170,5 @@ export class ProjectDetailComponent implements OnInit {
     });
     return plans;
   }
-  
+
 }

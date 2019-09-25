@@ -1,19 +1,19 @@
 export interface TissueDistributionCentre {
     id: number;
-    phenotype_attempt_plan_id: number;
-    start_date: string;
-    end_date: string;
-    work_unit_name: string;
-    material_type_name: string;
+    plan_id: number;
+    startDate: string;
+    endDate: string;
+    workUnitName: string;
+    materialTypeName: string;
 }
 
 export interface PhenotypingAttempt {
-    plan_id: number;
-    imits_phenotype_attempt_id: number;
-    imits_phenotyping_production_id: number;
-    phenotyping_experiments_started: string;
-    phenotyping_started: boolean;
-    phenotyping_complete: boolean;
-    do_not_count_towards_completeness: boolean;
-    tissue_distribution_centre_attributes: TissueDistributionCentre[];
+    planId: number;
+    imitsPhenotypeAttemptId: number;
+    imitsPhenotypingProductionId: number;
+    phenotypingExperimentsStarted: string;
+    phenotypingStarted: boolean;
+    phenotypingComplete: boolean;
+    doNotCountTowardsCompleteness: boolean;
+    tissueDistributionCentreAttributes: TissueDistributionCentre[];
 }

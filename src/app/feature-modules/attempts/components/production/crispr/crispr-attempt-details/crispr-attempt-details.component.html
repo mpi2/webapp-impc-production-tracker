@@ -8,7 +8,7 @@
             Attempt Type:
           </td>
           <td>
-            {{crisprAttempt.attempt_type_name}}
+            {{crisprAttempt.attemptTypeName}}
           </td>
         </tr>
         <tr>
@@ -20,7 +20,7 @@
           <ng-template #miDateEditable>
             <td>
               <mat-form-field>
-                <input matInput [matDatepicker]="datePicker" [(ngModel)]="crisprAttempt.mi_date"
+                <input matInput [matDatepicker]="datePicker" [(ngModel)]="crisprAttempt.miDate"
                   [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
                 <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
                 <mat-datepicker #datePicker></mat-datepicker>
@@ -30,7 +30,7 @@
 
           <ng-template #miDateReadOnly>
             <td>
-              {{crisprAttempt.mi_date | date}}
+              {{crisprAttempt.miDate | date}}
             </td>
           </ng-template>
         </tr>
@@ -51,7 +51,7 @@
 
           <ng-template #miExternalRefReadOnly>
             <td>
-              {{crisprAttempt.attempt_external_ref}}
+              {{crisprAttempt.attemptExternalRef}}
             </td>
           </ng-template>
         </tr>

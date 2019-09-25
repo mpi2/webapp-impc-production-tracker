@@ -8,37 +8,37 @@
                         Phenotyping Experiments Started:
                     </td>
                     <td>
-                        {{phenotypingAttempt.phenotyping_experiments_started}}
+                        {{phenotypingAttempt.phenotypingExperimentsStarted}}
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        phenotyping_started:
+                        phenotypingStarted:
                     </td>
                     <td>
                         <input type="checkbox" (change)="onPhenotypingStarted()"
-                            [checked]="this.phenotypingAttempt.phenotyping_started" [disabled]="!canUpdatePlan">
+                            [checked]="this.phenotypingAttempt.phenotypingStarted" [disabled]="!canUpdatePlan">
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        phenotyping_complete:
+                        phenotypingComplete:
                     </td>
                     <td>
                         <input type="checkbox" (change)="onPhenotypingComplete()"
-                            [checked]="this.phenotypingAttempt.phenotyping_complete" [disabled]="!canUpdatePlan">
+                            [checked]="this.phenotypingAttempt.phenotypingComplete" [disabled]="!canUpdatePlan">
                     </td>
                 </tr>
 
                 <tr>
                     <td>
-                        do_not_count_towards_completeness:
+                        doNotCountTowardsCompleteness:
                     </td>
                     <td>
                         <input type="checkbox" (change)="onNoCountTowardsCompleteness()"
-                            [checked]="this.phenotypingAttempt.do_not_count_towards_completeness"
+                            [checked]="this.phenotypingAttempt.doNotCountTowardsCompleteness"
                             [disabled]="!canUpdatePlan">
                     </td>
                 </tr>

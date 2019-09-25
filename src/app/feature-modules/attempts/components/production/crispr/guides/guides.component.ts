@@ -1,7 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CrisprAttempt, Guide } from '../../../..';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { GenotypePrimer } from 'src/app/feature-modules/attempts/model/production/crispr/genotype-primer';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-guides',
@@ -12,7 +11,7 @@ export class GuidesComponent implements OnInit {
 
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
-  sameConcentrationForAll: boolean = true;
+  sameConcentrationForAll = true;
   numOfRows: number;
   guidesForm: FormGroup;
   concentrationForm: FormGroup;
@@ -26,8 +25,8 @@ export class GuidesComponent implements OnInit {
     this.concentrationForm = this.formBuilder.group({
     });
 
-    this.numOfRows = this.crisprAttempt.guides_attributes.length;
-    let sameConcentration = this.isConcentrationTheSameForAllGuides();
+    this.numOfRows = this.crisprAttempt.guidesAttributes.length;
+    const sameConcentration = this.isConcentrationTheSameForAllGuides();
     if (sameConcentration) {
       this.guidesForm.get('groupConcentration').setValue(this.getCommonConcentration());
     }
@@ -37,17 +36,17 @@ export class GuidesComponent implements OnInit {
 
   getCommonConcentration(): number {
     let result = null;
-    if (this.crisprAttempt.guides_attributes) {
-      let guide = this.crisprAttempt.guides_attributes[0];
+    if (this.crisprAttempt.guidesAttributes) {
+      const guide = this.crisprAttempt.guidesAttributes[0];
       if (guide) {
-        result = guide.grna_concentration;
+        result = guide.grnaConcentration;
       }
     }
     return result;
   }
 
   isConcentrationTheSameForAllGuides(): boolean {
-    let concentrations = this.crisprAttempt.guides_attributes.filter(x => x['grna_concentration']).map(x => x['grna_concentration']);
+    const concentrations = this.crisprAttempt.guidesAttributes.filter(x => x['grnaConcentration']).map(x => x['grnaConcentration']);
 
     return concentrations.every(v => v === concentrations[0]);
   }
@@ -61,13 +60,13 @@ export class GuidesComponent implements OnInit {
     if (groupConcentrationText) {
       const concentration = Number(groupConcentrationText);
       if (concentration) {
-        this.crisprAttempt.guides_attributes.map(x => x.grna_concentration = concentration);
+        this.crisprAttempt.guidesAttributes.map(x => x.grnaConcentration = concentration);
       }
     }
   }
 
   onIndividualConcentrationChanged(guide: Guide) {
-    guide.grna_concentration = Number(guide.grna_concentration);
+    guide.grnaConcentration = Number(guide.grnaConcentration);
   }
 
 }

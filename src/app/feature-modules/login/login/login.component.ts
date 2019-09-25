@@ -24,9 +24,8 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService) { }
 
   ngOnInit() {
-    console.log('Entered to login');
     this.loginForm = this.formBuilder.group({
-      user_name: ['', Validators.required],
+      userName: ['', Validators.required],
       password: ['', Validators.required]
     });
 
@@ -49,18 +48,16 @@ export class LoginComponent implements OnInit {
     }
 
     this.loading = true;
-    this.authenticationService.login(this.f.user_name.value, this.f.password.value)
+    this.authenticationService.login(this.f.userName.value, this.f.password.value)
       .pipe(first())
       .subscribe(
         data => {
           this.loading = false;
-          console.log('NAVIGATES TO ', this.returnUrl);
           this.router.navigate([this.returnUrl]);
         },
         error => {
           this.error = error;
           this.loading = false;
-          console.log('error: ', this.error);
         });
   }
 

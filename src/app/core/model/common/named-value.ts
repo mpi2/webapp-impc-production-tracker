@@ -1,0 +1,3 @@
+interface NamedValue {
+    name: string;
+}

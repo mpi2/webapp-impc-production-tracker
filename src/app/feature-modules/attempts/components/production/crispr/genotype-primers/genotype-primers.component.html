@@ -27,11 +27,11 @@
                         </td>
                         <td>
                             <input digitOnly placeholder="Start Coordinate"
-                                [(ngModel)]="primer.genomic_start_coordinate" (keyup)="onPrimerChanged(primer)"
+                                [(ngModel)]="primer.genomicStartCoordinate" (keyup)="onPrimerChanged(primer)"
                                 [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
-                            <input digitOnly placeholder="End Coordinate" [(ngModel)]="primer.genomic_end_coordinate"
+                            <input digitOnly placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
                                 (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
@@ -53,10 +53,10 @@
                             {{primer.sequence}}
                         </td>
                         <td>
-                            {{primer.genomic_start_coordinate || "Not defined"}}
+                            {{primer.genomicStartCoordinate || "Not defined"}}
                         </td>
                         <td>
-                            {{primer.genomic_end_coordinate || "Not defined"}}
+                            {{primer.genomicEndCoordinate || "Not defined"}}
                         </td>
                     </tr>
                 </ng-template>

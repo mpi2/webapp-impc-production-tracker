@@ -1,9 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormGroup, FormBuilder, FormControl} from '@angular/forms';
-// import {MatSidenavModule} from '@angular/material/sidenav';
-
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { first } from 'rxjs/operators';
-
 import { ProjectSummary, ProjectSummaryAdapter } from '../../projects/model/project-summary';
 import { ProjectService } from '../../projects/services/project.service';
 import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from 'src/app/core';
@@ -17,11 +14,11 @@ import { MatPaginator, MatSort } from '@angular/material';
 })
 export class GeneSearchComponent implements OnInit {
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location', 
-'Project Assignment' ];
+  displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Mouse Gene Symbol / Location',
+    'Project Assignment'];
   selectAllWorkUnits = true;
   panelOpenState = false;
   geneSearchForm: FormGroup;
@@ -46,70 +43,44 @@ export class GeneSearchComponent implements OnInit {
     private configurationDataService: ConfigurationDataService,
     private projectAdapter: ProjectSummaryAdapter) { }
 
-
   ngOnInit() {
     this.geneSearchForm = this.formBuilder.group({
       geneSymbol: ['']
     });
-    this.configurationData = this.configurationDataService.getConfigurationInfo();
 
-  this.workUnits = this.configurationData.workUnits.map(x => {
-    const workUnit: WorkUnit = new WorkUnit();
-    workUnit.name = x;
-    workUnit["isSelected"] = true;
-    return workUnit
-  });
-  this.workGroups = this.configurationData.workGroups.map(x => {
-    const workGroup: WorkGroup = new WorkGroup();
-    workGroup.name = x;
-    workGroup["isSelected"] = true;
-    return workGroup
-  });
-  
-  this.isLoading = true;
-  this.getPage(0);
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.initFiltersValues();
+    });
+    
+    this.isLoading = true;
+    this.getPage(0);
+  }
+
+  initFiltersValues(): void {
+    this.workUnits = this.configurationData.workUnits.map(x => {
+      const workUnit: WorkUnit = new WorkUnit();
+      workUnit.name = x;
+      workUnit["isSelected"] = true;
+      return workUnit
+    });
+    this.workGroups = this.configurationData.workGroups.map(x => {
+      const workGroup: WorkGroup = new WorkGroup();
+      workGroup.name = x;
+      workGroup["isSelected"] = true;
+      return workGroup
+    });
+    console.log(this.workUnits);
+    console.log(this.workGroups);
   }
 
   ngAfterViewInit() {
-   // this.exampleDatabase = new ExampleHttpDatabase(this._httpClient);
-
-    // If the user changes the sort order, reset back to the first page.
-    //this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-
-  //   merge(this.sort.sortChange, this.paginator.page)
-  //     .pipe(
-  //       startWith({}),
-  //       switchMap(() => {
-  //         this.isLoadingResults = true;
-  //         return this.exampleDatabase!.getRepoIssues(
-  //           this.sort.active, this.sort.direction, this.paginator.pageIndex);
-  //       }),
-  //       map(data => {
-  //         // Flip flag to show that loading has finished.
-  //         this.isLoadingResults = false;
-  //         this.isRateLimitReached = false;
-  //         this.resultsLength = data.total_count;
-
-  //         return data.items;
-  //       }),
-  //       catchError(() => {
-  //         this.isLoadingResults = false;
-  //         // Catch if the GitHub API has reached its rate limit. Return empty data.
-  //         this.isRateLimitReached = true;
-  //         return observableOf([]);
-  //       })
-  //     ).subscribe(data => this.data = data);
-  // }
-
- 
-}
+  }
 
   getPage(page: number) {
-    console.log('page number=' + page);
-    // The end point starts page in number 0, while the component starts with 1.
     const apiPageNumber = page;
-    let workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
-    let workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
+    const workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
+    const workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
     let selectedWorkUnits = [];
     let selectedWorkGroups = [];
 
@@ -159,7 +130,7 @@ export class GeneSearchComponent implements OnInit {
   checkUncheckWorkUnits(e) {
     for (const workUnit of this.workUnits) {
       const selector = '#' + this.getIdFromWorkUnitName(workUnit.name);
-      let htmlElement = document.querySelector(selector) as HTMLInputElement;
+      const htmlElement = document.querySelector(selector) as HTMLInputElement;
       htmlElement.checked = e.target.checked;
       workUnit["isSelected"] = e.target.checked;
     }
@@ -168,7 +139,7 @@ export class GeneSearchComponent implements OnInit {
   checkUncheckWorkGroups(e) {
     for (const workGroup of this.workGroups) {
       const selector = '#' + this.getIdFromWorkGroupName(workGroup.name);
-      let htmlElement = document.querySelector(selector) as HTMLInputElement;
+      const htmlElement = document.querySelector(selector) as HTMLInputElement;
       htmlElement.checked = e.target.checked;
       workGroup["isSelected"] = e.target.checked;
     }
@@ -177,7 +148,7 @@ export class GeneSearchComponent implements OnInit {
   onCheckedWorkUnitElement(element: any) {
     const isSelected = !element["isSelected"]
     element["isSelected"] = isSelected;
-    let workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
+    const workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
     workUnitSelectAll.checked = this.workUnits.filter(x => x["isSelected"]).length === this.workUnits.length;
 
     return isSelected;
@@ -186,7 +157,7 @@ export class GeneSearchComponent implements OnInit {
   onCheckedWorkGroupElement(element: any) {
     const isSelected = !element["isSelected"]
     element["isSelected"] = isSelected;
-    let workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
+    const workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
     workGroupSelectAll.checked = this.workGroups.filter(x => x["isSelected"]).length === this.workGroups.length;
 
     return isSelected;
@@ -196,11 +167,11 @@ export class GeneSearchComponent implements OnInit {
     this.getPage(0);
   }
 
-  getIdFromWorkUnitName(workUnitName: String) {
+  getIdFromWorkUnitName(workUnitName: string) {
     return 'workUnit_' + workUnitName.replace(/\W/g, '_');
   }
 
-  getIdFromWorkGroupName(workGroupName: String) {
+  getIdFromWorkGroupName(workGroupName: string) {
     return 'workGroup_' + workGroupName.replace(/\W/g, '_');
   }
 

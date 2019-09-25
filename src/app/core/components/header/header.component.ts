@@ -3,8 +3,6 @@ import { LoggedUser } from '../../model/user/logged-user';
 import { Subscription } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { LoggedUserService } from '../../services/logged-user.service';
-import { MatMenuModule, MatToolbarModule,
-  MatTooltipModule} from '@angular/material';
 
 @Component({
   selector: 'app-header',
@@ -13,41 +11,41 @@ import { MatMenuModule, MatToolbarModule,
 })
 export class HeaderComponent implements OnInit {
 
-  role = '';
-  user_name = '';
+  isAdmin: boolean;
+  userName = '';
   login = false;
   subscription: Subscription;
   loggedUser: LoggedUser
 
-  constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) { }
-
-  ngOnInit() {
-    this.loggedUser = this.loggedUserService.getLoggerUser();
-    this.setInitialInformation();
-
-    this.subscription = this.messageService.getUserLoggedIn().subscribe(message => {
-      if (message) {
-        if (message.isUserLoggedIn) {
-          this.loggedUser = this.loggedUserService.getLoggerUser();
-          this.setInitialInformation();
-        }
-        else{
-          this.login = false;
-          this.loggedUser = null;
-        }
+  constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
+    this.messageService.getMessage().subscribe(data => {
+      const userLoggedIn = data.isUserLoggedIn;
+      if (userLoggedIn) {
+        this.setCurrentUser();
       }
     });
   }
 
-  setInitialInformation() {
+  ngOnInit() {
+  }
+
+  setCurrentUser(): void {
+    this.loggedUserService.getLoggerUser().subscribe(data => {
+      this.loggedUser = data;
+      this.setInitialInformation();
+    });
+  }
+
+  setInitialInformation(): void {
     if (this.loggedUser) {
-      if (this.loggedUser.role) {
-        this.role = this.loggedUser.role;
-      }
-      if (this.loggedUser.userName) {
-        this.user_name = this.loggedUser.userName;
-      }
+      this.isAdmin = this.loggedUser.admin;
+      this.userName = this.loggedUser.userName;
       this.login = true;
+    }
+    else {
+      this.isAdmin = null;
+      this.userName = null;
+      this.login = false;
     }
   }
 

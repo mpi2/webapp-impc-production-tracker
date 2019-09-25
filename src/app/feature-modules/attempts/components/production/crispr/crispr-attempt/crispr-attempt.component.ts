@@ -17,6 +17,8 @@ export class CrisprAttemptComponent implements OnInit {
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit() {
+    console.log('crisprAttempt', this.crisprAttempt);
+    
     this.editCrisprAttempt = this.formBuilder.group({
     });
   }

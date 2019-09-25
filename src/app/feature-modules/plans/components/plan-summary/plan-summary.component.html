@@ -14,7 +14,7 @@
         Status:
       </td>
       <td>
-        {{plan.status_name}}
+        {{plan.statusName}}
       </td>
     </tr>
     <tr>
@@ -22,15 +22,15 @@
         WorkUnit:
       </td>
       <td>
-        {{plan.work_unit_name || 'Not defined'}}
+        {{plan.workUnitName || 'Not defined'}}
       </td>
     </tr>
   </table>
   <p>
-    <a *ngIf="'production' === plan.type_name" [routerLink]="['production-plan', plan.pin]">See
+    <a *ngIf="'production' === plan.typeName" [routerLink]="['production-plan', plan.pin]">See
       plan</a>
 
-    <a *ngIf="'phenotyping' === plan.type_name" [routerLink]="['phenotyping-plan', plan.pin]">See
+    <a *ngIf="'phenotyping' === plan.typeName" [routerLink]="['phenotyping-plan', plan.pin]">See
       plan</a>
   </p>
 </mat-card>

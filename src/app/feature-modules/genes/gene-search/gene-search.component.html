@@ -103,7 +103,7 @@
           <ng-container matColumnDef="Allele Intentions">
             <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
             <td mat-cell *matCellDef="let project">
-              <div *ngFor="let intention of project.intention_by_gene_attributes">
+              <div *ngFor="let intention of project.intentionByGeneAttributes">
                 {{ intention.alleleTypeName }}
               </div>
             </td>
@@ -114,7 +114,7 @@
             <th mat-header-cell *matHeaderCellDef>Mouse Gene Symbol / Location</th>
             <td mat-cell *matCellDef="let project">
 
-              <div *ngFor="let gene of project.intention_by_gene_attributes">
+              <div *ngFor="let gene of project.intentionByGeneAttributes">
                 <a href="" target="_blank">{{ gene.gene.symbol }}</a>
               </div>
 

@@ -14,9 +14,9 @@ export class PhenotypingPlanComponent implements OnInit {
 
   plan: Plan = new Plan();
   canUpdatePlan: boolean;
-  planDetailsChanged: boolean = false;
-  attemptChanged: boolean = false;
-  loading: boolean = false;
+  planDetailsChanged = false;
+  attemptChanged = false;
+  loading = false;
   error: string;
 
   constructor(
@@ -27,7 +27,7 @@ export class PhenotypingPlanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let pin = this.route.snapshot.params['pid'];
+    const pin = this.route.snapshot.params['pid'];
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = data;
       console.log('PhenotypingPlanComponent =>', this.plan);

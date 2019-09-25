@@ -74,7 +74,7 @@ export class ProjectService {
     }
 
     if (workUnits.length > 0) {
-      workUnitsAsParameter = workUnits.map(x => 'workUnit=' + x).join('&');
+      workUnitsAsParameter = workUnits.map(x => 'workUnitName=' + x).join('&');
     }
 
     if (workGroups.length > 0) {

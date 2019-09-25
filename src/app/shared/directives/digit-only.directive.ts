@@ -27,7 +27,7 @@ export class DigitOnlyDirective {
   }
 
   @HostListener('keydown', ['$event'])
-  onKeyDown(e: KeyboardEvent) {
+  onKeyDown(e: KeyboardEvent): void {
     if (
       this.navigationKeys.indexOf(e.key) > -1 || // Allow: navigation keys: backspace, delete, arrows etc.
       (e.key === 'a' && e.ctrlKey === true) || // Allow: Ctrl+A
@@ -50,7 +50,7 @@ export class DigitOnlyDirective {
   }
 
   @HostListener('keyup', ['$event'])
-  onKeyUp(e: KeyboardEvent) {
+  onKeyUp(e: KeyboardEvent): void  {
     if (!this.decimal) {
       return;
     } else {

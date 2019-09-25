@@ -17,8 +17,8 @@ export class ProductionPlanComponent implements OnInit {
   plan: Plan = new Plan();
   originalPlanAsString: string;
   canUpdatePlan: boolean;
-  dataChanged: boolean = false;
-  loading: boolean = false;
+  dataChanged = false;
+  loading = false;
   error: string;
 
   crisptAttempt: CrisprAttempt;
@@ -33,7 +33,7 @@ export class ProductionPlanComponent implements OnInit {
     private permissionsService: PermissionsService) { }
     
   ngOnInit() {
-    let pin = this.route.snapshot.params['pid'];
+    const pin = this.route.snapshot.params['pid'];
     this.reloadForPin(pin);
   }
 
@@ -42,6 +42,8 @@ export class ProductionPlanComponent implements OnInit {
       this.plan = this.planAdapter.adapt(data);
       this.originalPlanAsString = JSON.stringify(this.plan);
       console.log('ProductionPlanComponent =>', this.plan);
+      console.log('plan.crisprAttemptAttributes', this.plan.crisprAttemptAttributes);
+      
       this.error = null;
       this.evaluateUpdatePermissions();
     }, error => {

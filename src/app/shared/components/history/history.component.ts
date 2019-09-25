@@ -39,7 +39,7 @@ export class HistoryComponent implements OnInit {
       });
   }
 
-  private getHistory() {
+  private getHistory(): void  {
     switch (this.entity) {
       case 'project':
         this.getProjectHistory(this.id);
@@ -50,30 +50,32 @@ export class HistoryComponent implements OnInit {
     }
   }
 
-  private getProjectHistory(tpn: string) {
+  private getProjectHistory(tpn: string): void {
     this.projectService.getHistoryByTpn(tpn).subscribe(data => {
       this.historyRecords = data;
       this.adaptData();
+      this.error = null;
     }, error => {
       this.error = error;
     });
   }
 
-  private getPlanHistory(pid: string) {
+  private getPlanHistory(pid: string): void  {
     this.planService.getHistoryByPid(pid).subscribe(data => {
       this.historyRecords = data;
       this.adaptData();
+      this.error = null;
     }, error => {
       this.error = error;
     });
   }
 
-  private adaptData() {
+  private adaptData(): void  {
     this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
     this.sortedData = this.historyRecords.slice();
   }
 
-  isTextLargerThanLimit(text: string) {  
+  isTextLargerThanLimit(text: string): boolean {  
     return text === null ? false : (text.length > this.LENGTH_LIMIT);
   }
 

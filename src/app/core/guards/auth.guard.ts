@@ -1,62 +1,71 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LoggedUserService, PermissionsService } from '..';
+import { LoggedUser } from '../model/user/logged-user';
+import { map } from 'rxjs/operators';
 
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanLoad {
-  constructor(
-    private router: Router,
-    private loggedUserService: LoggedUserService,
-    private permissionsService: PermissionsService) { }
-    
-  canActivate(
-    next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-      const url = state.url;
-      const path = next.routeConfig.path;
-      const loggedUser = this.loggedUserService.getLoggerUser();
+    loggedUser: LoggedUser;
 
-      if (!loggedUser) {
-          this.redirectToLoginPage(url);
-          return false;
-      }
+    constructor(
+        private router: Router,
+        private loggedUserService: LoggedUserService,
+        private permissionsService: PermissionsService) {
+    }
 
-      if ('admin' === path) {
-          return this.permissionsService.evaluatePermission(PermissionsService.EXECUTE_MANAGER_TASKS);
-      }
+    canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
+        const url = state.url;
+        const path = next.routeConfig.path;
+        return this.canPathBeActivated(path, url);
+    }
 
-      if (url.indexOf('/admin/') >= 0) {
-          return this.permissionsService.evaluatePermission(path);
-      } else {
-          return true;
-      }
-  }
-  canLoad(
-    route: Route,
-    segments: UrlSegment[]): Observable<boolean> | Promise<boolean> | boolean {
-      const path = route.path;
-      let canLoad: boolean;
-      if ('admin' === path) {
-          const loggedUser = this.loggedUserService.getLoggerUser();
-          if (loggedUser) {
-              canLoad = 'admin' === loggedUser.role; /// Or Manager??
-          } else {
-              canLoad = false;
-          }
-      } else {
-          canLoad = true;
-      }
-      if (!canLoad) {
-          console.error('Module not loaded because the user does not have permissions.');
-      }
+    canPathBeActivated(path, url): Observable<boolean> {        
+        if ('admin' === path) {
+            return this.permissionsService.evaluatePermission(PermissionsService.EXECUTE_MANAGER_TASKS);
+        }
+        if (url.indexOf('/admin/') >= 0) {
+            return this.permissionsService.evaluatePermission(path);
+        } else {
+            return of(true);
+        }
+    }
 
-      return canLoad;
-  }
+    canLoad(
+        route: Route,
+        segments: UrlSegment[]): Observable<boolean> {
+        const path = route.path;
+        let canLoad: boolean = false;
 
-  redirectToLoginPage(url) {
-    this.router.navigate(['/login'], { queryParams: { returnUrl: url } });
-}
+        return this.loggedUserService.getLoggerUser().pipe(
+            map(user => {
+                if (user) {
+                    return this.canPathBeLoaded(user, path);
+                } else {
+                    return false;
+                }
+            })
+        );
+    }
+
+    canPathBeLoaded(loggedUser: LoggedUser, path): boolean {
+        let canVisit: boolean;
+        if ('admin' === path) {
+            if (loggedUser) {
+                canVisit = loggedUser.admin /// Or Manager??
+            } else {
+                canVisit = false;
+            }
+        } else {
+            canVisit = true;
+        }
+        return canVisit;
+    }
+
+    redirectToLoginPage(url) {
+        this.router.navigate(['/login'], { queryParams: { returnUrl: url } });
+    }
 }

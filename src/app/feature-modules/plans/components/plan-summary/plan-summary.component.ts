@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { Plan } from '../../model/plan';
 
 @Component({
@@ -6,15 +6,8 @@ import { Plan } from '../../model/plan';
   templateUrl: './plan-summary.component.html',
   styleUrls: ['./plan-summary.component.css']
 })
-export class PlanSummaryComponent implements OnInit {
+export class PlanSummaryComponent {
 
   @Input() plan: Plan;
-
-  constructor() { }
-
-  ngOnInit() {
-    console.log('PlanSummaryComponent=>', this.plan);
-    
-  }
 
 }

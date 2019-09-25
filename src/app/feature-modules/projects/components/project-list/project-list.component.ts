@@ -3,8 +3,7 @@ import { first } from 'rxjs/operators';
 import { SelectItem } from 'primeng/api';
 import { ProjectService } from '../../services/project.service';
 import { ProjectSummary, ProjectSummaryAdapter } from '../../model/project-summary';
-import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { ConfigurationData, ConfigurationDataService, LoggedUserService, LoggedUser } from 'src/app/core';
 import { MatPaginator, MatSort } from '@angular/material';
 
 @Component({
@@ -13,13 +12,12 @@ import { MatPaginator, MatSort } from '@angular/material';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
-  @ViewChild(MatSort, {static: false}) sort: MatSort;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   isLoading = true;
-  displayedColumns: string[] = ['Project', 'ExternalReference', 'Marker Symbol(s)', 'Intention','Project Assignment','Privacy', 'Is active', 'Consortium'];
+  displayedColumns: string[] = ['Project', 'ExternalReference', 'Marker Symbol(s)', 'Intention', 'Project Assignment', 'Privacy', 'Is active', 'Consortium'];
   projects: ProjectSummary[] = [];
-  user_name: any;
   p = 0;
   page: any = {};
   planTypes: SelectItem[];
@@ -43,7 +41,7 @@ export class ProjectListComponent implements OnInit {
   configurationData: ConfigurationData;
 
   error;
-
+  loggedUser: LoggedUser;
 
   constructor(
     private projectService: ProjectService,
@@ -52,25 +50,34 @@ export class ProjectListComponent implements OnInit {
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
-    this.configurationData = this.configurationDataService.getConfigurationInfo();
-    if (this.configurationData) {
-      this.planTypes = this.configurationData.planTypes.map(p => { return { label: p, value: p } });
-      this.workGroups = this.configurationData.workGroups.map(p => { return { label: p, value: p } });
-      this.workUnits = this.configurationData.workUnits.map(p => { return { label: p, value: p } });
-      this.privacies = this.configurationData.privacies.map(p => { return { label: p, value: p } });
-      this.statuses = this.configurationData.statuses.map(p => { return { label: p, value: p } });
-      console.log('planTypes', this.planTypes);
-
-    }
     this.isLoading = true;
-    this.getPage(0);
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.initFiltersValues();
+      if (this.loggedUserService.getLoggerUser()) {
+        this.loggedUserService.getLoggerUser().subscribe(data => {
+          this.loggedUser = data;
+          console.log('<<this.loggedUser>>', this.loggedUser);
+          this.getPage(0);
+        });
+      } else {
+        this.loggedUser = new LoggedUser();
+        this.getPage(0);
+      }
+
+    });
+  }
+
+  private initFiltersValues(): void {
+    this.planTypes = this.configurationData.planTypes.map(p => { return { label: p, value: p } });
+    this.workGroups = this.configurationData.workGroups.map(p => { return { label: p, value: p } });
+    this.workUnits = this.configurationData.workUnits.map(p => { return { label: p, value: p } });
+    this.privacies = this.configurationData.privacies.map(p => { return { label: p, value: p } });
+    this.statuses = this.configurationData.statuses.map(p => { return { label: p, value: p } });
   }
 
   getPage(pageNumber: number) {
-    console.log('Get Page Projects');
-    
     this.isLoading = true;
-    // The end point starts page in number 0, while the component starts with 1.
     const apiPageNumber = pageNumber;
     const workUnitNameFilter = this.getWorkUnitNameFilter();
     this.projectService.getPaginatedProjectsWithFilters(
@@ -81,50 +88,35 @@ export class ProjectListComponent implements OnInit {
       this.getPlanTypeFilter(),
       this.getStatusFilter(),
       this.getPrivacyFilter()).pipe(first()).subscribe(data => {
-        console.log('Projects data ',data);
-        
         if (data['_embedded']) {
           this.projects = data['_embedded']['projectDToes'];
-          console.log('--->this.projects ',this.projects );
-          
           this.projects = this.projects.map(x => this.adapter.adapt(x));
         } else {
           this.projects = [];
         }
-        console.log('this.projects', this.projects);
-        
         this.page = data['page'];
         this.p = pageNumber;
         this.isLoading = false;
+        this.error = null;
       },
         error => {
           this.isLoading = false;
-          console.log('An error', error);
-
           this.error = error;
         }
       );
   }
 
-  getWorkUnitNameFilter() {
-    const loggedUser = this.loggedUserService.getLoggerUser();
-    let workUnitFilter = [];
-    if (loggedUser) {
-      if ('admin' != loggedUser.role) {
-        if (loggedUser.workUnitName) {
-          workUnitFilter.push(loggedUser.workUnitName);
-        } else {
-          console.error('The logged user does not have a defined workUnit.');
-          workUnitFilter.push('---');
-        }
-      }
-    } else {
-      console.error('User must be logged into the application');
-      workUnitFilter.push('---');
-    }
-    console.log('workUnitFilter: ', workUnitFilter);
-
+  getWorkUnitNameFilter(): string[] {
+    const workUnitFilter = this.getWorkUnitsForLoggedUser();
     return workUnitFilter;
+  }
+
+  private getWorkUnitsForLoggedUser(): string[] {
+    const workUnitNames = [];
+    if (this.loggedUser.rolesWorkUnits) {
+      this.loggedUser.rolesWorkUnits.map(x => workUnitNames.push(x.workUnitName));
+    }
+    return workUnitNames;
   }
 
   filter(e, column) {
@@ -161,7 +153,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   getWorkGroupFilter(): string[] {
-    if (this.workGroupFilterValues.length === this.workGroups.length) {
+    if (!this.workGroups || this.workGroupFilterValues.length === this.workGroups.length) {
       return [];
     } else {
       return this.workGroupFilterValues;
@@ -169,7 +161,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   getPlanTypeFilter(): string[] {
-    if (this.planTypeFilterValues.length === this.planTypes.length) {
+    if (!this.planTypes || this.planTypeFilterValues.length === this.planTypes.length) {
       return [];
     } else {
       return this.planTypeFilterValues;

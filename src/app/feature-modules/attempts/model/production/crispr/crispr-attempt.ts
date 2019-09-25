@@ -3,30 +3,30 @@ import { Adapter } from 'src/app/core/model/adapter';
 import { Injectable } from '@angular/core';
 
 export class CrisprAttempt {
-    plan_id: number;
-    imits_mi_attempt_id: number;
-    attempt_type_name: string;
-    mi_date: Date;
-    attempt_external_ref: string;
+    planId: number;
+    imitsMiAttemptId: number;
+    attemptTypeName: string;
+    miDate: Date;
+    attemptExternalRef: string;
     experimental: boolean;
     comment: string;
-    mutagenesis_external_ref: string;
-    delivery_type_method_name: string;
+    mutagenesisExternalRef: string;
+    deliveryTypeMethodName: string;
     voltage: number;
-    number_of_pulses: number;
-    total_embryos_injected: number;
-    total_embryos_survived: number;
-    embryo_transfer_day: string;
-    embryo_2_cell: string;
-    total_transfered: number;
-    no_founder_pups: number;
-    nuclease_attributes: Nuclease[] = [];
-    guides_attributes: Guide[] = [];
-    mutagenesis_donors_attributes: Donor[] = [];
-    reagents_attributes: Reagent[] = [];
-    genotype_primers_attributes: GenotypePrimer[] = [];
-    assay_attributes: Assay[] = [];
-    strain_injected_attributes: StrainInjected[] = [];
+    numberOfPulses: number;
+    totalEmbryosInjected: number;
+    totalEmbryosSurvived: number;
+    embryoTransferDay: string;
+    embryo2Cell: string;
+    totalTransfered: number;
+    noFounderPups: number;
+    nucleaseAttributes: Nuclease[] = [];
+    guidesAttributes: Guide[] = [];
+    mutagenesisDonorsAttributes: Donor[] = [];
+    reagentsAttributes: Reagent[] = [];
+    genotypePrimersAttributes: GenotypePrimer[] = [];
+    assayAttributes: Assay[] = [];
+    strainInjectedAttributes: StrainInjected[] = [];
 }
 
 @Injectable({
@@ -35,9 +35,9 @@ export class CrisprAttempt {
 export class CrisprAttemptAdapter implements Adapter<CrisprAttempt> {
     adapt(item: any): CrisprAttempt {
         const crisprAttempt = item as CrisprAttempt;
-        crisprAttempt.mi_date = this.getUTCFormat(crisprAttempt.mi_date);
+        crisprAttempt.miDate = this.getUTCFormat(crisprAttempt.miDate);
         crisprAttempt.comment = this.getEmptyIfNull(crisprAttempt.comment);
-        crisprAttempt.attempt_external_ref = this.getEmptyIfNull(crisprAttempt.attempt_external_ref);
+        crisprAttempt.attemptExternalRef= this.getEmptyIfNull(crisprAttempt.attemptExternalRef);
         crisprAttempt.experimental = this.getFalseIfNull(crisprAttempt.experimental);
         
         return crisprAttempt;

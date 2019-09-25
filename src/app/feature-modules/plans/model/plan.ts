@@ -2,24 +2,25 @@ import { StatusDate } from '../../projects';
 import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
+import { PhenotypingAttempt } from '../../attempts/model/phenotyping/phenotyping_attempt';
 
 export class Plan {
     id: number;
     pin: string;
-    project_id: number;
+    projectId: number;
     tpn: string;
-    funder_name: string;
-    work_unit_name: string;
-    is_active: boolean;
-    status_name: string;
-    status_dates: StatusDate[];
-    type_name: string;
-    parent_colony_name: string;
+    funderName: string;
+    workUnitName: string;
+    isActive: boolean;
+    statusName: string;
+    statusDates: StatusDate[];
+    typeName: string;
+    parentColonyName: string;
     comment: string;
-    products_available_for_general_public: boolean;
-    crispr_attempt_attributes: CrisprAttempt;
-    phenotyping_attempt_attributes: any; //TODO: Create class
-    production_plan_reference: string;
+    productsAvailableForGeneralPublic: boolean;
+    crisprAttemptAttributes: CrisprAttempt;
+    phenotypingAttemptAttributes: PhenotypingAttempt;
+    productionPlanReference: string;
 }
 
 @Injectable({
@@ -29,12 +30,12 @@ export class PlanAdapter implements Adapter<Plan> {
     constructor(
         private crisprAttemptAdapter: CrisprAttemptAdapter) { }
 
-    adapt(item: any): Plan {
+    adapt(item): Plan {
         const plan = item as Plan;
         plan.comment = this.getEmptyIfNull(plan.comment);
-        plan.products_available_for_general_public = this.getFalseIfNull(plan.products_available_for_general_public);
-        if (plan.crispr_attempt_attributes) {
-            plan.crispr_attempt_attributes = this.crisprAttemptAdapter.adapt(plan.crispr_attempt_attributes);
+        plan.productsAvailableForGeneralPublic = this.getFalseIfNull(plan.productsAvailableForGeneralPublic);
+        if (plan.crisprAttemptAttributes) {
+            plan.crisprAttemptAttributes = this.crisprAttemptAdapter.adapt(plan.crisprAttemptAttributes);
         }
         return plan;
     }
