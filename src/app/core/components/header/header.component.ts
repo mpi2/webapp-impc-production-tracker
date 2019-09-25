@@ -19,21 +19,36 @@ export class HeaderComponent implements OnInit {
 
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
     this.messageService.getMessage().subscribe(data => {
+      console.log('HeaderComponent::', data);
+      
       const userLoggedIn = data.isUserLoggedIn;
       if (userLoggedIn) {
         this.setCurrentUser();
+      } else {
+        this.cleanData();
       }
     });
   }
 
   ngOnInit() {
+    console.log('ngOnInit>>', this.loggedUser);
+    if (!this.loggedUser) {
+      
+      this.setCurrentUser();
+      console.log('ngOnInit|||setCurrentUser>>', this.loggedUser);
+    }
+    
   }
 
   setCurrentUser(): void {
-    this.loggedUserService.getLoggerUser().subscribe(data => {
-      this.loggedUser = data;
-      this.setInitialInformation();
-    });
+    if (this.loggedUserService.getLoggerUser()) {
+      this.loggedUserService.getLoggerUser().subscribe(data => {
+        this.loggedUser = data;
+        this.setInitialInformation();
+      });
+    } else {
+      this.cleanData();
+    }
   }
 
   setInitialInformation(): void {
@@ -42,11 +57,12 @@ export class HeaderComponent implements OnInit {
       this.userName = this.loggedUser.userName;
       this.login = true;
     }
-    else {
-      this.isAdmin = null;
-      this.userName = null;
-      this.login = false;
-    }
+  }
+
+  cleanData(): void {
+    this.isAdmin = null;
+    this.userName = null;
+    this.login = false;
   }
 
 }

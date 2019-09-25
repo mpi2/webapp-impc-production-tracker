@@ -217,9 +217,9 @@ export class CreateProjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // TODO: CHeck how does it work with multiple work units
-    // this.loggerUser = this.loogedUserService.getLoggerUser();
-    this.configurationData = this.configurationDataService.getConfigurationInfo();
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+    });
 
     this.keyword = 'symbol';
     this.placeHolder = 'Search for a mouse gene';
