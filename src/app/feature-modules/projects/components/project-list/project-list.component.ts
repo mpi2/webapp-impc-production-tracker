@@ -5,6 +5,7 @@ import { ProjectService } from '../../services/project.service';
 import { ProjectSummary, ProjectSummaryAdapter } from '../../model/project-summary';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService, LoggedUser } from 'src/app/core';
 import { MatPaginator, MatSort } from '@angular/material';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-project-list',
@@ -17,6 +18,8 @@ export class ProjectListComponent implements OnInit {
 
   isLoading = true;
   displayedColumns: string[] = ['Project', 'ExternalReference', 'Marker Symbol(s)', 'Intention', 'Project Assignment', 'Privacy', 'Is active', 'Consortium'];
+  intentionsForm = new FormControl();
+  assignmentStatusesForm = new FormControl();
   projects: ProjectSummary[] = [];
   p = 0;
   page: any = {};
@@ -25,6 +28,9 @@ export class ProjectListComponent implements OnInit {
   workGroups: SelectItem[];
   statuses: SelectItem[];
   privacies: SelectItem[];
+
+  intentions: NamedValue[];
+  assignmentStatuses: NamedValue[];
 
   selectedPlanTypes: [];
   selectedWorkGroups: [];
@@ -41,7 +47,7 @@ export class ProjectListComponent implements OnInit {
   configurationData: ConfigurationData;
 
   error;
-  loggedUser: LoggedUser;
+  loggedUser: LoggedUser = new LoggedUser();
 
   constructor(
     private projectService: ProjectService,
@@ -57,11 +63,11 @@ export class ProjectListComponent implements OnInit {
       if (this.loggedUserService.getLoggerUser()) {
         this.loggedUserService.getLoggerUser().subscribe(data => {
           this.loggedUser = data;
-          console.log('<<this.loggedUser>>', this.loggedUser);
           this.getPage(0);
         });
       } else {
         this.loggedUser = new LoggedUser();
+        this.loggedUser.userName = 'anonymous';
         this.getPage(0);
       }
 
@@ -74,6 +80,9 @@ export class ProjectListComponent implements OnInit {
     this.workUnits = this.configurationData.workUnits.map(p => { return { label: p, value: p } });
     this.privacies = this.configurationData.privacies.map(p => { return { label: p, value: p } });
     this.statuses = this.configurationData.statuses.map(p => { return { label: p, value: p } });
+
+    this.intentions = this.configurationData.alleleTypes.map(p => { return {name: p }});
+    this.assignmentStatuses = this.configurationData.assignmentStatuses.map(p => { return {name: p }});
   }
 
   getPage(pageNumber: number) {
