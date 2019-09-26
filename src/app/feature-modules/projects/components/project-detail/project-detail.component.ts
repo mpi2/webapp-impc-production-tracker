@@ -4,7 +4,7 @@ import { ProjectService } from '../../services/project.service';
 import { Project, ProjectAdapter } from '../../model/project';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
-import { ConfigurationData, PermissionsService, ConfigurationDataService } from 'src/app/core';
+import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
@@ -38,7 +38,8 @@ export class ProjectDetailComponent implements OnInit {
     private projectAdapter: ProjectAdapter,
     private planService: PlanService,
     private permissionsService: PermissionsService,
-    private configurationDataService: ConfigurationDataService) { }
+    private configurationDataService: ConfigurationDataService,
+    private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
 
@@ -74,7 +75,7 @@ export class ProjectDetailComponent implements OnInit {
     this.projectService.getProject(id).subscribe(data => {
       this.project = this.projectAdapter.adapt(data);
       console.log('project:', data);
-      
+
       this.originalProjectAsString = JSON.stringify(data);
       this.getProductionPlans();
       this.gethenotypingPlans();
@@ -84,13 +85,17 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   loadPermissions(): void {
-    this.permissionsService.evaluatePermissionByActionOnResource(
-      PermissionsService.UPDATE_PROJECT_ACTION, this.project.tpn).subscribe(canUpdateProject => {
-        this.canUpdateProject = canUpdateProject;
-        this.error = null;
-      }, error => {
-        this.error = error;
-      });
+    if (this.loggedUserService.getLoggerUser()) {
+      this.permissionsService.evaluatePermissionByActionOnResource(
+        PermissionsService.UPDATE_PROJECT_ACTION, this.project.tpn).subscribe(canUpdateProject => {
+          this.canUpdateProject = canUpdateProject;
+          this.error = null;
+        }, error => {
+          this.error = error;
+        });
+    } else {
+      this.canUpdateProject = false;
+    }
   }
 
   private getProductionPlans(): void {

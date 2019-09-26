@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Permission } from '../model/conf/permission';
 import { map } from 'rxjs/operators';
-import {ConfigAssetLoaderService} from './config-asset-loader.service';
+import { ConfigAssetLoaderService } from './config-asset-loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +31,7 @@ export class PermissionsService {
 
   // Returns if an action over an object is allowed.
   getPermissionByActionOnResource(action: string, resourceId: string) {
-    return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action=' + action + '&resourceId=' + resourceId );
+      return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action=' + action + '&resourceId=' + resourceId);
   }
 
   evaluatePermission(path: string): Observable<boolean> {

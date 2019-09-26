@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfigurationData, PermissionsService, ConfigurationDataService } from 'src/app/core';
+import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { Plan } from '../../model/plan';
 
 @Component({
@@ -27,7 +27,8 @@ export class PlanDetailsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private permissionsService: PermissionsService,
-    private configurationDataService: ConfigurationDataService) { }
+    private configurationDataService: ConfigurationDataService,
+    private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
@@ -35,13 +36,7 @@ export class PlanDetailsComponent implements OnInit {
       this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
     });
 
-    this.permissionsService.evaluatePermissionByActionOnResource(
-      PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
-        this.canUpdatePlan = canUpdatePlan;
-
-      }, error => {
-        console.error('Error getting permissions');
-      });
+    this.loadPermissions();
 
     this.dropdownSettingsSingle = {
       singleSelection: true,
@@ -65,8 +60,21 @@ export class PlanDetailsComponent implements OnInit {
       comment: ['', Validators.required],
     });
 
-    
     this.editPlanDetails.get('comment').setValue(this.plan.comment);
+  }
+
+  loadPermissions(): void {
+    if (this.loggedUserService.getLoggerUser()) {
+    this.permissionsService.evaluatePermissionByActionOnResource(
+      PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
+        this.canUpdatePlan = canUpdatePlan;
+
+      }, error => {
+        console.error('Error getting permissions');
+      });
+    } else {
+      this.canUpdatePlan = false;
+    }
   }
 
   onTextCommentChanged() {

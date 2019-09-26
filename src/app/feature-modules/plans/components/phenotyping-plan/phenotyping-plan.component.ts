@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Plan } from '../../model/plan';
 import { ActivatedRoute } from '@angular/router';
-import { MatSnackBar } from '@angular/material';
 import { PlanService } from '../..';
-import { PermissionsService } from 'src/app/core';
+import { PermissionsService, LoggedUserService } from 'src/app/core';
 
 @Component({
   selector: 'app-phenotyping-plan',
@@ -21,9 +20,9 @@ export class PhenotypingPlanComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar,
     private planService: PlanService,
-    private permissionsService: PermissionsService
+    private permissionsService: PermissionsService,
+    private loggedUserService: LoggedUserService
   ) { }
 
   ngOnInit() {
@@ -38,16 +37,18 @@ export class PhenotypingPlanComponent implements OnInit {
   }
 
   evaluateUpdatePermissions() {
-    this.permissionsService.evaluatePermissionByActionOnResource(
-      PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
-        this.canUpdatePlan = canUpdatePlan;
-        console.log('canUpdatePlan', canUpdatePlan);
-
-        this.error = null;
-      },
-        error => {
-          this.error = error;
-        });
+    if (this.loggedUserService.getLoggerUser()) {
+      this.permissionsService.evaluatePermissionByActionOnResource(
+        PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
+          this.canUpdatePlan = canUpdatePlan;
+          this.error = null;
+        },
+          error => {
+            this.error = error;
+          });
+    } else {
+      this.canUpdatePlan = false;
+    }
   }
 
   shouldShowUpdateButton() {
