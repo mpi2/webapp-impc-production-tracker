@@ -19,8 +19,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
     this.messageService.getMessage().subscribe(data => {
-      console.log('HeaderComponent::', data);
-      
       const userLoggedIn = data.isUserLoggedIn;
       if (userLoggedIn) {
         this.setCurrentUser();
@@ -31,13 +29,10 @@ export class HeaderComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('ngOnInit>>', this.loggedUser);
     if (!this.loggedUser) {
-      
       this.setCurrentUser();
-      console.log('ngOnInit|||setCurrentUser>>', this.loggedUser);
     }
-    
+
   }
 
   setCurrentUser(): void {
