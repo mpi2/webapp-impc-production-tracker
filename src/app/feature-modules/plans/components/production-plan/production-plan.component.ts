@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
 import { Plan, PlanAdapter } from '../../model/plan';
-import { PermissionsService, ChangesHistory, ChangesHistoryAdapter } from 'src/app/core';
+import { PermissionsService, ChangesHistory, ChangesHistoryAdapter, LoggedUserService } from 'src/app/core';
 import { MatSnackBar } from '@angular/material';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
@@ -30,7 +30,8 @@ export class ProductionPlanComponent implements OnInit {
     private planService: PlanService,
     private changeHistoryAdapter: ChangesHistoryAdapter,
     private planAdapter: PlanAdapter,
-    private permissionsService: PermissionsService) { }
+    private permissionsService: PermissionsService,
+    private loggedUserService: LoggedUserService) { }
     
   ngOnInit() {
     const pin = this.route.snapshot.params['pid'];
@@ -52,6 +53,7 @@ export class ProductionPlanComponent implements OnInit {
   }
 
   evaluateUpdatePermissions() {
+    if (this.loggedUserService.getLoggerUser()) {
     this.permissionsService.evaluatePermissionByActionOnResource(
       PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
         this.canUpdatePlan = canUpdatePlan;
@@ -60,6 +62,9 @@ export class ProductionPlanComponent implements OnInit {
         error => {
           this.error = error;
         });
+      } else {
+        this.canUpdatePlan = false;
+      }
   }
 
   /**
