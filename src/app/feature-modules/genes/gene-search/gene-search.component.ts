@@ -70,8 +70,6 @@ export class GeneSearchComponent implements OnInit {
       workGroup["isSelected"] = true;
       return workGroup
     });
-    console.log(this.workUnits);
-    console.log(this.workGroups);
   }
 
   ngAfterViewInit() {

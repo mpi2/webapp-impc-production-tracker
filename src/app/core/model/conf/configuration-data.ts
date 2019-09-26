@@ -6,6 +6,7 @@ export class ConfigurationData {
     priorities: string[];
     privacies: string[];
     statuses: string[];
+    assignmentStatuses: string[];
     workGroups: string[];
     workUnits: string[];
     alleleTypes: string[];

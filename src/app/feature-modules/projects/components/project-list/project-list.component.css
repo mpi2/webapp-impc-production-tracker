@@ -21,3 +21,24 @@
   table {
     width: 100%;
   }
+
+  table, th, tr, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    background-color: #fafafa;
+    background: white;
+  }
+
+  th {
+    text-align: left;
+    font-size: 12px;
+    color: rgba(0, 0, 0, 0.54);
+    font-weight: normal;
+  }
+
+  td {
+    font-size: 14px;
+  }
