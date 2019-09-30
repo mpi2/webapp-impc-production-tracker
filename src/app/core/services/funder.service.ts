@@ -10,7 +10,7 @@ export class FunderService {
   private apiServiceUrl;
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   getAllFundersByWorkGroup(name: string) {

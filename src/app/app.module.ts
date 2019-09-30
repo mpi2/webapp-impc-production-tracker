@@ -14,6 +14,8 @@ import { PlansModule } from './feature-modules/plans/plans.module';
 import { GenesModule } from './feature-modules/genes/genes.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigAssetLoaderService } from './core/services/config-asset-loader.service';
+import { APP_BASE_HREF } from '@angular/common';
+import { AssetConfiguration } from './core/model/conf/asset-configuration';
 
 @NgModule({
   declarations: [
@@ -37,13 +39,23 @@ import { ConfigAssetLoaderService } from './core/services/config-asset-loader.se
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {
       provide: APP_INITIALIZER,
-      useFactory: (configService: ConfigAssetLoaderService) => () => configService.loadConfigurations().toPromise(),
+      useFactory: (configService: ConfigAssetLoaderService) => () => configService.getConfig(),
       deps: [ConfigAssetLoaderService],
       multi: true
+    },
+    { 
+      provide: APP_BASE_HREF, 
+      useFactory: (config: AssetConfiguration) => config.baseUrl, 
+      deps: [ AssetConfiguration ] 
     }
 
     //fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })
+
+
+
+
+
 export class AppModule { }
