@@ -32,6 +32,12 @@ export class ProjectListComponent implements OnInit {
   intentions: NamedValue[];
   assignmentStatuses: NamedValue[];
 
+  tpnFilter: string;
+  externalReferenceFilter: string;
+  markerSymbolFilter: string;
+  intentionFilter: string[];
+  assignmentStatusFilter: string[];
+
   selectedPlanTypes: [];
   selectedWorkGroups: [];
   selectedWorkUnits: [];
