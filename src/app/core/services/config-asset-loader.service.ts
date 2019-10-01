@@ -7,14 +7,14 @@ import { AssetConfiguration } from '../model/conf/asset-configuration';
 export class ConfigAssetLoaderService {
 
   private readonly CONFIG_URL = 'assets/config/config.json';
-  private _cachedResponse: AssetConfiguration = null;
+  private cachedResponse: AssetConfiguration = null;
 
   async getConfig() {
-    if (!this._cachedResponse) {
+    if (!this.cachedResponse) {
       const response = await fetch(this.CONFIG_URL);
       const json = await response.json();
-      this._cachedResponse = new AssetConfiguration(json);
+      this.cachedResponse = new AssetConfiguration(json);
     }
-    return this._cachedResponse;
+    return this.cachedResponse;
   }
 }

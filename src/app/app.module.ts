@@ -43,10 +43,12 @@ import { AssetConfiguration } from './core/model/conf/asset-configuration';
       deps: [ConfigAssetLoaderService],
       multi: true
     },
-    { 
-      provide: APP_BASE_HREF, 
-      useFactory: (config: AssetConfiguration) => config.baseUrl, 
-      deps: [ AssetConfiguration ] 
+    {
+      provide: APP_BASE_HREF,
+      useFactory: (config: AssetConfiguration) => {
+        return config.baseUrl;
+      },
+      deps: [ AssetConfiguration ]
     }
 
     //fakeBackendProvider

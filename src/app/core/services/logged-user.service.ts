@@ -17,7 +17,7 @@ import { AuthenticationResponse } from '../model/user/authentication-response';
 export class LoggedUserService {
 
   private apiServiceUrl;
-  
+
   readonly TOKEN_INFO_KEY = 'tokenInfo';
 
   constructor(
