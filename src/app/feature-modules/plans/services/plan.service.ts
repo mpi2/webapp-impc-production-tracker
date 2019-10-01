@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Plan } from '../model/plan';
 import { ChangesHistory } from 'src/app/core';
 import {ConfigAssetLoaderService} from '../../../core/services/config-asset-loader.service';
+import { from } from 'rxjs';
 
 /**
  * Class that provides information for plans.
@@ -15,7 +16,7 @@ export class PlanService {
   private apiServiceUrl;
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   /**

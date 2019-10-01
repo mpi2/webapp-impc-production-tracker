@@ -11,7 +11,7 @@ export class ReportsComponent implements OnInit {
   apiServiceUrl;
 
   constructor(private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   ngOnInit() {

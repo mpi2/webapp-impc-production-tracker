@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { LoggedUser } from '../model/user/logged-user';
-import { Observable, EMPTY } from 'rxjs';
+import { Observable, EMPTY, from } from 'rxjs';
 import { MessageService } from './message.service';
 import { Permission } from '../model/conf/permission';
 import { HttpClient } from '@angular/common/http';
@@ -17,14 +17,14 @@ import { AuthenticationResponse } from '../model/user/authentication-response';
 export class LoggedUserService {
 
   private apiServiceUrl;
-  
+
   readonly TOKEN_INFO_KEY = 'tokenInfo';
 
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
     private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   // Returns an object with permissions for the logged user.

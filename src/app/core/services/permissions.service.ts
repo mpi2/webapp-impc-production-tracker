@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Permission } from '../model/conf/permission';
 import { map } from 'rxjs/operators';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
@@ -21,7 +21,7 @@ export class PermissionsService {
   static readonly UPDATE_PROJECT_ACTION = 'canUpdateProject';
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   // Returns an object with permissions for the logged user.
