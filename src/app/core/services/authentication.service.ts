@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, tap } from 'rxjs/operators';
+import { tap } from 'rxjs/operators';
 import { LoggedUserService } from './logged-user.service';
 import { ConfigurationDataService } from './configuration-data.service';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
@@ -21,7 +21,7 @@ export class AuthenticationService {
     private configAssetLoaderService: ConfigAssetLoaderService,
     private messageService: MessageService) {
 
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
   login(userName: string, password: string) {

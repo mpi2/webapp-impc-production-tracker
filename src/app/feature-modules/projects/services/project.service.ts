@@ -6,6 +6,7 @@ import { Project } from '../model/project';
 import { NewProject } from '../model/newProject';
 import { ChangesHistory } from 'src/app/core';
 import {ConfigAssetLoaderService} from '../../../core/services/config-asset-loader.service';
+import { from } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +16,7 @@ export class ProjectService {
   private apiServiceUrl;
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.loadConfigurations().subscribe(data => this.apiServiceUrl = data.appServerUrl);
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
 

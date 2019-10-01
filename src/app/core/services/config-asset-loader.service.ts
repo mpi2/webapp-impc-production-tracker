@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
-import { shareReplay } from 'rxjs/operators';
-
-interface AssetConfiguration {
-  appServerUrl: string;
-}
+import { AssetConfiguration } from '../model/conf/asset-configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -13,19 +7,14 @@ interface AssetConfiguration {
 export class ConfigAssetLoaderService {
 
   private readonly CONFIG_URL = 'assets/config/config.json';
-  private configuration$: Observable<AssetConfiguration>;
+  private cachedResponse: AssetConfiguration = null;
 
-  constructor(private http: HttpClient) {
-  }
-
-  public loadConfigurations(): any {
-
-    if (!this.configuration$) {
-      this.configuration$ = this.http.get<AssetConfiguration>(this.CONFIG_URL).pipe(
-        shareReplay(1)
-      );
+  async getConfig() {
+    if (!this.cachedResponse) {
+      const response = await fetch(this.CONFIG_URL);
+      const json = await response.json();
+      this.cachedResponse = new AssetConfiguration(json);
     }
-
-    return this.configuration$;
+    return this.cachedResponse;
   }
 }
