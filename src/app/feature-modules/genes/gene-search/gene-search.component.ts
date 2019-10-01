@@ -95,6 +95,7 @@ export class GeneSearchComponent implements OnInit {
 
     this.projectService.getPaginatedProjectsWithFilters(
       apiPageNumber,
+      null,
       geneSymbols,
       selectedWorkUnits,
       selectedWorkGroups,

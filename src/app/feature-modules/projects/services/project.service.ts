@@ -42,6 +42,7 @@ export class ProjectService {
 
   getPaginatedProjectsWithFilters(
     page: number,
+    tpn: string,
     markerSymbols: string[],
     workUnits: string[],
     workGroups: string[],
@@ -49,13 +50,16 @@ export class ProjectService {
     statuses: string[],
     privacies: string[]) {
 
-    const queryParameters = this.buildFilterQueryParameters(markerSymbols, workUnits, workGroups, planTypes, statuses, privacies);
+    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols, workUnits, workGroups, planTypes, statuses, privacies);
+    
     const url = this.apiServiceUrl + '/api/projects?page=' + page + queryParameters;
+    console.log(url);
 
     return this.http.get<ProjectSummary[]>(url);
   }
 
   buildFilterQueryParameters(
+    tpn: string,
     markerSymbols: string[],
     workUnits: string[],
     workGroups: string[],
@@ -70,8 +74,17 @@ export class ProjectService {
     let statusesAsParameter = '';
     let privaciesAsParameter = '';
 
+    let tpnFilter = '';
+
+    console.log('markerSymbols', markerSymbols);
+    
+
+    if (tpn) {
+      tpnFilter = 'tpn=' + tpn.toUpperCase();
+    }
+
     if (markerSymbols.length > 0) {
-      markerSymbolsAsParameter = markerSymbols.map(x => 'markerSymbol=' + x).join('&');
+      markerSymbolsAsParameter = markerSymbols.map(x => 'markerSymbol=' + x).filter(x => x).join('&');
     }
 
     if (workUnits.length > 0) {
@@ -96,6 +109,9 @@ export class ProjectService {
 
     let queryParameters = '';
 
+    if (tpnFilter != '') {
+      queryParameters += '&' + tpnFilter;
+    }
     if (markerSymbolsAsParameter != '') {
       queryParameters += '&' + markerSymbolsAsParameter;
     }
