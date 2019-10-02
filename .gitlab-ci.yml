@@ -51,6 +51,8 @@ stages:
 
 build_image:
   stage: build
+  except:
+    - schedules
   before_script:
     - docker info
     - mkdir -p "$MOUNT_POINT"
@@ -88,10 +90,11 @@ deploy-on-push:
   only:
     refs:
       - master
+      - schedules
   script:
   # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
-  - |
-    if [[ "${KUBERNETES_DEPLOYMENT}" == "true" ]]; then
+  #- |
+  #  if [[ "${KUBERNETES_DEPLOYMENT}" == "true" ]]; then
 
       - kubectl config set-cluster local --server="${KUBERNETES_ENDPOINT}"
       - kubectl config set clusters.local.certificate-authority-data "${KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
@@ -105,11 +108,17 @@ deploy-on-push:
       # and record the deployment so you can rollback to this particular version.
       #
       - sed -i "s/latest/${CI_COMMIT_SHA:0:12}/g" kube/sandbox/webapp/webapp-deployment.yaml
-      - kubectl apply -f kube/sandbox/webapp/webapp-deployment.yaml --record
+      - |
+        if kubectl apply -f kube/sandbox/webapp/webapp-deployment.yaml --record | grep -q unchanged; then
+            echo "=> Patching deployment to force image update."
+            kubectl patch -f kube/sandbox/webapp/webapp-deployment.yaml --record -p "{\"spec\":{\"template\":{\"metadata\":{\"annotations\":{\"ci-last-updated\":\"$(date +'%s')\"}}}}}"
+        else
+            echo "=> Deployment apply has changed the object, no need to force image update."
+        fi
       #
       #
       # Log the status of the application deployment
       #
       - kubectl rollout status -f kube/database/deployment.yaml
       - kubectl get all,ing
-    fi
+  #  fi
