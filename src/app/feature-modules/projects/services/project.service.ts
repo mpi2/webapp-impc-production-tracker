@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-
 import { ProjectSummary } from '../model/project-summary';
 import { Project } from '../model/project';
 import { NewProject } from '../model/newProject';
 import { ChangesHistory } from 'src/app/core';
-import {ConfigAssetLoaderService} from '../../../core/services/config-asset-loader.service';
-import { from } from 'rxjs';
+import { ConfigAssetLoaderService } from '../../../core/services/config-asset-loader.service';
 
 @Injectable({
   providedIn: 'root'
@@ -44,13 +42,11 @@ export class ProjectService {
     page: number,
     tpn: string,
     markerSymbols: string[],
+    intentions: string[],
     workUnits: string[],
-    workGroups: string[],
-    planTypes: string[],
-    statuses: string[],
     privacies: string[]) {
 
-    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols, workUnits, workGroups, planTypes, statuses, privacies);
+    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols,intentions, workUnits, privacies);
     
     const url = this.apiServiceUrl + '/api/projects?page=' + page + queryParameters;
     console.log(url);
@@ -61,24 +57,16 @@ export class ProjectService {
   buildFilterQueryParameters(
     tpn: string,
     markerSymbols: string[],
+    intentions: string[],
     workUnits: string[],
-    workGroups: string[],
-    planTypes: string[],
-    statuses: string[],
     privacies: string[]) {
 
     let markerSymbolsAsParameter = '';
+    let intentionsAsParameter = '';
     let workUnitsAsParameter = '';
-    let workGroupsAsParameter = '';
-    let planTypesAsParameter = '';
-    let statusesAsParameter = '';
     let privaciesAsParameter = '';
 
     let tpnFilter = '';
-
-    console.log('markerSymbols', markerSymbols);
-    
-
     if (tpn) {
       tpnFilter = 'tpn=' + tpn.toUpperCase();
     }
@@ -87,24 +75,16 @@ export class ProjectService {
       markerSymbolsAsParameter = markerSymbols.map(x => 'markerSymbol=' + x).filter(x => x).join('&');
     }
 
+    if (intentions.length > 0) {
+      intentionsAsParameter = intentions.map(x => 'intention=' + x).filter(x => x).join('&');
+    }
+
     if (workUnits.length > 0) {
       workUnitsAsParameter = workUnits.map(x => 'workUnitName=' + x).join('&');
     }
 
-    if (workGroups.length > 0) {
-      workGroupsAsParameter = workGroups.map(x => 'workGroup=' + x).join('&');
-    }
-
-    if (planTypes.length > 0) {
-      planTypesAsParameter = planTypes.map(x => 'planType=' + x).join('&');
-    }
-
-    if (statuses.length > 0) {
-      statusesAsParameter = statuses.map(x => 'status=' + x).join('&');
-    }
-
     if (privacies.length > 0) {
-      privaciesAsParameter = privacies.map(x => 'privacy=' + x).join('&');
+      privaciesAsParameter = privacies.map(x => 'privacyName=' + x).join('&');
     }
 
     let queryParameters = '';
@@ -115,17 +95,11 @@ export class ProjectService {
     if (markerSymbolsAsParameter != '') {
       queryParameters += '&' + markerSymbolsAsParameter;
     }
+    if (intentionsAsParameter != '') {
+      queryParameters += '&' + intentionsAsParameter;
+    }
     if (workUnitsAsParameter != '') {
       queryParameters += '&' + workUnitsAsParameter;
-    }
-    if (workGroupsAsParameter != '') {
-      queryParameters += '&' + workGroupsAsParameter;
-    }
-    if (planTypesAsParameter != '') {
-      queryParameters += '&' + planTypesAsParameter;
-    }
-    if (statusesAsParameter != '') {
-      queryParameters += '&' + statusesAsParameter;
     }
     if (privaciesAsParameter != '') {
       queryParameters += '&' + privaciesAsParameter;

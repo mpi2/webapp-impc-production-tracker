@@ -39,9 +39,9 @@
                 <td>
                     <mat-form-field class="example-form-field" style="width: 100px">
                         <input matInput type="text" placeholder="Type to filter" [(ngModel)]="tpnFilterInput"
-                            (keyup)="filter(tpnFilterInput, 'tpn')">
+                            (keyup)="filterWithTpn(tpnFilterInput)">
                         <button mat-button *ngIf="tpnFilterInput" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="tpnFilterInput=''">
+                            (click)="cleanTpnlFilter()">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
@@ -59,9 +59,9 @@
                 <td>
                     <mat-form-field class="example-form-field" style="width: 100px">
                         <input matInput type="text" placeholder="Type to filter" [(ngModel)]="markerSymbolFilterInput"
-                            (keyup)="filter(markerSymbolFilterInput, 'markerSymbol')">
+                            (keyup)="filterWithMarkerSymbol(markerSymbolFilterInput)">
                         <button mat-button *ngIf="markerSymbolFilterInput" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="markerSymbolFilterInput=''">
+                            (click)="cleanMarkerSymbolFilter()">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
@@ -69,8 +69,8 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Select to filter</mat-label>
-                        <mat-select [formControl]="intentionsForm" multiple>
-                            <mat-option *ngFor="let intention of this.intentions" [value]="intentionFilterInput">
+                        <mat-select  multiple (selectionChange)="filterWithIntentions($event.value)">
+                            <mat-option *ngFor="let intention of this.intentions" [value]="intention.name"  >
                                 {{intention.name}}
                             </mat-option>
                         </mat-select>
@@ -79,7 +79,7 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Select to filter</mat-label>
-                        <mat-select [formControl]="assignmentStatusesForm" multiple>
+                        <mat-select multiple>
                             <mat-option *ngFor="let assignmentStatus of this.assignmentStatuses"
                                 [value]="assignmentStatus">{{ assignmentStatus.name }}
                             </mat-option>
@@ -89,8 +89,8 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Select to filter</mat-label>
-                        <mat-select [formControl]="privaciesForm" multiple>
-                            <mat-option *ngFor="let privacy of this.privacies" [value]="privacy">{{privacy.name}}
+                        <mat-select multiple (selectionChange)="filterWithPrivacies($event.value)">
+                            <mat-option *ngFor="let privacy of this.privacies" [value]="privacy.name">{{privacy.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
