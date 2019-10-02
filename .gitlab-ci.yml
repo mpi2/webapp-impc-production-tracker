@@ -53,6 +53,7 @@ build_image:
   stage: build
   except:
     - schedules
+    - master
   before_script:
     - docker info
     - mkdir -p "$MOUNT_POINT"
