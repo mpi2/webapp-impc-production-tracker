@@ -42,7 +42,9 @@ import { AssetConfiguration } from './core/model/conf/asset-configuration';
       useFactory: (configService: ConfigAssetLoaderService) => () => configService.getConfig(),
       deps: [ConfigAssetLoaderService],
       multi: true
-    },
+    }
+    /*
+    ,
     {
       provide: APP_BASE_HREF,
       useFactory: (config: AssetConfiguration) => {
@@ -51,7 +53,9 @@ import { AssetConfiguration } from './core/model/conf/asset-configuration';
       deps: [ AssetConfiguration ]
     }
 
-    //fakeBackendProvider
+     */
+
+    // fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })
