@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapp-sandbox
+  name: webapp-sandbox
+  namespace: production-tracker-sandbox
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp-sandbox
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webapp-sandbox
+    spec:
+      containers:
+      - image: rwilsonebi/production-tracker-webapp:latest
+        imagePullPolicy: Always
+        name: webapp-sandbox
+        env:
+        - name: API_SERVICE_HOST
+          value: 193.62.55.22 # Note: This must be the address of the service seen from outside the cluster
+        - name: API_SERVICE_PORT
+          value: "80\\/production-tracker-sandbox-api"
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
