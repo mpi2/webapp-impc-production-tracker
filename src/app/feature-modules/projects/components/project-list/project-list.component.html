@@ -38,27 +38,30 @@
             <tr>
                 <td>
                     <mat-form-field class="example-form-field" style="width: 100px">
-                        <input matInput type="text" placeholder="Type to filter" [(ngModel)]="tpnFilter">
-                        <button mat-button *ngIf="tpnFilter" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="tpnFilter=''">
+                        <input matInput type="text" placeholder="Type to filter" [(ngModel)]="tpnFilterInput"
+                            (keyup)="filter(tpnFilterInput, 'tpn')">
+                        <button mat-button *ngIf="tpnFilterInput" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="tpnFilterInput=''">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
                 </td>
                 <td>
                     <mat-form-field class="example-form-field" style="width: 100px">
-                        <input matInput type="text" placeholder="Type to filter" [(ngModel)]="externalReferenceFilter">
-                        <button mat-button *ngIf="externalReferenceFilter" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="externalReferenceFilter=''">
+                        <input matInput type="text" placeholder="Type to filter"
+                            [(ngModel)]="externalReferenceFilterInput">
+                        <button mat-button *ngIf="externalReferenceFilterInput" matSuffix mat-icon-button
+                            aria-label="Clear" (click)="externalReferenceFilterInput=''">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
                 </td>
                 <td>
                     <mat-form-field class="example-form-field" style="width: 100px">
-                        <input matInput type="text" placeholder="Type to filter" [(ngModel)]="markerSymbolFilter">
-                        <button mat-button *ngIf="markerSymbolFilter" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="markerSymbolFilter=''">
+                        <input matInput type="text" placeholder="Type to filter" [(ngModel)]="markerSymbolFilterInput"
+                            (keyup)="filter(markerSymbolFilterInput, 'markerSymbol')">
+                        <button mat-button *ngIf="markerSymbolFilterInput" matSuffix mat-icon-button aria-label="Clear"
+                            (click)="markerSymbolFilterInput=''">
                             <mat-icon>close</mat-icon>
                         </button>
                     </mat-form-field>
@@ -67,19 +70,31 @@
                     <mat-form-field>
                         <mat-label>Select to filter</mat-label>
                         <mat-select [formControl]="intentionsForm" multiple>
-                            <mat-option *ngFor="let intention of this.intentions" [value]="intentionFilter">{{intention.name}}
+                            <mat-option *ngFor="let intention of this.intentions" [value]="intentionFilterInput">
+                                {{intention.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </td>
-                <td><mat-form-field>
+                <td>
+                    <mat-form-field>
                         <mat-label>Select to filter</mat-label>
                         <mat-select [formControl]="assignmentStatusesForm" multiple>
-                            <mat-option *ngFor="let assignmentStatus of this.assignmentStatuses" [value]="assignmentStatusFilter">{{assignmentStatus.name}}
+                            <mat-option *ngFor="let assignmentStatus of this.assignmentStatuses"
+                                [value]="assignmentStatus">{{ assignmentStatus.name }}
                             </mat-option>
                         </mat-select>
-                    </mat-form-field></td>
-                <td>Privacy</td>
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field>
+                        <mat-label>Select to filter</mat-label>
+                        <mat-select [formControl]="privaciesForm" multiple>
+                            <mat-option *ngFor="let privacy of this.privacies" [value]="privacy">{{privacy.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
                 <td>Active/Inactive</td>
                 <td>Consortia</td>
             </tr>

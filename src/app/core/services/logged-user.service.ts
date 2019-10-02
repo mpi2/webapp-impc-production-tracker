@@ -4,9 +4,10 @@ import { Observable, EMPTY, from } from 'rxjs';
 import { MessageService } from './message.service';
 import { Permission } from '../model/conf/permission';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import { map, flatMap } from 'rxjs/operators';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
 import { AuthenticationResponse } from '../model/user/authentication-response';
+import { AssetConfiguration } from '../model/conf/asset-configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -20,20 +21,26 @@ export class LoggedUserService {
 
   readonly TOKEN_INFO_KEY = 'tokenInfo';
 
+  private config$: Observable<AssetConfiguration>;
+
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
     private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
+    this.config$ = from(this.configAssetLoaderService.getConfig());
   }
 
   // Returns an object with permissions for the logged user.
   getPermissions() {
-    return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
+    return this.config$.pipe(flatMap(response => {
+      return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
+    }))
   }
 
   getSecurityInformation(): Observable<LoggedUser> {
-    return this.http.get<LoggedUser>(this.apiServiceUrl + '/auth/securityInformation');
+    return this.config$.pipe(flatMap(response => {
+      return this.http.get<LoggedUser>(response.appServerUrl + '/auth/securityInformation');
+    }))
   }
 
   getAccessToken(): string {

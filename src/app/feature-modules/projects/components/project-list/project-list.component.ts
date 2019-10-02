@@ -17,9 +17,9 @@ export class ProjectListComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   isLoading = true;
-  displayedColumns: string[] = ['Project', 'ExternalReference', 'Marker Symbol(s)', 'Intention', 'Project Assignment', 'Privacy', 'Is active', 'Consortium'];
   intentionsForm = new FormControl();
   assignmentStatusesForm = new FormControl();
+  privaciesForm = new FormControl();
   projects: ProjectSummary[] = [];
   p = 0;
   page: any = {};
@@ -27,16 +27,10 @@ export class ProjectListComponent implements OnInit {
   workUnits: SelectItem[];
   workGroups: SelectItem[];
   statuses: SelectItem[];
-  privacies: SelectItem[];
-
+  
+  privacies: NamedValue[];
   intentions: NamedValue[];
   assignmentStatuses: NamedValue[];
-
-  tpnFilter: string;
-  externalReferenceFilter: string;
-  markerSymbolFilter: string;
-  intentionFilter: string[];
-  assignmentStatusFilter: string[];
 
   selectedPlanTypes: [];
   selectedWorkGroups: [];
@@ -49,6 +43,16 @@ export class ProjectListComponent implements OnInit {
   planTypeFilterValues: string[] = [];
   statusFilterValues: string[] = [];
   privaciesFilterValues: string[] = [];
+
+  
+  tpnFilterInput: string;
+  tpnFilter: string = '';
+  externalReferenceFilterInput: string;
+  externalReferenceFilter: string = '';
+  markerSymbolFilterInput: string;
+  markerSymbolFilter: string = '';
+  intentionFilterInput: string;
+  intentionFilter: string;
 
   configurationData: ConfigurationData;
 
@@ -77,6 +81,10 @@ export class ProjectListComponent implements OnInit {
         this.getPage(0);
       }
 
+    }, error => {
+      console.log('error:', error);
+      this.error = error;
+      this.isLoading = false;
     });
   }
 
@@ -84,11 +92,11 @@ export class ProjectListComponent implements OnInit {
     this.planTypes = this.configurationData.planTypes.map(p => { return { label: p, value: p } });
     this.workGroups = this.configurationData.workGroups.map(p => { return { label: p, value: p } });
     this.workUnits = this.configurationData.workUnits.map(p => { return { label: p, value: p } });
-    this.privacies = this.configurationData.privacies.map(p => { return { label: p, value: p } });
     this.statuses = this.configurationData.statuses.map(p => { return { label: p, value: p } });
 
     this.intentions = this.configurationData.alleleTypes.map(p => { return {name: p }});
     this.assignmentStatuses = this.configurationData.assignmentStatuses.map(p => { return {name: p }});
+    this.privacies = this.configurationData.privacies.map(p => { return {name: p }});
   }
 
   getPage(pageNumber: number) {
@@ -97,7 +105,8 @@ export class ProjectListComponent implements OnInit {
     const workUnitNameFilter = this.getWorkUnitNameFilter();
     this.projectService.getPaginatedProjectsWithFilters(
       apiPageNumber,
-      [],
+      this.tpnFilter,
+      this.getMarkerSymbolFilter(),
       workUnitNameFilter,
       this.getWorkGroupFilter(),
       this.getPlanTypeFilter(),
@@ -135,8 +144,21 @@ export class ProjectListComponent implements OnInit {
   }
 
   filter(e, column) {
-    console.log('Filtering with ', e, 'over', column);
     switch (column) {
+      case 'tpn':
+        if (this.isValidTpn(e)) {
+          this.tpnFilter = e;
+        } else {
+          return;
+        }
+        break;
+        case 'markerSymbol':
+        if (this.isValidMarkerSymbol(e)) {
+          this.markerSymbolFilter = e;
+        } else {
+          return;
+        }
+        break;
       case 'work_unit':
         this.workUnitFilterValues = e;
         break;
@@ -156,7 +178,39 @@ export class ProjectListComponent implements OnInit {
         console.error('invalid option', column);
     }
     this.isLoading = true;
-    this.getPage(1);
+    console.log(this.page);
+    
+    this.getPage(0);
+  }
+
+  isValidTpn(value: string): boolean {
+    console.log(value);
+    
+    const MINIMUN_SIZE = 7;
+    let result = false;
+    if (value) {
+      result = value.toLocaleLowerCase().startsWith("tpn:") && value.length > MINIMUN_SIZE && value != this.tpnFilter;
+    }
+    return result;
+  }
+
+  isValidMarkerSymbol(value: string): boolean {
+    console.log(value,'this.markerSymbolFilter',this.markerSymbolFilter);
+    
+    const MINIMUN_SIZE = 3;
+    let result = false;
+    if (value) {
+      result = value.length > MINIMUN_SIZE && value.trim() != this.markerSymbolFilter.trim();
+    }
+    return result;
+  }
+
+  getMarkerSymbolFilter(): string[] {
+    let result = [];
+    if (this.markerSymbolFilter) {
+      result = [this.markerSymbolFilter.trim()]
+    }
+    return result;
   }
 
   getWorkUnitFilter(): string[] {
