@@ -93,8 +93,8 @@ deploy-on-push:
       - schedules
   script:
   # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
-  - |
-    if [[ "${KUBERNETES_DEPLOYMENT}" == "true" ]]; then
+  #- |
+  #  if [[ "${KUBERNETES_DEPLOYMENT}" == "true" ]]; then
 
       - kubectl config set-cluster local --server="${KUBERNETES_ENDPOINT}"
       - kubectl config set clusters.local.certificate-authority-data "${KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
@@ -121,4 +121,4 @@ deploy-on-push:
       #
       - kubectl rollout status -f kube/sandbox/webapp/webapp-deployment.yaml
       - kubectl get all,ing
-    fi
+    #fi
