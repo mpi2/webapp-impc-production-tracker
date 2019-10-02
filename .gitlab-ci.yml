@@ -87,33 +87,33 @@ build_image:
 
 
 deploy-on-push:
-  stage: deploy
-  image: dtzar/helm-kubectl:2.13.0
+  stage: deploy
+  image: dtzar/helm-kubectl:2.13.0
   only:
     refs:
       - master
-  script:
+  script:
   # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
   - |
     if [[ "${KUBERNETES_ENDPOINT}" == "true" ]]; then
 
-      - kubectl config set-cluster local --server="${KUBERNETES_ENDPOINT}"
-      - kubectl config set clusters.local.certificate-authority-data "${KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
-      - kubectl config set-credentials reference-data-admin --token="${KUBERNETES_USER_TOKEN}"
-      - kubectl config set-context "${KUBERNETES_NAMESPACE}" --cluster=local --user=${KUBERNETES_USER} --namespace="${KUBERNETES_NAMESPACE}"
-      - kubectl config use-context "${KUBERNETES_NAMESPACE}"
-      - kubectl version
-      #
-      #
-      # Substitute the "latest" image tag in your deployment template with a more specific tag 
-      # and record the deployment so you can rollback to this particular version.
-      #
-      - sed -i "s/latest/${CI_COMMIT_SHA:0:12}/g" kube/sandbox/webapp/webapp-deployment.yaml
-      - kubectl apply -f kube/sandbox/webapp/webapp-deployment.yaml --record
-      #
-      #
-      # Log the status of the application deployment
-      #
-      - kubectl rollout status -f kube/database/deployment.yaml
-      - kubectl get all,ing
-   fi
+      - kubectl config set-cluster local --server="${KUBERNETES_ENDPOINT}"
+      - kubectl config set clusters.local.certificate-authority-data "${KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
+      - kubectl config set-credentials reference-data-admin --token="${KUBERNETES_USER_TOKEN}"
+      - kubectl config set-context "${KUBERNETES_NAMESPACE}" --cluster=local --user=${KUBERNETES_USER} --namespace="${KUBERNETES_NAMESPACE}"
+      - kubectl config use-context "${KUBERNETES_NAMESPACE}"
+      - kubectl version
+      #
+      #
+      # Substitute the "latest" image tag in your deployment template with a more specific tag
+      # and record the deployment so you can rollback to this particular version.
+      #
+      - sed -i "s/latest/${CI_COMMIT_SHA:0:12}/g" kube/sandbox/webapp/webapp-deployment.yaml
+      - kubectl apply -f kube/sandbox/webapp/webapp-deployment.yaml --record
+      #
+      #
+      # Log the status of the application deployment
+      #
+      - kubectl rollout status -f kube/database/deployment.yaml
+      - kubectl get all,ing
+    fi
