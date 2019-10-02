@@ -91,7 +91,7 @@ deploy-on-push:
   script:
   # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
   - |
-    if [[ "${KUBERNETES_ENDPOINT}" == "true" ]]; then
+    if [[ ! -z "${KUBERNETES_ENDPOINT}" ]]; then
 
       - kubectl config set-cluster local --server="${KUBERNETES_ENDPOINT}"
       - kubectl config set clusters.local.certificate-authority-data "${KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
