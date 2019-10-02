@@ -95,7 +95,7 @@ deploy-on-push:
 
       - kubectl config set-cluster local --server="${KUBERNETES_ENDPOINT}"
       - kubectl config set clusters.local.certificate-authority-data "${KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
-      - kubectl config set-credentials reference-data-admin --token="${KUBERNETES_USER_TOKEN}"
+      - kubectl config set-credentials "${KUBERNETES_USER}" --token="${KUBERNETES_USER_TOKEN}"
       - kubectl config set-context "${KUBERNETES_NAMESPACE}" --cluster=local --user=${KUBERNETES_USER} --namespace="${KUBERNETES_NAMESPACE}"
       - kubectl config use-context "${KUBERNETES_NAMESPACE}"
       - kubectl version
