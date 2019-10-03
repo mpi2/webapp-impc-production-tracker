@@ -88,11 +88,11 @@ deploy-on-push:
   stage: deploy
   image: dtzar/helm-kubectl:2.13.0
   only:
-     refs:
+    refs:
       - master
       - schedules
-      variables:
-        - $KUBERNETES_DEPLOYMENT == "true"
+    variables:
+      - $KUBERNETES_DEPLOYMENT == "true"
   script:
   # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
   - |
