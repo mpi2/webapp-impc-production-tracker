@@ -91,7 +91,8 @@ deploy-on-push:
      refs:
       - master
       - schedules
-      - /mouse-informatics/
+      variables:
+        - $KUBERNETES_DEPLOYMENT == "true"
   script:
   # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
   - |
