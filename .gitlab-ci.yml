@@ -84,7 +84,7 @@ build_image:
 
 
 
-deploy-on-push:
+deploy:
   stage: deploy
   image: dtzar/helm-kubectl:2.13.0
   only:
