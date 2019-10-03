@@ -88,10 +88,10 @@ deploy-on-push:
   stage: deploy
   image: dtzar/helm-kubectl:2.13.0
   only:
-    - /mouse-informatics/
-    refs:
+     refs:
       - master
       - schedules
+      - /mouse-informatics/
   script:
   # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
   - |
