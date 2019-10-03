@@ -30,6 +30,8 @@ spec:
           value: 193.62.55.22 # Note: This must be the address of the service seen from outside the cluster
         - name: API_SERVICE_PORT
           value: "80\\/production-tracker-sandbox-api"
+        - name: REDEPLOY_KEY
+          value: "STRING_REPLACED_DURING_REDEPLOY"
         ports:
         - containerPort: 80
           protocol: TCP
