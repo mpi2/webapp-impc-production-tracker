@@ -100,35 +100,47 @@
       <div class="example-table-container">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" width="100%">
 
+            <ng-container matColumnDef="Search term">
+                <th mat-header-cell *matHeaderCellDef>Search term</th>
+                <td mat-cell *matCellDef="let searchResult">{{searchResult.input}} {{!searchResult.project ? '[No projects found]':''}}</td>
+              </ng-container>
+
           <ng-container matColumnDef="Project summary">
             <th mat-header-cell *matHeaderCellDef>Project summary</th>
-            <td mat-cell *matCellDef="let searchResult"><a
-                routerLink="/projects/{{ searchResult.project.tpn }}">Summary</a></td>
+            <td mat-cell *matCellDef="let searchResult">
+              <a *ngIf="searchResult.project" routerLink="/projects/{{ searchResult.project.tpn }}">Summary</a></td>
           </ng-container>
 
           <ng-container matColumnDef="Allele Intentions">
             <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
             <td mat-cell *matCellDef="let searchResult">
-              <div *ngFor="let intention of searchResult.project.intentionByGeneAttributes">
-                {{ intention.alleleTypeName }}
+              <div *ngIf="searchResult.project">
+                  <div *ngFor="let intention of searchResult.project.intentionByGeneAttributes">
+                      {{ intention.alleleTypeName }}
+                    </div>
               </div>
+              
             </td>
           </ng-container>
 
           <ng-container matColumnDef="Gene Symbol / Location">
             <th mat-header-cell *matHeaderCellDef>Gene Symbol / Location</th>
             <td mat-cell *matCellDef="let searchResult">
-
-              <div *ngFor="let gene of searchResult.project.intentionByGeneAttributes">
-                <a href="" target="_blank">{{ gene.gene.symbol }}</a>
-              </div>
+                <div *ngIf="searchResult.project">
+                    <div *ngFor="let gene of searchResult.project.intentionByGeneAttributes">
+                        <a href="" target="_blank">{{ gene.gene.symbol }}</a>
+                      </div>
+                </div>
+              
 
             </td>
           </ng-container>
 
           <ng-container matColumnDef="Project Assignment">
             <th mat-header-cell *matHeaderCellDef>Project Assigment</th>
-            <td mat-cell *matCellDef="let searchResult">{{ searchResult.project.assigmentStatusName }}</td>
+            <td mat-cell *matCellDef="let searchResult">
+                <div *ngIf="searchResult.project">{{ searchResult.project.assigmentStatusName }}</div>
+              </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
