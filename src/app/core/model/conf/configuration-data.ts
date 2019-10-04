@@ -15,4 +15,5 @@ export class ConfigurationData {
     trackedStrains: string[];
     materialTypes: string[];
     preparationTypes: string[];
+    searchTypes: string[];
 }

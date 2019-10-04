@@ -24,8 +24,6 @@ export class Project {
 })
 export class ProjectAdapter implements Adapter<Project> {
     adapt(item: any): Project {
-        console.log('item>>>>', item);
-
         const project: Project = item;
         if (project._links) {
             if (project._links.production_plans) {
