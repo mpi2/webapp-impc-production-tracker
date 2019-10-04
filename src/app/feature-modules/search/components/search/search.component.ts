@@ -124,7 +124,7 @@ export class SearchComponent implements OnInit {
   //     });
   // }
 
-  private getPage(pageNumber: number): void {
+  public getPage(pageNumber: number): void {
     const geneSymbols = this.getGeneSymbolsAsArray();
     const workUnitsNames = this.getWorkUnitFilter();
     const searchType = this.getSearchType();
