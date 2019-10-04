@@ -34,12 +34,16 @@ import { Search } from '../model/search';
         let queryParameters = '?page=' + pageNumber;
         let searchTypeParameter = this.getSearchTypeParameter(search);
         let inputsParameter = this.getInputsParameter(search);
+        let workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
 
         if (searchTypeParameter) {
             queryParameters += '&' + searchTypeParameter; 
         }
         if (inputsParameter) {
             queryParameters += '&' + inputsParameter;
+        }
+        if (workUnitNamesParameter) {
+            queryParameters += '&' + workUnitNamesParameter;
         }
         return queryParameters;
     }
@@ -59,5 +63,13 @@ import { Search } from '../model/search';
             inputsParameter = search.inputs.map(x => 'input=' + x.trim()).join('&');  
         }
         return inputsParameter;
+    }
+
+    private getWorkUnitsNamesParameter(search: Search): string {
+        let workUnitNamesParameter = null;
+        if (search.filters.get('workUnitName')) {
+            workUnitNamesParameter = search.filters.get('workUnitName').map(x => 'workUnitName=' + x.trim()).join('&');  
+        }
+        return workUnitNamesParameter;
     }
   }
