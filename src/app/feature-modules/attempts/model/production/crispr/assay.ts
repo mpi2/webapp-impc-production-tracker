@@ -10,5 +10,5 @@ export class Assay {
     num_hdr_g0_mutants_subset_donors_inserted: number;
     num_hr_g0_mutants: number;
     num_nhej_g0_mutants: number;
-    num_founders_selected_for_breading: number;
+    num_founders_selected_for_breeding: number;
 }
