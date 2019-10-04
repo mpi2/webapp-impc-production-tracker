@@ -11,7 +11,7 @@ import { BearerTokenAuth } from './core/helpers/bearer-token-auth';
 import { LoginModule } from './feature-modules/login/login.module';
 import { ProjectsModule } from './feature-modules/projects/projects.module';
 import { PlansModule } from './feature-modules/plans/plans.module';
-import { GenesModule } from './feature-modules/genes/genes.module';
+import { SearchModule } from './feature-modules/search/search.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigAssetLoaderService } from './core/services/config-asset-loader.service';
 import { APP_BASE_HREF } from '@angular/common';
@@ -29,7 +29,7 @@ import { AssetConfiguration } from './core/model/conf/asset-configuration';
     LoginModule,
     ProjectsModule,
     PlansModule,
-    GenesModule,
+    SearchModule,
     AppRoutingModule,
   ],
   exports: [

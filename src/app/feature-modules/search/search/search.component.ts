@@ -8,11 +8,11 @@ import { MatPaginator, MatSort } from '@angular/material';
 
 
 @Component({
-  selector: 'app-gene-search',
-  templateUrl: './gene-search.component.html',
-  styleUrls: ['./gene-search.component.css']
+  selector: 'app-search',
+  templateUrl: './search.component.html',
+  styleUrls: ['./search.component.css']
 })
-export class GeneSearchComponent implements OnInit {
+export class SearchComponent implements OnInit {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
