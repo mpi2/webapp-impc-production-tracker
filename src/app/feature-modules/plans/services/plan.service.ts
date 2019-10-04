@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Plan } from '../model/plan';
-import { ChangesHistory } from 'src/app/core';
 import {ConfigAssetLoaderService} from '../../../core/services/config-asset-loader.service';
-import { from } from 'rxjs';
+import { ChangesHistory } from 'src/app/core';
 
 /**
  * Class that provides information for plans.

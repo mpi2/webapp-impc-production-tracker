@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { GeneSearchComponent } from './gene-search';
+import { SearchComponent } from './search';
 
 const routes: Routes = [
     {
       path: 'search',
-      component: GeneSearchComponent
+      component: SearchComponent
     }
   ];
   
@@ -13,5 +13,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
   })
-  export class GenesRouting { 
+  export class SearchRouting { 
   }

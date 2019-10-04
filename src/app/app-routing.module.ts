@@ -2,12 +2,12 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
-import { GeneSearchComponent } from './feature-modules/genes/gene-search';
+import { SearchComponent } from './feature-modules/search/search';
 import { ReportsComponent } from './core/components/reports/reports.component';
 
 
 const routes: Routes = [
-  { path: '', component: GeneSearchComponent },
+  { path: '', component: SearchComponent },
   { path: 'reports', component: ReportsComponent },
   {
     path: 'admin',
