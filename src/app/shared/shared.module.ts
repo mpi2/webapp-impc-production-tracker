@@ -11,7 +11,7 @@ import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {
   MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
   MatTooltipModule, MatButtonModule, MatCardModule, MatMenuModule, MatGridListModule,
-  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule
+  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule, MatRadioModule
 } from '@angular/material';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -84,6 +84,7 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatRadioModule,
     Ng7BootstrapBreadcrumbModule
 
   ],
@@ -131,6 +132,7 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatRadioModule,
     Ng7BootstrapBreadcrumbModule
   ],
   entryComponents: [

@@ -2,8 +2,8 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './core/guards/auth.guard';
 import { NotFoundComponent } from './core/components/not-found/not-found.component';
-import { SearchComponent } from './feature-modules/search/search';
 import { ReportsComponent } from './core/components/reports/reports.component';
+import { SearchComponent } from './feature-modules/search/components/search/search.component';
 
 
 const routes: Routes = [
