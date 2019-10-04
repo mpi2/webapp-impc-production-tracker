@@ -1,8 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { first } from 'rxjs/operators';
-import { ProjectSummary, ProjectSummaryAdapter } from '../../../projects/model/project-summary';
-import { ProjectService } from '../../../projects/services/project.service';
 import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { SearchService, Search } from '../..';
@@ -24,7 +21,7 @@ export class SearchComponent implements OnInit {
 
   dataSource: SearchResult[];
 
-  displayedColumns: string[] = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+  displayedColumns: string[] = ['Search term', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
     'Project Assignment'];
   selectAllWorkUnits = true;
   panelOpenState = false;
@@ -84,46 +81,6 @@ export class SearchComponent implements OnInit {
   ngAfterViewInit() {
   }
 
-  // getPage(page: number) {
-  //   const apiPageNumber = page;
-  //   const workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
-  //   const workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
-  //   let selectedWorkUnits = [];
-  //   let selectedWorkGroups = [];
-
-  //   if (!workUnitSelectAll.checked) {
-  //     selectedWorkUnits = this.workUnits.filter(x => x["isSelected"]).map(element => element.name);
-  //   }
-  //   if (!workGroupSelectAll.checked) {
-  //     selectedWorkGroups = this.workGroups.filter(x => x["isSelected"]).map(element => element.name);
-  //   }
-
-  //   const geneSymbols = this.getGeneSymbolsAsArray();
-
-  //   this.isLoading = true;
-
-  //   this.projectService.getPaginatedProjectsWithFilters(
-  //     apiPageNumber,
-  //     null,
-  //     geneSymbols,
-  //     [],
-  //     selectedWorkUnits,
-  //     []).pipe(first()).subscribe(data => {
-  //       if (data['_embedded']) {
-  //         this.projects = data['_embedded']['projectDToes'];
-  //         this.projects = this.projects.map(x => this.projectAdapter.adapt(x));
-  //       } else {
-  //         this.projects = [];
-  //       }
-  //       this.page = data['page'];
-  //       this.p = page;
-  //       this.isLoading = false;
-  //     }, error => {
-  //       this.error = error;
-  //       this.isLoading = false;
-  //     });
-  // }
-
   public getPage(pageNumber: number): void {
     const geneSymbols = this.getGeneSymbolsAsArray();
     const workUnitsNames = this.getWorkUnitFilter();
@@ -137,15 +94,27 @@ export class SearchComponent implements OnInit {
       .build();
     this.searchService.search(search, pageNumber).subscribe(data => 
       {
-
         this.dataSource = data['results'];
+        this.refreshVisibleColumns();
+        console.log(' this.dataSource:',  this.dataSource);
+        
         this.page = data['page'];
-        console.log('this.dataSource', this.dataSource);
+        this.error = '';
         this.isLoading = false;
       }, error => {
         this.error = error;
         this.isLoading = false;
       });
+  }
+
+  private refreshVisibleColumns(): void {
+    if (this.getGeneSymbolsAsArray().length == 0) {
+      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+          'Project Assignment'];
+    } else {
+      this.displayedColumns = ['Search term', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+          'Project Assignment'];
+    }
   }
 
   private getSearchType(): string {
@@ -172,8 +141,9 @@ export class SearchComponent implements OnInit {
 
   getGeneSymbolsAsArray(): string[] {
     if (this.searchForm.get('geneSymbol').value) {
-      const geneSymbols = [];
-      geneSymbols.push(this.searchForm.get('geneSymbol').value);
+      const input: string = this.searchForm.get('geneSymbol').value;
+      const geneSymbols = input.split(',');
+      geneSymbols.map(x => x.trim());
       return geneSymbols;
     }
     return [];
