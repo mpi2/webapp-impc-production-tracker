@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from 'src/app/core';
-import { MatPaginator, MatSort } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { SearchService, Search } from '../..';
 import { SearchBuilder } from '../../services/search.builder';
 import { SearchResult } from '../../model/search.result';
+import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
 
 
 @Component({
@@ -43,7 +44,8 @@ export class SearchComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private searchService: SearchService,
-    private configurationDataService: ConfigurationDataService) { }
+    private configurationDataService: ConfigurationDataService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     
@@ -78,12 +80,11 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  ngAfterViewInit() {
-  }
-
   public getPage(pageNumber: number): void {
     const geneSymbols = this.getGeneSymbolsAsArray();
     const workUnitsNames = this.getWorkUnitFilter();
+    console.log('workUnitsNames', workUnitsNames);
+    
     const searchType = this.getSearchType();
     this.isLoading = true;
 
@@ -186,7 +187,32 @@ export class SearchComponent implements OnInit {
   }
 
   onSubmit(e) {
-    this.getPage(0);
+    if (this.validSearch()) {
+      this.getPage(0);
+    }
+  }
+
+  private validSearch(): boolean {
+    let isValid;
+    const input = this.getGeneSymbolsAsArray();
+    if (input) {
+      if (!this.selectedSearchType) {
+        const dialogRef = this.dialog.open(InformativeDialogComponent, {
+          width: '250px',
+          data: {
+            title: 'Please select a search type',
+            text: 'As you have defined an input for the search (' + input + '), you need to stablish a search type.'}
+        });
+    
+        dialogRef.afterClosed().subscribe(result => {
+          isValid = false;
+        });
+      }
+      else {
+        isValid = true;
+      }
+    }
+    return isValid;
   }
 
   getIdFromWorkUnitName(workUnitName: string) {

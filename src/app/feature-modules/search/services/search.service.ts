@@ -51,7 +51,7 @@ import { Search } from '../model/search';
     private getSearchTypeParameter(search: Search): string {
         let searchTypeParameter = null;
         if (search.searchType) {
-            searchTypeParameter = 'searchType=' + search.searchType;
+            searchTypeParameter = 'searchTypeName=' + search.searchType;
         }
         return searchTypeParameter;
     }
