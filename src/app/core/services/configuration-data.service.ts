@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ConfigurationData } from '../model/conf/configuration-data';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
-import { Observable, from } from 'rxjs';
+import { Observable } from 'rxjs';
 import { shareReplay } from 'rxjs/operators';
 
 @Injectable({
@@ -29,7 +29,7 @@ export class ConfigurationDataService {
   }
 
   private fetchConf() {
-    console.warn('Fetch configuration data. Must occur only once.',this.apiServiceUrl);
+    console.warn('Fetch configuration data. Must occur only once.');
     return this.http.get<ConfigurationData>(this.apiServiceUrl + '/api/conf');
   }
 }

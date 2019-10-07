@@ -39,9 +39,10 @@ import { HistoryComponent } from './components/history/history.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
 import { ExpandableContentComponent } from './components/expandable-content/expandable-content.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
+import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 
 @NgModule({
-  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent, ExpandableContentComponent, DigitOnlyDirective],
+  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent, ExpandableContentComponent, DigitOnlyDirective, InformativeDialogComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -136,7 +137,7 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
     Ng7BootstrapBreadcrumbModule
   ],
   entryComponents: [
-    DeleteConfirmationComponent
+    DeleteConfirmationComponent, InformativeDialogComponent
   ],
 })
 export class SharedModule { }
