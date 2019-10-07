@@ -193,9 +193,9 @@ export class SearchComponent implements OnInit {
   }
 
   private validSearch(): boolean {
-    let isValid;
+    let isValid = true
     const input = this.getGeneSymbolsAsArray();
-    if (input) {
+    if (input.length > 0) {
       if (!this.selectedSearchType) {
         const dialogRef = this.dialog.open(InformativeDialogComponent, {
           width: '250px',
