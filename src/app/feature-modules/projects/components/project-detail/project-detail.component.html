@@ -22,7 +22,7 @@
           <td *ngIf="project.intentionByGeneAttributes">
             <div *ngFor="let geneAttribute of project.intentionByGeneAttributes">
               <mat-chip-list>
-                <mat-chip color="primary" selected>{{ geneAttribute.markerSymbol || 'Gene Not defined' }} -
+                <mat-chip color="primary" selected>{{ geneAttribute.gene.symbol || 'Gene Not defined' }} -
                   {{ geneAttribute.alleleTypeName }}</mat-chip>
               </mat-chip-list>
             </div>
@@ -101,7 +101,7 @@
                 </div>
               </td>
             </ng-template>
-  
+
             <ng-template #commentsReadOnly>
               <td>
                 {{project.comment}}
