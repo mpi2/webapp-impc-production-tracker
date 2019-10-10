@@ -96,6 +96,7 @@ export class SearchComponent implements OnInit {
     this.searchService.search(search, pageNumber).subscribe(data => 
       {
         this.dataSource = data['results'];
+        this.dataSource.map(x => this.buildSearchResultComments(x));
         this.refreshVisibleColumns();
         console.log(' this.dataSource:',  this.dataSource);
         
@@ -108,13 +109,25 @@ export class SearchComponent implements OnInit {
       });
   }
 
+  buildSearchResultComments(searcResult: SearchResult): void {
+    const result = [];
+    if (!searcResult.project) {
+      result.push('No projects found');
+    } else {
+      if (searcResult.comment) {
+        result.push(searcResult.comment);
+      }
+    }
+    searcResult.searchResultComments = result;
+  }
+
   private refreshVisibleColumns(): void {
     if (this.getGeneSymbolsAsArray().length == 0) {
-      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location',
-          'Project Assignment'];
+      this.displayedColumns = ['Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+          'Project Assignment', 'Privacy', 'Access Restriction'];
     } else {
-      this.displayedColumns = ['Search term', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
-          'Project Assignment'];
+      this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+          'Project Assignment', 'Privacy', 'Access Restriction'];
     }
   }
 
@@ -193,10 +206,11 @@ export class SearchComponent implements OnInit {
   }
 
   private validSearch(): boolean {
-    let isValid = true
+    let isValid = false;
     const input = this.getGeneSymbolsAsArray();
     if (input.length > 0) {
       if (!this.selectedSearchType) {
+        isValid = false;
         const dialogRef = this.dialog.open(InformativeDialogComponent, {
           width: '250px',
           data: {
@@ -205,13 +219,14 @@ export class SearchComponent implements OnInit {
         });
     
         dialogRef.afterClosed().subscribe(result => {
-          isValid = false;
         });
       }
       else {
         isValid = true;
       }
     }
+    console.log('isValid->', isValid);
+    
     return isValid;
   }
 

@@ -97,6 +97,7 @@
                 </td>
                 <td>Active/Inactive</td>
                 <td>Consortia</td>
+                <td>Access Status</td>
             </tr>
             <ng-template ngFor let-project [ngForOf]="projects">
                 <tr>
@@ -130,6 +131,9 @@
                             {{ consortiumName }}
                         </div>
                     </td>
+                    <td><div *ngIf="project.isObjectRestricted">
+                        <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false" aria-label="icon">warning</mat-icon>
+                      </div></td>
                 </tr>
             </ng-template>
         </table>

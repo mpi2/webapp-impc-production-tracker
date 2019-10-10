@@ -15,6 +15,7 @@ export class Project {
     intentionByLocationAttributes: IntentionByLocationAttribute[];
     imitsMiPlanId: number;
     comment: string;
+    isObjectRestricted: boolean;
     isActive: boolean;
     _links: ProjectLinks;
 }
