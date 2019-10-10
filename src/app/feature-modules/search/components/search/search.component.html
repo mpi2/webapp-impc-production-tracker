@@ -100,10 +100,15 @@
       <div class="example-table-container">
         <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" width="100%">
 
-            <ng-container matColumnDef="Search term">
-                <th mat-header-cell *matHeaderCellDef>Search term</th>
-                <td mat-cell *matCellDef="let searchResult">{{searchResult.input}} {{!searchResult.project ? '[No projects found]':''}}</td>
-              </ng-container>
+          <ng-container matColumnDef="Search term">
+            <th mat-header-cell *matHeaderCellDef>Search term</th>
+            <td mat-cell *matCellDef="let searchResult">{{searchResult.input}}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="Search Result Comments">
+            <th mat-header-cell *matHeaderCellDef>Search Result comments</th>
+            <td mat-cell *matCellDef="let searchResult">{{searchResult.searchResultComments}}</td>
+          </ng-container>
 
           <ng-container matColumnDef="Project summary">
             <th mat-header-cell *matHeaderCellDef>Project summary</th>
@@ -115,9 +120,9 @@
             <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
             <td mat-cell *matCellDef="let searchResult">
               <div *ngIf="searchResult.project">
-                  <div *ngFor="let intention of searchResult.project.intentionByGeneAttributes">
-                      {{ intention.alleleTypeName }}
-                    </div>
+                <div *ngFor="let intention of searchResult.project.intentionByGeneAttributes">
+                  {{ intention.alleleTypeName }}
+                </div>
               </div>
 
             </td>
@@ -126,11 +131,11 @@
           <ng-container matColumnDef="Gene Symbol / Location">
             <th mat-header-cell *matHeaderCellDef>Gene Symbol / Location</th>
             <td mat-cell *matCellDef="let searchResult">
-                <div *ngIf="searchResult.project">
-                    <div *ngFor="let gene of searchResult.project.intentionByGeneAttributes">
-                        <a href="" target="_blank">{{ gene.gene.symbol }}</a>
-                      </div>
+              <div *ngIf="searchResult.project">
+                <div *ngFor="let gene of searchResult.project.intentionByGeneAttributes">
+                  <a href="" target="_blank">{{ gene.gene.symbol }}</a>
                 </div>
+              </div>
 
 
             </td>
@@ -139,8 +144,24 @@
           <ng-container matColumnDef="Project Assignment">
             <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
             <td mat-cell *matCellDef="let searchResult">
-                <div *ngIf="searchResult.project">{{ searchResult.project.assignmentStatusName }}</div>
-              </td>
+              <div *ngIf="searchResult.project">{{ searchResult.project.assignmentStatusName }}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Privacy">
+            <th mat-header-cell *matHeaderCellDef>Privacy</th>
+            <td mat-cell *matCellDef="let searchResult">
+              <div *ngIf="searchResult.project">{{ searchResult.project.privacyName }}</div>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Access Restriction">
+            <th mat-header-cell *matHeaderCellDef>Access Status</th>
+            <td mat-cell *matCellDef="let searchResult">
+              <div *ngIf="searchResult.project && searchResult.project.isObjectRestricted">
+                <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false" aria-label="icon">warning</mat-icon>
+              </div>
+            </td>
           </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
