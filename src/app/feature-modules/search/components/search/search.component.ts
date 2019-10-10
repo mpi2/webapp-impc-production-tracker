@@ -123,7 +123,7 @@ export class SearchComponent implements OnInit {
 
   private refreshVisibleColumns(): void {
     if (this.getGeneSymbolsAsArray().length == 0) {
-      this.displayedColumns = ['Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location',
           'Project Assignment', 'Privacy', 'Access Restriction'];
     } else {
       this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
@@ -206,7 +206,7 @@ export class SearchComponent implements OnInit {
   }
 
   private validSearch(): boolean {
-    let isValid = false;
+    let isValid = true;
     const input = this.getGeneSymbolsAsArray();
     if (input.length > 0) {
       if (!this.selectedSearchType) {

@@ -69,8 +69,8 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Select to filter</mat-label>
-                        <mat-select  multiple (selectionChange)="filterWithIntentions($event.value)">
-                            <mat-option *ngFor="let intention of this.intentions" [value]="intention.name"  >
+                        <mat-select multiple (selectionChange)="filterWithIntentions($event.value)">
+                            <mat-option *ngFor="let intention of this.intentions" [value]="intention.name">
                                 {{intention.name}}
                             </mat-option>
                         </mat-select>
@@ -131,9 +131,16 @@
                             {{ consortiumName }}
                         </div>
                     </td>
-                    <td><div *ngIf="project.isObjectRestricted">
-                        <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false" aria-label="icon">warning</mat-icon>
-                      </div></td>
+                    <td>
+                        <div *ngIf="project.isObjectRestricted ; else checkedAccess">
+                            <mat-icon matTooltip="You are seeing a restricted version of this project."
+                                aria-hidden="false" aria-label="icon">warning</mat-icon>
+                        </div>
+
+                        <ng-template #checkedAccess>
+                            <mat-icon  aria-hidden="false" aria-label="icon">check</mat-icon>
+                          </ng-template>
+                    </td>
                 </tr>
             </ng-template>
         </table>
