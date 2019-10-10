@@ -119,7 +119,7 @@
                       {{ intention.alleleTypeName }}
                     </div>
               </div>
-              
+
             </td>
           </ng-container>
 
@@ -131,15 +131,15 @@
                         <a href="" target="_blank">{{ gene.gene.symbol }}</a>
                       </div>
                 </div>
-              
+
 
             </td>
           </ng-container>
 
           <ng-container matColumnDef="Project Assignment">
-            <th mat-header-cell *matHeaderCellDef>Project Assigment</th>
+            <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
             <td mat-cell *matCellDef="let searchResult">
-                <div *ngIf="searchResult.project">{{ searchResult.project.assigmentStatusName }}</div>
+                <div *ngIf="searchResult.project">{{ searchResult.project.assignmentStatusName }}</div>
               </td>
           </ng-container>
 
