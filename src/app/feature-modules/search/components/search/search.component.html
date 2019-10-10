@@ -158,9 +158,12 @@
           <ng-container matColumnDef="Access Restriction">
             <th mat-header-cell *matHeaderCellDef>Access Status</th>
             <td mat-cell *matCellDef="let searchResult">
-              <div *ngIf="searchResult.project && searchResult.project.isObjectRestricted">
-                <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false" aria-label="icon">warning</mat-icon>
+              <div *ngIf="searchResult.project && searchResult.project.isObjectRestricted; else checkedAccess">
+                <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false" aria-label="icon">block</mat-icon>
               </div>
+              <ng-template #checkedAccess>
+                <mat-icon  aria-hidden="false" aria-label="icon">check</mat-icon>
+              </ng-template>
             </td>
           </ng-container>
 
