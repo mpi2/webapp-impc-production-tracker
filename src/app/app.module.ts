@@ -16,6 +16,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigAssetLoaderService } from './core/services/config-asset-loader.service';
 import { APP_BASE_HREF } from '@angular/common';
 import { AssetConfiguration } from './core/model/conf/asset-configuration';
+import { GenesModule } from './feature-modules/genes/genes.module';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { AssetConfiguration } from './core/model/conf/asset-configuration';
     ProjectsModule,
     PlansModule,
     SearchModule,
+    GenesModule,
     AppRoutingModule,
   ],
   exports: [

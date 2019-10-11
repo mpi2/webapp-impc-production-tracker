@@ -1,4 +1,4 @@
-import { StatusDate, IntentionByGeneAttribute, IntentionByLocationAttribute } from '..';
+import { StatusDate, IntentionByGene, IntentionByLocation } from '..';
 import { ProjectLinks } from './project-links';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
@@ -11,8 +11,8 @@ export class Project {
     assignmentStatusDates: StatusDate[];
     withdrawn: boolean;
     recovery: boolean;
-    intentionByGeneAttributes: IntentionByGeneAttribute[];
-    intentionByLocationAttributes: IntentionByLocationAttribute[];
+    intentionByGeneAttributes: IntentionByGene[];
+    intentionByLocationAttributes: IntentionByLocation[];
     imitsMiPlanId: number;
     comment: string;
     isObjectRestricted: boolean;

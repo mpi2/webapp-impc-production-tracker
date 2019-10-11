@@ -74,7 +74,7 @@ export class ProjectDetailComponent implements OnInit {
     const id = this.route.snapshot.params['id'];
     this.projectService.getProject(id).subscribe(data => {
       this.project = this.projectAdapter.adapt(data);
-      console.log('project:', data);
+      console.log('project data::>>', data);
 
       this.originalProjectAsString = JSON.stringify(data);
       this.getProductionPlans();
@@ -112,6 +112,8 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private gethenotypingPlans(): void {
+    console.log(this.project._links);
+    
     if (this.project._links.phenotyping_plans) {
       this.project._links.phenotyping_plans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
