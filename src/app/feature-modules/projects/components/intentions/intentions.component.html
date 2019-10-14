@@ -1,0 +1,14 @@
+<table>
+    <tr>
+        <td>Intentions:</td>
+    </tr>
+</table>
+<mat-card>
+    <mat-card-content>
+        <div *ngFor="let intentionByGene of project.intentionByGeneAttributes">
+            <mat-card>
+                <app-intention-by-gene [intentionByGene]="intentionByGene" class="test"></app-intention-by-gene>
+            </mat-card>
+        </div>
+    </mat-card-content>
+</mat-card>

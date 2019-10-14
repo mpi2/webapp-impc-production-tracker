@@ -17,24 +17,9 @@
           <td>Project id:</td>
           <td>{{ project.tpn }}</td>
         </tr>
-        <tr>
-          <td>Intentions:</td>
-          <td *ngIf="project.intentionByGeneAttributes">
-            <div *ngFor="let geneAttribute of project.intentionByGeneAttributes">
-              <mat-chip-list>
-                <mat-chip color="primary" selected>{{ geneAttribute.gene.symbol || 'Gene Not defined' }} -
-                  {{ geneAttribute.alleleTypeName }}</mat-chip>
-              </mat-chip-list>
-            </div>
-            <div *ngFor="let geneAttribute of project.intentionByLocationAttributes">
-              <mat-chip-list>
-                <mat-chip color="primary" selected>
-                  [ {{ geneAttribute.start || 'Start Not defined' }} : {{ geneAttribute.end || 'End Not defined' }} ]
-                  - {{ geneAttribute.alleleTypeName }}</mat-chip>
-              </mat-chip-list>
-            </div>
-          </td>
-        </tr>
+      </table>
+      <app-intentions [project]="project"></app-intentions>
+      <table>
         <tr>
           <td>Assignment Status:</td>
           <td>{{project.assignmentStatusName}}</td>
@@ -89,35 +74,35 @@
           </td>
         </tr>
         <tr>
+          <td>
+            Comment:
+          </td>
+          <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
+          <ng-template #commentsEditable>
             <td>
-              Comment:
+              <div class="form-group">
+                <textarea type="text" formControlName="comments" class="form-control"
+                  (change)="onTextCommentChanged($event)"></textarea>
+              </div>
             </td>
-            <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
-            <ng-template #commentsEditable>
-              <td>
-                <div class="form-group">
-                  <textarea type="text" formControlName="comments" class="form-control"
-                    (change)="onTextCommentChanged($event)"></textarea>
-                </div>
-              </td>
-            </ng-template>
+          </ng-template>
 
-            <ng-template #commentsReadOnly>
-              <td>
-                {{project.comment}}
-              </td>
-            </ng-template>
-          </tr>
+          <ng-template #commentsReadOnly>
+            <td>
+              {{project.comment}}
+            </td>
+          </ng-template>
+        </tr>
       </table>
     </form>
   </mat-card-content>
 
   <mat-card>
-      <mat-card-content>
-        <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
-          (click)="updateProject()">Update</button>
-      </mat-card-content>
-    </mat-card>
+    <mat-card-content>
+      <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
+        (click)="updateProject()">Update</button>
+    </mat-card-content>
+  </mat-card>
 
   <mat-accordion>
     <mat-expansion-panel>

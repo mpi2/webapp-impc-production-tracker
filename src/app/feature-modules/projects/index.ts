@@ -2,7 +2,9 @@ export * from './services/project.service';
 
 export * from './model/newProject';
 export * from './model/status-date';
-export * from './model/intention-by-gene-attribute';
-export * from './model/intention-by-location-attribute';
+export * from './model/intention-by-gene';
+export * from './model/intention-by-location';
 export * from './model/project-links';
-export * from './model/strain-attribute';
+export * from '../../core/model/bio/strain'
+export * from './model/status-date';
+export * from './model/project-links';

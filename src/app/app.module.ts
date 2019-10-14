@@ -13,6 +13,7 @@ import { PlansModule } from './feature-modules/plans/plans.module';
 import { SearchModule } from './feature-modules/search/search.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigAssetLoaderService } from './core/services/config-asset-loader.service';
+import { GenesModule } from './feature-modules/genes/genes.module';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { ConfigAssetLoaderService } from './core/services/config-asset-loader.se
     ProjectsModule,
     PlansModule,
     SearchModule,
+    GenesModule,
     AppRoutingModule,
   ],
   exports: [
