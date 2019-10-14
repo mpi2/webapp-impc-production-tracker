@@ -5,20 +5,10 @@
 </table>
 <mat-card>
     <mat-card-content>
-        <mat-card *ngIf="project.intentionByGeneAttributes">
-            <div *ngFor="let intentionByGene of project.intentionByGeneAttributes">
+        <div *ngFor="let intentionByGene of project.intentionByGeneAttributes">
+            <mat-card>
                 <app-intention-by-gene [intentionByGene]="intentionByGene" class="test"></app-intention-by-gene>
-            </div>
-
-        </mat-card>
-        <!-- <mat-card *ngIf="project.intentionByLocationAttributes">
-            <div *ngFor="let intentionByLocation of project.intentionByLocationAttributes">
-                <app-intention-by-gene [intentionByGene]="intentionByLocation" class="test"></app-intention-by-gene>
-            </div>
-        </mat-card>
-        <mat-card *ngIf="project.intentionBySequenceAttributes">
-            <app-intention-by-gene class="test"></app-intention-by-gene>
-        </mat-card> -->
+            </mat-card>
+        </div>
     </mat-card-content>
-
 </mat-card>
