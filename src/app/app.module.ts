@@ -4,7 +4,6 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
-//import { fakeBackendProvider } from './core/helpers/fake-backend.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ErrorInterceptor } from './core/helpers/error-interceptor';
 import { BearerTokenAuth } from './core/helpers/bearer-token-auth';
@@ -14,8 +13,6 @@ import { PlansModule } from './feature-modules/plans/plans.module';
 import { SearchModule } from './feature-modules/search/search.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigAssetLoaderService } from './core/services/config-asset-loader.service';
-import { APP_BASE_HREF } from '@angular/common';
-import { AssetConfiguration } from './core/model/conf/asset-configuration';
 
 @NgModule({
   declarations: [
@@ -43,25 +40,8 @@ import { AssetConfiguration } from './core/model/conf/asset-configuration';
       deps: [ConfigAssetLoaderService],
       multi: true
     }
-    /*
-    ,
-    {
-      provide: APP_BASE_HREF,
-      useFactory: (config: AssetConfiguration) => {
-        return config.baseUrl;
-      },
-      deps: [ AssetConfiguration ]
-    }
-
-     */
-
-    // fakeBackendProvider
   ],
   bootstrap: [AppComponent]
 })
-
-
-
-
 
 export class AppModule { }

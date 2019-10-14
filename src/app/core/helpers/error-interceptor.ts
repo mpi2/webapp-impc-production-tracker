@@ -18,11 +18,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     handleError(error) {
         console.log(error);
-        
+
         if (this.isUnauthorisedError(error) || this.isForbiddenError(error)) {
             window.alert('Access denied. Please log as a user with the corresponding permissions to execute the required action.');
             this.authenticationService.logout();
-            //location.reload(true);
             this.router.navigateByUrl(`/login`);
         } else {
             let errorMessage = '';
@@ -47,15 +46,15 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     isUnauthorisedError(error): boolean {
-        return error.status === 401
+        return error.status === 401;
     }
 
     isForbiddenError(error): boolean {
-        return error.status === 403
+        return error.status === 403;
     }
 
     isNotFoundError(error): boolean {
-        return error.status === 404
+        return error.status === 404;
     }
 
     hasApiErrorFormat(error): boolean {

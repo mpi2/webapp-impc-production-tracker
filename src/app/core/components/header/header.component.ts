@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   userName = '';
   login = false;
   subscription: Subscription;
-  loggedUser: LoggedUser
+  loggedUser: LoggedUser;
 
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
     this.messageService.getMessage().subscribe(data => {

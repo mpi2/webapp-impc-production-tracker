@@ -9,9 +9,7 @@ import { ConfigAssetLoaderService } from './config-asset-loader.service';
   providedIn: 'root'
 })
 export class PermissionsService {
-
-  private apiServiceUrl;
-
+  
   // Paths
   static readonly REGISTER_USER = 'register-user';
   static readonly EXECUTE_MANAGER_TASKS = 'execute-manager-tasks';
@@ -19,6 +17,8 @@ export class PermissionsService {
   // Actions
   static readonly UPDATE_PLAN_ACTION = 'canUpdatePlan';
   static readonly UPDATE_PROJECT_ACTION = 'canUpdateProject';
+
+  private apiServiceUrl;
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);

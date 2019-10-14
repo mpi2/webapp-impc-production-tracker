@@ -9,9 +9,20 @@ import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {
-  MatExpansionModule, MatFormFieldModule, MatInputModule, MatToolbarModule,
-  MatTooltipModule, MatButtonModule, MatCardModule, MatMenuModule, MatGridListModule,
-  MatSnackBarModule, MatDatepickerModule, MatNativeDateModule, MatDialogModule, MatRadioModule
+  MatExpansionModule,
+  MatFormFieldModule,
+  MatInputModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatButtonModule,
+  MatCardModule,
+  MatMenuModule,
+  MatGridListModule,
+  MatSnackBarModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
+  MatDialogModule,
+  MatRadioModule
 } from '@angular/material';
 import { A11yModule } from '@angular/cdk/a11y';
 import { DragDropModule } from '@angular/cdk/drag-drop';
@@ -31,7 +42,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { NgxPaginationModule } from 'ngx-pagination';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { Ng7BootstrapBreadcrumbModule } from "ng7-bootstrap-breadcrumb";
+import { Ng7BootstrapBreadcrumbModule } from 'ng7-bootstrap-breadcrumb';
 
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
@@ -42,7 +53,13 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 
 @NgModule({
-  declarations: [GoBackComponent, HistoryComponent, DeleteConfirmationComponent, ExpandableContentComponent, DigitOnlyDirective, InformativeDialogComponent],
+  declarations: [
+    GoBackComponent,
+    HistoryComponent,
+    DeleteConfirmationComponent,
+    ExpandableContentComponent,
+    DigitOnlyDirective,
+    InformativeDialogComponent],
   imports: [
     CommonModule,
     FormsModule,

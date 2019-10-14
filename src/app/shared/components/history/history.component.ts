@@ -27,7 +27,7 @@ export class HistoryComponent implements OnInit {
     private adapter: ChangesHistoryAdapter) { }
 
   ngOnInit() {
-    this.getData()
+    this.getData();
   }
 
   private getData() {

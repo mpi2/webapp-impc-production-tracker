@@ -22,7 +22,7 @@ export class MutagenesisDonorsComponent implements OnInit {
   configurationData: ConfigurationData;
   preparationTypes: any[] = [];
 
-  constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog,) { }
+  constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.setFormValues();
