@@ -48,7 +48,6 @@ export class SearchComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    
     this.searchForm = this.formBuilder.group({
       geneSymbol: ['']
     });
@@ -57,34 +56,31 @@ export class SearchComponent implements OnInit {
       this.configurationData = data;
       this.initFiltersValues();
     });
-    
     this.isLoading = true;
     this.getPage(0);
   }
 
   initFiltersValues(): void {
     this.searchTypes = this.configurationData.searchTypes.map(x => {
-      return x
+      return x;
     });
     this.workUnits = this.configurationData.workUnits.map(x => {
       const workUnit: WorkUnit = new WorkUnit();
       workUnit.name = x;
       workUnit["isSelected"] = true;
-      return workUnit
+      return workUnit;
     });
     this.workGroups = this.configurationData.workGroups.map(x => {
       const workGroup: WorkGroup = new WorkGroup();
       workGroup.name = x;
       workGroup["isSelected"] = true;
-      return workGroup
+      return workGroup;
     });
   }
 
   public getPage(pageNumber: number): void {
     const geneSymbols = this.getGeneSymbolsAsArray();
     const workUnitsNames = this.getWorkUnitFilter();
-    console.log('workUnitsNames', workUnitsNames);
-    
     const searchType = this.getSearchType();
     this.isLoading = true;
 
@@ -93,20 +89,17 @@ export class SearchComponent implements OnInit {
       .withInputs(geneSymbols)
       .withWorkUnitsNames(workUnitsNames)
       .build();
-    this.searchService.search(search, pageNumber).subscribe(data => 
-      {
-        this.dataSource = data['results'];
-        this.dataSource.map(x => this.buildSearchResultComments(x));
-        this.refreshVisibleColumns();
-        console.log(' this.dataSource:',  this.dataSource);
-        
-        this.page = data['page'];
-        this.error = '';
-        this.isLoading = false;
-      }, error => {
-        this.error = error;
-        this.isLoading = false;
-      });
+    this.searchService.search(search, pageNumber).subscribe(data => {
+      this.dataSource = data['results'];
+      this.dataSource.map(x => this.buildSearchResultComments(x));
+      this.refreshVisibleColumns();
+      this.page = data['page'];
+      this.error = '';
+      this.isLoading = false;
+    }, error => {
+      this.error = error;
+      this.isLoading = false;
+    });
   }
 
   buildSearchResultComments(searcResult: SearchResult): void {
@@ -122,12 +115,12 @@ export class SearchComponent implements OnInit {
   }
 
   private refreshVisibleColumns(): void {
-    if (this.getGeneSymbolsAsArray().length == 0) {
+    if (this.getGeneSymbolsAsArray().length === 0) {
       this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location',
-          'Project Assignment', 'Privacy', 'Access Restriction'];
+        'Project Assignment', 'Privacy', 'Access Restriction'];
     } else {
       this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
-          'Project Assignment', 'Privacy', 'Access Restriction'];
+        'Project Assignment', 'Privacy', 'Access Restriction'];
     }
   }
 
@@ -136,19 +129,19 @@ export class SearchComponent implements OnInit {
   }
 
   private getWorkUnitFilter(): string[] {
-    const workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
+    const workUnitSelectAll = document.querySelector('#workUnitsSelectAll') as HTMLInputElement;
     let selectedWorkUnits = [];
     if (!workUnitSelectAll.checked) {
-      selectedWorkUnits = this.workUnits.filter(x => x["isSelected"]).map(element => element.name);
+      selectedWorkUnits = this.workUnits.filter(x => x['isSelected']).map(element => element.name);
     }
     return selectedWorkUnits;
   }
 
   private getWorkGroupFilter(): string[] {
-    const workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
+    const workGroupSelectAll = document.querySelector('#workGroupsSelectAll') as HTMLInputElement;
     let selectedWorkGroups = [];
     if (!workGroupSelectAll.checked) {
-      selectedWorkGroups = this.workGroups.filter(x => x["isSelected"]).map(element => element.name);
+      selectedWorkGroups = this.workGroups.filter(x => x['isSelected']).map(element => element.name);
     }
     return selectedWorkGroups;
   }
@@ -182,19 +175,19 @@ export class SearchComponent implements OnInit {
   }
 
   onCheckedWorkUnitElement(element: any) {
-    const isSelected = !element["isSelected"]
-    element["isSelected"] = isSelected;
-    const workUnitSelectAll = document.querySelector("#workUnitsSelectAll") as HTMLInputElement;
+    const isSelected = !element['isSelected']
+    element['isSelected'] = isSelected;
+    const workUnitSelectAll = document.querySelector('#workUnitsSelectAll') as HTMLInputElement;
     workUnitSelectAll.checked = this.workUnits.filter(x => x["isSelected"]).length === this.workUnits.length;
 
     return isSelected;
   }
 
   onCheckedWorkGroupElement(element: any) {
-    const isSelected = !element["isSelected"]
-    element["isSelected"] = isSelected;
-    const workGroupSelectAll = document.querySelector("#workGroupsSelectAll") as HTMLInputElement;
-    workGroupSelectAll.checked = this.workGroups.filter(x => x["isSelected"]).length === this.workGroups.length;
+    const isSelected = !element['isSelected']
+    element['isSelected'] = isSelected;
+    const workGroupSelectAll = document.querySelector('#workGroupsSelectAll') as HTMLInputElement;
+    workGroupSelectAll.checked = this.workGroups.filter(x => x['isSelected']).length === this.workGroups.length;
 
     return isSelected;
   }
@@ -215,9 +208,10 @@ export class SearchComponent implements OnInit {
           width: '250px',
           data: {
             title: 'Please select a search type',
-            text: 'As you have defined an input for the search (' + input + '), you need to stablish a search type.'}
+            text: 'As you have defined an input for the search (' + input + '), you need to stablish a search type.'
+          }
         });
-    
+
         dialogRef.afterClosed().subscribe(result => {
         });
       }
@@ -226,7 +220,7 @@ export class SearchComponent implements OnInit {
       }
     }
     console.log('isValid->', isValid);
-    
+
     return isValid;
   }
 

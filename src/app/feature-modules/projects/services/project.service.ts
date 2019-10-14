@@ -88,23 +88,21 @@ export class ProjectService {
     }
 
     let queryParameters = '';
-
-    if (tpnFilter != '') {
+    if (tpnFilter !== '') {
       queryParameters += '&' + tpnFilter;
     }
-    if (markerSymbolsAsParameter != '') {
+    if (markerSymbolsAsParameter !== '') {
       queryParameters += '&' + markerSymbolsAsParameter;
     }
-    if (intentionsAsParameter != '') {
+    if (intentionsAsParameter !== '') {
       queryParameters += '&' + intentionsAsParameter;
     }
-    if (workUnitsAsParameter != '') {
+    if (workUnitsAsParameter !== '') {
       queryParameters += '&' + workUnitsAsParameter;
     }
-    if (privaciesAsParameter != '') {
+    if (privaciesAsParameter !== '') {
       queryParameters += '&' + privaciesAsParameter;
     }
-
     return queryParameters;
   }
 

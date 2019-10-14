@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
  * Intercepts the calls to add the authentication token to the requests.
  */
 @Injectable()
-export class BearerTokenAuth implements HttpInterceptor{
+export class BearerTokenAuth implements HttpInterceptor {
     constructor(private loggedUserService: LoggedUserService) {}
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

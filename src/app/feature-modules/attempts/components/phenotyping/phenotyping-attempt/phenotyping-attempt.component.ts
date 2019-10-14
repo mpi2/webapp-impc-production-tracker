@@ -10,7 +10,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class PhenotypingAttemptComponent implements OnInit {
 
   @Input() phenotypingAttempt: PhenotypingAttempt;
-  @Input() canUpdatePlan: boolean;;
+  @Input() canUpdatePlan: boolean;
   phenotypingAttemptForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
