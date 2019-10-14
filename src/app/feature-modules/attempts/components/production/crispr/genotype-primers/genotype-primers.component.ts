@@ -70,7 +70,7 @@ export class GenotypePrimersComponent implements OnInit {
     const originalPrimer = this.originaPrimers.find(x => x.id === primer.id);
     if (originalPrimer) {
       if (JSON.stringify(originalPrimer) != JSON.stringify(primer)) {
-        this.editionStatusByGuide.set(primer.id, 'Modified in memory')
+        this.editionStatusByGuide.set(primer.id, 'Modified in memory');
       }
       else {
         this.editionStatusByGuide.set(primer.id, '');
@@ -82,7 +82,7 @@ export class GenotypePrimersComponent implements OnInit {
     if (!value || isNaN(value) || '' === value) {
       return null;
     }
-    return Number(value)
+    return Number(value);
   }
 
   addPrimer(): void {

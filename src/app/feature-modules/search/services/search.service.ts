@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 import { SearchResult } from '../model/search.result';
 import { HttpClient } from '@angular/common/http';
 import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loader.service';
@@ -20,13 +20,9 @@ import { Search } from '../model/search';
     }
 
     search(search: Search, pageNumber: number): Observable<SearchResult[]> {
-        console.log('search', search);
-        
         const parameters = this.buildParameters(search, pageNumber);
         let url = this.apiServiceUrl + '/api/projects/search';
         url = parameters == null ? url : url + parameters;
-        console.log('url', url);
-        
         return this.http.get<SearchResult[]>(url);
     }
 

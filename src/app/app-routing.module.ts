@@ -11,7 +11,7 @@ const routes: Routes = [
   { path: 'reports', component: ReportsComponent },
   {
     path: 'admin',
-    loadChildren:  () => import('./feature-modules/admin/admin.module').then(m => m.AdminModule), canActivate:[AuthGuard],
+    loadChildren:  () => import('./feature-modules/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard],
     canLoad: [AuthGuard]
   },
   { path: '**', component: NotFoundComponent }

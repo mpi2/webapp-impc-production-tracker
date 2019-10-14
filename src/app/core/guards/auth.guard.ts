@@ -23,7 +23,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         return this.canPathBeActivated(path, url);
     }
 
-    canPathBeActivated(path, url): Observable<boolean> {        
+    canPathBeActivated(path, url): Observable<boolean> {
         if ('admin' === path) {
             return this.permissionsService.evaluatePermission(PermissionsService.EXECUTE_MANAGER_TASKS);
         }
@@ -38,7 +38,6 @@ export class AuthGuard implements CanActivate, CanLoad {
         route: Route,
         segments: UrlSegment[]): Observable<boolean> {
         const path = route.path;
-        let canLoad: boolean = false;
 
         return this.loggedUserService.getLoggerUser().pipe(
             map(user => {
@@ -55,7 +54,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         let canVisit: boolean;
         if ('admin' === path) {
             if (loggedUser) {
-                canVisit = loggedUser.admin /// Or Manager??
+                canVisit = loggedUser.admin; /// Or Manager??
             } else {
                 canVisit = false;
             }
