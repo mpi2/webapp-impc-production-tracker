@@ -49,6 +49,9 @@ export class ProjectDetailComponent implements OnInit {
     });
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
+      this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
+      console.log('this.privacies ',this.privacies );
+      
     });
 
     this.dropdownSettingsSingle = {
@@ -63,9 +66,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private setFormValues(): void {
-    this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
     this.projectForm.get('comments').setValue(this.project.comment);
-
     this.selectedPrivacy = [{ name: this.project.privacyName }];
     this.projectForm.get('privacy').setValue(this.selectedPrivacy);
   }

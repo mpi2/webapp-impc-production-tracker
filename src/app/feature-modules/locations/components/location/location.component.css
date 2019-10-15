@@ -1,0 +1,21 @@
+.name {
+    font-weight: bold;
+}
+fieldset {
+    font-size: 14px;
+    border: 0;
+    border-spacing: 20px;
+}
+label {
+    clear: both;
+    float: left;
+    padding-right: 10px;
+    width: 100px;
+}
+input, select, content {
+    float: left;
+}
+.content {
+    max-width: 60%;
+    float: left;
+}

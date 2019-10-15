@@ -12,145 +12,115 @@
   <mat-card-subtitle>Project Details.</mat-card-subtitle>
   <mat-card-content>
     <form [formGroup]="projectForm">
-      <table>
-        <tr>
-          <td>Project id:</td>
-          <td>{{ project.tpn }}</td>
-        </tr>
-      </table>
+      <div id="project" class="tpn">
+        <label for="tpn">Project id:</label>
+        <div id="tpn">{{ project.tpn }}</div>
+      </div>
       <app-intentions [project]="project"></app-intentions>
-      <table>
-        <tr>
-          <td>Assignment Status:</td>
-          <td>{{project.assignmentStatusName}}</td>
-        </tr>
-        <tr>
-          <td>
-            Active?:
-          </td>
-          <td>
-            <input type="checkbox" (change)="onActiveSelected()" [checked]="this.project.isActive"
-              [disabled]="!canUpdateProject">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Privacy:
-          </td>
+
+      <fieldset>
+
+        <label for="assignmentStatus">Assignment Status:</label>
+        <div id="assignmentStatus" class="content">{{project.assignmentStatusName}}</div>
+
+        <label for="active">Active?:</label>
+        <input id="active" type="checkbox" (change)="onActiveSelected()" [checked]="this.project.isActive"
+          [disabled]="!canUpdateProject">
+
+        <label for="privacy">Privacy:</label>
+        <div id="privacy" class="content">
           <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
           <ng-template #privacyEditable>
-            <td>
-              <div class="form-group">
-                <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy"
-                  [placeholder]="'--Select--'" [data]="privacies" [settings]="dropdownSettingsSingle"
-                  (onSelect)="onItemSelect($event)">
-                </ng-multiselect-dropdown>
-              </div>
-            </td>
+            <div class="form-group">
+              <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy" [placeholder]="'--Select--'"
+                [data]="privacies" [settings]="dropdownSettingsSingle" (onSelect)="onItemSelect($event)">
+              </ng-multiselect-dropdown>
+            </div>
           </ng-template>
-
           <ng-template #privacyReadOnly>
-            <td>
-              {{project.privacyName}}
-            </td>
+            {{project.privacyName}}
           </ng-template>
-        </tr>
-        <tr>
-          <td>
-            Withdrawn?:
-          </td>
-          <td>
-            <input type="checkbox" (change)="onWithdrawnSelected()" [checked]="this.project.withdrawn"
-              [disabled]="!canUpdateProject">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Recovery?:
-          </td>
-          <td>
-            <input type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
-              [disabled]="!canUpdateProject">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Comment:
-          </td>
+        </div>
+
+        <label for="withdrawn">Withdrawn?:</label>
+        <input id="withdrawn" type="checkbox" (change)="onWithdrawnSelected()" [checked]="this.project.withdrawn"
+          [disabled]="!canUpdateProject">
+
+        <label for="recovery">Recovery?:</label>
+        <input id="recovery" type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
+          [disabled]="!canUpdateProject">
+
+        <label for="comment">Comment:</label>
+        <div id="comment" class="content">
           <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
           <ng-template #commentsEditable>
-            <td>
-              <div class="form-group">
-                <textarea type="text" formControlName="comments" class="form-control"
-                  (change)="onTextCommentChanged($event)"></textarea>
-              </div>
-            </td>
+            <textarea type="text" formControlName="comments" class="form-control"
+              (change)="onTextCommentChanged($event)"></textarea>
           </ng-template>
-
           <ng-template #commentsReadOnly>
-            <td>
-              {{project.comment}}
-            </td>
+            {{project.comment}}
           </ng-template>
-        </tr>
-      </table>
+        </div>
+
+      </fieldset>
+
     </form>
   </mat-card-content>
+</mat-card>
+<mat-card>
+  <mat-card-content>
+    <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
+      (click)="updateProject()">Update</button>
+  </mat-card-content>
+</mat-card>
 
-  <mat-card>
-    <mat-card-content>
-      <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
-        (click)="updateProject()">Update</button>
-    </mat-card-content>
-  </mat-card>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Status Stamps
+      </mat-panel-title>
+    </mat-expansion-panel-header>
 
-  <mat-accordion>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Status Stamps
-        </mat-panel-title>
-      </mat-expansion-panel-header>
+    <table mat-table [dataSource]="project.assignmentStatusDates" class="mat-elevation-z8">
+      <ng-container matColumnDef="name">
+        <th mat-header-cell *matHeaderCellDef> Name </th>
+        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+      </ng-container>
 
-      <table mat-table [dataSource]="project.assignmentStatusDates" class="mat-elevation-z8">
-        <ng-container matColumnDef="name">
-          <th mat-header-cell *matHeaderCellDef> Name </th>
-          <td mat-cell *matCellDef="let element"> {{element.name}} </td>
-        </ng-container>
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+      </ng-container>
 
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Date </th>
-          <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-        </ng-container>
+      <tr mat-header-row *matHeaderRowDef="assignmentStatusDatesColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: assignmentStatusDatesColumns;"></tr>
+    </table>
+  </mat-expansion-panel>
+</mat-accordion>
 
-        <tr mat-header-row *matHeaderRowDef="assignmentStatusDatesColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: assignmentStatusDatesColumns;"></tr>
-      </table>
-    </mat-expansion-panel>
-  </mat-accordion>
+<mat-card *ngIf="productionPlansDetails.length > 0">
+  <mat-card-subtitle>Production Plans</mat-card-subtitle>
+  <mat-card-content>
+    <table style="width: 100%;">
+      <tbody>
+        <tr *ngFor="let productionPlanDetail of sortByPid(productionPlansDetails)">
+          <app-plan-summary [plan]="productionPlanDetail"></app-plan-summary>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>
 
-  <mat-card *ngIf="productionPlansDetails.length > 0">
-    <mat-card-subtitle>Production Plans</mat-card-subtitle>
-    <mat-card-content>
-      <table style="width: 100%;">
-        <tbody>
-          <tr *ngFor="let productionPlanDetail of sortByPid(productionPlansDetails)">
-            <app-plan-summary [plan]="productionPlanDetail"></app-plan-summary>
-          </tr>
-        </tbody>
-      </table>
-    </mat-card-content>
-  </mat-card>
-
-  <mat-card *ngIf="phenotypingPlansDetails.length > 0">
-    <mat-card-subtitle>Phenotyping Plans</mat-card-subtitle>
-    <mat-card-content>
-      <table style="width: 100%;">
-        <tbody>
-          <tr *ngFor="let phenotypingPlanDetail of sortByPid(phenotypingPlansDetails)">
-            <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
-          </tr>
-        </tbody>
-      </table>
-    </mat-card-content>
-  </mat-card>
+<mat-card *ngIf="phenotypingPlansDetails.length > 0">
+  <mat-card-subtitle>Phenotyping Plans</mat-card-subtitle>
+  <mat-card-content>
+    <table style="width: 100%;">
+      <tbody>
+        <tr *ngFor="let phenotypingPlanDetail of sortByPid(phenotypingPlansDetails)">
+          <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+</mat-card>

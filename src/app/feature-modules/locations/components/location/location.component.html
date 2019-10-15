@@ -1,1 +1,20 @@
-<p>location works!</p>
+<fieldset>
+    <label for="locationInfo">Location:</label>
+    <div id="locationInfo" class="content">Chromosome {{location.chr }}: {{ location.start || 'Not defined' }} -
+        {{ location.stop || 'Not defined'}}</div>
+
+    <label for="genomeBuild">Genome build:</label>
+    <div id="genomeBuild" class="content">
+        {{ location.genomeBuild || 'Not defined'}}
+    </div>
+
+    <label for="strainName">Strain name:</label>
+    <div id="strainName" class="content">
+        {{ location.strain ? location.strain.name : 'Not defined' }}
+    </div>
+
+    <label for="strainAccessionId">Strain Accession Id:</label>
+    <div id="strainAccessionId"class="content">
+        {{ location.strain ? location.strain.mgiAccessionId : 'Not defined' }}
+    </div>
+</fieldset>
