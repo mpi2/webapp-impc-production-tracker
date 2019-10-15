@@ -16,7 +16,8 @@
         <label for="tpn">Project id:</label>
         <div id="tpn">{{ project.tpn }}</div>
       </div>
-      <app-intentions [project]="project"></app-intentions>
+      <app-intention-by-gene-list [intentionByGenes]="project.intentionByGeneAttributes"></app-intention-by-gene-list>
+      <app-intention-by-location-list [intentionByLocations]="project.intentionByLocationAttributes"></app-intention-by-location-list>
 
       <fieldset>
 

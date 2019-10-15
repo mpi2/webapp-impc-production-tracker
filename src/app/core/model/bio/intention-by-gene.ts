@@ -1,4 +1,4 @@
-import { Gene } from '../../genes/model/gene';
+import { Gene } from './gene';
 
 export class IntentionByGene {
     alleleTypeName: string;

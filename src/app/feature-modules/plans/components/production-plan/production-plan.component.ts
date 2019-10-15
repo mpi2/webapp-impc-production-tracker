@@ -6,6 +6,7 @@ import { PermissionsService, ChangesHistory, ChangesHistoryAdapter, LoggedUserSe
 import { MatSnackBar } from '@angular/material';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
+import { Project } from 'src/app/core/model/bio/project';
 
 @Component({
   selector: 'app-production-plan',
@@ -15,6 +16,8 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 export class ProductionPlanComponent implements OnInit {
 
   plan: Plan = new Plan();
+  project: Project = new Project();
+
   originalPlanAsString: string;
   canUpdatePlan: boolean;
   dataChanged = false;
@@ -43,8 +46,7 @@ export class ProductionPlanComponent implements OnInit {
       this.plan = this.planAdapter.adapt(data);
       this.originalPlanAsString = JSON.stringify(this.plan);
       console.log('ProductionPlanComponent =>', this.plan);
-      console.log('plan.crisprAttemptAttributes', this.plan.crisprAttemptAttributes);
-      
+
       this.error = null;
       this.evaluateUpdatePermissions();
     }, error => {

@@ -14,9 +14,6 @@ export class PlanDetailsComponent implements OnInit {
 
   canUpdatePlan: boolean;
 
-  dropdownSettingsSingle = {};
-  dropdownSettingsMultiple = {};
-
   editPlanDetails: FormGroup;
 
   privacies: any[] = [];
@@ -37,23 +34,6 @@ export class PlanDetailsComponent implements OnInit {
     });
 
     this.loadPermissions();
-
-    this.dropdownSettingsSingle = {
-      singleSelection: true,
-      idField: 'name',
-      textField: 'name',
-      enableCheckAll: false,
-      allowSearchFilter: true
-    };
-
-    this.dropdownSettingsMultiple = {
-      singleSelection: false,
-      idField: 'name',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      allowSearchFilter: true
-    };
 
     this.editPlanDetails = this.formBuilder.group({
       privacy: ['', Validators.required],
