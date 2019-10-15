@@ -1,4 +1,4 @@
-table .test {
+table {
     border-spacing: 10px;
     border-collapse: separate;
     font-size: 16px;
@@ -8,4 +8,29 @@ table .test {
 }
 .mat-column-date {
     width: 28%;
+}
+.name {
+    font-weight: bold;
+}
+fieldset {
+    font-size: 16px;
+    border: 0;
+    border-spacing: 10px;
+}
+label {
+    clear: both;
+    float: left;
+    padding-right: 10px;
+    width: 100px;
+}
+input, select, content {
+    float: left;
+}
+.content {
+    max-width: 40%;
+    float: left;
+}
+.tpn {
+    font-size: 16px;
+    padding-inline-start: 0.75em;
 }

@@ -9,6 +9,8 @@ import { PlansModule } from '../plans/plans.module';
 import { IntentionByGeneComponent } from './components/intention-by-gene/intention-by-gene.component';
 import { GenesModule } from '../genes/genes.module';
 import { IntentionsComponent } from './components/intentions/intentions.component';
+import { IntentionByLocationComponent } from './components/intention-by-location/intention-by-location.component';
+import { LocationsModule } from '../locations/locations.module';
 
 @NgModule({
   declarations: [
@@ -17,11 +19,13 @@ import { IntentionsComponent } from './components/intentions/intentions.componen
     ProjectDetailComponent,
     IntentionByGeneComponent,
     IntentionsComponent,
+    IntentionByLocationComponent,
   ],
   imports: [
     ProjectsRoutingModule,
     PlansModule,
     GenesModule,
+    LocationsModule,
     SharedModule
   ]
 })

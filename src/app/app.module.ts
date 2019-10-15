@@ -14,6 +14,7 @@ import { SearchModule } from './feature-modules/search/search.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigAssetLoaderService } from './core/services/config-asset-loader.service';
 import { GenesModule } from './feature-modules/genes/genes.module';
+import { LocationsModule } from './feature-modules/locations/locations.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { GenesModule } from './feature-modules/genes/genes.module';
     PlansModule,
     SearchModule,
     GenesModule,
+    LocationsModule,
     AppRoutingModule,
   ],
   exports: [

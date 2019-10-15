@@ -5,3 +5,7 @@
 .geneAccessionId {
     font-size: 13px;
 }
+fieldset {
+    border: 0;
+    padding-inline-start: 0;
+}
