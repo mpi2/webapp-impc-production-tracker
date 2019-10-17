@@ -28,7 +28,7 @@ import { Search } from '../model/search';
 
     private buildParameters(search: Search, pageNumber: number): string {
         let queryParameters = '?page=' + pageNumber;
-        let searchTypeParameter = this.getSearchTypeParameter(search);
+        const searchTypeParameter = this.getSearchTypeParameter(search);
         let inputsParameter = this.getInputsParameter(search);
         let workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
 
