@@ -31,7 +31,7 @@ export class ProjectFilterService {
         const MINIMUN_SIZE = 7;
         let result = false;
         if (value) {
-            result = value.toLocaleLowerCase().startsWith("tpn:") && value.length > MINIMUN_SIZE && value != currentFilterValue;
+            result = value.toLocaleLowerCase().startsWith("tpn:") && value.length > MINIMUN_SIZE && value !== currentFilterValue;
         }
         return result;
     }
@@ -45,7 +45,7 @@ export class ProjectFilterService {
         const MINIMUN_SIZE = 3;
         let result = false;
         if (value) {
-            result = value.length > MINIMUN_SIZE && value.trim() != currentFilterValue;
+            result = value.length > MINIMUN_SIZE && value.trim() !== currentFilterValue;
         }
         return result;
     }
@@ -60,7 +60,7 @@ export class ProjectFilterService {
         const MINIMUN_SIZE = 3;
         let result = false;
         if (value) {
-            result = value.length > MINIMUN_SIZE && value.trim() != currentFilterValue;
+            result = value.length > MINIMUN_SIZE && value.trim() !== currentFilterValue;
         }
         return result;
     }

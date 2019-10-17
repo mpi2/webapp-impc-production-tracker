@@ -35,7 +35,7 @@ export class HistoryComponent implements OnInit {
       v => {
         this.entity = v.entity;
         this.id = this.route.snapshot.params[v.id];
-        this.getHistory()
+        this.getHistory();
       });
   }
 
@@ -75,12 +75,11 @@ export class HistoryComponent implements OnInit {
     this.sortedData = this.historyRecords.slice();
   }
 
-  isTextLargerThanLimit(text: string): boolean {  
+  isTextLargerThanLimit(text: string): boolean {
     return text === null ? false : (text.length > this.LENGTH_LIMIT);
   }
 
-  getTitleForExpandable(): string
-  {    
+  getTitleForExpandable(): string {
     return 'Click to see element';
   }
 }

@@ -31,7 +31,7 @@ export class AuthenticationService {
 
     return this.http.post<AuthenticationRequest>(this.apiServiceUrl + '/auth/signin', authenticationRequest).pipe(tap(res => {
       this.loggedUserService.storeToken(res);
-    }))
+    }));
   }
 
   logout() {

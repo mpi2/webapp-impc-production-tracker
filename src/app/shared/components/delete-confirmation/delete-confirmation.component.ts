@@ -16,8 +16,7 @@ export class DeleteConfirmationComponent implements OnInit {
     this.data.confirmed = true;
   }
 
-  onNoClick(): void {    
+  onNoClick(): void {
     this.dialogRef.close();
   }
-
 }

@@ -46,7 +46,7 @@ export class GuidesComponent implements OnInit {
   }
 
   isConcentrationTheSameForAllGuides(): boolean {
-    const concentrations = this.crisprAttempt.guidesAttributes.filter(x => x['grnaConcentration']).map(x => x['grnaConcentration']);
+    const concentrations = this.crisprAttempt.guidesAttributes.filter(x => x.grnaConcentration).map(x => x.grnaConcentration);
 
     return concentrations.every(v => v === concentrations[0]);
   }

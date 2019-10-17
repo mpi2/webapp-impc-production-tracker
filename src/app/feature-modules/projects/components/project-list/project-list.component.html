@@ -13,7 +13,7 @@
 
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-card>
-    <a *ngIf="loggedUser.userName != 'anonymous'" routerLink="/create-project" class="btn btn-primary active"
+    <a *ngIf="loggedUser.userName !== 'anonymous'" routerLink="/create-project" class="btn btn-primary active"
         role="button" aria-pressed="true">Create new
         project</a>
 </mat-card>

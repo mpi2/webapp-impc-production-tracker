@@ -6,5 +6,5 @@ export class IntentionByLocation {
     chrFeatureTypeName: string;
     molecularMutationTypeName: string;
     alleleCategorizations: string[];
-    location: Location
+    location: Location;
 }

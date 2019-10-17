@@ -184,7 +184,7 @@ export class SearchComponent implements OnInit {
   }
 
   onCheckedWorkGroupElement(element: any) {
-    const isSelected = !element['isSelected']
+    const isSelected = !element['isSelected'];
     element['isSelected'] = isSelected;
     const workGroupSelectAll = document.querySelector('#workGroupsSelectAll') as HTMLInputElement;
     workGroupSelectAll.checked = this.workGroups.filter(x => x['isSelected']).length === this.workGroups.length;
@@ -214,8 +214,7 @@ export class SearchComponent implements OnInit {
 
         dialogRef.afterClosed().subscribe(result => {
         });
-      }
-      else {
+      } else {
         isValid = true;
       }
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef, OnChanges, AfterContentChecked } from '@angular/core';
 import { CrisprAttempt, GenotypePrimer } from '../../../..';
 import { MatDialog } from '@angular/material';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
@@ -8,7 +8,7 @@ import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-co
   templateUrl: './genotype-primers.component.html',
   styleUrls: ['./genotype-primers.component.css']
 })
-export class GenotypePrimersComponent implements OnInit {
+export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContentChecked {
 
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
@@ -69,10 +69,9 @@ export class GenotypePrimersComponent implements OnInit {
   updateRowStatus(primer: GenotypePrimer): void {
     const originalPrimer = this.originaPrimers.find(x => x.id === primer.id);
     if (originalPrimer) {
-      if (JSON.stringify(originalPrimer) != JSON.stringify(primer)) {
+      if (JSON.stringify(originalPrimer) !== JSON.stringify(primer)) {
         this.editionStatusByGuide.set(primer.id, 'Modified in memory');
-      }
-      else {
+      } else {
         this.editionStatusByGuide.set(primer.id, '');
       }
     }
@@ -116,7 +115,7 @@ export class GenotypePrimersComponent implements OnInit {
   }
 
   deletePrimerInMemory(primer: GenotypePrimer): void {
-    this.crisprAttempt.genotypePrimersAttributes = this.crisprAttempt.genotypePrimersAttributes.filter(x => x.id != primer.id);
+    this.crisprAttempt.genotypePrimersAttributes = this.crisprAttempt.genotypePrimersAttributes.filter(x => x.id !== primer.id);
     this.dataSource = [...this.crisprAttempt.genotypePrimersAttributes];
   }
 }

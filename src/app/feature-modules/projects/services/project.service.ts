@@ -110,7 +110,7 @@ export class ProjectService {
    * Gets the history of the changes for a project.
    * @param tpn The identifier for the project.
    */
-  getHistoryByTpn(tpn: String) {
+  getHistoryByTpn(tpn: string) {
     return this.http.get<ChangesHistory[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/history');
     
   }

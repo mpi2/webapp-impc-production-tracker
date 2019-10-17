@@ -15,7 +15,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.permissionsService.evaluatePermission(PermissionsService.REGISTER_USER).subscribe(canRegisterUser => {
       this.canRegisterUser = canRegisterUser;
-    })
+    });
   }
 
 }

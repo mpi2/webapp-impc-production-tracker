@@ -62,8 +62,7 @@ export class LoggedUserService {
     let loggedUser$: Observable<LoggedUser>;
     if (!this.getAccessToken()) {
       loggedUser$ = EMPTY;
-    }
-    else {
+    } else {
       loggedUser$ = this.getSecurityInformation();
       return loggedUser$;
     }

@@ -28,8 +28,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             if (this.isNotFoundError(error)) {
                 errorMessage = 'The server cannot find the requested resource. Path: ' + error.error.path;
-            }
-            else if (this.hasApiErrorFormat(error)) {
+            } else if (this.hasApiErrorFormat(error)) {
                 errorMessage = this.getApiErrorMessage(error);
 
             } else {
@@ -63,10 +62,10 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     getApiErrorMessage(error) {
         let errorMessage = error.error.apierror.message || error.statusText;
-        if (error.error.apierror.subErrors != null) {
+        if (error.error.apierror.subErrors !== null) {
             errorMessage += ': ' + error.error.apierror.subErrors[0].message;
         }
-        if (error.error.apierror.debubMessage != null) {
+        if (error.error.apierror.debubMessage !== null) {
             errorMessage += ': ' + error.error.apierror.debubMessage;
         }
         return errorMessage;

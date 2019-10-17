@@ -57,11 +57,9 @@ export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
         let action;
         if (newValue && oldValue) {
             action = 'updated';
-        }
-        else if (newValue) {
+        } else if (newValue) {
             action = 'added';
-        }
-        else {
+        } else {
             action = 'deleted';
         }
         return action;
