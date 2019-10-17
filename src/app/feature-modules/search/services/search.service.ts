@@ -29,8 +29,8 @@ import { Search } from '../model/search';
     private buildParameters(search: Search, pageNumber: number): string {
         let queryParameters = '?page=' + pageNumber;
         const searchTypeParameter = this.getSearchTypeParameter(search);
-        let inputsParameter = this.getInputsParameter(search);
-        let workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
+        const inputsParameter = this.getInputsParameter(search);
+        const workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
 
         if (searchTypeParameter) {
             queryParameters += '&' + searchTypeParameter; 
@@ -56,7 +56,7 @@ import { Search } from '../model/search';
         let inputsParameter = null;
         
         if (search.inputs) {
-            inputsParameter = search.inputs.map(x => 'input=' + x.trim()).join('&');  
+            inputsParameter = search.inputs.map(x => 'input=' + x.trim()).join('&');
         }
         return inputsParameter;
     }

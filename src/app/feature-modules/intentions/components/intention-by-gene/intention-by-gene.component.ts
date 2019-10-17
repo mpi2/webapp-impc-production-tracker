@@ -13,8 +13,7 @@ export class IntentionByGeneComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('intentionByGene', this.intentionByGene);
-    
+    console.log('intentionByGene', this.intentionByGene);    
   }
 
 }

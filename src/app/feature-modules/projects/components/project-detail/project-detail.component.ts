@@ -51,7 +51,6 @@ export class ProjectDetailComponent implements OnInit {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
       console.log('this.privacies ',this.privacies );
-      
     });
 
     this.dropdownSettingsSingle = {
@@ -100,8 +99,8 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private getProductionPlans(): void {
-    if (this.project._links.production_plans) {
-      this.project._links.production_plans.map(x => {
+    if (this.project.links.productionPlans) {
+      this.project.links.productionPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
           this.productionPlansDetails.push(plan);
           this.error = null;
@@ -113,10 +112,10 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private gethenotypingPlans(): void {
-    console.log(this.project._links);
+    console.log(this.project.links);
     
-    if (this.project._links.phenotyping_plans) {
-      this.project._links.phenotyping_plans.map(x => {
+    if (this.project.links.phenotypingPlans) {
+      this.project.links.phenotypingPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
           this.phenotypingPlansDetails.push(plan);
           this.error = null;
@@ -161,7 +160,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   shouldUpdateBeEnabled(): boolean {
-    return this.originalProjectAsString != JSON.stringify(this.project);
+    return this.originalProjectAsString !== JSON.stringify(this.project);
   }
 
   sortByPid(plans: Plan[]): Plan[] {

@@ -1,8 +1,7 @@
 export class Donor {
     id: number;
-    crispr_attempt_plan_id: number;
-    vector_name: string;
+    vectorName: string;
     concentration: number;
     preparation: string;
-    oligo_sequence_fa: string;
+    oligoSequenceFa: string;
 }

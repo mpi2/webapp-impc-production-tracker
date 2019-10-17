@@ -15,7 +15,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             return next.handle(request);
         }))
-            // call materialize and dematerialize to ensure delay even if an error is thrown 
+            // call materialize and dematerialize to ensure delay even if an error is thrown
             // (https://github.com/Reactive-Extensions/RxJS/issues/648)
             .pipe(materialize())
             .pipe(delay(500))
@@ -40,6 +40,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 export const fakeBackendProvider = {
     // use fake backend in place of Http service for backend-less development
     provide: HTTP_INTERCEPTORS,
-    //useClass: FakeBackendInterceptor,
+    // useClass: FakeBackendInterceptor,
     multi: true
-}
+};
+

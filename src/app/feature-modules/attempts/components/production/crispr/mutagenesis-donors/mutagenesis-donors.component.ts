@@ -32,7 +32,7 @@ export class MutagenesisDonorsComponent implements OnInit {
   setFormValues(): void {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.preparationTypes = this.configurationData.preparationTypes.map(x => { return { name: x } });
+      this.preparationTypes = this.configurationData.preparationTypes.map(x => { name: x });
     });
   }
 
@@ -87,12 +87,12 @@ export class MutagenesisDonorsComponent implements OnInit {
 
   convertNumericFields(donor: Donor): void {
     const concentrationAsString = donor.concentration ? donor.concentration.toString() : '';
-    if (concentrationAsString.charAt(concentrationAsString.length -1) !== '.') {
+    if (concentrationAsString.charAt(concentrationAsString.length - 1) !== '.') {
       donor.concentration = this.getNumericValueOrNull(donor.concentration);
     }
   }
 
-  updateAllRowsStatus(): void{
+  updateAllRowsStatus(): void {
     this.crisprAttempt.mutagenesisDonorsAttributes.map(x => this.updateRowStatus(x));
   }
 
@@ -103,8 +103,7 @@ export class MutagenesisDonorsComponent implements OnInit {
         this.editionStatusByDonor.set(donor.id, 'Modified in memory');
         console.log(JSON.stringify(originalDonor));
         console.log(JSON.stringify(donor));
-      }
-      else {
+      } else {
         this.editionStatusByDonor.set(donor.id, '');
       }
     }
@@ -114,7 +113,7 @@ export class MutagenesisDonorsComponent implements OnInit {
     if (!value || isNaN(value) || '' === value) {
       return null;
     }
-    return Number(value)
+    return Number(value);
   }
 
   isElementCreatedOnlyInMemory(donor: Donor): boolean {
