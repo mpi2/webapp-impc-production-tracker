@@ -9,7 +9,7 @@ import { ConfigAssetLoaderService } from './config-asset-loader.service';
   providedIn: 'root'
 })
 export class PermissionsService {
-  
+
   // Paths
   static readonly REGISTER_USER = 'register-user';
   static readonly EXECUTE_MANAGER_TASKS = 'execute-manager-tasks';
@@ -31,7 +31,8 @@ export class PermissionsService {
 
   // Returns if an action over an object is allowed.
   getPermissionByActionOnResource(action: string, resourceId: string) {
-      return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action=' + action + '&resourceId=' + resourceId);
+    return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action='
+      + action + '&resourceId=' + resourceId);
   }
 
   evaluatePermission(path: string): Observable<boolean> {

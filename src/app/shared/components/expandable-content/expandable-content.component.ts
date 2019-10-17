@@ -13,7 +13,7 @@ export class ExpandableContentComponent {
   private readonly TITLE_LENGTH_LIMIT = 35;
 
   private getTruncatedTitle(text: string): string {
-    return text.substr(0, this.TITLE_LENGTH_LIMIT) + " ...";
+    return text.substr(0, this.TITLE_LENGTH_LIMIT) + ' ...';
   }
 
 }

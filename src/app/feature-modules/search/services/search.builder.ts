@@ -1,11 +1,11 @@
 import { Search } from '..';
 
-export class SearchBuilder{
+export class SearchBuilder {
     searchType: string;
     inputs: string[];
     filters: Map<string, string[]> = new Map();
 
-    private constructor(){};
+    private constructor() {}
 
     public static getInstance(): SearchBuilder {
         return new SearchBuilder();

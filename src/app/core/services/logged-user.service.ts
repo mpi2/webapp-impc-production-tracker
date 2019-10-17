@@ -34,13 +34,13 @@ export class LoggedUserService {
   getPermissions() {
     return this.config$.pipe(flatMap(response => {
       return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
-    }))
+    }));
   }
 
   getSecurityInformation(): Observable<LoggedUser> {
     return this.config$.pipe(flatMap(response => {
       return this.http.get<LoggedUser>(response.appServerUrl + '/auth/securityInformation');
-    }))
+    }));
   }
 
   getAccessToken(): string {
