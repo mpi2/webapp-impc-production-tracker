@@ -13,8 +13,8 @@ export class Project {
     assignmentStatusDates: StatusDate[];
     withdrawn: boolean;
     recovery: boolean;
-    intentionByGeneAttributes: IntentionByGene[];
-    intentionByLocationAttributes: IntentionByLocation[];
+    intentionsByGene: IntentionByGene[];
+    intentionsByLocation: IntentionByLocation[];
     imitsMiPlanId: number;
     comment: string;
     isObjectRestricted: boolean;
