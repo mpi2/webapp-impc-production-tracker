@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ProjectSummary } from '../model/project-summary';
-import { Project } from '../model/project';
+import { Project } from '../../../core/model/bio/project';
 import { NewProject } from '../model/newProject';
 import { ConfigAssetLoaderService } from '../../../core/services/config-asset-loader.service';
 import { ChangesHistory } from 'src/app/core';

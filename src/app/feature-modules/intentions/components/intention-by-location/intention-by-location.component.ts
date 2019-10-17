@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IntentionByLocation } from '../..';
+import { IntentionByLocation } from 'src/app/core/model/bio/intention-by-location';
 
 @Component({
   selector: 'app-intention-by-location',

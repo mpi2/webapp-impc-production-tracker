@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IntentionByGene } from '../..';
+import { IntentionByGene } from 'src/app/core/model/bio/intention-by-gene';
 
 @Component({
   selector: 'app-intention-by-gene',
@@ -13,6 +13,8 @@ export class IntentionByGeneComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('intentionByGene', this.intentionByGene);
+    
   }
 
 }

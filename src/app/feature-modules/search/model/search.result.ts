@@ -1,4 +1,4 @@
-import { Project } from '../../projects/model/project';
+import { Project } from '../../../core/model/bio/project';
 
 export class SearchResult {
     input: string;

@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Project } from '../../model/project';
+import { Project } from '../../../../core/model/bio/project';
 
 @Component({
   selector: 'app-intentions',

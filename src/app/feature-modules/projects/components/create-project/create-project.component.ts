@@ -2,11 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { first } from 'rxjs/operators';
-import { WorkGroup, Gene, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService, 
+import { WorkGroup, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService, 
   WorkGroupService, GeneService } from 'src/app/core';
 import { NewProject } from '../../model/newProject';
 import { FunderService } from 'src/app/core/services/funder.service';
 import { ProjectService } from '../..';
+import { Gene } from 'src/app/core/model/bio/gene';
 
 @Component({
   selector: 'app-create-project',
@@ -31,7 +32,7 @@ export class CreateProjectComponent implements OnInit {
   backgroundStrainsTable: any;
   symbol: string;
   genes: Gene[] = [];
-  gene: any;
+  gene: Gene;
   genesLoading = false;
   keyword: string;
   isLoading = false;
@@ -337,7 +338,8 @@ export class CreateProjectComponent implements OnInit {
       return;
     }
     let gene = new Gene();
-    gene = { symbol: this.gene.symbol, mgiId: this.gene.mgiId, intention: '' };
+    gene.symbol = this.gene.symbol;
+    gene.accessionId = this.gene.accessionId;
     this.addGeneToProjectGenes(gene);
     e.stopPropagation();
     this.autocomplete.clear();

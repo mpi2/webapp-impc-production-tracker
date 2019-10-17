@@ -11,6 +11,14 @@
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
 </app-plan-details>
 
+<div id="project" class="tpn">
+  <label for="tpn">Project id:</label>
+  <div id="tpn">{{ project.tpn }}</div>
+</div>
+<app-intention-by-gene-list [intentionByGenes]="project.intentionByGeneAttributes"></app-intention-by-gene-list>
+<app-intention-by-location-list [intentionByLocations]="project.intentionByLocationAttributes">
+</app-intention-by-location-list>
+
 <app-crispr-attempt *ngIf="plan.crisprAttemptAttributes" [crisprAttempt]="plan.crisprAttemptAttributes"
   [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>

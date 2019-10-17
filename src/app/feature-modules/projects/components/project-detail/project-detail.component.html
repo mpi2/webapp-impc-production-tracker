@@ -16,7 +16,8 @@
         <label for="tpn">Project id:</label>
         <div id="tpn">{{ project.tpn }}</div>
       </div>
-      <app-intentions [project]="project"></app-intentions>
+      <app-intention-by-gene-list *ngIf="project.intentionsByGene" [intentionByGenes]="project.intentionsByGene"></app-intention-by-gene-list>
+      <app-intention-by-location-list *ngIf="project.intentionsByLocation" [intentionByLocations]="project.intentionsByLocation"></app-intention-by-location-list>
 
       <fieldset>
 

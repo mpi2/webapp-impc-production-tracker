@@ -9,6 +9,7 @@ import { PlanDetailsComponent } from './components/plan-details/plan-details.com
 import { AttemptsModule } from '../attempts/attempts.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UpdateNotificationComponent } from './components/update-notification/update-notification.component';
+import { IntentionsModule } from '../intentions/intentions.module';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,9 @@ import { UpdateNotificationComponent } from './components/update-notification/up
   imports: [
     SharedModule,
     PlansRoutingModule,
-    AttemptsModule
+    AttemptsModule,
+    IntentionsModule
+    
   ],
   exports: [
     PlanSummaryComponent,

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Gene } from '../model/bio/gene';
 import { ConfigAssetLoaderService} from './config-asset-loader.service';
+import { Gene } from '../model/bio/gene';
 
 @Injectable({
   providedIn: 'root'

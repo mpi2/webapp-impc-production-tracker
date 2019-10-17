@@ -1,5 +1,7 @@
+import { AlleleCategorization } from './allele-categorization';
+
 export class Intention {
     alleleTypeName: string;
     molecularMutationTypeName: any;
-    intention: string;
+    alleleCategorizations: AlleleCategorization[];
 }

@@ -1,5 +1,7 @@
 export class Gene {
-    symbol: any;
-    mgiId: any;
-    intention: string;
+    symbol: string;
+    name: string;
+    accessionId: string;
+    speciesName: string;
+    externalLink: string;
 }

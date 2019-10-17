@@ -1,8 +1,8 @@
-import { StatusDate } from '../../projects';
 import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
 import { PhenotypingAttempt } from '../../attempts/model/phenotyping/phenotyping_attempt';
+import { StatusDate } from 'src/app/core/model/bio/status-date';
 
 export class Plan {
     id: number;

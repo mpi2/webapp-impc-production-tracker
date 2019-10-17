@@ -1,0 +1,17 @@
+table {
+    border-spacing: 10px;
+    border-collapse: separate;
+    font-size: 16px;
+}
+
+.name {
+    font-weight: bold;
+}
+fieldset {
+    border: 0;
+}
+label {
+    font-size: 16px;
+    padding-inline-start: 0.75em;
+    display: inline-block;
+}
