@@ -6,5 +6,5 @@ export class Location {
 	stop: number;
 	strand: string;
 	genomeBuild: string;
-	strains: Strain;
+	strain: Strain;
 }

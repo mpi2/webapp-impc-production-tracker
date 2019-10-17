@@ -8,9 +8,14 @@
         {{ location.genomeBuild || 'Not defined'}}
     </div>
 
-    <label for="strainName">Strain name:</label>
+    <label for="strand">Strand:</label>
+    <div id="strand" class="content">
+        {{ location.strand }}
+    </div>
+
+    <label for="strainName">Strain Name:</label>
     <div id="strainName" class="content">
-        {{ location.strain ? location.strain.name : 'Not defined' }}
+        {{ location.strain ? location.strain.name : 'Not defined'}}
     </div>
 
     <label for="strainAccessionId">Strain Accession Id:</label>
