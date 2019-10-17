@@ -87,7 +87,7 @@ export class MutagenesisDonorsComponent implements OnInit {
 
   convertNumericFields(donor: Donor): void {
     const concentrationAsString = donor.concentration ? donor.concentration.toString() : '';
-    if (concentrationAsString.charAt(concentrationAsString.length -1) != '.') {
+    if (concentrationAsString.charAt(concentrationAsString.length -1) !== '.') {
       donor.concentration = this.getNumericValueOrNull(donor.concentration);
     }
   }
@@ -99,7 +99,7 @@ export class MutagenesisDonorsComponent implements OnInit {
   updateRowStatus(donor: Donor): void {
     const originalDonor = this.originalData.find(x => x.id === donor.id);
     if (originalDonor) {
-      if (JSON.stringify(originalDonor) != JSON.stringify(donor)) {
+      if (JSON.stringify(originalDonor) !== JSON.stringify(donor)) {
         this.editionStatusByDonor.set(donor.id, 'Modified in memory');
         console.log(JSON.stringify(originalDonor));
         console.log(JSON.stringify(donor));
@@ -122,7 +122,7 @@ export class MutagenesisDonorsComponent implements OnInit {
   }
 
   deletePrimerInMemory(donor: Donor): void {
-    this.crisprAttempt.mutagenesisDonorsAttributes = this.crisprAttempt.mutagenesisDonorsAttributes.filter(x => x.id != donor.id);
+    this.crisprAttempt.mutagenesisDonorsAttributes = this.crisprAttempt.mutagenesisDonorsAttributes.filter(x => x.id !== donor.id);
     this.dataSource = [...this.crisprAttempt.mutagenesisDonorsAttributes];
   }
 
