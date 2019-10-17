@@ -99,8 +99,8 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private getProductionPlans(): void {
-    if (this.project.links.production_plans) {
-      this.project.links.production_plans.map(x => {
+    if (this.project.links.productionPlans) {
+      this.project.links.productionPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
           this.productionPlansDetails.push(plan);
           this.error = null;
@@ -114,8 +114,8 @@ export class ProjectDetailComponent implements OnInit {
   private gethenotypingPlans(): void {
     console.log(this.project.links);
     
-    if (this.project.links.phenotyping_plans) {
-      this.project.links.phenotyping_plans.map(x => {
+    if (this.project.links.phenotypingPlans) {
+      this.project.links.phenotypingPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
           this.phenotypingPlansDetails.push(plan);
           this.error = null;

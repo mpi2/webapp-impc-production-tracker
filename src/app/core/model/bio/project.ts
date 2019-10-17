@@ -29,12 +29,12 @@ export class ProjectAdapter implements Adapter<Project> {
     adapt(item: any): Project {
         const project: Project = item;
         if (project.links) {
-            if (project.links.production_plans) {
-                project.links.production_plans = this.convertElementToArray(project.links.production_plans);
+            if (project.links.productionPlans) {
+                project.links.productionPlans = this.convertElementToArray(project.links.productionPlans);
             }
 
-            if (project.links.phenotyping_plans) {
-                project.links.phenotyping_plans = this.convertElementToArray(project.links.phenotyping_plans);
+            if (project.links.phenotypingPlans) {
+                project.links.phenotypingPlans = this.convertElementToArray(project.links.phenotypingPlans);
             }
         } else {
             project.links = new ProjectLinks();
