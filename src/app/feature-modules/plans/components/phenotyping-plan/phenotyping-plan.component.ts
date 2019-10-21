@@ -26,11 +26,11 @@ export class PhenotypingPlanComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    const pin = this.route.snapshot.params['pid'];
+    const pin = this.route.snapshot.params.pid;
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = data;
       console.log('PhenotypingPlanComponent =>', this.plan);
-      this.evaluateUpdatePermissions()
+      this.evaluateUpdatePermissions();
     }, error => {
       this.error = error;
     });
@@ -52,7 +52,7 @@ export class PhenotypingPlanComponent implements OnInit {
   }
 
   shouldShowUpdateButton() {
-    return !this.loading && (this.planDetailsChanged || this.attemptChanged)
+    return !this.loading && (this.planDetailsChanged || this.attemptChanged);
   }
 
   onPlanDetailsChange() {

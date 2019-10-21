@@ -7,13 +7,13 @@ import { IntentionByGene } from 'src/app/core/model/bio/intention-by-gene';
   styleUrls: ['./intention-by-gene.component.css']
 })
 export class IntentionByGeneComponent implements OnInit {
-  
+
   @Input() intentionByGene: IntentionByGene;
 
   constructor() { }
 
   ngOnInit() {
-    console.log('intentionByGene', this.intentionByGene);    
+    console.log('intentionByGene', this.intentionByGene);
   }
 
 }

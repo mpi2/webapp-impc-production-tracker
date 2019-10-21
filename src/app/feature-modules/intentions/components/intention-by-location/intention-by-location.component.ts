@@ -8,10 +8,10 @@ import { IntentionByLocation } from 'src/app/core/model/bio/intention-by-locatio
 })
 export class IntentionByLocationComponent implements OnInit {
   @Input() intentionByLocation: IntentionByLocation;
-  
+
   constructor() { }
 
-  ngOnInit() { 
+  ngOnInit() {
   }
 
 }

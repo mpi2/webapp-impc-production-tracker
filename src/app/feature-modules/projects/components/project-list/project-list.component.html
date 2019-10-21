@@ -1,16 +1,3 @@
-<!-- <ng-container matColumnDef="Privacy">
-        <th mat-header-cell *matHeaderCellDef>Privacy
-            <div>
-                <p-multiSelect [options]="privacies" [(ngModel)]="selectedPrivacies" defaultLabel="All privacy"
-                    (onChange)="filter($event.value, 'privacy')"></p-multiSelect>
-            </div>
-        </th>
-        <td mat-cell *matCellDef="let project">
-            <span *ngFor="let plan of project.planDetails">
-                {{ plan.privacyName }}
-            </span>
-        </td> -->
-
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-card>
     <a *ngIf="loggedUser.userName !== 'anonymous'" routerLink="/create-project" class="btn btn-primary active"

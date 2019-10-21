@@ -31,9 +31,8 @@ import { Search } from '../model/search';
         const searchTypeParameter = this.getSearchTypeParameter(search);
         const inputsParameter = this.getInputsParameter(search);
         const workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
-
         if (searchTypeParameter) {
-            queryParameters += '&' + searchTypeParameter; 
+            queryParameters += '&' + searchTypeParameter;
         }
         if (inputsParameter) {
             queryParameters += '&' + inputsParameter;
@@ -54,7 +53,6 @@ import { Search } from '../model/search';
 
     private getInputsParameter(search: Search): string {
         let inputsParameter = null;
-        
         if (search.inputs) {
             inputsParameter = search.inputs.map(x => 'input=' + x.trim()).join('&');
         }
@@ -64,7 +62,7 @@ import { Search } from '../model/search';
     private getWorkUnitsNamesParameter(search: Search): string {
         let workUnitNamesParameter = null;
         if (search.filters.get('workUnitName')) {
-            workUnitNamesParameter = search.filters.get('workUnitName').map(x => 'workUnitName=' + x.trim()).join('&');  
+            workUnitNamesParameter = search.filters.get('workUnitName').map(x => 'workUnitName=' + x.trim()).join('&');
         }
         return workUnitNamesParameter;
     }

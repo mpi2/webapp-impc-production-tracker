@@ -16,7 +16,7 @@ export class PlanDetailsComponent implements OnInit {
 
   editPlanDetails: FormGroup;
 
-  privacies: any[] = [];
+  privacies: NamedValue[] = [];
   selectedPrivacy = [];
 
   configurationData: ConfigurationData;
@@ -30,7 +30,7 @@ export class PlanDetailsComponent implements OnInit {
   ngOnInit() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.privacies = this.configurationData.privacies.map(x => { name: x });
+      this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
     });
 
     this.loadPermissions();

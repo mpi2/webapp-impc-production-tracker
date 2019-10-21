@@ -9,6 +9,7 @@ import { GenotypePrimersComponent } from './components/production/crispr/genotyp
 import { MutagenesisDonorsComponent } from './components/production/crispr/mutagenesis-donors/mutagenesis-donors.component';
 import { GuidesComponent } from './components/production/crispr/guides/guides.component';
 import { PhenotypingAttemptComponent } from './components/phenotyping/phenotyping-attempt/phenotyping-attempt.component';
+// tslint:disable-next-line:max-line-length
 import { TissueDistributionCentreComponent } from './components/phenotyping/tissue-distribution-centre/tissue-distribution-centre.component';
 
 @NgModule({

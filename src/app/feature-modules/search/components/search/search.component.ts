@@ -1,12 +1,16 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { WorkUnit, WorkGroup, ConfigurationData, ConfigurationDataService } from 'src/app/core';
+import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { SearchService, Search } from '../..';
 import { SearchBuilder } from '../../services/search.builder';
 import { SearchResult } from '../../model/search.result';
 import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
 
+class CheckboxElement implements NamedValue {
+  name: string;
+  isSelected: boolean;
+}
 
 @Component({
   selector: 'app-search',
@@ -29,8 +33,8 @@ export class SearchComponent implements OnInit {
   searchForm: FormGroup;
   searchControl = new FormControl();
   page: any = {};
-  workUnits: WorkUnit[] = [];
-  workGroups: WorkGroup[] = [];
+  workUnits: CheckboxElement[] = [];
+  workGroups: CheckboxElement[] = [];
   searchTypes: string[] = [];
   masterSelected: boolean;
   checkedList: any;
@@ -65,15 +69,15 @@ export class SearchComponent implements OnInit {
       return x;
     });
     this.workUnits = this.configurationData.workUnits.map(x => {
-      const workUnit: WorkUnit = new WorkUnit();
+      const workUnit: CheckboxElement = new CheckboxElement();
       workUnit.name = x;
-      workUnit["isSelected"] = true;
+      workUnit.isSelected = true;
       return workUnit;
     });
     this.workGroups = this.configurationData.workGroups.map(x => {
-      const workGroup: WorkGroup = new WorkGroup();
+      const workGroup: CheckboxElement = new CheckboxElement();
       workGroup.name = x;
-      workGroup["isSelected"] = true;
+      workGroup.isSelected = true;
       return workGroup;
     });
   }
@@ -89,6 +93,7 @@ export class SearchComponent implements OnInit {
       .withInputs(geneSymbols)
       .withWorkUnitsNames(workUnitsNames)
       .build();
+    /* tslint:disable:no-string-literal */
     this.searchService.search(search, pageNumber).subscribe(data => {
       this.dataSource = data['results'];
       this.dataSource.map(x => this.buildSearchResultComments(x));
@@ -100,6 +105,7 @@ export class SearchComponent implements OnInit {
       this.error = error;
       this.isLoading = false;
     });
+    /* tslint:enable:no-string-literal */
   }
 
   buildSearchResultComments(searcResult: SearchResult): void {
@@ -132,7 +138,7 @@ export class SearchComponent implements OnInit {
     const workUnitSelectAll = document.querySelector('#workUnitsSelectAll') as HTMLInputElement;
     let selectedWorkUnits = [];
     if (!workUnitSelectAll.checked) {
-      selectedWorkUnits = this.workUnits.filter(x => x['isSelected']).map(element => element.name);
+      selectedWorkUnits = this.workUnits.filter(x => x.isSelected).map(element => element.name);
     }
     return selectedWorkUnits;
   }
@@ -141,7 +147,7 @@ export class SearchComponent implements OnInit {
     const workGroupSelectAll = document.querySelector('#workGroupsSelectAll') as HTMLInputElement;
     let selectedWorkGroups = [];
     if (!workGroupSelectAll.checked) {
-      selectedWorkGroups = this.workGroups.filter(x => x['isSelected']).map(element => element.name);
+      selectedWorkGroups = this.workGroups.filter(x => x.isSelected).map(element => element.name);
     }
     return selectedWorkGroups;
   }
@@ -161,7 +167,7 @@ export class SearchComponent implements OnInit {
       const selector = '#' + this.getIdFromWorkUnitName(workUnit.name);
       const htmlElement = document.querySelector(selector) as HTMLInputElement;
       htmlElement.checked = e.target.checked;
-      workUnit["isSelected"] = e.target.checked;
+      workUnit.isSelected = e.target.checked;
     }
   }
 
@@ -170,24 +176,24 @@ export class SearchComponent implements OnInit {
       const selector = '#' + this.getIdFromWorkGroupName(workGroup.name);
       const htmlElement = document.querySelector(selector) as HTMLInputElement;
       htmlElement.checked = e.target.checked;
-      workGroup["isSelected"] = e.target.checked;
+      workGroup.isSelected = e.target.checked;
     }
   }
 
   onCheckedWorkUnitElement(element: any) {
-    const isSelected = !element['isSelected']
-    element['isSelected'] = isSelected;
+    const isSelected = !element.isSelected;
+    element.isSelected = isSelected;
     const workUnitSelectAll = document.querySelector('#workUnitsSelectAll') as HTMLInputElement;
-    workUnitSelectAll.checked = this.workUnits.filter(x => x["isSelected"]).length === this.workUnits.length;
+    workUnitSelectAll.checked = this.workUnits.filter(x => x.isSelected).length === this.workUnits.length;
 
     return isSelected;
   }
 
   onCheckedWorkGroupElement(element: any) {
-    const isSelected = !element['isSelected'];
-    element['isSelected'] = isSelected;
+    const isSelected = !element.isSelected;
+    element.isSelected = isSelected;
     const workGroupSelectAll = document.querySelector('#workGroupsSelectAll') as HTMLInputElement;
-    workGroupSelectAll.checked = this.workGroups.filter(x => x['isSelected']).length === this.workGroups.length;
+    workGroupSelectAll.checked = this.workGroups.filter(x => x.isSelected).length === this.workGroups.length;
 
     return isSelected;
   }

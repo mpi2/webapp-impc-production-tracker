@@ -49,8 +49,8 @@ export class ProjectDetailComponent implements OnInit {
     });
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.privacies = this.configurationData.privacies.map(x => { return { name: x } });
-      console.log('this.privacies ',this.privacies );
+      this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
+      console.log('this.privacies ', this.privacies );
     });
 
     this.dropdownSettingsSingle = {
@@ -71,7 +71,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private getProjectData(): void {
-    const id = this.route.snapshot.params['id'];
+    const id = this.route.snapshot.params.id;
     this.projectService.getProject(id).subscribe(data => {
       this.project = this.projectAdapter.adapt(data);
       console.log('project data::>>', data);
@@ -99,8 +99,8 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private getProductionPlans(): void {
-    if (this.project.links.productionPlans) {
-      this.project.links.productionPlans.map(x => {
+    if (this.project._links.productionPlans) {
+      this.project._links.productionPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
           this.productionPlansDetails.push(plan);
           this.error = null;
@@ -112,10 +112,8 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private gethenotypingPlans(): void {
-    console.log(this.project.links);
-    
-    if (this.project.links.phenotypingPlans) {
-      this.project.links.phenotypingPlans.map(x => {
+    if (this.project._links.phenotypingPlans) {
+      this.project._links.phenotypingPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
           this.phenotypingPlansDetails.push(plan);
           this.error = null;
@@ -164,7 +162,7 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   sortByPid(plans: Plan[]): Plan[] {
-    plans.sort(function (a, b) {
+    plans.sort((a, b) => {
       const nameA = a.pin;
       const nameB = b.pin;
       if (nameA < nameB) {

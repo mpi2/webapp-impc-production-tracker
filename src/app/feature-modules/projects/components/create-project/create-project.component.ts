@@ -2,8 +2,10 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { first } from 'rxjs/operators';
-import { WorkGroup, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService, 
-  WorkGroupService, GeneService } from 'src/app/core';
+import {
+  WorkGroup, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService,
+  WorkGroupService, GeneService
+} from 'src/app/core';
 import { NewProject } from '../../model/newProject';
 import { FunderService } from 'src/app/core/services/funder.service';
 import { ProjectService } from '../..';
@@ -28,7 +30,7 @@ export class CreateProjectComponent implements OnInit {
   projectIntentions: string[] = [];
   projectIntentionsTable: any;
   funders: any[] = [];
-  backgroundStrains: string[]  = [];
+  backgroundStrains: string[] = [];
   backgroundStrainsTable: any;
   symbol: string;
   genes: Gene[] = [];
@@ -42,8 +44,8 @@ export class CreateProjectComponent implements OnInit {
   configurationData: ConfigurationData;
   isDisabled = true;
 
-  @ViewChild('autocomplete',  {static: true}) autocomplete;
-
+  @ViewChild('autocomplete', { static: true }) autocomplete;
+  /* tslint:disable */
   projectGenes: LocalDataSource;
   geneSettings = {
     mode: external,
@@ -85,7 +87,7 @@ export class CreateProjectComponent implements OnInit {
       deleteConfirm: true
     },
   };
-
+/* tslint:enable */
   projectLocations: LocalDataSource;
   locationSettings = {
     // mode: external,
@@ -126,7 +128,7 @@ export class CreateProjectComponent implements OnInit {
           type: 'list',
           config: {
             selectText: 'Select',
-            list: [{title: '+', value: 'Positive'}, {title: '-', value: 'Negative'}]
+            list: [{ title: '+', value: 'Positive' }, { title: '-', value: 'Negative' }]
           }
         },
         sort: false
@@ -171,7 +173,7 @@ export class CreateProjectComponent implements OnInit {
           type: 'list',
           config: {
             selectText: 'Select',
-            list: [{title: 'Mouse', value: 'Mouse'}, {title: 'Human', value: 'Human'}]
+            list: [{ title: 'Mouse', value: 'Mouse' }, { title: 'Human', value: 'Human' }]
           }
         },
         sort: false
@@ -242,19 +244,19 @@ export class CreateProjectComponent implements OnInit {
     // });
 
     this.workGroupService.getWorkGroupByWorkUnit(this.f.workUnit.value).pipe(first()).subscribe(data => {
-        if (data) {
-          this.workGroups = data;
-        } else {
-          this.workGroups = [];
-        }
-      },
+      if (data) {
+        this.workGroups = data;
+      } else {
+        this.workGroups = [];
+      }
+    },
       error => {
         this.error = error;
-    });
+      });
 
     this.backgroundStrains = this.configurationData.trackedStrains;
     console.log('this.backgroundStrains => ', this.configurationData);
-    this.backgroundStrainsTable = this.backgroundStrains.map( (strain, index) => {
+    this.backgroundStrainsTable = this.backgroundStrains.map((strain, index) => {
       const strainName = {
         title: strain,
         value: strain
@@ -265,7 +267,7 @@ export class CreateProjectComponent implements OnInit {
 
     // this.priorities = this.configurationData.priorities;
     this.projectIntentions = this.configurationData.alleleTypes;
-    this.projectIntentionsTable = this.projectIntentions.map( (intent, index) => {
+    this.projectIntentionsTable = this.projectIntentions.map((intent, index) => {
       const intention = {
         title: intent,
         value: intent
@@ -337,7 +339,7 @@ export class CreateProjectComponent implements OnInit {
       // TODO
       return;
     }
-    let gene = new Gene();
+    const gene = new Gene();
     gene.symbol = this.gene.symbol;
     gene.accessionId = this.gene.accessionId;
     this.addGeneToProjectGenes(gene);
@@ -383,18 +385,18 @@ export class CreateProjectComponent implements OnInit {
     };
 
     this.projectService.postProject(this.newProject)
-        .pipe(first())
-        .subscribe(
-          data => {
-            this.loading = false;
-            console.log('Data => ', data);
-          },
-          error => {
-            this.error = error;
-            this.loading = false;
-            console.log('error: ', this.error);
-          }
-        );
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.loading = false;
+          console.log('Data => ', data);
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+          console.log('error: ', this.error);
+        }
+      );
 
     console.log('newProject => ', this.newProject);
     this.resetForm();

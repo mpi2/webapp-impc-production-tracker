@@ -1,3 +1,6 @@
+ 
+@import '@angular/material/prebuilt-themes/deeppurple-amber.css';
+ 
  html {
     font-family: sans-serif;
     line-height: 1.15;
