@@ -38,7 +38,7 @@ export class CrisprAttemptAdapter implements Adapter<CrisprAttempt> {
         crisprAttempt.miDate = this.getUTCFormat(crisprAttempt.miDate);
         crisprAttempt.comment = this.getEmptyIfNull(crisprAttempt.comment);
         crisprAttempt.attemptExternalRef = this.getEmptyIfNull(crisprAttempt.attemptExternalRef);
-        crisprAttempt.experimental = this.getFalseIfNull(crisprAttempt.experimental);        
+        crisprAttempt.experimental = this.getFalseIfNull(crisprAttempt.experimental);
         return crisprAttempt;
     }
 

@@ -29,15 +29,15 @@ export class ProductionPlanComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private _snackBar: MatSnackBar,
+    private snackBar: MatSnackBar,
     private planService: PlanService,
     private changeHistoryAdapter: ChangesHistoryAdapter,
     private planAdapter: PlanAdapter,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService) { }
-    
+
   ngOnInit() {
-    const pin = this.route.snapshot.params['pid'];
+    const pin = this.route.snapshot.params.pid;
     this.reloadForPin(pin);
   }
 
@@ -74,7 +74,7 @@ export class ProductionPlanComponent implements OnInit {
    */
   updatePlan() {
     console.log('Plan to update', this.plan);
-    
+
     this.loading = true;
     this.planService.updateProductionPlan(
       this.plan.pin, this.plan).subscribe(
@@ -83,7 +83,7 @@ export class ProductionPlanComponent implements OnInit {
           this.originalPlanAsString = JSON.stringify(this.plan);
           this.changeDetails = data;
           this.changeDetails.details.map(x => x.field = this.changeHistoryAdapter.formatPropertyName(x.field));
-          this._snackBar.openFromComponent(UpdateNotificationComponent, {
+          this.snackBar.openFromComponent(UpdateNotificationComponent, {
             duration: 3000,
             data: this.changeDetails
           });

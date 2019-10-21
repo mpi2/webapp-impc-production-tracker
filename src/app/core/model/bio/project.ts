@@ -19,7 +19,8 @@ export class Project {
     comment: string;
     isObjectRestricted: boolean;
     isActive: boolean;
-    links: ProjectLinks;
+    // tslint:disable-next-line
+    _links: ProjectLinks;
 }
 
 @Injectable({
@@ -28,16 +29,16 @@ export class Project {
 export class ProjectAdapter implements Adapter<Project> {
     adapt(item: any): Project {
         const project: Project = item;
-        if (project.links) {
-            if (project.links.productionPlans) {
-                project.links.productionPlans = this.convertElementToArray(project.links.productionPlans);
+        if (project._links) {
+            if (project._links.productionPlans) {
+                project._links.productionPlans = this.convertElementToArray(project._links.productionPlans);
             }
 
-            if (project.links.phenotypingPlans) {
-                project.links.phenotypingPlans = this.convertElementToArray(project.links.phenotypingPlans);
+            if (project._links.phenotypingPlans) {
+                project._links.phenotypingPlans = this.convertElementToArray(project._links.phenotypingPlans);
             }
         } else {
-            project.links = new ProjectLinks();
+            project._links = new ProjectLinks();
         }
         return project;
     }

@@ -24,7 +24,7 @@ import { IntentionsModule } from '../intentions/intentions.module';
     PlansRoutingModule,
     AttemptsModule,
     IntentionsModule
-    
+
   ],
   exports: [
     PlanSummaryComponent,

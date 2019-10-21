@@ -13,7 +13,7 @@ export class LocationComponent implements OnInit {
 
   ngOnInit() {
     console.log('LocationComponent location: ', this.location);
-    
+
   }
 
 }

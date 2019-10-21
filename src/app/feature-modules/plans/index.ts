@@ -1,3 +1,3 @@
-export * from './services/plan.service'
+export * from './services/plan.service';
 
-export * from './model/plan-details'
+export * from './model/plan-details';

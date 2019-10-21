@@ -20,7 +20,7 @@ export class MutagenesisDonorsComponent implements OnInit {
   editionStatusByDonor = new Map<number, string>();
   nextNewId = -1;
   configurationData: ConfigurationData;
-  preparationTypes: any[] = [];
+  preparationTypes: NamedValue[] = [];
 
   constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog) { }
 
@@ -32,7 +32,7 @@ export class MutagenesisDonorsComponent implements OnInit {
   setFormValues(): void {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.preparationTypes = this.configurationData.preparationTypes.map(x => { name: x });
+      this.preparationTypes = this.configurationData.preparationTypes.map(x => ({ name: x }));
     });
   }
 

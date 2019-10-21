@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { ProjectSummary } from '../model/project-summary';
 import { Project } from '../../../core/model/bio/project';
 import { NewProject } from '../model/newProject';
 import { ConfigAssetLoaderService } from '../../../core/services/config-asset-loader.service';
@@ -35,7 +34,7 @@ export class ProjectService {
   }
 
   getPaginatedProjectSummaries(page: number) {
-    return this.http.get<ProjectSummary[]>(this.apiServiceUrl + '/api/projects?page=' + page);
+    return this.http.get<Project[]>(this.apiServiceUrl + '/api/projects?page=' + page);
   }
 
   getPaginatedProjectsWithFilters(
@@ -45,13 +44,9 @@ export class ProjectService {
     intentions: string[],
     workUnits: string[],
     privacies: string[]) {
-
-    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols,intentions, workUnits, privacies);
-    
+    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols, intentions, workUnits, privacies);
     const url = this.apiServiceUrl + '/api/projects?page=' + page + queryParameters;
-    console.log(url);
-
-    return this.http.get<ProjectSummary[]>(url);
+    return this.http.get<Project[]>(url);
   }
 
   buildFilterQueryParameters(
@@ -112,6 +107,5 @@ export class ProjectService {
    */
   getHistoryByTpn(tpn: string) {
     return this.http.get<ChangesHistory[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/history');
-    
   }
 }

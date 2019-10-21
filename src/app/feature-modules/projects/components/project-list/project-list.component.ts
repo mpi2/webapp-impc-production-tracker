@@ -1,12 +1,12 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { ProjectService } from '../../services/project.service';
-import { ProjectSummary, ProjectSummaryAdapter } from '../../model/project-summary';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService, LoggedUser } from 'src/app/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { ProjectFilterService } from '../../services/project-filter.service';
 import { Filter } from 'src/app/core/model/common/filter';
 import { ArrayFilter } from 'src/app/core/model/common/array-filter';
+import { Project, ProjectAdapter } from 'src/app/core/model/bio/project';
 
 @Component({
   selector: 'app-project-list',
@@ -18,7 +18,7 @@ export class ProjectListComponent implements OnInit {
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
   isLoading = true;
-  projects: ProjectSummary[] = [];
+  projects: Project[] = [];
   p = 0;
   page: any = {};
 
@@ -45,7 +45,7 @@ export class ProjectListComponent implements OnInit {
 
   constructor(
     private projectService: ProjectService,
-    private adapter: ProjectSummaryAdapter,
+    private adapter: ProjectAdapter,
     private loggedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService) { }
 
@@ -55,8 +55,8 @@ export class ProjectListComponent implements OnInit {
       this.configurationData = data;
       this.initFiltersValues();
       if (this.loggedUserService.getLoggerUser()) {
-        this.loggedUserService.getLoggerUser().subscribe(data => {
-          this.loggedUser = data;
+        this.loggedUserService.getLoggerUser().subscribe(loggedUserData => {
+          this.loggedUser = loggedUserData;
           this.getPage(0);
         });
       } else {
@@ -73,9 +73,9 @@ export class ProjectListComponent implements OnInit {
   }
 
   private initFiltersValues(): void {
-    this.intentions = this.configurationData.alleleTypes.map(p => { return { name: p } });
-    this.assignmentStatuses = this.configurationData.assignmentStatuses.map(p => { return { name: p } });
-    this.privacies = this.configurationData.privacies.map(p => { return { name: p } });
+    this.intentions = this.configurationData.alleleTypes.map(p => ({ name: p }));
+    this.assignmentStatuses = this.configurationData.assignmentStatuses.map(p => ({ name: p }));
+    this.privacies = this.configurationData.privacies.map(p => ({ name: p }));
   }
 
   getPage(pageNumber: number) {
@@ -83,6 +83,7 @@ export class ProjectListComponent implements OnInit {
     const apiPageNumber = pageNumber;
     const workUnitNameFilter = this.getWorkUnitNameFilter();
 
+    /* tslint:disable:no-string-literal */
     this.projectService.getPaginatedProjectsWithFilters(
       apiPageNumber,
       this.tpnFilterObject.value,
@@ -106,6 +107,7 @@ export class ProjectListComponent implements OnInit {
           this.error = error;
         }
       );
+      /* tslint:enable:no-string-literal */
   }
 
   getWorkUnitNameFilter(): string[] {
@@ -162,7 +164,7 @@ export class ProjectListComponent implements OnInit {
   getMarkerSymbolFilter(): string[] {
     let result = [];
     if (this.markerSymbolFilterObject.value) {
-      result = [this.markerSymbolFilterObject.value.trim()]
+      result = [this.markerSymbolFilterObject.value.trim()];
     }
     return result;
   }

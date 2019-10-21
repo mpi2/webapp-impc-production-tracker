@@ -7,7 +7,7 @@ export class Guide {
     start: number;
     truncatedGuide: boolean;
     strand: string;
-    genome_build: string;
+    genomeBuild: string;
     pam3: string;
     pam5: string;
     protospacerSequence: string;

@@ -31,7 +31,7 @@ export class ProjectFilterService {
         const MINIMUN_SIZE = 7;
         let result = false;
         if (value) {
-            result = value.toLocaleLowerCase().startsWith("tpn:") && value.length > MINIMUN_SIZE && value !== currentFilterValue;
+            result = value.toLocaleLowerCase().startsWith('tpn:') && value.length > MINIMUN_SIZE && value !== currentFilterValue;
         }
         return result;
     }
