@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IntentionByLocation } from 'src/app/core/model/bio/intention-by-location';
+import { ProjectIntention } from 'src/app/core/model/bio/project-intention';
 
 @Component({
   selector: 'app-intention-by-location',
@@ -7,7 +7,8 @@ import { IntentionByLocation } from 'src/app/core/model/bio/intention-by-locatio
   styleUrls: ['./intention-by-location.component.css']
 })
 export class IntentionByLocationComponent implements OnInit {
-  @Input() intentionByLocation: IntentionByLocation;
+
+  @Input() projectIntention: ProjectIntention;
 
   constructor() { }
 

@@ -6,6 +6,7 @@ import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { ProjectIntention } from 'src/app/core/model/bio/project-intention';
 
 @Component({
   selector: 'app-project-detail',
@@ -29,6 +30,10 @@ export class ProjectDetailComponent implements OnInit {
   privacies: NamedValue[] = [];
   selectedPrivacy = [];
 
+  projectIntentionsByGene: ProjectIntention[] = [];
+  projectIntentionsByLocation: ProjectIntention[] = [];
+  projectIntentionsBySequence: ProjectIntention[] = [];
+
   projectForm: FormGroup;
 
   constructor(
@@ -42,7 +47,7 @@ export class ProjectDetailComponent implements OnInit {
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
-
+    // this.project.getIntentionsByGene()
     this.projectForm = this.formBuilder.group({
       privacy: ['', Validators.required],
       comments: ['', Validators.required],
@@ -50,7 +55,6 @@ export class ProjectDetailComponent implements OnInit {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
-      console.log('this.privacies ', this.privacies );
     });
 
     this.dropdownSettingsSingle = {
@@ -75,10 +79,10 @@ export class ProjectDetailComponent implements OnInit {
     this.projectService.getProject(id).subscribe(data => {
       this.project = this.projectAdapter.adapt(data);
       console.log('project data::>>', data);
-
       this.originalProjectAsString = JSON.stringify(data);
       this.getProductionPlans();
       this.gethenotypingPlans();
+      this.loadIntentionsByType();
       this.loadPermissions();
       this.setFormValues();
     });
@@ -96,6 +100,12 @@ export class ProjectDetailComponent implements OnInit {
     } else {
       this.canUpdateProject = false;
     }
+  }
+
+  private loadIntentionsByType() {
+    this.projectIntentionsByGene = this.getGeneIntentions();
+    this.projectIntentionsByLocation = this.getLocationIntentions();
+    this.projectIntentionsBySequence = this.getSequenceIntentions();
   }
 
   private getProductionPlans(): void {
@@ -159,6 +169,32 @@ export class ProjectDetailComponent implements OnInit {
 
   shouldUpdateBeEnabled(): boolean {
     return this.originalProjectAsString !== JSON.stringify(this.project);
+  }
+
+  getSequenceIntentionsByType(type: string): ProjectIntention[] {
+    const projectIntentions: ProjectIntention[] = [];
+    let result = null;
+    if (this.project.projectIntentions) {
+      this.project.projectIntentions.filter(x => x.intentionTypeName === type).map(x => projectIntentions.push(x));
+      if (projectIntentions.length === 0) {
+        result = null;
+      } else {
+        result = projectIntentions;
+      }
+    }
+    return result;
+  }
+
+  getGeneIntentions(): ProjectIntention[] {
+    return this.getSequenceIntentionsByType('gene');
+  }
+
+  getLocationIntentions(): ProjectIntention[] {
+    return this.getSequenceIntentionsByType('location');
+  }
+
+  getSequenceIntentions(): ProjectIntention[] {
+    return this.getSequenceIntentionsByType('sequence');
   }
 
   sortByPid(plans: Plan[]): Plan[] {

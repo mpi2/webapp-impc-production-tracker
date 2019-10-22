@@ -2,8 +2,8 @@ import { ProjectLinks } from '../../../feature-modules/projects/model/project-li
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
 import { StatusDate } from './status-date';
+import { ProjectIntention } from './project-intention';
 import { IntentionByGene } from './intention-by-gene';
-import { IntentionByLocation } from './intention-by-location';
 
 export class Project {
     id: number;
@@ -13,8 +13,7 @@ export class Project {
     assignmentStatusDates: StatusDate[];
     withdrawn: boolean;
     recovery: boolean;
-    intentionsByGene: IntentionByGene[];
-    intentionsByLocation: IntentionByLocation[];
+    projectIntentions: ProjectIntention[];
     imitsMiPlanId: number;
     comment: string;
     isObjectRestricted: boolean;
