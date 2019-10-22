@@ -9,7 +9,7 @@ RUN npm install -g npm && npm set progress=false && npm config set depth 0 && np
 
 ## Storing node modules on a separate layer
 ## will prevent unnecessary npm installs at each build
-RUN npm install && mkdir /app && cp -R ./node_modules ./app && npm audit
+RUN npm install && mkdir /app && cp -R ./node_modules ./app
 
 
 WORKDIR /app
