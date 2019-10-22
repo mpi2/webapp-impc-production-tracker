@@ -2,8 +2,7 @@
 import { Location } from 'src/app/feature-modules/locations/model/location';
 
 export class IntentionByLocation {
-    alleleTypeName: string;
+    location: Location;
     chrFeatureTypeName: string;
-    molecularMutationTypeName: string;
-    alleleCategorizations: string[];
+    index: number;
 }

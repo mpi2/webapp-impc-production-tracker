@@ -1,6 +1,6 @@
-<app-gene [gene]="projectIntention.intentionByGene.gene"></app-gene>
+<app-gene *ngIf="projectIntention.intentionByGene" [gene]="projectIntention.intentionByGene.gene"></app-gene>
 
-<fieldset *ngIf="intentionByGene">
+<fieldset>
     <label for="alleleType">Allele Type:</label>
     <div id="alleleType" class="content">{{ projectIntention.alleleTypeName || 'Not defined' }}</div>
 
