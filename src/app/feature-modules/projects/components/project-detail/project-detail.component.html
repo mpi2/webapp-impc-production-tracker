@@ -16,8 +16,10 @@
         <label for="tpn">Project id:</label>
         <div id="tpn">{{ project.tpn }}</div>
       </div>
-      <app-intention-by-gene-list *ngIf="projectIntentionsByGene" [projectIntentions]="projectIntentionsByGene"></app-intention-by-gene-list>
-      <app-intention-by-location-list *ngIf="projectIntentionsByLocation" [projectIntentions]="projectIntentionsByLocation"></app-intention-by-location-list>
+      <app-intention-by-gene-list *ngIf="projectIntentionsByGene" [projectIntentions]="projectIntentionsByGene">
+      </app-intention-by-gene-list>
+      <app-intention-by-location-list *ngIf="projectIntentionsByLocation"
+        [projectIntentions]="projectIntentionsByLocation"></app-intention-by-location-list>
 
       <fieldset>
 
@@ -32,11 +34,11 @@
         <div id="privacy" class="content">
           <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
           <ng-template #privacyEditable>
-            <div class="form-group">
-              <ng-multiselect-dropdown type="text" name="privacy" formControlName="privacy" [placeholder]="'--Select--'"
-                [data]="privacies" [settings]="dropdownSettingsSingle" (onSelect)="onItemSelect($event)">
-              </ng-multiselect-dropdown>
-            </div>
+            <mat-select class="select-content" [(value)]="project.privacyName">
+              <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
+                {{privacy.name}}
+              </mat-option>
+            </mat-select>
           </ng-template>
           <ng-template #privacyReadOnly>
             {{project.privacyName}}

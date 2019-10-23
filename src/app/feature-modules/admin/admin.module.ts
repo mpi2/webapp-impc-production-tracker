@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 
 import { AdminRoutingModule } from './admin-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 
 

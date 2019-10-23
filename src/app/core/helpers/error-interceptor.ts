@@ -62,10 +62,11 @@ export class ErrorInterceptor implements HttpInterceptor {
 
     getApiErrorMessage(error) {
         let errorMessage = error.error.apierror.message || error.statusText;
-        if (error.error.apierror.subErrors !== null) {
+        
+        if (error.error.apierror.subErrors) {
             errorMessage += ': ' + error.error.apierror.subErrors[0].message;
         }
-        if (error.error.apierror.debubMessage !== null) {
+        if (error.error.apierror.debubMessage) {
             errorMessage += ': ' + error.error.apierror.debubMessage;
         }
         return errorMessage;

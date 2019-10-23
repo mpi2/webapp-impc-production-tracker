@@ -5,6 +5,14 @@ import { ConfigurationData } from 'src/app/core/model/conf/configuration-data';
 import { UserService } from 'src/app/core/services/user.service';
 import { ConfigurationDataService } from 'src/app/core/services/configuration-data.service';
 import { first } from 'rxjs/operators';
+import { Subscription, Observable } from 'rxjs';
+import { EntityValues } from '../../model/entity-values';
+import { ManagedListsService } from 'src/app/feature-modules/services/managed-lists.service';
+
+export class WorkUnitRole {
+  workUnitName: string;
+  roleName: string;
+}
 
 @Component({
   selector: 'app-user-registration',
@@ -12,27 +20,28 @@ import { first } from 'rxjs/operators';
   styleUrls: ['./user-registration.component.css']
 })
 export class UserRegistrationComponent implements OnInit {
-  signupForm: FormGroup;
 
-  dropdownSettingsWorkUnit = {};
-  dropdownSettingsInstitute = {};
-  dropdownSettingsRole = {};
+  userLists: EntityValues[];
+  signupForm: FormGroup;
 
   loading = false;
   submitted = false;
   returnUrl: string;
   error = '';
   user: User;
-  workUnits: string[] = [];
-  institutes: string[] = [];
-  roles: string[] = [];
+  workUnits: NamedValue[] = [];
+  institutes: NamedValue[] = [];
+  roles: NamedValue[] = [];
 
   configurationData: ConfigurationData;
+
+  workUnitRoles: WorkUnitRole[] = [];
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private configurationService: ConfigurationDataService) { }
+    private configurationService: ConfigurationDataService,
+    private managedListsService: ManagedListsService) { }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
@@ -44,37 +53,21 @@ export class UserRegistrationComponent implements OnInit {
       role: ['', Validators.required]
     });
 
-    this.configurationService.getConfigurationData().subscribe(data => {
-      this.configurationData = data;
-      this.workUnits = this.configurationData.workUnits;
-      this.institutes = this.configurationData.institutes;
-      this.roles = this.configurationData.roles;
+    this.managedListsService.getManagedListsByUser().subscribe(data => {
+      console.log('data:', data);
+      
     });
 
-    this.dropdownSettingsWorkUnit = {
-      singleSelection: true,
-      idField: 'name',
-      textField: 'name',
-      enableCheckAll: false,
-      allowSearchFilter: true
-    };
+   // const workUnitRole = new WorkUnitRole();
+    
+    this.workUnitRoles.push(new WorkUnitRole());
+    this.workUnitRoles.push(new WorkUnitRole());
 
-    this.dropdownSettingsInstitute = {
-      singleSelection: false,
-      idField: 'name',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      allowSearchFilter: true
-    };
-
-    this.dropdownSettingsRole = {
-      singleSelection: true,
-      idField: 'name',
-      textField: 'name',
-      enableCheckAll: false,
-      allowSearchFilter: true
-    };
+    this.configurationService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.workUnits = this.configurationData.workUnits.map(x => { return { name: x } });
+      this.institutes = this.configurationData.institutes.map(x => { return { name: x } });
+    });
   }
 
   // convenience getter for easy access to form fields

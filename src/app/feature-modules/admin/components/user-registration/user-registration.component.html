@@ -1,3 +1,115 @@
+<mat-card>
+  <mat-card-content>
+    <mat-toolbar>
+      <span>Creation of new account</span>
+    </mat-toolbar>
+    <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="my-form">
+     
+  
+      <mat-form-field class="full-width">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="Name" name="fname" required>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Password</mat-label>
+        <input type="password" matInput placeholder="Password" name="password" required>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" name="email" required>
+      </mat-form-field>
+
+
+      <div class="content" *ngFor="let workUnitRole of workUnitRoles">
+    
+          <mat-select placeholder="Work Unit" >
+              <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name" required>
+                {{workUnit.name}}
+              </mat-option>
+            </mat-select>
+
+            <mat-select placeholder="Role for work unit">
+                <mat-option *ngFor="let workUnit of workUnitsNames" [value]="workUnit.name">
+                  {{workUnit.name}}
+                </mat-option>
+              </mat-select>
+           
+      </div>
+
+      <mat-form-field class="full-width">
+        <mat-select placeholder="Work Unit">
+          <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name" required>
+            {{workUnit.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-select placeholder="Role for work unit">
+          <mat-option *ngFor="let workUnit of workUnitsNames" [value]="workUnit.name">
+            {{workUnit.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-select placeholder="Institute">
+          <mat-option *ngFor="let workUnit of workUnitsNames" [value]="workUnit.name">
+            {{workUnit.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-select placeholder="Consortium">
+          <mat-option *ngFor="let workUnit of workUnitsNames" [value]="workUnit.name">
+            {{workUnit.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="full-width">
+        <mat-select placeholder="Role for Institute-Consortium">
+          <mat-option *ngFor="let workUnit of workUnitsNames" [value]="workUnit.name">
+            {{workUnit.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-card-actions>
+        <button mat-raised-button color="primary">Create</button>
+      </mat-card-actions>
+
+
+    </form>
+  </mat-card-content>
+
+</mat-card>
+
+<div class="form-container">
+  <mat-form-field>
+    <input matInput placeholder="Name">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input type="password" matInput placeholder="Password">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput placeholder="Email">
+  </mat-form-field>
+
+
+  <mat-form-field>
+    <mat-select placeholder="Work Unit">
+      <mat-option *ngFor="let workUnit of workUnitsNames" [value]="workUnit.name">
+        {{workUnit.name}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+</div>
 <h2>Sign up</h2>
 <form [formGroup]="signupForm" (ngSubmit)="onSubmit()">
   <div class="form-group">
