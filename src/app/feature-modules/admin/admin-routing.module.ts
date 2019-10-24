@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PermissionsService } from 'src/app/core/services/permissions.service';
-import { UserRegistrationComponent } from './user-registration/user-registration.component';
+import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 

@@ -1,0 +1,138 @@
+<mat-card>
+  <mat-card-content>
+    <mat-toolbar>
+      <span>Creation of new account</span>
+    </mat-toolbar>
+
+    <form [formGroup]="signupForm"  class="my-form">
+
+      <mat-card>
+        <mat-card-subtitle>Basic information</mat-card-subtitle>
+        <mat-card-content>
+          <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name" formControlName="name" required>
+            <mat-error *ngIf="f.name.invalid">{{ 'You must enter a value' }}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Password</mat-label>
+            <input type="password" matInput placeholder="Password" formControlName="password" required>
+            <mat-error *ngIf="f.password.invalid">{{ 'You must enter a value' }}</mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Email" formControlName="email" required>
+            <mat-error *ngIf="f.email.invalid">{{ getEmailErrorMessage() }}</mat-error>
+          </mat-form-field>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-subtitle>Work unit association(s)</mat-card-subtitle>
+        <mat-card-content>
+
+          <div *ngIf="canSetRoles; then sectionWorkUnitsWithRoles else sectionWorkUnitsWithoutRoles">
+          </div>
+          <ng-template #sectionWorkUnitsWithRoles>
+            <div class="content" *ngFor="let workUnitRole of workUnitRoles">
+              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
+                fxLayoutGap.xs="0">
+                <div class="item item-1" fxFlex="40%">
+                  <mat-select placeholder="Work Unit">
+                    <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name" required>
+                      {{workUnit.name}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="item item-2" fxFlex="40%">
+                  <mat-select placeholder="Role">
+                    <mat-option *ngFor="let role of roles" [value]="role.name">
+                      {{role.name}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="item item-3" fxFlex>
+                  <button (click)="deleteWorkUnitRole()">
+                    <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <mat-card-actions>
+              <button (click)="addWorkUnitRole()">
+                <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+              </button>
+            </mat-card-actions>
+          </ng-template>
+          <ng-template #sectionWorkUnitsWithoutRoles>
+            <mat-form-field>
+              <mat-label>Work Unit</mat-label>
+              <mat-select [(value)]="selectedWorkUnits" multiple>
+                <mat-option *ngFor="let workUnit of workUnits" value="{{ workUnit.name }}">{{workUnit.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-template>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-subtitle>Consortium association(s)</mat-card-subtitle>
+        <mat-card-content>
+
+          <div *ngIf="canSetRoles; then sectionConsortiaWithRoles else sectionConsortiaWithoutRoles">
+          </div>
+          <ng-template #sectionConsortiaWithRoles>
+            <div class="content" *ngFor="let consortiumRole of consortiumRoles">
+              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
+                fxLayoutGap.xs="0">
+                <div class="item item-1" fxFlex="40%">
+                  <mat-select placeholder="Consortium">
+                    <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>
+                      {{consortium.name}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="item item-2" fxFlex="40%">
+                  <mat-select placeholder="Role">
+                    <mat-option *ngFor="let role of roles" [value]="role.name">
+                      {{role.name}}
+                    </mat-option>
+                  </mat-select>
+                </div>
+                <div class="item item-3" fxFlex>
+                  <button (click)="deleteConsortiumRole()">
+                    <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <mat-card-actions>
+              <button (click)="addConsortiumRole()">
+                <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+              </button>
+            </mat-card-actions>
+          </ng-template>
+          <ng-template #sectionConsortiaWithoutRoles>
+              <mat-form-field>
+                  <mat-label>Consortium</mat-label>
+                  <mat-select [(value)]="selectedConsortia" multiple>
+                    <mat-option *ngFor="let consortium of consortia" value="{{ consortium.name }}">{{consortium.name}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+          </ng-template>
+
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card-actions>
+        <button (click)="onSubmit()" mat-raised-button color="primary">Create</button>
+      </mat-card-actions>
+
+    </form>
+  </mat-card-content>
+
+</mat-card>
