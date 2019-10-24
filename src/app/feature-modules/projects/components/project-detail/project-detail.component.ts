@@ -56,7 +56,7 @@ export class ProjectDetailComponent implements OnInit {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
       console.log('this.privacies', this.privacies);
-      
+
     });
 
     this.dropdownSettingsSingle = {

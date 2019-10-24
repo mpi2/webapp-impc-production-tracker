@@ -1,16 +1,19 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder, Validators, FormControl } from '@angular/forms';
 import { User } from 'src/app/core/model/user/user';
-import { ConfigurationData } from 'src/app/core/model/conf/configuration-data';
 import { UserService } from 'src/app/core/services/user.service';
-import { ConfigurationDataService } from 'src/app/core/services/configuration-data.service';
 import { first } from 'rxjs/operators';
-import { Subscription, Observable } from 'rxjs';
 import { EntityValues } from '../../model/entity-values';
 import { ManagedListsService } from 'src/app/feature-modules/services/managed-lists.service';
+import { LoggedUserService, LoggedUser } from 'src/app/core';
 
 export class WorkUnitRole {
   workUnitName: string;
+  roleName: string;
+}
+
+export class ConsortiumRole {
+  consortiumName: string;
   roleName: string;
 }
 
@@ -26,48 +29,64 @@ export class UserRegistrationComponent implements OnInit {
 
   loading = false;
   submitted = false;
-  returnUrl: string;
   error = '';
   user: User;
-  workUnits: NamedValue[] = [];
-  institutes: NamedValue[] = [];
-  roles: NamedValue[] = [];
 
-  configurationData: ConfigurationData;
+  workUnits: NamedValue[] = [];
+  roles: NamedValue[] = [];
+  consortia: NamedValue[] = [];
+
+  selectedWorkUnits: string;
+  selectedConsortia: string;
+
+  listsByUser: EntityValues[];
 
   workUnitRoles: WorkUnitRole[] = [];
+  consortiumRoles: ConsortiumRole[] = [];
+
+  canSetRoles = false;
+
+  // name = new FormControl('', [Validators.required]);
+
 
   constructor(
     private formBuilder: FormBuilder,
     private userService: UserService,
-    private configurationService: ConfigurationDataService,
-    private managedListsService: ManagedListsService) { }
+    private managedListsService: ManagedListsService,
+    private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
-      email: ['', Validators.required],
-      workUnit: ['', Validators.required],
-      institute: ['', Validators.required],
-      role: ['', Validators.required]
+      email: ['', [Validators.required, Validators.email]]
     });
+
+    this.loggedUserService.getLoggerUser().subscribe((data: LoggedUser) =>
+      this.canSetRoles = !data.admin);
 
     this.managedListsService.getManagedListsByUser().subscribe(data => {
-      console.log('data:', data);
-      
+      this.listsByUser = data;
+      this.initLists();
     });
 
-   // const workUnitRole = new WorkUnitRole();
-    
-    this.workUnitRoles.push(new WorkUnitRole());
-    this.workUnitRoles.push(new WorkUnitRole());
+    this.addWorkUnitRole();
+    this.addConsortiumRole();
+  }
 
-    this.configurationService.getConfigurationData().subscribe(data => {
-      this.configurationData = data;
-      this.workUnits = this.configurationData.workUnits.map(x => { return { name: x } });
-      this.institutes = this.configurationData.institutes.map(x => { return { name: x } });
-    });
+  private initLists() {
+    this.workUnits = this.getValuesByEntity('workUnits');
+    this.roles = this.getValuesByEntity('roles');
+    this.consortia = this.getValuesByEntity('consortia');
+  }
+
+  private getValuesByEntity(name: string) {
+    let results: NamedValue[] = [];
+    const entityValues: EntityValues = this.listsByUser.find(x => x.entityName === name);
+    if (entityValues) {
+      results = entityValues.values;
+    }
+    return results;
   }
 
   // convenience getter for easy access to form fields
@@ -75,6 +94,7 @@ export class UserRegistrationComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
+    console.log('this.signupForm', this.signupForm);
 
     // stop here if form is invalid
     if (this.signupForm.invalid) {
@@ -105,4 +125,25 @@ export class UserRegistrationComponent implements OnInit {
         });
   }
 
+  getEmailErrorMessage() {
+    return this.f.email.hasError('required') ? 'You must enter a value' :
+      this.f.email.hasError('email') ? 'Not a valid email' :
+        '';
+  }
+
+  addWorkUnitRole() {
+    this.workUnitRoles.push(new WorkUnitRole());
+  }
+
+  addConsortiumRole() {
+    this.consortiumRoles.push(new ConsortiumRole());
+  }
+
+  deleteWorkUnitRole() {
+
+  }
+
+  deleteConsortiumRole() {
+
+  }
 }
