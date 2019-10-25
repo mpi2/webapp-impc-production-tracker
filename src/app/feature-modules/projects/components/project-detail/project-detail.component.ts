@@ -24,7 +24,6 @@ export class ProjectDetailComponent implements OnInit {
 
   assignmentStatusDatesColumns = ['name', 'date'];
 
-  dropdownSettingsSingle = {};
   configurationData: ConfigurationData;
 
   privacies: NamedValue[] = [];
@@ -55,17 +54,7 @@ export class ProjectDetailComponent implements OnInit {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
-      console.log('this.privacies', this.privacies);
-
     });
-
-    this.dropdownSettingsSingle = {
-      singleSelection: true,
-      idField: 'name',
-      textField: 'name',
-      enableCheckAll: false,
-      allowSearchFilter: true
-    };
 
     this.getProjectData();
   }

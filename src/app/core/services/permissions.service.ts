@@ -11,7 +11,8 @@ import { ConfigAssetLoaderService } from './config-asset-loader.service';
 export class PermissionsService {
 
   // Paths
-  static readonly REGISTER_USER = 'register-user';
+  static readonly REGISTER_USER = 'manage-user';
+  static readonly UPDATE_USER = 'manage-user/:id';
   static readonly EXECUTE_MANAGER_TASKS = 'execute-manager-tasks';
 
   // Actions
@@ -39,7 +40,7 @@ export class PermissionsService {
     let hasPermission: boolean;
     return this.getPermissions().pipe(map(v => {
       switch (path) {
-        case PermissionsService.REGISTER_USER:
+        case PermissionsService.REGISTER_USER: case PermissionsService.UPDATE_USER:
           hasPermission = v.canRegisterUser;
           break;
         case PermissionsService.EXECUTE_MANAGER_TASKS:
