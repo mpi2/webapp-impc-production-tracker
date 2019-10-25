@@ -7,6 +7,7 @@ import { ManagedListsService } from 'src/app/feature-modules/services/managed-li
 import { LoggedUserService, LoggedUser } from 'src/app/core';
 import { RoleWorkUnit } from 'src/app/core/model/user/role_work_unit';
 import { RoleConsortium } from 'src/app/core/model/user/role_consortium';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-registration',
@@ -21,7 +22,7 @@ export class UserRegistrationComponent implements OnInit {
   loading = false;
   submitted = false;
   error = '';
-  user: User;
+  user: User = new User();
 
   workUnits: NamedValue[] = [];
   roles: NamedValue[] = [];
@@ -38,25 +39,30 @@ export class UserRegistrationComponent implements OnInit {
   nextNewIdRoleWorkUnits = -1;
   nextNewIdRoleConsortia = -1;
 
-  canSetRoles = false;
+  adminUser = false;
 
   constructor(
     private formBuilder: FormBuilder,
+    private route: ActivatedRoute,
     private userService: UserService,
     private managedListsService: ManagedListsService,
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
+    const id = this.route.snapshot.params.id;
+    console.log('id=>', id);
+
     this.signupForm = this.formBuilder.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      isAdmin: []
     });
 
     this.loggedUserService.getLoggerUser()
       .subscribe((data: LoggedUser) => {
-        this.canSetRoles = !data.admin;
-        if (this.canSetRoles) {
+        this.adminUser = data.admin;
+        if (this.adminUser) {
           this.addWorkUnitRole();
           this.addConsortiumRole();
         }
@@ -130,7 +136,7 @@ export class UserRegistrationComponent implements OnInit {
 
   private getRoleWorkUnits() {
     let roleWorkUnits: RoleWorkUnit[] = [];
-    if (this.canSetRoles) {
+    if (this.adminUser) {
       roleWorkUnits = this.roleWorkUnits;
     } else {
       this.selectedWorkUnits.map(x => {
@@ -142,7 +148,7 @@ export class UserRegistrationComponent implements OnInit {
 
   private getRoleConsortia() {
     let roleConsortia: RoleConsortium[] = [];
-    if (this.canSetRoles) {
+    if (this.adminUser) {
       roleConsortia = this.roleConsortia;
     } else {
       this.selectedConsortia.map(x => {

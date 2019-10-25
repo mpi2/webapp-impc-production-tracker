@@ -24,6 +24,7 @@
             <input matInput placeholder="Email" formControlName="email" required>
             <mat-error *ngIf="f.email.invalid">{{ getEmailErrorMessage() }}</mat-error>
           </mat-form-field>
+          <mat-checkbox *ngIf="adminUser" formControlName="isAdmin" [(value)]="user.isAdmin">Is Administrator?</mat-checkbox>
         </mat-card-content>
       </mat-card>
 
@@ -31,7 +32,7 @@
         <mat-card-subtitle>Work unit association(s)</mat-card-subtitle>
         <mat-card-content>
 
-          <div *ngIf="canSetRoles; then sectionWorkUnitsWithRoles else sectionWorkUnitsWithoutRoles">
+          <div *ngIf="adminUser; then sectionWorkUnitsWithRoles else sectionWorkUnitsWithoutRoles">
           </div>
           <ng-template #sectionWorkUnitsWithRoles>
             <div class="content" *ngFor="let roleWorkUnit of roleWorkUnits">
@@ -81,7 +82,7 @@
         <mat-card-subtitle>Consortium association(s)</mat-card-subtitle>
         <mat-card-content>
 
-          <div *ngIf="canSetRoles; then sectionConsortiaWithRoles else sectionConsortiaWithoutRoles">
+          <div *ngIf="adminUser; then sectionConsortiaWithRoles else sectionConsortiaWithoutRoles">
           </div>
           <ng-template #sectionConsortiaWithRoles>
             <div class="content" *ngFor="let roleConsortium of roleConsortia">
