@@ -4,17 +4,17 @@ import { User } from 'src/app/core/model/user/user';
 import { UserService } from 'src/app/core/services/user.service';
 import { EntityValues } from '../../model/entity-values';
 import { ManagedListsService } from 'src/app/feature-modules/services/managed-lists.service';
-import { LoggedUserService, LoggedUser } from 'src/app/core';
+import { LoggedUserService } from 'src/app/core';
 import { RoleWorkUnit } from 'src/app/core/model/user/role_work_unit';
 import { RoleConsortium } from 'src/app/core/model/user/role_consortium';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-user-registration',
-  templateUrl: './user-registration.component.html',
-  styleUrls: ['./user-registration.component.css']
+  selector: 'app-user-management',
+  templateUrl: './user-management.component.html',
+  styleUrls: ['./user-management.component.css']
 })
-export class UserRegistrationComponent implements OnInit {
+export class UserManagementComponent implements OnInit {
 
   userLists: EntityValues[];
   signupForm: FormGroup;
