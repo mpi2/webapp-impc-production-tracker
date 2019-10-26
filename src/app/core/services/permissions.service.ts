@@ -4,6 +4,8 @@ import { Observable, from } from 'rxjs';
 import { Permission } from '../model/conf/permission';
 import { map } from 'rxjs/operators';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
+import { ActionPermission } from '../model/user/action-permission';
+import { User } from '../model/user/user';
 
 @Injectable({
   providedIn: 'root'
@@ -11,8 +13,8 @@ import { ConfigAssetLoaderService } from './config-asset-loader.service';
 export class PermissionsService {
 
   // Paths
-  static readonly REGISTER_USER = 'manage-user';
-  static readonly UPDATE_USER = 'manage-user/:id';
+  static readonly REGISTER_USER = 'register-user';
+  static readonly UPDATE_USER = 'update-user/:id';
   static readonly EXECUTE_MANAGER_TASKS = 'execute-manager-tasks';
 
   // Actions
@@ -25,6 +27,17 @@ export class PermissionsService {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
+  static canExecuteManagerTasks(user: User) {
+    const actionPermission: ActionPermission = user.actionPermissions.find(x => x.actionName === 'executeManagerTasks');
+    return actionPermission.value;
+  }
+
+  static canManageUsers(user: User) {
+    const actionPermission: ActionPermission = user.actionPermissions.find(x => x.actionName === 'manageUsers');
+    return actionPermission.value;
+  }
+
+
   // Returns an object with permissions for the logged user.
   getPermissions() {
     return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
@@ -32,12 +45,17 @@ export class PermissionsService {
 
   // Returns if an action over an object is allowed.
   getPermissionByActionOnResource(action: string, resourceId: string) {
+    console.log('calling api permissionByActionOnResource for', action, resourceId);
+
     return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action='
       + action + '&resourceId=' + resourceId);
   }
 
   evaluatePermission(path: string): Observable<boolean> {
+    console.log('evaluatePermission', path);
+
     let hasPermission: boolean;
+
     return this.getPermissions().pipe(map(v => {
       switch (path) {
         case PermissionsService.REGISTER_USER: case PermissionsService.UPDATE_USER:

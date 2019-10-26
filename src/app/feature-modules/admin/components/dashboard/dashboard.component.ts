@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PermissionsService } from 'src/app/core/services/permissions.service';
+import { LoggedUserService } from 'src/app/core';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,12 +12,18 @@ export class DashboardComponent implements OnInit {
 
   public canRegisterUser: boolean;
 
-  constructor(private permissionsService: PermissionsService) { }
+  constructor(private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
-    this.permissionsService.evaluatePermission(PermissionsService.REGISTER_USER).subscribe(canRegisterUser => {
-      this.canRegisterUser = canRegisterUser;
-    });
+    this.canExecuteManagerTasks().subscribe(data => this.canRegisterUser = data);
   }
+
+  canExecuteManagerTasks() {
+    return this.loggedUserService.getLoggerUser().pipe(
+        map(data => {
+            return PermissionsService.canExecuteManagerTasks(data);
+        })
+    );
+}
 
 }

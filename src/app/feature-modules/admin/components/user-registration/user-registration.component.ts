@@ -60,8 +60,8 @@ export class UserRegistrationComponent implements OnInit {
     });
 
     this.loggedUserService.getLoggerUser()
-      .subscribe((data: LoggedUser) => {
-        this.adminUser = data.admin;
+      .subscribe((data: User) => {
+        this.adminUser = data.isAdmin;
         if (this.adminUser) {
           this.addWorkUnitRole();
           this.addConsortiumRole();

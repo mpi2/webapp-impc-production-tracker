@@ -3,6 +3,8 @@ import { LoggedUser } from '../../model/user/logged-user';
 import { Subscription } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { LoggedUserService } from '../../services/logged-user.service';
+import { User } from '../../model/user/user';
+import { PermissionsService } from '../../services/permissions.service';
 
 @Component({
   selector: 'app-header',
@@ -15,10 +17,12 @@ export class HeaderComponent implements OnInit {
   userName = '';
   login = false;
   subscription: Subscription;
-  loggedUser: LoggedUser;
+  loggedUser: User;
 
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
     this.messageService.getMessage().subscribe(data => {
+      console.log('user data has changed!!!!!!!!!', data);
+
       const userLoggedIn = data.isUserLoggedIn;
       if (userLoggedIn) {
         this.setCurrentUser();
@@ -48,8 +52,8 @@ export class HeaderComponent implements OnInit {
 
   setInitialInformation(): void {
     if (this.loggedUser) {
-      this.isAdmin = this.loggedUser.admin;
-      this.userName = this.loggedUser.userName;
+      this.isAdmin = PermissionsService.canExecuteManagerTasks(this.loggedUser);
+      this.userName = this.loggedUser.name;
       this.login = true;
     }
   }

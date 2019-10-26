@@ -7,6 +7,7 @@ import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProjectIntention } from 'src/app/core/model/bio/project-intention';
+import { UserService } from 'src/app/core/services/user.service';
 
 @Component({
   selector: 'app-project-detail',
@@ -43,10 +44,10 @@ export class ProjectDetailComponent implements OnInit {
     private planService: PlanService,
     private permissionsService: PermissionsService,
     private configurationDataService: ConfigurationDataService,
-    private loggedUserService: LoggedUserService) { }
+    private loggedUserService: LoggedUserService,
+    private userService: UserService) { }
 
   ngOnInit() {
-    // this.project.getIntentionsByGene()
     this.projectForm = this.formBuilder.group({
       privacy: ['', Validators.required],
       comments: ['', Validators.required],
@@ -76,6 +77,9 @@ export class ProjectDetailComponent implements OnInit {
       this.loadIntentionsByType();
       this.loadPermissions();
       this.setFormValues();
+      this.error = null;
+    }, error => {
+      this.error = error;
     });
   }
 

@@ -8,6 +8,8 @@ import { map, flatMap } from 'rxjs/operators';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
 import { AuthenticationResponse } from '../model/user/authentication-response';
 import { AssetConfiguration } from '../model/conf/asset-configuration';
+import { User } from '../model/user/user';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,7 +28,8 @@ export class LoggedUserService {
   constructor(
     private http: HttpClient,
     private messageService: MessageService,
-    private configAssetLoaderService: ConfigAssetLoaderService) {
+    private configAssetLoaderService: ConfigAssetLoaderService,
+    private userService: UserService) {
     this.config$ = from(this.configAssetLoaderService.getConfig());
   }
 
@@ -38,6 +41,7 @@ export class LoggedUserService {
   }
 
   getSecurityInformation(): Observable<LoggedUser> {
+    console.warn('calling securityInformation');
     return this.config$.pipe(flatMap(response => {
       return this.http.get<LoggedUser>(response.appServerUrl + '/auth/securityInformation');
     }));
@@ -54,16 +58,20 @@ export class LoggedUserService {
   }
 
   removeToken(): void {
+    console.log('removing token...');
+    this.userService.clearCurrentLoggedUser();
     localStorage.removeItem(this.TOKEN_INFO_KEY);
     this.messageService.setUserLoggedIn(false);
   }
 
-  getLoggerUser(): Observable<LoggedUser> {
-    let loggedUser$: Observable<LoggedUser>;
+  getLoggerUser(): Observable<User> {
+    console.log('someone called getLoggedUser');
+
+    let loggedUser$: Observable<User>;
     if (!this.getAccessToken()) {
       loggedUser$ = EMPTY;
     } else {
-      loggedUser$ = this.getSecurityInformation();
+      loggedUser$ = this.userService.getCurrentLoggedUser();
       return loggedUser$;
     }
   }

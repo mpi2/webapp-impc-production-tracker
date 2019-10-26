@@ -4,6 +4,8 @@ import { Observable, of } from 'rxjs';
 import { LoggedUserService, PermissionsService } from '..';
 import { LoggedUser } from '../model/user/logged-user';
 import { map } from 'rxjs/operators';
+import { User } from '../model/user/user';
+import { ActionPermission } from '../model/user/action-permission';
 
 @Injectable({
     providedIn: 'root'
@@ -24,14 +26,37 @@ export class AuthGuard implements CanActivate, CanLoad {
     }
 
     canPathBeActivated(path, url): Observable<boolean> {
+        console.warn('checking ', path, url);
         if ('admin' === path) {
-            return this.permissionsService.evaluatePermission(PermissionsService.EXECUTE_MANAGER_TASKS);
+            return this.canExecuteManagerTasks();
         }
         if (url.indexOf('/admin/') >= 0) {
+            if (url.indexOf(PermissionsService.REGISTER_USER)) {
+                return this.canManageUsers();
+            } else {
+                console.warn('No evaluation yet for this task', url);
+                return of(false);
+            }
             return this.permissionsService.evaluatePermission(path);
         } else {
             return of(true);
         }
+    }
+
+    canExecuteManagerTasks() {
+        return this.loggedUserService.getLoggerUser().pipe(
+            map(data => {
+                return PermissionsService.canExecuteManagerTasks(data);
+            })
+        );
+    }
+
+    canManageUsers() {
+        return this.loggedUserService.getLoggerUser().pipe(
+            map(data => {
+                return PermissionsService.canManageUsers(data);
+            })
+        );
     }
 
     canLoad(
@@ -50,11 +75,14 @@ export class AuthGuard implements CanActivate, CanLoad {
         );
     }
 
-    canPathBeLoaded(loggedUser: LoggedUser, path): boolean {
+    canPathBeLoaded(loggedUser: User, path): boolean {
         let canVisit: boolean;
         if ('admin' === path) {
             if (loggedUser) {
-                canVisit = loggedUser.admin; /// Or Manager??
+                // const actionPermission: ActionPermission =
+                //     loggedUser.actionPermissions.find(x => x.actionName === 'executeManagerTasks');
+                canVisit = PermissionsService.canExecuteManagerTasks(loggedUser);
+                // canVisit = actionPermission.value;
             } else {
                 canVisit = false;
             }
