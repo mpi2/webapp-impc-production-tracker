@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { PermissionsService } from 'src/app/core/services/permissions.service';
-import { UserRegistrationComponent } from './components/user-registration/user-registration.component';
+import { UserManagementComponent } from './components/user-management/user-management.component';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 
 
@@ -12,13 +12,13 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: PermissionsService.REGISTER_USER + '/:id',
-    component: UserRegistrationComponent,
+    path: PermissionsService.UPDATE_USER,
+    component: UserManagementComponent,
     canActivate: [AuthGuard]
   },
   {
     path: PermissionsService.REGISTER_USER,
-    component: UserRegistrationComponent,
+    component: UserManagementComponent,
     canActivate: [AuthGuard]
   }
 ];

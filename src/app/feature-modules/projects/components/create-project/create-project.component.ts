@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { LocalDataSource } from 'ng2-smart-table';
 import { first } from 'rxjs/operators';
 import {
-  WorkGroup, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService,
+  WorkGroup, ConfigurationData, LoggedUserService, ConfigurationDataService,
   WorkGroupService, GeneService
 } from 'src/app/core';
 import { NewProject } from '../../model/newProject';
@@ -40,7 +40,6 @@ export class CreateProjectComponent implements OnInit {
   isLoading = false;
   placeHolder: string;
   newProject: NewProject;
-  loggerUser: LoggedUser;
   configurationData: ConfigurationData;
   isDisabled = true;
 
