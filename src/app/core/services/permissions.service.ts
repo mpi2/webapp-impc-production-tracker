@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, from } from 'rxjs';
-import { Permission } from '../model/conf/permission';
-import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
 import { ActionPermission } from '../model/user/action-permission';
 import { User } from '../model/user/user';
@@ -37,38 +35,12 @@ export class PermissionsService {
     return actionPermission.value;
   }
 
-
-  // Returns an object with permissions for the logged user.
-  getPermissions() {
-    return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
-  }
-
   // Returns if an action over an object is allowed.
   getPermissionByActionOnResource(action: string, resourceId: string) {
     console.log('calling api permissionByActionOnResource for', action, resourceId);
 
     return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action='
       + action + '&resourceId=' + resourceId);
-  }
-
-  evaluatePermission(path: string): Observable<boolean> {
-    console.log('evaluatePermission', path);
-
-    let hasPermission: boolean;
-
-    return this.getPermissions().pipe(map(v => {
-      switch (path) {
-        case PermissionsService.REGISTER_USER: case PermissionsService.UPDATE_USER:
-          hasPermission = v.canRegisterUser;
-          break;
-        case PermissionsService.EXECUTE_MANAGER_TASKS:
-          hasPermission = v.canExecuteManagerTasks;
-          break;
-        default:
-          hasPermission = false;
-      }
-      return hasPermission;
-    }));
   }
 
   evaluatePermissionByActionOnResource(action: string, resourceId: string): Observable<boolean> {

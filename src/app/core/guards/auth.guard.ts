@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { LoggedUserService, PermissionsService } from '..';
-import { LoggedUser } from '../model/user/logged-user';
 import { map } from 'rxjs/operators';
 import { User } from '../model/user/user';
-import { ActionPermission } from '../model/user/action-permission';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanLoad {
-    loggedUser: LoggedUser;
-
     constructor(
         private router: Router,
         private loggedUserService: LoggedUserService,
@@ -26,7 +22,6 @@ export class AuthGuard implements CanActivate, CanLoad {
     }
 
     canPathBeActivated(path, url): Observable<boolean> {
-        console.warn('checking ', path, url);
         if ('admin' === path) {
             return this.canExecuteManagerTasks();
         }
@@ -37,7 +32,6 @@ export class AuthGuard implements CanActivate, CanLoad {
                 console.warn('No evaluation yet for this task', url);
                 return of(false);
             }
-            return this.permissionsService.evaluatePermission(path);
         } else {
             return of(true);
         }

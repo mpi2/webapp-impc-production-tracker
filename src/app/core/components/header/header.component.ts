@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { LoggedUser } from '../../model/user/logged-user';
 import { Subscription } from 'rxjs';
 import { MessageService } from '../../services/message.service';
 import { LoggedUserService } from '../../services/logged-user.service';

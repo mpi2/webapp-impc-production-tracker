@@ -51,5 +51,10 @@ export class UserService {
     }));
   }
 
+  getUserByEmail(email: string): Observable<User> {
+    return this.config$.pipe(flatMap(response => {
+      return this.http.get<User>(response.appServerUrl + '/api/people/' + email);
+    }));
+  }
 
 }

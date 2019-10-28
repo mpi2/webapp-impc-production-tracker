@@ -1,7 +1,8 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-card>
   <mat-card-content>
     <mat-toolbar>
-      <span>Creation of new account</span>
+      <span>{{formTitle}}</span>
     </mat-toolbar>
 
     <form [formGroup]="signupForm"  class="my-form">
@@ -11,17 +12,21 @@
         <mat-card-content>
           <mat-form-field class="full-width">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="Name" formControlName="name" required>
+            <input matInput placeholder="Name" formControlName="name" [(value)]="user.name" required>
             <mat-error *ngIf="f.name.invalid">{{ 'You must enter a value' }}</mat-error>
           </mat-form-field>
-          <mat-form-field class="full-width">
+          <mat-form-field *ngIf="!this.updatingUser" class="full-width">
             <mat-label>Password</mat-label>
             <input type="password" matInput placeholder="Password" formControlName="password" required>
             <mat-error *ngIf="f.password.invalid">{{ 'You must enter a value' }}</mat-error>
           </mat-form-field>
+          <mat-form-field *ngIf="this.updatingUser" class="full-width">
+              <mat-label>New Password (left empty if not changing it)</mat-label>
+              <input type="password" matInput placeholder="Password" formControlName="newPassword">
+            </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Email</mat-label>
-            <input matInput placeholder="Email" formControlName="email" required>
+            <input matInput placeholder="Email" formControlName="email" [(value)]="user.email" [attr.disabled]="this.updatingUser" required>
             <mat-error *ngIf="f.email.invalid">{{ getEmailErrorMessage() }}</mat-error>
           </mat-form-field>
           <mat-checkbox *ngIf="adminUser" formControlName="isAdmin" [(value)]="user.isAdmin">Is Administrator?</mat-checkbox>
@@ -31,7 +36,6 @@
       <mat-card>
         <mat-card-subtitle>Work unit association(s)</mat-card-subtitle>
         <mat-card-content>
-
           <div *ngIf="adminUser; then sectionWorkUnitsWithRoles else sectionWorkUnitsWithoutRoles">
           </div>
           <ng-template #sectionWorkUnitsWithRoles>
@@ -130,7 +134,7 @@
       </mat-card>
 
       <mat-card-actions>
-        <button [disabled]='signupForm.invalid' (click)="onSubmit()" mat-raised-button color="primary">Create</button>
+        <button [disabled]='signupForm.invalid' (click)="onSubmit()" mat-raised-button color="primary"> {{ buttonText}} </button>
       </mat-card-actions>
 
     </form>

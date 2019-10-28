@@ -7,7 +7,17 @@ export class User {
     password: string;
     email: string;
     isAdmin: boolean;
-    roleWorkUnits: RoleWorkUnit[];
-    roleConsortia: RoleConsortium[];
+    rolesWorkUnits: RoleWorkUnit[];
+    rolesConsortia: RoleConsortium[];
     actionPermissions: ActionPermission[];
+
+    constructor() {
+        this.name = 'x';
+        this.password = null;
+        this.email = '';
+        this.isAdmin = false;
+        this.rolesWorkUnits = [];
+        this.rolesConsortia = [];
+        this.actionPermissions = [];
+    }
 }

@@ -12,7 +12,7 @@ const routes: Routes = [
     component: DashboardComponent
   },
   {
-    path: PermissionsService.REGISTER_USER + '/:id',
+    path: PermissionsService.UPDATE_USER,
     component: UserManagementComponent,
     canActivate: [AuthGuard]
   },

@@ -8,6 +8,8 @@ import { LoggedUserService } from 'src/app/core';
 import { RoleWorkUnit } from 'src/app/core/model/user/role_work_unit';
 import { RoleConsortium } from 'src/app/core/model/user/role_consortium';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
 
 @Component({
   selector: 'app-user-management',
@@ -41,23 +43,28 @@ export class UserManagementComponent implements OnInit {
 
   adminUser = false;
 
+  formTitle = '';
+  buttonText = '';
+  updatingUser = false;
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private userService: UserService,
     private managedListsService: ManagedListsService,
-    private loggedUserService: LoggedUserService) { }
+    private loggedUserService: LoggedUserService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.params.id;
-    console.log('id=>', id);
-
     this.signupForm = this.formBuilder.group({
       name: ['', Validators.required],
       password: ['', Validators.required],
+      newPassword: [''],
       email: ['', [Validators.required, Validators.email]],
       isAdmin: []
     });
+
+    this.initUserData();
 
     this.loggedUserService.getLoggerUser()
       .subscribe((data: User) => {
@@ -73,6 +80,40 @@ export class UserManagementComponent implements OnInit {
       this.listsByUser = data;
       this.initLists();
     });
+    console.log(this.f);
+
+  }
+
+  private initUserData() {
+    const email = this.route.snapshot.params.id;
+    if (email) {
+      this.userService.getUserByEmail(email).subscribe(data => {
+        this.user = data;
+        this.roleWorkUnits = this.user.rolesWorkUnits;
+        this.roleConsortia = this.user.rolesConsortia;
+        this.selectedWorkUnits = this.roleWorkUnits.map(x => x.workUnitName);
+        this.updatingUser = true;
+        this.formTitle = 'Update existing account';
+        this.buttonText = 'Update';
+        this.error = '';
+        this.setControlValuesForUpdate();
+      }, error => {
+        this.error = error;
+      });
+    } else {
+      this.formTitle = 'Creation of new account';
+      this.buttonText = 'Create';
+      this.updatingUser = false;
+      this.user = new User();
+    }
+  }
+
+  private setControlValuesForUpdate() {
+    // Dummy password to make the form valid. The value is not used in the update request
+    this.f.password.setValue('password');
+    this.f.name.setValue(this.user.name);
+    this.f.email.setValue(this.user.email);
+    this.f.isAdmin.setValue(this.user.isAdmin);
   }
 
   private initLists() {
@@ -95,43 +136,51 @@ export class UserManagementComponent implements OnInit {
 
   onSubmit() {
     this.submitted = true;
-    const user = this.buildUserObject();
-    console.log('user', user);
-    console.log('selectedWorkUnits', this.selectedWorkUnits);
+    this.user.isAdmin = this.f.isAdmin.value;
+    this.user.rolesWorkUnits = this.getNotNullRolesWorkUnits(this.getRoleWorkUnits());
+    this.user.rolesConsortia = this.getNotNullRolesConsortia(this.getRoleConsortia());
+    this.validateData(this.user);
+    console.log('submit', this.user);
 
-
-
-    // this.loading = true;
-    // this.user = {
-    //   name: this.f.name.value,
-    //   password: this.f.password.value,
-    //   email: this.f.email.value,
-    //   workUnitName: this.f.workUnit.value[0],
-    //   instituteName: this.f.institute.value,
-    //   roleName: this.f.role.value[0]
-    // };
-    // console.log('user: ', this.user);
-    // this.userService.createUser(this.user)
-    //   .pipe(first())
-    //   .subscribe(
-    //     data => {
-    //       this.loading = false;
-    //     },
-    //     error => {
-    //       this.error = error;
-    //       this.loading = false;
-    //       console.log('error: ', this.error);
-    //     });
   }
 
-  private buildUserObject(): User {
-    const user = new User();
-    user.name = this.f.name.value;
-    user.password = this.f.password.value;
-    user.email = this.f.email.value;
-    user.roleWorkUnits = this.getRoleWorkUnits();
-    user.roleConsortia = this.getRoleConsortia();
-    return user;
+  getNotNullRolesWorkUnits(rolesWorkUnits: RoleWorkUnit[]) {
+    return rolesWorkUnits.filter(x => x.roleName || x.workUnitName);
+  }
+
+  getNotNullRolesConsortia(rolesConsortia: RoleConsortium[]) {
+    return rolesConsortia.filter(x => x.roleName || x.consortiumName);
+  }
+
+  validateData(user: User) {
+    this.validateRolesWorkUnits(user.rolesWorkUnits);
+    this.validateRolesConsortia(user.rolesConsortia);
+  }
+
+  validateRolesConsortia(rolesConsortia: RoleConsortium[]) {
+    const incompleteRecords = rolesConsortia.find(x => !x.roleName || !x.consortiumName);
+    if (incompleteRecords) {
+      this.showErrorDialog('Consortium association(s)', 'Set a Consortium and a role for all the associations.');
+    }
+  }
+
+  validateRolesWorkUnits(rolesWorkUnits: RoleWorkUnit[]) {
+    const incompleteRecords = rolesWorkUnits.find(x => !x.roleName || !x.workUnitName);
+    if (incompleteRecords) {
+      this.showErrorDialog('Work unit association(s):', 'Set a Work Unit and a role for all the associations.');
+    }
+  }
+
+  showErrorDialog(title, message) {
+    const dialogRef = this.dialog.open(InformativeDialogComponent, {
+      width: '250px',
+      data: {
+        title,
+        text: message
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+    });
   }
 
   private getRoleWorkUnits() {
@@ -139,9 +188,11 @@ export class UserManagementComponent implements OnInit {
     if (this.adminUser) {
       roleWorkUnits = this.roleWorkUnits;
     } else {
-      this.selectedWorkUnits.map(x => {
-        roleWorkUnits.push({ id: this.nextNewIdRoleWorkUnits--, workUnitName: x, roleName: 'general' });
-      });
+      if (this.selectedWorkUnits) {
+        this.selectedWorkUnits.map(x => {
+          roleWorkUnits.push({ id: this.nextNewIdRoleWorkUnits--, workUnitName: x, roleName: 'general' });
+        });
+      }
     }
     return roleWorkUnits;
   }
@@ -151,9 +202,11 @@ export class UserManagementComponent implements OnInit {
     if (this.adminUser) {
       roleConsortia = this.roleConsortia;
     } else {
-      this.selectedConsortia.map(x => {
-        roleConsortia.push({ id: this.nextNewIdRoleConsortia--, consortiumName: x, roleName: 'general' });
-      });
+      if (this.selectedConsortia) {
+        this.selectedConsortia.map(x => {
+          roleConsortia.push({ id: this.nextNewIdRoleConsortia--, consortiumName: x, roleName: 'general' });
+        });
+      }
     }
     return roleConsortia;
   }

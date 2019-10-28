@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { ProjectService } from '../../services/project.service';
-import { ConfigurationData, ConfigurationDataService, LoggedUserService, LoggedUser } from 'src/app/core';
+import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { ProjectFilterService } from '../../services/project-filter.service';
 import { Filter } from 'src/app/core/model/common/filter';
@@ -118,8 +118,8 @@ export class ProjectListComponent implements OnInit {
 
   private getWorkUnitsForLoggedUser(): string[] {
     const workUnitNames = [];
-    if (this.loggedUser.roleWorkUnits) {
-      this.loggedUser.roleWorkUnits.map(x => workUnitNames.push(x.workUnitName));
+    if (this.loggedUser.rolesWorkUnits) {
+      this.loggedUser.rolesWorkUnits.map(x => workUnitNames.push(x.workUnitName));
     }
     return workUnitNames;
   }

@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { LoggedUser } from '../model/user/logged-user';
 import { Observable, EMPTY, from } from 'rxjs';
 import { MessageService } from './message.service';
 import { Permission } from '../model/conf/permission';
@@ -40,13 +39,6 @@ export class LoggedUserService {
     }));
   }
 
-  getSecurityInformation(): Observable<LoggedUser> {
-    console.warn('calling securityInformation');
-    return this.config$.pipe(flatMap(response => {
-      return this.http.get<LoggedUser>(response.appServerUrl + '/auth/securityInformation');
-    }));
-  }
-
   getAccessToken(): string {
     const logginInfo: AuthenticationResponse = JSON.parse(localStorage.getItem(this.TOKEN_INFO_KEY));
     return logginInfo ? logginInfo.accessToken : null;
@@ -65,8 +57,6 @@ export class LoggedUserService {
   }
 
   getLoggerUser(): Observable<User> {
-    console.log('someone called getLoggedUser');
-
     let loggedUser$: Observable<User>;
     if (!this.getAccessToken()) {
       loggedUser$ = EMPTY;
