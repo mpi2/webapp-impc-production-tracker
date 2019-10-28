@@ -11,8 +11,7 @@ import { User } from '../model/user/user';
 export class AuthGuard implements CanActivate, CanLoad {
     constructor(
         private router: Router,
-        private loggedUserService: LoggedUserService,
-        private permissionsService: PermissionsService) {
+        private loggedUserService: LoggedUserService) {
     }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -73,10 +72,7 @@ export class AuthGuard implements CanActivate, CanLoad {
         let canVisit: boolean;
         if ('admin' === path) {
             if (loggedUser) {
-                // const actionPermission: ActionPermission =
-                //     loggedUser.actionPermissions.find(x => x.actionName === 'executeManagerTasks');
                 canVisit = PermissionsService.canExecuteManagerTasks(loggedUser);
-                // canVisit = actionPermission.value;
             } else {
                 canVisit = false;
             }
