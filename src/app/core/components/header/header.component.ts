@@ -20,8 +20,6 @@ export class HeaderComponent implements OnInit {
 
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
     this.messageService.getMessage().subscribe(data => {
-      console.log('user data has changed!!!!!!!!!', data);
-
       const userLoggedIn = data.isUserLoggedIn;
       if (userLoggedIn) {
         this.setCurrentUser();
@@ -35,7 +33,6 @@ export class HeaderComponent implements OnInit {
     if (!this.loggedUser) {
       this.setCurrentUser();
     }
-
   }
 
   setCurrentUser(): void {

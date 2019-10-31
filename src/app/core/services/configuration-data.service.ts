@@ -29,7 +29,6 @@ export class ConfigurationDataService {
   }
 
   private fetchConf() {
-    console.warn('Fetch configuration data. Must occur only once.');
     return this.http.get<ConfigurationData>(this.apiServiceUrl + '/api/conf');
   }
 }

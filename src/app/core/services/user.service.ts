@@ -45,7 +45,6 @@ export class UserService {
   }
 
   fetchCurrentLoggedUser(): Observable<User> {
-    console.warn('fetchCurrentLoggedUser /api/people/currentPerson');
     return this.config$.pipe(flatMap(response => {
       return this.http.get<User>(response.appServerUrl + '/api/people/currentPerson');
     }));
