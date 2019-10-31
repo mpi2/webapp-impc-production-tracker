@@ -12,7 +12,7 @@ export class User {
     actionPermissions: ActionPermission[];
 
     constructor() {
-        this.name = 'x';
+        this.name = '';
         this.password = null;
         this.email = '';
         this.isAdmin = false;
