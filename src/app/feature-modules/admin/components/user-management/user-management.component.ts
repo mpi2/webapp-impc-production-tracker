@@ -142,7 +142,7 @@ export class UserManagementComponent implements OnInit {
     this.validateData(this.user);
     console.log('submit', this.user);
     if (this.updatingUser) {
-      this.userService
+      this.userService;
     } else {
 
     }
@@ -150,7 +150,7 @@ export class UserManagementComponent implements OnInit {
   }
 
   private createUser(user: User) {
-    this.userService.createUser
+    this.userService.createUser;
   }
   private updateUser() {
 
