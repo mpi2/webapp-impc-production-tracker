@@ -141,19 +141,6 @@ export class UserManagementComponent implements OnInit {
     this.user.rolesConsortia = this.getNotNullRolesConsortia(this.getRoleConsortia());
     this.validateData(this.user);
     console.log('submit', this.user);
-    if (this.updatingUser) {
-      this.userService;
-    } else {
-
-    }
-
-  }
-
-  private createUser(user: User) {
-    this.userService.createUser;
-  }
-  private updateUser() {
-
   }
 
   getNotNullRolesWorkUnits(rolesWorkUnits: RoleWorkUnit[]) {
