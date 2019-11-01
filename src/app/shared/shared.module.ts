@@ -5,8 +5,6 @@ import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { MultiSelectModule } from 'primeng/multiselect';
-import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
-import { AutocompleteLibModule } from 'angular-ng-autocomplete';
 import { Ng2SmartTableModule } from 'ng2-smart-table';
 import {
   MatExpansionModule,
@@ -67,8 +65,6 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     RouterModule,
     HttpClientModule,
     NgbModule,
-    NgMultiSelectDropDownModule.forRoot(),
-    AutocompleteLibModule,
     Ng2SmartTableModule,
     MultiSelectModule,
     NgxPaginationModule,
@@ -114,8 +110,6 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     HttpClientModule,
     NgbModule,
     DigitOnlyDirective,
-    NgMultiSelectDropDownModule,
-    AutocompleteLibModule,
     Ng2SmartTableModule,
     MultiSelectModule,
     NgxPaginationModule,
