@@ -38,6 +38,7 @@ import { DeleteConfirmationComponent } from './components/delete-confirmation/de
 import { ExpandableContentComponent } from './components/expandable-content/expandable-content.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
+import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     DeleteConfirmationComponent,
     ExpandableContentComponent,
     DigitOnlyDirective,
-    InformativeDialogComponent],
+    InformativeDialogComponent,
+    CSVLoaderComponent],
   imports: [
     CommonModule,
     FormsModule,
@@ -90,6 +92,7 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
     MatExpansionModule,
     MatFormFieldModule,
     GoBackComponent,
+    CSVLoaderComponent,
     MatToolbarModule,
     MatTooltipModule,
     MatButtonModule,
