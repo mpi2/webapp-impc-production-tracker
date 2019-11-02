@@ -53,12 +53,12 @@
       
       <a class="badge badge-primary" (click)="addGene($event)">Add</a>
 
-      <ng2-smart-table #tableGenes [ngClass]="{ 'is-invalid': submitted && f.projectGenes.errors }"
+      <!-- <ng2-smart-table #tableGenes [ngClass]="{ 'is-invalid': submitted && f.projectGenes.errors }"
         [settings]="geneSettings" 
         [source]="projectGenes" 
         (editConfirm)="onSaveConfirm()" 
       >
-      </ng2-smart-table>
+      </ng2-smart-table> -->
       
       <div *ngIf="submitted && f.projectGenes.errors" class="invalid-feedback">
         <div *ngIf="f.projectGenes.errors.required">At least one gene is required</div>
@@ -85,13 +85,13 @@
     <div class="form-group">
       <label for="projectLocations">Project target location(s) </label><br>
 
-      <ng2-smart-table #tableLocation [ngClass]="{ 'is-invalid': submitted && f.projectLocations.errors }"
+      <!-- <ng2-smart-table #tableLocation [ngClass]="{ 'is-invalid': submitted && f.projectLocations.errors }"
         [settings]="locationSettings" 
         [source]="projectLocations" 
         (editConfirm)="onSaveConfirm()" 
         (createConfirm)="onCreateConfirm($event)" 
       >
-      </ng2-smart-table>
+      </ng2-smart-table> -->
     </div>
 
     <div class="form-group">

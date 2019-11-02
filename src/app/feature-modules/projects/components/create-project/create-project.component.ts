@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LocalDataSource } from 'ng2-smart-table';
+// import { LocalDataSource } from 'ng2-smart-table';
 import { first } from 'rxjs/operators';
 import {
   WorkGroup, ConfigurationData, LoggedUserService, ConfigurationDataService,
@@ -45,7 +45,7 @@ export class CreateProjectComponent implements OnInit {
 
   @ViewChild('autocomplete', { static: true }) autocomplete;
   /* tslint:disable */
-  projectGenes: LocalDataSource;
+  projectGenes: any;
   geneSettings = {
     mode: external,
     hideSubHeader: true,
@@ -87,7 +87,7 @@ export class CreateProjectComponent implements OnInit {
     },
   };
 /* tslint:enable */
-  projectLocations: LocalDataSource;
+  projectLocations: any;
   locationSettings = {
     // mode: external,
     hideSubHeader: false,
@@ -226,8 +226,8 @@ export class CreateProjectComponent implements OnInit {
     this.keyword = 'symbol';
     this.placeHolder = 'Search for a mouse gene';
 
-    this.projectGenes = new LocalDataSource();
-    this.projectLocations = new LocalDataSource();
+    // this.projectGenes = new LocalDataSource();
+    // this.projectLocations = new LocalDataSource();
 
     this.createProjectForm = this.formBuilder.group({
       workUnit: ['', Validators.required],
