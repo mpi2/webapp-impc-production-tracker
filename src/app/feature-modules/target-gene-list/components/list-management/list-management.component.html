@@ -14,11 +14,12 @@
       <mat-card-content>
         Choose a csv file providing the Consortium Name, the Target(s) and a optional note:
         <pre>
-                Consortium,Target(s),Note
-                CMG,gene1,Note 1
-                CMG,"gene2, gene3",Note 2
-            </pre>
-        <strong>Note:</strong>The loaded data will be added to the existing one.
+          Consortium,Target(s),Note
+          CMG,gene1,Note 1
+          CMG,"gene2, gene3",Note 2
+        </pre>
+        <strong>Note:</strong>The loaded data will be added to the existing one. The associated projects will be
+        calculated once you click the button 'Update lists'.
       </mat-card-content>
       <mat-card-actions>
         <app-csvloader (dataChange)='changeLists($event)'></app-csvloader>
@@ -44,12 +45,19 @@
           <td>{{ element.consortiumName }}</td>
           <td>{{ getGenesSymbols(element) }}</td>
           <td>{{ element.targetListElement.note }}</td>
-          <td>{{ element.targetListElement.projects }}</td>
+          <td>
+            <div *ngFor="let project of element.targetListElement.projects">
+              <div *ngIf="project">
+                <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
+                {{ project.assignmentStatusName || 'Status not defined' }} ]
+              </div>
+            </div>
+          </td>
         </tr>
       </tbody>
     </table>
   </mat-card-content>
   <mat-card-actions>
-      <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary"> Update lists </button>
-    </mat-card-actions>
+    <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary">Update lists</button>
+  </mat-card-actions>
 </mat-card>

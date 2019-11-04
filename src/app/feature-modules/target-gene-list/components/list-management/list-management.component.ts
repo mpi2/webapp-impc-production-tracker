@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FileLoaderService } from 'src/app/core/services/file-loader.service';
-import { Gene, TargetListElement, ConsortiumList } from 'src/app/model';
+import { Gene, TargetListElement, ConsortiumList, ProjectByTargetGeneSummary } from 'src/app/model';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
 
