@@ -9,7 +9,6 @@ import { ListManagementComponent } from './components/list-management/list-manag
   imports: [
     TargetGeneListRoutingModule,
     SharedModule
-
   ]
 })
 export class TargetGeneListModule { }

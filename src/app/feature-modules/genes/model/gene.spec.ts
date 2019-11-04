@@ -1,4 +1,4 @@
-import { Gene } from '../../../core/model/bio/gene';
+import { Gene } from '../../../model/bio/gene';
 
 describe('Gene', () => {
   it('should create an instance', () => {

@@ -1,4 +1,4 @@
-import { Strain } from 'src/app/core/model/bio/strain';
+import { Strain } from 'src/app/model/bio/strain';
 
 export class Location {
     chr: string;

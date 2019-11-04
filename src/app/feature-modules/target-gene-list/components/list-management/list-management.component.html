@@ -1,8 +1,55 @@
-<mat-card>
-  <mat-card-subtitle>Import Gene List</mat-card-subtitle>
-  <mat-card-content></mat-card-content>
-  <mat-card-actions>
-    <app-csvloader (dataChange)='changeLists($event)'></app-csvloader>
-  </mat-card-actions>
-</mat-card>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        <mat-icon appearance="outline" aria-hidden="false" aria-label="outline home icon">cloud_upload_outline
+        </mat-icon>
+      </mat-panel-title>
+      <mat-panel-description>
+        Import Gene list
+      </mat-panel-description>
+    </mat-expansion-panel-header>
 
+    <mat-card>
+      <mat-card-content>
+        Choose a csv file providing the Consortium Name, the Target(s) and a optional note:
+        <pre>
+                Consortium,Target(s),Note
+                CMG,gene1,Note 1
+                CMG,"gene2, gene3",Note 2
+            </pre>
+        <strong>Note:</strong>The loaded data will be added to the existing one.
+      </mat-card-content>
+      <mat-card-actions>
+        <app-csvloader (dataChange)='changeLists($event)'></app-csvloader>
+      </mat-card-actions>
+    </mat-card>
+
+  </mat-expansion-panel>
+</mat-accordion>
+
+<mat-card>
+  <mat-card-content>
+    <table class="mat-elevation-z8">
+      <thead>
+        <tr>
+          <th>Consortium</th>
+          <th>Gene(s)</th>
+          <th>Note</th>
+          <th>Associated Projects</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of dataSource">
+          <td>{{ element.consortiumName }}</td>
+          <td>{{ getGenesSymbols(element) }}</td>
+          <td>{{ element.targetListElement.note }}</td>
+          <td>{{ element.targetListElement.projects }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </mat-card-content>
+  <mat-card-actions>
+      <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary"> Update lists </button>
+    </mat-card-actions>
+</mat-card>

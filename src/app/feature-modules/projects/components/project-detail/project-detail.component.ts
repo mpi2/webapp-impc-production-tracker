@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
-import { Project, ProjectAdapter } from '../../../../core/model/bio/project';
+import { Project, ProjectAdapter } from '../../../../model/bio/project';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProjectIntention } from 'src/app/core/model/bio/project-intention';
+import { ProjectIntention } from 'src/app/model/bio/project-intention';
 import { UserService } from 'src/app/core/services/user.service';
 
 @Component({

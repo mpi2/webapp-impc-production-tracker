@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProjectIntention } from 'src/app/core/model/bio/project-intention';
+import { ProjectIntention } from 'src/app/model/bio/project-intention';
 
 @Component({
   selector: 'app-intention-by-gene-list',
