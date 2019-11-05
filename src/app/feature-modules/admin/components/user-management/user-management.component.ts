@@ -3,7 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { User } from 'src/app/core/model/user/user';
 import { UserService } from 'src/app/core/services/user.service';
 import { EntityValues } from '../../model/entity-values';
-import { ManagedListsService } from 'src/app/feature-modules/services/managed-lists.service';
+import { ManagedListsService } from 'src/app/core/services/managed-lists.service';
 import { LoggedUserService } from 'src/app/core';
 import { RoleWorkUnit } from 'src/app/core/model/user/role_work_unit';
 import { RoleConsortium } from 'src/app/core/model/user/role_consortium';
@@ -117,18 +117,9 @@ export class UserManagementComponent implements OnInit {
   }
 
   private initLists() {
-    this.workUnits = this.getValuesByEntity('workUnits');
-    this.roles = this.getValuesByEntity('roles');
-    this.consortia = this.getValuesByEntity('consortia');
-  }
-
-  private getValuesByEntity(name: string) {
-    let results: NamedValue[] = [];
-    const entityValues: EntityValues = this.listsByUser.find(x => x.entityName === name);
-    if (entityValues) {
-      results = entityValues.values;
-    }
-    return results;
+    this.workUnits = this.managedListsService.getValuesByEntity(this.listsByUser, 'workUnits');
+    this.roles = this.managedListsService.getValuesByEntity(this.listsByUser, 'roles');
+    this.consortia = this.managedListsService.getValuesByEntity(this.listsByUser, 'consortia');
   }
 
   // convenience getter for easy access to form fields

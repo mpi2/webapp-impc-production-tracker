@@ -3,6 +3,11 @@ import { FileLoaderService } from 'src/app/core/services/file-loader.service';
 import { Gene, TargetListElement, ConsortiumList, ProjectByTargetGeneSummary } from 'src/app/model';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
+import { ManagedListsService, LoggedUserService, PermissionsService, GeneService } from 'src/app/core';
+import { EntityValues } from 'src/app/feature-modules/admin/model/entity-values';
+import { map, flatMap, startWith } from 'rxjs/operators';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
+import { Observable, of } from 'rxjs';
 
 export class TargetListTableRecord {
   consortiumName: string;
@@ -19,9 +24,32 @@ export class ListManagementComponent implements OnInit {
   public dataSource: TargetListTableRecord[] = [];
   consortiumLists: ConsortiumList[];
 
-  constructor(private fileLoaderService: FileLoaderService, private targetGeneListService: TargetGeneListService) { }
+  consortia: NamedValue[] = [];
+
+  listsByUser: EntityValues[];
+  canUpdateList: boolean;
+
+  form: FormGroup;
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
+
+  readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
+
+  constructor(
+    private fileLoaderService: FileLoaderService,
+    private formBuilder: FormBuilder,
+    private targetGeneListService: TargetGeneListService,
+    private managedListsService: ManagedListsService,
+    private loggedUserService: LoggedUserService,
+    private permissionsService: PermissionsService,
+    private geneService: GeneService) { }
 
   ngOnInit() {
+
+    this.buildControlsByEachRow();
+    this.form = this.formBuilder.group({
+    });
+    this.loadPermissions();
     this.targetGeneListService.getAll().subscribe(data => {
       /* tslint:disable:no-string-literal */
       const lists = data['_embedded'].listsByConsortium;
@@ -30,6 +58,71 @@ export class ListManagementComponent implements OnInit {
       this.consortiumLists = lists;
       this.getDataSource(this.consortiumLists);
     });
+  }
+
+  onFocus(e) {
+    this.resetGeneSymbolValuesIfNeeded(e.target.value);
+  }
+
+  onFocusOut(e) {
+    this.resetGeneSymbolValuesIfNeeded(e.target.value);
+  }
+
+  resetGeneSymbolValuesIfNeeded(value: string) {
+    if (value.length < this.GENE_SYMBOL_LENGTH_THRESHOLD) {
+      this.resetGeneSymbolSuggestionList();
+    }
+  }
+
+  resetGeneSymbolSuggestionList() {
+    this.options = [];
+    this.filteredOptions = of([]);
+  }
+
+  onSearchChange(v: string) {
+    this.resetGeneSymbolValuesIfNeeded(v);
+    if (v.length === this.GENE_SYMBOL_LENGTH_THRESHOLD) {
+      this.geneService.findGenesNamesStartingWith(v).subscribe(x => {
+        this.options = x;
+        this.filteredOptions = of(x);
+      });
+    } else {
+      this.filteredOptions = of(this.filter(v));
+    }
+  }
+
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  get f() { return this.form.controls; }
+
+  buildControlsByEachRow() {
+    const group = {};
+    this.dataSource.forEach(element => {
+      const consortiumFormName = 'consortiumForm_' + element.targetListElement.id;
+      const genesFormName = 'genesForm_' + element.targetListElement.id;
+      group[consortiumFormName] = new FormControl('');
+      group[genesFormName] = new FormControl('');
+    });
+    this.form = new FormGroup(group);
+  }
+
+  loadPermissions(): void {
+    this.loggedUserService.getLoggerUser().subscribe(x => {
+      this.canUpdateList = PermissionsService.canExecuteAction(x, PermissionsService.MANAGE_GENE_LISTS);
+      if (this.canUpdateList) {
+        this.managedListsService.getManagedListsByUser().subscribe(data => {
+          this.listsByUser = data;
+          this.initLists();
+        });
+      }
+    });
+  }
+
+  private initLists() {
+    this.consortia = this.managedListsService.getValuesByEntity(this.listsByUser, 'consortia');
   }
 
   private getDataSource(consortiumLists: ConsortiumList[]) {
@@ -47,6 +140,7 @@ export class ListManagementComponent implements OnInit {
         }
       });
     }
+    this.buildControlsByEachRow();
   }
 
   changeLists(csvRecords) {
@@ -88,7 +182,7 @@ export class ListManagementComponent implements OnInit {
         genes.push(gene);
       });
     }
-    const genesResults: Target[] = genes.map(x => ({gene: x}));
+    const genesResults: Target[] = genes.map(x => ({ gene: x }));
     targetListElement.targets = genesResults;
     targetListElement.note = note;
     return targetListElement;

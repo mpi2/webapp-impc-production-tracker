@@ -1,4 +1,4 @@
-<mat-accordion>
+<mat-accordion *ngIf="canUpdateList">
   <mat-expansion-panel>
     <mat-expansion-panel-header>
       <mat-panel-title>
@@ -29,35 +29,63 @@
   </mat-expansion-panel>
 </mat-accordion>
 
-<mat-card>
-  <mat-card-content>
-    <table class="mat-elevation-z8">
-      <thead>
-        <tr>
-          <th>Consortium</th>
-          <th>Gene(s)</th>
-          <th>Note</th>
-          <th>Associated Projects</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let element of dataSource">
-          <td>{{ element.consortiumName }}</td>
-          <td>{{ getGenesSymbols(element) }}</td>
-          <td>{{ element.targetListElement.note }}</td>
-          <td>
-            <div *ngFor="let project of element.targetListElement.projects">
-              <div *ngIf="project">
-                <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
-                {{ project.assignmentStatusName || 'Status not defined' }} ]
-              </div>
+<div [formGroup]="form">
+  <mat-card>
+    <mat-card-content>
+      <table class="mat-elevation-z8">
+        <thead>
+          <tr>
+            <th>Consortium</th>
+            <th>Gene(s)</th>
+            <th>Note</th>
+            <th>Associated Projects</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let element of dataSource">
+            <div *ngIf="canUpdateList; then editableConsortium else readOnlyConsortium">
             </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </mat-card-content>
-  <mat-card-actions>
-    <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary">Update lists</button>
-  </mat-card-actions>
-</mat-card>
+            <ng-template #editableConsortium>
+              <td>
+                <mat-select placeholder="Consortium" [(value)]="element.consortiumName">
+                  <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>
+                    {{consortium.name}}
+                  </mat-option>
+                </mat-select>
+              </td>
+            </ng-template>
+            <ng-template #readOnlyConsortium>
+              <td>{{ element.consortiumName }}</td>
+            </ng-template>
+
+            <td>{{ getGenesSymbols(element) }}
+
+              <mat-form-field>
+                <input type="text" (focus)="onFocus($event)" (focusout)="onFocusOut($event)" (input)="onSearchChange($event.target.value)" matInput formControlName="{{ 'genesForm_' + element.targetListElement.id }}" [matAutocomplete]="auto">
+                <mat-autocomplete #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                      {{ option }}
+                    </mat-option>
+                  </mat-autocomplete>
+              </mat-form-field>
+              
+            </td>
+            <td>{{ element.targetListElement.note }}</td>
+            <td>
+              <div *ngFor="let project of element.targetListElement.projects">
+                <div *ngIf="project">
+                  <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
+                  {{ project.assignmentStatusName || 'Status not defined' }} ]
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+    </mat-card-content>
+    <mat-card-actions *ngIf="canUpdateList">
+      <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary">Update lists</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
