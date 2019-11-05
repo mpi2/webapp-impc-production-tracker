@@ -9,7 +9,7 @@ import {
 import { NewProject } from '../../model/newProject';
 import { FunderService } from 'src/app/core/services/funder.service';
 import { ProjectService } from '../..';
-import { Gene } from 'src/app/core/model/bio/gene';
+import { Gene } from 'src/app/model/bio/gene';
 
 @Component({
   selector: 'app-create-project',

@@ -1,4 +1,4 @@
-import { ProjectLinks } from '../../../feature-modules/projects/model/project-links';
+import { ProjectLinks } from '../../feature-modules/projects/model/project-links';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
 import { StatusDate } from './status-date';

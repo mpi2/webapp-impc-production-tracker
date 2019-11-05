@@ -7,13 +7,13 @@ import { Search } from '../model/search';
 
 @Injectable({
     providedIn: 'root'
-  })
-  export class SearchService {
+})
+export class SearchService {
     private apiServiceUrl;
 
     constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
         this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
-      }
+    }
 
     getAll(): Observable<SearchResult[]> {
         return this.http.get<SearchResult[]>(this.apiServiceUrl + '/api/projects/search');
@@ -66,4 +66,4 @@ import { Search } from '../model/search';
         }
         return workUnitNamesParameter;
     }
-  }
+}

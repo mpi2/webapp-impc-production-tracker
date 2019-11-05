@@ -4,6 +4,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoggedUserService } from './services/logged-user.service';
 import { ConfigurationDataService } from './services/configuration-data.service';
 import { PermissionsService } from './services/permissions.service';
+import { FileLoaderService } from './services/file-loader.service';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -19,7 +20,8 @@ import { ReportsComponent } from './components/reports/reports.component';
   providers: [
     LoggedUserService,
     ConfigurationDataService,
-    PermissionsService
+    PermissionsService,
+    FileLoaderService
   ],
   exports: [HeaderComponent, FooterComponent],
   entryComponents: [UpdateNotificationComponent]

@@ -6,7 +6,7 @@ import { MatPaginator, MatSort } from '@angular/material';
 import { ProjectFilterService } from '../../services/project-filter.service';
 import { Filter } from 'src/app/core/model/common/filter';
 import { ArrayFilter } from 'src/app/core/model/common/array-filter';
-import { Project, ProjectAdapter } from 'src/app/core/model/bio/project';
+import { Project, ProjectAdapter } from 'src/app/model/bio/project';
 import { User } from 'src/app/core/model/user/user';
 
 @Component({

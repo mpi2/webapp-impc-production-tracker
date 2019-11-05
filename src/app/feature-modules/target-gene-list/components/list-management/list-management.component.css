@@ -1,0 +1,13 @@
+table {
+    width: 90%;
+}
+table, th, tr, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+  }
+tsd.no_border {
+    border-bottom-style: none;
+}

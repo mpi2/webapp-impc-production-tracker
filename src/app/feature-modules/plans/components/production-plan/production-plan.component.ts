@@ -6,7 +6,7 @@ import { PermissionsService, ChangesHistory, ChangesHistoryAdapter, LoggedUserSe
 import { MatSnackBar } from '@angular/material';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
-import { Project } from 'src/app/core/model/bio/project';
+import { Project } from 'src/app/model/bio/project';
 
 @Component({
   selector: 'app-production-plan',
