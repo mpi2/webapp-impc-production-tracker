@@ -17,7 +17,8 @@ import {
   MatDatepickerModule,
   MatNativeDateModule,
   MatDialogModule,
-  MatRadioModule
+  MatRadioModule,
+  MatAutocompleteModule
 } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -79,6 +80,7 @@ import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatAutocompleteModule,
     Ng7BootstrapBreadcrumbModule
 
   ],
@@ -115,6 +117,7 @@ import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
     MatDatepickerModule,
     MatNativeDateModule,
     MatRadioModule,
+    MatAutocompleteModule,
     Ng7BootstrapBreadcrumbModule
   ],
   entryComponents: [

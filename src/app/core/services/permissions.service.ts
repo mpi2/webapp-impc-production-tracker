@@ -18,6 +18,7 @@ export class PermissionsService {
   // Actions
   static readonly UPDATE_PLAN_ACTION = 'canUpdatePlan';
   static readonly UPDATE_PROJECT_ACTION = 'canUpdateProject';
+  static readonly MANAGE_GENE_LISTS = 'canManageGeneLists';
 
   private apiServiceUrl;
 
@@ -32,6 +33,13 @@ export class PermissionsService {
 
   static canManageUsers(user: User) {
     const actionPermission: ActionPermission = user.actionPermissions.find(x => x.actionName === 'manageUsers');
+    return actionPermission.value;
+  }
+
+  static canExecuteAction(user: User, action: string) {
+    const actionPermission: ActionPermission = user.actionPermissions.find(x => x.actionName === action);
+    console.log('actionPermission', actionPermission);
+
     return actionPermission.value;
   }
 
