@@ -6,6 +6,7 @@ import { SearchService, Search } from '../..';
 import { SearchBuilder } from '../../services/search.builder';
 import { SearchResult } from '../../model/search.result';
 import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
+import { ProjectIntention } from 'src/app/model/bio/project-intention';
 
 class CheckboxElement implements NamedValue {
   name: string;
@@ -97,6 +98,8 @@ export class SearchComponent implements OnInit {
     this.searchService.search(search, pageNumber).subscribe(data => {
       this.dataSource = data['results'];
       this.dataSource.map(x => this.buildSearchResultComments(x));
+      console.log('dataSource', this.dataSource);
+
       this.refreshVisibleColumns();
       this.page = data['page'];
       this.error = '';
@@ -235,6 +238,17 @@ export class SearchComponent implements OnInit {
 
   getIdFromWorkGroupName(workGroupName: string) {
     return 'workGroup_' + workGroupName.replace(/\W/g, '_');
+  }
+
+  getTargetText(projectIntention: ProjectIntention): string {
+    let text = '';
+    if ('gene' === projectIntention.intentionTypeName) {
+      const intentionByGene = projectIntention.intentionByGene;
+      if (intentionByGene && intentionByGene.gene) {
+        text = intentionByGene.gene.symbol;
+      }
+      return text;
+    }
   }
 
 }
