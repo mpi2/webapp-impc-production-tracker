@@ -2,7 +2,7 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { TargetListTableRecord } from '../list-management/list-management.component';
 import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
-import { GeneService } from 'src/app/core';
+import { GeneService, Gene } from 'src/app/core';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatChipInputEvent, MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
@@ -19,16 +19,14 @@ export class AutocompleteGeneInputsComponent implements OnInit {
   options: string[] = [];
   filteredOptions: Observable<string[]> = of([]);
   genesCtrl = new FormControl();
-  geneNames: string[] = [];
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  @ViewChild('geneInput', {static: false}) geneInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto', {static: false}) matAutocomplete: MatAutocomplete;
+  @ViewChild('geneInput', { static: false }) geneInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
 
   constructor(private geneService: GeneService) { }
 
   ngOnInit() {
-    this.geneNames = this.getGenesNamesByElement();
   }
 
   public onSearchChange(value: string) {
@@ -65,7 +63,6 @@ export class AutocompleteGeneInputsComponent implements OnInit {
   }
 
   add(event: MatChipInputEvent): void {
-    console.log('event:', event, 'this.matAutocomplete.isOpen', this.matAutocomplete.isOpen);
     // Add only when MatAutocomplete is not open
     // To make sure this does not conflict with OptionSelected Event
     if (!this.matAutocomplete.isOpen) {
@@ -73,7 +70,7 @@ export class AutocompleteGeneInputsComponent implements OnInit {
       const value = event.value;
 
       if ((value || '').trim()) {
-        this.geneNames.push(value.trim());
+        this.addGeneToRecord(value.trim());
       }
 
       // Reset the input value
@@ -85,20 +82,33 @@ export class AutocompleteGeneInputsComponent implements OnInit {
     }
   }
 
-  remove(fruit: string): void {
-    const index = this.geneNames.indexOf(fruit);
+  // Add the new gene object to the current record (if it does not exist already)
+  private addGeneToRecord(label: string) {
+    const targets: Target[] = this.record.targetListElement.targets;
+    const alreadyExistingGene = targets.find(x => x.gene.symbol === label);
+    if (!alreadyExistingGene) {
+      const newGene = new Gene();
+      newGene.symbol = label;
+      const newTarget = new Target();
+      newTarget.gene = newGene;
+      targets.push(newTarget);
+    }
+  }
 
+  public remove(label: string): void {
+    this.removeGeneFromRecord(label);
+  }
+
+  private removeGeneFromRecord(label: string) {
+    const targets: Target[] = this.record.targetListElement.targets;
+    const index = targets.findIndex(x => x.gene.symbol === label);
     if (index >= 0) {
-      this.geneNames.splice(index, 1);
+      targets.splice(index, 1);
     }
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    console.log( 'selected event with ', event.option.viewValue);
-    console.log('pre', this.geneNames);
-
-    this.geneNames.push(event.option.viewValue);
-    console.log('post', this.geneNames);
+    this.addGeneToRecord(event.option.viewValue);
     this.geneInput.nativeElement.value = '';
     this.genesCtrl.setValue(null);
   }
