@@ -14,7 +14,8 @@ export class TargetGeneListService {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
-  getAll(): Observable<ConsortiumList[]> {
-    return this.http.get<ConsortiumList[]>(this.apiServiceUrl + '/api/targetGeneList');
+  getAll(pageNumber: number): Observable<ConsortiumList[]> {
+    const pageParameter = '?page=' + pageNumber;
+    return this.http.get<ConsortiumList[]>(this.apiServiceUrl + '/api/targetGeneList' + pageParameter);
   }
 }

@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FileLoaderService } from 'src/app/core/services/file-loader.service';
 import { Gene, TargetListElement, ConsortiumList } from 'src/app/model';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
 import { ManagedListsService, LoggedUserService, PermissionsService, GeneService } from 'src/app/core';
 import { EntityValues } from 'src/app/feature-modules/admin/model/entity-values';
+import { MatPaginator } from '@angular/material';
 
 export class TargetListTableRecord {
   consortiumName: string;
@@ -26,6 +27,10 @@ export class ListManagementComponent implements OnInit {
   listsByUser: EntityValues[];
   canUpdateList: boolean;
 
+  page: any = {};
+
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+
   constructor(
     private fileLoaderService: FileLoaderService,
     private targetGeneListService: TargetGeneListService,
@@ -34,11 +39,15 @@ export class ListManagementComponent implements OnInit {
 
   ngOnInit() {
     this.loadPermissions();
-    this.targetGeneListService.getAll().subscribe(data => {
+    this.getPage(0);
+  }
+
+  public getPage(pageNumber: number) {
+    this.targetGeneListService.getAll(pageNumber).subscribe(data => {
       /* tslint:disable:no-string-literal */
       const lists = data['_embedded'].listsByConsortium;
+      this.page = data['page'];
       /* tslint:enable:no-string-literal */
-
       this.consortiumLists = lists;
       this.getDataSource(this.consortiumLists);
     });
