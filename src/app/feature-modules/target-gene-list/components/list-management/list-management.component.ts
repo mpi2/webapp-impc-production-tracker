@@ -20,6 +20,7 @@ export class TargetListTableRecord {
 export class ListManagementComponent implements OnInit {
 
   public dataSource: TargetListTableRecord[] = [];
+  private originalDataAsString: string;
   consortiumLists: ConsortiumList[];
 
   consortia: NamedValue[] = [];
@@ -84,6 +85,7 @@ export class ListManagementComponent implements OnInit {
         }
       });
     }
+    this.originalDataAsString = JSON.stringify(this.dataSource);
     console.log('this.dataSource', this.dataSource);
   }
 
@@ -150,6 +152,13 @@ export class ListManagementComponent implements OnInit {
 
   updateLists() {
     console.log('to be implemented');
+    const changed = this.originalDataAsString !== JSON.stringify(this.dataSource);
+    console.log('changed:', changed);
+    console.log(
+      'current dataSource genes',
+      this.dataSource
+      .map(x => x.targetListElement.targets
+        .map(y => y.gene ? y.gene.symbol : 'deleted').join('|')));
   }
 
 }
