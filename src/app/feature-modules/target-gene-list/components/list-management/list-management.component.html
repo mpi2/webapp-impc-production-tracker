@@ -78,6 +78,8 @@
         </tr>
       </tbody>
     </table>
+    <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
+      id="server"></mat-paginator>
 
   </mat-card-content>
   <mat-card-actions *ngIf="canUpdateList">
