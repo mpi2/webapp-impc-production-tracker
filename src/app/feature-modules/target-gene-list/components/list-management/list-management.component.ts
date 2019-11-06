@@ -82,10 +82,10 @@ export class ListManagementComponent implements OnInit {
   onSearchChange(v: string) {
     this.resetGeneSymbolValuesIfNeeded(v);
     if (v.length === this.GENE_SYMBOL_LENGTH_THRESHOLD) {
-      this.geneService.findGenesNamesStartingWith(v).subscribe(x => {
-        this.options = x;
-        this.filteredOptions = of(x);
-      });
+      // this.geneService.findGenesNamesStartingWith(v).subscribe(x => {
+      //   this.options = x;
+      //   this.filteredOptions = of(x);
+      // });
     } else {
       this.filteredOptions = of(this.filter(v));
     }

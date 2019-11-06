@@ -31,6 +31,10 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { Ng7BootstrapBreadcrumbModule } from 'ng7-bootstrap-breadcrumb';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatListModule } from '@angular/material/list';
+import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
@@ -40,6 +44,7 @@ import { ExpandableContentComponent } from './components/expandable-content/expa
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
+import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 
 @NgModule({
   declarations: [
@@ -49,8 +54,10 @@ import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
     ExpandableContentComponent,
     DigitOnlyDirective,
     InformativeDialogComponent,
-    CSVLoaderComponent],
+    CSVLoaderComponent,
+    DialogBoxComponent],
   imports: [
+    MatAutocompleteModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -81,10 +88,14 @@ import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
     MatNativeDateModule,
     MatRadioModule,
     MatAutocompleteModule,
-    Ng7BootstrapBreadcrumbModule
-
+    Ng7BootstrapBreadcrumbModule,
+    MatStepperModule,
+    MatListModule,
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   exports: [
+    MatAutocompleteModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
@@ -118,10 +129,14 @@ import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
     MatNativeDateModule,
     MatRadioModule,
     MatAutocompleteModule,
-    Ng7BootstrapBreadcrumbModule
+    Ng7BootstrapBreadcrumbModule,
+    MatStepperModule,
+    MatListModule,
+    BrowserModule,
+    BrowserAnimationsModule
   ],
   entryComponents: [
-    DeleteConfirmationComponent, InformativeDialogComponent
+    DeleteConfirmationComponent, InformativeDialogComponent, DialogBoxComponent
   ],
 })
 export class SharedModule { }

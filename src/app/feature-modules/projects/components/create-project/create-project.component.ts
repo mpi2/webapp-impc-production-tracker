@@ -1,32 +1,53 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-// import { LocalDataSource } from 'ng2-smart-table';
-import { first } from 'rxjs/operators';
-import {
-  WorkGroup, ConfigurationData, LoggedUserService, ConfigurationDataService,
-  WorkGroupService, GeneService
-} from 'src/app/core';
+import { ConfigurationData, LoggedUserService, ConfigurationDataService, GeneService } from 'src/app/core';
+import { FormControl } from '@angular/forms';
 import { NewProject } from '../../model/newProject';
 import { FunderService } from 'src/app/core/services/funder.service';
 import { ProjectService } from '../..';
 import { Gene } from 'src/app/model/bio/gene';
 
+import { HttpClient } from '@angular/common/http';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { MatDialog, MatTable } from '@angular/material';
+import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
+
+export interface UsersData {
+  name: string;
+  id: number;
+}
+
+const ELEMENT_DATA: UsersData[] = [
+  {id: 1560608769632, name: 'Artificial Intelligence'},
+  {id: 1560608796014, name: 'Machine Learning'},
+  {id: 1560608787815, name: 'Robotic Process Automation'},
+  {id: 1560608805101, name: 'Blockchain'}
+];
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.css']
 })
 export class CreateProjectComponent implements OnInit {
-  createProjectForm: FormGroup;
+  displayedColumns: string[] = ['id', 'name', 'action'];
+  dataSource = ELEMENT_DATA;
 
-  dropdownSettingsSingle = {};
-  dropdownSettingsMultiple = {};
+  isLinear = false;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
+  searchGenesCtrl = new FormControl();
+  filteredGenes: string[] = [];
+  genesSelected: string[] = [];
+  isLoading2 = false;
+  errorMsg: string;
 
   loading = false;
   submitted = false;
   returnUrl: string;
   error = '';
-  workGroups: WorkGroup[] = [];
+  workGroups: string[] = [];
+  workUnits: string[] = [];
   projectIntentions: string[] = [];
   projectIntentionsTable: any;
   funders: any[] = [];
@@ -42,378 +63,133 @@ export class CreateProjectComponent implements OnInit {
   newProject: NewProject;
   configurationData: ConfigurationData;
   isDisabled = true;
+  privacies: NamedValue[] = [];
+  species: NamedValue[] = [];
+  consortia: NamedValue[] = [];
+  institutes: NamedValue[] = [];
 
-  @ViewChild('autocomplete', { static: true }) autocomplete;
-  /* tslint:disable */
-  projectGenes: any;
-  geneSettings = {
-    mode: external,
-    hideSubHeader: true,
-    columns: {
-      symbol: {
-        title: 'Gene Symbol',
-        editable: false
-      },
-      mgiId: {
-        title: 'MGI id',
-        editable: false
-      },
-      intention: {
-        title: 'Intention',
-        editable: true,
-        editor: {
-          type: 'list',
-          config: {
-            selectText: 'Select',
-            list: []
-          }
-        }
-      }
-    },
-    actions: {
-      add: false,
-      edit: true,
-      delete: true
-    },
-    edit: {
-      editButtonContent: '<i class="material-icons inline-block">edit</i>',
-      saveButtonContent: '<i class="material-icons inline-block">save</i>',
-      cancelButtonContent: '<i class="material-icons inline-block text-danger">cancel</i>',
-      editConfirm: true
-    },
-    delete: {
-      deleteButtonContent: '<i class="material-icons text-danger">delete</i>',
-      deleteConfirm: true
-    },
-  };
-/* tslint:enable */
-  projectLocations: any;
-  locationSettings = {
-    // mode: external,
-    hideSubHeader: false,
-    columns: {
-      index: {
-        title: 'Index',
-        editable: false,
-        filter: false,
-        sort: false,
-        valuePrepareFunction: (row) => {
-          return row;
-        }
-      },
-      chr: {
-        title: 'Chr',
-        editable: true,
-        filter: false,
-        sort: false
-      },
-      start: {
-        title: 'Start',
-        editable: true,
-        filter: false,
-        sort: false
-      },
-      stop: {
-        title: 'Stop',
-        editable: true,
-        filter: false,
-        sort: false
-      },
-      strand: {
-        title: 'Strand',
-        editable: true,
-        filter: false,
-        editor: {
-          type: 'list',
-          config: {
-            selectText: 'Select',
-            list: [{ title: '+', value: 'Positive' }, { title: '-', value: 'Negative' }]
-          }
-        },
-        sort: false
-      },
-      genomeBuild: {
-        title: 'Genome build',
-        editable: true,
-        filter: false,
-        sort: false
-      },
-      backgroundStrain: {
-        title: 'Background strain',
-        editable: true,
-        filter: false,
-        editor: {
-          type: 'list',
-          config: {
-            selectText: 'Select',
-            list: []
-          }
-        },
-        sort: false
-      },
-      intention: {
-        title: 'Intention',
-        editable: true,
-        filter: false,
-        editor: {
-          type: 'list',
-          config: {
-            selectText: 'Select',
-            list: []
-          }
-        },
-        sort: false
-      },
-      specie: {
-        title: 'Specie',
-        editable: true,
-        filter: false,
-        editor: {
-          type: 'list',
-          config: {
-            selectText: 'Select',
-            list: [{ title: 'Mouse', value: 'Mouse' }, { title: 'Human', value: 'Human' }]
-          }
-        },
-        sort: false
-      },
-      sequence: {
-        title: 'Sequence',
-        editable: true,
-        filter: false,
-        sort: false
-      }
-    },
-    actions: {
-      add: true,
-      edit: true,
-      delete: true
-    },
-    add: {
-      addButtonContent: '<i class="material-icons inline-block">add</i>',
-      createButtonContent: '<i class="material-icons inline-block">save</i>',
-      cancelButtonContent: '<i class="material-icons inline-block text-danger">cancel</i>',
-      confirmCreate: true,
-    },
-    edit: {
-      editButtonContent: '<i class="material-icons inline-block">edit</i>',
-      saveButtonContent: '<i class="material-icons inline-block">save</i>',
-      cancelButtonContent: '<i class="material-icons inline-block text-danger">cancel</i>',
-      editConfirm: true
-    },
-    delete: {
-      deleteButtonContent: '<i class="material-icons text-danger">delete</i>',
-      deleteConfirm: true
-    },
-  };
-
+  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
 
   constructor(
     private formBuilder: FormBuilder,
     private funderService: FunderService,
     private geneService: GeneService,
-    private workGroupService: WorkGroupService,
     private loogedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService,
-    private projectService: ProjectService
+    private projectService: ProjectService,
+
+    private formBuilder2: FormBuilder,
+    private http: HttpClient,
+
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
+      console.log('this.configurationData => ', this.configurationData);
+      this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
+      this.species = this.configurationData.species.map(x => ({ name : x}));
     });
 
-    this.keyword = 'symbol';
-    this.placeHolder = 'Search for a mouse gene';
-
-    // this.projectGenes = new LocalDataSource();
-    // this.projectLocations = new LocalDataSource();
-
-    this.createProjectForm = this.formBuilder.group({
-      workUnit: ['', Validators.required],
-      workGroup: ['', Validators.required],
-      funder: ['', Validators.required],
-      projectGenes: [[], Validators.required],
-      projectLocations: [[], Validators.required]
+    this.firstFormGroup = this.formBuilder2.group({
+      // firstCtrl: ['', Validators.required],
+      withdrawn: [''],
+      recovery: [''],
+      is_active: [''],
+      privacy: ['', Validators.required],
+      species: [[], Validators.required],
+      consortia: [[]],
+      institutes: [[]],
+      intentionType: ['', Validators.required],
+      comment: [''],
+      external_ref: [''],
+      genesSelected: [[]]
     });
 
-    // TODO: CHeck how does it work with multiple work units
-    // this.createProjectForm.patchValue({
-    //   workUnit: this.loggerUser.workUnitName,
-    // });
-
-    this.workGroupService.getWorkGroupByWorkUnit(this.f.workUnit.value).pipe(first()).subscribe(data => {
-      if (data) {
-        this.workGroups = data;
-      } else {
-        this.workGroups = [];
-      }
-    },
-      error => {
-        this.error = error;
-      });
-
-    this.backgroundStrains = this.configurationData.trackedStrains;
-    console.log('this.backgroundStrains => ', this.configurationData);
-    this.backgroundStrainsTable = this.backgroundStrains.map((strain, index) => {
-      const strainName = {
-        title: strain,
-        value: strain
-      };
-      return strainName;
+    this.secondFormGroup = this.formBuilder2.group({
+      secondCtrl: ['', Validators.required]
     });
-    this.locationSettings.columns.backgroundStrain.editor.config.list = this.backgroundStrainsTable;
 
-    // this.priorities = this.configurationData.priorities;
-    this.projectIntentions = this.configurationData.alleleTypes;
-    this.projectIntentionsTable = this.projectIntentions.map((intent, index) => {
-      const intention = {
-        title: intent,
-        value: intent
-      };
-      return intention;
-    });
-    this.geneSettings.columns.intention.editor.config.list = this.projectIntentionsTable;
-    this.locationSettings.columns.intention.editor.config.list = this.projectIntentionsTable;
-
-    this.dropdownSettingsSingle = {
-      singleSelection: true,
-      idField: 'name',
-      textField: 'name',
-      enableCheckAll: false,
-      allowSearchFilter: true
-    };
-
-    this.dropdownSettingsMultiple = {
-      singleSelection: false,
-      idField: 'name',
-      textField: 'name',
-      selectAllText: 'Select All',
-      unSelectAllText: 'UnSelect All',
-      allowSearchFilter: true
-    };
-  }
-
-  get f() { return this.createProjectForm.controls; }
-
-  enableFunders(e) {
-    this.funderService.getAllFundersByWorkGroup(e).pipe(first()).subscribe(data => {
-      if (data) {
-        this.funders = data;
-      } else {
-        this.funders = [];
+    this.searchGenesCtrl.valueChanges
+      .pipe(
+        debounceTime(500),
+        tap(() => {
+          this.errorMsg = '';
+          this.filteredGenes = [];
+          this.isLoading = true;
+        }),
+        switchMap(value => this.geneService.findGenesExternalDataBySymbol(value)
+          .pipe(
+            finalize(() => {
+              this.isLoading = false;
+            }),
+          )
+        )
+      )
+      .subscribe(data => {
+        // console.log(data);
+        if (data === undefined) {
+          this.errorMsg = data['Error'];
+          this.filteredGenes = [];
+        } else {
+          this.errorMsg = '';
+          this.filteredGenes = data;
       }
     });
   }
 
-  disabledFunder() {
-    this.f.funder.reset();
-    this.funders = [];
+  addGene() {
+    this.genesSelected.push(this.searchGenesCtrl.value);
+    this.searchGenesCtrl.setValue('');
   }
 
-  selectEvent(item) {
-    // do something with selected item
-    this.gene = item;
-  }
-
-  onChangeSearch(val: string) {
-    // And reassign the 'data' which is binded to 'data' property.
-    this.isLoading = true;
-    this.symbol = val;
-    if (this.symbol.length > 1) {
-      this.geneService.findGenesBySymbol(this.symbol).pipe(first()).subscribe(genes => {
-        this.genes = genes;
-      });
+  deleteGene(gene) {
+    const index: number = this.genesSelected.indexOf(gene);
+    if (index !== -1) {
+        this.genesSelected.splice(index, 1);
     }
-    this.isLoading = false;
   }
 
-  cleanInput(e) {
-    // do something when input is added
-    this.autocomplete.clear();
+  openDialog(action, obj) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '250px',
+      data: obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event === 'Add') {
+        this.addRowData(result.data);
+      } else if (result.event === 'Update') {
+        this.updateRowData(result.data);
+      } else if (result.event === 'Delete') {
+        this.deleteRowData(result.data);
+      }
+    });
   }
 
-  addGene(e) {
-    if (this.gene == null) {
-      // TODO
-      return;
-    }
-    const gene = new Gene();
-    gene.symbol = this.gene.symbol;
-    gene.accessionId = this.gene.accessionId;
-    this.addGeneToProjectGenes(gene);
-    e.stopPropagation();
-    this.autocomplete.clear();
-    this.autocomplete.close();
-    this.gene = null;
+  addRowData(rowObj) {
+    const d = new Date();
+    this.dataSource.push({
+      id: d.getTime(),
+      name: rowObj.name
+    });
+    this.table.renderRows();
+
   }
-
-  addGeneToProjectGenes(e) {
-    this.projectGenes.add(e);
-    this.projectGenes.refresh();
-    this.f.projectGenes.setValue(this.projectGenes);
+  updateRowData(rowObj) {
+    this.dataSource = this.dataSource.filter((value, key) => {
+      if (value.id === rowObj.id) {
+        value.name = rowObj.name;
+      }
+      return true;
+    });
   }
-
-  onCreateConfirm(e) {
-    e.confirm.resolve();
-    this.f.projectLocations.setValue(this.projectLocations);
-  }
-
-  orderTableRows() {
-    console.log('orderTableRows entra');
-  }
-
-  onSubmit() {
-    this.submitted = true;
-    this.loading = true;
-
-    console.log('invalid => ', this.createProjectForm.invalid);
-    console.log('errors onSubmit=> ', this.f.workGroup.errors);
-
-    if (this.createProjectForm.invalid) {
-      this.loading = false;
-      return;
-    }
-
-    this.newProject = {
-      workUnit: this.f.workUnit.value,
-      workGroup: this.f.workGroup.value[0],
-      funder: this.f.funder.value[0],
-      genes: this.f.projectGenes.value.data,
-      locations: this.f.projectLocations.value.data,
-    };
-
-    this.projectService.postProject(this.newProject)
-      .pipe(first())
-      .subscribe(
-        data => {
-          this.loading = false;
-          console.log('Data => ', data);
-        },
-        error => {
-          this.error = error;
-          this.loading = false;
-          console.log('error: ', this.error);
-        }
-      );
-
-    console.log('newProject => ', this.newProject);
-    this.resetForm();
-  }
-
-  resetForm() {
-    this.submitted = false;
-    this.f.workGroup.reset('');
-    this.f.funder.reset('');
-    this.f.projectGenes.reset([]);
-    this.projectGenes.reset();
-    this.createProjectForm.reset();
-    console.log(this.createProjectForm);
-    console.log('createProjectForm cleaned.');
-  }
-
-  onSaveConfirm() {
-    // METHOD TO DO
+  deleteRowData(rowObj) {
+    this.dataSource = this.dataSource.filter((value, key) => {
+      return value.id !== rowObj.id;
+    });
   }
 
 }
