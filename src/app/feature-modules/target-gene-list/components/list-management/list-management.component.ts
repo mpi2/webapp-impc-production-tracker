@@ -5,7 +5,9 @@ import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
 import { ManagedListsService, LoggedUserService, PermissionsService, GeneService } from 'src/app/core';
 import { EntityValues } from 'src/app/feature-modules/admin/model/entity-values';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator, MatDialog } from '@angular/material';
+import { User } from 'src/app/core/model/user/user';
+import { ImportListDialogComponent } from '../import-list-dialog/import-list-dialog.component';
 
 export class TargetListTableRecord {
   consortiumName: string;
@@ -23,6 +25,10 @@ export class ListManagementComponent implements OnInit {
   private originalDataAsString: string;
   consortiumLists: ConsortiumList[];
 
+  user: User = undefined;
+
+  currentConsortium = undefined;
+
   consortia: NamedValue[] = [];
 
   listsByUser: EntityValues[];
@@ -36,7 +42,8 @@ export class ListManagementComponent implements OnInit {
     private fileLoaderService: FileLoaderService,
     private targetGeneListService: TargetGeneListService,
     private managedListsService: ManagedListsService,
-    private loggedUserService: LoggedUserService) { }
+    private loggedUserService: LoggedUserService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.loadPermissions();
@@ -44,30 +51,65 @@ export class ListManagementComponent implements OnInit {
   }
 
   public getPage(pageNumber: number) {
-    this.targetGeneListService.getAll(pageNumber).subscribe(data => {
-      /* tslint:disable:no-string-literal */
-      const lists = data['_embedded'].listsByConsortium;
-      this.page = data['page'];
-      /* tslint:enable:no-string-literal */
-      this.consortiumLists = lists;
-      this.getDataSource(this.consortiumLists);
-    });
+    this.clearDataSet();
+    if (this.currentConsortium) {
+      this.targetGeneListService.getListByConsortium(pageNumber, this.currentConsortium).subscribe(data => {
+        /* tslint:disable:no-string-literal */
+        if (data['_embedded']) {
+          const lists = data['_embedded'].listsByConsortium;
+          this.page = data['page'];
+          /* tslint:enable:no-string-literal */
+          this.consortiumLists = lists;
+          this.getDataSource(this.consortiumLists);
+        }
+      });
+    }
+  }
+
+  onConsortiumChanged() {
+    this.getPage(0);
+  }
+
+  private clearDataSet() {
+    this.dataSource = [];
   }
 
   loadPermissions(): void {
     this.loggedUserService.getLoggerUser().subscribe(x => {
-      this.canUpdateList = PermissionsService.canExecuteAction(x, PermissionsService.MANAGE_GENE_LISTS);
-      if (this.canUpdateList) {
+      this.user = x;
+      if (this.user.isAdmin) {
         this.managedListsService.getManagedListsByUser().subscribe(data => {
-          this.listsByUser = data;
-          this.initLists();
+          this.consortia = this.managedListsService.getValuesByEntity(data, 'consortia');
         });
+      } else {
+        this.consortia = this.getRelatedConsortia(x);
       }
+      this.canUpdateList = PermissionsService.canExecuteAction(x, PermissionsService.MANAGE_GENE_LISTS);
     });
   }
 
-  private initLists() {
-    this.consortia = this.managedListsService.getValuesByEntity(this.listsByUser, 'consortia');
+  openImportDialog() {
+    const dialogRef = this.dialog.open(ImportListDialogComponent, {
+      width: '280px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.loadDataFromCsv(result);
+    });
+  }
+
+
+  private getRelatedConsortia(user: User): NamedValue[] {
+    console.log('user', user);
+
+    const consortiaNames = [];
+    if (user && user.rolesConsortia) {
+      user.rolesConsortia.map(x => {
+        const element: NamedValue = { name: x.consortiumName };
+        consortiaNames.push(element);
+      });
+    }
+    return consortiaNames;
   }
 
   private getDataSource(consortiumLists: ConsortiumList[]) {
@@ -86,14 +128,15 @@ export class ListManagementComponent implements OnInit {
       });
     }
     this.originalDataAsString = JSON.stringify(this.dataSource);
-    console.log('this.dataSource', this.dataSource);
   }
 
-  changeLists(csvRecords) {
-    const mappedData = this.buildDataSourceByCsvRecords(csvRecords);
-    const consortiumLists = this.buildConsortiumLists(mappedData);
-    this.consortiumLists = [...consortiumLists];
-    this.getDataSource(this.consortiumLists);
+  loadDataFromCsv(csvRecords) {
+    if (csvRecords) {
+      const mappedData = this.buildDataSourceByCsvRecords(csvRecords);
+      const consortiumLists = this.buildConsortiumLists(mappedData);
+      this.consortiumLists = [...consortiumLists];
+      this.getDataSource(this.consortiumLists);
+    }
   }
 
   buildDataSourceByCsvRecords(csvRecords): Map<string, TargetListElement[]> {
@@ -157,8 +200,8 @@ export class ListManagementComponent implements OnInit {
     console.log(
       'current dataSource genes',
       this.dataSource
-      .map(x => x.targetListElement.targets
-        .map(y => y.gene ? y.gene.symbol : 'deleted').join('|')));
+        .map(x => x.targetListElement.targets
+          .map(y => y.gene ? y.gene.symbol : 'deleted').join('|')));
   }
 
 }
