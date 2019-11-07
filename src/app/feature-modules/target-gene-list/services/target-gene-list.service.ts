@@ -3,6 +3,7 @@ import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loa
 import { Observable } from 'rxjs/internal/Observable';
 import { ConsortiumList } from 'src/app/model';
 import { HttpClient } from '@angular/common/http';
+import { of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,12 @@ export class TargetGeneListService {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
-  getAll(pageNumber: number): Observable<ConsortiumList[]> {
+  getListByConsortium(pageNumber: number, consortiumName: string): Observable<ConsortiumList[]> {
+    if (!consortiumName) {
+      return of([]);
+    }
     const pageParameter = '?page=' + pageNumber;
-    return this.http.get<ConsortiumList[]>(this.apiServiceUrl + '/api/targetGeneList' + pageParameter);
+    const url = this.apiServiceUrl + '/api/targetGeneList/' + consortiumName + pageParameter;
+    return this.http.get<ConsortiumList[]>(url);
   }
 }

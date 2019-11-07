@@ -1,88 +1,72 @@
-<mat-accordion *ngIf="canUpdateList">
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        <mat-icon appearance="outline" aria-hidden="false" aria-label="outline home icon">cloud_upload_outline
-        </mat-icon>
-      </mat-panel-title>
-      <mat-panel-description>
-        Import Gene list
-      </mat-panel-description>
-    </mat-expansion-panel-header>
+<h4>Target Gene List</h4>
+<mat-toolbar>
+    <button *ngIf="canUpdateList" [disabled]="!currentConsortium" mat-button (click)="openImportDialog()">Import</button>
+    <button [disabled]="!currentConsortium" mat-button>Export</button>
+</mat-toolbar>
 
-    <mat-card>
-      <mat-card-content>
-        Choose a csv file providing the Consortium Name, the Target(s) and a optional note:
-        <pre>
-          Consortium,Target(s),Note
-          CMG,gene1,Note 1
-          CMG,"gene2, gene3",Note 2
-        </pre>
-        <strong>Note:</strong>The loaded data will be added to the existing one. The associated projects will be
-        calculated once you click the button 'Update lists'.
-      </mat-card-content>
-      <mat-card-actions>
-        <app-csvloader (dataChange)='changeLists($event)'></app-csvloader>
-      </mat-card-actions>
-    </mat-card>
+<p>Please select the consortium for which you want to view/manage the gene list:</p>
+<mat-form-field *ngIf="user">
+  <mat-label>Consortium</mat-label>
+  <mat-select [(value)]="currentConsortium" (selectionChange)="onConsortiumChanged()">
+    <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>
+      {{consortium.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 
-  </mat-expansion-panel>
-</mat-accordion>
+<div *ngIf="currentConsortium">
 
-<mat-card>
-  <mat-card-content>
-    <table class="mat-elevation-z8">
-      <thead>
-        <tr>
-          <th>Consortium</th>
-          <th>Gene(s)</th>
-          <th>Note</th>
-          <th>Associated Projects</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let element of dataSource">
-          <div *ngIf="canUpdateList; then editableConsortium else readOnlyConsortium">
-          </div>
-          <ng-template #editableConsortium>
+  <mat-card>
+    <mat-card-content>
+      <table class="mat-elevation-z8">
+        <thead>
+          <tr>
+            <th>Gene(s)</th>
+            <th>Note</th>
+            <th>Associated Projects</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let element of dataSource">
             <td>
-              <mat-select placeholder="Consortium" [(value)]="element.consortiumName">
-                <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>
-                  {{consortium.name}}
-                </mat-option>
-              </mat-select>
-            </td>
-          </ng-template>
-          <ng-template #readOnlyConsortium>
-            <td>{{ element.consortiumName }}</td>
-          </ng-template>
-          <td>
-            <div *ngIf="canUpdateList; then editableGenes else readOnlyGenes">
-            </div>
-            <ng-template #editableGenes>
-              <app-autocomplete-gene-inputs [record]="element"></app-autocomplete-gene-inputs>
-            </ng-template>
-            <ng-template #readOnlyGenes>
-              {{ getGenesSymbols(element) }}
-            </ng-template>
-          </td>
-          <td>{{ element.targetListElement.note }}</td>
-          <td>
-            <div *ngFor="let project of element.targetListElement.projects">
-              <div *ngIf="project">
-                <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
-                {{ project.assignmentStatusName || 'Status not defined' }} ]
+              <div *ngIf="canUpdateList; then editableGenes else readOnlyGenes">
               </div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
-      id="server"></mat-paginator>
+              <ng-template #editableGenes>
+                <app-autocomplete-gene-inputs [record]="element"></app-autocomplete-gene-inputs>
+              </ng-template>
+              <ng-template #readOnlyGenes>
+                {{ getGenesSymbols(element) }}
+              </ng-template>
+            </td>
+            <td>
+              <div *ngIf="canUpdateList; then editableNote else readOnlyNote">
+              </div>
+              <ng-template #editableNote>
+                <mat-form-field class="example-full-width">
+                  <input matInput [(value)]="element.targetListElement.note">
+                </mat-form-field>
+              </ng-template>
+              <ng-template #readOnlyNote>
+                {{ element.targetListElement.note }}
+              </ng-template>
+            </td>
+            <td>
+              <div *ngFor="let project of element.targetListElement.projects">
+                <div *ngIf="project">
+                  <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
+                  {{ project.assignmentStatusName || 'Status not defined' }} ]
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
+        id="server"></mat-paginator>
 
-  </mat-card-content>
-  <mat-card-actions *ngIf="canUpdateList">
-    <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary">Update lists</button>
-  </mat-card-actions>
-</mat-card>
+    </mat-card-content>
+    <mat-card-actions *ngIf="canUpdateList">
+      <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary">Update lists</button>
+    </mat-card-actions>
+  </mat-card>
+</div>
