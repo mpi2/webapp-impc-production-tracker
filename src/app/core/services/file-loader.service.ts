@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Papa } from 'ngx-papaparse';
 
 @Injectable({
     providedIn: 'root'
 })
 export class FileLoaderService {
+
+    constructor(private papa: Papa) {}
 
     getRecordsByColumn(records: any[], column) {
         const header: string[] = records[0];
@@ -16,5 +19,10 @@ export class FileLoaderService {
         console.log('index:', index);
 
         return data.map(x => x[index]);
+    }
+
+    public jsonToCsv(json): string {
+        console.log('json==>', json);
+        return this.papa.unparse(json);
     }
 }

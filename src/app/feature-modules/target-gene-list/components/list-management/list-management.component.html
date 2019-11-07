@@ -1,8 +1,4 @@
-<h4>Target Gene List</h4>
-<mat-toolbar>
-    <button *ngIf="canUpdateList" [disabled]="!currentConsortium" mat-button (click)="openImportDialog()">Import</button>
-    <button [disabled]="!currentConsortium" mat-button>Export</button>
-</mat-toolbar>
+<h4>Target Gene List {{ currentConsortium ?  'for ' + currentConsortium : ''}} </h4>
 
 <p>Please select the consortium for which you want to view/manage the gene list:</p>
 <mat-form-field *ngIf="user">
@@ -13,6 +9,11 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
+
+<mat-toolbar>
+    <button *ngIf="canUpdateList" [disabled]="!currentConsortium" mat-button (click)="openImportDialog()">Import</button>
+    <button (click)="export()" [disabled]="!currentConsortium" mat-button>Export</button>
+</mat-toolbar>
 
 <div *ngIf="currentConsortium">
 
