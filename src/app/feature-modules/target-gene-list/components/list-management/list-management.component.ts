@@ -27,7 +27,7 @@ export class ListManagementComponent implements OnInit {
 
   user: User = undefined;
 
-  currentConsortium = undefined;
+  currentConsortium: string = undefined;
 
   consortia: NamedValue[] = [];
 
@@ -48,6 +48,19 @@ export class ListManagementComponent implements OnInit {
   ngOnInit() {
     this.loadPermissions();
     this.getPage(0);
+  }
+
+  download(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
   }
 
   public getPage(pageNumber: number) {
@@ -98,6 +111,13 @@ export class ListManagementComponent implements OnInit {
     });
   }
 
+  export() {
+    if (this.currentConsortium) {
+      const csv = this.fileLoaderService.jsonToCsv(this.buildJsonCsvFromDataSource());
+      const fileName = 'gene_list_' + this.currentConsortium.replace(/\W/g, '_') + '.csv';
+      this.download(fileName, csv);
+    }
+  }
 
   private getRelatedConsortia(user: User): NamedValue[] {
     console.log('user', user);
@@ -186,6 +206,20 @@ export class ListManagementComponent implements OnInit {
       consortiumLists.push(consortiumList);
     });
     return consortiumLists;
+  }
+
+  buildJsonCsvFromDataSource() {
+    const fields = ['Target(s)', 'Note'];
+    const data = [];
+    this.dataSource.forEach(x => {
+      const dataRecord: string[] = [];
+      const symbolNames = x.targetListElement.targets.map(y => y.gene.symbol).join(',');
+      const note = x.targetListElement.note;
+      dataRecord.push(symbolNames);
+      dataRecord.push(note);
+      data.push(dataRecord);
+    });
+    return { fields, data };
   }
 
   public getGenesSymbols(targetListTableRecord: TargetListTableRecord): string[] {
