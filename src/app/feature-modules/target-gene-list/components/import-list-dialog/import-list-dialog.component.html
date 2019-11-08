@@ -2,7 +2,7 @@
 <div mat-dialog-content>
     Choose a csv file providing the Gene(s) symbol and a optional note:
     <pre>
-Gene(s),Note
+Gene,Note
 gene1,Note 1
 "gene2, gene3",Note 2
     </pre>
@@ -11,6 +11,6 @@ gene1,Note 1
 
 </div>
 <div mat-dialog-actions>
-    <app-csvloader (dataChange)='setResults($event)'></app-csvloader>
+    <input class="loaderButton" type="file" (change)="setFile($event)" accept=".csv" />  
     <button mat-button (click)="onCancelClick()">Cancel</button>
 </div>

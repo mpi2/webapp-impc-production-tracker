@@ -10,13 +10,14 @@ export class ImportListDialogComponent implements OnInit {
 
   public csvRecords: any[];
 
-  constructor(public dialogRef: MatDialogRef<ImportListDialogComponent>,
-              @Inject(MAT_DIALOG_DATA) public data) { }
+  constructor(
+    public dialogRef: MatDialogRef<ImportListDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public data) { }
 
   ngOnInit() {
   }
 
-  setResults(e) {
+  setFile(e) {
     this.dialogRef.close(e);
   }
 
