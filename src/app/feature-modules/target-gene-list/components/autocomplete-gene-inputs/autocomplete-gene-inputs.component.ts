@@ -1,6 +1,5 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
 import { GeneService, Gene } from 'src/app/core';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';

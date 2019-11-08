@@ -1,8 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FileLoaderService } from 'src/app/core/services/file-loader.service';
-import { Gene } from 'src/app/model';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
-import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
 import { ManagedListsService, LoggedUserService, PermissionsService, GeneService } from 'src/app/core';
 import { EntityValues } from 'src/app/feature-modules/admin/model/entity-values';
 import { MatPaginator, MatDialog } from '@angular/material';
@@ -65,8 +63,6 @@ export class ListManagementComponent implements OnInit {
     this.clearDataSet();
     if (this.currentConsortium) {
       this.targetGeneListService.getListByConsortium(pageNumber, this.currentConsortium).subscribe(data => {
-        console.log('data?->', data);
-
         /* tslint:disable:no-string-literal */
         if (data['_embedded']) {
           const records = data['_embedded'].records;
@@ -107,8 +103,21 @@ export class ListManagementComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-     // this.loadDataFromCsv(result);
+      this.updateListWithFile(result);
     });
+  }
+
+  updateListWithFile($event) {
+    const input = $event.target;
+    const file = input.files[0];
+    this.targetGeneListService.updateListWithFile(this.currentConsortium, file).subscribe(data => {
+      console.log('ok?', data);
+
+    }, error => {
+      console.log('error', error);
+
+    });
+
   }
 
   export() {

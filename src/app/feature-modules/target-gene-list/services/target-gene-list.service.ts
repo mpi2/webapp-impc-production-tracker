@@ -23,4 +23,11 @@ export class TargetGeneListService {
     const url = `${this.apiServiceUrl}/api/geneList/${consortiumName}/content?page=${pageNumber}`;
     return this.http.get<GeneListRecord[]>(url);
   }
+
+  updateListWithFile(consortiumName: string, file) {
+    const formData: FormData = new FormData();
+    formData.append('file', file, file.name);
+    const url = `${this.apiServiceUrl}/api/geneList/updateListWithFile/${consortiumName}`;
+    return this.http.post(url, formData);
+  }
 }
