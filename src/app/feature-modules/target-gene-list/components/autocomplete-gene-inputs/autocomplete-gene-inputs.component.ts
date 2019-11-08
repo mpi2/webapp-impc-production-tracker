@@ -1,11 +1,11 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { TargetListTableRecord } from '../list-management/list-management.component';
 import { Target } from 'src/app/model/bio/target_gene_list/gene-result';
 import { GeneService, Gene } from 'src/app/core';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { MatChipInputEvent, MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material';
+import { GeneListRecord } from 'src/app/model';
 
 @Component({
   selector: 'app-autocomplete-gene-inputs',
@@ -14,7 +14,7 @@ import { MatChipInputEvent, MatAutocomplete, MatAutocompleteSelectedEvent } from
 })
 export class AutocompleteGeneInputsComponent implements OnInit {
 
-  @Input() record: TargetListTableRecord;
+  @Input() record: GeneListRecord;
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
   options: string[] = [];
   filteredOptions: Observable<string[]> = of([]);
@@ -58,8 +58,7 @@ export class AutocompleteGeneInputsComponent implements OnInit {
   }
 
   public getGenesNamesByElement(): string[] {
-    const targetsByRecord: Target[] = this.record.targetListElement.targets;
-    return targetsByRecord.map(x => x.gene.symbol);
+    return this.record.genes.map(x => x.symbol);
   }
 
   add(event: MatChipInputEvent): void {
@@ -84,14 +83,12 @@ export class AutocompleteGeneInputsComponent implements OnInit {
 
   // Add the new gene object to the current record (if it does not exist already)
   private addGeneToRecord(label: string) {
-    const targets: Target[] = this.record.targetListElement.targets;
-    const alreadyExistingGene = targets.find(x => x.gene.symbol === label);
+    const genes: Gene[] = this.record.genes;
+    const alreadyExistingGene = genes.find(x => x.symbol === label);
     if (!alreadyExistingGene) {
       const newGene = new Gene();
       newGene.symbol = label;
-      const newTarget = new Target();
-      newTarget.gene = newGene;
-      targets.push(newTarget);
+      genes.push(newGene);
     }
   }
 
@@ -100,10 +97,10 @@ export class AutocompleteGeneInputsComponent implements OnInit {
   }
 
   private removeGeneFromRecord(label: string) {
-    const targets: Target[] = this.record.targetListElement.targets;
-    const index = targets.findIndex(x => x.gene.symbol === label);
+    const genes: Gene[] = this.record.genes;
+    const index = genes.findIndex(x => x.symbol === label);
     if (index >= 0) {
-      targets.splice(index, 1);
+      genes.splice(index, 1);
     }
   }
 
