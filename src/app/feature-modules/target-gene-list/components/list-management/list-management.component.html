@@ -44,7 +44,7 @@
               </div>
               <ng-template #editableNote>
                 <mat-form-field class="example-full-width">
-                  <input matInput [(value)]="element.targetListElement.note">
+                  <input matInput [(value)]="element.note">
                 </mat-form-field>
               </ng-template>
               <ng-template #readOnlyNote>
@@ -52,7 +52,7 @@
               </ng-template>
             </td>
             <td>
-              <div *ngFor="let project of element.targetListElement.projects">
+              <div *ngFor="let project of element.projects">
                 <div *ngIf="project">
                   <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
                   {{ project.assignmentStatusName || 'Status not defined' }} ]
