@@ -16,6 +16,7 @@ import { ConfigAssetLoaderService } from './core/services/config-asset-loader.se
 import { GenesModule } from './feature-modules/genes/genes.module';
 import { LocationsModule } from './feature-modules/locations/locations.module';
 import { IntentionsModule } from './feature-modules/intentions/intentions.module';
+import { TargetGeneListModule } from './feature-modules/target-gene-list/target-gene-list.module';
 
 @NgModule({
   declarations: [
@@ -33,6 +34,7 @@ import { IntentionsModule } from './feature-modules/intentions/intentions.module
     GenesModule,
     IntentionsModule,
     LocationsModule,
+    TargetGeneListModule,
     AppRoutingModule,
   ],
   exports: [

@@ -1,16 +1,16 @@
-<app-location [location]="intentionByLocation.location"></app-location>
+<app-location [location]="projectIntention.intentionByLocation.location"></app-location>
 
 <fieldset>
     <label for="alleleType">Allele Type:</label>
-    <div id="alleleType" class="content">{{ intentionByLocation.alleleTypeName || 'Not defined' }}</div>
+    <div id="alleleType" class="content">{{ projectIntention.alleleTypeName || 'Not defined' }}</div>
 
     <label for="molecularMutationType:">Molecular Mutation Type:</label>
     <div id="molecularMutationType" class="content">
-        {{ intentionByLocation.molecularMutationTypeName || 'Not defined'}}
+        {{ projectIntention.molecularMutationTypeName || 'Not defined'}}
     </div>
 
     <label for="chrFeatureType:">Chr Feature Type:</label>
     <div id="chrFeatureType" class="content">
-        {{ intentionByLocation.chrFeatureTypeName || 'Not defined' }}
+        {{ projectIntention.intentionByLocation.chrFeatureTypeName || 'Not defined' }}
     </div>
 </fieldset>

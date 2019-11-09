@@ -26,9 +26,7 @@
             "styles": [
               "styles.css",
               "imits-theme.scss",
-              "node_modules/primeicons/primeicons.css",
-              "node_modules/primeng/resources/themes/nova-light/theme.css",
-              "node_modules/primeng/resources/primeng.min.css"
+              "primeng-styles/themes/nova-light/theme.css"
             ],
             "scripts": []
           },

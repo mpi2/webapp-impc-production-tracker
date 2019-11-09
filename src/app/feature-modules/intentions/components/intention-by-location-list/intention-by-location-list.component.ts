@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { IntentionByLocation } from 'src/app/core/model/bio/intention-by-location';
+import { ProjectIntention } from 'src/app/model/bio/project-intention';
 
 @Component({
   selector: 'app-intention-by-location-list',
@@ -8,7 +8,7 @@ import { IntentionByLocation } from 'src/app/core/model/bio/intention-by-locatio
 })
 export class IntentionByLocationListComponent implements OnInit {
 
-  @Input() intentionByLocations: IntentionByLocation[];
+  @Input() projectIntentions: ProjectIntention[];
 
   constructor() { }
 

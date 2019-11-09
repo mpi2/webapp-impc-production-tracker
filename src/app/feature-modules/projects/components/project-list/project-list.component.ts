@@ -1,12 +1,13 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { first } from 'rxjs/operators';
 import { ProjectService } from '../../services/project.service';
-import { ConfigurationData, ConfigurationDataService, LoggedUserService, LoggedUser } from 'src/app/core';
+import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { MatPaginator, MatSort } from '@angular/material';
 import { ProjectFilterService } from '../../services/project-filter.service';
 import { Filter } from 'src/app/core/model/common/filter';
 import { ArrayFilter } from 'src/app/core/model/common/array-filter';
-import { Project, ProjectAdapter } from 'src/app/core/model/bio/project';
+import { Project, ProjectAdapter } from 'src/app/model/bio/project';
+import { User } from 'src/app/core/model/user/user';
 
 @Component({
   selector: 'app-project-list',
@@ -39,7 +40,7 @@ export class ProjectListComponent implements OnInit {
   configurationData: ConfigurationData;
 
   error;
-  loggedUser: LoggedUser = new LoggedUser();
+  loggedUser: User = new User();
 
   projectFilterService: ProjectFilterService = new ProjectFilterService();
 
@@ -60,8 +61,8 @@ export class ProjectListComponent implements OnInit {
           this.getPage(0);
         });
       } else {
-        this.loggedUser = new LoggedUser();
-        this.loggedUser.userName = 'anonymous';
+        this.loggedUser = new User();
+        this.loggedUser.name = 'anonymous';
         this.getPage(0);
       }
 

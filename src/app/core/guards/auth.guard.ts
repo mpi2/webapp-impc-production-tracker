@@ -1,20 +1,17 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
+import { CanActivate, CanLoad, Route, UrlSegment, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { LoggedUserService, PermissionsService } from '..';
-import { LoggedUser } from '../model/user/logged-user';
 import { map } from 'rxjs/operators';
+import { User } from '../model/user/user';
 
 @Injectable({
     providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanLoad {
-    loggedUser: LoggedUser;
-
     constructor(
         private router: Router,
-        private loggedUserService: LoggedUserService,
-        private permissionsService: PermissionsService) {
+        private loggedUserService: LoggedUserService) {
     }
 
     canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
@@ -25,13 +22,34 @@ export class AuthGuard implements CanActivate, CanLoad {
 
     canPathBeActivated(path, url): Observable<boolean> {
         if ('admin' === path) {
-            return this.permissionsService.evaluatePermission(PermissionsService.EXECUTE_MANAGER_TASKS);
+            return this.canExecuteManagerTasks();
         }
         if (url.indexOf('/admin/') >= 0) {
-            return this.permissionsService.evaluatePermission(path);
+            if (url.indexOf(PermissionsService.REGISTER_USER)) {
+                return this.canManageUsers();
+            } else {
+                console.warn('No evaluation yet for this task', url);
+                return of(false);
+            }
         } else {
             return of(true);
         }
+    }
+
+    canExecuteManagerTasks() {
+        return this.loggedUserService.getLoggerUser().pipe(
+            map(data => {
+                return PermissionsService.canExecuteManagerTasks(data);
+            })
+        );
+    }
+
+    canManageUsers() {
+        return this.loggedUserService.getLoggerUser().pipe(
+            map(data => {
+                return PermissionsService.canManageUsers(data);
+            })
+        );
     }
 
     canLoad(
@@ -50,11 +68,11 @@ export class AuthGuard implements CanActivate, CanLoad {
         );
     }
 
-    canPathBeLoaded(loggedUser: LoggedUser, path): boolean {
+    canPathBeLoaded(loggedUser: User, path): boolean {
         let canVisit: boolean;
         if ('admin' === path) {
             if (loggedUser) {
-                canVisit = loggedUser.admin; /// Or Manager??
+                canVisit = PermissionsService.canExecuteManagerTasks(loggedUser);
             } else {
                 canVisit = false;
             }

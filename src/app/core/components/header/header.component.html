@@ -4,6 +4,7 @@
             <mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ userName }}</b>
         </p>
     </div>
+
     <div fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="start center">
 
         <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>
@@ -30,8 +31,7 @@
             <mat-menu #project_menu="matMenu">
                 <button mat-menu-item *ngIf="login" routerLink="/projects" routerLinkActive="active">My
                     Projects</button>
-                <button mat-menu-item *ngIf="!login" routerLink="/projects" routerLinkActive="active">Public
-                    Projects</button>
+                <button mat-menu-item *ngIf="login" routerLink="/target-gene-list/manage" routerLinkActive="active">Target Gene List</button>
                 <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
                 <mat-menu #attempt="matMenu">
                     <button mat-menu-item routerLink="">CRISPR</button>

@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { LocalDataSource } from 'ng2-smart-table';
+// import { LocalDataSource } from 'ng2-smart-table';
 import { first } from 'rxjs/operators';
 import {
-  WorkGroup, LoggedUser, ConfigurationData, LoggedUserService, ConfigurationDataService,
+  WorkGroup, ConfigurationData, LoggedUserService, ConfigurationDataService,
   WorkGroupService, GeneService
 } from 'src/app/core';
 import { NewProject } from '../../model/newProject';
 import { FunderService } from 'src/app/core/services/funder.service';
 import { ProjectService } from '../..';
-import { Gene } from 'src/app/core/model/bio/gene';
+import { Gene } from 'src/app/model/bio/gene';
 
 @Component({
   selector: 'app-create-project',
@@ -40,13 +40,12 @@ export class CreateProjectComponent implements OnInit {
   isLoading = false;
   placeHolder: string;
   newProject: NewProject;
-  loggerUser: LoggedUser;
   configurationData: ConfigurationData;
   isDisabled = true;
 
   @ViewChild('autocomplete', { static: true }) autocomplete;
   /* tslint:disable */
-  projectGenes: LocalDataSource;
+  projectGenes: any;
   geneSettings = {
     mode: external,
     hideSubHeader: true,
@@ -88,7 +87,7 @@ export class CreateProjectComponent implements OnInit {
     },
   };
 /* tslint:enable */
-  projectLocations: LocalDataSource;
+  projectLocations: any;
   locationSettings = {
     // mode: external,
     hideSubHeader: false,
@@ -227,8 +226,8 @@ export class CreateProjectComponent implements OnInit {
     this.keyword = 'symbol';
     this.placeHolder = 'Search for a mouse gene';
 
-    this.projectGenes = new LocalDataSource();
-    this.projectLocations = new LocalDataSource();
+    // this.projectGenes = new LocalDataSource();
+    // this.projectLocations = new LocalDataSource();
 
     this.createProjectForm = this.formBuilder.group({
       workUnit: ['', Validators.required],

@@ -1,0 +1,73 @@
+<h4>Target Gene List {{ currentConsortium ?  'for ' + currentConsortium : ''}} </h4>
+
+<p>Please select the consortium for which you want to view/manage the gene list:</p>
+<mat-form-field *ngIf="user">
+  <mat-label>Consortium</mat-label>
+  <mat-select [(value)]="currentConsortium" (selectionChange)="onConsortiumChanged()">
+    <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>
+      {{consortium.name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-toolbar>
+    <button *ngIf="canUpdateList" [disabled]="!currentConsortium" mat-button (click)="openImportDialog()">Import</button>
+    <button (click)="export()" [disabled]="!currentConsortium" mat-button>Export</button>
+</mat-toolbar>
+
+<div *ngIf="currentConsortium">
+
+  <mat-card>
+    <mat-card-content>
+      <table class="mat-elevation-z8">
+        <thead>
+          <tr>
+            <th>Gene(s)</th>
+            <th>Note</th>
+            <th>Associated Projects</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let element of dataSource">
+            <td>
+              <div *ngIf="canUpdateList; then editableGenes else readOnlyGenes">
+              </div>
+              <ng-template #editableGenes>
+                <app-autocomplete-gene-inputs [record]="element"></app-autocomplete-gene-inputs>
+              </ng-template>
+              <ng-template #readOnlyGenes>
+                {{ getGenesSymbols(element) }}
+              </ng-template>
+            </td>
+            <td>
+              <div *ngIf="canUpdateList; then editableNote else readOnlyNote">
+              </div>
+              <ng-template #editableNote>
+                <mat-form-field class="example-full-width">
+                  <input matInput [(value)]="element.note">
+                </mat-form-field>
+              </ng-template>
+              <ng-template #readOnlyNote>
+                {{ element.targetListElement.note }}
+              </ng-template>
+            </td>
+            <td>
+              <div *ngFor="let project of element.projects">
+                <div *ngIf="project">
+                  <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
+                  {{ project.assignmentStatusName || 'Status not defined' }} ]
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
+        id="server"></mat-paginator>
+
+    </mat-card-content>
+    <mat-card-actions *ngIf="canUpdateList">
+      <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary">Update lists</button>
+    </mat-card-actions>
+  </mat-card>
+</div>

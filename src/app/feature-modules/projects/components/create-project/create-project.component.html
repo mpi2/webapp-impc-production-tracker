@@ -6,9 +6,7 @@
     </div>
 
     <div class="form-group">
-      <label for="workGroup">Work Group</label><br>
-      <ng-multiselect-dropdown type="text" name="workGroup" formControlName="workGroup" [ngClass]="{ 'is-invalid': submitted && f.workGroup.errors }" [placeholder]="'-- Select --'" [data]="workGroups" [settings]="dropdownSettingsSingle" (onSelect)="enableFunders($event)" (onDeSelect)="disabledFunder()" ></ng-multiselect-dropdown>
-      
+      <label for="workGroup">Work Group</label><br>      
       <div *ngIf="submitted && f.workGroup.errors" class="invalid-feedback">
         <div *ngIf="submitted && f.workGroup.errors.required">Work group is required</div>
       </div>
@@ -16,7 +14,6 @@
 
     <div class="form-group">
       <label for="funder">Funder</label><br>
-      <ng-multiselect-dropdown type="text" name="funder" formControlName="funder" [ngClass]="{ 'is-invalid': submitted && f.funder.errors }" [placeholder]="'-- Select --'" [data]="funders" [settings]="dropdownSettingsSingle" ></ng-multiselect-dropdown> <!-- [disabled]="isDisabled" -->
       <div *ngIf="submitted && f.funder.errors" class="invalid-feedback">
         <div *ngIf="f.funder.errors.required">Funder is required</div>
       </div>
@@ -34,7 +31,7 @@
       <label for="projectLocations">Project target gene(s) </label><br>
 
       <div class="ng-autocomplete">
-        <ng-autocomplete #autocomplete
+        <!-- <ng-autocomplete #autocomplete
           [data]="genes"
           [searchKeyword]="keyword"
           [isLoading]="isLoading"
@@ -43,7 +40,7 @@
           (inputChanged)='onChangeSearch($event)'
           [itemTemplate]="itemTemplate"
           [notFoundTemplate]="notFoundTemplate">                                 
-        </ng-autocomplete>
+        </ng-autocomplete> -->
 
         <ng-template #itemTemplate let-gene>
           <a [innerHTML]="gene.symbol"></a>
@@ -56,12 +53,12 @@
       
       <a class="badge badge-primary" (click)="addGene($event)">Add</a>
 
-      <ng2-smart-table #tableGenes [ngClass]="{ 'is-invalid': submitted && f.projectGenes.errors }"
+      <!-- <ng2-smart-table #tableGenes [ngClass]="{ 'is-invalid': submitted && f.projectGenes.errors }"
         [settings]="geneSettings" 
         [source]="projectGenes" 
         (editConfirm)="onSaveConfirm()" 
       >
-      </ng2-smart-table>
+      </ng2-smart-table> -->
       
       <div *ngIf="submitted && f.projectGenes.errors" class="invalid-feedback">
         <div *ngIf="f.projectGenes.errors.required">At least one gene is required</div>
@@ -88,13 +85,13 @@
     <div class="form-group">
       <label for="projectLocations">Project target location(s) </label><br>
 
-      <ng2-smart-table #tableLocation [ngClass]="{ 'is-invalid': submitted && f.projectLocations.errors }"
+      <!-- <ng2-smart-table #tableLocation [ngClass]="{ 'is-invalid': submitted && f.projectLocations.errors }"
         [settings]="locationSettings" 
         [source]="projectLocations" 
         (editConfirm)="onSaveConfirm()" 
         (createConfirm)="onCreateConfirm($event)" 
       >
-      </ng2-smart-table>
+      </ng2-smart-table> -->
     </div>
 
     <div class="form-group">

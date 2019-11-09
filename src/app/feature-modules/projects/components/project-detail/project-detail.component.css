@@ -30,6 +30,9 @@ input, select, content {
     max-width: 40%;
     float: left;
 }
+.select-content {
+    max-width: 35%;
+}
 .tpn {
     font-size: 16px;
     padding-inline-start: 0.75em;
