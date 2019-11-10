@@ -24,10 +24,15 @@ export class TargetGeneListService {
     return this.http.get<GeneListRecord[]>(url);
   }
 
-  updateListWithFile(consortiumName: string, file) {
+  updateListWithFile(consortiumName: string, file): Observable<GeneListRecord[]> {
     const formData: FormData = new FormData();
     formData.append('file', file, file.name);
     const url = `${this.apiServiceUrl}/api/geneList/updateListWithFile/${consortiumName}`;
-    return this.http.post(url, formData);
+    return this.http.post<GeneListRecord[]>(url, formData);
+  }
+
+  uploadList(geneListRecords: GeneListRecord[], consortiumName: string): Observable<GeneListRecord[]> {
+    const url = `${this.apiServiceUrl}/api/geneList/${consortiumName}/content`;
+    return this.http.post<GeneListRecord[]>(url, geneListRecords);
   }
 }
