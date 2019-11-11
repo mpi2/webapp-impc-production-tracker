@@ -29,7 +29,7 @@
         </thead>
         <tbody>
           <tr *ngFor="let element of dataSource">
-            <td>
+            <td class="geneSymbol">
               <div *ngIf="canUpdateList; then editableGenes else readOnlyGenes">
               </div>
               <ng-template #editableGenes>
@@ -44,11 +44,11 @@
               </div>
               <ng-template #editableNote>
                 <mat-form-field class="example-full-width">
-                  <input matInput [(value)]="element.note">
+                  <input (input)="noteChanged(element, $event.target.value)" matInput [(value)]="element.note">
                 </mat-form-field>
               </ng-template>
               <ng-template #readOnlyNote>
-                {{ element.targetListElement.note }}
+                {{ element.note }}
               </ng-template>
             </td>
             <td>
