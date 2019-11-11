@@ -14,6 +14,7 @@ export class HeaderComponent implements OnInit {
 
   isAdmin: boolean;
   userName = '';
+  hasAtLeastOneWorkUnit: boolean;
   login = false;
   subscription: Subscription;
   loggedUser: User;
@@ -50,6 +51,7 @@ export class HeaderComponent implements OnInit {
     if (this.loggedUser) {
       this.isAdmin = PermissionsService.canExecuteManagerTasks(this.loggedUser);
       this.userName = this.loggedUser.name;
+      this.hasAtLeastOneWorkUnit = this.loggedUser.rolesWorkUnits.length > 0;
       this.login = true;
     }
   }
