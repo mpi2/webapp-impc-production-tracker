@@ -5,7 +5,7 @@ import { ListManagementComponent } from './components/list-management/list-manag
 
 const routes: Routes = [
   {
-    path: 'target-gene-list/manage', component: ListManagementComponent
+    path: 'gene-list', component: ListManagementComponent
   }
 ];
 
