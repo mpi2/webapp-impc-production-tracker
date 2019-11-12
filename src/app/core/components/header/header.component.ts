@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
   login = false;
   subscription: Subscription;
   loggedUser: User;
+  canSeeProjectList: boolean;
 
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
     this.messageService.getMessage().subscribe(data => {
@@ -46,10 +47,12 @@ export class HeaderComponent implements OnInit {
     }
   }
 
-  setInitialInformation(): void {
+  public setInitialInformation(): void {
     if (this.loggedUser) {
       this.isAdmin = PermissionsService.canExecuteManagerTasks(this.loggedUser);
       this.userName = this.loggedUser.name;
+      const hasAtLeastOneWorkUnit = this.loggedUser.rolesWorkUnits.length > 0;
+      this.canSeeProjectList = hasAtLeastOneWorkUnit || this.isAdmin;
       this.login = true;
     }
   }
