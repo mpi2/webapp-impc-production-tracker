@@ -83,6 +83,7 @@ export class SearchComponent implements OnInit {
   public getPage(pageNumber: number): void {
     const geneSymbols = this.getGeneSymbolsAsArray();
     const workUnitsNames = this.getWorkUnitFilter();
+    const workGroupNames = this.getWorkGroupFilter();
     const searchType = this.getSearchType();
     this.isLoading = true;
 
@@ -90,14 +91,12 @@ export class SearchComponent implements OnInit {
       .withSearchType(searchType)
       .withInputs(geneSymbols)
       .withWorkUnitsNames(workUnitsNames)
+      .withWorkGroupNames(workGroupNames)
       .build();
     /* tslint:disable:no-string-literal */
     this.searchService.search(search, pageNumber).subscribe(data => {
       this.dataSource = data['results'];
-      console.log('this.dataSource', this.dataSource);
-
       this.dataSource.map(x => this.buildSearchResultComments(x));
-
       this.refreshVisibleColumns();
       this.page = data['page'];
       this.error = '';
