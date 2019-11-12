@@ -23,7 +23,7 @@ export class SearchComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  selectedSearchType: string = null;
+  selectedSearchType = 'gene';
 
   dataSource: SearchResult[];
 
@@ -36,7 +36,7 @@ export class SearchComponent implements OnInit {
   page: any = {};
   workUnits: CheckboxElement[] = [];
   workGroups: CheckboxElement[] = [];
-  searchTypes: string[] = [];
+  searchTypes: string[] = ['gene'];
   masterSelected: boolean;
   checkedList: any;
   myTextarea: string;
@@ -66,9 +66,6 @@ export class SearchComponent implements OnInit {
   }
 
   initFiltersValues(): void {
-    this.searchTypes = this.configurationData.searchTypes.map(x => {
-      return x;
-    });
     this.workUnits = this.configurationData.workUnits.map(x => {
       const workUnit: CheckboxElement = new CheckboxElement();
       workUnit.name = x;
@@ -97,8 +94,9 @@ export class SearchComponent implements OnInit {
     /* tslint:disable:no-string-literal */
     this.searchService.search(search, pageNumber).subscribe(data => {
       this.dataSource = data['results'];
+      console.log('this.dataSource', this.dataSource);
+
       this.dataSource.map(x => this.buildSearchResultComments(x));
-      console.log('dataSource', this.dataSource);
 
       this.refreshVisibleColumns();
       this.page = data['page'];
@@ -111,16 +109,13 @@ export class SearchComponent implements OnInit {
     /* tslint:enable:no-string-literal */
   }
 
-  buildSearchResultComments(searcResult: SearchResult): void {
+  buildSearchResultComments(searchResult: SearchResult): void {
     const result = [];
-    if (!searcResult.project) {
+    result.push(searchResult.comment);
+    if (!searchResult.project) {
       result.push('No projects found');
-    } else {
-      if (searcResult.comment) {
-        result.push(searcResult.comment);
-      }
     }
-    searcResult.searchResultComments = result;
+    searchResult.searchResultComments = result;
   }
 
   private refreshVisibleColumns(): void {
@@ -227,7 +222,6 @@ export class SearchComponent implements OnInit {
         isValid = true;
       }
     }
-    console.log('isValid->', isValid);
 
     return isValid;
   }

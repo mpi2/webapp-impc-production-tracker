@@ -15,7 +15,7 @@
           </div>
         </mat-card>
 
-        <mat-card>
+        <mat-card *ngIf="false">
           <mat-card-content style="width: 100px">
             <label>Search Type:</label>
             <div>
@@ -106,7 +106,11 @@
 
           <ng-container matColumnDef="Search Result Comments">
             <th mat-header-cell *matHeaderCellDef>Search Result comments</th>
-            <td mat-cell *matCellDef="let searchResult">{{searchResult.searchResultComments}}</td>
+            <td mat-cell *matCellDef="let searchResult">
+              <div *ngFor="let comment of searchResult.searchResultComments">
+                {{ comment }}
+              </div>
+            </td>
           </ng-container>
 
           <ng-container matColumnDef="Project summary">
@@ -132,7 +136,7 @@
             <td mat-cell *matCellDef="let searchResult">
               <div *ngIf="searchResult.project">
                 <div *ngFor="let projectIntention of searchResult.project.projectIntentions">
-                  {{getTargetText(projectIntention)}}  
+                  {{getTargetText(projectIntention)}}
                   <!-- <a href="" target="_blank">{{ intentionByGene ? intentionByGene.gene.symbol : '' }}</a> -->
                 </div>
               </div>

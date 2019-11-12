@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
 import { StatusDate } from './status-date';
 import { ProjectIntention } from './project-intention';
-import { IntentionByGene } from './intention-by-gene';
 
 export class Project {
     id: number;
@@ -18,6 +17,7 @@ export class Project {
     comment: string;
     isObjectRestricted: boolean;
     isActive: boolean;
+    externalReference: string;
     // tslint:disable-next-line
     _links: ProjectLinks;
 }
