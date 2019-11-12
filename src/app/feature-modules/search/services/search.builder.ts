@@ -33,4 +33,9 @@ export class SearchBuilder {
         this.filters.set('workUnitName', workUnitsNames);
         return this;
     }
+
+    withWorkGroupNames(workGroupNames: string[]): SearchBuilder {
+        this.filters.set('workGroupName', workGroupNames);
+        return this;
+    }
 }

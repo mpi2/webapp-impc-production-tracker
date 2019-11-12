@@ -10,8 +10,6 @@
         <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>
         <mat-menu #search_menu="matMenu">
             <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
-            <button mat-menu-item routerLink="/searchDocumentation" routerLinkActive="active">Search
-                Documentation</button>
         </mat-menu>
 
         <button mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
@@ -20,7 +18,7 @@
         <mat-menu #account_menu="matMenu">
             <button mat-flat-button [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
                 in</button>
-            <button mat-menu-item [routerLink]="['./edit_profile']" *ngIf="login">Edit your
+            <button mat-menu-item  [routerLink]="['./edit_profile']" *ngIf="false">Edit your
                 profile</button>
             <button mat-menu-item *ngIf="login && isAdmin" routerLink="/admin">Admin</button>
             <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
@@ -33,8 +31,8 @@
                 <button mat-menu-item *ngIf="login" routerLink="/gene-list" routerLinkActive="active">Gene List</button>
                 <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
                 <mat-menu #attempt="matMenu">
-                    <button mat-menu-item routerLink="">CRISPR</button>
-                    <button mat-menu-item routerLink="">Breeding</button>
+                    <button mat-menu-item routerLink="">CRISPR (Not available yet)</button>
+                    <button mat-menu-item routerLink="">Breeding (Not available yet)</button>
                 </mat-menu>
             </mat-menu>
         </div>
