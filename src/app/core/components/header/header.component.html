@@ -29,7 +29,7 @@
         <div *ngIf="login">
             <button routerLinkActive="active" mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
             <mat-menu #project_menu="matMenu">
-                <button mat-menu-item *ngIf="login && hasAtLeastOneWorkUnit" routerLink="/projects" routerLinkActive="active">Production Unit Projects</button>
+                <button mat-menu-item *ngIf="canSeeProjectList" routerLink="/projects" routerLinkActive="active">Production Unit Projects</button>
                 <button mat-menu-item *ngIf="login" routerLink="/gene-list" routerLinkActive="active">Gene List</button>
                 <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
                 <mat-menu #attempt="matMenu">
