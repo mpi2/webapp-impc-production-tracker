@@ -22,6 +22,7 @@ export class SearchService {
     search(search: Search, pageNumber: number): Observable<SearchResult[]> {
         const parameters = this.buildParameters(search, pageNumber);
         let url = this.apiServiceUrl + '/api/projects/search';
+
         url = parameters == null ? url : url + parameters;
         return this.http.get<SearchResult[]>(url);
     }
@@ -31,6 +32,8 @@ export class SearchService {
         const searchTypeParameter = this.getSearchTypeParameter(search);
         const inputsParameter = this.getInputsParameter(search);
         const workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
+        const workGroupNamesParameter = this.getWorkGroupNamesParameter(search);
+
         if (searchTypeParameter) {
             queryParameters += '&' + searchTypeParameter;
         }
@@ -39,6 +42,9 @@ export class SearchService {
         }
         if (workUnitNamesParameter) {
             queryParameters += '&' + workUnitNamesParameter;
+        }
+        if (workGroupNamesParameter) {
+            queryParameters += '&' + workGroupNamesParameter;
         }
         return queryParameters;
     }
@@ -65,5 +71,13 @@ export class SearchService {
             workUnitNamesParameter = search.filters.get('workUnitName').map(x => 'workUnitName=' + x.trim()).join('&');
         }
         return workUnitNamesParameter;
+    }
+
+    private getWorkGroupNamesParameter(search: Search): string {
+        let workGroupNamesParameter = null;
+        if (search.filters.get('workGroupName')) {
+            workGroupNamesParameter = search.filters.get('workGroupName').map(x => 'workGroupName=' + x.trim()).join('&');
+        }
+        return workGroupNamesParameter;
     }
 }
