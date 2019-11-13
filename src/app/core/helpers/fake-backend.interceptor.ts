@@ -26,8 +26,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function getGenes() {
             const genes = [
                 {
-                    "name": "Nxn",
-                    "id": "MGI:123456"
+                    name: 'Nxn',
+                    id: 'MGI:123456'
                 }
             ];
             console.log('genes => ', genes);
