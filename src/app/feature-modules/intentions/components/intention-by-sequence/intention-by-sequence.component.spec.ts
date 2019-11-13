@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { IntentionByLocationComponent } from './intention-by-location.component';
+import { IntentionBySequenceComponent } from './intention-by-sequence.component';
 
 describe('IntentionByLocationComponent', () => {
-  let component: IntentionByLocationComponent;
-  let fixture: ComponentFixture<IntentionByLocationComponent>;
+  let component: IntentionBySequenceComponent;
+  let fixture: ComponentFixture<IntentionBySequenceComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ IntentionByLocationComponent ]
+      declarations: [ IntentionBySequenceComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(IntentionByLocationComponent);
+    fixture = TestBed.createComponent(IntentionBySequenceComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

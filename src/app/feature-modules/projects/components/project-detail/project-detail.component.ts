@@ -73,7 +73,7 @@ export class ProjectDetailComponent implements OnInit {
       console.log('project data::>>', data);
       this.originalProjectAsString = JSON.stringify(data);
       this.getProductionPlans();
-      this.gethenotypingPlans();
+      this.getPhenotypingPlans();
       this.loadIntentionsByType();
       this.loadPermissions();
       this.setFormValues();
@@ -99,7 +99,6 @@ export class ProjectDetailComponent implements OnInit {
 
   private loadIntentionsByType() {
     this.projectIntentionsByGene = this.getGeneIntentions();
-    this.projectIntentionsByLocation = this.getLocationIntentions();
     this.projectIntentionsBySequence = this.getSequenceIntentions();
   }
 
@@ -116,7 +115,7 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-  private gethenotypingPlans(): void {
+  private getPhenotypingPlans(): void {
     if (this.project._links.phenotypingPlans) {
       this.project._links.phenotypingPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
@@ -182,10 +181,6 @@ export class ProjectDetailComponent implements OnInit {
 
   getGeneIntentions(): ProjectIntention[] {
     return this.getSequenceIntentionsByType('gene');
-  }
-
-  getLocationIntentions(): ProjectIntention[] {
-    return this.getSequenceIntentionsByType('location');
   }
 
   getSequenceIntentions(): ProjectIntention[] {

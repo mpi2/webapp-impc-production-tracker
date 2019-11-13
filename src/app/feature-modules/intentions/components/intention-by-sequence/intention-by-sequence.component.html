@@ -1,4 +1,4 @@
-<app-location [location]="projectIntention.intentionByLocation.location"></app-location>
+<app-sequence *ngIf="projectIntention.intentionBySequence" [sequence]="projectIntention.intentionBySequence.sequenceAttributes.sequenceLocations"></app-sequence>
 
 <fieldset>
     <label for="alleleType">Allele Type:</label>
@@ -7,10 +7,5 @@
     <label for="molecularMutationType:">Molecular Mutation Type:</label>
     <div id="molecularMutationType" class="content">
         {{ projectIntention.molecularMutationTypeName || 'Not defined'}}
-    </div>
-
-    <label for="chrFeatureType:">Chr Feature Type:</label>
-    <div id="chrFeatureType" class="content">
-        {{ projectIntention.intentionByLocation.chrFeatureTypeName || 'Not defined' }}
     </div>
 </fieldset>

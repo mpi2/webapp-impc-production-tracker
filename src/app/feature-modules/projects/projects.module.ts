@@ -6,7 +6,7 @@ import { ProjectDetailComponent } from './components/project-detail/project-deta
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PlansModule } from '../plans/plans.module';
 import { GenesModule } from '../genes/genes.module';
-import { LocationsModule } from '../locations/locations.module';
+import { SequencesModule } from '../sequences/sequences.module';
 import { IntentionsModule } from '../intentions/intentions.module';
 
 @NgModule({
@@ -19,7 +19,7 @@ import { IntentionsModule } from '../intentions/intentions.module';
     ProjectsRoutingModule,
     PlansModule,
     GenesModule,
-    LocationsModule,
+    SequencesModule,
     IntentionsModule,
     SharedModule
   ]

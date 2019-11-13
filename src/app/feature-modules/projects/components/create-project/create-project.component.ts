@@ -6,6 +6,7 @@ import { FormControl } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { MatDialog, MatTable } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
+import { Sequence } from 'src/app/model';
 
 export interface UsersData {
   name: string;
@@ -35,7 +36,10 @@ export class CreateProjectComponent implements OnInit {
   searchGenesCtrl = new FormControl();
   filteredGenes: string[] = [];
   genesSelected: Gene[] = [];
+  seqLocSelected: Sequence[] = [];
   isLoading = false;
+  isLinear = false;
+  onSubmit = false;
   errorMsg: string;
   configurationData: ConfigurationData;
 

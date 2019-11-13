@@ -16,8 +16,8 @@
   <div id="tpn">{{ project.tpn }}</div>
 </div>
 <!-- <app-intention-by-gene-list [intentionByGenes]="project.intentionsByGene"></app-intention-by-gene-list>
-<app-intention-by-location-list [intentionByLocations]="project.intentionsByLocation">
-</app-intention-by-location-list> -->
+<app-intention-by-sequence-list [intentionBySequences]="project.intentionsByLocation">
+</app-intention-by-sequence-list> -->
 
 <app-crispr-attempt *ngIf="plan.crisprAttemptAttributes" [crisprAttempt]="plan.crisprAttemptAttributes"
   [canUpdatePlan]="canUpdatePlan">
