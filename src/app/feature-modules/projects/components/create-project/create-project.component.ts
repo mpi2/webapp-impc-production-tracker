@@ -190,7 +190,7 @@ export class CreateProjectComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("Project definition finished.");
+    console.log('Project definition finished.');
   }
 
 }
