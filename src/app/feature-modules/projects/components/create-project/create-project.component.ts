@@ -1,12 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfigurationData, ConfigurationDataService, GeneService } from 'src/app/core';
+import { ConfigurationData, ConfigurationDataService, GeneService, Gene } from 'src/app/core';
 import { FormControl } from '@angular/forms';
 
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { MatDialog, MatTable } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
-// import { CreateProjectGene, CreateProjectSequenceLocation } from 'src/app/model';
 
 export interface UsersData {
   name: string;
@@ -29,14 +28,13 @@ export class CreateProjectComponent implements OnInit {
   displayedColumnsGenes: string[] = ['symbol', 'accId', 'molecularMutType', 'alleleType', 'action'];
   displayedColumnsSequenceLocation: string[] = ['index', 'name', 'action'];
   dataSource = ELEMENT_DATA;
-  seqLocSelected: CreateProjectSequenceLocation[] = [];
 
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
   searchGenesCtrl = new FormControl();
   filteredGenes: string[] = [];
-  genesSelected: CreateProjectGene[] = [];
+  genesSelected: Gene[] = [];
   isLoading = false;
   errorMsg: string;
   configurationData: ConfigurationData;

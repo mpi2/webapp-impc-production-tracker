@@ -1,23 +1,26 @@
 import { ProjectLinks } from '../../feature-modules/projects/model/project-links';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
-import { StatusDate } from './status-date';
-import { ProjectIntention } from './project-intention';
+import { InstitutesConsortium, ProjectIntention, StatusDate } from '..';
 
 export class Project {
     id: number;
     tpn: string;
-    privacyName: string;
+    imitsMiPlanId: number;
     assignmentStatusName: string;
     assignmentStatusDates: StatusDate[];
+    isObjectRestricted: boolean;
+
+    institutesConsortium: InstitutesConsortium[];
+    privacyName: string;
+    species: string[];
+    externalReference: string;
+    projectIntentions: ProjectIntention[];
     withdrawn: boolean;
     recovery: boolean;
-    projectIntentions: ProjectIntention[];
-    imitsMiPlanId: number;
-    comment: string;
-    isObjectRestricted: boolean;
     isActive: boolean;
-    externalReference: string;
+    comment: string;
+
     // tslint:disable-next-line
     _links: ProjectLinks;
 }

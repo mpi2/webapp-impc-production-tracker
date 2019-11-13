@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../../../model/bio/project';
-import { NewProject } from '../model/newProject';
 import { ConfigAssetLoaderService } from '../../../core/services/config-asset-loader.service';
 import { ChangesHistory } from 'src/app/core';
 
@@ -25,7 +24,7 @@ export class ProjectService {
     return this.http.get<Project>(this.apiServiceUrl + '/api/projects/' + tpn);
   }
 
-  postProject(newProject: NewProject) {
+  postProject(newProject: Project) {
     return this.http.post<Project>(this.apiServiceUrl + '/api/projects/', newProject);
   }
 
