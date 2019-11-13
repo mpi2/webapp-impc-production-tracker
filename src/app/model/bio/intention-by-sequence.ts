@@ -1,6 +1,6 @@
 import { Sequence } from './sequence';
 
 export class IntentionBySequence {
-    sequece: Sequence;
+    sequence: Sequence;
     index: number;
 }

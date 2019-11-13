@@ -13,6 +13,7 @@ export class GeneComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    console.log('GeneComponent genes: ', this.gene);
   }
 
 }

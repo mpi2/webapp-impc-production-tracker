@@ -1,6 +1,6 @@
 export class ProjectDetails {
     tpn: string;
     assignmentStatusName: string;
-    locations: [];
+    // locations: [];
     intentions = [];
 }

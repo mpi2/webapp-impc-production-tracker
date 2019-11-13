@@ -1,29 +1,29 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { IntentionByGeneComponent } from './components/intention-by-gene/intention-by-gene.component';
-import { IntentionByLocationComponent } from './components/intention-by-location/intention-by-location.component';
+import { IntentionBySequenceComponent } from './components/intention-by-sequence/intention-by-sequence.component';
 import { GenesModule } from '../genes/genes.module';
-import { LocationsModule } from '../locations/locations.module';
+import { SequencesModule } from '../sequences/sequences.module';
 import { IntentionByGeneListComponent } from './components/intention-by-gene-list/intention-by-gene-list.component';
-import { IntentionByLocationListComponent } from './components/intention-by-location-list/intention-by-location-list.component';
+import { IntentionBySequenceListComponent } from './components/intention-by-sequence-list/intention-by-sequence-list.component';
 
 @NgModule({
   declarations: [
     IntentionByGeneComponent,
     IntentionByGeneListComponent,
-    IntentionByLocationComponent,
-    IntentionByLocationListComponent
+    IntentionBySequenceComponent,
+    IntentionBySequenceListComponent
   ],
   imports: [
     SharedModule,
     GenesModule,
-    LocationsModule,
+    SequencesModule,
   ],
   exports: [
     IntentionByGeneComponent,
     IntentionByGeneListComponent,
-    IntentionByLocationComponent,
-    IntentionByLocationListComponent
+    IntentionBySequenceComponent,
+    IntentionBySequenceListComponent
   ]
 })
 export class IntentionsModule { }

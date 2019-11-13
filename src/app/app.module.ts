@@ -14,7 +14,7 @@ import { SearchModule } from './feature-modules/search/search.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ConfigAssetLoaderService } from './core/services/config-asset-loader.service';
 import { GenesModule } from './feature-modules/genes/genes.module';
-import { LocationsModule } from './feature-modules/locations/locations.module';
+import { SequencesModule } from './feature-modules/sequences/sequences.module';
 import { IntentionsModule } from './feature-modules/intentions/intentions.module';
 import { TargetGeneListModule } from './feature-modules/target-gene-list/target-gene-list.module';
 
@@ -33,7 +33,7 @@ import { TargetGeneListModule } from './feature-modules/target-gene-list/target-
     SearchModule,
     GenesModule,
     IntentionsModule,
-    LocationsModule,
+    SequencesModule,
     TargetGeneListModule,
     AppRoutingModule,
   ],
