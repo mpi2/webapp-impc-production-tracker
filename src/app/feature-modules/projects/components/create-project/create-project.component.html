@@ -1,103 +1,197 @@
-<div class="col-md-8 offset-sm-1">
-  <form [formGroup]="createProjectForm" (ngSubmit)="onSubmit()">
-    <div class="form-group">
-      <label for="workUnit" class="col-form-label">Work Unit</label>
-      <input type="text" readonly class="form-control-plaintext" formControlName="workUnit" >
-    </div>
+<mat-vertical-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup" class="example-container">
+      <ng-template matStepLabel>Fill out project details</ng-template>
 
-    <div class="form-group">
-      <label for="workGroup">Work Group</label><br>      
-      <div *ngIf="submitted && f.workGroup.errors" class="invalid-feedback">
-        <div *ngIf="submitted && f.workGroup.errors.required">Work group is required</div>
+      <div>
+        <mat-form-field class="example-half-width" id="create-project-consortium-institutes">
+          <mat-select matInput name="consortia" placeholder="Consortia">
+            <mat-option *ngFor="let consortium of consortia" [value]="consortium">{{ consortium.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="example-half-width">
+          <mat-select matInput name="institutes" placeholder="Institutes" multiple>
+            <mat-option *ngFor="let insititute of institutes" [value]="institutes">{{ insititute.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-    </div>
 
-    <div class="form-group">
-      <label for="funder">Funder</label><br>
-      <div *ngIf="submitted && f.funder.errors" class="invalid-feedback">
-        <div *ngIf="f.funder.errors.required">Funder is required</div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-select matInput name="privacy" placeholder="Privacy" formControlName="privacy" required>
+            <mat-option *ngFor="let privacy of privacies" [value]="privacies">{{ privacy.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-    </div>
 
-    <!-- <div class="form-group">
-      <label for="projectIntentions">Project intention(s) </label>
-      <ng-multiselect-dropdown type="text" name="projectIntentions" formControlName="projectIntentions" [ngClass]="{ 'is-invalid': submitted && f.projectIntentions.errors }" [placeholder]="'-- Select --'" [data]="projectIntentions" [settings]="dropdownSettingsMultiple" ></ng-multiselect-dropdown>
-      <div *ngIf="submitted && f.projectIntentions.errors" class="invalid-feedback">
-        <div *ngIf="f.projectIntentions.errors.required">At least one intentions is required</div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <mat-label>Species involve</mat-label>
+          <mat-select formControlName="species" required multiple>
+            <mat-option *ngFor="let spec of species" [value]="species">{{ spec.name }}</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
-    </div> -->
 
-    <div class="form-group">
-      <label for="projectLocations">Project target gene(s) </label><br>
+      <div>
+        <mat-form-field class="example-full-width">
+          <input formControlName="external_ref" matInput placeholder="External reference" />
+        </mat-form-field>
+      </div>
 
-      <div class="ng-autocomplete">
-        <!-- <ng-autocomplete #autocomplete
-          [data]="genes"
-          [searchKeyword]="keyword"
-          [isLoading]="isLoading"
-          [placeHolder]="placeHolder"
-          (selected)='selectEvent($event)'
-          (inputChanged)='onChangeSearch($event)'
-          [itemTemplate]="itemTemplate"
-          [notFoundTemplate]="notFoundTemplate">                                 
-        </ng-autocomplete> -->
+      <div>
+        <mat-label>Intention definition: </mat-label>
+        <mat-radio-group aria-label="Select type of intention" formControlName="intentionType" required>
+          <mat-radio-button value="byGene" #byGene checked>By mouse gene</mat-radio-button>
+          <mat-radio-button value="bySeqLoc" #bySeqLoc>By sequence / location</mat-radio-button>
+        </mat-radio-group>
+      </div>
 
-        <ng-template #itemTemplate let-gene>
-          <a [innerHTML]="gene.symbol"></a>
-        </ng-template>
+      <div *ngIf="byGene.checked">
+        <mat-form-field class="example-full-width">
+          <input matInput placeholder="Search" aria-label="Gene" [matAutocomplete]="auto" formControlName="genesSelected" [formControl]="searchGenesCtrl">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+            <ng-container *ngIf="!isLoading">
+              <mat-option *ngFor="let gene of filteredGenes" [value]="gene" (click)="addGene()">
+                <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
+              </mat-option>
+            </ng-container>
+          </mat-autocomplete>
+        </mat-form-field>
+        <br>
+        <div class="alert alert-danger" *ngIf="errorMsg">
+          {{ errorMsg }}
+        </div>
+        <table mat-table [dataSource]="genesSelected" #genesSelectedTable class="my-table mat-elevation-z8">        
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef> Marker symbol </th>
+            <td mat-cell *matCellDef="let element"> {{ element.symbol }} </td>
+          </ng-container>
+        
+          <!-- MGI Column -->
+          <ng-container matColumnDef="accId">
+            <th mat-header-cell *matHeaderCellDef> MGI ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.accId }} </td>
+          </ng-container>
 
-        <ng-template #notFoundTemplate let-notFound>
-          <div [innerHTML]="notFound"></div>
-        </ng-template>
+          <ng-container matColumnDef="molecularMutType">
+            <th mat-header-cell *matHeaderCellDef> Molecular mutation type </th>
+            <td mat-cell *matCellDef="let element"> 
+              <mat-select multiple>
+                <mat-option *ngFor="let type of molecularMutTypes" [value]="molecularMutType">{{ type.name }}</mat-option>
+              </mat-select> 
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="alleleType">
+            <th mat-header-cell *matHeaderCellDef> Allele type </th>
+            <td mat-cell *matCellDef="let element"> 
+              <mat-select multiple>
+                <mat-option *ngFor="let type of alleleTypes" [value]="alleleType">{{ type.name }}</mat-option>
+              </mat-select> 
+            </td>
+          </ng-container>
+
+        
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element" class="action-link"> 
+              <a (click)="openDialogGenes('Delete', element)">Delete</a>  
+            </td>
+          </ng-container>
+                    
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsGenes"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsGenes;"></tr>
+        </table>
+      </div>
+
+      <div *ngIf="bySeqLoc.checked" class="container text-center">
+
+        <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
+
+        <table mat-table [dataSource]="seqLocSelected" #SequencLocationTable class="my-table mat-elevation-z8">
+        
+          <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+        
+          <!-- Id Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+
+          </ng-container>
+        
+          <!-- Name Column -->
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef> Name </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-form-field>
+                <input type="string" placeholder="Name" matInput>
+              </mat-form-field>
+            </td>
+          </ng-container>
+        
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element" class="action-link"> 
+              <button (click)="openDialog('Delete', element)">Delete</button>  
+            </td>
+          </ng-container>
+        
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsSequenceLocation"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsSequenceLocation;"></tr>
+
+          <ng-template #addRow>
+            <ng-container matColumnDef="id">
+              <input matInput placeholder="id" [value]="element.id" [(ngModel)]="element.id">
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <input matInput placeholder="Name" [value]="element.name" [(ngModel)]="element.name">
+            </ng-container>
+          </ng-template>
+        </table>
+
       </div>
       
-      <a class="badge badge-primary" (click)="addGene($event)">Add</a>
-
-      <!-- <ng2-smart-table #tableGenes [ngClass]="{ 'is-invalid': submitted && f.projectGenes.errors }"
-        [settings]="geneSettings" 
-        [source]="projectGenes" 
-        (editConfirm)="onSaveConfirm()" 
-      >
-      </ng2-smart-table> -->
+      <div><mat-checkbox formControlName="withdrawn">Withdrawn</mat-checkbox></div>
+      <div><mat-checkbox formControlName="recovery">Recovery</mat-checkbox></div>
+      <div><mat-checkbox formControlName="is_active">Is active?</mat-checkbox></div>
       
-      <div *ngIf="submitted && f.projectGenes.errors" class="invalid-feedback">
-        <div *ngIf="f.projectGenes.errors.required">At least one gene is required</div>
+      <div>
+        <mat-form-field class="example-full-width">
+          <textarea formControlName="comment" matInput placeholder="Comment" id="create-project-textarea" ></textarea>
+        </mat-form-field>
       </div>
+      
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Fill out plan details</ng-template>
+      <mat-form-field>
+        <input matInput placeholder="Address" formControlName="secondCtrl" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+  <mat-step>
+    <ng-template matStepLabel>Done</ng-template>
+    You are now done.
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+      <button mat-button (click)="onSubmit()">Submit</button>
     </div>
-
-    <!-- <p>Species</p>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="specie" value="mouse" id="mouseCheck"
-        (change)="specieCheck($event)" checked>
-      <label class="form-check-label" for="mouseCheck">
-        Mouse
-      </label>
-    </div>
-    <div class="form-check">
-      <input class="form-check-input" type="radio" name="specie" value="human" id="humanCheck"
-        (change)="specieCheck($event)">
-      <label class="form-check-label" for="humanCheck">
-        Human
-      </label>
-    </div>
-    <br> -->
-
-    <div class="form-group">
-      <label for="projectLocations">Project target location(s) </label><br>
-
-      <!-- <ng2-smart-table #tableLocation [ngClass]="{ 'is-invalid': submitted && f.projectLocations.errors }"
-        [settings]="locationSettings" 
-        [source]="projectLocations" 
-        (editConfirm)="onSaveConfirm()" 
-        (createConfirm)="onCreateConfirm($event)" 
-      >
-      </ng2-smart-table> -->
-    </div>
-
-    <div class="form-group">
-      <button type="submit" [disabled]="loading" class="btn btn-success">Create</button>
-      <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
-    </div>
-    <div *ngIf="error" class="alert alert-danger">{{ error }}</div>
-  </form>
-</div>
+  </mat-step>
+</mat-vertical-stepper>

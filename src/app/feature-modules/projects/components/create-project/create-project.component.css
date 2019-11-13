@@ -1,16 +1,29 @@
-.ng-autocomplete {
-    display: inline-block;
-    width: 100%;
+.example-container {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
 }
 
-:host ::ng-deep .multiselect-dropdown .dropdown-btn {
-    background-color: white !important;
+.example-container > * {
+  padding-top: 1.5em;
 }
 
-:host ::ng-deep.is-invalid .multiselect-dropdown .dropdown-btn {
-    border-color: #dc3545 !important;
+.example-half-width {
+  width: 50%;
 }
 
-:host ::ng-deep .invalid-feedback .multiselect-dropdown .dropdown-btn {
-    border-color: #dc3545 !important;
+.example-full-width {
+  width: 100%;
+}
+
+#create-project-consortium-institutes {
+  padding-right: 2em;
+}
+
+#create-project-textarea {
+  height: 5em;
+}
+
+table {
+  width: 200%;
 }

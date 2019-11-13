@@ -23,6 +23,17 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // private helper functions
 
+        function getGenes() {
+            const genes = [
+                {
+                    "name": "Nxn",
+                    "id": "MGI:123456"
+                }
+            ];
+            console.log('genes => ', genes);
+            return genes;
+        }
+
         function ok(body) {
             return of(new HttpResponse({ status: 200, body }));
         }
