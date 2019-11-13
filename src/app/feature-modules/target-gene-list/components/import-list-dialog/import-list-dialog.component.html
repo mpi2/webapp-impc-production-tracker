@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>Import Gene List</h1>
+<div mat-dialog-content>
+    Choose a csv file providing the Gene(s) symbol and a optional note:
+    <pre>
+Gene,Note
+gene1,Note 1
+"gene2, gene3",Note 2
+    </pre>
+    <strong>Note:</strong>The loaded data will be added to the existing one. The associated projects will be
+    calculated once you click the button 'Update lists'.
+
+</div>
+<div mat-dialog-actions>
+    <input class="loaderButton" type="file" (change)="setFile($event)" accept=".csv" />  
+    <button mat-button (click)="onCancelClick()">Cancel</button>
+</div>

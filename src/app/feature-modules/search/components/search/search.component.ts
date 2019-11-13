@@ -6,6 +6,7 @@ import { SearchService, Search } from '../..';
 import { SearchBuilder } from '../../services/search.builder';
 import { SearchResult } from '../../model/search.result';
 import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
+import { ProjectIntention } from 'src/app/model/bio/project-intention';
 
 class CheckboxElement implements NamedValue {
   name: string;
@@ -22,7 +23,7 @@ export class SearchComponent implements OnInit {
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
 
-  selectedSearchType: string = null;
+  selectedSearchType = 'gene';
 
   dataSource: SearchResult[];
 
@@ -35,7 +36,7 @@ export class SearchComponent implements OnInit {
   page: any = {};
   workUnits: CheckboxElement[] = [];
   workGroups: CheckboxElement[] = [];
-  searchTypes: string[] = [];
+  searchTypes: string[] = ['gene'];
   masterSelected: boolean;
   checkedList: any;
   myTextarea: string;
@@ -65,9 +66,6 @@ export class SearchComponent implements OnInit {
   }
 
   initFiltersValues(): void {
-    this.searchTypes = this.configurationData.searchTypes.map(x => {
-      return x;
-    });
     this.workUnits = this.configurationData.workUnits.map(x => {
       const workUnit: CheckboxElement = new CheckboxElement();
       workUnit.name = x;
@@ -85,6 +83,7 @@ export class SearchComponent implements OnInit {
   public getPage(pageNumber: number): void {
     const geneSymbols = this.getGeneSymbolsAsArray();
     const workUnitsNames = this.getWorkUnitFilter();
+    const workGroupNames = this.getWorkGroupFilter();
     const searchType = this.getSearchType();
     this.isLoading = true;
 
@@ -92,6 +91,7 @@ export class SearchComponent implements OnInit {
       .withSearchType(searchType)
       .withInputs(geneSymbols)
       .withWorkUnitsNames(workUnitsNames)
+      .withWorkGroupNames(workGroupNames)
       .build();
     /* tslint:disable:no-string-literal */
     this.searchService.search(search, pageNumber).subscribe(data => {
@@ -108,16 +108,13 @@ export class SearchComponent implements OnInit {
     /* tslint:enable:no-string-literal */
   }
 
-  buildSearchResultComments(searcResult: SearchResult): void {
+  buildSearchResultComments(searchResult: SearchResult): void {
     const result = [];
-    if (!searcResult.project) {
+    result.push(searchResult.comment);
+    if (!searchResult.project) {
       result.push('No projects found');
-    } else {
-      if (searcResult.comment) {
-        result.push(searcResult.comment);
-      }
     }
-    searcResult.searchResultComments = result;
+    searchResult.searchResultComments = result;
   }
 
   private refreshVisibleColumns(): void {
@@ -224,7 +221,6 @@ export class SearchComponent implements OnInit {
         isValid = true;
       }
     }
-    console.log('isValid->', isValid);
 
     return isValid;
   }
@@ -235,6 +231,17 @@ export class SearchComponent implements OnInit {
 
   getIdFromWorkGroupName(workGroupName: string) {
     return 'workGroup_' + workGroupName.replace(/\W/g, '_');
+  }
+
+  getTargetText(projectIntention: ProjectIntention): string {
+    let text = '';
+    if ('gene' === projectIntention.intentionTypeName) {
+      const intentionByGene = projectIntention.intentionByGene;
+      if (intentionByGene && intentionByGene.gene) {
+        text = intentionByGene.gene.symbol;
+      }
+      return text;
+    }
   }
 
 }

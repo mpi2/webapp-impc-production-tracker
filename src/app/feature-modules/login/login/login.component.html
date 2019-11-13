@@ -1,20 +1,13 @@
 <div fxLayout="column" fxLayout.xs="column" fxLayoutWrap fxLayoutAlign="space-evenly center">
-    <mat-chip-list>
-        <mat-chip>Username: newimitsuser1</mat-chip>
-    </mat-chip-list>
-    <mat-chip-list>
-        <mat-chip>Password: newimitsuser1</mat-chip>
-    </mat-chip-list>
-
     <h2>Login</h2>
     <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
         <div class="form-group">
             <mat-form-field>
-                <mat-label>Username</mat-label>
-                <input matInput placeholder="userName" id="user_name" formControlName="userName"
+                <mat-label>Email</mat-label>
+                <input matInput placeholder="Email" id="user_name" formControlName="userName"
                     [ngClass]="{ 'is-invalid': submitted && f.userName.errors }">
                 <div *ngIf="submitted && f.userName.errors" class="invalid-feedback">
-                    <div *ngIf="f.userName.errors.required">Username is required</div>
+                    <div *ngIf="f.userName.errors.required">Email is required</div>
                 </div>
             </mat-form-field>
 

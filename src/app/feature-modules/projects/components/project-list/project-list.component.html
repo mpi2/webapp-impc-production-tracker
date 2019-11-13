@@ -1,7 +1,7 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-card>
-    <a *ngIf="loggedUser.name !== 'anonymous'" routerLink="/create-project" class="btn btn-primary active"
-        role="button" aria-pressed="true">Create new
+    <a *ngIf="loggedUser.name !== 'anonymous'" routerLink="/create-project" class="btn btn-primary active" role="button"
+        aria-pressed="true">Create new
         project</a>
 </mat-card>
 
@@ -91,15 +91,17 @@
                         <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a>
                     </td>
                     <td>
-                        {{ project.external_reference }}
+                        {{ project.externalReference }}
                     </td>
                     <td>
-                        <div *ngFor="let gene of project.intentionByGeneAttributes">
-                            <a href="" target="_blank">{{ gene.gene.symbol }}</a>
+                        <div *ngFor="let intention of project.projectIntentions">
+                            <div *ngIf="intention.intentionByGene">
+                                <a href="" target="_blank">{{ intention.intentionByGene.gene.symbol }}</a>
+                            </div>
                         </div>
                     </td>
                     <td>
-                        <div *ngFor="let intention of project.intentionByGeneAttributes">
+                        <div *ngFor="let intention of project.projectIntentions">
                             {{ intention.alleleTypeName }}
                         </div>
                     </td>
