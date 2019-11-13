@@ -39,7 +39,6 @@ export class CreateProjectComponent implements OnInit {
   seqLocSelected: Sequence[] = [];
   isLoading = false;
   isLinear = false;
-  onSubmit = false;
   errorMsg: string;
   configurationData: ConfigurationData;
 
@@ -188,6 +187,10 @@ export class CreateProjectComponent implements OnInit {
     this.dataSource = this.dataSource.filter((value, key) => {
       return value.index !== rowObj.id;
     });
+  }
+
+  onSubmit() {
+    console.log("Project definition finished.");
   }
 
 }
