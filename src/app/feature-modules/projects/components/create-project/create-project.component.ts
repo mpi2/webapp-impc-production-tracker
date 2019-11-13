@@ -1,86 +1,59 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfigurationData, LoggedUserService, ConfigurationDataService, GeneService } from 'src/app/core';
+import { ConfigurationData, ConfigurationDataService, GeneService } from 'src/app/core';
 import { FormControl } from '@angular/forms';
-import { NewProject } from '../../model/newProject';
-import { FunderService } from 'src/app/core/services/funder.service';
-import { ProjectService } from '../..';
-import { Gene } from 'src/app/model/bio/gene';
 
-import { HttpClient } from '@angular/common/http';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { MatDialog, MatTable } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
+// import { CreateProjectGene, CreateProjectSequenceLocation } from 'src/app/model';
 
 export interface UsersData {
   name: string;
-  id: number;
+  index: number;
 }
 
 const ELEMENT_DATA: UsersData[] = [
-  {id: 1560608769632, name: 'Artificial Intelligence'},
-  {id: 1560608796014, name: 'Machine Learning'},
-  {id: 1560608787815, name: 'Robotic Process Automation'},
-  {id: 1560608805101, name: 'Blockchain'}
+  {index: 1, name: 'Artificial Intelligence'},
+  {index: 2, name: 'Machine Learning'},
+  {index: 3, name: 'Robotic Process Automation'},
+  {index: 4, name: 'Blockchain'}
 ];
+
 @Component({
   selector: 'app-create-project',
   templateUrl: './create-project.component.html',
   styleUrls: ['./create-project.component.css']
 })
 export class CreateProjectComponent implements OnInit {
-  displayedColumns: string[] = ['id', 'name', 'action'];
+  displayedColumnsGenes: string[] = ['symbol', 'accId', 'molecularMutType', 'alleleType', 'action'];
+  displayedColumnsSequenceLocation: string[] = ['index', 'name', 'action'];
   dataSource = ELEMENT_DATA;
+  seqLocSelected: CreateProjectSequenceLocation[] = [];
 
-  isLinear = false;
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
 
   searchGenesCtrl = new FormControl();
   filteredGenes: string[] = [];
-  genesSelected: string[] = [];
-  isLoading2 = false;
-  errorMsg: string;
-
-  loading = false;
-  submitted = false;
-  returnUrl: string;
-  error = '';
-  workGroups: string[] = [];
-  workUnits: string[] = [];
-  projectIntentions: string[] = [];
-  projectIntentionsTable: any;
-  funders: any[] = [];
-  backgroundStrains: string[] = [];
-  backgroundStrainsTable: any;
-  symbol: string;
-  genes: Gene[] = [];
-  gene: Gene;
-  genesLoading = false;
-  keyword: string;
+  genesSelected: CreateProjectGene[] = [];
   isLoading = false;
-  placeHolder: string;
-  newProject: NewProject;
+  errorMsg: string;
   configurationData: ConfigurationData;
-  isDisabled = true;
+
   privacies: NamedValue[] = [];
   species: NamedValue[] = [];
   consortia: NamedValue[] = [];
   institutes: NamedValue[] = [];
+  molecularMutTypes: NamedValue[] = [];
+  alleleTypes: NamedValue[] = [];
 
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+  @ViewChild(MatTable, { static: false }) table: MatTable<any>;
 
   constructor(
-    private formBuilder: FormBuilder,
-    private funderService: FunderService,
     private geneService: GeneService,
-    private loogedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService,
-    private projectService: ProjectService,
-
     private formBuilder2: FormBuilder,
-    private http: HttpClient,
-
     public dialog: MatDialog
   ) { }
 
@@ -89,18 +62,20 @@ export class CreateProjectComponent implements OnInit {
       this.configurationData = data;
       console.log('this.configurationData => ', this.configurationData);
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
-      this.species = this.configurationData.species.map(x => ({ name : x}));
+      this.species = this.configurationData.species.map(x => ({ name: x}));
+      this.institutes = this.configurationData.institutes.map(x => ({ name: x}));
+      this.consortia = this.configurationData.consortia.map(x => ({ name: x}));
+      this.alleleTypes = this.configurationData.alleleTypes.map(x => ({ name: x}));
+      this.molecularMutTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x}));
     });
 
     this.firstFormGroup = this.formBuilder2.group({
-      // firstCtrl: ['', Validators.required],
       withdrawn: [''],
       recovery: [''],
       is_active: [''],
       privacy: ['', Validators.required],
       species: [[], Validators.required],
-      consortia: [[]],
-      institutes: [[]],
+      consortiumInstitutes: [[]],
       intentionType: ['', Validators.required],
       comment: [''],
       external_ref: [''],
@@ -128,9 +103,10 @@ export class CreateProjectComponent implements OnInit {
         )
       )
       .subscribe(data => {
-        // console.log(data);
-        if (data === undefined) {
-          this.errorMsg = data['Error'];
+        console.log('data => ', data);
+        if (data.length === 0) {
+          // this.errorMsg = data['Error'];
+          this.errorMsg = 'Symbol does not exist.';
           this.filteredGenes = [];
         } else {
           this.errorMsg = '';
@@ -140,15 +116,36 @@ export class CreateProjectComponent implements OnInit {
   }
 
   addGene() {
-    this.genesSelected.push(this.searchGenesCtrl.value);
-    this.searchGenesCtrl.setValue('');
+    const index: number = this.genesSelected.findIndex(x => x.symbol === this.searchGenesCtrl.value.symbol);
+    if (index === -1) {
+      this.genesSelected.push(this.searchGenesCtrl.value);
+      this.searchGenesCtrl.setValue('');
+      this.table.renderRows();
+    } else {
+      this.openDialogGenes('', this.searchGenesCtrl.value);
+      this.searchGenesCtrl.setValue('');
+    }
   }
 
-  deleteGene(gene) {
-    const index: number = this.genesSelected.indexOf(gene);
-    if (index !== -1) {
-        this.genesSelected.splice(index, 1);
-    }
+  deleteSelectedGene(gene) {
+    this.genesSelected = this.genesSelected.filter((value, key) => {
+      return value.symbol !== gene.symbol;
+    });
+    this.table.renderRows();
+  }
+
+  openDialogGenes(action, obj) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(DialogBoxComponent, {
+      width: '250px',
+      data: obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result.event === 'Delete') {
+        this.deleteSelectedGene(result.data);
+      }
+    });
   }
 
   openDialog(action, obj) {
@@ -161,8 +158,6 @@ export class CreateProjectComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result.event === 'Add') {
         this.addRowData(result.data);
-      } else if (result.event === 'Update') {
-        this.updateRowData(result.data);
       } else if (result.event === 'Delete') {
         this.deleteRowData(result.data);
       }
@@ -172,23 +167,24 @@ export class CreateProjectComponent implements OnInit {
   addRowData(rowObj) {
     const d = new Date();
     this.dataSource.push({
-      id: d.getTime(),
+      index: d.getTime(),
       name: rowObj.name
     });
     this.table.renderRows();
+  }
 
+  editLocationSequence(rowObj) {
+    // this.dataSource = this.dataSource.filter((value, key) => {
+    //   if (value.id === rowObj.id) {
+    //     value.name = rowObj.name;
+    //   }
+    //   return true;
+    // });
   }
-  updateRowData(rowObj) {
-    this.dataSource = this.dataSource.filter((value, key) => {
-      if (value.id === rowObj.id) {
-        value.name = rowObj.name;
-      }
-      return true;
-    });
-  }
+
   deleteRowData(rowObj) {
     this.dataSource = this.dataSource.filter((value, key) => {
-      return value.id !== rowObj.id;
+      return value.index !== rowObj.id;
     });
   }
 

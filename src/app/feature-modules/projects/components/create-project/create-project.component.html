@@ -5,17 +5,13 @@
 
       <div>
         <mat-form-field class="example-half-width" id="create-project-consortium-institutes">
-          <mat-select matInput name="consortia" placeholder="Consortia" formControlName="consortia">
-            <!-- <mat-option *ngFor="let consortium of consortia" [value]="consortium">{{ consortium.name }}</mat-option> -->
-            <mat-option value="option">CMG</mat-option>
-            <mat-option value="option">IDG</mat-option>
+          <mat-select matInput name="consortia" placeholder="Consortia">
+            <mat-option *ngFor="let consortium of consortia" [value]="consortium">{{ consortium.name }}</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-form-field class="example-half-width">
-          <mat-select matInput name="institutes" placeholder="Institutes" formControlName="institutes" multiple>
-            <!-- <mat-option *ngFor="let insititute of institutes" [value]="institutes">{{ insititute.name }}</mat-option> -->
-            <mat-option value="option">Yale</mat-option>
-            <mat-option value="option">Broad</mat-option>
+          <mat-select matInput name="institutes" placeholder="Institutes" multiple>
+            <mat-option *ngFor="let insititute of institutes" [value]="institutes">{{ insititute.name }}</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -64,55 +60,100 @@
           </mat-autocomplete>
         </mat-form-field>
         <br>
-        <ng-container *ngIf="errorMsg; else elseTemplate">
-          {{errorMsg}}
-        </ng-container>
-        <ng-template #elseTemplate>
-          <mat-list>
-            <mat-list-item *ngFor="let gene of genesSelected">
-              <mat-list-item>
-                <b>{{ gene.symbol }}</b> ({{ gene.accId }})  
-                <button (click)="deleteGene(gene)">
-                  <mat-icon aria-hidden="false" aria-label="delete icon">delete</mat-icon>
-                </button>
-              </mat-list-item>
-            </mat-list-item>
-          </mat-list>
-        </ng-template>
+        <div class="alert alert-danger" *ngIf="errorMsg">
+          {{ errorMsg }}
+        </div>
+        <table mat-table [dataSource]="genesSelected" #genesSelectedTable class="my-table mat-elevation-z8">        
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="symbol">
+            <th mat-header-cell *matHeaderCellDef> Marker symbol </th>
+            <td mat-cell *matCellDef="let element"> {{ element.symbol }} </td>
+          </ng-container>
+        
+          <!-- MGI Column -->
+          <ng-container matColumnDef="accId">
+            <th mat-header-cell *matHeaderCellDef> MGI ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.accId }} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="molecularMutType">
+            <th mat-header-cell *matHeaderCellDef> Molecular mutation type </th>
+            <td mat-cell *matCellDef="let element"> 
+              <mat-select multiple>
+                <mat-option *ngFor="let type of molecularMutTypes" [value]="molecularMutType">{{ type.name }}</mat-option>
+              </mat-select> 
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="alleleType">
+            <th mat-header-cell *matHeaderCellDef> Allele type </th>
+            <td mat-cell *matCellDef="let element"> 
+              <mat-select multiple>
+                <mat-option *ngFor="let type of alleleTypes" [value]="alleleType">{{ type.name }}</mat-option>
+              </mat-select> 
+            </td>
+          </ng-container>
+
+        
+          <!-- Action Column -->
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element" class="action-link"> 
+              <a (click)="openDialogGenes('Delete', element)">Delete</a>  
+            </td>
+          </ng-container>
+                    
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsGenes"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsGenes;"></tr>
+        </table>
       </div>
 
       <div *ngIf="bySeqLoc.checked" class="container text-center">
 
         <button mat-button (click)="openDialog('Add',{})" mat-flat-button color="primary">Add Row</button>
 
-        <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
+        <table mat-table [dataSource]="seqLocSelected" #SequencLocationTable class="my-table mat-elevation-z8">
         
           <!--- Note that these columns can be defined in any order.
               The actual rendered columns are set as a property on the row definition" -->
         
           <!-- Id Column -->
           <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef> ID. </th>
-            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+            <th mat-header-cell *matHeaderCellDef> ID </th>
+            <td mat-cell *matCellDef="let element"> {{ element.id }} </td>
+
           </ng-container>
         
           <!-- Name Column -->
           <ng-container matColumnDef="name">
             <th mat-header-cell *matHeaderCellDef> Name </th>
-            <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+            <td mat-cell *matCellDef="let element">
+              <mat-form-field>
+                <input type="string" placeholder="Name" matInput>
+              </mat-form-field>
+            </td>
           </ng-container>
         
           <!-- Action Column -->
           <ng-container matColumnDef="action">
             <th mat-header-cell *matHeaderCellDef> Action </th>
             <td mat-cell *matCellDef="let element" class="action-link"> 
-              <a (click)="openDialog('Update',element)">Edit</a> | 
-              <a (click)="openDialog('Delete',element)">Delete</a>  
+              <button (click)="openDialog('Delete', element)">Delete</button>  
             </td>
           </ng-container>
         
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsSequenceLocation"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsSequenceLocation;"></tr>
+
+          <ng-template #addRow>
+            <ng-container matColumnDef="id">
+              <input matInput placeholder="id" [value]="element.id" [(ngModel)]="element.id">
+            </ng-container>
+
+            <ng-container matColumnDef="name">
+              <input matInput placeholder="Name" [value]="element.name" [(ngModel)]="element.name">
+            </ng-container>
+          </ng-template>
         </table>
 
       </div>

@@ -17,4 +17,6 @@ export class ConfigurationData {
     preparationTypes: string[];
     searchTypes: string[];
     species: string[];
+    consortia: string[];
+    molecularMutationTypes: string[];
 }
