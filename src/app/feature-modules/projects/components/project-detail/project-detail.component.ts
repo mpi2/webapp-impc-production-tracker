@@ -70,7 +70,6 @@ export class ProjectDetailComponent implements OnInit {
     const id = this.route.snapshot.params.id;
     this.projectService.getProject(id).subscribe(data => {
       this.project = this.projectAdapter.adapt(data);
-      console.log('project data::>>', data);
       this.originalProjectAsString = JSON.stringify(data);
       this.getProductionPlans();
       this.getPhenotypingPlans();

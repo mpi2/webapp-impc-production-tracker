@@ -45,8 +45,6 @@ export class ProductionPlanComponent implements OnInit {
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = this.planAdapter.adapt(data);
       this.originalPlanAsString = JSON.stringify(this.plan);
-      console.log('ProductionPlanComponent =>', this.plan);
-
       this.error = null;
       this.evaluateUpdatePermissions();
     }, error => {
@@ -73,8 +71,6 @@ export class ProductionPlanComponent implements OnInit {
    * Update the plan with the information that each child component changed.
    */
   updatePlan() {
-    console.log('Plan to update', this.plan);
-
     this.loading = true;
     this.planService.updateProductionPlan(
       this.plan.pin, this.plan).subscribe(
@@ -90,7 +86,7 @@ export class ProductionPlanComponent implements OnInit {
           this.error = null;
           this.reloadForPin(this.plan.pin);
         }, error => {
-          console.log('Error while updating plan', error);
+          console.error('Error while updating plan', error);
           this.error = error;
 
         }

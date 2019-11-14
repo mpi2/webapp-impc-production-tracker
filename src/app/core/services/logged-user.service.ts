@@ -50,7 +50,6 @@ export class LoggedUserService {
   }
 
   removeToken(): void {
-    console.log('removing token...');
     this.userService.clearCurrentLoggedUser();
     localStorage.removeItem(this.TOKEN_INFO_KEY);
     this.messageService.setUserLoggedIn(false);

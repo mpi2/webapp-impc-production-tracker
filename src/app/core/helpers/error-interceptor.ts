@@ -31,7 +31,7 @@ export class ErrorInterceptor implements HttpInterceptor {
 
             } else {
                 if ('HttpErrorResponse' === error.name) {
-                    console.log(error);
+                    console.error(error);
 
                     errorMessage = 'Error while comminicating with the server. Check that the server is available.';
                 } else {
