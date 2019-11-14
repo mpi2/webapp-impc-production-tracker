@@ -41,10 +41,14 @@ export class ProjectService {
     tpn: string,
     markerSymbols: string[],
     intentions: string[],
+    assignmentStatuses: string[],
     workUnits: string[],
     privacies: string[]) {
-    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols, intentions, workUnits, privacies);
+    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols, intentions, assignmentStatuses, workUnits, privacies);
     const url = this.apiServiceUrl + '/api/projects?page=' + page + queryParameters;
+    
+    console.log('url => ', url);
+
     return this.http.get<Project[]>(url);
   }
 
@@ -52,11 +56,13 @@ export class ProjectService {
     tpn: string,
     markerSymbols: string[],
     intentions: string[],
+    assignmentStatuses: string[],
     workUnits: string[],
     privacies: string[]) {
 
     let markerSymbolsAsParameter = '';
     let intentionsAsParameter = '';
+    let assignmentStatusesAsParameter = '';
     let workUnitsAsParameter = '';
     let privaciesAsParameter = '';
 
@@ -71,6 +77,10 @@ export class ProjectService {
 
     if (intentions.length > 0) {
       intentionsAsParameter = intentions.map(x => 'intention=' + x).filter(x => x).join('&');
+    }
+
+    if (assignmentStatuses.length > 0) {
+      assignmentStatusesAsParameter = assignmentStatuses.map(x => 'status=' + x).filter(x => x).join('&');
     }
 
     if (workUnits.length > 0) {
@@ -90,6 +100,9 @@ export class ProjectService {
     }
     if (intentionsAsParameter !== '') {
       queryParameters += '&' + intentionsAsParameter;
+    }
+    if (assignmentStatusesAsParameter !== '') {
+      queryParameters += '&' + assignmentStatusesAsParameter;
     }
     if (workUnitsAsParameter !== '') {
       queryParameters += '&' + workUnitsAsParameter;
