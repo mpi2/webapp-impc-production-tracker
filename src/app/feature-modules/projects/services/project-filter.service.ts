@@ -21,7 +21,6 @@ export class ProjectFilterService {
     }
 
     // TPN Filter section
-
     updateTpnFilter(tpnFilter, filterInput) {
         this.updateFilter(tpnFilter, filterInput, this.isValidTpn);
     }
@@ -51,7 +50,6 @@ export class ProjectFilterService {
     }
 
     // Marker Symbol Filter section
-
     updateMarkerSymbolFilter(markerSymboFilter, filterInput) {
         this.updateFilter(markerSymboFilter, filterInput, this.isValidMarkerSymbol);
     }
@@ -66,14 +64,17 @@ export class ProjectFilterService {
     }
 
     // Intentions Filter section
-
     updateIntentionsFilter(intentionFilter: ArrayFilter, filterInput) {
         this.updateArrayFilter(intentionFilter, filterInput, (a, b) => true);
     }
 
     // Privacies Filter section
-
     updatePrivaciesFilter(privaciesFilter: ArrayFilter, filterInput) {
         this.updateArrayFilter(privaciesFilter, filterInput, (a, b) => true);
+    }
+
+    // Assignment Status Filter section
+    updateAssignmentStatusesFilter(assigmentStatusesFilter: ArrayFilter, filterInput) {
+        this.updateArrayFilter(assigmentStatusesFilter, filterInput, (a, b) => true);
     }
 }

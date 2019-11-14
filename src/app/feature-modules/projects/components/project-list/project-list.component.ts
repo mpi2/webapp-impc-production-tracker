@@ -31,11 +31,13 @@ export class ProjectListComponent implements OnInit {
   externalReferenceFilterInput: string;
   markerSymbolFilterInput: string;
   intentionsFilterInput: string;
+  assignmentStatusesFilterInput: string;
 
   tpnFilterObject: Filter = new Filter();
   markerSymbolFilterObject: Filter = new Filter();
   intentionsFilterObject: ArrayFilter = new ArrayFilter();
   privaciesFilterObject: ArrayFilter = new ArrayFilter();
+  assignmentStatusesFilterObject: ArrayFilter = new ArrayFilter();
 
   configurationData: ConfigurationData;
 
@@ -90,6 +92,7 @@ export class ProjectListComponent implements OnInit {
       this.tpnFilterObject.value,
       this.getMarkerSymbolFilter(),
       this.getIntentionsFilter(),
+      this.getAssignmentStatusesFilter(),
       workUnitNameFilter,
       this.getPrivaciesFilter()).pipe(first()).subscribe(data => {
         if (data['_embedded']) {
@@ -162,6 +165,13 @@ export class ProjectListComponent implements OnInit {
     this.reloadIfValuesAreDifferent(currentFilterValue, newFilterValue);
   }
 
+  filterWithAssignmentStatuses(filterInput) {
+    const currentFilterValue = this.assignmentStatusesFilterObject.values;
+    this.projectFilterService.updateAssignmentStatusesFilter(this.assignmentStatusesFilterObject, filterInput);
+    const newFilterValue = this.assignmentStatusesFilterObject.values;
+    this.reloadIfValuesAreDifferent(currentFilterValue, newFilterValue);
+  }
+
   getMarkerSymbolFilter(): string[] {
     let result = [];
     if (this.markerSymbolFilterObject.value) {
@@ -182,6 +192,14 @@ export class ProjectListComponent implements OnInit {
     let result = [];
     if (this.privaciesFilterObject.values.length > 0) {
       result = this.privaciesFilterObject.values;
+    }
+    return result;
+  }
+
+  getAssignmentStatusesFilter(): string[] {
+    let result = [];
+    if (this.assignmentStatusesFilterObject.values.length > 0) {
+      result = this.assignmentStatusesFilterObject.values;
     }
     return result;
   }

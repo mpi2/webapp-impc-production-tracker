@@ -58,7 +58,7 @@
                         <mat-label>Select to filter</mat-label>
                         <mat-select multiple (selectionChange)="filterWithIntentions($event.value)">
                             <mat-option *ngFor="let intention of this.intentions" [value]="intention.name">
-                                {{intention.name}}
+                                {{ intention.name }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -66,9 +66,9 @@
                 <td>
                     <mat-form-field>
                         <mat-label>Select to filter</mat-label>
-                        <mat-select multiple>
-                            <mat-option *ngFor="let assignmentStatus of this.assignmentStatuses"
-                                [value]="assignmentStatus">{{ assignmentStatus.name }}
+                        <mat-select multiple (selectionChange)="filterWithAssignmentStatuses($event.value)">
+                            <mat-option *ngFor="let assignmentStatus of this.assignmentStatuses" [value]="assignmentStatus.name">
+                                {{ assignmentStatus.name }}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -77,7 +77,8 @@
                     <mat-form-field>
                         <mat-label>Select to filter</mat-label>
                         <mat-select multiple (selectionChange)="filterWithPrivacies($event.value)">
-                            <mat-option *ngFor="let privacy of this.privacies" [value]="privacy.name">{{privacy.name}}
+                            <mat-option *ngFor="let privacy of this.privacies" [value]="privacy.name">
+                                {{privacy.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
