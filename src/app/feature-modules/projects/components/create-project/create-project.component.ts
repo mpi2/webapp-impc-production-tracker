@@ -61,7 +61,6 @@ export class CreateProjectComponent implements OnInit {
   ngOnInit() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      console.log('this.configurationData => ', this.configurationData);
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
       this.species = this.configurationData.species.map(x => ({ name: x}));
       this.institutes = this.configurationData.institutes.map(x => ({ name: x}));
@@ -104,7 +103,6 @@ export class CreateProjectComponent implements OnInit {
         )
       )
       .subscribe(data => {
-        console.log('data => ', data);
         if (data.length === 0) {
           // this.errorMsg = data['Error'];
           this.errorMsg = 'Symbol does not exist.';

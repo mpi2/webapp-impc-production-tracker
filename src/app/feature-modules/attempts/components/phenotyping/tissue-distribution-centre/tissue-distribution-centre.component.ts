@@ -50,8 +50,6 @@ export class TissueDistributionCentreComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log('Delete element confirmed');
-        console.log('delete', element);
         this.deleteTissueDistributionCentre(element);
       }
     });

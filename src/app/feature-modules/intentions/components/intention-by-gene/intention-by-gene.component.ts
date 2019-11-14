@@ -13,8 +13,6 @@ export class IntentionByGeneComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('projectIntention++', this.projectIntention);
-
   }
 
 }

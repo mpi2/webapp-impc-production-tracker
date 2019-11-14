@@ -19,7 +19,6 @@ export class DialogBoxComponent implements OnInit {
     public dialogRef: MatDialogRef<DialogBoxComponent>,
     // @Optional() is used to prevent error if no data is passed
     @Optional() @Inject(MAT_DIALOG_DATA) public data: UsersData) {
-      console.log(data);
       this.localData = {...data};
       this.action = this.localData.action;
     }

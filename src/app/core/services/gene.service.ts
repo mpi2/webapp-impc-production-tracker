@@ -23,7 +23,6 @@ export class GeneService {
   findGenesNamesStartingWith(symbol: string) {
     if (symbol.length >= 3) {
       const input = symbol + this.LIKE_CHARACTER;
-      console.warn('calling similar genes');
 
       return this.http.get<string[]>(this.apiServiceUrl + '/api/genesNamesInExternalData?input=' + input);
     } else {
@@ -34,7 +33,6 @@ export class GeneService {
   findGenesExternalDataBySymbol(symbol: string) {
     if (symbol.length >= 3) {
       const input = symbol + this.LIKE_CHARACTER;
-      // console.warn('calling similar genes');
 
       return this.http.get<string[]>(this.apiServiceUrl + '/api/genesInExternalData?input=' + input);
     } else {

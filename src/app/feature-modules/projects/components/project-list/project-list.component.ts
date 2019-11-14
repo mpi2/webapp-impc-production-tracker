@@ -192,11 +192,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   private reloadIfValuesAreDifferent(currentFilterValue, newFilterValue) {
-    console.log('currentFilterValue:', currentFilterValue, ' newFilterValue:', newFilterValue);
-
     if (currentFilterValue !== newFilterValue) {
-      console.log('@------->Reloading...');
-
       this.getPage(0);
     }
   }
