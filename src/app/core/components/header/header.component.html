@@ -18,7 +18,7 @@
         <mat-menu #account_menu="matMenu">
             <button mat-flat-button [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
                 in</button>
-            <button mat-menu-item  [routerLink]="['./edit_profile']" *ngIf="false">Edit your
+            <button mat-menu-item [routerLink]="['./edit_profile']" *ngIf="false">Edit your
                 profile</button>
             <button mat-menu-item *ngIf="login && isAdmin" routerLink="/admin">Admin</button>
             <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
@@ -27,7 +27,8 @@
         <div *ngIf="login">
             <button routerLinkActive="active" mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
             <mat-menu #project_menu="matMenu">
-                <button mat-menu-item *ngIf="canSeeProjectList" routerLink="/projects" routerLinkActive="active">Managed Projects</button>
+                <button mat-menu-item *ngIf="canSeeProjectList" routerLink="/projects" routerLinkActive="active">Managed
+                    Projects</button>
                 <button mat-menu-item *ngIf="login" routerLink="/gene-list" routerLinkActive="active">Gene List</button>
                 <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
                 <mat-menu #attempt="matMenu">
@@ -40,9 +41,12 @@
         <button routerLink="" mat-flat-button>
             Reports
         </button>
-        <button routerLink="" mat-flat-button>
-            Manual
+        <button routerLink="" mat-flat-button [matMenuTriggerFor]="documentation_menu">Manual
         </button>
+        <mat-menu #documentation_menu="matMenu">
+            <a href="https://documenter.getpostman.com/view/6493399/SW7UcWZv?version=latest" target="_blank" mat-menu-item>API documentation</a>
+        </mat-menu>
+
     </div>
     <a class="privacy" fxFlex="10%" fxLayoutAlign="end" matBadge="i"
         href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy
