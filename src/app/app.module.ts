@@ -23,7 +23,7 @@ import { TargetGeneListModule } from './feature-modules/target-gene-list/target-
     AppComponent
   ],
   imports: [
-    BrowserModule,
+    BrowserModule, // Here to prevent double instantiation of BrowserModule
     BrowserAnimationsModule, // Here to prevent double instantiation of BrowserAnimation
     CoreModule,
     SharedModule,

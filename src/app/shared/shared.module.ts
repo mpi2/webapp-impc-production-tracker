@@ -33,8 +33,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { Ng7BootstrapBreadcrumbModule } from 'ng7-bootstrap-breadcrumb';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatListModule } from '@angular/material/list';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
@@ -90,9 +88,7 @@ import { DialogBoxComponent } from './components/dialog-box/dialog-box.component
     MatAutocompleteModule,
     Ng7BootstrapBreadcrumbModule,
     MatStepperModule,
-    MatListModule,
-    BrowserModule,
-    BrowserAnimationsModule
+    MatListModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -131,9 +127,7 @@ import { DialogBoxComponent } from './components/dialog-box/dialog-box.component
     MatAutocompleteModule,
     Ng7BootstrapBreadcrumbModule,
     MatStepperModule,
-    MatListModule,
-    BrowserModule,
-    BrowserAnimationsModule
+    MatListModule
   ],
   entryComponents: [
     DeleteConfirmationComponent, InformativeDialogComponent, DialogBoxComponent
