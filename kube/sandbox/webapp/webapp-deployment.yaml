@@ -29,7 +29,7 @@ spec:
         - name: API_SERVICE_HOST
           value: www.gentar.org
         - name: API_SERVICE_PORT
-          value: "80\\/production-tracker-sandbox-api"
+          value: "443\\/production-tracker-sandbox-api"
         - name: REDEPLOY_KEY
           value: "STRING_REPLACED_DURING_REDEPLOY"
         ports:
