@@ -46,9 +46,6 @@ export class ProjectService {
     privacies: string[]) {
     const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols, intentions, assignmentStatuses, workUnits, privacies);
     const url = this.apiServiceUrl + '/api/projects?page=' + page + queryParameters;
-    
-    console.log('url => ', url);
-
     return this.http.get<Project[]>(url);
   }
 
