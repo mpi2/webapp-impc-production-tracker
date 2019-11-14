@@ -57,8 +57,6 @@ export class ListManagementComponent implements OnInit {
   }
 
   public getPage(pageNumber: number) {
-    console.log('calling getPage', pageNumber);
-
     this.clearDataSet();
     if (this.currentConsortium) {
       this.targetGeneListService.getListByConsortium(pageNumber, this.currentConsortium).subscribe(data => {
@@ -115,14 +113,9 @@ export class ListManagementComponent implements OnInit {
     const input = $event.target;
     const file = input.files[0];
     this.targetGeneListService.updateListWithFile(this.currentConsortium, file).subscribe(data => {
-      console.log('data import', data);
-
       this.extractDataFromServerResponse(data);
-      console.log('Now datasource===', this.dataSource);
-
-
     }, error => {
-      console.log('error', error);
+      console.error('error', error);
 
     });
 
@@ -137,8 +130,6 @@ export class ListManagementComponent implements OnInit {
   }
 
   private getRelatedConsortia(user: User): NamedValue[] {
-    console.log('user', user);
-
     const consortiaNames = [];
     if (user && user.rolesConsortia) {
       user.rolesConsortia.map(x => {
@@ -154,9 +145,6 @@ export class ListManagementComponent implements OnInit {
     this.dataSource.forEach(x =>  {
       this.originalRecordsStrings.set(x.id, JSON.stringify(x));
     });
-    console.log('this.dataSource', this.dataSource);
-
-
     this.originalDataAsString = JSON.stringify(this.dataSource);
   }
 
@@ -182,9 +170,7 @@ export class ListManagementComponent implements OnInit {
         dataToUpload.push(x);
       }
     });
-    console.log('dataToUpload::::::', dataToUpload);
     this.targetGeneListService.uploadList(dataToUpload, this.currentConsortium).subscribe(data => {
-      console.log('data', data);
       // this.extractDataFromServerResponse(data);
      // this.getPage(0);
 

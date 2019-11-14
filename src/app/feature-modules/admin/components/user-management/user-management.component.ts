@@ -80,8 +80,6 @@ export class UserManagementComponent implements OnInit {
       this.listsByUser = data;
       this.initLists();
     });
-    console.log(this.f);
-
   }
 
   private initUserData() {

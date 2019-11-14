@@ -101,8 +101,6 @@ export class MutagenesisDonorsComponent implements OnInit {
     if (originalDonor) {
       if (JSON.stringify(originalDonor) !== JSON.stringify(donor)) {
         this.editionStatusByDonor.set(donor.id, 'Modified in memory');
-        console.log(JSON.stringify(originalDonor));
-        console.log(JSON.stringify(donor));
       } else {
         this.editionStatusByDonor.set(donor.id, '');
       }

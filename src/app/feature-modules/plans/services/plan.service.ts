@@ -43,8 +43,6 @@ export class PlanService {
   }
 
   updatePlan(pin, plan) {
-    console.log('Plan to update', plan);
-
     return this.http.put<any>(this.apiServiceUrl + '/api/plans/' + pin, plan);
   }
 

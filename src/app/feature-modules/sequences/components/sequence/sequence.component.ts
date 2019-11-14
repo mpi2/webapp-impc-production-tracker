@@ -12,7 +12,6 @@ export class SequenceComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log('LocationComponent sequence: ', this.sequence);
   }
 
 }

@@ -38,15 +38,11 @@ export class PermissionsService {
 
   static canExecuteAction(user: User, action: string) {
     const actionPermission: ActionPermission = user.actionPermissions.find(x => x.actionName === action);
-    console.log('actionPermission', actionPermission);
-
     return actionPermission.value;
   }
 
   // Returns if an action over an object is allowed.
   getPermissionByActionOnResource(action: string, resourceId: string) {
-    console.log('calling api permissionByActionOnResource for', action, resourceId);
-
     return this.http.get<boolean>(this.apiServiceUrl + '/api/permissionByActionOnResource?action='
       + action + '&resourceId=' + resourceId);
   }
