@@ -97,7 +97,7 @@
                     <td>
                         <div *ngFor="let intention of project.projectIntentions">
                             <div *ngIf="intention.intentionByGene">
-                                <a href="" target="_blank">{{ intention.intentionByGene.gene.symbol }}</a>
+                              <a href="{{intention.intentionByGene.gene.externalLink}}" target="_blank">{{ intention.intentionByGene.gene.symbol }}</a>
                             </div>
                         </div>
                     </td>
