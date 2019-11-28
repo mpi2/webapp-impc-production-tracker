@@ -2,14 +2,14 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    app: webapp-sandbox
-  name: webapp-sandbox
-  namespace: production-tracker-sandbox
+    app: webapp-dev
+  name: webapp-dev
+  namespace: production-tracker-dev
 spec:
   replicas: 3
   selector:
     matchLabels:
-      app: webapp-sandbox
+      app: webapp-dev
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -19,17 +19,17 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: webapp-sandbox
+        app: webapp-dev
     spec:
       containers:
       - image: rwilsonebi/production-tracker-webapp:latest
         imagePullPolicy: Always
-        name: webapp-sandbox
+        name: webapp-dev
         env:
         - name: API_SERVICE_HOST
           value: www.gentar.org
         - name: API_SERVICE_PORT
-          value: "443\\/production-tracker-sandbox-api"
+          value: "443\\/production-tracker-dev-api"
         - name: REDEPLOY_KEY
           value: "STRING_REPLACED_DURING_REDEPLOY"
         ports:
