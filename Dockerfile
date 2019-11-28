@@ -17,7 +17,7 @@ WORKDIR /app
 COPY . .
 
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN $(npm bin)/ng lint && $(npm bin)/ng build --prod --build-optimizer --output-path=./dist/out --base-href ./ --deploy-url ./
+RUN $(npm bin)/ng lint && npm audit && $(npm bin)/ng build --prod --build-optimizer --output-path=./dist/out --base-href ./ --deploy-url ./
 
 
 
