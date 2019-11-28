@@ -2,7 +2,7 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: production-tracker-ingress
-  namespace: production-tracker-sandbox
+  namespace: production-tracker-dev
   annotations:
     #
     # To use the Ingress Rules set the Service type as ClusterIP
@@ -31,7 +31,7 @@ metadata:
     # adds 301 redirect with trailing slash
     # see: https://github.com/kubernetes/ingress-nginx/issues/646
     nginx.ingress.kubernetes.io/configuration-snippet: |
-        rewrite ^(/production-tracker-sandbox)$ $1/ permanent;
+        rewrite ^(/production-tracker-dev)$ $1/ permanent;
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
 
 spec:
@@ -39,10 +39,10 @@ spec:
   - host: www.gentar.org
     http:
       paths:
-      - path: /production-tracker-sandbox(/|$)(.*)
+      - path: /production-tracker-dev(/|$)(.*)
       #- path:
         backend:
-          serviceName: webapp-sandbox
+          serviceName: webapp-dev
           servicePort: 80
   tls:
     - hosts:

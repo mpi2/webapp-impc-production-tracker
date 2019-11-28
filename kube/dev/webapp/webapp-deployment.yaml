@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapp-dev
+  name: webapp-dev
+  namespace: production-tracker-dev
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp-dev
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webapp-dev
+    spec:
+      containers:
+      - image: rwilsonebi/production-tracker-webapp:latest
+        imagePullPolicy: Always
+        name: webapp-dev
+        env:
+        - name: API_SERVICE_HOST
+          value: www.gentar.org
+        - name: API_SERVICE_PORT
+          value: "443\\/production-tracker-dev-api"
+        - name: REDEPLOY_KEY
+          value: "STRING_REPLACED_DURING_REDEPLOY"
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
