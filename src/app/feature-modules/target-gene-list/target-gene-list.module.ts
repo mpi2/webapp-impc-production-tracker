@@ -9,7 +9,12 @@ import { ProjectCardComponent } from './components/project-card/project-card.com
 import { PlanCardComponent } from './components/plan-card/plan-card.component';
 
 @NgModule({
-  declarations: [ListManagementComponent, AutocompleteGeneInputsComponent, ImportListDialogComponent, ProjectCardComponent, PlanCardComponent],
+  declarations: [
+    ListManagementComponent,
+    AutocompleteGeneInputsComponent,
+    ImportListDialogComponent,
+    ProjectCardComponent,
+    PlanCardComponent],
   imports: [
     TargetGeneListRoutingModule,
     SharedModule

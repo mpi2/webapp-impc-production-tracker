@@ -23,7 +23,7 @@ export class PlanRouterComponent implements OnInit {
           this.router.navigate(['phenotyping-plan', plan.pin]);
         }
       }
-      
+
     }, error => {
       this.error = error;
     });

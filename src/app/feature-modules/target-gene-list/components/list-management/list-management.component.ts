@@ -146,7 +146,7 @@ export class ListManagementComponent implements OnInit {
       this.originalRecordsStrings.set(x.id, JSON.stringify(x));
     });
     console.log('dataSource', this.dataSource);
-    
+
     this.originalDataAsString = JSON.stringify(this.dataSource);
   }
 
@@ -172,9 +172,9 @@ export class ListManagementComponent implements OnInit {
         dataToUpload.push(x);
       }
     });
-    this.removeUnneededAttributes(dataToUpload)
-    console.log('dataToUpload:',dataToUpload);
-    
+    this.removeUnneededAttributes(dataToUpload);
+    console.log('dataToUpload:', dataToUpload);
+
     this.targetGeneListService.uploadList(dataToUpload, this.currentConsortium).subscribe(data => {
       // this.extractDataFromServerResponse(data);
      // this.getPage(0);
