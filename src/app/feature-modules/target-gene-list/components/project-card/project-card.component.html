@@ -1,0 +1,12 @@
+<div fxLayout="row" fxFlex="1 0 0" fxLayoutAlign="space-between" fxLayoutGap="10px">
+    <div fxLayout="column" fxFlex="1 0 0">
+        <div><a target="_blank" routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a></div>
+        <div>{{ project.assignmentStatusName || 'Status not defined' }}</div>
+        
+    </div>
+    <div fxLayout="column" fxFlex="1 0 0">
+        <div *ngFor="let plan of project.plans">
+            <app-plan-card [plan]="plan"></app-plan-card>
+        </div>
+    </div>
+</div>

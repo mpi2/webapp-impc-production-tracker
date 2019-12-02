@@ -1,0 +1,15 @@
+<div fxLayout="row" fxFlex="1 0 0" fxLayoutAlign="space-between" fxLayoutGap="15px">
+    <div fxLayout="column" fxFlex="1 0 0">
+        <div><a target="_blank" routerLink="/plan/{{ plan.pin }}">{{ plan.pin }}</a></div>
+        <div>{{ plan.statusName }}</div>
+        <div>{{ plan.workUnitName }}</div>
+    </div>
+    <div fxLayout="column" fxFlex="1 0 0">
+        <ul>
+            <li *ngFor="let outcome of plan.outcomes">
+                <div>{{ outcome.statusName}}
+                - {{ outcome.molecularMutationTypeName}}</div>
+            </li>
+        </ul>
+    </div>
+</div>

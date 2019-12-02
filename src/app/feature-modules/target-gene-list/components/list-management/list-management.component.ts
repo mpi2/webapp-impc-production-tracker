@@ -145,6 +145,8 @@ export class ListManagementComponent implements OnInit {
     this.dataSource.forEach(x =>  {
       this.originalRecordsStrings.set(x.id, JSON.stringify(x));
     });
+    console.log('dataSource', this.dataSource);
+    
     this.originalDataAsString = JSON.stringify(this.dataSource);
   }
 
@@ -170,6 +172,9 @@ export class ListManagementComponent implements OnInit {
         dataToUpload.push(x);
       }
     });
+    this.removeUnneededAttributes(dataToUpload)
+    console.log('dataToUpload:',dataToUpload);
+    
     this.targetGeneListService.uploadList(dataToUpload, this.currentConsortium).subscribe(data => {
       // this.extractDataFromServerResponse(data);
      // this.getPage(0);
@@ -178,6 +183,10 @@ export class ListManagementComponent implements OnInit {
       console.error('there was an error', error);
 
     });
+  }
+  // Removes data that don't need to be send to the server because are calculated information.
+  removeUnneededAttributes(dataToUpload: GeneListRecord[]) {
+    dataToUpload.map(x => x.projects = null);
   }
 
 }
