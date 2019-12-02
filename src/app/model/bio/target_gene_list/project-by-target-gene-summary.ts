@@ -6,7 +6,8 @@ export class ProjectByTargetGeneSummary {
 
 export class PlanSummary {
     pin: string;
-    status: string;
+    statusName: string;
+    workUnitName: string;
     outcomes: OutcomeSummary[];
 }
 

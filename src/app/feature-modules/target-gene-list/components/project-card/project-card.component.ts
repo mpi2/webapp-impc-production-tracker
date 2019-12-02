@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Project } from 'src/app/model';
+import { ProjectByTargetGeneSummary } from 'src/app/model';
 
 @Component({
   selector: 'app-project-card',
@@ -7,7 +7,7 @@ import { Project } from 'src/app/model';
   styleUrls: ['./project-card.component.css']
 })
 export class ProjectCardComponent implements OnInit {
-  @Input() project: Project;
+  @Input() project: ProjectByTargetGeneSummary;
 
   constructor() { }
 

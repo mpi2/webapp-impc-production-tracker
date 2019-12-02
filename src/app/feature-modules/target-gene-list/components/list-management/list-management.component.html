@@ -60,8 +60,6 @@
               <div *ngFor="let project of element.projects">
                 <div *ngIf="project">
                   <app-project-card [project]="project"></app-project-card>
-                  <!-- <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
-                  {{ project.assignmentStatusName || 'Status not defined' }} ] -->
                 </div>
               </div>
             </td>
