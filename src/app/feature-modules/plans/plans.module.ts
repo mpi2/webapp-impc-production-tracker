@@ -10,6 +10,7 @@ import { AttemptsModule } from '../attempts/attempts.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { UpdateNotificationComponent } from './components/update-notification/update-notification.component';
 import { IntentionsModule } from '../intentions/intentions.module';
+import { PlanRouterComponent } from './components/plan-router/plan-router.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { IntentionsModule } from '../intentions/intentions.module';
     PlanHistoryComponent,
     PlanSummaryComponent,
     PlanDetailsComponent,
-    UpdateNotificationComponent],
+    UpdateNotificationComponent,
+    PlanRouterComponent],
   imports: [
     SharedModule,
     PlansRoutingModule,

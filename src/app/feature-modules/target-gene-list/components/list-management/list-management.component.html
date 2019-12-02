@@ -11,8 +11,8 @@
 </mat-form-field>
 
 <mat-toolbar>
-    <button *ngIf="canUpdateList" [disabled]="!currentConsortium" mat-button (click)="openImportDialog()">Import</button>
-    <button (click)="export()" [disabled]="!currentConsortium" mat-button>Export</button>
+  <button *ngIf="canUpdateList" [disabled]="!currentConsortium" mat-button (click)="openImportDialog()">Import</button>
+  <button (click)="export()" [disabled]="!currentConsortium" mat-button>Export</button>
 </mat-toolbar>
 
 <div *ngIf="currentConsortium">
@@ -22,9 +22,14 @@
       <table class="mat-elevation-z8">
         <thead>
           <tr>
-            <th>Gene(s)</th>
-            <th>Note</th>
-            <th>Associated Projects</th>
+            <th rowspan="2">Gene(s)</th>
+            <th rowspan="2">Note</th>
+            <th colspan="3">Associated Projects</th>
+          </tr>
+          <tr>
+            <th>Project</th>
+            <th>Plan</th>
+            <th>Outcomes</th>
           </tr>
         </thead>
         <tbody>
@@ -51,11 +56,10 @@
                 {{ element.note }}
               </ng-template>
             </td>
-            <td>
+            <td colspan="3">
               <div *ngFor="let project of element.projects">
                 <div *ngIf="project">
-                  <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a> [
-                  {{ project.assignmentStatusName || 'Status not defined' }} ]
+                  <app-project-card [project]="project"></app-project-card>
                 </div>
               </div>
             </td>

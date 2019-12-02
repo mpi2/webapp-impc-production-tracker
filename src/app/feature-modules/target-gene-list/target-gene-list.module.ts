@@ -5,9 +5,16 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { ListManagementComponent } from './components/list-management/list-management.component';
 import { AutocompleteGeneInputsComponent } from './components/autocomplete-gene-inputs/autocomplete-gene-inputs.component';
 import { ImportListDialogComponent } from './components/import-list-dialog/import-list-dialog.component';
+import { ProjectCardComponent } from './components/project-card/project-card.component';
+import { PlanCardComponent } from './components/plan-card/plan-card.component';
 
 @NgModule({
-  declarations: [ListManagementComponent, AutocompleteGeneInputsComponent, ImportListDialogComponent],
+  declarations: [
+    ListManagementComponent,
+    AutocompleteGeneInputsComponent,
+    ImportListDialogComponent,
+    ProjectCardComponent,
+    PlanCardComponent],
   imports: [
     TargetGeneListRoutingModule,
     SharedModule
