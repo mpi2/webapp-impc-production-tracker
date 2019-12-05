@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { ManagedListsService, LoggedUserService, PermissionsService, GeneService } from 'src/app/core';
 import { EntityValues } from 'src/app/feature-modules/admin/model/entity-values';
-import { MatPaginator, MatDialog, MatSidenav } from '@angular/material';
+import { MatPaginator, MatDialog, MatSidenav, MatSlideToggleChange } from '@angular/material';
 import { User } from 'src/app/core/model/user/user';
 import { ImportListDialogComponent } from '../import-list-dialog/import-list-dialog.component';
 import { GeneListRecord } from 'src/app/model/bio/target_gene_list/gene-list-record';
@@ -23,8 +23,13 @@ export class ListManagementComponent implements OnInit, AfterViewInit {
   private originalDataAsString: string;
   private originalRecordsStrings: Map<number, string> = new Map();
   geneListRecords: GeneListRecord[];
+  updating = false;
+
+  currentSelectedEditMode = false;
+  newEditMode = 'edit';
 
   error;
+  lastNewId = -1;
 
   user: User = undefined;
 
@@ -111,8 +116,11 @@ export class ListManagementComponent implements OnInit, AfterViewInit {
       .subscribe(data => {
         this.extractDataFromServerResponse(data);
       });
+  }
 
-
+  changeViewMode(e: MatSlideToggleChange) {
+    this.newEditMode = e.checked ? 'view' : 'edit';
+    this.currentSelectedEditMode = e.checked;
   }
 
   toogleShowFilters() {
@@ -124,6 +132,10 @@ export class ListManagementComponent implements OnInit, AfterViewInit {
       this.filterVisible = true;
     }
 
+  }
+
+  checkEditable() {
+    return this.canUpdateList && this.currentSelectedEditMode;
   }
 
   downloadCsv(filename, text) {
@@ -229,8 +241,6 @@ export class ListManagementComponent implements OnInit, AfterViewInit {
     this.dataSource.forEach(x => {
       this.originalRecordsStrings.set(x.id, JSON.stringify(x));
     });
-    console.log('dataSource', this.dataSource);
-
     this.originalDataAsString = JSON.stringify(this.dataSource);
   }
 
@@ -271,6 +281,21 @@ export class ListManagementComponent implements OnInit, AfterViewInit {
   // Removes data that don't need to be send to the server because are calculated information.
   removeUnneededAttributes(dataToUpload: GeneListRecord[]) {
     dataToUpload.map(x => x.projects = null);
+  }
+
+  addRow() {
+    const geneListRecord = new GeneListRecord();
+    geneListRecord.id = this.lastNewId--;
+    geneListRecord.genes = [];
+    geneListRecord.note = '';
+    this.dataSource.push(geneListRecord);
+
+    console.log('this.originalRecordsStrings', this.originalRecordsStrings);
+    console.log(JSON.stringify(this.dataSource) === this.originalDataAsString);
+  }
+
+  checkIfChanged() {
+    return JSON.stringify(this.dataSource) !== this.originalDataAsString;
   }
 
 }

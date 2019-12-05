@@ -8,7 +8,7 @@ table, th, tr, td {
     border-bottom-width: 1px;
     border-bottom-color: rgba(0, 0, 0, 0.12);
   }
-tsd.no_border {
+td.no_border {
     border-bottom-style: none;
 }
 

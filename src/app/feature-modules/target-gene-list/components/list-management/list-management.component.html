@@ -27,12 +27,20 @@
       </mat-card>
       <mat-card *ngIf="currentConsortium">
         <mat-card-content>
-          <div class="table-controllers" fxLayout="row" fxLayoutAlign="space-between" fxLayout.xs="column"
-            fxLayout.sm="column">
-            <div fxFlex.md="10" fxLayout="row" fxLayout.sm="column" fxLayoutAlign="end">
-              <button *ngIf="canUpdateList" mat-button (click)="openImportDialog()" color="accent">
+
+          <div id="changeEditMode">
+              <mat-slide-toggle *ngIf="canUpdateList" (change)="changeViewMode($event)">
+                <strong>Change to {{ newEditMode }} mode</strong>
+              </mat-slide-toggle>
+          </div>
+
+          <div class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column" fxLayout.sm="column">
+            <div>
+              <button *ngIf="checkEditable()" mat-button (click)="openImportDialog()" color="accent">
                 <mat-icon>cloud_upload_alt</mat-icon> Import CSV
               </button>
+            </div>
+            <div>
               <button mat-button (click)="downloadCsv('example.csv', 'no-data')" color="accent">
                 <mat-icon>save_alt</mat-icon> Download as CSV
               </button>
@@ -54,7 +62,7 @@
                 <tbody>
                   <tr *ngFor="let element of dataSource">
                     <td class="geneSymbol">
-                      <div *ngIf="canUpdateList; then editableGenes else readOnlyGenes">
+                      <div *ngIf="checkEditable(); then editableGenes else readOnlyGenes">
                       </div>
                       <ng-template #editableGenes>
                         <app-autocomplete-gene-inputs [record]="element"></app-autocomplete-gene-inputs>
@@ -64,7 +72,7 @@
                       </ng-template>
                     </td>
                     <td>
-                      <div *ngIf="canUpdateList; then editableNote else readOnlyNote">
+                      <div *ngIf="checkEditable(); then editableNote else readOnlyNote">
                       </div>
                       <ng-template #editableNote>
                         <mat-form-field class="example-full-width">
@@ -83,17 +91,29 @@
                       </div>
                     </td>
                   </tr>
+                  <tr>
+                    <td class="no_border">
+                      <button mat-fab *ngIf="checkEditable()" (click)="addRow()" color="accent" class="add-button">
+                        <mat-icon>add</mat-icon>
+                      </button>
+                    </td>
+                  </tr>
                 </tbody>
               </table>
+
               <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements"
                 [pageSize]="page.size" [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
             </mat-card-content>
-            <mat-card-actions *ngIf="canUpdateList">
-              <button [disabled]='false' (click)="updateLists()" mat-raised-button color="primary">Update lists</button>
+
+            <mat-card-actions *ngIf="checkEditable()">
+              <button [disabled]='!checkIfChanged()' (click)="updateLists()" mat-raised-button color="primary">Save
+                Changes</button>
             </mat-card-actions>
           </mat-card>
         </mat-card-content>
+
       </mat-card>
+
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>
