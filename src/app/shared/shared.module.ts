@@ -18,7 +18,8 @@ import {
   MatNativeDateModule,
   MatDialogModule,
   MatRadioModule,
-  MatAutocompleteModule
+  MatAutocompleteModule,
+  MatSlideToggleModule
 } from '@angular/material';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatBadgeModule } from '@angular/material/badge';
@@ -82,6 +83,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatCheckboxModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDatepickerModule,
@@ -122,6 +124,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatCheckboxModule,
     MatTableModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatSnackBarModule,
     MatDatepickerModule,
