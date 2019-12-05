@@ -41,7 +41,7 @@
         <button routerLink="/reports" mat-flat-button>
             Reports
         </button>
-        <button routerLink="" mat-flat-button [matMenuTriggerFor]="documentation_menu">Manual
+        <button  mat-flat-button [matMenuTriggerFor]="documentation_menu">Help
         </button>
         <mat-menu #documentation_menu="matMenu">
           <a href="https://documenter.getpostman.com/view/6493399/SW7UcWZv?version=latest" target="_blank"
@@ -51,8 +51,4 @@
         </mat-menu>
 
     </div>
-    <a class="privacy" fxFlex="10%" fxLayoutAlign="end" matBadge="i"
-        href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-submissionservices">Privacy
-        Notice</a>
-
 </mat-toolbar>

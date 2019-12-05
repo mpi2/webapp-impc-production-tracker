@@ -1,4 +1,14 @@
+<div fxFlexFill fxLayout="column">
   <app-header></app-header>
   <app-ng7-bootstrap-breadcrumb></app-ng7-bootstrap-breadcrumb>
-  <router-outlet></router-outlet>
-  <app-footer></app-footer>
+  <div fxLayout="column" fxFlex>
+    <div fxFlex style="margin: 1%">
+      <router-outlet></router-outlet>
+    </div>
+    <footer fxLayout="column">
+      <div fxLayout="row">
+      </div>
+      <div fxFlexAlign="center"><app-footer></app-footer></div>
+    </footer>
+  </div>
+</div>
