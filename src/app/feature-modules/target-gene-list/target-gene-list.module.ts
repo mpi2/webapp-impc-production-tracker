@@ -7,6 +7,7 @@ import { AutocompleteGeneInputsComponent } from './components/autocomplete-gene-
 import { ImportListDialogComponent } from './components/import-list-dialog/import-list-dialog.component';
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { PlanCardComponent } from './components/plan-card/plan-card.component';
+import { FiltersModule } from '../filters/filters.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { PlanCardComponent } from './components/plan-card/plan-card.component';
     PlanCardComponent],
   imports: [
     TargetGeneListRoutingModule,
-    SharedModule
+    SharedModule,
+    FiltersModule
   ],
   entryComponents: [
     ImportListDialogComponent
