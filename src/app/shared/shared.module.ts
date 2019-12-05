@@ -43,6 +43,7 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
 import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
   declarations: [
@@ -73,6 +74,7 @@ import { DialogBoxComponent } from './components/dialog-box/dialog-box.component
     MatMenuModule,
     MatGridListModule,
     FlexLayoutModule,
+    LayoutModule,
     MatBadgeModule,
     MatIconModule,
     MatDialogModule,
@@ -112,6 +114,7 @@ import { DialogBoxComponent } from './components/dialog-box/dialog-box.component
     MatMenuModule,
     MatGridListModule,
     FlexLayoutModule,
+    LayoutModule,
     MatBadgeModule,
     MatIconModule,
     MatDialogModule,

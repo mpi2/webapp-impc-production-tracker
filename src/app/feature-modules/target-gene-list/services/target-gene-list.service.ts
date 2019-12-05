@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { HttpClient } from '@angular/common/http';
 import { of } from 'rxjs';
 import { GeneListRecord } from 'src/app/model/bio/target_gene_list/gene-list-record';
+import { Filter } from '../../filters/model/filter';
 
 @Injectable({
   providedIn: 'root'
@@ -15,13 +16,32 @@ export class TargetGeneListService {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
-  getListByConsortium(pageNumber: number, consortiumName: string): Observable<GeneListRecord[]> {
+  getListByConsortium(pageNumber: number, consortiumName: string, filterValues): Observable<GeneListRecord[]> {
+
     if (!consortiumName) {
       return of([]);
     }
 
-    const url = `${this.apiServiceUrl}/api/geneList/${consortiumName}/content?page=${pageNumber}`;
+    let url = `${this.apiServiceUrl}/api/geneList/${consortiumName}/content?page=${pageNumber}`;
+    const filterParameters = this.buildFilterParameters(filterValues);
+
+    if (filterParameters && filterParameters !== '') {
+      url = url + '&' + filterParameters;
+    }
+
     return this.http.get<GeneListRecord[]>(url);
+  }
+
+  private buildFilterParameters(filterValues) {
+    let filterParameters = '';
+    if (filterValues) {
+      if (filterValues.markerSymbol) {
+        const markerSymbolValues = [filterValues.markerSymbol];
+        const markerSymbolFilter = 'markerSymbol=' + markerSymbolValues.join(',');
+        filterParameters += markerSymbolFilter;
+      }
+    }
+    return filterParameters;
   }
 
   updateListWithFile(consortiumName: string, file): Observable<GeneListRecord[]> {
