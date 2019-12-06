@@ -55,4 +55,9 @@ export class TargetGeneListService {
     const url = `${this.apiServiceUrl}/api/geneList/${consortiumName}/content`;
     return this.http.post<GeneListRecord[]>(url, geneListRecords);
   }
+
+  deleteRecords(recordIds: number[], consortiumName: string) {
+    const url = `${this.apiServiceUrl}/api/geneList/${consortiumName}/content?recordId=${recordIds}`;
+    return this.http.delete(url);
+  }
 }

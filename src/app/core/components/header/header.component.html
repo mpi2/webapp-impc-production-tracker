@@ -1,30 +1,23 @@
-<mat-toolbar fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="space-evenly center">
-    <div fxFlex="10%">
-        <p *ngIf="login">
-            <mat-icon aria-hidden="false" aria-label="Example home icon">account_circle</mat-icon><b>{{ userName }}</b>
-        </p>
-    </div>
+<mat-toolbar color="primary" class="mat-elevation-z4">
+    <span>
+        <span class="logo">
+            <img src="../../../assets/gene.png" alt="Logo" width="60px" height="50px">
+        </span>
+        <span class="title">
+            {{ title }}
+        </span>
+    </span>
 
-    <div fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutAlign="start center">
+    <div class="navigation" fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
 
-        <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>
-        <mat-menu #search_menu="matMenu">
-            <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
-        </mat-menu>
+        <div id="search_projects">
+            <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>
+            <mat-menu #search_menu="matMenu">
+                <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
+            </mat-menu>
+        </div>
 
-        <button mat-flat-button routerLinkActive="active" [matMenuTriggerFor]="account_menu">
-            Account
-        </button>
-        <mat-menu #account_menu="matMenu">
-            <button mat-flat-button [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
-                in</button>
-            <button mat-menu-item [routerLink]="['./edit_profile']" *ngIf="false">Edit your
-                profile</button>
-            <button mat-menu-item *ngIf="login && isAdmin" routerLink="/admin">Admin</button>
-            <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
-        </mat-menu>
-
-        <div *ngIf="login">
+        <div id="projects" *ngIf="login">
             <button routerLinkActive="active" mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
             <mat-menu #project_menu="matMenu">
                 <button mat-menu-item *ngIf="canSeeProjectList" routerLink="/projects" routerLinkActive="active">Managed
@@ -38,17 +31,38 @@
             </mat-menu>
         </div>
 
-        <button routerLink="/reports" mat-flat-button>
-            Reports
-        </button>
-        <button  mat-flat-button [matMenuTriggerFor]="documentation_menu">Help
-        </button>
-        <mat-menu #documentation_menu="matMenu">
-          <a href="https://documenter.getpostman.com/view/6493399/SW7UcWZv?version=latest" target="_blank"
-             mat-menu-item>API documentation</a>
-          <a href='./assets/documentation/The_GenTaR_Web_Application_Sandbox.pdf' target="_blank"
-             mat-menu-item>Website documentation</a>
-        </mat-menu>
+        <div id="reports">
+            <button routerLink="/reports" mat-flat-button>
+                Reports
+            </button>
+        </div>
+
+        <div id="help">
+            <button mat-flat-button [matMenuTriggerFor]="documentation_menu">Help
+            </button>
+            <mat-menu #documentation_menu="matMenu">
+                <a href="https://documenter.getpostman.com/view/6493399/SW7UcWZv?version=latest" target="_blank"
+                    mat-menu-item>API documentation</a>
+                <a href='./assets/documentation/The_GenTaR_Web_Application_Sandbox.pdf' target="_blank"
+                    mat-menu-item>Website
+                    documentation</a>
+            </mat-menu>
+        </div>
 
     </div>
+
+    <span class="spacer"></span>
+
+    <button class="login" mat-mini-fab routerLinkActive="active" [matMenuTriggerFor]="account_menu">
+        <mat-icon>person</mat-icon>
+    </button>
+    <mat-menu #account_menu="matMenu">
+        <button mat-flat-button [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
+            in</button>
+        <button mat-menu-item [routerLink]="['./edit_profile']" *ngIf="false">Edit your
+            profile</button>
+        <button mat-menu-item *ngIf="login && isAdmin" routerLink="/admin">Admin</button>
+        <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
+    </mat-menu>
+
 </mat-toolbar>

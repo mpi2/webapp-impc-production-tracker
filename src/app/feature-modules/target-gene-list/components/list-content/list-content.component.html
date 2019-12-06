@@ -1,0 +1,70 @@
+<mat-card>
+  <mat-card-content>
+    <table>
+      <thead>
+        <tr>
+          <th rowspan="2">Gene(s)</th>
+          <th rowspan="2">Note</th>
+          <th colspan="3">Associated Projects</th>
+          <th rowspan="2">Action</th>
+        </tr>
+        <tr>
+          <th>Project - Plan - Outcomes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let element of dataSource">
+          <td class="geneSymbol">
+            <div *ngIf="checkEditable(); then editableGenes else readOnlyGenes">
+            </div>
+            <ng-template #editableGenes>
+              <app-autocomplete-gene-inputs [record]="element"></app-autocomplete-gene-inputs>
+            </ng-template>
+            <ng-template #readOnlyGenes>
+              {{ getGenesSymbols(element) }}
+            </ng-template>
+          </td>
+          <td>
+            <div *ngIf="checkEditable(); then editableNote else readOnlyNote">
+            </div>
+            <ng-template #editableNote>
+              <mat-form-field class="example-full-width">
+                <input (input)="noteChanged(element, $event.target.value)" matInput [(value)]="element.note">
+              </mat-form-field>
+            </ng-template>
+            <ng-template #readOnlyNote>
+              {{ element.note }}
+            </ng-template>
+          </td>
+          <td colspan="3">
+            <div *ngFor="let project of element.projects">
+              <div *ngIf="project">
+                <app-project-card [project]="project"></app-project-card>
+              </div>
+            </div>
+          </td>
+          <td>
+            <button *ngIf="checkEditable()" (click)="onClickToDeleteElement(element)">
+              <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td class="no_border">
+            <button mat-fab *ngIf="checkEditable()" (click)="addRow()" color="accent" class="add-button">
+              <mat-icon>add</mat-icon>
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
+      [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
+  </mat-card-content>
+
+  <mat-card-actions *ngIf="checkEditable()">
+    <button [disabled]='!checkIfChanged()' (click)="updateLists()" mat-raised-button color="primary">Save
+      Changes</button>
+  </mat-card-actions>
+</mat-card>

@@ -19,6 +19,8 @@ export class HeaderComponent implements OnInit {
   loggedUser: User;
   canSeeProjectList: boolean;
 
+  title = 'GenTaR';
+
   constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
     this.messageService.getMessage().subscribe(data => {
       const userLoggedIn = data.isUserLoggedIn;

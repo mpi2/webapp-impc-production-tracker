@@ -8,6 +8,9 @@ import { ImportListDialogComponent } from './components/import-list-dialog/impor
 import { ProjectCardComponent } from './components/project-card/project-card.component';
 import { PlanCardComponent } from './components/plan-card/plan-card.component';
 import { FiltersModule } from '../filters/filters.module';
+import { ConsortiumSelectorComponent } from './components/consortium-selector/consortium-selector.component';
+import { ListContentComponent } from './components/list-content/list-content.component';
+import { ListControlsComponent } from './components/list-controls/list-controls.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +18,10 @@ import { FiltersModule } from '../filters/filters.module';
     AutocompleteGeneInputsComponent,
     ImportListDialogComponent,
     ProjectCardComponent,
-    PlanCardComponent],
+    PlanCardComponent,
+    ConsortiumSelectorComponent,
+    ListContentComponent,
+    ListControlsComponent],
   imports: [
     TargetGeneListRoutingModule,
     SharedModule,
