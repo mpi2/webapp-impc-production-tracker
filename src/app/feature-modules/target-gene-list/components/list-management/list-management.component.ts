@@ -1,53 +1,35 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
-import { TargetGeneListService } from '../../services/target-gene-list.service';
-import { ManagedListsService, LoggedUserService, PermissionsService, GeneService } from 'src/app/core';
-import { EntityValues } from 'src/app/feature-modules/admin/model/entity-values';
-import { MatPaginator, MatDialog, MatSidenav, MatSlideToggleChange } from '@angular/material';
-import { User } from 'src/app/core/model/user/user';
-import { ImportListDialogComponent } from '../import-list-dialog/import-list-dialog.component';
-import { GeneListRecord } from 'src/app/model/bio/target_gene_list/gene-list-record';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatSidenav } from '@angular/material';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable, merge, of } from 'rxjs';
-import { map, share, startWith, switchMap, catchError } from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, share, startWith} from 'rxjs/operators';
 import { Filter } from 'src/app/feature-modules/filters/model/filter';
-import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
+import { ListContentComponent } from '../list-content/list-content.component';
 
 @Component({
   selector: 'app-list-management',
   templateUrl: './list-management.component.html',
   styleUrls: ['./list-management.component.css']
 })
-export class ListManagementComponent implements OnInit, AfterViewInit {
+export class ListManagementComponent implements OnInit {
 
-  public dataSource: GeneListRecord[] = [];
-  private originalDataAsString: string;
-  private originalRecordsStrings: Map<number, string> = new Map();
-  geneListRecords: GeneListRecord[];
   updating = false;
+
+  recordIdsToDelete = [];
 
   currentSelectedEditMode = false;
   newEditMode = 'edit';
 
   error;
-  lastNewId = -1;
-
-  user: User = undefined;
 
   filterVisible = false;
-
   currentConsortium: string = undefined;
-
-  consortia: NamedValue[] = [];
-
-  listsByUser: EntityValues[];
   canUpdateList: boolean;
-
-  page: any = {};
 
   filters: Filter[];
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild('drawer', { static: false }) drawer: MatSidenav;
+  @ViewChild('listContent', { static: false }) listContent: ListContentComponent;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -59,16 +41,27 @@ export class ListManagementComponent implements OnInit, AfterViewInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private targetGeneListService: TargetGeneListService,
-    private managedListsService: ManagedListsService,
-    private loggedUserService: LoggedUserService,
-    private filterService: FilterService,
     public dialog: MatDialog) { }
 
   ngOnInit() {
     this.setupFilters();
-    this.loadPermissions();
-    this.getPage(0);
+  }
+
+  toogleShowFilters() {
+    this.filterVisible = !this.filterVisible;
+  }
+
+  // Get the consortium selected in the consortium selector component.
+  onConsortiumSelected(e) {
+    this.currentConsortium = e;
+    if (this.listContent) {
+      this.listContent.getPage(0);
+    }
+  }
+
+  // Get the update permission in the consortium selector component.
+  onUpdatePermissionSet(e) {
+    this.canUpdateList = e;
   }
 
   setupFilters() {
@@ -81,221 +74,29 @@ export class ListManagementComponent implements OnInit, AfterViewInit {
         type: 'text',
         placeholder: 'Marker Symbol(s)'
       }
-      // ,
-      // {
-      //   title: 'Work Units',
-      //   name: 'workUnit',
-      //   type: 'checkboxes',
-      //   dataSource: [
-      //     {
-      //       name: 'WU1'
-      //     },
-      //     {
-      //       name: 'WU2'
-      //     }
-      //   ]
-      // }
+      ,
+      {
+        title: 'Work Units',
+        name: 'workUnit',
+        type: 'checkboxes',
+        dataSource: [
+          {
+            name: 'WU1'
+          },
+          {
+            name: 'WU2'
+          }
+        ]
+      }
     ];
   }
 
-  ngAfterViewInit() {
-
-    merge(
-      this.filterService.filterChange
-    )
-      .pipe(
-        startWith({}),
-        switchMap(() => {
-          this.clearDataSet();
-          return this.targetGeneListService.getListByConsortium(0, this.currentConsortium, this.filterService.filter);
-        }),
-        catchError(() => {
-          return of([]);
-        })
-      )
-      .subscribe(data => {
-        this.extractDataFromServerResponse(data);
-      });
+  onImportFileSelected(e) {
+    this.listContent.updateListWithFile(e);
   }
 
-  changeViewMode(e: MatSlideToggleChange) {
-    this.newEditMode = e.checked ? 'view' : 'edit';
-    this.currentSelectedEditMode = e.checked;
-  }
-
-  toogleShowFilters() {
-    if (this.drawer.opened) {
-      this.drawer.close();
-      this.filterVisible = false;
-    } else {
-      this.drawer.open();
-      this.filterVisible = true;
-    }
-
-  }
-
-  checkEditable() {
-    return this.canUpdateList && this.currentSelectedEditMode;
-  }
-
-  downloadCsv(filename, text) {
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-
-    element.style.display = 'none';
-    document.body.appendChild(element);
-
-    element.click();
-
-    document.body.removeChild(element);
-  }
-
-  public getPage(pageNumber: number) {
-    this.clearDataSet();
-    if (this.currentConsortium) {
-      this.targetGeneListService.getListByConsortium(pageNumber, this.currentConsortium, null).subscribe(data => {
-        this.extractDataFromServerResponse(data);
-      });
-    }
-  }
-
-  private extractDataFromServerResponse(data) {
-    if (data) {
-      /* tslint:disable:no-string-literal */
-      if (data['_embedded']) {
-        const records = data['_embedded'].records;
-        this.page = data['page'];
-        /* tslint:enable:no-string-literal */
-        this.geneListRecords = records;
-        this.getDataSource(this.geneListRecords);
-      }
-    }
-  }
-
-  onConsortiumChanged() {
-    this.getPage(0);
-  }
-
-  private clearDataSet() {
-    this.dataSource = [];
-  }
-
-  loadPermissions(): void {
-    this.loggedUserService.getLoggerUser().subscribe(x => {
-      this.user = x;
-      if (this.user.isAdmin) {
-        this.managedListsService.getManagedListsByUser().subscribe(data => {
-          this.consortia = this.managedListsService.getValuesByEntity(data, 'consortia');
-        });
-      } else {
-        this.consortia = this.getRelatedConsortia(x);
-      }
-      this.canUpdateList = PermissionsService.canExecuteAction(x, PermissionsService.MANAGE_GENE_LISTS);
-    });
-  }
-
-  openImportDialog() {
-    const dialogRef = this.dialog.open(ImportListDialogComponent, {
-      width: '280px'
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      this.updateListWithFile(result);
-    });
-  }
-
-  updateListWithFile($event) {
-    const input = $event.target;
-    const file = input.files[0];
-    this.targetGeneListService.updateListWithFile(this.currentConsortium, file).subscribe(data => {
-      this.extractDataFromServerResponse(data);
-    }, error => {
-      console.error('error', error);
-
-    });
-
-  }
-
-  export() {
-    if (this.currentConsortium) {
-      // const csv = this.fileLoaderService.jsonToCsv(this.buildJsonCsvFromDataSource());
-      // const fileName = 'gene_list_' + this.currentConsortium.replace(/\W/g, '_') + '.csv';
-      // this.download(fileName, csv);
-    }
-  }
-
-  private getRelatedConsortia(user: User): NamedValue[] {
-    const consortiaNames = [];
-    if (user && user.rolesConsortia) {
-      user.rolesConsortia.map(x => {
-        const element: NamedValue = { name: x.consortiumName };
-        consortiaNames.push(element);
-      });
-    }
-    return consortiaNames;
-  }
-
-  private getDataSource(geneListRecords: GeneListRecord[]) {
-    this.dataSource = geneListRecords;
-    this.dataSource.forEach(x => {
-      this.originalRecordsStrings.set(x.id, JSON.stringify(x));
-    });
-    this.originalDataAsString = JSON.stringify(this.dataSource);
-  }
-
-  public getGenesSymbols(geneListRecord: GeneListRecord): string[] {
-    return geneListRecord.genes.map(x => x.symbol);
-  }
-
-  noteChanged(element: GeneListRecord, newValue) {
-    element.note = newValue;
-  }
-
-  updateLists() {
-    const dataToUpload: GeneListRecord[] = [];
-
-    this.dataSource.forEach(x => {
-      const originalRecordAsString = this.originalRecordsStrings.get(x.id);
-      if (originalRecordAsString) {
-        const newRecordAsString = JSON.stringify(x);
-        if (originalRecordAsString !== newRecordAsString) {
-          dataToUpload.push(x);
-        }
-      } else {
-        dataToUpload.push(x);
-      }
-    });
-    this.removeUnneededAttributes(dataToUpload);
-    console.log('dataToUpload:', dataToUpload);
-
-    this.targetGeneListService.uploadList(dataToUpload, this.currentConsortium).subscribe(data => {
-      // this.extractDataFromServerResponse(data);
-      // this.getPage(0);
-
-    }, error => {
-      console.error('there was an error', error);
-
-    });
-  }
-  // Removes data that don't need to be send to the server because are calculated information.
-  removeUnneededAttributes(dataToUpload: GeneListRecord[]) {
-    dataToUpload.map(x => x.projects = null);
-  }
-
-  addRow() {
-    const geneListRecord = new GeneListRecord();
-    geneListRecord.id = this.lastNewId--;
-    geneListRecord.genes = [];
-    geneListRecord.note = '';
-    this.dataSource.push(geneListRecord);
-
-    console.log('this.originalRecordsStrings', this.originalRecordsStrings);
-    console.log(JSON.stringify(this.dataSource) === this.originalDataAsString);
-  }
-
-  checkIfChanged() {
-    return JSON.stringify(this.dataSource) !== this.originalDataAsString;
+  onEditModeChanged(e) {
+    this.currentSelectedEditMode = e;
   }
 
 }

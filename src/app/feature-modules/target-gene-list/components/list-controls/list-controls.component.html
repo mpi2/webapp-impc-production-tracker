@@ -1,0 +1,18 @@
+<div id="changeEditMode">
+    <mat-slide-toggle *ngIf="canUpdateList" (change)="changeViewMode($event)">
+      <strong>Change to {{ newEditMode }} mode</strong>
+    </mat-slide-toggle>
+</div>
+
+<div class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column" fxLayout.sm="column">
+  <div>
+    <button *ngIf="checkEditable()" mat-button (click)="openImportDialog()" color="accent">
+      <mat-icon>cloud_upload_alt</mat-icon> Import CSV
+    </button>
+  </div>
+  <div>
+    <button mat-button (click)="downloadCsv('example.csv', 'no-data')" color="accent">
+      <mat-icon>save_alt</mat-icon> Download as CSV
+    </button>
+  </div>
+</div>
