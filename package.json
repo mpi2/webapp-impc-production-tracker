@@ -29,6 +29,7 @@
     "ng7-bootstrap-breadcrumb": "^2.0.0",
     "ngx-papaparse": "^4.0.4",
     "rxjs": "~6.5.3",
+    "serialize-javascript": "^2.1.2",
     "tslib": "^1.9.0",
     "zone.js": "~0.9.1"
   },
