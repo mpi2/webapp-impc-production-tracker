@@ -8,17 +8,15 @@
         </span>
     </span>
 
-    <div class="navigation" fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="10px" fxLayoutAlign="start center">
+    <div class="navigation" fxFlex="40%" fxLayout="row" fxLayout.xs="row" fxLayoutWrap fxLayoutGap="10px"
+        fxLayoutAlign="start center">
 
         <div id="search_projects">
-            <button mat-flat-button [matMenuTriggerFor]="search_menu">Search</button>
-            <mat-menu #search_menu="matMenu">
-                <button mat-menu-item routerLink="/search" routerLinkActive="active">Search Projects</button>
-            </mat-menu>
+            <button mat-menu-item routerLink="/search" routerLinkActive="active">Search</button>
         </div>
 
         <div id="projects" *ngIf="login">
-            <button routerLinkActive="active" mat-flat-button [matMenuTriggerFor]="project_menu">Projects</button>
+            <button routerLinkActive="active" mat-menu-item [matMenuTriggerFor]="project_menu">Projects</button>
             <mat-menu #project_menu="matMenu">
                 <button mat-menu-item *ngIf="canSeeProjectList" routerLink="/projects" routerLinkActive="active">Managed
                     Projects</button>
@@ -32,13 +30,13 @@
         </div>
 
         <div id="reports">
-            <button routerLink="/reports" mat-flat-button>
+            <button routerLink="/reports" mat-menu-item>
                 Reports
             </button>
         </div>
 
         <div id="help">
-            <button mat-flat-button [matMenuTriggerFor]="documentation_menu">Help
+            <button mat-menu-item [matMenuTriggerFor]="documentation_menu">Help
             </button>
             <mat-menu #documentation_menu="matMenu">
                 <a href="https://documenter.getpostman.com/view/6493399/SW7UcWZv?version=latest" target="_blank"
