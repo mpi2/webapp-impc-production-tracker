@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
+import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { MatPaginator, MatSort, MatDialog } from '@angular/material';
 import { SearchService, Search } from '../..';
 import { SearchBuilder } from '../../services/search.builder';
@@ -27,7 +27,7 @@ export class SearchComponent implements OnInit {
 
   dataSource: SearchResult[];
 
-  displayedColumns: string[] = ['Search term', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+  displayedColumns: string[] = ['Search term', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location', 'Best Ortholog',
     'Project Assignment'];
   selectAllWorkUnits = true;
   panelOpenState = false;
@@ -50,6 +50,7 @@ export class SearchComponent implements OnInit {
     private formBuilder: FormBuilder,
     private searchService: SearchService,
     private configurationDataService: ConfigurationDataService,
+    private loggedUserService: LoggedUserService,
     public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -87,18 +88,32 @@ export class SearchComponent implements OnInit {
     const searchType = this.getSearchType();
     this.isLoading = true;
 
-    const search: Search = SearchBuilder.getInstance()
-      .withSearchType(searchType)
-      .withInputs(geneSymbols)
-      .withWorkUnitsNames(workUnitsNames)
-      .withWorkGroupNames(workGroupNames)
-      .build();
+    let search: Search;
     /* tslint:disable:no-string-literal */
+    if (this.loggedUserService.getLoggerUser()) {
+      search = SearchBuilder.getInstance()
+        .withSearchType(searchType)
+        .withInputs(geneSymbols)
+        .withWorkUnitsNames(workUnitsNames)
+        .withWorkGroupNames(workGroupNames)
+        .build();
+    } else {
+      search = SearchBuilder.getInstance()
+        .withSearchType(searchType)
+        .withInputs(geneSymbols)
+        .withPrivacies(['public'])
+        .withWorkUnitsNames(workUnitsNames)
+        .withWorkGroupNames(workGroupNames)
+        .build();
+    }
+    console.log(search);
+
     this.searchService.search(search, pageNumber).subscribe(data => {
       this.dataSource = data['results'];
       this.dataSource.map(x => this.buildSearchResultComments(x));
       this.refreshVisibleColumns();
       this.page = data['page'];
+
       this.error = '';
       this.isLoading = false;
     }, error => {
@@ -119,11 +134,11 @@ export class SearchComponent implements OnInit {
 
   private refreshVisibleColumns(): void {
     if (this.getGeneSymbolsAsArray().length === 0) {
-      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location',
+      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location', 'Best Ortholog',
         'Project Assignment', 'Privacy', 'Access Restriction'];
     } else {
       this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
-        'Project Assignment', 'Privacy', 'Access Restriction'];
+        'Best Ortholog', 'Project Assignment', 'Privacy', 'Access Restriction'];
     }
   }
 
