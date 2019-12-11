@@ -29,6 +29,11 @@ export class SearchBuilder {
         return this;
     }
 
+    withPrivacies(privacies: string[]): SearchBuilder {
+        this.filters.set('privacyName', privacies);
+        return this;
+    }
+
     withWorkUnitsNames(workUnitsNames: string[]): SearchBuilder {
         this.filters.set('workUnitName', workUnitsNames);
         return this;

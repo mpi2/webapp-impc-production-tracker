@@ -33,6 +33,7 @@ export class SearchService {
         const inputsParameter = this.getInputsParameter(search);
         const workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
         const workGroupNamesParameter = this.getWorkGroupNamesParameter(search);
+        const privaciesParameter = this.getPrivaciesParameter(search);
 
         if (searchTypeParameter) {
             queryParameters += '&' + searchTypeParameter;
@@ -46,6 +47,11 @@ export class SearchService {
         if (workGroupNamesParameter) {
             queryParameters += '&' + workGroupNamesParameter;
         }
+        if (privaciesParameter) {
+            queryParameters += '&' + privaciesParameter;
+        }
+        console.log('queryParameters', queryParameters);
+
         return queryParameters;
     }
 
@@ -79,5 +85,13 @@ export class SearchService {
             workGroupNamesParameter = search.filters.get('workGroupName').map(x => 'workGroupName=' + x.trim()).join('&');
         }
         return workGroupNamesParameter;
+    }
+
+    private getPrivaciesParameter(search: Search): string {
+        let privaciesParameter = null;
+        if (search.filters.get('privacyName')) {
+            privaciesParameter = search.filters.get('privacyName').map(x => 'privacyName=' + x.trim()).join('&');
+        }
+        return privaciesParameter;
     }
 }
