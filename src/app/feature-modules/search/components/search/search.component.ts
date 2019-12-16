@@ -34,8 +34,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   dataSource: SearchResult[];
 
-  displayedColumns: string[] = ['Search term', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location', 'Best Ortholog',
-    'Project Assignment'];
+  displayedColumns: string[] = [];
   selectAllWorkUnits = true;
   panelOpenState = false;
   searchForm: FormGroup;
@@ -153,11 +152,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   private refreshVisibleColumns(): void {
     if (this.getGeneSymbolsAsArray().length === 0) {
-      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location', 'Best Ortholog',
+      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location', 'Best human ortholog',
         'Project Assignment', 'Privacy', 'Access Restriction'];
     } else {
       this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
-        'Best Ortholog', 'Project Assignment', 'Privacy', 'Access Restriction'];
+        'Best human ortholog', 'Project Assignment', 'Privacy', 'Access Restriction'];
     }
   }
 

@@ -3,4 +3,5 @@ export class Ortholog {
     category: string;
     support: string;
     supportCount: number;
+    link: string;
 }
