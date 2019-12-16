@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loader.service';
 import { Observable } from 'rxjs';
 import { Search } from '../model/search';
+import { SearchFilter } from '../model/search-filter';
 
 @Injectable({
     providedIn: 'root'
@@ -19,11 +20,92 @@ export class SearchService {
         return this.http.get<SearchResult[]>(this.apiServiceUrl + '/api/projects/search');
     }
 
+    public executeSearch(search: Search, pageNumber: number): Observable<SearchResult[]> {
+        const query: string[] = [];
+        query.push(this.searchTypeQuery(search));
+        query.push(this.getPaginationQuery(pageNumber));
+        query.push(this.getFilterQuery(search));
+
+        if (search.inputDefinition.type === 'text') {
+            return this.executeSearchByText(search, query.join('&'));
+        } else if (search.inputDefinition.type === 'file') {
+            return this.executeSearchByFile(search, query.join('&'));
+        }
+    }
+
+    private searchTypeQuery(search: Search) {
+        return 'searchTypeName=' + search.searchType;
+    }
+
+    private getPaginationQuery(pageNumber: number) {
+        return 'page=' + pageNumber;
+    }
+
+    private getFilterQuery(search: Search) {
+        return this.buildFilterParameters(search.filters);
+    }
+
+    private getInputTextQuery(search: Search) {
+        let inputParameter;
+        console.log('search.inputDefinition===>', search.inputDefinition);
+        let input: string = search.inputDefinition.value;
+        if (input) {
+            input = input.split(',').map(x => x.trim()).join(',');
+            if (input) {
+                inputParameter = 'input=' + input;
+            }
+        }
+        return inputParameter;
+    }
+
+    private executeSearchByText(search: Search, queryString: string): Observable<SearchResult[]> {
+        let url = this.apiServiceUrl + '/api/projects/search?';
+        const inputQuery = this.getInputTextQuery(search);
+        if (inputQuery) {
+            queryString += '&' + inputQuery;
+        }
+        url = url + queryString;
+        console.log('url-->', url);
+        return this.http.get<SearchResult[]>(url);
+    }
+
+    private executeSearchByFile(search: Search, queryString: string): Observable<SearchResult[]> {
+        let url = this.apiServiceUrl + '/api/projects/search?';
+        const inputDefinition = search.inputDefinition;
+        let file;
+        if (inputDefinition) {
+            if (inputDefinition.type && inputDefinition.type === 'file') {
+                file = inputDefinition.value;
+            }
+        }
+        url = url + queryString;
+        const formData: FormData = new FormData();
+        formData.append('file', file, file.name);
+        return this.http.post<SearchResult[]>(url, formData);
+    }
+
+    buildFilterParameters(filters: SearchFilter) {
+        const filterParameters = [];
+        if (filters) {
+            Object.keys(filters).map(key => {
+                const content = filters[key];
+                if (content && content.length > 0) {
+                    const filterContent = key + '=' + content.join(',');
+                    filterParameters.push(filterContent);
+                }
+
+            });
+        }
+        return filterParameters.join('&');
+    }
+
     search(search: Search, pageNumber: number): Observable<SearchResult[]> {
         const parameters = this.buildParameters(search, pageNumber);
         let url = this.apiServiceUrl + '/api/projects/search';
 
         url = parameters == null ? url : url + parameters;
+        console.log('URL', url);
+
         return this.http.get<SearchResult[]>(url);
     }
 
@@ -73,24 +155,24 @@ export class SearchService {
 
     private getWorkUnitsNamesParameter(search: Search): string {
         let workUnitNamesParameter = null;
-        if (search.filters.get('workUnitName')) {
-            workUnitNamesParameter = search.filters.get('workUnitName').map(x => 'workUnitName=' + x.trim()).join('&');
+        if (search.filters.workUnitNames) {
+            workUnitNamesParameter = search.filters.workUnitNames.map(x => 'workUnitName=' + x.trim()).join('&');
         }
         return workUnitNamesParameter;
     }
 
     private getWorkGroupNamesParameter(search: Search): string {
         let workGroupNamesParameter = null;
-        if (search.filters.get('workGroupName')) {
-            workGroupNamesParameter = search.filters.get('workGroupName').map(x => 'workGroupName=' + x.trim()).join('&');
+        if (search.filters.workGroupNames) {
+            workGroupNamesParameter = search.filters.workGroupNames.map(x => 'workGroupName=' + x.trim()).join('&');
         }
         return workGroupNamesParameter;
     }
 
     private getPrivaciesParameter(search: Search): string {
         let privaciesParameter = null;
-        if (search.filters.get('privacyName')) {
-            privaciesParameter = search.filters.get('privacyName').map(x => 'privacyName=' + x.trim()).join('&');
+        if (search.filters.privacyNames) {
+            privaciesParameter = search.filters.privacyNames.map(x => 'privacyName=' + x.trim()).join('&');
         }
         return privaciesParameter;
     }

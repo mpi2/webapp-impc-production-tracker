@@ -3,7 +3,7 @@ import { MatDialog, MatSidenav } from '@angular/material';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, share, startWith} from 'rxjs/operators';
-import { Filter } from 'src/app/feature-modules/filters/model/filter';
+import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { ListContentComponent } from '../list-content/list-content.component';
 
 @Component({
@@ -26,7 +26,7 @@ export class ListManagementComponent implements OnInit {
   currentConsortium: string = undefined;
   canUpdateList: boolean;
 
-  filters: Filter[];
+  filters: FilterDefinition[];
 
   @ViewChild('drawer', { static: false }) drawer: MatSidenav;
   @ViewChild('listContent', { static: false }) listContent: ListContentComponent;

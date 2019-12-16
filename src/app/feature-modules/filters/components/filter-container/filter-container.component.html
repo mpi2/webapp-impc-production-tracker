@@ -1,5 +1,5 @@
 <h3>Filter</h3>
-<form [formGroup]="filterForm">
+<form *ngIf="filters" [formGroup]="filterForm">
     <mat-expansion-panel class="sidenav-section" [expanded]="filter.expanded" *ngFor="let filter of filters">
         <mat-expansion-panel-header>
             <mat-panel-title>

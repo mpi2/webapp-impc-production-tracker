@@ -1,4 +1,4 @@
-export class Filter {
+export class FilterDefinition {
     name: string;
     title: string;
     label?: string;
