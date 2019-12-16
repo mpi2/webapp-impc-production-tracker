@@ -1,0 +1,27 @@
+<mat-card>
+    <mat-card-title>Projects search</mat-card-title>
+    <mat-card-subtitle>Enter marker symbols/MGI accession ids or upload a file with the terms to search:
+    </mat-card-subtitle>
+    <mat-card-content>
+        <form class="form">
+            <mat-form-field class="full-width">
+                <textarea matInput
+                    id="input"
+                    [(ngModel)]="textAreaContent"
+                    (blur)="onInputTextChanged($event)"
+                    [ngModelOptions]="{standalone: true}"
+                    rows="2"
+                    placeholder="Enter marker symbol or MGI Accession ID.">
+                </textarea>
+                <mat-hint> E.g: MGI:1888496, Atrx, Lbr</mat-hint>
+            </mat-form-field>
+        </form>
+        <div>or</div>
+        <input class="loaderButton" type="file" #csvReader name="Upload CSV" id="txtFileUpload"
+            (change)="fileSelected($event)" accept=".csv" />
+
+    </mat-card-content>
+    <mat-card-actions>
+        <button mat-raised-button color="primary" (click)="search()">Search</button>
+    </mat-card-actions>
+</mat-card>

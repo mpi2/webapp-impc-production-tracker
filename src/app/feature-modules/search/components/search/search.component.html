@@ -1,196 +1,114 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
+
+
+<button mat-button (click)="toogleShowFilters()">
+  <mat-icon>filter_list</mat-icon> {{ filterVisible ? 'Hide Filters' : 'Show Filters' }}
+</button>
+
+
 <mat-sidenav-container>
-  <mat-sidenav mode="side" opened>
-    <div class="col-md-10 offset-md-1">
-      <form [formGroup]="searchForm" (ngSubmit)="onSubmit($event)">
-        <mat-card>
-          <div class="form-group">
-            <mat-form-field>
-              <mat-label>Gene symbol (s)</mat-label>
-              <input matInput placeholder="Input" formControlName="geneSymbol">
-            </mat-form-field>
-
-            <button mat-raised-button color="primary">Search</button>
-            <mat-spinner *ngIf="isLoading"></mat-spinner>
-          </div>
-        </mat-card>
-
-        <mat-card *ngIf="false">
-          <mat-card-content style="width: 100px">
-            <label>Search Type:</label>
-            <div>
-              <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group"
-                [(ngModel)]="selectedSearchType" [ngModelOptions]="{standalone: true}">
-                <mat-radio-button class="example-radio-button" *ngFor="let searchType of searchTypes"
-                  [value]="searchType">
-                  {{searchType}}
-                </mat-radio-button>
-              </mat-radio-group>
-            </div>
-          </mat-card-content>
-        </mat-card>
-
-        <h3>Filters</h3>
-        <mat-accordion>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Work units
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <input id="workUnitsSelectAll" class="form-check-input" type="checkbox" checked
-              (change)="checkUncheckWorkUnits($event)">
-            <label class="form-check-label" style="font-size: small;">
-              <strong>Select/ Unselect All</strong>
-            </label>
-
-            <div *ngFor="let workUnit of workUnits">
-              <div class="form-check-inline">
-
-                <input id="{{getIdFromWorkUnitName(workUnit.name)}}" class="form-check-input" type="checkbox"
-                  value="{{ workUnit.name }}" checked (change)="onCheckedWorkUnitElement(workUnit)" />
-                <label class="form-check-label" style="font-size: small;">
-                  {{ workUnit.name }}
-                </label>
-              </div>
-            </div>
-
-          </mat-expansion-panel>
-
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title>
-                Work groups
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-            <div>
-              <input id="workGroupsSelectAll" class="form-check-input" type="checkbox" checked
-                (change)="checkUncheckWorkGroups($event)">
-              <label class="form-check-label" style="font-size: small;">
-                <strong>Select/ Unselect All</strong>
-              </label>
-            </div>
-
-            <div *ngFor="let workGroup of workGroups">
-              <div class="form-check-inline">
-                <input id="{{getIdFromWorkGroupName(workGroup.name)}}" class="form-check-input" type="checkbox"
-                  value="{{ workGroup.name }}" checked (change)="onCheckedWorkGroupElement(workGroup)" />
-                <label class="form-check-label" style="font-size: small;">
-                  {{ workGroup.name }}
-                </label>
-              </div>
-            </div>
-
-          </mat-expansion-panel>
-        </mat-accordion>
-      </form>
-    </div>
+  <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
+    <app-filter-container *ngIf="filters" [filters]="filters"></app-filter-container>
   </mat-sidenav>
-
   <mat-sidenav-content>
-    <div class="example-container mat-elevation-z8">
-      <div class="example-loading-shade" *ngIf="isLoading || isRateLimitReached">
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
-        <div class="example-rate-limit-reached" *ngIf="isRateLimitReached">
-          The API rate limit has been reached. It will be reset in one minute.
-        </div>
-      </div>
 
-      <div class="example-table-container">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" width="100%">
+    <app-search-input (inputTextChanged)="onInputTextChanged($event)" (newInputFileSelected)="onInputFileSelected($event)" (searchDefined)="onSearchDefined($event)"></app-search-input>
 
-          <ng-container matColumnDef="Search term">
-            <th mat-header-cell *matHeaderCellDef>Search term</th>
-            <td mat-cell *matCellDef="let searchResult">{{searchResult.input}}</td>
-          </ng-container>
+    <div class="example-table-container">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" width="100%">
 
-          <ng-container matColumnDef="Search Result Comments">
-            <th mat-header-cell *matHeaderCellDef>Search Result comments</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <div *ngFor="let comment of searchResult.searchResultComments">
-                {{ comment }}
+        <ng-container matColumnDef="Search term">
+          <th mat-header-cell *matHeaderCellDef>Search term</th>
+          <td mat-cell *matCellDef="let searchResult">{{searchResult.input}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="Search Result Comments">
+          <th mat-header-cell *matHeaderCellDef>Search Result comments</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngFor="let comment of searchResult.searchResultComments">
+              {{ comment }}
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Project summary">
+          <th mat-header-cell *matHeaderCellDef>Project summary</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <a *ngIf="searchResult.project" routerLink="/projects/{{ searchResult.project.tpn }}">Summary</a>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Allele Intentions">
+          <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+              <div *ngFor="let intention of searchResult.project.projectIntentions">
+                {{ intention.alleleTypeName }}
               </div>
-            </td>
-          </ng-container>
+            </div>
 
-          <ng-container matColumnDef="Project summary">
-            <th mat-header-cell *matHeaderCellDef>Project summary</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <a *ngIf="searchResult.project" routerLink="/projects/{{ searchResult.project.tpn }}">Summary</a>
-            </td>
-          </ng-container>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="Allele Intentions">
-            <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <div *ngIf="searchResult.project">
-                <div *ngFor="let intention of searchResult.project.projectIntentions">
-                  {{ intention.alleleTypeName }}
+        <ng-container matColumnDef="Gene Symbol / Location">
+          <th mat-header-cell *matHeaderCellDef>Gene Symbol / Location</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+              <div *ngFor="let projectIntention of searchResult.project.projectIntentions">
+                {{getTargetText(projectIntention)}}
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Best Ortholog">
+          <th mat-header-cell *matHeaderCellDef>Best Ortholog</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+              <div *ngFor="let projectIntention of searchResult.project.projectIntentions">
+                <div *ngFor="let ortholog of projectIntention.intentionByGene.bestOrthologs">
+                  {{ ortholog.symbol }}
                 </div>
               </div>
+            </div>
+          </td>
+        </ng-container>
 
-            </td>
-          </ng-container>
+        <ng-container matColumnDef="Project Assignment">
+          <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">{{ searchResult.project.assignmentStatusName }}</div>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="Gene Symbol / Location">
-            <th mat-header-cell *matHeaderCellDef>Gene Symbol / Location</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <div *ngIf="searchResult.project">
-                <div *ngFor="let projectIntention of searchResult.project.projectIntentions">
-                  {{getTargetText(projectIntention)}}
-                </div>
+        <ng-container matColumnDef="Privacy">
+          <th mat-header-cell *matHeaderCellDef>Privacy</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">{{ searchResult.project.privacyName }}</div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Access Restriction">
+          <th mat-header-cell *matHeaderCellDef>Access Status</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+              <div *ngIf="searchResult.project && searchResult.project.isObjectRestricted; else checkedAccess">
+                <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false"
+                  aria-label="icon">block</mat-icon>
               </div>
-            </td>
-          </ng-container>
+              <ng-template #checkedAccess>
+                <mat-icon aria-hidden="false" aria-label="icon">check</mat-icon>
+              </ng-template>
+            </div>
+          </td>
+        </ng-container>
 
-          <ng-container matColumnDef="Best Ortholog">
-            <th mat-header-cell *matHeaderCellDef>Best Ortholog</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <div *ngIf="searchResult.project">
-                <div *ngFor="let projectIntention of searchResult.project.projectIntentions">
-                    <div *ngFor="let ortholog of projectIntention.intentionByGene.bestOrthologs">
-                        {{ ortholog.symbol }}
-                      </div>
-                </div>
-              </div>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="Project Assignment">
-            <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <div *ngIf="searchResult.project">{{ searchResult.project.assignmentStatusName }}</div>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="Privacy">
-            <th mat-header-cell *matHeaderCellDef>Privacy</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <div *ngIf="searchResult.project">{{ searchResult.project.privacyName }}</div>
-            </td>
-          </ng-container>
-
-          <ng-container matColumnDef="Access Restriction">
-            <th mat-header-cell *matHeaderCellDef>Access Status</th>
-            <td mat-cell *matCellDef="let searchResult">
-              <div *ngIf="searchResult.project">
-                <div *ngIf="searchResult.project && searchResult.project.isObjectRestricted; else checkedAccess">
-                  <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false"
-                    aria-label="icon">block</mat-icon>
-                </div>
-                <ng-template #checkedAccess>
-                  <mat-icon aria-hidden="false" aria-label="icon">check</mat-icon>
-                </ng-template>
-              </div>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
-      <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
-        id="server"></mat-paginator>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
     </div>
+    <mat-paginator (page)="getPage(this.paginator.pageIndex, filters)" [length]="page.totalElements" [pageSize]="page.size"
+      id="server"></mat-paginator>
   </mat-sidenav-content>
 </mat-sidenav-container>

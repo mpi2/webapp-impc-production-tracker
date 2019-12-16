@@ -1,12 +1,16 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import { MatPaginator, MatSort, MatDialog } from '@angular/material';
+import { MatPaginator, MatSort, MatDialog, MatSidenav } from '@angular/material';
 import { SearchService, Search } from '../..';
-import { SearchBuilder } from '../../services/search.builder';
 import { SearchResult } from '../../model/search.result';
 import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
 import { ProjectIntention } from 'src/app/model/bio/project-intention';
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
+import { Observable } from 'rxjs';
+import { map, share, startWith } from 'rxjs/operators';
+import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
+import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 
 class CheckboxElement implements NamedValue {
   name: string;
@@ -18,12 +22,15 @@ class CheckboxElement implements NamedValue {
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit {
+export class SearchComponent implements OnInit, AfterViewInit {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
+  @ViewChild('drawer', { static: false }) drawer: MatSidenav;
 
   selectedSearchType = 'gene';
+
+  inputSearchDefinition: any = undefined;
 
   dataSource: SearchResult[];
 
@@ -41,85 +48,97 @@ export class SearchComponent implements OnInit {
   checkedList: any;
   myTextarea: string;
   configurationData: ConfigurationData;
+  filterVisible = false;
+  filters: FilterDefinition[];
 
   error;
   isLoading = true;
   isRateLimitReached = false;
 
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      share(),
+      startWith(false)
+    );
+
   constructor(
-    private formBuilder: FormBuilder,
+    private breakpointObserver: BreakpointObserver,
     private searchService: SearchService,
     private configurationDataService: ConfigurationDataService,
     private loggedUserService: LoggedUserService,
+    private filterService: FilterService,
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.searchForm = this.formBuilder.group({
-      geneSymbol: ['']
-    });
-
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.initFiltersValues();
+      this.setupFilters();
     });
     this.isLoading = true;
-    this.getPage(0);
+    this.getPage(0, {});
   }
 
-  initFiltersValues(): void {
-    this.workUnits = this.configurationData.workUnits.map(x => {
-      const workUnit: CheckboxElement = new CheckboxElement();
-      workUnit.name = x;
-      workUnit.isSelected = true;
-      return workUnit;
-    });
-    this.workGroups = this.configurationData.workGroups.map(x => {
-      const workGroup: CheckboxElement = new CheckboxElement();
-      workGroup.name = x;
-      workGroup.isSelected = true;
-      return workGroup;
+  ngAfterViewInit() {
+    this.filterService.filterChange.subscribe(filters => {
+      this.getPage(0, filters);
     });
   }
 
-  public getPage(pageNumber: number): void {
-    const geneSymbols = this.getGeneSymbolsAsArray();
-    const workUnitsNames = this.getWorkUnitFilter();
-    const workGroupNames = this.getWorkGroupFilter();
-    const searchType = this.getSearchType();
-    this.isLoading = true;
+  toogleShowFilters() {
+    this.filterVisible = !this.filterVisible;
+  }
 
-    let search: Search;
-    /* tslint:disable:no-string-literal */
-    if (this.loggedUserService.getLoggerUser()) {
-      search = SearchBuilder.getInstance()
-        .withSearchType(searchType)
-        .withInputs(geneSymbols)
-        .withWorkUnitsNames(workUnitsNames)
-        .withWorkGroupNames(workGroupNames)
-        .build();
-    } else {
-      search = SearchBuilder.getInstance()
-        .withSearchType(searchType)
-        .withInputs(geneSymbols)
-        .withPrivacies(['public'])
-        .withWorkUnitsNames(workUnitsNames)
-        .withWorkGroupNames(workGroupNames)
-        .build();
+  setupFilters() {
+    const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
+    this.filters = [
+      {
+        title: 'Work Units',
+        name: 'workUnitName',
+        type: 'checkboxes',
+        dataSource: workUnitNames
+      }
+    ];
+  }
+
+  onSearchDefined(e) {
+    this.inputSearchDefinition = e;
+    this.getPage(0, this.filters);
+  }
+
+  onInputTextChanged(e) {
+    this.inputSearchDefinition = { type: 'text', value: e };
+  }
+
+  onInputFileSelected(e) {
+    this.inputSearchDefinition = { type: 'file', value: e };
+  }
+
+  public getPage(pageNumber: number, filters): void {
+    const search: Search = new Search();
+    search.filters = filters;
+    search.inputDefinition = this.inputSearchDefinition ? this.inputSearchDefinition : ({ type: 'text' });
+    search.searchType = this.getSearchType();
+    if (!this.loggedUserService.getLoggerUser()) {
+      search.setPrivacies(['public']);
     }
-    console.log(search);
-
-    this.searchService.search(search, pageNumber).subscribe(data => {
-      this.dataSource = data['results'];
-      this.dataSource.map(x => this.buildSearchResultComments(x));
-      this.refreshVisibleColumns();
-      this.page = data['page'];
-
+    this.searchService.executeSearch(search, pageNumber).subscribe(data => {
       this.error = '';
       this.isLoading = false;
+      this.processResponseData(data);
     }, error => {
       this.error = error;
       this.isLoading = false;
     });
+  }
+
+  private processResponseData(data: SearchResult[]) {
+    /* tslint:disable:no-string-literal */
+    this.dataSource = data['results'];
+    this.dataSource.map(x => this.buildSearchResultComments(x));
+    this.refreshVisibleColumns();
+    this.page = data['page'];
     /* tslint:enable:no-string-literal */
   }
 
@@ -146,30 +165,16 @@ export class SearchComponent implements OnInit {
     return this.selectedSearchType;
   }
 
-  private getWorkUnitFilter(): string[] {
-    const workUnitSelectAll = document.querySelector('#workUnitsSelectAll') as HTMLInputElement;
-    let selectedWorkUnits = [];
-    if (!workUnitSelectAll.checked) {
-      selectedWorkUnits = this.workUnits.filter(x => x.isSelected).map(element => element.name);
-    }
-    return selectedWorkUnits;
-  }
-
-  private getWorkGroupFilter(): string[] {
-    const workGroupSelectAll = document.querySelector('#workGroupsSelectAll') as HTMLInputElement;
-    let selectedWorkGroups = [];
-    if (!workGroupSelectAll.checked) {
-      selectedWorkGroups = this.workGroups.filter(x => x.isSelected).map(element => element.name);
-    }
-    return selectedWorkGroups;
-  }
-
   getGeneSymbolsAsArray(): string[] {
-    if (this.searchForm.get('geneSymbol').value) {
-      const input: string = this.searchForm.get('geneSymbol').value;
-      const geneSymbols = input.split(',');
-      geneSymbols.map(x => x.trim());
-      return geneSymbols;
+    if (this.inputSearchDefinition) {
+      if (this.inputSearchDefinition.type === 'text') {
+        const input: string = this.inputSearchDefinition.value;
+        if (input !== '') {
+          const geneSymbols = input.split(',');
+          geneSymbols.map(x => x.trim());
+          return geneSymbols;
+        }
+      }
     }
     return [];
   }
@@ -208,12 +213,6 @@ export class SearchComponent implements OnInit {
     workGroupSelectAll.checked = this.workGroups.filter(x => x.isSelected).length === this.workGroups.length;
 
     return isSelected;
-  }
-
-  onSubmit(e) {
-    if (this.validSearch()) {
-      this.getPage(0);
-    }
   }
 
   private validSearch(): boolean {
