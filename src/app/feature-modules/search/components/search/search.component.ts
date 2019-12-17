@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { map, share, startWith } from 'rxjs/operators';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
+import { Page } from 'src/app/model/page_structure/page';
 
 @Component({
   selector: 'app-search',
@@ -25,7 +26,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   inputSearchDefinition: any = undefined;
   dataSource: SearchResult[];
   displayedColumns: string[] = [];
-  page: any = {};
+  page: Page = { number: 0, size: 20 };
   searchTypes: string[] = ['gene'];
   configurationData: ConfigurationData;
   filterVisible = false;
@@ -56,12 +57,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.setupFilters();
     });
     this.isLoading = true;
-    this.getPage(0, {});
+    this.getPage(this.page, {});
   }
 
   ngAfterViewInit() {
     this.filterService.filterChange.subscribe(filters => {
-      this.getPage(0, filters);
+      this.getPage(this.page, filters);
     });
   }
 
@@ -83,7 +84,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onSearchDefined(e) {
     this.inputSearchDefinition = e;
-    this.getPage(0, this.filters);
+    this.getPage(this.page, this.filters);
   }
 
   onInputTextChanged(e) {
@@ -94,7 +95,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.inputSearchDefinition = { type: 'file', value: e };
   }
 
-  public getPage(pageNumber: number, filters): void {
+  public getPage(page: Page, filters): void {
     const search: Search = new Search();
     search.filters = filters;
     search.inputDefinition = this.inputSearchDefinition ? this.inputSearchDefinition : ({ type: 'text' });
@@ -102,7 +103,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     if (!this.loggedUserService.getLoggerUser()) {
       search.setPrivacies(['public']);
     }
-    this.searchService.executeSearch(search, pageNumber).subscribe(data => {
+    this.searchService.executeSearch(search, page).subscribe(data => {
       this.error = '';
       this.isLoading = false;
       this.processResponseData(data);
@@ -112,6 +113,12 @@ export class SearchComponent implements OnInit, AfterViewInit {
     });
   }
 
+  public onPaginatorChanged(paginator: MatPaginator) {
+    this.page.number = paginator.pageIndex;
+    this.page.size = paginator.pageSize;
+    this.getPage(this.page, this.filters);
+  }
+
   private processResponseData(data: SearchResult[]) {
     /* tslint:disable:no-string-literal */
     this.dataSource = data['results'];
@@ -119,6 +126,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.updateInputIfSearchedByFile();
     this.refreshVisibleColumns();
     this.page = data['page'];
+    console.log('this.page', this.page);
+
     /* tslint:enable:no-string-literal */
   }
 

@@ -5,6 +5,7 @@ import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loa
 import { Observable } from 'rxjs';
 import { Search } from '../model/search';
 import { SearchFilter } from '../model/search-filter';
+import { Page } from 'src/app/model/page_structure/page';
 
 @Injectable({
     providedIn: 'root'
@@ -20,10 +21,10 @@ export class SearchService {
         return this.http.get<SearchResult[]>(this.apiServiceUrl + '/api/projects/search');
     }
 
-    public executeSearch(search: Search, pageNumber: number): Observable<SearchResult[]> {
+    public executeSearch(search: Search, page: Page): Observable<SearchResult[]> {
         const query: string[] = [];
         query.push(this.searchTypeQuery(search));
-        query.push(this.getPaginationQuery(pageNumber));
+        query.push(this.getPaginationQuery(page));
         query.push(this.getFilterQuery(search));
 
         if (search.inputDefinition.type === 'text') {
@@ -37,8 +38,12 @@ export class SearchService {
         return 'searchTypeName=' + search.searchType;
     }
 
-    private getPaginationQuery(pageNumber: number) {
-        return 'page=' + pageNumber;
+    private getPaginationQuery(page: Page) {
+        let query = 'page=' + page.number;
+        if (page.size) {
+            query += '&size=' + page.size;
+        }
+        return query;
     }
 
     private getFilterQuery(search: Search) {
