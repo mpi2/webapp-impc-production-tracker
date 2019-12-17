@@ -152,7 +152,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   private getSearchDefinitionType(): string {
-    let type = undefined;
+    let type;
     if (this.inputSearchDefinition) {
       type = this.inputSearchDefinition.type;
     }
