@@ -96,6 +96,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   public getPage(page: Page, filters): void {
+    this.isLoading = true;
     const search: Search = new Search();
     search.filters = filters;
     search.inputDefinition = this.inputSearchDefinition ? this.inputSearchDefinition : ({ type: 'text' });

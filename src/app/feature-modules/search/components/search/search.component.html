@@ -13,10 +13,12 @@
   </mat-sidenav>
   <mat-sidenav-content>
 
-    <app-search-input (inputTextChanged)="onInputTextChanged($event)" (newInputFileSelected)="onInputFileSelected($event)" (searchDefined)="onSearchDefined($event)"></app-search-input>
+    <app-search-input (inputTextChanged)="onInputTextChanged($event)"
+      (newInputFileSelected)="onInputFileSelected($event)" (searchDefined)="onSearchDefined($event)"></app-search-input>
 
     <div class="example-table-container">
-      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" width="100%">
+      <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate"></mat-spinner>
+      <table *ngIf="!isLoading" mat-table [dataSource]="dataSource" class="mat-elevation-z8" width="100%">
 
         <ng-container matColumnDef="Search term">
           <th mat-header-cell *matHeaderCellDef>Search term</th>
@@ -109,6 +111,6 @@
       </table>
     </div>
     <mat-paginator (page)="onPaginatorChanged(this.paginator)" [length]="page.totalElements" [pageSize]="page.size"
-    [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
+      [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
   </mat-sidenav-content>
 </mat-sidenav-container>
