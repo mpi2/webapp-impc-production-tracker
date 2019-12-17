@@ -26,11 +26,12 @@ export class SearchService {
         query.push(this.searchTypeQuery(search));
         query.push(this.getPaginationQuery(page));
         query.push(this.getFilterQuery(search));
+        const queryAsParameters = query.join('&');
 
         if (search.inputDefinition.type === 'text') {
-            return this.executeSearchByText(search, query.join('&'));
+            return this.executeSearchByText(search, queryAsParameters);
         } else if (search.inputDefinition.type === 'file') {
-            return this.executeSearchByFile(search, query.join('&'));
+            return this.executeSearchByFile(search, queryAsParameters);
         }
     }
 
@@ -52,7 +53,6 @@ export class SearchService {
 
     private getInputTextQuery(search: Search) {
         let inputParameter;
-        console.log('search.inputDefinition===>', search.inputDefinition);
         let input: string = search.inputDefinition.value;
         if (input) {
             input = input.split(',').map(x => x.trim()).join(',');
