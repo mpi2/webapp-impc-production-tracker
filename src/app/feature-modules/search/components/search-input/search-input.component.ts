@@ -1,4 +1,4 @@
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-search-input',
@@ -9,6 +9,9 @@ export class SearchInputComponent implements OnInit {
   @Output() newInputFileSelected = new EventEmitter<any>();
   @Output() searchDefined = new EventEmitter<any>();
   @Output() inputTextChanged = new EventEmitter<boolean>();
+
+  @ViewChild('csvReader', { static: false }) csvReader: any;
+
   selectedFile: any = null;
   textAreaContent = '';
 
@@ -30,9 +33,9 @@ export class SearchInputComponent implements OnInit {
     console.log(this.textAreaContent);
     let searchInput;
     if (this.selectedFile) {
-      searchInput = {type: 'file', value: this.selectedFile };
+      searchInput = { type: 'file', value: this.selectedFile };
     } else {
-      searchInput = {type: 'text', value: this.textAreaContent };
+      searchInput = { type: 'text', value: this.textAreaContent };
     }
     this.searchDefined.emit(searchInput);
   }
@@ -43,6 +46,12 @@ export class SearchInputComponent implements OnInit {
 
   onInputTextChanged(event) {
     this.inputTextChanged.emit(event.target.value);
+    this.clearAnySelectedFile();
   }
 
+  clearAnySelectedFile() {
+    console.log('clear file!', this.csvReader);
+    this.csvReader.nativeElement.value = '';
+    this.selectedFile = null;
+  }
 }

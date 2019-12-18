@@ -9,17 +9,25 @@
                     id="input"
                     [(ngModel)]="textAreaContent"
                     (blur)="onInputTextChanged($event)"
+                    (change)="clearAnySelectedFile()"
                     [ngModelOptions]="{standalone: true}"
                     rows="2"
                     placeholder="Enter marker symbol or MGI Accession ID.">
                 </textarea>
+                <button mat-button *ngIf="textAreaContent" matSuffix mat-icon-button aria-label="Clear" (click)="textAreaContent=''">
+                    <mat-icon>close</mat-icon>
+                  </button>
                 <mat-hint> E.g: MGI:1888496, Atrx, Lbr</mat-hint>
             </mat-form-field>
         </form>
         <div>or</div>
-        <input class="loaderButton" type="file" #csvReader name="Upload CSV" id="txtFileUpload"
+        <div>
+            <input class="loaderButton" type="file" #csvReader name="Upload CSV" id="txtFileUpload"
             (change)="fileSelected($event)" accept=".csv" />
-
+            <button  mat-button *ngIf="this.selectedFile" matSuffix mat-icon-button aria-label="Clear" (click)="clearAnySelectedFile()">
+                <mat-icon class="small-button">close</mat-icon>
+              </button>
+        </div>
     </mat-card-content>
     <mat-card-actions>
         <button mat-raised-button color="primary" (click)="search()">Search</button>

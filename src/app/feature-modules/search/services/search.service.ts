@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SearchResult } from '../model/search.result';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loader.service';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Search } from '../model/search';
 import { SearchFilter } from '../model/search-filter';
 import { Page } from 'src/app/model/page_structure/page';
@@ -22,17 +22,23 @@ export class SearchService {
     }
 
     public executeSearch(search: Search, page: Page): Observable<SearchResult[]> {
-        const query: string[] = [];
-        query.push(this.searchTypeQuery(search));
-        query.push(this.getPaginationQuery(page));
-        query.push(this.getFilterQuery(search));
-        const queryAsParameters = query.join('&');
+        const queryAsParameters = this.buildQueryParameters(search, page);
 
         if (search.inputDefinition.type === 'text') {
             return this.executeSearchByText(search, queryAsParameters);
         } else if (search.inputDefinition.type === 'file') {
             return this.executeSearchByFile(search, queryAsParameters);
         }
+    }
+
+    private buildQueryParameters(search: Search, page: Page): string {
+        const query: string[] = [];
+        query.push(this.searchTypeQuery(search));
+        if (page) {
+            query.push(this.getPaginationQuery(page));
+        }
+        query.push(this.getFilterQuery(search));
+        return query.join('&');
     }
 
     private searchTypeQuery(search: Search) {
@@ -76,17 +82,26 @@ export class SearchService {
 
     private executeSearchByFile(search: Search, queryString: string): Observable<SearchResult[]> {
         let url = this.apiServiceUrl + '/api/projects/search?';
+        const file = this.getFileFromSearch(search);
+        url = url + queryString;
+        const formData: FormData = this.buildFormDataForFile(file);
+
+        return this.http.post<SearchResult[]>(url, formData);
+    }
+
+    private getFileFromSearch(search: Search) {
         const inputDefinition = search.inputDefinition;
         let file;
-        if (inputDefinition) {
-            if (inputDefinition.type && inputDefinition.type === 'file') {
-                file = inputDefinition.value;
-            }
+        if (this.isSearchByFile(search)) {
+            file = inputDefinition.value;
         }
-        url = url + queryString;
+        return file;
+    }
+
+    private buildFormDataForFile(file) {
         const formData: FormData = new FormData();
         formData.append('file', file, file.name);
-        return this.http.post<SearchResult[]>(url, formData);
+        return formData;
     }
 
     buildFilterParameters(filters: SearchFilter) {
@@ -104,81 +119,52 @@ export class SearchService {
         return filterParameters.join('&');
     }
 
-    search(search: Search, pageNumber: number): Observable<SearchResult[]> {
-        const parameters = this.buildParameters(search, pageNumber);
-        let url = this.apiServiceUrl + '/api/projects/search';
-
-        url = parameters == null ? url : url + parameters;
-        console.log('URL', url);
-
-        return this.http.get<SearchResult[]>(url);
+    private isSearchByText(search: Search) {
+        return 'text' === this.getSearchInputType(search);
     }
 
-    private buildParameters(search: Search, pageNumber: number): string {
-        let queryParameters = '?page=' + pageNumber;
-        const searchTypeParameter = this.getSearchTypeParameter(search);
-        const inputsParameter = this.getInputsParameter(search);
-        const workUnitNamesParameter = this.getWorkUnitsNamesParameter(search);
-        const workGroupNamesParameter = this.getWorkGroupNamesParameter(search);
-        const privaciesParameter = this.getPrivaciesParameter(search);
-
-        if (searchTypeParameter) {
-            queryParameters += '&' + searchTypeParameter;
-        }
-        if (inputsParameter) {
-            queryParameters += '&' + inputsParameter;
-        }
-        if (workUnitNamesParameter) {
-            queryParameters += '&' + workUnitNamesParameter;
-        }
-        if (workGroupNamesParameter) {
-            queryParameters += '&' + workGroupNamesParameter;
-        }
-        if (privaciesParameter) {
-            queryParameters += '&' + privaciesParameter;
-        }
-        console.log('queryParameters', queryParameters);
-
-        return queryParameters;
+    private isSearchByFile(search: Search) {
+        return 'file' === this.getSearchInputType(search);
     }
 
-    private getSearchTypeParameter(search: Search): string {
-        let searchTypeParameter = null;
-        if (search.searchType) {
-            searchTypeParameter = 'searchTypeName=' + search.searchType;
+    private getSearchInputType(search: Search) {
+        let type;
+        if (search) {
+            const inputDefinition = search.inputDefinition;
+            if (inputDefinition) {
+                type = search.inputDefinition.type;
+            }
         }
-        return searchTypeParameter;
+        return type;
     }
 
-    private getInputsParameter(search: Search): string {
-        let inputsParameter = null;
-        if (search.inputs) {
-            inputsParameter = search.inputs.map(x => 'input=' + x.trim()).join('&');
+    public exportCsv(search: Search) {
+        if (this.isSearchByText(search)) {
+            return this.exportCsvForTextInputSearch(search);
+        } else if (this.isSearchByFile(search)) {
+            return this.exportCsvForFileInputSearch(search);
         }
-        return inputsParameter;
     }
 
-    private getWorkUnitsNamesParameter(search: Search): string {
-        let workUnitNamesParameter = null;
-        if (search.filters.workUnitNames) {
-            workUnitNamesParameter = search.filters.workUnitNames.map(x => 'workUnitName=' + x.trim()).join('&');
+    private exportCsvForTextInputSearch(search: Search) {
+        const inputQuery = this.getInputTextQuery(search);
+        let queryAsParameters = this.buildQueryParameters(search, null);
+        if (inputQuery) {
+            queryAsParameters += '&' + inputQuery;
         }
-        return workUnitNamesParameter;
+        let url = this.apiServiceUrl + '/api/projects/search/exportSearch?';
+        url += queryAsParameters;
+        return this.http.get(url, { responseType: 'text' });
     }
 
-    private getWorkGroupNamesParameter(search: Search): string {
-        let workGroupNamesParameter = null;
-        if (search.filters.workGroupNames) {
-            workGroupNamesParameter = search.filters.workGroupNames.map(x => 'workGroupName=' + x.trim()).join('&');
-        }
-        return workGroupNamesParameter;
-    }
+    private exportCsvForFileInputSearch(search: Search) {
+        let url = this.apiServiceUrl + '/api/projects/search/exportSearchByFile?';
+        const queryAsParameters = this.buildQueryParameters(search, null);
+        url += queryAsParameters;
+        const file = this.getFileFromSearch(search);
+        const formData: FormData = this.buildFormDataForFile(file);
+        console.log('url?', url);
 
-    private getPrivaciesParameter(search: Search): string {
-        let privaciesParameter = null;
-        if (search.filters.privacyNames) {
-            privaciesParameter = search.filters.privacyNames.map(x => 'privacyName=' + x.trim()).join('&');
-        }
-        return privaciesParameter;
+        return this.http.post(url, formData, { responseType: 'text' });
     }
 }

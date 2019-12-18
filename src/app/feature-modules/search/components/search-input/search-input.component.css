@@ -11,4 +11,9 @@
   .loaderButton {
     font-size: 14px;
     font-weight: 500;
+    width: 200px;
 }
+.small-button {
+  font-size: 14px;
+}
+
