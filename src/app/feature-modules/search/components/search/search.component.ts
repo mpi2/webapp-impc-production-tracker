@@ -10,6 +10,7 @@ import { map, share, startWith } from 'rxjs/operators';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 import { Page } from 'src/app/model/page_structure/page';
+import { SearchFilter } from '../../model/search-filter';
 
 @Component({
   selector: 'app-search',
@@ -30,9 +31,11 @@ export class SearchComponent implements OnInit, AfterViewInit {
   searchTypes: string[] = ['gene'];
   configurationData: ConfigurationData;
   filterVisible = false;
-  filters: FilterDefinition[];
+  filtersDefinition: FilterDefinition[];
+  filters: SearchFilter;
   inputsByText: string[] = [];
   error;
+  downloading = false;
   isLoading = true;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -62,6 +65,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.filterService.filterChange.subscribe(filters => {
+      this.filters = filters;
       this.getPage(this.page, filters);
     });
   }
@@ -72,7 +76,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   setupFilters() {
     const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
-    this.filters = [
+    this.filtersDefinition = [
       {
         title: 'Work Units',
         name: 'workUnitName',
@@ -84,7 +88,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onSearchDefined(e) {
     this.inputSearchDefinition = e;
-    this.getPage(this.page, this.filters);
+    this.getPage(this.page, this.filtersDefinition);
   }
 
   onInputTextChanged(e) {
@@ -93,6 +97,34 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onInputFileSelected(e) {
     this.inputSearchDefinition = { type: 'file', value: e };
+  }
+
+  downloadCsv() {
+    this.downloading = true;
+    const search =  this.buildSearch();
+    this.searchService.exportCsv(search).subscribe(data => {
+      this.download('searchResults.csv', data);
+      this.downloading = false;
+      this.error = '';
+    },
+      error =>  {
+        this.error = error;
+        this.downloading = false;
+      }
+    );
+  }
+
+  download(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
   }
 
   public getPage(page: Page, filters): void {
@@ -114,10 +146,21 @@ export class SearchComponent implements OnInit, AfterViewInit {
     });
   }
 
+  private buildSearch() {
+    const search: Search = new Search();
+    search.filters = this.filters;
+    search.inputDefinition = this.inputSearchDefinition ? this.inputSearchDefinition : ({ type: 'text' });
+    search.searchType = this.getSearchType();
+    if (!this.loggedUserService.getLoggerUser()) {
+      search.setPrivacies(['public']);
+    }
+    return search;
+  }
+
   public onPaginatorChanged(paginator: MatPaginator) {
     this.page.number = paginator.pageIndex;
     this.page.size = paginator.pageSize;
-    this.getPage(this.page, this.filters);
+    this.getPage(this.page, this.filtersDefinition);
   }
 
   private processResponseData(data: SearchResult[]) {
@@ -127,8 +170,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
     this.updateInputIfSearchedByFile();
     this.refreshVisibleColumns();
     this.page = data['page'];
-    console.log('this.page', this.page);
-
+    console.log('this.dataSource ', this.dataSource);
     /* tslint:enable:no-string-literal */
   }
 
