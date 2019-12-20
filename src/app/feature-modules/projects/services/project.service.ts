@@ -42,8 +42,6 @@ export class ProjectService {
   public getProjects(filters: ProjectFilter, page: Page): Observable<Project[]> {
     const queryParameters = this.buildQueryParameters(filters, page);
     const url = this.apiServiceUrl + '/api/projects?' + queryParameters;
-    console.log('url-->', url);
-
     return this.http.get<Project[]>(url);
   }
 
@@ -77,80 +75,6 @@ export class ProjectService {
       query += '&size=' + page.size;
     }
     return query;
-  }
-
-  getPaginatedProjectsWithFilters(
-    page: number,
-    tpn: string,
-    markerSymbols: string[],
-    intentions: string[],
-    assignmentStatuses: string[],
-    workUnits: string[],
-    privacies: string[]) {
-    const queryParameters = this.buildFilterQueryParameters(tpn, markerSymbols, intentions, assignmentStatuses, workUnits, privacies);
-    const url = this.apiServiceUrl + '/api/projects?page=' + page + queryParameters;
-    return this.http.get<Project[]>(url);
-  }
-
-  buildFilterQueryParameters(
-    tpn: string,
-    markerSymbols: string[],
-    intentions: string[],
-    assignmentStatuses: string[],
-    workUnits: string[],
-    privacies: string[]) {
-
-    let markerSymbolsAsParameter = '';
-    let intentionsAsParameter = '';
-    let assignmentStatusesAsParameter = '';
-    let workUnitsAsParameter = '';
-    let privaciesAsParameter = '';
-
-    let tpnFilter = '';
-    if (tpn) {
-      tpnFilter = 'tpn=' + tpn.toUpperCase();
-    }
-
-    if (markerSymbols.length > 0) {
-      markerSymbolsAsParameter = markerSymbols.map(x => 'markerSymbol=' + x).filter(x => x).join('&');
-    }
-
-    if (intentions.length > 0) {
-      intentionsAsParameter = intentions.map(x => 'intention=' + x).filter(x => x).join('&');
-    }
-
-    if (assignmentStatuses.length > 0) {
-      assignmentStatusesAsParameter = assignmentStatuses.map(x => 'status=' + x).filter(x => x).join('&');
-    }
-
-    if (workUnits.length > 0) {
-      workUnitsAsParameter = workUnits.map(x => 'workUnitName=' + x).join('&');
-    }
-
-    if (privacies.length > 0) {
-      privaciesAsParameter = privacies.map(x => 'privacyName=' + x).join('&');
-    }
-
-    let queryParameters = '';
-    if (tpnFilter !== '') {
-      queryParameters += '&' + tpnFilter;
-    }
-    if (markerSymbolsAsParameter !== '') {
-      queryParameters += '&' + markerSymbolsAsParameter;
-    }
-    if (intentionsAsParameter !== '') {
-      queryParameters += '&' + intentionsAsParameter;
-    }
-    if (assignmentStatusesAsParameter !== '') {
-      queryParameters += '&' + assignmentStatusesAsParameter;
-    }
-    if (workUnitsAsParameter !== '') {
-      queryParameters += '&' + workUnitsAsParameter;
-    }
-    if (privaciesAsParameter !== '') {
-      queryParameters += '&' + privaciesAsParameter;
-    }
-    return queryParameters;
   }
 
   /**
