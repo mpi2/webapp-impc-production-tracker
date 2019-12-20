@@ -8,12 +8,15 @@ import { PlansModule } from '../plans/plans.module';
 import { GenesModule } from '../genes/genes.module';
 import { SequencesModule } from '../sequences/sequences.module';
 import { IntentionsModule } from '../intentions/intentions.module';
+import { ProjectListContentComponent } from './components/project-list-content/project-list-content.component';
+import { FiltersModule } from '../filters/filters.module';
 
 @NgModule({
   declarations: [
     CreateProjectComponent,
     ProjectListComponent,
-    ProjectDetailComponent
+    ProjectDetailComponent,
+    ProjectListContentComponent
   ],
   imports: [
     ProjectsRoutingModule,
@@ -21,6 +24,7 @@ import { IntentionsModule } from '../intentions/intentions.module';
     GenesModule,
     SequencesModule,
     IntentionsModule,
+    FiltersModule,
     SharedModule
   ]
 })

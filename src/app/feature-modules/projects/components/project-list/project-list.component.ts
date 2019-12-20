@@ -1,13 +1,14 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { first } from 'rxjs/operators';
-import { ProjectService } from '../../services/project.service';
-import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import { MatPaginator, MatSort } from '@angular/material';
-import { ProjectFilterService } from '../../services/project-filter.service';
+import { Component, OnInit } from '@angular/core';
+import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
+import { ProjectFilterService as projectFilterService } from '../../services/project-filter.service';
 import { Filter } from 'src/app/core/model/common/filter';
 import { ArrayFilter } from 'src/app/core/model/common/array-filter';
-import { Project, ProjectAdapter } from 'src/app/model/bio/project';
 import { User } from 'src/app/core/model/user/user';
+import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
+import { Observable } from 'rxjs';
+import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { map, share, startWith } from 'rxjs/operators';
+import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 
 @Component({
   selector: 'app-project-list',
@@ -15,13 +16,10 @@ import { User } from 'src/app/core/model/user/user';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
-
+  filtersDefinition: FilterDefinition[];
+  filterVisible = false;
+  downloading = false;
   isLoading = true;
-  projects: Project[] = [];
-  p = 0;
-  page: any = {};
 
   privacies: NamedValue[];
   intentions: NamedValue[];
@@ -44,175 +42,75 @@ export class ProjectListComponent implements OnInit {
   error;
   loggedUser: User = new User();
 
-  projectFilterService: ProjectFilterService = new ProjectFilterService();
+  projectFilterService: projectFilterService = new projectFilterService();
+
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(
+      map(result => result.matches),
+      share(),
+      startWith(false)
+    );
 
   constructor(
-    private projectService: ProjectService,
-    private adapter: ProjectAdapter,
-    private loggedUserService: LoggedUserService,
+    private breakpointObserver: BreakpointObserver,
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
     this.isLoading = true;
+    this.loadConfigurationData();
+  }
+
+  toogleShowFilters() {
+    this.filterVisible = !this.filterVisible;
+  }
+
+  private loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.initFiltersValues();
-      if (this.loggedUserService.getLoggerUser()) {
-        this.loggedUserService.getLoggerUser().subscribe(loggedUserData => {
-          this.loggedUser = loggedUserData;
-          this.getPage(0);
-        });
-      } else {
-        this.loggedUser = new User();
-        this.loggedUser.name = 'anonymous';
-        this.getPage(0);
-      }
-
-    }, error => {
-      console.log('error:', error);
-      this.error = error;
-      this.isLoading = false;
+      this.setupFilters();
     });
   }
 
-  private initFiltersValues(): void {
-    this.intentions = this.configurationData.alleleTypes.map(p => ({ name: p }));
-    this.assignmentStatuses = this.configurationData.assignmentStatuses.map(p => ({ name: p }));
-    this.privacies = this.configurationData.privacies.map(p => ({ name: p }));
-  }
-
-  getPage(pageNumber: number) {
-    this.isLoading = true;
-    const apiPageNumber = pageNumber;
-    const workUnitNameFilter = this.getWorkUnitNameFilter();
-
-    /* tslint:disable:no-string-literal */
-    this.projectService.getPaginatedProjectsWithFilters(
-      apiPageNumber,
-      this.tpnFilterObject.value,
-      this.getMarkerSymbolFilter(),
-      this.getIntentionsFilter(),
-      this.getAssignmentStatusesFilter(),
-      workUnitNameFilter,
-      this.getPrivaciesFilter()).pipe(first()).subscribe(data => {
-        if (data['_embedded']) {
-          this.projects = data['_embedded']['projectDToes'];
-          this.projects = this.projects.map(x => this.adapter.adapt(x));
-        } else {
-          this.projects = [];
-        }
-        this.page = data['page'];
-        this.p = pageNumber;
-        this.isLoading = false;
-        this.error = null;
+  setupFilters() {
+    const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
+    this.filtersDefinition = [
+      {
+        title: 'TPN',
+        name: 'tpn',
+        type: FilterType.Text
       },
-        error => {
-          this.isLoading = false;
-          this.error = error;
-        }
-      );
-      /* tslint:enable:no-string-literal */
+      {
+        title: 'External Reference',
+        name: 'texternalReference',
+        type: FilterType.Text
+      },
+      {
+        title: 'Gene',
+        name: 'gene',
+        type: FilterType.Text
+      },
+      {
+        title: 'Intention',
+        name: 'intention',
+        type: FilterType.Checkboxes
+      },
+      {
+        title: 'Work Units',
+        name: 'workUnitName',
+        type: FilterType.Checkboxes,
+        dataSource: workUnitNames
+      }
+    ];
   }
 
-  getWorkUnitNameFilter(): string[] {
-    const workUnitFilter = this.getWorkUnitsForLoggedUser();
-    return workUnitFilter;
+  downloadCsv() {
+    console.log('Still to be implemented');
+
   }
 
-  private getWorkUnitsForLoggedUser(): string[] {
-    const workUnitNames = [];
-    if (this.loggedUser.rolesWorkUnits) {
-      this.loggedUser.rolesWorkUnits.map(x => workUnitNames.push(x.workUnitName));
-    }
-    return workUnitNames;
-  }
-
-  filterWithTpn(filterInput) {
-    const currentFilterValue = this.tpnFilterObject.value;
-    this.projectFilterService.updateTpnFilter(this.tpnFilterObject, filterInput);
-    const newFilterValue = this.tpnFilterObject.value;
-    this.reloadIfValuesAreDifferent(currentFilterValue, newFilterValue);
-  }
-
-  cleanTpnlFilter() {
-    this.tpnFilterInput = '';
-    this.cleanFilter(this.tpnFilterObject);
-  }
-
-  filterWithMarkerSymbol(filterInput) {
-    const currentFilterValue = this.markerSymbolFilterObject.value;
-    this.projectFilterService.updateMarkerSymbolFilter(this.markerSymbolFilterObject, filterInput);
-    const newFilterValue = this.markerSymbolFilterObject.value;
-    this.reloadIfValuesAreDifferent(currentFilterValue, newFilterValue);
-  }
-
-  cleanMarkerSymbolFilter() {
-    this.markerSymbolFilterInput = '';
-    this.cleanFilter(this.markerSymbolFilterObject);
-  }
-
-  filterWithIntentions(filterInput) {
-    const currentFilterValue = this.intentionsFilterObject.values;
-    this.projectFilterService.updateIntentionsFilter(this.intentionsFilterObject, filterInput);
-    const newFilterValue = this.intentionsFilterObject.values;
-    this.reloadIfValuesAreDifferent(currentFilterValue, newFilterValue);
-  }
-
-  filterWithPrivacies(filterInput) {
-    const currentFilterValue = this.privaciesFilterObject.values;
-    this.projectFilterService.updatePrivaciesFilter(this.privaciesFilterObject, filterInput);
-    const newFilterValue = this.privaciesFilterObject.values;
-    this.reloadIfValuesAreDifferent(currentFilterValue, newFilterValue);
-  }
-
-  filterWithAssignmentStatuses(filterInput) {
-    const currentFilterValue = this.assignmentStatusesFilterObject.values;
-    this.projectFilterService.updateAssignmentStatusesFilter(this.assignmentStatusesFilterObject, filterInput);
-    const newFilterValue = this.assignmentStatusesFilterObject.values;
-    this.reloadIfValuesAreDifferent(currentFilterValue, newFilterValue);
-  }
-
-  getMarkerSymbolFilter(): string[] {
-    let result = [];
-    if (this.markerSymbolFilterObject.value) {
-      result = [this.markerSymbolFilterObject.value.trim()];
-    }
-    return result;
-  }
-
-  getIntentionsFilter(): string[] {
-    let result = [];
-    if (this.intentionsFilterObject.values.length > 0) {
-      result = this.intentionsFilterObject.values;
-    }
-    return result;
-  }
-
-  getPrivaciesFilter(): string[] {
-    let result = [];
-    if (this.privaciesFilterObject.values.length > 0) {
-      result = this.privaciesFilterObject.values;
-    }
-    return result;
-  }
-
-  getAssignmentStatusesFilter(): string[] {
-    let result = [];
-    if (this.assignmentStatusesFilterObject.values.length > 0) {
-      result = this.assignmentStatusesFilterObject.values;
-    }
-    return result;
-  }
-
-  private cleanFilter(filter: Filter) {
-    filter.value = '';
-    this.getPage(0);
-  }
-
-  private reloadIfValuesAreDifferent(currentFilterValue, newFilterValue) {
-    if (currentFilterValue !== newFilterValue) {
-      this.getPage(0);
-    }
+  onErrorLoadingContent(e) {
+    this.error = e;
   }
 
 }

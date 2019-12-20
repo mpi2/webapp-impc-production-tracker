@@ -1,130 +1,34 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<mat-card>
-    <a *ngIf="loggedUser.name !== 'anonymous' && false" routerLink="/create-project" class="btn btn-primary active" role="button"
-        aria-pressed="true">Create new
+<mat-card *ngIf="loggedUser.name !== 'anonymous' && false">
+    <a  routerLink="/create-project" class="btn btn-primary active"
+        role="button" aria-pressed="true">Create new
         project</a>
 </mat-card>
 
-<div class="mat-elevation-z8">
-    <div class="example-loading-shade" *ngIf="isLoading">
-        <mat-spinner *ngIf="isLoading"></mat-spinner>
-    </div>
+<button mat-button (click)="toogleShowFilters()">
+    <mat-icon>filter_list</mat-icon> {{ filterVisible ? 'Hide Filters' : 'Show Filters' }}
+  </button>
+<mat-sidenav-container>
+    <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
+      <app-filter-container *ngIf="filtersDefinition" [filters]="filtersDefinition"></app-filter-container>
+    </mat-sidenav>
+    <mat-sidenav-content>
 
-    <div class="example-table-container">
-        <table>
-            <tr>
-                <th>Project Id</th>
-                <th>External Reference</th>
-                <th>Marker Symbol(s)</th>
-                <th>Intention</th>
-                <th>Project Assignment</th>
-                <th>Privacy</th>
-                <th>Active/Inactive</th>
-                <th>Consortia</th>
-            </tr>
-            <tr>
-                <td>
-                    <mat-form-field class="example-form-field" style="width: 100px">
-                        <input matInput type="text" placeholder="Type to filter" [(ngModel)]="tpnFilterInput"
-                            (keyup)="filterWithTpn(tpnFilterInput)">
-                        <button mat-button *ngIf="tpnFilterInput" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="cleanTpnlFilter()">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-form-field" style="width: 100px">
-                        <input matInput type="text" placeholder="Type to filter"
-                            [(ngModel)]="externalReferenceFilterInput">
-                        <button mat-button *ngIf="externalReferenceFilterInput" matSuffix mat-icon-button
-                            aria-label="Clear" (click)="externalReferenceFilterInput=''">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field class="example-form-field" style="width: 100px">
-                        <input matInput type="text" placeholder="Type to filter" [(ngModel)]="markerSymbolFilterInput"
-                            (keyup)="filterWithMarkerSymbol(markerSymbolFilterInput)">
-                        <button mat-button *ngIf="markerSymbolFilterInput" matSuffix mat-icon-button aria-label="Clear"
-                            (click)="cleanMarkerSymbolFilter()">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Select to filter</mat-label>
-                        <mat-select multiple (selectionChange)="filterWithIntentions($event.value)">
-                            <mat-option *ngFor="let intention of this.intentions" [value]="intention.name">
-                                {{ intention.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Select to filter</mat-label>
-                        <mat-select multiple (selectionChange)="filterWithAssignmentStatuses($event.value)">
-                            <mat-option *ngFor="let assignmentStatus of this.assignmentStatuses" [value]="assignmentStatus.name">
-                                {{ assignmentStatus.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-                <td>
-                    <mat-form-field>
-                        <mat-label>Select to filter</mat-label>
-                        <mat-select multiple (selectionChange)="filterWithPrivacies($event.value)">
-                            <mat-option *ngFor="let privacy of this.privacies" [value]="privacy.name">
-                                {{privacy.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-                <td>Active/Inactive</td>
-                <td>Consortia</td>
-            </tr>
-            <ng-template ngFor let-project [ngForOf]="projects">
-                <tr>
-                    <td>
-                        <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a>
-                    </td>
-                    <td>
-                        {{ project.externalReference }}
-                    </td>
-                    <td>
-                        <div *ngFor="let intention of project.projectIntentions">
-                            <div *ngIf="intention.intentionByGene">
-                              <a href="{{intention.intentionByGene.gene.externalLink}}" target="_blank">{{ intention.intentionByGene.gene.symbol }}</a>
-                            </div>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngFor="let intention of project.projectIntentions">
-                            {{ intention.alleleTypeName }}
-                        </div>
-                    </td>
-                    <td>
-                        {{ project.assignmentStatusName }}
-                    </td>
-                    <td>
-                        {{ project.privacyName }}
-                    </td>
-                    <td>
-                        {{ project.isActive ? 'Active' : 'Inactive' }}
-                    </td>
-                    <td>
-                        <div *ngFor="let consortiumName of project.consortiaNames">
-                            {{ consortiumName }}
-                        </div>
-                    </td>
-                </tr>
-            </ng-template>
-        </table>
-    </div>
+  
+      <div *ngIf="!isLoading" class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column" fxLayout.sm="column">
+        <div>
+          <button mat-button (click)="downloadCsv()" color="primary">
+            <mat-icon>save_alt</mat-icon> Download as CSV
+          </button>
+          <mat-spinner style="margin:0 auto;" *ngIf="downloading" matSuffix mode="indeterminate" diameter=20></mat-spinner>
+        </div>
+      </div>
+  
+      <div class="example-table-container">
+        <app-project-list-content (errorRaised)="onErrorLoadingContent($event)"></app-project-list-content>
+      </div>
 
-    <mat-paginator (page)="getPage(this.paginator.pageIndex)" [length]="page.totalElements" [pageSize]="page.size"
-        id="server"></mat-paginator>
-</div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+
