@@ -1,0 +1,59 @@
+<div class="mat-elevation-z8">
+    <div class="example-loading-shade" *ngIf="isLoading">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </div>
+
+    <div class="example-table-container">
+        <table>
+            <tr>
+                <th>Project Id</th>
+                <th>External Reference</th>
+                <th>Marker Symbol(s)</th>
+                <th>Intention</th>
+                <th>Project Assignment</th>
+                <th>Privacy</th>
+                <th>Active/Inactive</th>
+                <th>Consortia</th>
+            </tr>
+            <ng-template ngFor let-project [ngForOf]="dataSource">
+                <tr>
+                    <td>
+                        <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a>
+                    </td>
+                    <td>
+                        {{ project.externalReference }}
+                    </td>
+                    <td>
+                        <div *ngFor="let intention of project.projectIntentions">
+                            <div *ngIf="intention.intentionByGene">
+                                <a href="{{intention.intentionByGene.gene.externalLink}}"
+                                    target="_blank">{{ intention.intentionByGene.gene.symbol }}</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let intention of project.projectIntentions">
+                            {{ intention.alleleTypeName }}
+                        </div>
+                    </td>
+                    <td>
+                        {{ project.assignmentStatusName }}
+                    </td>
+                    <td>
+                        {{ project.privacyName }}
+                    </td>
+                    <td>
+                        {{ project.isActive ? 'Active' : 'Inactive' }}
+                    </td>
+                    <td>
+                        <div *ngFor="let instituteConsortium of project.institutesConsortium">
+                            {{ instituteConsortium.consortiumName }}
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+        </table>
+    </div>
+
+    <mat-paginator (page)="onPaginatorChanged(this.paginator)" [length]="page.totalElements" [pageSize]="page.size"
+      [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>

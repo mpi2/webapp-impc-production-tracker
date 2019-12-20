@@ -11,6 +11,7 @@ import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-d
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 import { Page } from 'src/app/model/page_structure/page';
 import { SearchFilter } from '../../model/search-filter';
+import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 
 @Component({
   selector: 'app-search',
@@ -60,7 +61,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       this.setupFilters();
     });
     this.isLoading = true;
-    this.getPage(this.page, {});
+    this.getPage(this.page, new SearchFilter());
   }
 
   ngAfterViewInit() {
@@ -72,6 +73,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   toogleShowFilters() {
     this.filterVisible = !this.filterVisible;
+    console.log('this.filterVisible', this.filterVisible);
+
   }
 
   setupFilters() {
@@ -80,7 +83,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
       {
         title: 'Work Units',
         name: 'workUnitName',
-        type: 'checkboxes',
+        type: FilterType.Checkboxes,
         dataSource: workUnitNames
       }
     ];
@@ -88,7 +91,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   onSearchDefined(e) {
     this.inputSearchDefinition = e;
-    this.getPage(this.page, this.filtersDefinition);
+    this.getPage(this.page, this.filters);
   }
 
   onInputTextChanged(e) {
@@ -118,16 +121,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
     const element = document.createElement('a');
     element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
     element.setAttribute('download', filename);
-
     element.style.display = 'none';
     document.body.appendChild(element);
-
     element.click();
-
     document.body.removeChild(element);
   }
 
-  public getPage(page: Page, filters): void {
+  public getPage(page: Page, filters: SearchFilter): void {
     this.isLoading = true;
     const search: Search = new Search();
     search.filters = filters;
@@ -160,7 +160,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   public onPaginatorChanged(paginator: MatPaginator) {
     this.page.number = paginator.pageIndex;
     this.page.size = paginator.pageSize;
-    this.getPage(this.page, this.filtersDefinition);
+    this.getPage(this.page, this.filters);
   }
 
   private processResponseData(data: SearchResult[]) {

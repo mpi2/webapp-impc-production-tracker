@@ -7,7 +7,7 @@
 <mat-sidenav-container>
   <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
-    <app-filter-container *ngIf="filters" [filters]="filters"></app-filter-container>
+    <app-filter-container *ngIf="filtersDefinition" [filters]="filtersDefinition"></app-filter-container>
   </mat-sidenav>
   <mat-sidenav-content>
 

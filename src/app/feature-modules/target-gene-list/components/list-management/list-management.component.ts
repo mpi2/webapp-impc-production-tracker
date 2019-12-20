@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { map, share, startWith} from 'rxjs/operators';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { ListContentComponent } from '../list-content/list-content.component';
+import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 
 @Component({
   selector: 'app-list-management',
@@ -71,14 +72,14 @@ export class ListManagementComponent implements OnInit {
         name: 'markerSymbol',
         label: null,
         expanded: true,
-        type: 'text',
+        type: FilterType.Text,
         placeholder: 'Marker Symbol(s)'
       }
       ,
       {
         title: 'Work Units',
         name: 'workUnit',
-        type: 'checkboxes',
+        type: FilterType.Checkboxes,
         dataSource: [
           {
             name: 'WU1'

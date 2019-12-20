@@ -3,14 +3,16 @@
     <mat-expansion-panel class="sidenav-section" [expanded]="filter.expanded" *ngFor="let filter of filters">
         <mat-expansion-panel-header>
             <mat-panel-title>
-                {{ filter.title }}
+                <div [class.changed]="changed[filter.name]">{{ filter.title }} </div>
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-form-field *ngIf="filter.type === 'text'">
-            <mat-label *ngIf="filter.label">{{ filter.label }}</mat-label>
+        <mat-form-field *ngIf="filter.type === FilterType.Text">
+            <mat-label *ngIf="filter.label">
+                {{ filter.label }}
+            </mat-label>
             <input matInput placeholder="{{ filter.placeholder }}" formControlName="{{ filter.name }}">
         </mat-form-field>
-        <mat-selection-list dense *ngIf="filter.type === 'checkboxes'" formControlName="{{ filter.name }}">
+        <mat-selection-list dense *ngIf="filter.type === FilterType.Checkboxes" formControlName="{{ filter.name }}">
             <mat-list-option *ngFor="let value of filter.dataSource" color="primary" [value]="value.name">
                 {{ value.name }}
             </mat-list-option>
