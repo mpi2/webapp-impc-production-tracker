@@ -1,34 +1,33 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<mat-card *ngIf="loggedUser.name !== 'anonymous' && false">
-    <a  routerLink="/create-project" class="btn btn-primary active"
-        role="button" aria-pressed="true">Create new
+<mat-card *ngIf="false">
+    <a routerLink="/create-project" class="btn btn-primary active" role="button" aria-pressed="true">Create new
         project</a>
 </mat-card>
 
 <button mat-button (click)="toogleShowFilters()">
     <mat-icon>filter_list</mat-icon> {{ filterVisible ? 'Hide Filters' : 'Show Filters' }}
-  </button>
+</button>
 <mat-sidenav-container>
     <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
-      <app-filter-container *ngIf="filtersDefinition" [filters]="filtersDefinition"></app-filter-container>
+        [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
+        <app-filter-container *ngIf="filtersDefinition" [filters]="filtersDefinition"></app-filter-container>
     </mat-sidenav>
     <mat-sidenav-content>
 
-  
-      <div *ngIf="!isLoading" class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column" fxLayout.sm="column">
-        <div>
-          <button mat-button (click)="downloadCsv()" color="primary">
-            <mat-icon>save_alt</mat-icon> Download as CSV
-          </button>
-          <mat-spinner style="margin:0 auto;" *ngIf="downloading" matSuffix mode="indeterminate" diameter=20></mat-spinner>
+        <div *ngIf="!isLoading" class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column"
+            fxLayout.sm="column">
+            <div>
+                <button mat-button (click)="downloadCsv()" color="primary">
+                    <mat-icon>save_alt</mat-icon> Download as CSV
+                </button>
+                <mat-spinner style="margin:0 auto;" *ngIf="downloading" matSuffix mode="indeterminate" diameter=20>
+                </mat-spinner>
+            </div>
         </div>
-      </div>
-  
-      <div class="example-table-container">
-        <app-project-list-content (errorRaised)="onErrorLoadingContent($event)"></app-project-list-content>
-      </div>
+
+        <div class="example-table-container">
+            <app-project-list-content (errorRaised)="onErrorLoadingContent($event)"></app-project-list-content>
+        </div>
 
     </mat-sidenav-content>
-  </mat-sidenav-container>
-
+</mat-sidenav-container>

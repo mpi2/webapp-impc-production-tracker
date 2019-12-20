@@ -1,9 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
-import { ProjectFilterService as projectFilterService } from '../../services/project-filter.service';
-import { Filter } from 'src/app/core/model/common/filter';
-import { ArrayFilter } from 'src/app/core/model/common/array-filter';
-import { User } from 'src/app/core/model/user/user';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { Observable } from 'rxjs';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
@@ -25,25 +21,9 @@ export class ProjectListComponent implements OnInit {
   intentions: NamedValue[];
   assignmentStatuses: NamedValue[];
 
-  tpnFilterInput: string;
-  externalReferenceFilterInput: string;
-  markerSymbolFilterInput: string;
-  intentionsFilterInput: string;
-  assignmentStatusesFilterInput: string;
-
-  tpnFilterObject: Filter = new Filter();
-  markerSymbolFilterObject: Filter = new Filter();
-  intentionsFilterObject: ArrayFilter = new ArrayFilter();
-  privaciesFilterObject: ArrayFilter = new ArrayFilter();
-  assignmentStatusesFilterObject: ArrayFilter = new ArrayFilter();
-
   configurationData: ConfigurationData;
 
   error;
-  loggedUser: User = new User();
-
-  projectFilterService: projectFilterService = new projectFilterService();
-
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -106,7 +86,6 @@ export class ProjectListComponent implements OnInit {
 
   downloadCsv() {
     console.log('Still to be implemented');
-
   }
 
   onErrorLoadingContent(e) {
