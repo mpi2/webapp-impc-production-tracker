@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { MatPaginator, MatSort, MatDialog, MatSidenav } from '@angular/material';
 import { SearchService, Search } from '../..';
@@ -18,7 +18,7 @@ import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit, AfterViewInit {
+export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort: MatSort;
@@ -38,6 +38,7 @@ export class SearchComponent implements OnInit, AfterViewInit {
   error;
   downloading = false;
   isLoading = true;
+  filterChangesSubscription;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -65,16 +66,19 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    this.filterService.filterChange.subscribe(filters => {
-      this.filters = filters;
-      this.getPage(this.page, filters);
-    });
+    this.filterChangesSubscription =
+      this.filterService.filterChange.subscribe(filters => {
+        this.filters = filters;
+        this.getPage(this.page, filters);
+      });
+  }
+
+  ngOnDestroy() {
+    this.filterChangesSubscription.unsubscribe();
   }
 
   toogleShowFilters() {
     this.filterVisible = !this.filterVisible;
-    console.log('this.filterVisible', this.filterVisible);
-
   }
 
   setupFilters() {
@@ -104,13 +108,13 @@ export class SearchComponent implements OnInit, AfterViewInit {
 
   downloadCsv() {
     this.downloading = true;
-    const search =  this.buildSearch();
+    const search = this.buildSearch();
     this.searchService.exportCsv(search).subscribe(data => {
       this.download('searchResults.csv', data);
       this.downloading = false;
       this.error = '';
     },
-      error =>  {
+      error => {
         this.error = error;
         this.downloading = false;
       }
@@ -128,6 +132,8 @@ export class SearchComponent implements OnInit, AfterViewInit {
   }
 
   public getPage(page: Page, filters: SearchFilter): void {
+    console.log('getPage called in SearchComponent with::', page, filters);
+
     this.isLoading = true;
     const search: Search = new Search();
     search.filters = filters;
