@@ -10,7 +10,11 @@
 <mat-sidenav-container>
     <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
-        <app-filter-container *ngIf="filtersDefinition" [filters]="filtersDefinition"></app-filter-container>
+        <app-filter-container *ngIf="filtersDefinition && configurationLoaded"
+            #filter
+            [filters]="filtersDefinition"
+            [filtersInitialValues]="filtersInitialValues">
+        </app-filter-container>
     </mat-sidenav>
     <mat-sidenav-content>
 
@@ -26,7 +30,11 @@
         </div>
 
         <div class="example-table-container">
-            <app-project-list-content (errorRaised)="onErrorLoadingContent($event)"></app-project-list-content>
+            <app-project-list-content *ngIf="configurationLoaded"
+                [filters]="filtersInitialValues"
+                (errorRaised)="onErrorLoadingContent($event)"
+                (filtersChanged)="onFiltersChanged($event)">
+            </app-project-list-content>
         </div>
 
     </mat-sidenav-content>

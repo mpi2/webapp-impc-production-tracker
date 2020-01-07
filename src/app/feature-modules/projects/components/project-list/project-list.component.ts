@@ -1,10 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { Observable } from 'rxjs';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import { map, share, startWith } from 'rxjs/operators';
 import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FilterContainerComponent } from 'src/app/feature-modules/filters/components/filter-container/filter-container.component';
+import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 
 @Component({
   selector: 'app-project-list',
@@ -12,7 +15,10 @@ import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit {
+  @ViewChild(FilterContainerComponent, { static: false }) filter: FilterContainerComponent;
+
   filtersDefinition: FilterDefinition[];
+  filtersInitialValues: any;
   filterVisible = false;
   downloading = false;
   isLoading = true;
@@ -20,6 +26,7 @@ export class ProjectListComponent implements OnInit {
   privacies: NamedValue[];
   intentions: NamedValue[];
   assignmentStatuses: NamedValue[];
+  configurationLoaded = false;
 
   configurationData: ConfigurationData;
 
@@ -34,6 +41,9 @@ export class ProjectListComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private filterService: FilterService,
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
@@ -45,10 +55,33 @@ export class ProjectListComponent implements OnInit {
     this.filterVisible = !this.filterVisible;
   }
 
+  onFiltersChanged(e) {
+    const validatedFilters = this.filterService.buildValidFilter(e);
+    const newQueryParams = this.buildNewQueryParams(validatedFilters);
+    this.updateUrlWithFilters(newQueryParams);
+  }
+  buildNewQueryParams(filters) {
+    const currentParameters = this.activatedRoute.snapshot.queryParams;
+    return filters;
+  }
+
+  private updateUrlWithFilters(filters) {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: filters,
+        replaceUrl: true
+      }
+    );
+  }
+
   private loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.setupFilters();
+      this.setInitialValuesForFilters();
+      this.configurationLoaded = true;
     });
   }
 
@@ -62,12 +95,12 @@ export class ProjectListComponent implements OnInit {
       },
       {
         title: 'External Reference',
-        name: 'texternalReference',
+        name: 'externalReference',
         type: FilterType.Text
       },
       {
-        title: 'Gene',
-        name: 'gene',
+        title: 'Marker Symbol',
+        name: 'markerSymbol',
         type: FilterType.Text
       },
       {
@@ -82,6 +115,11 @@ export class ProjectListComponent implements OnInit {
         dataSource: workUnitNames
       }
     ];
+  }
+
+  setInitialValuesForFilters() {
+    const currentParameters = this.activatedRoute.snapshot.queryParams;
+    this.filtersInitialValues = currentParameters;
   }
 
   downloadCsv() {

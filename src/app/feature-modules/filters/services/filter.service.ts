@@ -9,7 +9,7 @@ export class FilterService {
   searchChange: EventEmitter<any> = new EventEmitter();
   public filter = {};
 
-  constructor() {}
+  constructor() { }
 
   emitFilterChange(filter) {
     this.filter = filter;
@@ -22,5 +22,35 @@ export class FilterService {
 
   changeSearchValue(text) {
     this.searchChange.emit(text);
+  }
+
+  public buildValidFilter(originalFilter) {
+    const validFilter = {};
+    Object.keys(originalFilter).map(key => {
+      const content = originalFilter[key];
+      const filterContent = this.getFilterByKeyAndContent(content);
+      if (filterContent) {
+        validFilter[key] = filterContent;
+      }
+    });
+    return validFilter;
+  }
+
+  private getFilterByKeyAndContent(content) {
+    return this.getValidFilterContent(content);
+  }
+
+  private getValidFilterContent(content) {
+    let validContent;
+    if (Array.isArray(content)) {
+      if (content.length > 0) {
+        validContent = content;
+      }
+    } else {
+      if (content !== '') {
+        validContent = content;
+      }
+    }
+    return validContent;
   }
 }

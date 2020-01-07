@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../../../model/bio/project';
-import { ConfigAssetLoaderService } from '../../../core/services/config-asset-loader.service';
-import { ChangesHistory } from 'src/app/core';
+import { ChangesHistory, ConfigAssetLoaderService , QueryBuilderService} from 'src/app/core';
 import { ProjectFilter } from '../model/project-filter';
-import { Observable } from 'rxjs';
+import { Observable, from } from 'rxjs';
 import { Page } from 'src/app/model/page_structure/page';
+import { AssetConfiguration } from 'src/app/core/model/conf/asset-configuration';
+import { flatMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,11 +14,15 @@ import { Page } from 'src/app/model/page_structure/page';
 export class ProjectService {
 
   private apiServiceUrl;
+  private config$: Observable<AssetConfiguration>;
 
-  constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
-    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
+  constructor(
+    private http: HttpClient,
+    private configAssetLoaderService: ConfigAssetLoaderService,
+    private queryBuilderService: QueryBuilderService) {
+      this.config$ = from(this.configAssetLoaderService.getConfig());
+      this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
-
 
   getAll() {
     return this.http.get<Project[]>(this.apiServiceUrl + '/api/projects');
@@ -40,41 +45,11 @@ export class ProjectService {
   }
 
   public getProjects(filters: ProjectFilter, page: Page): Observable<Project[]> {
-    const queryParameters = this.buildQueryParameters(filters, page);
-    const url = this.apiServiceUrl + '/api/projects?' + queryParameters;
-    return this.http.get<Project[]>(url);
-  }
-
-  private buildQueryParameters(filters: ProjectFilter, page: Page): string {
-    const query: string[] = [];
-    if (page) {
-      query.push(this.getPaginationQuery(page));
-    }
-    query.push(this.getFilterQuery(filters));
-    return query.join('&');
-  }
-
-  private getFilterQuery(filters: ProjectFilter) {
-    const filterParameters = [];
-    if (filters) {
-      Object.keys(filters).map(key => {
-        const content = filters[key];
-        if (content && content.length > 0) {
-          const filterContent = key + '=' + content.join(',');
-          filterParameters.push(filterContent);
-        }
-
-      });
-    }
-    return filterParameters.join('&');
-  }
-
-  private getPaginationQuery(page: Page) {
-    let query = 'page=' + page.number;
-    if (page.size) {
-      query += '&size=' + page.size;
-    }
-    return query;
+    const queryParameters = this.queryBuilderService.buildQueryParameters(filters, page);
+    return this.config$.pipe(flatMap(response => {
+      const url = `${response.appServerUrl}/api/projects?${queryParameters}`;
+      return this.http.get<Project[]>(url);
+    }));
   }
 
   /**

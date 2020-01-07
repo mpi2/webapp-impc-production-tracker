@@ -12,25 +12,21 @@ import { FilterType } from '../../model/filter-type';
 
 export class FilterContainerComponent implements OnInit {
   @Input() filters: FilterDefinition[];
-
+  @Input() filtersInitialValues: any;
 
   filterForm: FormGroup;
   FilterType = FilterType;
   initialValues = [];
   changed = [];
+  wasAnyInitialValueSet = false;
 
   constructor(private filterService: FilterService) { }
 
   ngOnInit() {
-    const controls = {
-    };
+    const controls = {};
     if (this.filters) {
       this.filters.forEach(filter => {
-        if (filter.type === FilterType.Text) {
-          controls[filter.name] = new FormControl([]);
-        } else if (filter.type === FilterType.Checkboxes) {
-          controls[filter.name] = new FormControl([]);
-        }
+        controls[filter.name] = new FormControl([]);
         this.initialValues[filter.name] = this.getUnifiedValue(controls[filter.name].value);
       });
     }
@@ -40,6 +36,27 @@ export class FilterContainerComponent implements OnInit {
       this.filterService.emitFilterChange(value);
       this.traceChange(value);
     });
+
+    this.setInitialValues();
+  }
+
+  private setInitialValues() {
+    const controls = this.filterForm.controls;
+    Object.keys(controls).map(key => {
+      const initialValue = this.getInitialValueForFilter(key);
+      if (initialValue) {
+        controls[key].setValue(initialValue);
+      }
+    });
+  }
+
+  private getInitialValueForFilter(filterName) {
+    return this.filtersInitialValues[filterName];
+  }
+
+  public setFiltersInitialValues(filtersInitialValues) {
+    this.filtersInitialValues = filtersInitialValues;
+    this.filterForm.setValue(filtersInitialValues);
   }
 
   traceChange(value) {

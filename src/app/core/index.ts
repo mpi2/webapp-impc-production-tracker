@@ -1,10 +1,12 @@
 export * from './services/authentication.service';
 export * from './services/logged-user.service';
 export * from './services/configuration-data.service';
+export * from './services/config-asset-loader.service';
 export * from './services/work-group.service';
 export * from './services/gene.service';
 export * from './services/permissions.service';
 export * from './services/managed-lists.service';
+export * from './services/query-builder.service';
 
 export * from './model/conf/configuration-data';
 export * from './model/history/changes-history';
