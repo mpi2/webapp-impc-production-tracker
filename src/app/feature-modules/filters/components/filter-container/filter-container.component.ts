@@ -51,7 +51,11 @@ export class FilterContainerComponent implements OnInit {
   }
 
   private getInitialValueForFilter(filterName) {
-    return this.filtersInitialValues[filterName];
+    let initialValue = undefined;
+    if (this.filtersInitialValues) {
+      initialValue = this.filtersInitialValues[filterName];
+    }
+    return initialValue;
   }
 
   public setFiltersInitialValues(filtersInitialValues) {
