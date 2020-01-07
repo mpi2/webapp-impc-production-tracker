@@ -1,21 +1,23 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
 import { Project } from 'src/app/model';
 import { Page } from 'src/app/model/page_structure/page';
 import { ConfigurationData } from 'src/app/core';
 import { ProjectFilter, ProjectService } from '../..';
 import { MatPaginator } from '@angular/material';
+import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 
 @Component({
   selector: 'app-project-list-content',
   templateUrl: './project-list-content.component.html',
   styleUrls: ['./project-list-content.component.css']
 })
-export class ProjectListContentComponent implements OnInit {
+export class ProjectListContentComponent implements OnInit, AfterViewInit {
 
   dataSource: Project[] = [];
   @Input() filters: ProjectFilter;
 
   @Output() errorRaised = new EventEmitter<string>();
+  @Output() filtersChanged = new EventEmitter<any>();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
@@ -23,10 +25,22 @@ export class ProjectListContentComponent implements OnInit {
   isLoading = true;
   configurationData: ConfigurationData;
 
-  constructor(private projectService: ProjectService) { }
+  filterChangesSubscription;
+
+  constructor(private projectService: ProjectService, private filterService: FilterService) { }
 
   ngOnInit() {
     this.getPage(this.page, this.filters);
+  }
+
+  ngAfterViewInit() {
+    this.filterChangesSubscription =
+      this.filterService.filterChange.subscribe(filters => {
+        this.filters = filters;
+        this.resetPage();
+        this.getPage(this.page, filters);
+        this.filtersChanged.emit(filters);
+      });
   }
 
   public getPage(page: Page, filters): void {
@@ -38,6 +52,11 @@ export class ProjectListContentComponent implements OnInit {
       this.errorRaised.emit(error);
       this.isLoading = false;
     });
+  }
+
+  private resetPage() {
+    this.page.number = 0;
+    this.paginator.pageIndex = 0;
   }
 
   private processResponseData(data: Project[]) {
