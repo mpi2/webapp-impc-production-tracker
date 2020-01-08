@@ -71,6 +71,20 @@
           </td>
         </ng-container>
 
+        <ng-container matColumnDef="MGI">
+          <th mat-header-cell *matHeaderCellDef>MGI</th>
+          <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+              <div *ngFor="let intention of searchResult.project.projectIntentions">
+                <div *ngIf="intention.intentionByGene">
+                    <a href="{{intention.intentionByGene.gene.externalLink}}"
+                        target="_blank">{{ intention.intentionByGene.gene.accessionId }}</a>
+                </div>
+            </div>
+            </div>
+          </td>
+        </ng-container>
+
         <ng-container matColumnDef="Best human ortholog">
           <th mat-header-cell *matHeaderCellDef>Best human ortholog</th>
           <td mat-cell *matCellDef="let searchResult">

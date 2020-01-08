@@ -71,6 +71,13 @@ export class FilterContainerComponent implements OnInit {
     });
   }
 
+  public clearFilters() {
+    const controls = this.filterForm.controls;
+    Object.keys(controls).map(key => {
+      controls[key].setValue([]);
+    });
+  }
+
   private getUnifiedValue(value): string {
     if (Array.isArray(value)) {
       return value.join('');
