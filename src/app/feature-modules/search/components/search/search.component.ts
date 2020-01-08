@@ -132,8 +132,6 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public getPage(page: Page, filters: SearchFilter): void {
-    console.log('getPage called in SearchComponent with::', page, filters);
-
     this.isLoading = true;
     const search: Search = new Search();
     search.filters = filters;
@@ -197,11 +195,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private refreshVisibleColumns(): void {
     if (this.getGeneSymbolsAsArray().length === 0) {
-      this.displayedColumns = ['Project summary', 'Allele Intentions', 'Gene Symbol / Location', 'Best human ortholog',
+      this.displayedColumns = ['Project summary', 'Gene Symbol / Location', 'MGI', 'Allele Intentions', 'Best human ortholog',
         'Project Assignment', 'Privacy', 'Access Restriction'];
     } else {
-      this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary', 'Allele Intentions', 'Gene Symbol / Location',
-        'Best human ortholog', 'Project Assignment', 'Privacy', 'Access Restriction'];
+      this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary',  'Gene Symbol / Location',
+        'MGI', 'Allele Intentions', 'Best human ortholog', 'Project Assignment', 'Privacy', 'Access Restriction'];
     }
   }
 
@@ -235,11 +233,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   getTargetText(projectIntention: ProjectIntention): string {
     let text = '';
-    if ('gene' === projectIntention.intentionTypeName) {
-      const intentionByGene = projectIntention.intentionByGene;
-      if (intentionByGene && intentionByGene.gene) {
-        text = intentionByGene.gene.symbol;
-      }
+    const intentionByGene = projectIntention.intentionByGene;
+    if (intentionByGene && intentionByGene.gene) {
+      text = intentionByGene.gene.symbol;
       return text;
     }
   }

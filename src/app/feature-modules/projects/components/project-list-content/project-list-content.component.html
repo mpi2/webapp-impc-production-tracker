@@ -9,7 +9,9 @@
                 <th>Project Id</th>
                 <th>External Reference</th>
                 <th>Marker Symbol(s)</th>
+                <th>MGI</th>
                 <th>Intention</th>
+                <th>Best human ortholog</th>
                 <th>Project Assignment</th>
                 <th>Privacy</th>
                 <th>Active/Inactive</th>
@@ -33,7 +35,22 @@
                     </td>
                     <td>
                         <div *ngFor="let intention of project.projectIntentions">
+                            <div *ngIf="intention.intentionByGene">
+                                <a href="{{intention.intentionByGene.gene.externalLink}}"
+                                    target="_blank">{{ intention.intentionByGene.gene.accessionId }}</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let intention of project.projectIntentions">
                             {{ intention.alleleTypeName }}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let intention of project.projectIntentions">
+                            <div *ngFor="let ortholog of intention.intentionByGene.bestOrthologs">
+                                <a href="{{ ortholog.link }}" target="_blank">{{ ortholog.symbol }}</a>
+                            </div>
                         </div>
                     </td>
                     <td>
@@ -56,4 +73,4 @@
     </div>
 
     <mat-paginator (page)="onPaginatorChanged(this.paginator)" [length]="page.totalElements" [pageSize]="page.size"
-      [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
+        [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>

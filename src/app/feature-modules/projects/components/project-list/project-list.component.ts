@@ -89,6 +89,11 @@ export class ProjectListComponent implements OnInit {
     const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
     this.filtersDefinition = [
       {
+        title: 'Marker Symbol/ MGI',
+        name: 'gene',
+        type: FilterType.Text
+      },
+      {
         title: 'TPN',
         name: 'tpn',
         type: FilterType.Text
@@ -96,11 +101,6 @@ export class ProjectListComponent implements OnInit {
       {
         title: 'External Reference',
         name: 'externalReference',
-        type: FilterType.Text
-      },
-      {
-        title: 'Marker Symbol',
-        name: 'markerSymbol',
         type: FilterType.Text
       },
       {
