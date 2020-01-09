@@ -1,0 +1,118 @@
+<mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate"></mat-spinner>
+
+<table *ngIf="!isLoading" mat-table [dataSource]="dataSource" class="mat-elevation-z8" width="100%">
+    <ng-container matColumnDef="Search term">
+        <th mat-header-cell *matHeaderCellDef>Search term</th>
+        <td mat-cell *matCellDef="let searchResult">{{searchResult.input}}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Search Result Comments">
+        <th mat-header-cell *matHeaderCellDef>Search Result comments</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngFor="let comment of searchResult.searchResultComments">
+                {{ comment }}
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Project summary">
+        <th mat-header-cell *matHeaderCellDef>Project summary</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <a *ngIf="searchResult.project" routerLink="/projects/{{ searchResult.project.tpn }}"> {{ searchResult.project.tpn }} </a>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Allele Intentions">
+        <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let intention of searchResult.project.projectIntentions">
+                    {{ intention.alleleTypeName }}
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Gene Symbol / Location">
+        <th mat-header-cell *matHeaderCellDef>Gene Symbol / Location</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let projectIntention of searchResult.project.projectIntentions">
+                    {{getTargetText(projectIntention)}}
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="MGI">
+        <th mat-header-cell *matHeaderCellDef>MGI</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let intention of searchResult.project.projectIntentions">
+                    <div *ngIf="intention.intentionByGene">
+                        <a href="{{intention.intentionByGene.gene.externalLink}}"
+                            target="_blank">{{ intention.intentionByGene.gene.accessionId }}</a>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Best human ortholog">
+        <th mat-header-cell *matHeaderCellDef>Best human ortholog</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let projectIntention of searchResult.project.projectIntentions">
+                    <div *ngFor="let ortholog of projectIntention.intentionByGene.bestOrthologs">
+                        <a href="{{ ortholog.link }}" target="_blank">{{ ortholog.symbol }}</a>
+                    </div>
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Work Unit(s)">
+        <th mat-header-cell *matHeaderCellDef>Work Unit(s)</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <ul *ngFor="let workUnitName of searchResult.project.relatedWorkUnitNames">
+                    {{ workUnitName }}
+                </ul>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Project Assignment">
+        <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">{{ searchResult.project.assignmentStatusName }}</div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Privacy">
+        <th mat-header-cell *matHeaderCellDef>Privacy</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">{{ searchResult.project.privacyName }}</div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Access Restriction">
+        <th mat-header-cell *matHeaderCellDef>Access Status</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngIf="searchResult.project && searchResult.project.isObjectRestricted; else checkedAccess">
+                    <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false"
+                        aria-label="icon">block</mat-icon>
+                </div>
+                <ng-template #checkedAccess>
+                    <mat-icon aria-hidden="false" aria-label="icon">check</mat-icon>
+                </ng-template>
+            </div>
+        </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
+<mat-paginator (page)="onPaginatorChanged(this.paginator)" [length]="page.totalElements" [pageSize]="page.size"
+    [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
