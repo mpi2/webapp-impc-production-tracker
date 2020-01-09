@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
 import { Project } from 'src/app/model';
 import { Page } from 'src/app/model/page_structure/page';
 import { ConfigurationData } from 'src/app/core';
@@ -11,7 +11,7 @@ import { FilterService } from 'src/app/feature-modules/filters/services/filter.s
   templateUrl: './project-list-content.component.html',
   styleUrls: ['./project-list-content.component.css']
 })
-export class ProjectListContentComponent implements OnInit, AfterViewInit {
+export class ProjectListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   dataSource: Project[] = [];
   @Input() filters: ProjectFilter;
@@ -41,6 +41,10 @@ export class ProjectListContentComponent implements OnInit, AfterViewInit {
         this.getPage(this.page, filters);
         this.filtersChanged.emit(filters);
       });
+  }
+
+  ngOnDestroy() {
+    this.filterChangesSubscription.unsubscribe();
   }
 
   public getPage(page: Page, filters): void {

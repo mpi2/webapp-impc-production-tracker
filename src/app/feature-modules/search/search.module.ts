@@ -4,6 +4,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { SearchComponent } from './components/search/search.component';
 import { SearchInputComponent } from './components/search-input/search-input.component';
 import { FiltersModule } from '../filters/filters.module';
+import { SearchContentComponent } from './components/search-content/search-content.component';
 
 // import { MatExpansionPanel } from '@angular/material';
 
@@ -11,6 +12,7 @@ import { FiltersModule } from '../filters/filters.module';
   declarations: [
     SearchComponent,
     SearchInputComponent,
+    SearchContentComponent,
   ],
   imports: [
     SharedModule,

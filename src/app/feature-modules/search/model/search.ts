@@ -1,12 +1,18 @@
-import { SearchFilter } from './search-filter';
+import { SearchInput } from './search-input';
 
 export class Search {
-    searchType: string;
+    searchType: SearchType;
     inputs: string[];
-    filters: SearchFilter;
-    inputDefinition: any;
+    searchInput: SearchInput;
+    filters: any = {};
 
     setPrivacies(privacies: string[]) {
         this.filters.privacyNames = privacies;
     }
 }
+
+export enum SearchType {
+    Gene = 'gene',
+    Location = 'location'
+}
+

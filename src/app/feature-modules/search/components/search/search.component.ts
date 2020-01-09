@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import { MatPaginator, MatSort, MatDialog, MatSidenav } from '@angular/material';
-import { SearchService, Search } from '../..';
+import {  MatDialog, MatSidenav } from '@angular/material';
+import { SearchService, Search, SearchType } from '../..';
 import { SearchResult } from '../../model/search.result';
 import { ProjectIntention } from 'src/app/model/bio/project-intention';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -9,9 +9,9 @@ import { Observable } from 'rxjs';
 import { map, share, startWith } from 'rxjs/operators';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
-import { Page } from 'src/app/model/page_structure/page';
 import { SearchFilter } from '../../model/search-filter';
 import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
+import { SearchInput, SearchInputType } from '../../model/search-input';
 
 @Component({
   selector: 'app-search',
@@ -20,16 +20,10 @@ import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 })
 export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
-  @ViewChild(MatSort, { static: false }) sort: MatSort;
   @ViewChild('drawer', { static: false }) drawer: MatSidenav;
 
-  selectedSearchType = 'gene';
-  inputSearchDefinition: any = undefined;
   dataSource: SearchResult[];
-  displayedColumns: string[] = [];
-  page: Page = { number: 0, size: 20 };
-  searchTypes: string[] = ['gene'];
+
   configurationData: ConfigurationData;
   filterVisible = false;
   filtersDefinition: FilterDefinition[];
@@ -39,6 +33,8 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   downloading = false;
   isLoading = true;
   filterChangesSubscription;
+
+  currentSearch: Search = new Search();
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -57,19 +53,27 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     public dialog: MatDialog) { }
 
   ngOnInit() {
+    this.setInitialSearchInformation();
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.setupFilters();
     });
     this.isLoading = true;
-    this.getPage(this.page, new SearchFilter());
+  }
+
+  setInitialSearchInformation() {
+    this.currentSearch.searchType = SearchType.Gene;
+    const searchInput: SearchInput = new SearchInput();
+    searchInput.type = SearchInputType.Text;
+    this.currentSearch.searchInput = searchInput;
   }
 
   ngAfterViewInit() {
     this.filterChangesSubscription =
       this.filterService.filterChange.subscribe(filters => {
         this.filters = filters;
-        this.getPage(this.page, filters);
+        this.currentSearch.filters = filters;
+        this.searchService.emitSearchChange(this.currentSearch);
       });
   }
 
@@ -86,7 +90,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filtersDefinition = [
       {
         title: 'Work Units',
-        name: 'workUnitName',
+        name: 'workUnitNames',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
       }
@@ -94,16 +98,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSearchDefined(e) {
-    this.inputSearchDefinition = e;
-    this.getPage(this.page, this.filters);
-  }
-
-  onInputTextChanged(e) {
-    this.inputSearchDefinition = { type: 'text', value: e };
-  }
-
-  onInputFileSelected(e) {
-    this.inputSearchDefinition = { type: 'file', value: e };
+   this.currentSearch.searchInput = e;
+   this.searchService.emitSearchChange(this.currentSearch);
+   console.log('this.currentSearch', this.currentSearch);
   }
 
   downloadCsv() {
@@ -131,57 +128,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     document.body.removeChild(element);
   }
 
-  public getPage(page: Page, filters: SearchFilter): void {
-    this.isLoading = true;
-    const search: Search = new Search();
-    search.filters = filters;
-    search.inputDefinition = this.inputSearchDefinition ? this.inputSearchDefinition : ({ type: 'text' });
-    search.searchType = this.getSearchType();
-    if (!this.loggedUserService.getLoggerUser()) {
-      search.setPrivacies(['public']);
-    }
-    this.searchService.executeSearch(search, page).subscribe(data => {
-      this.error = '';
-      this.isLoading = false;
-      this.processResponseData(data);
-    }, error => {
-      this.error = error;
-      this.isLoading = false;
-    });
-  }
-
   private buildSearch() {
-    const search: Search = new Search();
-    search.filters = this.filters;
-    search.inputDefinition = this.inputSearchDefinition ? this.inputSearchDefinition : ({ type: 'text' });
-    search.searchType = this.getSearchType();
     if (!this.loggedUserService.getLoggerUser()) {
-      search.setPrivacies(['public']);
+      this.currentSearch.filters.privacy = ['public'];
     }
-    return search;
-  }
-
-  public onPaginatorChanged(paginator: MatPaginator) {
-    this.page.number = paginator.pageIndex;
-    this.page.size = paginator.pageSize;
-    this.getPage(this.page, this.filters);
-  }
-
-  private processResponseData(data: SearchResult[]) {
-    /* tslint:disable:no-string-literal */
-    this.dataSource = data['results'];
-    this.dataSource.map(x => this.buildSearchResultComments(x));
-    this.updateInputIfSearchedByFile();
-    this.refreshVisibleColumns();
-    this.page = data['page'];
-    console.log('this.dataSource ', this.dataSource);
-    /* tslint:enable:no-string-literal */
-  }
-
-  private updateInputIfSearchedByFile() {
-    if (this.getSearchDefinitionType() === 'file') {
-      this.inputsByText = this.dataSource.map(x => x.input);
-    }
+    return this.currentSearch;
   }
 
   buildSearchResultComments(searchResult: SearchResult): void {
@@ -193,44 +144,6 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     searchResult.searchResultComments = result;
   }
 
-  private refreshVisibleColumns(): void {
-    if (this.getGeneSymbolsAsArray().length === 0) {
-      this.displayedColumns = ['Project summary', 'Gene Symbol / Location', 'MGI', 'Allele Intentions', 'Best human ortholog',
-        'Project Assignment', 'Privacy', 'Access Restriction'];
-    } else {
-      this.displayedColumns = ['Search term', 'Search Result Comments', 'Project summary',  'Gene Symbol / Location',
-        'MGI', 'Allele Intentions', 'Best human ortholog', 'Project Assignment', 'Privacy', 'Access Restriction'];
-    }
-  }
-
-  private getSearchType(): string {
-    return this.selectedSearchType;
-  }
-
-  private getSearchDefinitionType(): string {
-    let type;
-    if (this.inputSearchDefinition) {
-      type = this.inputSearchDefinition.type;
-    }
-    return type;
-  }
-
-  getGeneSymbolsAsArray(): string[] {
-    if (this.inputSearchDefinition) {
-      if (this.inputSearchDefinition.type === 'text') {
-        const input: string = this.inputSearchDefinition.value;
-        if (input !== '') {
-          const geneSymbols = input.split(',');
-          geneSymbols.map(x => x.trim());
-          return geneSymbols;
-        }
-      } else {
-        return this.inputsByText;
-      }
-    }
-    return [];
-  }
-
   getTargetText(projectIntention: ProjectIntention): string {
     let text = '';
     const intentionByGene = projectIntention.intentionByGene;
@@ -238,5 +151,9 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
       text = intentionByGene.gene.symbol;
       return text;
     }
+  }
+
+  onErrorMessageChanged(e) {
+    this.error = e;
   }
 }

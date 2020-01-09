@@ -1,32 +1,40 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { SearchResult } from '../model/search.result';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loader.service';
-import { Observable, of } from 'rxjs';
-import { Search } from '../model/search';
+import { Observable } from 'rxjs';
+import { Search, SearchType } from '../model/search';
 import { SearchFilter } from '../model/search-filter';
 import { Page } from 'src/app/model/page_structure/page';
+import { SearchInputType } from '../model/search-input';
 
 @Injectable({
     providedIn: 'root'
 })
 export class SearchService {
     private apiServiceUrl;
+    searchChange: EventEmitter<Search> = new EventEmitter();
+    public search: Search;
 
     constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
         this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
     }
 
-    getAll(): Observable<SearchResult[]> {
+    public emitSearchChange(search) {
+        this.search = search;
+        this.searchChange.emit(search);
+    }
+
+    public getAll(): Observable<SearchResult[]> {
         return this.http.get<SearchResult[]>(this.apiServiceUrl + '/api/projects/search');
     }
 
     public executeSearch(search: Search, page: Page): Observable<SearchResult[]> {
         const queryAsParameters = this.buildQueryParameters(search, page);
 
-        if (search.inputDefinition.type === 'text') {
+        if (search.searchInput.type === SearchInputType.Text) {
             return this.executeSearchByText(search, queryAsParameters);
-        } else if (search.inputDefinition.type === 'file') {
+        } else if (search.searchInput.type === SearchInputType.File) {
             return this.executeSearchByFile(search, queryAsParameters);
         }
     }
@@ -42,7 +50,7 @@ export class SearchService {
     }
 
     private searchTypeQuery(search: Search) {
-        return 'searchTypeName=' + search.searchType;
+        return 'searchTypeName=' + (search.searchType === SearchType.Gene ? 'gene' : 'undefined');
     }
 
     private getPaginationQuery(page: Page) {
@@ -59,7 +67,7 @@ export class SearchService {
 
     private getInputTextQuery(search: Search) {
         let inputParameter;
-        let input: string = search.inputDefinition.value;
+        let input: string = search.searchInput.value;
         if (input) {
             input = input.split(',').map(x => x.trim()).join(',');
             if (input) {
@@ -76,26 +84,20 @@ export class SearchService {
             queryString += '&' + inputQuery;
         }
         url = url + queryString;
-        console.log('url-->', url);
+        console.log(url);
+
         return this.http.get<SearchResult[]>(url);
     }
 
     private executeSearchByFile(search: Search, queryString: string): Observable<SearchResult[]> {
         let url = this.apiServiceUrl + '/api/projects/search?';
-        const file = this.getFileFromSearch(search);
+        const file = search.searchInput.value;
         url = url + queryString;
+        console.log('the url by file', url);
+
         const formData: FormData = this.buildFormDataForFile(file);
 
         return this.http.post<SearchResult[]>(url, formData);
-    }
-
-    private getFileFromSearch(search: Search) {
-        const inputDefinition = search.inputDefinition;
-        let file;
-        if (this.isSearchByFile(search)) {
-            file = inputDefinition.value;
-        }
-        return file;
     }
 
     private buildFormDataForFile(file) {
@@ -120,22 +122,11 @@ export class SearchService {
     }
 
     private isSearchByText(search: Search) {
-        return 'text' === this.getSearchInputType(search);
+        return search.searchInput.type === SearchInputType.Text;
     }
 
     private isSearchByFile(search: Search) {
-        return 'file' === this.getSearchInputType(search);
-    }
-
-    private getSearchInputType(search: Search) {
-        let type;
-        if (search) {
-            const inputDefinition = search.inputDefinition;
-            if (inputDefinition) {
-                type = search.inputDefinition.type;
-            }
-        }
-        return type;
+        return search.searchInput.type === SearchInputType.File;
     }
 
     public exportCsv(search: Search) {
@@ -161,7 +152,7 @@ export class SearchService {
         let url = this.apiServiceUrl + '/api/projects/search/exportSearchByFile?';
         const queryAsParameters = this.buildQueryParameters(search, null);
         url += queryAsParameters;
-        const file = this.getFileFromSearch(search);
+        const file = search.searchInput.value;
         const formData: FormData = this.buildFormDataForFile(file);
         console.log('url?', url);
 

@@ -20,6 +20,7 @@ export class Project {
     recovery: boolean;
     isActive: boolean;
     comment: string;
+    relatedWorkUnitNames: string[];
 
     // tslint:disable-next-line
     _links: ProjectLinks;

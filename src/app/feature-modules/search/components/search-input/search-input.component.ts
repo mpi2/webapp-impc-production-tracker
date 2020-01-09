@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
+import { SearchInput, SearchInputType } from '../../model/search-input';
 
 @Component({
   selector: 'app-search-input',
@@ -6,10 +7,7 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/cor
   styleUrls: ['./search-input.component.css']
 })
 export class SearchInputComponent implements OnInit {
-  @Output() newInputFileSelected = new EventEmitter<any>();
-  @Output() searchDefined = new EventEmitter<any>();
-  @Output() inputTextChanged = new EventEmitter<boolean>();
-
+  @Output() searchDefined = new EventEmitter<SearchInput>();
   @ViewChild('csvReader', { static: false }) csvReader: any;
 
   selectedFile: any = null;
@@ -25,17 +23,19 @@ export class SearchInputComponent implements OnInit {
     if (input.files) {
       const file = input.files[0];
       this.selectedFile = file;
-      this.newInputFileSelected.emit(file);
     }
   }
 
-  search() {
-    console.log(this.textAreaContent);
-    let searchInput;
+  /**
+   * Controls what happens when the Search button is clicked: Check if the search is by file or text,
+   * which the input is and emmit the information.
+   */
+  public search() {
+    let searchInput: SearchInput = new SearchInput();
     if (this.selectedFile) {
-      searchInput = { type: 'file', value: this.selectedFile };
+      searchInput = { type: SearchInputType.File, value: this.selectedFile };
     } else {
-      searchInput = { type: 'text', value: this.textAreaContent };
+      searchInput = { type: SearchInputType.Text, value: this.textAreaContent };
     }
     this.searchDefined.emit(searchInput);
   }
@@ -45,12 +45,10 @@ export class SearchInputComponent implements OnInit {
   }
 
   onInputTextChanged(event) {
-    this.inputTextChanged.emit(event.target.value);
     this.clearAnySelectedFile();
   }
 
   clearAnySelectedFile() {
-    console.log('clear file!', this.csvReader);
     this.csvReader.nativeElement.value = '';
     this.selectedFile = null;
   }
