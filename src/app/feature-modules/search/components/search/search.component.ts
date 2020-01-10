@@ -87,6 +87,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setupFilters() {
     const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
+    const workGroupNames: NamedValue[] = this.configurationData.workGroups.map(x => ({ name: x }));
     const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
     const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
     const intentionNames: NamedValue[] = this.configurationData.alleleTypes.map(x => ({ name: x }));
@@ -102,6 +103,12 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
         name: 'workUnitNames',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
+      },
+      {
+        title: 'Work Groups',
+        name: 'workGroupNames',
+        type: FilterType.Checkboxes,
+        dataSource: workGroupNames
       },
       {
         title: 'Consortia',
