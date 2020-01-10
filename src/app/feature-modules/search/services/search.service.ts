@@ -3,10 +3,11 @@ import { SearchResult } from '../model/search.result';
 import { HttpClient } from '@angular/common/http';
 import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loader.service';
 import { Observable } from 'rxjs';
-import { Search, SearchType } from '../model/search';
+import { Search } from '../model/search';
 import { SearchFilter } from '../model/search-filter';
 import { Page } from 'src/app/model/page_structure/page';
 import { SearchInputType } from '../model/search-input';
+import { QueryBuilderService } from 'src/app/core';
 
 @Injectable({
     providedIn: 'root'
@@ -16,7 +17,10 @@ export class SearchService {
     searchChange: EventEmitter<Search> = new EventEmitter();
     public search: Search;
 
-    constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
+    constructor(
+        private http: HttpClient,
+        private configAssetLoaderService: ConfigAssetLoaderService,
+        private queryBuilderService: QueryBuilderService) {
         this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
     }
 
@@ -30,39 +34,13 @@ export class SearchService {
     }
 
     public executeSearch(search: Search, page: Page): Observable<SearchResult[]> {
-        const queryAsParameters = this.buildQueryParameters(search, page);
+        const queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, page);
 
         if (search.searchInput.type === SearchInputType.Text) {
             return this.executeSearchByText(search, queryAsParameters);
         } else if (search.searchInput.type === SearchInputType.File) {
             return this.executeSearchByFile(search, queryAsParameters);
         }
-    }
-
-    private buildQueryParameters(search: Search, page: Page): string {
-        const query: string[] = [];
-        query.push(this.searchTypeQuery(search));
-        if (page) {
-            query.push(this.getPaginationQuery(page));
-        }
-        query.push(this.getFilterQuery(search));
-        return query.join('&');
-    }
-
-    private searchTypeQuery(search: Search) {
-        return 'searchTypeName=' + (search.searchType === SearchType.Gene ? 'gene' : 'undefined');
-    }
-
-    private getPaginationQuery(page: Page) {
-        let query = 'page=' + page.number;
-        if (page.size) {
-            query += '&size=' + page.size;
-        }
-        return query;
-    }
-
-    private getFilterQuery(search: Search) {
-        return this.buildFilterParameters(search.filters);
     }
 
     private getInputTextQuery(search: Search) {
@@ -139,7 +117,7 @@ export class SearchService {
 
     private exportCsvForTextInputSearch(search: Search) {
         const inputQuery = this.getInputTextQuery(search);
-        let queryAsParameters = this.buildQueryParameters(search, null);
+        let queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, null);
         if (inputQuery) {
             queryAsParameters += '&' + inputQuery;
         }
@@ -150,7 +128,7 @@ export class SearchService {
 
     private exportCsvForFileInputSearch(search: Search) {
         let url = this.apiServiceUrl + '/api/projects/search/exportSearchByFile?';
-        const queryAsParameters = this.buildQueryParameters(search, null);
+        const queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, null);
         url += queryAsParameters;
         const file = search.searchInput.value;
         const formData: FormData = this.buildFormDataForFile(file);
