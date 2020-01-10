@@ -121,7 +121,6 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   onSearchDefined(e) {
    this.currentSearch.searchInput = e;
    this.searchService.emitSearchChange(this.currentSearch);
-   console.log('this.currentSearch', this.currentSearch);
   }
 
   downloadCsv() {
