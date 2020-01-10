@@ -34,7 +34,8 @@ export class SearchService {
     }
 
     public executeSearch(search: Search, page: Page): Observable<SearchResult[]> {
-        const queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, page);
+        let queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, page);
+        queryAsParameters = 'searchTypeName=' + search.searchType + '&' + queryAsParameters;
 
         if (search.searchInput.type === SearchInputType.Text) {
             return this.executeSearchByText(search, queryAsParameters);
