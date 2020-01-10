@@ -93,6 +93,11 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const intentionNames: NamedValue[] = this.configurationData.alleleTypes.map(x => ({ name: x }));
     this.filtersDefinition = [
       {
+        title: 'TPN',
+        name: 'tpns',
+        type: FilterType.Text
+      },
+      {
         title: 'Allele Intentions',
         name: 'intentionTypeNames',
         type: FilterType.Checkboxes,
