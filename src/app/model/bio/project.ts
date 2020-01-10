@@ -21,6 +21,7 @@ export class Project {
     isActive: boolean;
     comment: string;
     relatedWorkUnitNames: string[];
+    relatedWorkGroupNames: string[];
 
     // tslint:disable-next-line
     _links: ProjectLinks;

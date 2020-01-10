@@ -83,6 +83,17 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="Work Group(s)">
+        <th mat-header-cell *matHeaderCellDef>Work Group(s)</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let workGroupName of searchResult.project.relatedWorkGroupNames">
+                    {{ workGroupName }}
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
     <ng-container matColumnDef="Project Assignment">
         <th mat-header-cell *matHeaderCellDef>Project Assignment</th>
         <td mat-cell *matCellDef="let searchResult">
