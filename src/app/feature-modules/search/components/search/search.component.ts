@@ -87,12 +87,19 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   setupFilters() {
     const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
+    const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
     this.filtersDefinition = [
       {
         title: 'Work Units',
         name: 'workUnitNames',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
+      },
+      {
+        title: 'Privacies',
+        name: 'privacyNames',
+        type: FilterType.Checkboxes,
+        dataSource: privaciesNames
       }
     ];
   }
