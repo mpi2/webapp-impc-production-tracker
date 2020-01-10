@@ -18,7 +18,8 @@
     <ng-container matColumnDef="Project summary">
         <th mat-header-cell *matHeaderCellDef>Project summary</th>
         <td mat-cell *matCellDef="let searchResult">
-            <a *ngIf="searchResult.project" routerLink="/projects/{{ searchResult.project.tpn }}"> {{ searchResult.project.tpn }} </a>
+            <a *ngIf="searchResult.project" routerLink="/projects/{{ searchResult.project.tpn }}">
+                {{ searchResult.project.tpn }} </a>
         </td>
     </ng-container>
 
@@ -75,9 +76,9 @@
         <th mat-header-cell *matHeaderCellDef>Work Unit(s)</th>
         <td mat-cell *matCellDef="let searchResult">
             <div *ngIf="searchResult.project">
-                <ul *ngFor="let workUnitName of searchResult.project.relatedWorkUnitNames">
+                <div *ngFor="let workUnitName of searchResult.project.relatedWorkUnitNames">
                     {{ workUnitName }}
-                </ul>
+                </div>
             </div>
         </td>
     </ng-container>
@@ -93,6 +94,17 @@
         <th mat-header-cell *matHeaderCellDef>Privacy</th>
         <td mat-cell *matCellDef="let searchResult">
             <div *ngIf="searchResult.project">{{ searchResult.project.privacyName }}</div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Consortia">
+        <th mat-header-cell *matHeaderCellDef>Consortia</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let consortium of searchResult.project.consortia">
+                    {{ consortium.consortiumName}}
+                </div>
+            </div>
         </td>
     </ng-container>
 

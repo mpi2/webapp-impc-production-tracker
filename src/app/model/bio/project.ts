@@ -11,7 +11,7 @@ export class Project {
     assignmentStatusDates: StatusDate[];
     isObjectRestricted: boolean;
 
-    institutesConsortium: InstitutesConsortium[];
+    consortia: InstitutesConsortium[];
     privacyName: string;
     species: string[];
     externalReference: string;
