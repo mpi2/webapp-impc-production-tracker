@@ -61,7 +61,6 @@ export class SearchContentComponent implements OnInit, OnDestroy {
     if (!this.loggedUserService.getLoggerUser()) {
       this.search.filters.privacyNames = ['public'];
     }
-
     this.searchService.executeSearch(search, page).subscribe(data => {
       this.updateErrorMessage('');
       this.isLoading = false;

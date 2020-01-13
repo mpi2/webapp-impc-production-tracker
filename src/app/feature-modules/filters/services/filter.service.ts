@@ -48,7 +48,7 @@ export class FilterService {
       }
     } else {
       if (content !== '') {
-        validContent = content;
+        validContent = content.trim();
       }
     }
     return validContent;

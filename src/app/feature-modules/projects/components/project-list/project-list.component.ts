@@ -57,12 +57,8 @@ export class ProjectListComponent implements OnInit {
 
   onFiltersChanged(e) {
     const validatedFilters = this.filterService.buildValidFilter(e);
-    const newQueryParams = this.buildNewQueryParams(validatedFilters);
+    const newQueryParams = validatedFilters;
     this.updateUrlWithFilters(newQueryParams);
-  }
-  buildNewQueryParams(filters) {
-    const currentParameters = this.activatedRoute.snapshot.queryParams;
-    return filters;
   }
 
   private updateUrlWithFilters(filters) {

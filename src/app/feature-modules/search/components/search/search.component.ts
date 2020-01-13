@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import {  MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog, MatSidenav } from '@angular/material';
 import { SearchService, Search, SearchType } from '../..';
 import { SearchResult } from '../../model/search.result';
 import { ProjectIntention } from 'src/app/model/bio/project-intention';
@@ -12,6 +12,7 @@ import { FilterService } from 'src/app/feature-modules/filters/services/filter.s
 import { SearchFilter } from '../../model/search-filter';
 import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 import { SearchInput, SearchInputType } from '../../model/search-input';
+import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-search',
@@ -33,6 +34,8 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   downloading = false;
   isLoading = true;
   filterChangesSubscription;
+  filtersInitialValues: any;
+  configurationLoaded = false;
 
   currentSearch: Search = new Search();
 
@@ -50,13 +53,17 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     private configurationDataService: ConfigurationDataService,
     private loggedUserService: LoggedUserService,
     private filterService: FilterService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
     public dialog: MatDialog) { }
 
   ngOnInit() {
     this.setInitialSearchInformation();
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
+      this.setInitialValuesForFilters();
       this.setupFilters();
+      this.configurationLoaded = true;
     });
     this.isLoading = true;
   }
@@ -73,6 +80,8 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.filterService.filterChange.subscribe(filters => {
         this.filters = filters;
         this.currentSearch.filters = filters;
+        const validatedFilters = this.filterService.buildValidFilter(filters);
+        this.updateUrlWithFilters(validatedFilters);
         this.searchService.emitSearchChange(this.currentSearch);
       });
   }
@@ -131,8 +140,20 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   onSearchDefined(e) {
-   this.currentSearch.searchInput = e;
-   this.searchService.emitSearchChange(this.currentSearch);
+    this.currentSearch.searchInput = e;
+    this.searchService.emitSearchChange(this.currentSearch);
+    // this.updateUrlWithFilters(this.currentSearch.filters);
+  }
+
+  private updateUrlWithFilters(filters) {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: filters,
+        replaceUrl: true
+      }
+    );
   }
 
   downloadCsv() {
@@ -187,5 +208,10 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
   onErrorMessageChanged(e) {
     this.error = e;
+  }
+
+  setInitialValuesForFilters() {
+    const currentParameters = this.activatedRoute.snapshot.queryParams;
+    this.filtersInitialValues = currentParameters;
   }
 }

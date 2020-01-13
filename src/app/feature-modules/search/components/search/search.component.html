@@ -7,14 +7,15 @@
 <mat-sidenav-container>
   <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
-    <app-filter-container *ngIf="filtersDefinition" [filters]="filtersDefinition"></app-filter-container>
+    <app-filter-container *ngIf="filtersDefinition && configurationLoaded" #filter [filters]="filtersDefinition"
+      [filtersInitialValues]="filtersInitialValues">
+    </app-filter-container>
   </mat-sidenav>
   <mat-sidenav-content>
 
     <app-search-input (searchDefined)="onSearchDefined($event)"></app-search-input>
 
-    <div  class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column"
-      fxLayout.sm="column">
+    <div class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column" fxLayout.sm="column">
       <div>
         <button mat-button (click)="downloadCsv()" color="primary">
           <mat-icon>save_alt</mat-icon> Download as CSV
@@ -24,7 +25,9 @@
       </div>
     </div>
     <div class="example-table-container">
-      <app-search-content [search]="currentSearch" (errorMessageChanged)="onErrorMessageChanged($event)"></app-search-content>
+      <app-search-content *ngIf="configurationLoaded" [search]="currentSearch"
+        (errorMessageChanged)="onErrorMessageChanged($event)">
+      </app-search-content>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
