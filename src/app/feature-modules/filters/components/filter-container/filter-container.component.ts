@@ -54,8 +54,17 @@ export class FilterContainerComponent implements OnInit {
     let initialValue;
     if (this.filtersInitialValues) {
       initialValue = this.filtersInitialValues[filterName];
+      initialValue = this.getContentAsArray(initialValue);
     }
     return initialValue;
+  }
+
+  private getContentAsArray(content) {
+    let contentAsArray = content;
+    if (content && !Array.isArray(content)) {
+      contentAsArray = [content];
+    }
+    return contentAsArray;
   }
 
   public setFiltersInitialValues(filtersInitialValues) {
