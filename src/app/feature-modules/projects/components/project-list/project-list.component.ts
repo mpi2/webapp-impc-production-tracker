@@ -126,6 +126,7 @@ export class ProjectListComponent implements OnInit {
   }
 
   downloadCsv() {
+    this.downloading = true;
     this.projectService.exportCsv(this.currentFilters).subscribe(data => {
       this.download('projectResults.csv', data);
       this.downloading = false;
