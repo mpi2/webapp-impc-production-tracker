@@ -8,6 +8,7 @@ import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FilterContainerComponent } from 'src/app/feature-modules/filters/components/filter-container/filter-container.component';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
+import { ProjectService } from '../..';
 
 @Component({
   selector: 'app-project-list',
@@ -28,6 +29,8 @@ export class ProjectListComponent implements OnInit {
   assignmentStatuses: NamedValue[];
   configurationLoaded = false;
 
+  currentFilters: any = {};
+
   configurationData: ConfigurationData;
 
   error;
@@ -44,6 +47,7 @@ export class ProjectListComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private filterService: FilterService,
+    private projectService: ProjectService,
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
@@ -57,6 +61,7 @@ export class ProjectListComponent implements OnInit {
 
   onFiltersChanged(e) {
     const validatedFilters = this.filterService.buildValidFilter(e);
+    this.currentFilters = validatedFilters;
     const newQueryParams = validatedFilters;
     this.updateUrlWithFilters(newQueryParams);
   }
@@ -116,10 +121,31 @@ export class ProjectListComponent implements OnInit {
   setInitialValuesForFilters() {
     const currentParameters = this.activatedRoute.snapshot.queryParams;
     this.filtersInitialValues = currentParameters;
+    this.currentFilters = currentParameters;
+
   }
 
   downloadCsv() {
-    console.log('Still to be implemented');
+    this.projectService.exportCsv(this.currentFilters).subscribe(data => {
+      this.download('projectResults.csv', data);
+      this.downloading = false;
+      this.error = '';
+    },
+      error => {
+        this.error = error;
+        this.downloading = false;
+      }
+    );
+  }
+
+  download(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   }
 
   onErrorLoadingContent(e) {
