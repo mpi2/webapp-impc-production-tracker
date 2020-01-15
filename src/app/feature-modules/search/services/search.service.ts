@@ -36,7 +36,6 @@ export class SearchService {
     public executeSearch(search: Search, page: Page): Observable<SearchResult[]> {
         let queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, page);
         queryAsParameters = 'searchTypeName=' + search.searchType + '&' + queryAsParameters;
-
         if (search.searchInput.type === SearchInputType.Text) {
             return this.executeSearchByText(search, queryAsParameters);
         } else if (search.searchInput.type === SearchInputType.File) {
@@ -119,6 +118,7 @@ export class SearchService {
     private exportCsvForTextInputSearch(search: Search) {
         const inputQuery = this.getInputTextQuery(search);
         let queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, null);
+        queryAsParameters = 'searchTypeName=' + search.searchType + '&' + queryAsParameters;
         if (inputQuery) {
             queryAsParameters += '&' + inputQuery;
         }
@@ -134,7 +134,6 @@ export class SearchService {
         const file = search.searchInput.value;
         const formData: FormData = this.buildFormDataForFile(file);
         console.log('url?', url);
-
         return this.http.post(url, formData, { responseType: 'text' });
     }
 }

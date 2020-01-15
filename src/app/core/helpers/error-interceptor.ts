@@ -1,9 +1,10 @@
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
 import { Observable, throwError } from 'rxjs';
 import { catchError } from 'rxjs/operators';
+import { ApiError } from './api-error';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
@@ -16,30 +17,42 @@ export class ErrorInterceptor implements HttpInterceptor {
         }));
     }
 
-    handleError(error) {
-        if (this.isUnauthorisedError(error) || this.isForbiddenError(error)) {
-            window.alert('Access denied. Please log as a user with the corresponding permissions to execute the required action.');
+    handleError(errorResponse: HttpErrorResponse) {
+        this.handlePermissionError(errorResponse);
+        let errorMessage = '';
+        const apiError = this.getApiError(errorResponse);
+
+        if (apiError) {
+            errorMessage = apiError.message;
+        } else {
+            if ('HttpErrorResponse' === errorResponse.name) {
+                errorMessage = 'Error while comminicating with the server. Check that the server is available.';
+            } else {
+                errorMessage = 'Unknown error';
+            }
+        }
+        return throwError(errorMessage);
+    }
+
+    private handlePermissionError(errorResponse: HttpErrorResponse) {
+        if (this.isUnauthorisedError(errorResponse) || this.isForbiddenError(errorResponse)) {
+            window.alert(
+                'Access denied. Please log as a user with the corresponding permissions ' +
+                'to execute the required action.');
             this.authenticationService.logout();
             this.router.navigateByUrl(`/login`);
-        } else {
-            let errorMessage = '';
-
-            if (this.isNotFoundError(error) && !this.hasApiErrorFormat(error)) {
-                errorMessage = 'The server cannot find the requested resource. Path: ' + error.error.path;
-            } else if (this.hasApiErrorFormat(error)) {
-                errorMessage = this.getApiErrorMessage(error);
-
-            } else {
-                if ('HttpErrorResponse' === error.name) {
-                    console.error(error);
-
-                    errorMessage = 'Error while comminicating with the server. Check that the server is available.';
-                } else {
-                    errorMessage = 'Unknown error';
-                }
-            }
-            return throwError(errorMessage);
         }
+    }
+
+    private getApiError(errorResponse: HttpErrorResponse): ApiError {
+        let apiError;
+        if (errorResponse.error.apierror) {
+            apiError = errorResponse.error.apierror;
+        } else if (errorResponse.statusText !== 'Unknown Error') {
+            const errorObject = JSON.parse(errorResponse.error);
+            apiError = errorObject.apierror;
+        }
+        return apiError;
     }
 
     isUnauthorisedError(error): boolean {
@@ -55,18 +68,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     hasApiErrorFormat(error): boolean {
-        return error.error.apierror;
-    }
-
-    getApiErrorMessage(error) {
-        let errorMessage = error.error.apierror.message || error.statusText;
-
-        if (error.error.apierror.subErrors) {
-            errorMessage += ': ' + error.error.apierror.subErrors[0].message;
-        }
-        if (error.error.apierror.debubMessage) {
-            errorMessage += ': ' + error.error.apierror.debubMessage;
-        }
-        return errorMessage;
+        const errorObject = JSON.parse(error);
+        return errorObject.apierror;
     }
 }
