@@ -88,32 +88,55 @@ export class ProjectListComponent implements OnInit {
 
   setupFilters() {
     const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
+    const workGroupNames: NamedValue[] = this.configurationData.workGroups.map(x => ({ name: x }));
+    const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
+    const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
+    const intentionNames: NamedValue[] = this.configurationData.alleleTypes.map(x => ({ name: x }));
     this.filtersDefinition = [
       {
         title: 'Marker Symbol/ MGI',
-        name: 'gene',
+        name: 'genes',
         type: FilterType.Text
       },
       {
         title: 'TPN',
-        name: 'tpn',
+        name: 'tpns',
         type: FilterType.Text
       },
       {
         title: 'External Reference',
-        name: 'externalReference',
+        name: 'externalReferences',
         type: FilterType.Text
       },
       {
         title: 'Intention',
-        name: 'intention',
-        type: FilterType.Checkboxes
+        name: 'intentions',
+        type: FilterType.Checkboxes,
+        dataSource: intentionNames
       },
       {
         title: 'Work Units',
-        name: 'workUnitName',
+        name: 'workUnitNames',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
+      },
+      {
+        title: 'Work Groups',
+        name: 'workGroupNames',
+        type: FilterType.Checkboxes,
+        dataSource: workGroupNames
+      },
+      {
+        title: 'Consortia',
+        name: 'consortiaNames',
+        type: FilterType.Checkboxes,
+        dataSource: consortiaNames
+      },
+      {
+        title: 'Privacies',
+        name: 'privacyNames',
+        type: FilterType.Checkboxes,
+        dataSource: privaciesNames
       }
     ];
   }

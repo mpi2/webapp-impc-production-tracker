@@ -71,10 +71,7 @@ export class SearchService {
         let url = this.apiServiceUrl + '/api/projects/search?';
         const file = search.searchInput.value;
         url = url + queryString;
-        console.log('the url by file', url);
-
         const formData: FormData = this.buildFormDataForFile(file);
-
         return this.http.post<SearchResult[]>(url, formData);
     }
 
@@ -129,7 +126,8 @@ export class SearchService {
 
     private exportCsvForFileInputSearch(search: Search) {
         let url = this.apiServiceUrl + '/api/projects/search/exportSearchByFile?';
-        const queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, null);
+        let queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, null);
+        queryAsParameters = 'searchTypeName=' + search.searchType + '&' + queryAsParameters;
         url += queryAsParameters;
         const file = search.searchInput.value;
         const formData: FormData = this.buildFormDataForFile(file);

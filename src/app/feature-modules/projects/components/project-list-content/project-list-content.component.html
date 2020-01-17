@@ -12,6 +12,8 @@
                 <th>MGI</th>
                 <th>Intention</th>
                 <th>Best human ortholog</th>
+                <th>Work Unit(s)</th>
+                <th>Work Group(s)</th>
                 <th>Project Assignment</th>
                 <th>Privacy</th>
                 <th>Active/Inactive</th>
@@ -54,6 +56,16 @@
                         </div>
                     </td>
                     <td>
+                        <div *ngFor="let workUnitName of project.relatedWorkUnitNames">
+                            {{ workUnitName }}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let workGroupName of project.relatedWorkGroupNames">
+                            {{ workGroupName }}
+                        </div>
+                    </td>
+                    <td>
                         {{ project.assignmentStatusName }}
                     </td>
                     <td>
@@ -63,8 +75,8 @@
                         {{ project.isActive ? 'Active' : 'Inactive' }}
                     </td>
                     <td>
-                        <div *ngFor="let instituteConsortium of project.institutesConsortium">
-                            {{ instituteConsortium.consortiumName }}
+                        <div *ngFor="let consortium of project.consortia">
+                            {{ consortium.consortiumName}}
                         </div>
                     </td>
                 </tr>
