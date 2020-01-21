@@ -99,7 +99,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const workGroupNames: NamedValue[] = this.configurationData.workGroups.map(x => ({ name: x }));
     const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
     const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
-    const intentionNames: NamedValue[] = this.configurationData.alleleTypes.map(x => ({ name: x }));
+    const intentionNames: NamedValue[] = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
     this.filtersDefinition = [
       {
         title: 'TPN',
