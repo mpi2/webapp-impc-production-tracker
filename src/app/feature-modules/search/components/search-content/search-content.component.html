@@ -23,12 +23,12 @@
         </td>
     </ng-container>
 
-    <ng-container matColumnDef="Allele Intentions">
-        <th mat-header-cell *matHeaderCellDef>Allele Intentions</th>
+    <ng-container matColumnDef="Intention">
+        <th mat-header-cell *matHeaderCellDef>Intention</th>
         <td mat-cell *matCellDef="let searchResult">
             <div *ngIf="searchResult.project">
                 <div *ngFor="let intention of searchResult.project.projectIntentions">
-                    {{ intention.alleleTypeName }}
+                    {{ intention.molecularMutationTypeName }}
                 </div>
             </div>
         </td>

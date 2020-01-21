@@ -2,7 +2,7 @@ import { IntentionByGene } from './intention-by-gene';
 import { IntentionBySequence } from './intention-by-sequence';
 
 export class ProjectIntention {
-    molecularMutationTypeName: any;
+    molecularMutationTypeName: string;
     alleleTypeName: string;
     intentionTypeName: string;
 
