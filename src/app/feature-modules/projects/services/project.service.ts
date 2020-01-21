@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Project } from '../../../model/bio/project';
 import { ChangesHistory, ConfigAssetLoaderService, QueryBuilderService } from 'src/app/core';
@@ -14,6 +14,8 @@ import { flatMap } from 'rxjs/operators';
 export class ProjectService {
 
   private apiServiceUrl;
+  filterChange: EventEmitter<ProjectFilter> = new EventEmitter();
+  filter: ProjectFilter;
   private config$: Observable<AssetConfiguration>;
 
   constructor(
@@ -22,6 +24,15 @@ export class ProjectService {
     private queryBuilderService: QueryBuilderService) {
     this.config$ = from(this.configAssetLoaderService.getConfig());
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
+  }
+
+  public emitFilterChange(filter) {
+    this.filter = filter;
+    this.filterChange.emit(filter);
+  }
+
+  getFilterChange() {
+    return this.emitFilterChange;
   }
 
   getAll() {

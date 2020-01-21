@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FilterDefinition } from '../../model/filter-definition';
 import { FormGroup, FormControl } from '@angular/forms';
 import { FilterService } from '../../services/filter.service';
@@ -13,6 +13,7 @@ import { FilterType } from '../../model/filter-type';
 export class FilterContainerComponent implements OnInit {
   @Input() filters: FilterDefinition[];
   @Input() filtersInitialValues: any;
+  @Output() filterLoaded = new EventEmitter<boolean>();
 
   filterForm: FormGroup;
   FilterType = FilterType;
@@ -35,9 +36,11 @@ export class FilterContainerComponent implements OnInit {
     this.filterForm.valueChanges.subscribe(value => {
       this.filterService.emitFilterChange(value);
       this.traceChange(value);
+
     });
 
     this.setInitialValues();
+    this.filterService.emitFilterLoaded(true);
   }
 
   private setInitialValues() {

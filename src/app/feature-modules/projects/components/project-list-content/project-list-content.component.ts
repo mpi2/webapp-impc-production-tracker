@@ -1,23 +1,21 @@
-import { Component, OnInit, Input, ViewChild, Output, EventEmitter, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, Output, EventEmitter, OnDestroy, Input } from '@angular/core';
 import { Project } from 'src/app/model';
 import { Page } from 'src/app/model/page_structure/page';
 import { ConfigurationData } from 'src/app/core';
 import { ProjectFilter, ProjectService } from '../..';
 import { MatPaginator } from '@angular/material';
-import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 
 @Component({
   selector: 'app-project-list-content',
   templateUrl: './project-list-content.component.html',
   styleUrls: ['./project-list-content.component.css']
 })
-export class ProjectListContentComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ProjectListContentComponent implements OnInit, OnDestroy {
 
   dataSource: Project[] = [];
   @Input() filters: ProjectFilter;
 
   @Output() errorRaised = new EventEmitter<string>();
-  @Output() filtersChanged = new EventEmitter<any>();
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
 
@@ -27,20 +25,18 @@ export class ProjectListContentComponent implements OnInit, AfterViewInit, OnDes
 
   filterChangesSubscription;
 
-  constructor(private projectService: ProjectService, private filterService: FilterService) { }
+  constructor(private projectService: ProjectService) { }
 
   ngOnInit() {
-    this.getPage(this.page, this.filters);
+    this.subscribeToFilterChanges();
   }
 
-  ngAfterViewInit() {
-    this.filterChangesSubscription =
-      this.filterService.filterChange.subscribe(filters => {
-        this.filters = filters;
-        this.resetPage();
-        this.getPage(this.page, filters);
-        this.filtersChanged.emit(filters);
-      });
+  private subscribeToFilterChanges() {
+    this.filterChangesSubscription = this.projectService.filterChange.subscribe(filter => {
+      this.filters = filter;
+      this.resetPage();
+      this.getPage(this.page, this.filters);
+    });
   }
 
   ngOnDestroy() {
@@ -52,6 +48,7 @@ export class ProjectListContentComponent implements OnInit, AfterViewInit, OnDes
     this.projectService.getProjects(filters, page).subscribe(data => {
       this.processResponseData(data);
       this.isLoading = false;
+
     }, error => {
       this.errorRaised.emit(error);
       this.isLoading = false;
@@ -60,7 +57,9 @@ export class ProjectListContentComponent implements OnInit, AfterViewInit, OnDes
 
   private resetPage() {
     this.page.number = 0;
-    this.paginator.pageIndex = 0;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
   }
 
   private processResponseData(data: Project[]) {
