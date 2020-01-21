@@ -28,8 +28,9 @@
         </div>
 
         <div class="example-table-container">
-            <app-project-list-content *ngIf="configurationLoaded" [filters]="filtersInitialValues"
-                (errorRaised)="onErrorLoadingContent($event)" (filtersChanged)="onFiltersChanged($event)">
+            <app-project-list-content #content
+                [filters]="this.filtersInitialValues"
+                (errorRaised)="onErrorLoadingContent($event)">
             </app-project-list-content>
         </div>
 

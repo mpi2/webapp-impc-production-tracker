@@ -7,6 +7,7 @@ export class FilterService {
 
   filterChange: EventEmitter<any> = new EventEmitter();
   searchChange: EventEmitter<any> = new EventEmitter();
+  filterLoaded: EventEmitter<any> = new EventEmitter();
   public filter = {};
 
   constructor() { }
@@ -14,6 +15,10 @@ export class FilterService {
   emitFilterChange(filter) {
     this.filter = filter;
     this.filterChange.emit(filter);
+  }
+
+  emitFilterLoaded(loaded) {
+    this.filterLoaded.emit(loaded);
   }
 
   getFilterChange() {

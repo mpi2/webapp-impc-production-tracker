@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { Observable } from 'rxjs';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
@@ -9,17 +9,19 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { FilterContainerComponent } from 'src/app/feature-modules/filters/components/filter-container/filter-container.component';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 import { ProjectService } from '../..';
+import { ProjectFilter } from '../../model/project-filter';
+import { User } from 'src/app/core/model/user/user';
 
 @Component({
   selector: 'app-project-list',
   templateUrl: './project-list.component.html',
   styleUrls: ['./project-list.component.css']
 })
-export class ProjectListComponent implements OnInit {
+export class ProjectListComponent implements OnInit, OnDestroy {
   @ViewChild(FilterContainerComponent, { static: false }) filter: FilterContainerComponent;
 
   filtersDefinition: FilterDefinition[];
-  filtersInitialValues: any;
+  filtersInitialValues: ProjectFilter;
   filterVisible = false;
   downloading = false;
   isLoading = true;
@@ -32,6 +34,9 @@ export class ProjectListComponent implements OnInit {
   currentFilters: any = {};
 
   configurationData: ConfigurationData;
+  filterChangesSubscription;
+  filterCompleteSubscription;
+  filtersLoaded = false;
 
   error;
   isHandset$: Observable<boolean> = this.breakpointObserver
@@ -48,11 +53,65 @@ export class ProjectListComponent implements OnInit {
     private router: Router,
     private filterService: FilterService,
     private projectService: ProjectService,
+    private loggedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
+    this.subscribeToFilterChanges();
+    this.subscribeToFilterFinished();
     this.isLoading = true;
     this.loadConfigurationData();
+  }
+
+  ngOnDestroy() {
+    this.filterChangesSubscription.unsubscribe();
+    this.filterChangesSubscription.unsubscribe();
+  }
+
+  private subscribeToFilterChanges() {
+    this.filterChangesSubscription =
+      this.filterService.filterChange.subscribe(filters => {
+        this.onFiltersChanged(filters);
+      });
+  }
+
+  private subscribeToFilterFinished() {
+    this.filterChangesSubscription =
+      this.filterService.filterLoaded.subscribe(loaded => {
+        this.filtersLoaded = loaded;
+        this.onFiltersChanged(this.currentFilters);
+      });
+  }
+
+  private initFilters() {
+    this.loggedUserService.getLoggerUser().subscribe(user => {
+      this.filtersLoaded = false;
+      const workUnitsByUser = this.getWorkUnitsByNotAdminUser(user);
+      const filtersByUrl = this.getFiltersByUrl();
+      this.filtersInitialValues = this.buildInitialFilterValues(workUnitsByUser, filtersByUrl);
+      this.filtersDefinition = this.buildFilterDefinition(workUnitsByUser);
+    });
+  }
+
+  private getWorkUnitsByNotAdminUser(user: User): string[] {
+    let workUnits = null;
+    if (!user.isAdmin) {
+      workUnits = user.rolesWorkUnits.map(x => x.workUnitName);
+    }
+    return workUnits;
+  }
+
+  private getFiltersByUrl() {
+    return { ...this.activatedRoute.snapshot.queryParams };
+  }
+
+  private buildInitialFilterValues(workUnitsByUser: string[], filtersByUrl: ProjectFilter): ProjectFilter {
+    let initialFilterValues: ProjectFilter = new ProjectFilter();
+    initialFilterValues = filtersByUrl;
+    if (workUnitsByUser) {
+      initialFilterValues.workUnitNames = workUnitsByUser;
+    }
+    return initialFilterValues;
   }
 
   toogleShowFilters() {
@@ -62,8 +121,10 @@ export class ProjectListComponent implements OnInit {
   onFiltersChanged(e) {
     const validatedFilters = this.filterService.buildValidFilter(e);
     this.currentFilters = validatedFilters;
-    const newQueryParams = validatedFilters;
-    this.updateUrlWithFilters(newQueryParams);
+    this.updateUrlWithFilters(validatedFilters);
+    if (this.filtersLoaded) {
+      this.projectService.emitFilterChange(e);
+    }
   }
 
   private updateUrlWithFilters(filters) {
@@ -80,19 +141,21 @@ export class ProjectListComponent implements OnInit {
   private loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.setupFilters();
-      this.setInitialValuesForFilters();
+      this.initFilters();
       this.configurationLoaded = true;
     });
   }
 
-  setupFilters() {
-    const workUnitNames: NamedValue[] = this.configurationData.workUnits.map(x => ({ name: x }));
+  buildFilterDefinition(workUnitsFilteredData: string[]) {
+    const workUnitNames: NamedValue[] =
+      workUnitsFilteredData ?
+        workUnitsFilteredData.map(x => ({ name: x })) :
+        this.configurationData.workUnits.map(x => ({ name: x }));
     const workGroupNames: NamedValue[] = this.configurationData.workGroups.map(x => ({ name: x }));
     const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
     const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
     const intentionNames: NamedValue[] = this.configurationData.alleleTypes.map(x => ({ name: x }));
-    this.filtersDefinition = [
+    return [
       {
         title: 'Marker Symbol/ MGI',
         name: 'genes',
@@ -141,14 +204,9 @@ export class ProjectListComponent implements OnInit {
     ];
   }
 
-  setInitialValuesForFilters() {
-    const currentParameters = this.activatedRoute.snapshot.queryParams;
-    this.filtersInitialValues = currentParameters;
-    this.currentFilters = currentParameters;
-
-  }
-
   downloadCsv() {
+    console.log('this.currentFilters', this.currentFilters);
+
     this.downloading = true;
     this.projectService.exportCsv(this.currentFilters).subscribe(data => {
       this.download('projectResults.csv', data);
