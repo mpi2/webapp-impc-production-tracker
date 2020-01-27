@@ -1,4 +1,4 @@
-import { Nuclease, Guide, Donor, Reagent, GenotypePrimer, Assay, StrainInjected } from '../../..';
+import { Nuclease, Guide, Donor, Reagent, GenotypePrimer, Assay, StrainInjected, MutagenesisStrategy } from '../../..';
 import { Adapter } from 'src/app/core/model/adapter';
 import { Injectable } from '@angular/core';
 
@@ -23,6 +23,7 @@ export class CrisprAttempt {
     nucleaseAttributes: Nuclease[] = [];
     guidesAttributes: Guide[] = [];
     mutagenesisDonorsAttributes: Donor[] = [];
+    mutagenesisStrategies: MutagenesisStrategy[];
     reagentsAttributes: Reagent[] = [];
     genotypePrimersAttributes: GenotypePrimer[] = [];
     assayAttributes: Assay[] = [];
