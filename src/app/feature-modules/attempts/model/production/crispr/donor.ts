@@ -1,7 +1,7 @@
 export class Donor {
     id: number;
     vectorName: string;
-    concentration: number;
+    concentration: number; // to be deleted
     preparation: string;
     oligoSequenceFa: string;
 }

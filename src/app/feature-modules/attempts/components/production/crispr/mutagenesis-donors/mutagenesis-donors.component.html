@@ -3,7 +3,6 @@
   <table class="mat-elevation-z8">
     <thead>
       <tr>
-        <th scope="col">Concentration </th>
         <th scope="col">Sequence </th>
         <th scope="col">Preparation </th>
         <th scope="col"> </th>
@@ -17,13 +16,8 @@
       <ng-template #editableRow>
         <tr>
           <td>
-            <input app-digit-only decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"
-              #concentration="ngModel" [(ngModel)]="donor.concentration" placeholder="Donor's concentration"
-              (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
-          </td>
-          <td>
             <input [ngClass]="{'required': oligo_sequence_fa.invalid}" name="oligo_sequence_fa"
-              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligo_sequence_fa" placeholder="oligo_sequence_fa"
+              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligoSequenceFa" placeholder="oligo_sequence_fa"
               (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
           </td>
           <td>
@@ -46,10 +40,7 @@
       <ng-template #readOnlyRow>
         <tr>
           <td>
-            {{donor.concentration}}
-          </td>
-          <td>
-            {{donor.oligo_sequence_fa}}
+            {{donor.oligoSequenceFa}}
           </td>
           <td>
             {{donor.preparation || "Not defined"}}
