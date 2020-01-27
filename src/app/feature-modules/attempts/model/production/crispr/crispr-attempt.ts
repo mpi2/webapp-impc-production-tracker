@@ -11,9 +11,9 @@ export class CrisprAttempt {
     experimental: boolean;
     comment: string;
     mutagenesisExternalRef: string;
-    deliveryTypeMethodName: string;
-    voltage: number;
-    numberOfPulses: number;
+    deliveryTypeMethodName: string; // to be deleted
+    voltage: number; // to be deleted
+    numberOfPulses: number; // to be deleted
     totalEmbryosInjected: number;
     totalEmbryosSurvived: number;
     embryoTransferDay: string;
