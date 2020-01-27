@@ -19,4 +19,8 @@ export class ConfigurationData {
     species: string[];
     consortia: string[];
     molecularMutationTypes: string[];
+    mutagenesisStrategyTypes: string[];
+    mutagenesisStrategyClasses: string[];
+    nucleaseTypes: string[];
+    nucleaseClasses: string[];
 }

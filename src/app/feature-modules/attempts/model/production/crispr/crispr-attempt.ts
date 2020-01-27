@@ -20,7 +20,7 @@ export class CrisprAttempt {
     embryo2Cell: string;
     totalTransfered: number;
     noFounderPups: number;
-    nucleaseAttributes: Nuclease[] = [];
+    nucleases: Nuclease[] = [];
     guidesAttributes: Guide[] = [];
     mutagenesisDonorsAttributes: Donor[] = [];
     mutagenesisStrategies: MutagenesisStrategy[];
