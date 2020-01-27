@@ -1,0 +1,19 @@
+table, th, tr, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom-style: solid;
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    font-size: 14px;
+}
+td.no_border {
+    border-bottom-style: none;
+}
+
+.class {
+    width: 100px; 
+}
+
+.type {
+    width: 100px;
+}
