@@ -1,6 +1,7 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/app/core/model/user/user';
 import { ManagedListsService, LoggedUserService, PermissionsService } from 'src/app/core';
+import { NamedValue } from 'src/app/core/model/common/named-value';
 
 @Component({
   selector: 'app-consortium-selector',

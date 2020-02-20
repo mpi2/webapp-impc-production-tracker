@@ -4,9 +4,12 @@ import { ConfigurationData, ConfigurationDataService, GeneService, Gene } from '
 import { FormControl } from '@angular/forms';
 
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { MatDialog, MatTable } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
 import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
 import { Sequence } from 'src/app/model';
+
+import { NamedValue } from 'src/app/core/model/common/named-value';
 
 export interface UsersData {
   name: string;
@@ -49,7 +52,7 @@ export class CreateProjectComponent implements OnInit {
   molecularMutTypes: NamedValue[] = [];
   alleleTypes: NamedValue[] = [];
 
-  @ViewChild(MatTable, { static: false }) table: MatTable<any>;
+  @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(
     private geneService: GeneService,

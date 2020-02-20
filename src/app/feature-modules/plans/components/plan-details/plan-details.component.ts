@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { Plan } from '../../model/plan';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 
 @Component({
   selector: 'app-plan-details',

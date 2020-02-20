@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, share, startWith} from 'rxjs/operators';
@@ -29,8 +30,8 @@ export class ListManagementComponent implements OnInit {
 
   filters: FilterDefinition[];
 
-  @ViewChild('drawer', { static: false }) drawer: MatSidenav;
-  @ViewChild('listContent', { static: false }) listContent: ListContentComponent;
+  @ViewChild('drawer') drawer: MatSidenav;
+  @ViewChild('listContent') listContent: ListContentComponent;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)

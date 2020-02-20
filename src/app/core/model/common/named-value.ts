@@ -1,3 +1,3 @@
-interface NamedValue {
+export interface NamedValue {
     name: string;
 }

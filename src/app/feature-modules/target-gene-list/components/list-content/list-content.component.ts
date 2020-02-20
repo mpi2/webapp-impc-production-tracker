@@ -1,7 +1,8 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { GeneListRecord } from 'src/app/model';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { MatDialog, MatPaginator } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 import { merge, of } from 'rxjs';
@@ -26,7 +27,7 @@ export class ListContentComponent implements OnInit,  AfterViewInit {
   private originalDataAsString: string;
   private originalRecordsStrings: Map<number, string> = new Map();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private targetGeneListService: TargetGeneListService,

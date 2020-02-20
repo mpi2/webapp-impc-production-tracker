@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TissueDistributionCentre, PhenotypingAttempt } from '../../../model/phenotyping/phenotyping_attempt';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 export interface DialogData {

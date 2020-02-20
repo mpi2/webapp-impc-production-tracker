@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
 import { Plan, PlanAdapter } from '../../model/plan';
 import { PermissionsService, ChangesHistory, ChangesHistoryAdapter, LoggedUserService } from 'src/app/core';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 import { Project } from 'src/app/model/bio/project';

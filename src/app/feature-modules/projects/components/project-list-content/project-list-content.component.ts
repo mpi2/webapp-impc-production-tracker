@@ -3,7 +3,7 @@ import { Project } from 'src/app/model';
 import { Page } from 'src/app/model/page_structure/page';
 import { ConfigurationData } from 'src/app/core';
 import { ProjectFilter, ProjectService } from '../..';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
   selector: 'app-project-list-content',
@@ -17,7 +17,7 @@ export class ProjectListContentComponent implements OnInit, OnDestroy {
 
   @Output() errorRaised = new EventEmitter<string>();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   page: Page = { number: 0, size: 20 };
   isLoading = true;

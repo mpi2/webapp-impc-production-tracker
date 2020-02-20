@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { ConfigAssetLoaderService } from 'src/app/core/services/config-asset-loader.service';
 import { EntityValues } from '../../feature-modules/admin/model/entity-values';
 import { HttpClient } from '@angular/common/http';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 
 @Injectable({
   providedIn: 'root'

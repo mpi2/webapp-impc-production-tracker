@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 
 @Component({
   selector: 'app-nuclease',

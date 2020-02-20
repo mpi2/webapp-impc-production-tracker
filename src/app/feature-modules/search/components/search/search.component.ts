@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 import { SearchService, Search, SearchType } from '../..';
 import { SearchResult } from '../../model/search.result';
 import { ProjectIntention } from 'src/app/model/bio/project-intention';
@@ -13,6 +14,8 @@ import { SearchFilter } from '../../model/search-filter';
 import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 import { SearchInput, SearchInputType } from '../../model/search-input';
 import { Router, ActivatedRoute } from '@angular/router';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 
 @Component({
   selector: 'app-search',
@@ -21,7 +24,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
 
-  @ViewChild('drawer', { static: false }) drawer: MatSidenav;
+  @ViewChild('drawer') drawer: MatSidenav;
 
   dataSource: SearchResult[];
 
