@@ -8,6 +8,8 @@ import { ConfigurationData, PermissionsService, ConfigurationDataService, Logged
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ProjectIntention } from 'src/app/model/bio/project-intention';
 import { UserService } from 'src/app/core/services/user.service';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 
 @Component({
   selector: 'app-project-detail',

@@ -4,6 +4,8 @@ import { Donor } from 'src/app/feature-modules/attempts/model/production/crispr/
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { MatDialog } from '@angular/material';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 
 @Component({
   selector: 'app-mutagenesis-donors',

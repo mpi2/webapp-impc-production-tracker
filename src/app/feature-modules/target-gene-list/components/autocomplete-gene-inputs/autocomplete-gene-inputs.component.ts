@@ -20,8 +20,8 @@ export class AutocompleteGeneInputsComponent implements OnInit {
   genesCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
 
-  @ViewChild('geneInput', { static: false }) geneInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto', { static: false }) matAutocomplete: MatAutocomplete;
+  @ViewChild('geneInput') geneInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private geneService: GeneService) { }
 

@@ -8,6 +8,8 @@ import { MatDialog, MatTable } from '@angular/material';
 import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
 import { Sequence } from 'src/app/model';
 
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 export interface UsersData {
   name: string;
   index: number;
@@ -49,7 +51,7 @@ export class CreateProjectComponent implements OnInit {
   molecularMutTypes: NamedValue[] = [];
   alleleTypes: NamedValue[] = [];
 
-  @ViewChild(MatTable, { static: false }) table: MatTable<any>;
+  @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(
     private geneService: GeneService,

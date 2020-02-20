@@ -8,7 +8,7 @@ import { SearchInput, SearchInputType } from '../../model/search-input';
 })
 export class SearchInputComponent implements OnInit {
   @Output() searchDefined = new EventEmitter<SearchInput>();
-  @ViewChild('csvReader', { static: false }) csvReader: any;
+  @ViewChild('csvReader') csvReader: any;
 
   selectedFile: any = null;
   textAreaContent = '';

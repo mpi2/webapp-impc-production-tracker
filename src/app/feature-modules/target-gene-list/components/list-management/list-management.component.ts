@@ -29,8 +29,8 @@ export class ListManagementComponent implements OnInit {
 
   filters: FilterDefinition[];
 
-  @ViewChild('drawer', { static: false }) drawer: MatSidenav;
-  @ViewChild('listContent', { static: false }) listContent: ListContentComponent;
+  @ViewChild('drawer') drawer: MatSidenav;
+  @ViewChild('listContent') listContent: ListContentComponent;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)

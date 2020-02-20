@@ -26,7 +26,7 @@ export class ListContentComponent implements OnInit,  AfterViewInit {
   private originalDataAsString: string;
   private originalRecordsStrings: Map<number, string> = new Map();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private targetGeneListService: TargetGeneListService,

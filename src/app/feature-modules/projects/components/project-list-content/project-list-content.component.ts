@@ -17,7 +17,7 @@ export class ProjectListContentComponent implements OnInit, OnDestroy {
 
   @Output() errorRaised = new EventEmitter<string>();
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   page: Page = { number: 0, size: 20 };
   isLoading = true;

@@ -11,6 +11,8 @@ import { FilterService } from 'src/app/feature-modules/filters/services/filter.s
 import { ProjectService } from '../..';
 import { ProjectFilter } from '../../model/project-filter';
 import { User } from 'src/app/core/model/user/user';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
 
 @Component({
   selector: 'app-project-list',
@@ -18,7 +20,7 @@ import { User } from 'src/app/core/model/user/user';
   styleUrls: ['./project-list.component.css']
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
-  @ViewChild(FilterContainerComponent, { static: false }) filter: FilterContainerComponent;
+  @ViewChild(FilterContainerComponent) filter: FilterContainerComponent;
 
   filtersDefinition: FilterDefinition[];
   filtersInitialValues: ProjectFilter;

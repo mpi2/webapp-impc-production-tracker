@@ -24,7 +24,7 @@ export class SearchContentComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [];
   searchSubscription: Subscription;
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private loggedUserService: LoggedUserService,
