@@ -5,7 +5,7 @@ import { Page } from 'src/app/model/page_structure/page';
 import { SearchFilter } from '../../model/search-filter';
 import { Search, SearchService } from '../..';
 import { LoggedUserService } from 'src/app/core';
-import { MatPaginator } from '@angular/material';
+import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 
 @Component({

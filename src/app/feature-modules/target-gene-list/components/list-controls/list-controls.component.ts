@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { MatDialog, MatSlideToggleChange } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { ImportListDialogComponent } from '../import-list-dialog/import-list-dialog.component';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 

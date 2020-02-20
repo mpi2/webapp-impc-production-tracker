@@ -4,7 +4,8 @@ import { ConfigurationData, ConfigurationDataService, GeneService, Gene } from '
 import { FormControl } from '@angular/forms';
 
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { MatDialog, MatTable } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
 import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
 import { Sequence } from 'src/app/model';
 

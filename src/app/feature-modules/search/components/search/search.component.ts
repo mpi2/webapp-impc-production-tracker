@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import { MatDialog, MatSidenav } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSidenav } from '@angular/material/sidenav';
 import { SearchService, Search, SearchType } from '../..';
 import { SearchResult } from '../../model/search.result';
 import { ProjectIntention } from 'src/app/model/bio/project-intention';
