@@ -6,7 +6,7 @@ describe('TargetGeneListService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: TargetGeneListService = TestBed.get(TargetGeneListService);
+    const service: TargetGeneListService = TestBed.inject(TargetGeneListService);
     expect(service).toBeTruthy();
   });
 });

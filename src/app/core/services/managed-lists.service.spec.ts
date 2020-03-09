@@ -6,7 +6,7 @@ describe('ManagedListsService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ManagedListsService = TestBed.get(ManagedListsService);
+    const service: ManagedListsService = TestBed.inject(ManagedListsService);
     expect(service).toBeTruthy();
   });
 });

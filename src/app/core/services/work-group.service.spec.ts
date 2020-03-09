@@ -6,7 +6,7 @@ describe('WorkGroupService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: WorkGroupService = TestBed.get(WorkGroupService);
+    const service: WorkGroupService = TestBed.inject(WorkGroupService);
     expect(service).toBeTruthy();
   });
 });
