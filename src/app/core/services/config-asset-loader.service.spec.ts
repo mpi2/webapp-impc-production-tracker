@@ -6,7 +6,7 @@ describe('ConfigAssetLoaderService', () => {
   beforeEach(() => TestBed.configureTestingModule({}));
 
   it('should be created', () => {
-    const service: ConfigAssetLoaderService = TestBed.get(ConfigAssetLoaderService);
+    const service: ConfigAssetLoaderService = TestBed.inject(ConfigAssetLoaderService);
     expect(service).toBeTruthy();
   });
 });
