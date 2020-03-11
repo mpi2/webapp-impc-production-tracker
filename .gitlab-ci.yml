@@ -45,9 +45,6 @@ services:
 
 stages:
 - build
-# - sandbox-deploy
-# - dev-deploy
-
 
 
 build_image:
