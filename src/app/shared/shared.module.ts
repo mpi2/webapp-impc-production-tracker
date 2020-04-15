@@ -40,7 +40,6 @@ import { DeleteConfirmationComponent } from './components/delete-confirmation/de
 import { ExpandableContentComponent } from './components/expandable-content/expandable-content.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
-import { CSVLoaderComponent } from './components/csvloader/csvloader.component';
 import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -52,7 +51,6 @@ import { LayoutModule } from '@angular/cdk/layout';
     ExpandableContentComponent,
     DigitOnlyDirective,
     InformativeDialogComponent,
-    CSVLoaderComponent,
     DialogBoxComponent],
   imports: [
     MatAutocompleteModule,
@@ -103,7 +101,6 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatExpansionModule,
     MatFormFieldModule,
     GoBackComponent,
-    CSVLoaderComponent,
     MatToolbarModule,
     MatTooltipModule,
     MatButtonModule,
