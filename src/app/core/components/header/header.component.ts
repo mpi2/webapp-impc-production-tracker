@@ -4,6 +4,7 @@ import { MessageService } from '../../services/message.service';
 import { LoggedUserService } from '../../services/logged-user.service';
 import { User } from '../../model/user/user';
 import { PermissionsService } from '../../services/permissions.service';
+import { ConfigAssetLoaderService } from '../..';
 
 @Component({
   selector: 'app-header',
@@ -19,9 +20,19 @@ export class HeaderComponent implements OnInit {
   loggedUser: User;
   canSeeProjectList: boolean;
 
-  title = 'GenTaR';
+  apiDocumentationUrl;
 
-  constructor(private messageService: MessageService, private loggedUserService: LoggedUserService) {
+  title = 'GenTaR';
+  apiServiceUrl;
+
+  constructor(
+    private messageService: MessageService,
+    private loggedUserService: LoggedUserService,
+    private configAssetLoaderService: ConfigAssetLoaderService) {
+    this.configAssetLoaderService.getConfig().then(data => {
+      this.apiServiceUrl = data.appServerUrl;
+      this.apiDocumentationUrl = this.apiServiceUrl + '/docs/restapi.html';
+    });
     this.messageService.getMessage().subscribe(data => {
       const userLoggedIn = data.isUserLoggedIn;
       if (userLoggedIn) {
