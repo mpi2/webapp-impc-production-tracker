@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
   apiDocumentationUrl;
 
   title = 'GenTaR';
-  apiServiceUrl
+  apiServiceUrl;
 
   constructor(
     private messageService: MessageService,
@@ -31,7 +31,7 @@ export class HeaderComponent implements OnInit {
     private configAssetLoaderService: ConfigAssetLoaderService) {
     this.configAssetLoaderService.getConfig().then(data => {
       this.apiServiceUrl = data.appServerUrl;
-      this.apiDocumentationUrl = this.apiServiceUrl + "/docs/restapi.html";
+      this.apiDocumentationUrl = this.apiServiceUrl + '/docs/restapi.html';
     });
     this.messageService.getMessage().subscribe(data => {
       const userLoggedIn = data.isUserLoggedIn;
