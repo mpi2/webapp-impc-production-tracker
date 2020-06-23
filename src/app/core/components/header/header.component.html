@@ -39,7 +39,7 @@
             <button mat-menu-item [matMenuTriggerFor]="documentation_menu">Help
             </button>
             <mat-menu #documentation_menu="matMenu">
-                <a href="https://documenter.getpostman.com/view/6493399/SzmY9ghw?version=latest" target="_blank"
+                <a *ngIf="apiDocumentationUrl" href= "{{ apiDocumentationUrl }}" target="_blank"
                     mat-menu-item>API documentation</a>
                 <a href='./assets/documentation/The_GenTaR_Web_Application_Sandbox.pdf' target="_blank"
                     mat-menu-item>Website
