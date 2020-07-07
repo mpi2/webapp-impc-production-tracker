@@ -29,8 +29,9 @@ export class NucleaseComponent implements OnInit {
       this.configurationData = data;
       console.log(data);
 
-      this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
-      this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
+      /// TODO
+      // this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
+      // this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
     });
     this.setInitialData();
   }

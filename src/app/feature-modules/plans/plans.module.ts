@@ -20,7 +20,8 @@ import { PlanRouterComponent } from './components/plan-router/plan-router.compon
     PlanSummaryComponent,
     PlanDetailsComponent,
     UpdateNotificationComponent,
-    PlanRouterComponent],
+    PlanRouterComponent
+  ],
   imports: [
     SharedModule,
     PlansRoutingModule,

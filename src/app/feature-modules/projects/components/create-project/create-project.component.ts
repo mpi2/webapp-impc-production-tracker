@@ -7,8 +7,6 @@ import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTable } from '@angular/material/table';
 import { DialogBoxComponent } from 'src/app/shared/components/dialog-box/dialog-box.component';
-import { Sequence } from 'src/app/model';
-
 import { NamedValue } from 'src/app/core/model/common/named-value';
 
 export interface UsersData {
@@ -29,17 +27,16 @@ const ELEMENT_DATA: UsersData[] = [
   styleUrls: ['./create-project.component.css']
 })
 export class CreateProjectComponent implements OnInit {
-  displayedColumnsGenes: string[] = ['symbol', 'accId', 'molecularMutType', 'alleleType', 'action'];
-  displayedColumnsSequenceLocation: string[] = ['index', 'name', 'action'];
-  dataSource = ELEMENT_DATA;
+  displayedColumnsGenes: string[] = ['symbol', 'accId', 'action'];
 
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  projectFormGroup: FormGroup;
+  planFormGroup: FormGroup;
 
   searchGenesCtrl = new FormControl();
   filteredGenes: string[] = [];
   genesSelected: Gene[] = [];
-  seqLocSelected: Sequence[] = [];
+  // seqLocSelected: Sequence[] = [];
+  // geneSequence: Sequence[] = [];
   isLoading = false;
   isLinear = false;
   errorMsg: string;
@@ -50,43 +47,63 @@ export class CreateProjectComponent implements OnInit {
   consortia: NamedValue[] = [];
   institutes: NamedValue[] = [];
   molecularMutTypes: NamedValue[] = [];
-  alleleTypes: NamedValue[] = [];
+  molecularMutationTypes: NamedValue[] = [];
+  mutationCategorizations: NamedValue[] = [];
+  sequenceTypes: NamedValue[] = [];
+  sequenceCategorizations: NamedValue[] = [];
+  funders: NamedValue[] = [];
+  workUnits: NamedValue[] = [];
+  planTypes: NamedValue[] = [];
+  attemptTypes: NamedValue[] = [];
 
   @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(
     private geneService: GeneService,
     private configurationDataService: ConfigurationDataService,
+    public dialog: MatDialog,
+    private formBuilder: FormBuilder,
     private formBuilder2: FormBuilder,
-    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
+      console.log(this.configurationData);
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
       this.species = this.configurationData.species.map(x => ({ name: x}));
       this.institutes = this.configurationData.institutes.map(x => ({ name: x}));
       this.consortia = this.configurationData.consortia.map(x => ({ name: x}));
-      this.alleleTypes = this.configurationData.alleleTypes.map(x => ({ name: x}));
-      this.molecularMutTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x}));
+      this.molecularMutationTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x}));
+      this.mutationCategorizations = this.configurationData.mutationCategorizations.map(x => ({ name: x}));
+      this.sequenceTypes = this.configurationData.sequenceTypes.map(x => ({ name: x}));
+      this.sequenceCategorizations = this.configurationData.sequenceCategorizations.map(x => ({ name: x}));
+      this.funders = this.configurationData.funders.map(x => ({ name: x }));
+      this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
+      this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
+      this.attemptTypes = this.configurationData.attemptTypes.map(x => ({ name: x }));
     });
 
-    this.firstFormGroup = this.formBuilder2.group({
+    this.projectFormGroup = this.formBuilder.group({
       withdrawn: [''],
       recovery: [''],
-      is_active: [''],
+      is_active: [true],
       privacy: ['', Validators.required],
       species: [[], Validators.required],
       consortiumInstitutes: [[]],
-      intentionType: ['', Validators.required],
       comment: [''],
       external_ref: [''],
-      genesSelected: [[]]
+      intention: [[]]
     });
 
-    this.secondFormGroup = this.formBuilder2.group({
-      secondCtrl: ['', Validators.required]
+    this.planFormGroup = this.formBuilder2.group({
+      funder: [''],
+      workUnit: ['', Validators.required],
+      planType: ['', Validators.required],
+      attemptType: ['', Validators.required],
+      is_active: [true],
+      comment: [''],
+      products_available_for_general_public: ['']
     });
 
     this.searchGenesCtrl.valueChanges
@@ -147,46 +164,6 @@ export class CreateProjectComponent implements OnInit {
       if (result.event === 'Delete') {
         this.deleteSelectedGene(result.data);
       }
-    });
-  }
-
-  openDialog(action, obj) {
-    obj.action = action;
-    const dialogRef = this.dialog.open(DialogBoxComponent, {
-      width: '250px',
-      data: obj
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result.event === 'Add') {
-        this.addRowData(result.data);
-      } else if (result.event === 'Delete') {
-        this.deleteRowData(result.data);
-      }
-    });
-  }
-
-  addRowData(rowObj) {
-    const d = new Date();
-    this.dataSource.push({
-      index: d.getTime(),
-      name: rowObj.name
-    });
-    this.table.renderRows();
-  }
-
-  editLocationSequence(rowObj) {
-    // this.dataSource = this.dataSource.filter((value, key) => {
-    //   if (value.id === rowObj.id) {
-    //     value.name = rowObj.name;
-    //   }
-    //   return true;
-    // });
-  }
-
-  deleteRowData(rowObj) {
-    this.dataSource = this.dataSource.filter((value, key) => {
-      return value.index !== rowObj.id;
     });
   }
 

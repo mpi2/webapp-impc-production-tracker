@@ -9,4 +9,5 @@ export * from './bio/intention-by-gene';
 export * from './bio/intention-by-sequence';
 export * from './bio/institutes-consortium';
 export * from './bio/status-date';
+export * from './bio/basic-plan';
 
