@@ -25,7 +25,6 @@
     "@angular/router": "^9.1.9",
     "@material/dialog": "^4.0.0",
     "angular4-material-table": "^0.8.0",
-    "ng7-bootstrap-breadcrumb": "^2.0.0",
     "node-gyp": "^6.1.0",
     "rebuild": "^0.1.2",
     "rxjs": "^6.5.4",
