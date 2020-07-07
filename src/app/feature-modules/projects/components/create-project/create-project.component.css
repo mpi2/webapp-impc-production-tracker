@@ -1,29 +1,39 @@
-.example-container {
-  min-width: 150px;
-  max-width: 500px;
-  width: 100%;
-}
-
-.example-container > * {
-  padding-top: 1.5em;
-}
-
-.example-half-width {
-  width: 50%;
-}
-
-.example-full-width {
-  width: 100%;
-}
-
-#create-project-consortium-institutes {
-  padding-right: 2em;
-}
-
-#create-project-textarea {
-  height: 5em;
-}
-
 table {
-  width: 200%;
+  border-spacing: 10px;
+  border-collapse: separate;
+  font-size: 16px;
+}
+.mat-column-name {
+  width: 30% 
+}
+.mat-column-date {
+  width: 28%;
+}
+.name {
+  font-weight: bold;
+}
+fieldset {
+  font-size: 16px;
+  border: 0;
+  border-spacing: 10px;
+}
+label {
+  clear: both;
+  float: left;
+  padding-right: 10px;
+  width: 100px;
+}
+input, select, content {
+  float: left;
+}
+.content {
+  max-width: 40%;
+  float: left;
+}
+.select-content {
+  max-width: 35%;
+}
+.tpn {
+  font-size: 16px;
+  padding-inline-start: 0.75em;
 }
