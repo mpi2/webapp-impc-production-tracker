@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapp-sandbox
+  name: webapp-sandbox
+  namespace: mi-production-tracker-sandbox
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp-sandbox
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webapp-sandbox
+    spec:
+      containers:
+      - image: rwilsonebi/production-tracker-webapp:latest
+        imagePullPolicy: Always
+        name: webapp-sandbox
+        env:
+        - name: API_SERVICE_HOST
+          value: www.gentar.org
+        - name: API_SERVICE_PORT
+          value: "443\\/production-tracker-sandbox-api"
+        - name: REDEPLOY_KEY
+          value: "STRING_REPLACED_DURING_REDEPLOY"
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
