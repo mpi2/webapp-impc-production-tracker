@@ -143,7 +143,7 @@ dev:
     - |
       if [ ! -z ${KUBERNETES_ENDPOINT+set} ]; then
 
-        apk --no-cache --update add jq
+        apk --no-cache --update add jq curl
 
         kubectl config set-cluster local --server="${KUBERNETES_ENDPOINT}"
         kubectl config set clusters.local.certificate-authority-data "${KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
