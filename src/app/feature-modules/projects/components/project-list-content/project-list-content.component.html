@@ -15,6 +15,7 @@
                 <th>Work Unit(s)</th>
                 <th>Work Group(s)</th>
                 <th>Project Assignment</th>
+                <th>Summary Status</th>
                 <th>Privacy</th>
                 <th>Active/Inactive</th>
                 <th>Consortia</th>
@@ -67,6 +68,9 @@
                     </td>
                     <td>
                         {{ project.assignmentStatusName }}
+                    </td>
+                    <td>
+                        {{ project.summaryStatusName }}
                     </td>
                     <td>
                         {{ project.privacyName }}
