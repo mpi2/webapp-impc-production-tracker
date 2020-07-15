@@ -8,9 +8,9 @@ export class Project {
     tpn: string;
     imitsMiPlanId: number;
     assignmentStatusName: string;
+    summaryStatusName: string;
     assignmentStatusDates: StatusDate[];
     isObjectRestricted: boolean;
-
     consortia: InstitutesConsortium[];
     privacyName: string;
     species: string[];

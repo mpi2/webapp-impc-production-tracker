@@ -103,6 +103,7 @@ export class SearchContentComponent implements OnInit, OnDestroy {
         'Work Unit(s)',
         'Work Group(s)',
         'Project Assignment',
+        'Summary Status',
         'Privacy',
         'Consortia',
         'Access Restriction'];
@@ -117,6 +118,7 @@ export class SearchContentComponent implements OnInit, OnDestroy {
         'Work Unit(s)',
         'Work Group(s)',
         'Project Assignment',
+        'Summary Status',
         'Privacy',
         'Consortia',
         'Access Restriction'];

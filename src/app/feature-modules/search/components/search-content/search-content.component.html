@@ -101,6 +101,13 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="Summary Status">
+        <th mat-header-cell *matHeaderCellDef>Summary Status</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">{{ searchResult.project.summaryStatusName }}</div>
+        </td>
+    </ng-container>
+
     <ng-container matColumnDef="Privacy">
         <th mat-header-cell *matHeaderCellDef>Privacy</th>
         <td mat-cell *matCellDef="let searchResult">
