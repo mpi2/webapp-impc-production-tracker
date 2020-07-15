@@ -106,36 +106,36 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     this.filtersDefinition = [
       {
         title: 'TPN',
-        name: 'tpns',
+        name: 'tpn',
         type: FilterType.Text
       },
       {
         title: 'Allele Intentions',
-        name: 'intentionTypeNames',
+        name: 'intentionTypeName',
         type: FilterType.Checkboxes,
         dataSource: intentionNames
       },
       {
         title: 'Work Units',
-        name: 'workUnitNames',
+        name: 'workUnitName',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
       },
       {
         title: 'Work Groups',
-        name: 'workGroupNames',
+        name: 'workGroupName',
         type: FilterType.Checkboxes,
         dataSource: workGroupNames
       },
       {
         title: 'Consortia',
-        name: 'consortiaNames',
+        name: 'consortiumName',
         type: FilterType.Checkboxes,
         dataSource: consortiaNames
       },
       {
         title: 'Privacies',
-        name: 'privacyNames',
+        name: 'privacyName',
         type: FilterType.Checkboxes,
         dataSource: privaciesNames
       }
