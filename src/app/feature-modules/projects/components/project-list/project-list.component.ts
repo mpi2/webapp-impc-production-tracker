@@ -160,46 +160,46 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     return [
       {
         title: 'Marker Symbol/ MGI',
-        name: 'genes',
+        name: 'gene',
         type: FilterType.Text
       },
       {
         title: 'TPN',
-        name: 'tpns',
+        name: 'tpn',
         type: FilterType.Text
       },
       {
         title: 'External Reference',
-        name: 'externalReferences',
+        name: 'externalReference',
         type: FilterType.Text
       },
       {
         title: 'Intention',
-        name: 'intentions',
+        name: 'intention',
         type: FilterType.Checkboxes,
         dataSource: intentionNames
       },
       {
         title: 'Work Units',
-        name: 'workUnitNames',
+        name: 'workUnitName',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
       },
       {
         title: 'Work Groups',
-        name: 'workGroupNames',
+        name: 'workGroupName',
         type: FilterType.Checkboxes,
         dataSource: workGroupNames
       },
       {
         title: 'Consortia',
-        name: 'consortiaNames',
+        name: 'consortiumName',
         type: FilterType.Checkboxes,
         dataSource: consortiaNames
       },
       {
         title: 'Privacies',
-        name: 'privacyNames',
+        name: 'privacyName',
         type: FilterType.Checkboxes,
         dataSource: privaciesNames
       }
@@ -207,8 +207,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
   }
 
   downloadCsv() {
-    console.log('this.currentFilters', this.currentFilters);
-
     this.downloading = true;
     this.projectService.exportCsv(this.currentFilters).subscribe(data => {
       this.download('projectResults.csv', data);
