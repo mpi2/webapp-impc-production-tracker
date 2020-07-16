@@ -170,7 +170,17 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   getGeneIntentions(): ProjectIntention[] {
-    return this.getSequenceIntentionsByType('gene');
+    const projectIntentions: ProjectIntention[] = [];
+    let result = null;
+    if (this.project.projectIntentions) {
+      this.project.projectIntentions.filter(x => x.intentionByGene != null).map(x => projectIntentions.push(x));
+      if (projectIntentions.length === 0) {
+        result = null;
+      } else {
+        result = projectIntentions;
+      }
+    }
+    return result;
   }
 
   getSequenceIntentions(): ProjectIntention[] {

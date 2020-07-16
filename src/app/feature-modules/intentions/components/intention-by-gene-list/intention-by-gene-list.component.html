@@ -1,4 +1,4 @@
-<div id="intentionsTitle"><label>Intentions:</label></div>
+<!-- <div id="intentionsTitle"><label>Intentions:</label></div>
 <div fxLayout="row wrap" fxLayout.lt-sm="column" fxLayoutGap="50px" fxLayoutAlign="stretch" style="width: 100%;">
     <div *ngFor="let projectIntention of projectIntentions" fxFlex="0 1 calc(33.3% - 32px)"
         fxFlex.lt-md="0 1 calc(50% - 32px)" fxFlex.lt-sm="100%">
@@ -6,4 +6,43 @@
             <app-intention-by-gene [projectIntention]="projectIntention"></app-intention-by-gene>
         </mat-card>
     </div>
-</div>
+</div> -->
+
+<!-- <pre> {{ projectIntentions | json}}</pre> -->
+
+
+<table mat-table [dataSource]="projectIntentions" class="mat-elevation-z1">
+    <!-- Symbol-->
+    <ng-container matColumnDef="symbol">
+        <th mat-header-cell *matHeaderCellDef> Symbol </th>
+        <td mat-cell *matCellDef="let element">
+            <a href="{{ element.intentionByGene.gene.externalLink }}"
+                target="_blank">{{ element.intentionByGene.gene.symbol }}</a>
+        </td>
+    </ng-container>
+
+    <!-- Accession Id -->
+    <ng-container matColumnDef="accessionId">
+        <th mat-header-cell *matHeaderCellDef> Accession Id </th>
+        <td mat-cell *matCellDef="let element">
+            <a href="{{ element.intentionByGene.gene.externalLink }}"
+                target="_blank">{{ element.intentionByGene.gene.accessionId }}</a>
+        </td>
+    </ng-container>
+
+    <!-- Species -->
+    <ng-container matColumnDef="species">
+        <th mat-header-cell *matHeaderCellDef> Species </th>
+        <td mat-cell *matCellDef="let element"> {{ element.intentionByGene.gene.speciesName }} </td>
+    </ng-container>
+
+    <!-- Species -->
+    <ng-container matColumnDef="molecularMutationType">
+        <th mat-header-cell *matHeaderCellDef> Molecular Mutation Type </th>
+        <td mat-cell *matCellDef="let element"> {{ element.molecularMutationTypeName }} </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
