@@ -157,6 +157,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
     const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
     const intentionNames: NamedValue[] = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
+    const summaryStatuses: NamedValue[] = this.configurationData.statuses.map(x => ({ name: x }));
     return [
       {
         title: 'Marker Symbol/ MGI',
@@ -180,28 +181,34 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         dataSource: intentionNames
       },
       {
-        title: 'Work Units',
+        title: 'Work Unit',
         name: 'workUnitName',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
       },
       {
-        title: 'Work Groups',
+        title: 'Work Group',
         name: 'workGroupName',
         type: FilterType.Checkboxes,
         dataSource: workGroupNames
       },
       {
-        title: 'Consortia',
+        title: 'Consortium',
         name: 'consortiumName',
         type: FilterType.Checkboxes,
         dataSource: consortiaNames
       },
       {
-        title: 'Privacies',
+        title: 'Privacy',
         name: 'privacyName',
         type: FilterType.Checkboxes,
         dataSource: privaciesNames
+      },
+      {
+        title: 'Summary Status',
+        name: 'summaryStatusName',
+        type: FilterType.Checkboxes,
+        dataSource: summaryStatuses
       }
     ];
   }

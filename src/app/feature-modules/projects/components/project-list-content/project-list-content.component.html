@@ -17,7 +17,6 @@
                 <th>Project Assignment</th>
                 <th>Summary Status</th>
                 <th>Privacy</th>
-                <th>Active/Inactive</th>
                 <th>Consortia</th>
             </tr>
             <ng-template ngFor let-project [ngForOf]="dataSource">
@@ -74,9 +73,6 @@
                     </td>
                     <td>
                         {{ project.privacyName }}
-                    </td>
-                    <td>
-                        {{ project.isActive ? 'Active' : 'Inactive' }}
                     </td>
                     <td>
                         <div *ngFor="let consortium of project.consortia">

@@ -103,6 +103,7 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
     const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
     const intentionNames: NamedValue[] = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
+    const summaryStatuses: NamedValue[] = this.configurationData.statuses.map(x => ({ name: x }));
     this.filtersDefinition = [
       {
         title: 'TPN',
@@ -110,34 +111,41 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
         type: FilterType.Text
       },
       {
-        title: 'Allele Intentions',
+        title: 'Allele Intention',
         name: 'intentionTypeName',
         type: FilterType.Checkboxes,
         dataSource: intentionNames
       },
       {
-        title: 'Work Units',
+        title: 'Work Unit',
         name: 'workUnitName',
         type: FilterType.Checkboxes,
         dataSource: workUnitNames
       },
       {
-        title: 'Work Groups',
+        title: 'Work Group',
         name: 'workGroupName',
         type: FilterType.Checkboxes,
         dataSource: workGroupNames
       },
       {
-        title: 'Consortia',
+        title: 'Consortium',
         name: 'consortiumName',
         type: FilterType.Checkboxes,
         dataSource: consortiaNames
       },
       {
-        title: 'Privacies',
+        title: 'Privacy',
         name: 'privacyName',
         type: FilterType.Checkboxes,
         dataSource: privaciesNames
+      }
+      ,
+      {
+        title: 'Summary Status',
+        name: 'summaryStatusName',
+        type: FilterType.Checkboxes,
+        dataSource: summaryStatuses
       }
     ];
   }
