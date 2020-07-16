@@ -129,17 +129,6 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-
-  onActiveSelected(): void {
-    this.project.isActive = !this.project.isActive;
-    console.log('Updated is_active in memory...');
-  }
-
-  onWithdrawnSelected(): void {
-    this.project.withdrawn = !this.project.withdrawn;
-    console.log('Updated withdrawn in memory...');
-  }
-
   onRecoverySelected(): void {
     this.project.recovery = !this.project.recovery;
     console.log('Updated recovery in memory...');

@@ -25,11 +25,6 @@
 
         <label for="assignmentStatus">Assignment Status:</label>
         <div id="assignmentStatus" class="content">{{project.assignmentStatusName}}</div>
-
-        <label for="active">Active?:</label>
-        <input id="active" type="checkbox" (change)="onActiveSelected()" [checked]="this.project.isActive"
-          [disabled]="!canUpdateProject">
-
         <label for="privacy">Privacy:</label>
         <div id="privacy" class="content">
           <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
@@ -44,10 +39,6 @@
             {{project.privacyName}}
           </ng-template>
         </div>
-
-        <label for="withdrawn">Withdrawn?:</label>
-        <input id="withdrawn" type="checkbox" (change)="onWithdrawnSelected()" [checked]="this.project.withdrawn"
-          [disabled]="!canUpdateProject">
 
         <label for="recovery">Recovery?:</label>
         <input id="recovery" type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
