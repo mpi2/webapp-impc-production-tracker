@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { IntentionByGeneComponent } from './components/intention-by-gene/intention-by-gene.component';
 import { IntentionBySequenceComponent } from './components/intention-by-sequence/intention-by-sequence.component';
 import { GenesModule } from '../genes/genes.module';
 import { SequencesModule } from '../sequences/sequences.module';
@@ -9,7 +8,6 @@ import { IntentionBySequenceListComponent } from './components/intention-by-sequ
 
 @NgModule({
   declarations: [
-    IntentionByGeneComponent,
     IntentionByGeneListComponent,
     IntentionBySequenceComponent,
     IntentionBySequenceListComponent
@@ -20,7 +18,6 @@ import { IntentionBySequenceListComponent } from './components/intention-by-sequ
     SequencesModule,
   ],
   exports: [
-    IntentionByGeneComponent,
     IntentionByGeneListComponent,
     IntentionBySequenceComponent,
     IntentionBySequenceListComponent

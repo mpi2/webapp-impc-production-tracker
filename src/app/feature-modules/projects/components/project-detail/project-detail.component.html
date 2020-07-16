@@ -7,24 +7,18 @@
     </div>
   </mat-card-content>
 </mat-card>
-
 <mat-card>
-  <mat-card-subtitle>Project Details.</mat-card-subtitle>
+  <mat-card-subtitle>Project Details</mat-card-subtitle>
   <mat-card-content>
     <form [formGroup]="projectForm">
-      <div id="project" class="tpn">
+      <fieldset>
+        <!-- PIN -->
         <label for="tpn">Project id:</label>
         <div id="tpn">{{ project.tpn }}</div>
-      </div>
-      <app-intention-by-gene-list *ngIf="projectIntentionsByGene" [projectIntentions]="projectIntentionsByGene">
-      </app-intention-by-gene-list>
-      <app-intention-by-sequence-list *ngIf="projectIntentionsBySequence"
-        [projectIntentions]="projectIntentionsBySequence"></app-intention-by-sequence-list>
-
-      <fieldset>
-
+        <!-- Assignment Status -->
         <label for="assignmentStatus">Assignment Status:</label>
         <div id="assignmentStatus" class="content">{{project.assignmentStatusName}}</div>
+        <!-- Privacy. Editable if user has permissions. -->
         <label for="privacy">Privacy:</label>
         <div id="privacy" class="content">
           <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
@@ -39,11 +33,11 @@
             {{project.privacyName}}
           </ng-template>
         </div>
-
+        <!-- Recovery. Editable if user has permissions. -->
         <label for="recovery">Recovery?:</label>
         <input id="recovery" type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
           [disabled]="!canUpdateProject">
-
+        <!-- Comment. Editable if user has permissions. -->
         <label for="comment">Comment:</label>
         <div id="comment" class="content">
           <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
@@ -55,9 +49,18 @@
             {{project.comment}}
           </ng-template>
         </div>
-
       </fieldset>
-
+      <!-- Intentions in the project -->
+      <section>
+        <fieldset>
+          <p>Intentions by gene:</p>
+          <app-intention-by-gene-list *ngIf="projectIntentionsByGene" [projectIntentions]="projectIntentionsByGene">
+          </app-intention-by-gene-list>
+          <p>Intentions by sequence:</p>
+          <app-intention-by-sequence-list *ngIf="projectIntentionsBySequence"
+            [projectIntentions]="projectIntentionsBySequence"></app-intention-by-sequence-list>
+        </fieldset>
+      </section>
     </form>
   </mat-card-content>
 </mat-card>

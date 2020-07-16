@@ -16,9 +16,7 @@ export class Project {
     species: string[];
     externalReference: string;
     projectIntentions: ProjectIntention[];
-    withdrawn: boolean;
     recovery: boolean;
-    isActive: boolean;
     comment: string;
     relatedWorkUnitNames: string[];
     relatedWorkGroupNames: string[];

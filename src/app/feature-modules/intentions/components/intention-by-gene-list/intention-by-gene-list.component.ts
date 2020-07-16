@@ -10,6 +10,8 @@ export class IntentionByGeneListComponent implements OnInit {
 
   @Input() projectIntentions: ProjectIntention[];
 
+  displayedColumns: string[] = ['symbol', 'accessionId', 'species', 'molecularMutationType'];
+
   constructor() { }
 
   ngOnInit() {
