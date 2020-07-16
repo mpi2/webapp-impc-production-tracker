@@ -29,7 +29,6 @@ import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { Ng7BootstrapBreadcrumbModule } from 'ng7-bootstrap-breadcrumb';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatListModule } from '@angular/material/list';
 
@@ -86,7 +85,6 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatNativeDateModule,
     MatRadioModule,
     MatAutocompleteModule,
-    Ng7BootstrapBreadcrumbModule,
     MatStepperModule,
     MatListModule
   ],
@@ -126,7 +124,6 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatNativeDateModule,
     MatRadioModule,
     MatAutocompleteModule,
-    Ng7BootstrapBreadcrumbModule,
     MatStepperModule,
     MatListModule
   ],
