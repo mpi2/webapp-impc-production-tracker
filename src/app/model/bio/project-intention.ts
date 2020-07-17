@@ -7,5 +7,5 @@ export class ProjectIntention {
     intentionTypeName: string;
 
     intentionByGene: IntentionByGene;
-    intentionBySequence: IntentionBySequence;
+    intentionsBySequence: IntentionBySequence[];
 }

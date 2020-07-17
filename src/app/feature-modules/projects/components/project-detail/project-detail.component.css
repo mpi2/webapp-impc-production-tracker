@@ -21,19 +21,20 @@ label {
     clear: both;
     float: left;
     padding-right: 10px;
-    width: 100px;
+    padding-bottom: 5px;
+    width: 15%
 }
 input, select, content {
     float: left;
 }
 .content {
-    max-width: 40%;
+    min-width: 40%;
+    float: left;
+}
+.comment {
+    min-width: 200px;
     float: left;
 }
 .select-content {
     max-width: 35%;
-}
-.tpn {
-    font-size: 16px;
-    padding-inline-start: 0.75em;
 }

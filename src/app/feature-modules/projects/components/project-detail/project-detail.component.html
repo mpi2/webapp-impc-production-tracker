@@ -39,7 +39,7 @@
           [disabled]="!canUpdateProject">
         <!-- Comment. Editable if user has permissions. -->
         <label for="comment">Comment:</label>
-        <div id="comment" class="content">
+        <div id="comment" class="comment">
           <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
           <ng-template #commentsEditable>
             <textarea type="text" formControlName="comments" class="form-control"
@@ -51,22 +51,16 @@
         </div>
       </fieldset>
       <!-- Intentions in the project -->
-      <section>
         <fieldset>
-          <p>Intentions by gene:</p>
-          <app-intention-by-gene-list *ngIf="projectIntentionsByGene" [projectIntentions]="projectIntentionsByGene">
-          </app-intention-by-gene-list>
-          <p>Intentions by sequence:</p>
-          <app-intention-by-sequence-list *ngIf="projectIntentionsBySequence"
-            [projectIntentions]="projectIntentionsBySequence"></app-intention-by-sequence-list>
+          <p>Intentions:</p>
+          <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions"></app-intention-list>
         </fieldset>
-      </section>
     </form>
   </mat-card-content>
 </mat-card>
 <mat-card>
   <mat-card-content>
-    <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject && false"
+    <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
       (click)="updateProject()">Update</button>
   </mat-card-content>
 </mat-card>

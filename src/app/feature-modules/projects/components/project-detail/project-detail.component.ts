@@ -32,10 +32,6 @@ export class ProjectDetailComponent implements OnInit {
   privacies: NamedValue[] = [];
   selectedPrivacy = [];
 
-  projectIntentionsByGene: ProjectIntention[] = [];
-  projectIntentionsByLocation: ProjectIntention[] = [];
-  projectIntentionsBySequence: ProjectIntention[] = [];
-
   projectForm: FormGroup;
 
   constructor(
@@ -75,7 +71,6 @@ export class ProjectDetailComponent implements OnInit {
       this.originalProjectAsString = JSON.stringify(data);
       this.getProductionPlans();
       this.getPhenotypingPlans();
-      this.loadIntentionsByType();
       this.loadPermissions();
       this.setFormValues();
       this.error = null;
@@ -98,10 +93,6 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-  private loadIntentionsByType() {
-    this.projectIntentionsByGene = this.getGeneIntentions();
-    this.projectIntentionsBySequence = this.getSequenceIntentions();
-  }
 
   private getProductionPlans(): void {
     if (this.project._links.productionPlans) {
@@ -153,38 +144,6 @@ export class ProjectDetailComponent implements OnInit {
 
   shouldUpdateBeEnabled(): boolean {
     return this.originalProjectAsString !== JSON.stringify(this.project);
-  }
-
-  getSequenceIntentionsByType(type: string): ProjectIntention[] {
-    const projectIntentions: ProjectIntention[] = [];
-    let result = null;
-    if (this.project.projectIntentions) {
-      this.project.projectIntentions.filter(x => x.intentionTypeName === type).map(x => projectIntentions.push(x));
-      if (projectIntentions.length === 0) {
-        result = null;
-      } else {
-        result = projectIntentions;
-      }
-    }
-    return result;
-  }
-
-  getGeneIntentions(): ProjectIntention[] {
-    const projectIntentions: ProjectIntention[] = [];
-    let result = null;
-    if (this.project.projectIntentions) {
-      this.project.projectIntentions.filter(x => x.intentionByGene != null).map(x => projectIntentions.push(x));
-      if (projectIntentions.length === 0) {
-        result = null;
-      } else {
-        result = projectIntentions;
-      }
-    }
-    return result;
-  }
-
-  getSequenceIntentions(): ProjectIntention[] {
-    return this.getSequenceIntentionsByType('sequence');
   }
 
   sortByPid(plans: Plan[]): Plan[] {
