@@ -11,10 +11,6 @@
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
 </app-plan-details>
 
-<!-- <app-intention-by-gene-list [intentionByGenes]="project.intentionsByGene"></app-intention-by-gene-list>
-<app-intention-by-sequence-list [intentionBySequences]="project.intentionsByLocation">
-</app-intention-by-sequence-list> -->
-
 <app-crispr-attempt *ngIf="plan.crisprAttemptAttributes" [crisprAttempt]="plan.crisprAttemptAttributes"
   [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>

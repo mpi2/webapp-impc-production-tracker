@@ -1,0 +1,56 @@
+<table mat-table [dataSource]="projectIntentions" class="mat-elevation-z1">
+
+    <!-- Molecular Mutation Type -->
+    <ng-container matColumnDef="molecularMutationType">
+        <th mat-header-cell *matHeaderCellDef> Molecular Mutation Type </th>
+        <td mat-cell *matCellDef="let element"> 
+            {{ element.molecularMutationTypeName }} 
+        </td>
+    </ng-container>
+
+    <!-- Mutation Categorizations -->
+    <ng-container matColumnDef="mutationCategorizations">
+        <th mat-header-cell *matHeaderCellDef> Mutation Categorizations </th>
+        <td mat-cell *matCellDef="let element"> 
+            <li *ngFor="let mutationCategorization of element.mutationCategorizations">
+                {{ mutationCategorization.name }}
+              </li>
+        </td>
+    </ng-container>
+
+    <!-- Symbol-->
+    <ng-container matColumnDef="geneSymbol">
+        <th mat-header-cell *matHeaderCellDef> Gene Symbol </th>
+        <td mat-cell *matCellDef="let element">
+            <a href="{{ element.intentionByGene.gene.externalLink }}"
+                target="_blank">{{ element.intentionByGene.gene.symbol }}</a>
+        </td>
+    </ng-container>
+
+    <!-- Accession Id -->
+    <ng-container matColumnDef="accessionId">
+        <th mat-header-cell *matHeaderCellDef> Accession Id </th>
+        <td mat-cell *matCellDef="let element">
+            <a href="{{ element.intentionByGene.gene.externalLink }}"
+                target="_blank">{{ element.intentionByGene.gene.accessionId }}</a>
+        </td> 
+    </ng-container>
+
+    <!-- Species -->
+    <ng-container matColumnDef="species">
+        <th mat-header-cell *matHeaderCellDef> Species </th>
+        <td mat-cell *matCellDef="let element"> 
+            {{ element.intentionByGene.gene.speciesName }} 
+        </td>
+    </ng-container>
+
+     <!-- Sequence link -->
+     <ng-container matColumnDef="sequence">
+        <th mat-header-cell *matHeaderCellDef> Sequence Information </th>
+        <td mat-cell *matCellDef="let element"> 'Link' </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>
