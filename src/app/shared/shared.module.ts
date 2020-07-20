@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -55,6 +56,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatAutocompleteModule,
     CommonModule,
     FormsModule,
+    BrowserModule,
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
@@ -92,6 +94,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatAutocompleteModule,
     CommonModule,
     FormsModule,
+    BrowserModule,
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,

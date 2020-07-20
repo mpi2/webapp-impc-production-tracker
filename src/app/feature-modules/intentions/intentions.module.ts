@@ -3,10 +3,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { GenesModule } from '../genes/genes.module';
 import { SequencesModule } from '../sequences/sequences.module';
 import { IntentionListComponent } from './components/intention-list/intention-list.component';
+import { SequencesIntentionsDialogComponent } from './components/sequences-intentions-dialog/sequences-intentions-dialog.component';
+import { SequenceIntentionDetailComponent } from './components/sequence-intention-detail/sequence-intention-detail.component';
 
 @NgModule({
   declarations: [
-    IntentionListComponent
+    IntentionListComponent,
+    SequencesIntentionsDialogComponent,
+    SequenceIntentionDetailComponent
   ],
   imports: [
     SharedModule,
@@ -14,7 +18,8 @@ import { IntentionListComponent } from './components/intention-list/intention-li
     SequencesModule,
   ],
   exports: [
-    IntentionListComponent
+    IntentionListComponent,
+    SequenceIntentionDetailComponent
   ]
 })
 export class IntentionsModule { }
