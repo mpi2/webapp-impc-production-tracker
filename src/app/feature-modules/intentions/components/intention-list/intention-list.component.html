@@ -3,18 +3,18 @@
     <!-- Molecular Mutation Type -->
     <ng-container matColumnDef="molecularMutationType">
         <th mat-header-cell *matHeaderCellDef> Molecular Mutation Type </th>
-        <td mat-cell *matCellDef="let element"> 
-            {{ element.molecularMutationTypeName }} 
+        <td mat-cell *matCellDef="let element">
+            {{ element.molecularMutationTypeName }}
         </td>
     </ng-container>
 
     <!-- Mutation Categorizations -->
     <ng-container matColumnDef="mutationCategorizations">
         <th mat-header-cell *matHeaderCellDef> Mutation Categorizations </th>
-        <td mat-cell *matCellDef="let element"> 
+        <td mat-cell *matCellDef="let element">
             <li *ngFor="let mutationCategorization of element.mutationCategorizations">
                 {{ mutationCategorization.name }}
-              </li>
+            </li>
         </td>
     </ng-container>
 
@@ -33,23 +33,41 @@
         <td mat-cell *matCellDef="let element">
             <a href="{{ element.intentionByGene.gene.externalLink }}"
                 target="_blank">{{ element.intentionByGene.gene.accessionId }}</a>
-        </td> 
+        </td>
     </ng-container>
 
     <!-- Species -->
     <ng-container matColumnDef="species">
         <th mat-header-cell *matHeaderCellDef> Species </th>
-        <td mat-cell *matCellDef="let element"> 
-            {{ element.intentionByGene.gene.speciesName }} 
+        <td mat-cell *matCellDef="let element">
+            {{ element.intentionByGene.gene.speciesName }}
         </td>
     </ng-container>
 
-     <!-- Sequence link -->
-     <ng-container matColumnDef="sequence">
+    <!-- Sequence link -->
+    <ng-container matColumnDef="sequence">
         <th mat-header-cell *matHeaderCellDef> Sequence Information </th>
-        <td mat-cell *matCellDef="let element"> 'Link' </td>
+        <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.intentionsBySequence != null && element.intentionsBySequence.length > 0;
+                else elseBlock"><a (click)="openDialog(element)">See sequence intention details</a></div>
+            <ng-template #elseBlock>No sequence intention information.</ng-template>
+        </td>
     </ng-container>
 
+
+    <ng-container matColumnDef="expandedDetail">
+        <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+          <div class="example-element-detail"
+               [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+            <div class="example-element-diagram">
+              <div class="example-element-position"> {{'element.molecularMutationTypeName'}} </div>
+              <div class="example-element-symbol"> {{'element.symbol'}} </div>
+              <div class="example-element-name"> {{'element.name'}} </div>
+              <div class="example-element-weight"> {{'element.weight'}} </div>
+            </div>
+          </div>
+        </td>
+      </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>

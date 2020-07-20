@@ -6,8 +6,6 @@ import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ProjectIntention } from 'src/app/model/bio/project-intention';
-import { UserService } from 'src/app/core/services/user.service';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 
 
@@ -42,8 +40,7 @@ export class ProjectDetailComponent implements OnInit {
     private planService: PlanService,
     private permissionsService: PermissionsService,
     private configurationDataService: ConfigurationDataService,
-    private loggedUserService: LoggedUserService,
-    private userService: UserService) { }
+    private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
     this.projectForm = this.formBuilder.group({

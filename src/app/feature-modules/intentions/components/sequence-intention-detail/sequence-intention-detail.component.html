@@ -1,0 +1,87 @@
+<form [formGroup]="sequenceIntentionDetailForm">
+  <fieldset>
+
+    <label for="index">Index:</label>
+    <div id="index">{{ intentionBySequence.index }}</div>
+
+    <label for="sequence">Sequence:</label>
+    <div id="sequence" class="content">
+      <textarea type="text" formControlName="sequence" class="form-control"></textarea>
+    </div>
+
+    <label for="type">Type:</label>
+    <div id="type" class="content">{{ intentionBySequence.sequence.typeName }}</div>
+
+    <label for="type">Category:</label>
+    <div id="type" class="content">{{ intentionBySequence.sequence.categoryName }}</div>
+
+  </fieldset>
+
+</form>
+
+<fieldset>
+  <label>Locations:</label>
+  <table mat-table [dataSource]="intentionBySequence.sequence.sequenceLocations" class="mat-elevation-z1">
+
+    <ng-container matColumnDef="index">
+      <th mat-header-cell *matHeaderCellDef> Index </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.locationIndex }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="chr">
+      <th mat-header-cell *matHeaderCellDef> Chr </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.location.chr }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="start">
+      <th mat-header-cell *matHeaderCellDef> Start </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.location.start }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="stop">
+      <th mat-header-cell *matHeaderCellDef> Stop </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.location.stop }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="strand">
+      <th mat-header-cell *matHeaderCellDef> Strand </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.location.strand }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="genomeBuild">
+      <th mat-header-cell *matHeaderCellDef> Genome Buid </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.location.genomeBuild }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="strain">
+      <th mat-header-cell *matHeaderCellDef> Strain </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.location.strainName }}
+      </td>
+    </ng-container>
+  
+    <ng-container matColumnDef="species">
+      <th mat-header-cell *matHeaderCellDef> Species </th>
+      <td mat-cell *matCellDef="let element">
+        {{ element.location.speciesName }}
+      </td>
+    </ng-container>
+  
+  
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</fieldset>
+
