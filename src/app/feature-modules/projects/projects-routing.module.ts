@@ -21,14 +21,29 @@ const routes: Routes = [
   },
 
   {
-    path: 'projects/:id/history', component: HistoryComponent
+    path: 'projects/:id/history', component: HistoryComponent,
+    data: {
+      title: 'Project History',
+      id: 'id',
+      entity: 'project'
+    }
   },
 
   {
-    path: 'projects/:id/production-plan/:pid/history', component: HistoryComponent
+    path: 'projects/:id/production-plan/:pid/history', component: HistoryComponent,
+    data: {
+      title: 'Project History',
+      id: 'pid',
+      entity: 'plan'
+    }
   },
   {
-    path: 'projects/:id/phenotyping-plan/:pid/history', component: HistoryComponent
+    path: 'projects/:id/phenotyping-plan/:pid/history', component: HistoryComponent,
+    data: {
+      title: 'Project History',
+      id: 'pid',
+      entity: 'plan'
+    }
   },
 
   { path: 'projects', component: ProjectListComponent },
