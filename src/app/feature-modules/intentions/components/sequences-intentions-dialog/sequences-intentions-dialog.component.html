@@ -1,9 +1,6 @@
 <h2 mat-dialog-title>Sequence intention information</h2>
 
 <mat-dialog-content class="mat-typography">
-  <!-- <mat-card *ngFor="let intentionBySequence of data.intentionsBySequence" >
-    <app-sequence-intention-detail [intentionBySequence]=intentionBySequence></app-sequence-intention-detail>
-  </mat-card> -->
   <div *ngFor="let intentionBySequence of data.intentionsBySequence" class="sequenceIntentionSection">
     <mat-card>
       <app-sequence-intention-detail [intentionBySequence]=intentionBySequence></app-sequence-intention-detail>
