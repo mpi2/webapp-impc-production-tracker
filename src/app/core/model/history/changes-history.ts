@@ -21,71 +21,29 @@ export class ChangesHistory {
 })
 
 export class ChangesHistoryAdapter implements Adapter<ChangesHistory> {
-    private readonly COLLECTION_SYMBOL = '#';
     adapt(item: any): ChangesHistory {
         const history = new ChangesHistory();
         history.id = item.id;
         history.user = item.user;
         history.date = new Date(item.date);
         history.details = item.details;
+        if (history.details) {
+            history.details = history.details.filter(x => x.note !== 'Element changed');
+        }
         history.comment = item.comment;
         history.action = item.action;
         history.details.map(x => x.formattedField = this.formatPropertyName(x.field));
-        history.details.map(x => x.description = this.buildDetailDescription(x.formattedField, x.field, x.newValue, x.oldValue));
-
         return history;
     }
 
-    public buildDetailDescription(formattedField, field, newValue, oldValue): string {
-        let description;
-
-        if (this.isElementInCollection(field)) {
-            description = this.buildDetailDescriptionForCollectionElement(formattedField, newValue, oldValue);
-        } else {
-            description = formattedField  + ' updated';
-        }
-        return description;
-    }
-
-    private buildDetailDescriptionForCollectionElement(formattedField, newValue, oldValue): string {
-        const actionOnField = this.getActionOnCollectionElement(newValue, oldValue);
-        const description = 'Element in ' + formattedField + ' ' + actionOnField;
-        return description;
-    }
-
-    private getActionOnCollectionElement(newValue, oldValue): string {
-        let action;
-        if (newValue && oldValue) {
-            action = 'updated';
-        } else if (newValue) {
-            action = 'added';
-        } else {
-            action = 'deleted';
-        }
-        return action;
-    }
-
-    public isElementInCollection(field: string): boolean {
-        return field.includes(this.COLLECTION_SYMBOL);
-    }
-
     public formatPropertyName(name: string): string {
-        let formattedProperty = this.removeCollectionSymbol(name);
+        let formattedProperty = name;
         let words = this.convertToArray(formattedProperty);
         words = this.removeNameAtEnd(words);
         words = words.map(x => this.capitalizeWord(x));
         formattedProperty = words.join(' ');
 
         return formattedProperty;
-    }
-
-    private removeCollectionSymbol(text): string {
-        let result = text;
-        const indexOfSymbol = text.indexOf(this.COLLECTION_SYMBOL);
-        if (indexOfSymbol > 0) {
-            result = result.substr(0, indexOfSymbol);
-        }
-        return result;
     }
 
     private convertToArray(name: string): string[] {
