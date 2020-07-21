@@ -153,7 +153,6 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
   onSearchDefined(e) {
     this.currentSearch.searchInput = e;
     this.searchService.emitSearchChange(this.currentSearch);
-    // this.updateUrlWithFilters(this.currentSearch.filters);
   }
 
   private updateUrlWithFilters(filters) {

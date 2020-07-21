@@ -2,11 +2,11 @@ import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy } 
 import { SearchResult } from '../../model/search.result';
 import { ProjectIntention } from 'src/app/model';
 import { Page } from 'src/app/model/page_structure/page';
-import { SearchFilter } from '../../model/search-filter';
 import { Search, SearchService } from '../..';
 import { LoggedUserService } from 'src/app/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
+import { Sort } from 'src/app/model/page_structure/sort';
 
 @Component({
   selector: 'app-search-content',
@@ -19,7 +19,8 @@ export class SearchContentComponent implements OnInit, OnDestroy {
   @Output() errorMessageChanged = new EventEmitter<string>();
 
   dataSource: SearchResult[];
-  page: Page = { number: 0, size: 20 };
+  sort: Sort = { property: 'tpn', direction: 'ASC'};
+  page: Page = { number: 0, size: 20, sorts: [this.sort]};
   isLoading = true;
   displayedColumns: string[] = [];
   searchSubscription: Subscription;
@@ -75,7 +76,6 @@ export class SearchContentComponent implements OnInit, OnDestroy {
     /* tslint:disable:no-string-literal */
     this.dataSource = data['results'];
     this.dataSource.map(x => this.buildSearchResultComments(x));
-    /// this.updateInputIfSearchedByFile();
     this.refreshVisibleColumns();
     this.page = data['page'];
     /* tslint:enable:no-string-literal */

@@ -20,6 +20,9 @@ export class QueryBuilderService {
         if (page.size) {
             query += '&size=' + page.size;
         }
+        if (page.sorts) {
+            page.sorts.forEach(x => query += '&sort=' + x.property + (x.direction ? ',' + x.direction : ''));
+        }
         return query;
     }
 

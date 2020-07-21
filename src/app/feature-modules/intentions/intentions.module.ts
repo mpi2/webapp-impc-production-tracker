@@ -3,13 +3,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { GenesModule } from '../genes/genes.module';
 import { SequencesModule } from '../sequences/sequences.module';
 import { IntentionListComponent } from './components/intention-list/intention-list.component';
-import { SequencesIntentionsDialogComponent } from './components/sequences-intentions-dialog/sequences-intentions-dialog.component';
 import { SequenceIntentionDetailComponent } from './components/sequence-intention-detail/sequence-intention-detail.component';
 
 @NgModule({
   declarations: [
     IntentionListComponent,
-    SequencesIntentionsDialogComponent,
     SequenceIntentionDetailComponent
   ],
   imports: [

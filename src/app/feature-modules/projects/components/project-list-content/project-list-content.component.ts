@@ -4,6 +4,7 @@ import { Page } from 'src/app/model/page_structure/page';
 import { ConfigurationData } from 'src/app/core';
 import { ProjectFilter, ProjectService } from '../..';
 import { MatPaginator } from '@angular/material/paginator';
+import { Sort } from 'src/app/model/page_structure/sort';
 
 @Component({
   selector: 'app-project-list-content',
@@ -19,7 +20,8 @@ export class ProjectListContentComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  page: Page = { number: 0, size: 20 };
+  sort: Sort = { property: 'tpn', direction: 'ASC'};
+  page: Page = { number: 0, size: 20, sorts: [this.sort] };
   isLoading = true;
   configurationData: ConfigurationData;
 
