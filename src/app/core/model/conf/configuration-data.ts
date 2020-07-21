@@ -24,4 +24,6 @@ export class ConfigurationData {
     sequenceCategorizations: string[];
     funders: string[];
     attemptTypes: string[];
+    nucleaseTypes: string[];
+    nucleaseClasses: string[];
 }

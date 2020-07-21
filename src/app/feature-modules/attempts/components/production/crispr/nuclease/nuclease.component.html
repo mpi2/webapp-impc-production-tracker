@@ -13,14 +13,16 @@
                 <ng-template #editableRow>
                     <tr>
                         <td>
-                            <mat-select (selectionChange)="onNucleaseChanged(nuclease)" class="type" [(value)]="nuclease.typeName">
+                            <mat-select (selectionChange)="onNucleaseChanged(nuclease)" class="type"
+                                [(value)]="nuclease.typeName">
                                 <mat-option *ngFor="let nucleaseType of nucleaseTypes" [value]="nucleaseType.name">
                                     {{nucleaseType.name}}
                                 </mat-option>
                             </mat-select>
                         </td>
                         <td>
-                            <mat-select (selectionChange)="onNucleaseChanged(nuclease)" class="class" [(value)]="nuclease.className">
+                            <mat-select (selectionChange)="onNucleaseChanged(nuclease)" class="class"
+                                [(value)]="nuclease.className">
                                 <mat-option *ngFor="let nucleaseClase of nucleaseClases" [value]="nucleaseClase.name">
                                     {{nucleaseClase.name}}
                                 </mat-option>

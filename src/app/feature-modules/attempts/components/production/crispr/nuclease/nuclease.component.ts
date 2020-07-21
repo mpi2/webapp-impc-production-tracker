@@ -27,19 +27,14 @@ export class NucleaseComponent implements OnInit {
     this.canUpdatePlan = false;
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      console.log(data);
-
-      /// TODO
-      // this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
-      // this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
+      this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
+      this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
     });
     this.setInitialData();
   }
 
   setInitialData(): void {
     this.dataSource = this.crisprAttempt.nucleases;
-    console.log(this.dataSource );
-
   }
 
   onNucleaseChanged(nuclease: Nuclease) {
