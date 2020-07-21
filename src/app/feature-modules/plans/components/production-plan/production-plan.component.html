@@ -11,7 +11,7 @@
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
 </app-plan-details>
 
-<app-crispr-attempt *ngIf="plan.crisprAttemptAttributes" [crisprAttempt]="plan.crisprAttemptAttributes"
+<app-crispr-attempt *ngIf="plan.crisprAttempt" [crisprAttempt]="plan.crisprAttempt"
   [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>
 
