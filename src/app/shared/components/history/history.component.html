@@ -8,7 +8,8 @@
         <th>User</th>
         <th>Date</th>
         <th>Action</th>
-        <th>Description</th>
+        <th>Field</th>
+        <th>Note</th>
         <th>From</th>
         <th>To</th>
       </tr>
@@ -29,7 +30,9 @@
               {{ historyRecord.comment }}
             </td>
 
-            <td class="tablename description"> {{ change.description }}
+            <td class="tablename description"> {{ change.field }}
+            </td>
+            <td class="tablename description"> {{ change.note }}
             </td>
             <td>
               <div
