@@ -4,9 +4,13 @@ import { ProjectService } from '../../services/project.service';
 import { Project, ProjectAdapter } from '../../../../model/bio/project';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
-import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
+import { ConfigurationData, PermissionsService, ConfigurationDataService,
+  LoggedUserService, ChangesHistory, ChangesHistoryAdapter } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UpdateNotificationComponent } from 'src/app/feature-modules/plans/components/update-notification/update-notification.component';
+import { ChangeResponse } from 'src/app/core/model/history/change-response';
 
 
 @Component({
@@ -22,6 +26,7 @@ export class ProjectDetailComponent implements OnInit {
   phenotypingPlansDetails: Plan[] = [];
   canUpdateProject: boolean;
   error;
+  changeDetails: ChangesHistory;
 
   assignmentStatusDatesColumns = ['name', 'date'];
 
@@ -40,7 +45,9 @@ export class ProjectDetailComponent implements OnInit {
     private planService: PlanService,
     private permissionsService: PermissionsService,
     private configurationDataService: ConfigurationDataService,
-    private loggedUserService: LoggedUserService) { }
+    private loggedUserService: LoggedUserService,
+    private changeHistoryAdapter: ChangesHistoryAdapter,
+    private snackBar: MatSnackBar, ) { }
 
   ngOnInit() {
     this.projectForm = this.formBuilder.group({
@@ -90,7 +97,6 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-
   private getProductionPlans(): void {
     if (this.project._links.productionPlans) {
       this.project._links.productionPlans.map(x => {
@@ -119,24 +125,31 @@ export class ProjectDetailComponent implements OnInit {
 
   onRecoverySelected(): void {
     this.project.recovery = !this.project.recovery;
-    console.log('Updated recovery in memory...');
   }
 
   onTextCommentChanged(e): void {
     const newComments = this.projectForm.get('comments').value;
     this.project.comment = newComments;
-    console.log('Updated comment in memory...');
   }
 
   onItemSelect(e): void {
     this.project.privacyName = e;
-    console.log('Updated privacy in memory...');
-
   }
 
   updateProject(): void {
-    console.log('Update project...', this.project);
-    console.log('originalProject', this.originalProjectAsString);
+    this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
+      if (changeResponse && changeResponse.history.length > 0) {
+        this.changeDetails = changeResponse.history[0];
+        this.snackBar.openFromComponent(UpdateNotificationComponent, {
+          duration: 3000,
+          data: this.changeDetails
+        });
+      }
+      this.error = null;
+    }, error => {
+      this.error = error;
+    });
+
   }
 
   shouldUpdateBeEnabled(): boolean {

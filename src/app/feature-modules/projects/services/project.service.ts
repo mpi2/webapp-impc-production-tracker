@@ -77,4 +77,9 @@ export class ProjectService {
     url += queryParameters;
     return this.http.get(url, { responseType: 'text' });
   }
+
+  public updateProject(project: Project) {
+    const url = this.apiServiceUrl + '/api/projects/' + project.tpn;
+    return this.http.put<any>(url, project);
+  }
 }
