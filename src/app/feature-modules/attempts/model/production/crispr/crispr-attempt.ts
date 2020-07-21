@@ -22,12 +22,12 @@ export class CrisprAttempt {
     noFounderPups: number;
     nucleases: Nuclease[] = [];
     guidesAttributes: Guide[] = [];
-    mutagenesisDonorsAttributes: Donor[] = [];
+    mutagenesisDonors: Donor[] = [];
     mutagenesisStrategies: MutagenesisStrategy[];
     reagentsAttributes: Reagent[] = [];
-    genotypePrimersAttributes: GenotypePrimer[] = [];
+    genotypePrimers: GenotypePrimer[] = [];
     assayAttributes: Assay[] = [];
-    strainInjectedAttributes: StrainInjected[] = [];
+    strainInjected: StrainInjected[] = [];
 }
 
 @Injectable({

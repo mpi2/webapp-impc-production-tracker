@@ -26,7 +26,7 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
   }
 
   setInitialData(): void {
-    this.dataSource = this.crisprAttempt.genotypePrimersAttributes;
+    this.dataSource = this.crisprAttempt.genotypePrimers;
     this.setEmptyEditionStatuses();
     this.setOriginalPrimers();
   }
@@ -44,11 +44,11 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
   }
 
   setOriginalPrimers(): void {
-    this.originaPrimers = JSON.parse(JSON.stringify(this.crisprAttempt.genotypePrimersAttributes));
+    this.originaPrimers = JSON.parse(JSON.stringify(this.crisprAttempt.genotypePrimers));
   }
 
   setEmptyEditionStatuses(): void {
-    this.crisprAttempt.genotypePrimersAttributes.map(x => this.editionStatusByGuide.set(x.id, ''));
+    this.crisprAttempt.genotypePrimers.map(x => this.editionStatusByGuide.set(x.id, ''));
   }
 
   getEditionStatusForGuideId(id: number): string {
@@ -63,7 +63,7 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
   }
 
   updateAllRowsStatus(): void {
-    this.crisprAttempt.genotypePrimersAttributes.map(x => this.updateRowStatus(x));
+    this.crisprAttempt.genotypePrimers.map(x => this.updateRowStatus(x));
   }
 
   updateRowStatus(primer: GenotypePrimer): void {
@@ -88,9 +88,9 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
     const genotypePrimer: GenotypePrimer = new GenotypePrimer();
     genotypePrimer.id = this.nextNewId--;
 
-    this.crisprAttempt.genotypePrimersAttributes.push(genotypePrimer);
+    this.crisprAttempt.genotypePrimers.push(genotypePrimer);
     this.editionStatusByGuide.set(genotypePrimer.id, 'Created in memory');
-    this.dataSource = [...this.crisprAttempt.genotypePrimersAttributes];
+    this.dataSource = [...this.crisprAttempt.genotypePrimers];
   }
 
   onClickToDeleteElement(primer: GenotypePrimer): void {
@@ -115,7 +115,7 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
   }
 
   deletePrimerInMemory(primer: GenotypePrimer): void {
-    this.crisprAttempt.genotypePrimersAttributes = this.crisprAttempt.genotypePrimersAttributes.filter(x => x.id !== primer.id);
-    this.dataSource = [...this.crisprAttempt.genotypePrimersAttributes];
+    this.crisprAttempt.genotypePrimers = this.crisprAttempt.genotypePrimers.filter(x => x.id !== primer.id);
+    this.dataSource = [...this.crisprAttempt.genotypePrimers];
   }
 }
