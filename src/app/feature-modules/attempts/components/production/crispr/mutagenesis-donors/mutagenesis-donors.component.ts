@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CrisprAttempt } from '../../../..';
 import { Donor } from 'src/app/feature-modules/attempts/model/production/crispr/donor';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
@@ -12,7 +12,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
   templateUrl: './mutagenesis-donors.component.html',
   styleUrls: ['./mutagenesis-donors.component.css']
 })
-export class MutagenesisDonorsComponent implements OnInit {
+export class MutagenesisDonorsComponent implements OnInit, OnChanges {
 
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
@@ -24,7 +24,9 @@ export class MutagenesisDonorsComponent implements OnInit {
   configurationData: ConfigurationData;
   preparationTypes: NamedValue[] = [];
 
-  constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog) { }
+  constructor(
+    private configurationDataService: ConfigurationDataService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.setFormValues();
@@ -42,6 +44,13 @@ export class MutagenesisDonorsComponent implements OnInit {
     this.dataSource = this.crisprAttempt.mutagenesisDonors;
     this.setEmptyEditionStatuses();
     this.setOriginalDonors();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.crisprAttempt) {
+      this.crisprAttempt = changes.crisprAttempt.currentValue;
+      this.setInitialData();
+    }
   }
 
   setEmptyEditionStatuses(): void {

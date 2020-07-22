@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
@@ -10,7 +10,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
   templateUrl: './nuclease.component.html',
   styleUrls: ['./nuclease.component.css']
 })
-export class NucleaseComponent implements OnInit {
+export class NucleaseComponent implements OnInit, OnChanges {
 
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
@@ -21,7 +21,8 @@ export class NucleaseComponent implements OnInit {
   nucleaseTypes: NamedValue[];
   nucleaseClases: NamedValue[];
 
-  constructor(private configurationDataService: ConfigurationDataService) { }
+  constructor(
+    private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
     this.canUpdatePlan = false;
@@ -35,6 +36,13 @@ export class NucleaseComponent implements OnInit {
 
   setInitialData(): void {
     this.dataSource = this.crisprAttempt.nucleases;
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.crisprAttempt) {
+      this.crisprAttempt = changes.crisprAttempt.currentValue;
+      this.setInitialData();
+    }
   }
 
   onNucleaseChanged(nuclease: Nuclease) {
