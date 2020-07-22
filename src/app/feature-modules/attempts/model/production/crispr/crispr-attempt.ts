@@ -21,10 +21,10 @@ export class CrisprAttempt {
     totalTransfered: number;
     noFounderPups: number;
     nucleases: Nuclease[] = [];
-    guidesAttributes: Guide[] = [];
+    guides: Guide[] = [];
     mutagenesisDonors: Donor[] = [];
     mutagenesisStrategies: MutagenesisStrategy[];
-    reagentsAttributes: Reagent[] = [];
+    reagents: Reagent[] = [];
     genotypePrimers: GenotypePrimer[] = [];
     assayAttributes: Assay[] = [];
     strainInjected: StrainInjected[] = [];

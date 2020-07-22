@@ -1,6 +1,11 @@
 <mat-card>
     <mat-card-subtitle>Guides</mat-card-subtitle>
     <mat-card-content>
+        <div *ngIf="canUpdatePlan">
+            Set individual Concentrations: <input type="checkbox"
+                (change)="onSetIndividualConcentrationsClicked($event)"
+                [checked]="!isConcentrationTheSameForAllGuides()">
+        </div>
     </mat-card-content>
     <mat-card-content>
         <form [formGroup]="guidesForm">
@@ -11,8 +16,9 @@
                     <th>Start</th>
                     <th>Stop</th>
                     <th>Truncated Guide</th>
+                    <th>gRNA Concentration</th>
                 </tr>
-                <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guidesAttributes">
+                <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides">
                     <tr>
                         <td>
                             {{guide.sequence}}
@@ -27,8 +33,39 @@
                             {{guide.end || "Not defined"}}
                         </td>
                         <td>
-                            {{guide.truncatedGuide}}
+                            {{guide.truncated_guide}}
                         </td>
+                        <div
+                            *ngIf="sameConcentrationForAll; then sameConcentrationForAllTemplate else individualConcentrationTemplate ">
+                        </div>
+                        <ng-template #sameConcentrationForAllTemplate>
+                            <td *ngIf="isFirst" [attr.rowspan]="numOfRows">
+                                <div *ngIf="canUpdatePlan; then concentrationEditable else concentrationReadOnly ">
+                                </div>
+                                <ng-template #concentrationEditable>
+                                    <input type="text" formControlName="groupConcentration"
+                                        (keyup)="onGroupConcentrationChanged()"> ng/uL
+                                </ng-template>
+                                <ng-template #concentrationReadOnly>
+                                    {{ guide.grnaConcentration ? guide.grnaConcentration || 'ng/uL' : ''}}
+                                </ng-template>
+                            </td>
+                        </ng-template>
+                        <ng-template #individualConcentrationTemplate>
+                            <td>
+                                <div *ngIf="canUpdatePlan; then concentrationEditable else concentrationReadOnly">
+                                </div>
+                                <ng-template #concentrationEditable>
+                                        <div [formGroup]="concentrationForm">
+                                                <input (keyup)="onIndividualConcentrationChanged(guide)"
+                                                [(ngModel)]="guide.grnaConcentration" [ngModelOptions]="{standalone: true}">
+                                             </div> 
+                                </ng-template>
+                                <ng-template #concentrationReadOnly>
+                                    {{ guide.grnaCncentration ? guide.grnaConcentration || 'ng/uL' : ''}}
+                                </ng-template>
+                            </td>
+                        </ng-template>
                     </tr>
                 </ng-template>
             </table>

@@ -38,11 +38,25 @@ export class NucleaseComponent implements OnInit {
   }
 
   onNucleaseChanged(nuclease: Nuclease) {
-    console.log('Nuclease changed:', nuclease);
+    this.convertNumericFields(nuclease);
   }
 
   onClickToDeleteElement(nuclease: Nuclease) {
     console.log('Nuclease deleted:', nuclease);
+  }
+
+  convertNumericFields(nuclease: Nuclease): void {
+    const concentrationAsString = nuclease.concentration ? nuclease.concentration.toString() : '';
+    if (concentrationAsString.charAt(concentrationAsString.length - 1) !== '.') {
+      nuclease.concentration = this.getNumericValueOrNull(nuclease.concentration);
+    }
+  }
+
+  getNumericValueOrNull(value): number {
+    if (!value || isNaN(value) || '' === value) {
+      return null;
+    }
+    return Number(value);
   }
 
 }

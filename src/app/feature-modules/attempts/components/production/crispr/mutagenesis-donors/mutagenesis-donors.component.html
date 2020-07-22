@@ -3,8 +3,9 @@
   <table class="mat-elevation-z8">
     <thead>
       <tr>
-        <th scope="col">Sequence </th>
-        <th scope="col">Preparation </th>
+        <th scope="col">Oligo Sequence Fasta </th>
+        <th scope="col">Preparation Type </th>
+        <th scope="col">Concentration </th>
         <th scope="col"> </th>
         <th scope="col"> </th>
       </tr>
@@ -17,7 +18,7 @@
         <tr>
           <td>
             <input [ngClass]="{'required': oligo_sequence_fa.invalid}" name="oligo_sequence_fa"
-              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligoSequenceFa" placeholder="oligo_sequence_fa"
+              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligoSequenceFasta"
               (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
           </td>
           <td>
@@ -26,6 +27,11 @@
                 {{preparationType.name}}
               </mat-option>
             </mat-select>
+          </td>
+          <td>	
+            <input app-digit-only decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"	
+              #concentration="ngModel" [(ngModel)]="donor.concentration"	
+              (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">	
           </td>
           <td>
             <button (click)="onClickToDeleteElement(donor)">
@@ -40,10 +46,13 @@
       <ng-template #readOnlyRow>
         <tr>
           <td>
-            {{donor.oligoSequenceFa}}
+            {{donor.oligoSequenceFasta}}
           </td>
           <td>
             {{donor.preparation || "Not defined"}}
+          </td>
+          <td>
+            {{donor.concentration}}	
           </td>
 
         </tr>
