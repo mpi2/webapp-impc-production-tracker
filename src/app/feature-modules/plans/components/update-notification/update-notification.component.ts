@@ -13,9 +13,15 @@ export class UpdateNotificationComponent implements OnInit {
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
     this.changeDetails = data;
+    this.removeElementChanged(this.changeDetails);
   }
 
   ngOnInit() {
 
+  }
+
+  // Remove the records for Element changed because we don't need them here
+  removeElementChanged(changeDetails: ChangesHistory) {
+    changeDetails.details = changeDetails.details.filter(x => x.note !== 'Element changed');
   }
 }

@@ -22,7 +22,7 @@
               (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
           </td>
           <td>
-            <mat-select (selectionChange)="onDonorChanged(donor)" class="preparation" [(value)]="donor.preparation">
+            <mat-select (selectionChange)="onDonorChanged(donor)" class="preparation" [(value)]="donor.preparationTypeName">
               <mat-option *ngFor="let preparationType of preparationTypes" [value]="preparationType.name">
                 {{preparationType.name}}
               </mat-option>
@@ -49,7 +49,7 @@
             {{donor.oligoSequenceFasta}}
           </td>
           <td>
-            {{donor.preparation || "Not defined"}}
+            {{donor.preparationTypeName || "Not defined"}}
           </td>
           <td>
             {{donor.concentration}}	
