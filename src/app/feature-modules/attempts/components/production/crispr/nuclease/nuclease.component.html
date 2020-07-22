@@ -5,6 +5,7 @@
             <tr>
                 <th>Type</th>
                 <th>Class</th>
+                <th>Concentration</th>
                 <th></th>
             </tr>
             <ng-template ngFor let-nuclease [ngForOf]="dataSource">
@@ -28,6 +29,12 @@
                                 </mat-option>
                             </mat-select>
                         </td>
+                        <td>
+                            <input app-digit-only decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"	
+                            #concentration="ngModel" [(ngModel)]="nuclease.concentration"
+                            (keyup)="onNucleaseChanged(nuclease)"
+                             [ngModelOptions]="{standalone: true}">	
+                        </td>
                         <td *ngIf="false">
                             <button (click)="onClickToDeleteElement(nuclease)">
                                 <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
@@ -39,11 +46,14 @@
                 <ng-template #readOnlyRow>
                     <tr>
                         <td>
-                            {{nuclease.typeName || "Not defined"}}
+                            {{ nuclease.typeName || "Not defined" }}
                         </td>
                         <td>
-                            {{nuclease.className || "Not defined"}}
+                            {{ nuclease.className || "Not defined" }}
                         </td>
+                        <td>
+                            {{ nuclease.concentration || "Not defined" }}	
+                          </td>
 
                     </tr>
                 </ng-template>

@@ -3,5 +3,5 @@ export class Donor {
     vectorName: string;
     concentration: number; // to be deleted
     preparation: string;
-    oligoSequenceFa: string;
+    oligoSequenceFasta: string;
 }

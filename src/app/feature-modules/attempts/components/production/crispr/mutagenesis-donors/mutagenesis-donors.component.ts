@@ -84,6 +84,7 @@ export class MutagenesisDonorsComponent implements OnInit {
 
   onDonorChanged(donor: Donor): void {
     this.convertNumericFields(donor);
+    this.setEmptyValuesToNull(donor);
     this.updateRowStatus(donor);
   }
 
@@ -92,6 +93,10 @@ export class MutagenesisDonorsComponent implements OnInit {
     if (concentrationAsString.charAt(concentrationAsString.length - 1) !== '.') {
       donor.concentration = this.getNumericValueOrNull(donor.concentration);
     }
+  }
+
+  setEmptyValuesToNull(donor: Donor): void {
+    donor.oligoSequenceFasta = this.getValueOrNull(donor.oligoSequenceFasta);
   }
 
   updateAllRowsStatus(): void {
@@ -107,6 +112,13 @@ export class MutagenesisDonorsComponent implements OnInit {
         this.editionStatusByDonor.set(donor.id, '');
       }
     }
+  }
+
+  getValueOrNull(value) {
+    if (!value || '' === value) {
+      return null;
+    }
+    return value;
   }
 
   getNumericValueOrNull(value): number {

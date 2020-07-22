@@ -27,3 +27,7 @@ table, th, td {
   .description {
     width: 25% 
   }
+
+  .note {
+    width: 20px
+  }
