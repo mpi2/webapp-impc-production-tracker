@@ -12,7 +12,7 @@
   <mat-card-content>
     <form [formGroup]="projectForm">
       <fieldset>
-        
+
         <label for="tpn">Project id:</label>
         <div id="tpn">{{ project.tpn }}</div>
 
@@ -21,7 +21,7 @@
 
         <label for="summaryStatusName">Summary Status:</label>
         <div id="summaryStatusName" class="content">{{project.summaryStatusName}}</div>
-        
+
         <label for="privacy">Privacy:</label>
         <div id="privacy" class="content">
           <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
@@ -36,11 +36,14 @@
             {{project.privacyName}}
           </ng-template>
         </div>
-        
-        <label for="recovery">Recovery?:</label>
-        <input id="recovery" type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
-          [disabled]="!canUpdateProject">
-        
+      </fieldset>
+
+      <fieldset>
+        <p>Intentions:</p>
+        <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions">
+        </app-intention-list>
+      </fieldset>
+      <fieldset>
         <label for="comment">Comment:</label>
         <div id="comment" class="comment">
           <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
@@ -53,11 +56,6 @@
           </ng-template>
         </div>
       </fieldset>
-      
-        <fieldset>
-          <p>Intentions:</p>
-          <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions"></app-intention-list>
-        </fieldset>
     </form>
   </mat-card-content>
 </mat-card>
@@ -76,10 +74,10 @@
       </mat-panel-title>
     </mat-expansion-panel-header>
 
-    <table mat-table [dataSource]="project.assignmentStatusDates" class="mat-elevation-z8">
+    <table mat-table [dataSource]="project.assignmentStatusStamps" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
         <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.name}} </td>
+        <td mat-cell *matCellDef="let element"> {{element.statusName}} </td>
       </ng-container>
 
       <ng-container matColumnDef="date">

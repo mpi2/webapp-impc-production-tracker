@@ -30,10 +30,10 @@
                             {{guide.start || "Not defined"}}
                         </td>
                         <td>
-                            {{guide.end || "Not defined"}}
+                            {{guide.stop || "Not defined"}}
                         </td>
                         <td>
-                            {{guide.truncated_guide}}
+                            {{guide.truncatedGuide}}
                         </td>
                         <div
                             *ngIf="sameConcentrationForAll; then sameConcentrationForAllTemplate else individualConcentrationTemplate ">
