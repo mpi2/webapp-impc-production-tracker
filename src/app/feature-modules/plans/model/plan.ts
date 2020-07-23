@@ -21,6 +21,8 @@ export class Plan {
     crisprAttempt: CrisprAttempt;
     phenotypingAttempt: PhenotypingAttempt;
     productionPlanReference: string;
+    // tslint:disable-next-line
+    _links: any;
 }
 
 @Injectable({

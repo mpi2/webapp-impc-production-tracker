@@ -123,10 +123,6 @@ export class ProjectDetailComponent implements OnInit {
     }
   }
 
-  onRecoverySelected(): void {
-    this.project.recovery = !this.project.recovery;
-  }
-
   onTextCommentChanged(e): void {
     const newComments = this.projectForm.get('comments').value;
     this.project.comment = newComments;

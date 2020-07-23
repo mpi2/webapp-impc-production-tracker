@@ -1,4 +1,4 @@
 export class StatusDate {
-    name: string;
+    statusName: string;
     date: string;
 }
