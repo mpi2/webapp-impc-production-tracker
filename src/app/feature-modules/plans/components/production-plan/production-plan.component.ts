@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
 import { Plan, PlanAdapter } from '../../model/plan';
-import { PermissionsService, ChangesHistory, ChangesHistoryAdapter, LoggedUserService } from 'src/app/core';
+import { PermissionsService, ChangesHistory, LoggedUserService } from 'src/app/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
@@ -32,7 +32,6 @@ export class ProductionPlanComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private planService: PlanService,
-    private changeHistoryAdapter: ChangesHistoryAdapter,
     private planAdapter: PlanAdapter,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService) { }

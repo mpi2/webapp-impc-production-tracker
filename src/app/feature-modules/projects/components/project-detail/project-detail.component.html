@@ -12,13 +12,16 @@
   <mat-card-content>
     <form [formGroup]="projectForm">
       <fieldset>
-        <!-- PIN -->
+        
         <label for="tpn">Project id:</label>
         <div id="tpn">{{ project.tpn }}</div>
-        <!-- Assignment Status -->
+
         <label for="assignmentStatus">Assignment Status:</label>
         <div id="assignmentStatus" class="content">{{project.assignmentStatusName}}</div>
-        <!-- Privacy. Editable if user has permissions. -->
+
+        <label for="summaryStatusName">Summary Status:</label>
+        <div id="summaryStatusName" class="content">{{project.summaryStatusName}}</div>
+        
         <label for="privacy">Privacy:</label>
         <div id="privacy" class="content">
           <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
@@ -33,11 +36,11 @@
             {{project.privacyName}}
           </ng-template>
         </div>
-        <!-- Recovery. Editable if user has permissions. -->
+        
         <label for="recovery">Recovery?:</label>
         <input id="recovery" type="checkbox" (change)="onRecoverySelected()" [checked]="this.project.recovery"
           [disabled]="!canUpdateProject">
-        <!-- Comment. Editable if user has permissions. -->
+        
         <label for="comment">Comment:</label>
         <div id="comment" class="comment">
           <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
@@ -50,7 +53,7 @@
           </ng-template>
         </div>
       </fieldset>
-      <!-- Intentions in the project -->
+      
         <fieldset>
           <p>Intentions:</p>
           <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions"></app-intention-list>
