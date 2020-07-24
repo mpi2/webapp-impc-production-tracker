@@ -18,9 +18,11 @@ export class Plan {
     parentColonyName: string;
     comment: string;
     productsAvailableForGeneralPublic: boolean;
-    crisprAttemptAttributes: CrisprAttempt;
-    phenotypingAttemptAttributes: PhenotypingAttempt;
+    crisprAttempt: CrisprAttempt;
+    phenotypingAttempt: PhenotypingAttempt;
     productionPlanReference: string;
+    // tslint:disable-next-line
+    _links: any;
 }
 
 @Injectable({
@@ -34,8 +36,8 @@ export class PlanAdapter implements Adapter<Plan> {
         const plan = item as Plan;
         plan.comment = this.getEmptyIfNull(plan.comment);
         plan.productsAvailableForGeneralPublic = this.getFalseIfNull(plan.productsAvailableForGeneralPublic);
-        if (plan.crisprAttemptAttributes) {
-            plan.crisprAttemptAttributes = this.crisprAttemptAdapter.adapt(plan.crisprAttemptAttributes);
+        if (plan.crisprAttempt) {
+            plan.crisprAttempt = this.crisprAttemptAdapter.adapt(plan.crisprAttempt);
         }
         return plan;
     }

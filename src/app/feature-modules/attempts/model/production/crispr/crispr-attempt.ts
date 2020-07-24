@@ -21,13 +21,13 @@ export class CrisprAttempt {
     totalTransfered: number;
     noFounderPups: number;
     nucleases: Nuclease[] = [];
-    guidesAttributes: Guide[] = [];
-    mutagenesisDonorsAttributes: Donor[] = [];
+    guides: Guide[] = [];
+    mutagenesisDonors: Donor[] = [];
     mutagenesisStrategies: MutagenesisStrategy[];
-    reagentsAttributes: Reagent[] = [];
-    genotypePrimersAttributes: GenotypePrimer[] = [];
+    reagents: Reagent[] = [];
+    genotypePrimers: GenotypePrimer[] = [];
     assayAttributes: Assay[] = [];
-    strainInjectedAttributes: StrainInjected[] = [];
+    strainInjected: StrainInjected[] = [];
 }
 
 @Injectable({

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { CrisprAttempt } from '../../../..';
 import { Donor } from 'src/app/feature-modules/attempts/model/production/crispr/donor';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
@@ -12,7 +12,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
   templateUrl: './mutagenesis-donors.component.html',
   styleUrls: ['./mutagenesis-donors.component.css']
 })
-export class MutagenesisDonorsComponent implements OnInit {
+export class MutagenesisDonorsComponent implements OnInit, OnChanges {
 
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
@@ -24,7 +24,9 @@ export class MutagenesisDonorsComponent implements OnInit {
   configurationData: ConfigurationData;
   preparationTypes: NamedValue[] = [];
 
-  constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog) { }
+  constructor(
+    private configurationDataService: ConfigurationDataService,
+    public dialog: MatDialog) { }
 
   ngOnInit() {
     this.setFormValues();
@@ -39,17 +41,24 @@ export class MutagenesisDonorsComponent implements OnInit {
   }
 
   setInitialData(): void {
-    this.dataSource = this.crisprAttempt.mutagenesisDonorsAttributes;
+    this.dataSource = this.crisprAttempt.mutagenesisDonors;
     this.setEmptyEditionStatuses();
     this.setOriginalDonors();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.crisprAttempt) {
+      this.crisprAttempt = changes.crisprAttempt.currentValue;
+      this.setInitialData();
+    }
+  }
+
   setEmptyEditionStatuses(): void {
-    this.crisprAttempt.mutagenesisDonorsAttributes.map(x => this.editionStatusByDonor.set(x.id, ''));
+    this.crisprAttempt.mutagenesisDonors.map(x => this.editionStatusByDonor.set(x.id, ''));
   }
 
   setOriginalDonors(): void {
-    this.originalData = JSON.parse(JSON.stringify(this.crisprAttempt.mutagenesisDonorsAttributes));
+    this.originalData = JSON.parse(JSON.stringify(this.crisprAttempt.mutagenesisDonors));
   }
 
   getEditionStatusForDonor(id: number): string {
@@ -60,9 +69,9 @@ export class MutagenesisDonorsComponent implements OnInit {
     const donor: Donor = new Donor();
     donor.id = this.nextNewId--;
 
-    this.crisprAttempt.mutagenesisDonorsAttributes.push(donor);
+    this.crisprAttempt.mutagenesisDonors.push(donor);
     this.editionStatusByDonor.set(donor.id, 'Created in memory');
-    this.dataSource = [...this.crisprAttempt.mutagenesisDonorsAttributes];
+    this.dataSource = [...this.crisprAttempt.mutagenesisDonors];
   }
 
   onClickToDeleteElement(donor: Donor): void {
@@ -84,6 +93,7 @@ export class MutagenesisDonorsComponent implements OnInit {
 
   onDonorChanged(donor: Donor): void {
     this.convertNumericFields(donor);
+    this.setEmptyValuesToNull(donor);
     this.updateRowStatus(donor);
   }
 
@@ -94,8 +104,12 @@ export class MutagenesisDonorsComponent implements OnInit {
     }
   }
 
+  setEmptyValuesToNull(donor: Donor): void {
+    donor.oligoSequenceFasta = this.getValueOrNull(donor.oligoSequenceFasta);
+  }
+
   updateAllRowsStatus(): void {
-    this.crisprAttempt.mutagenesisDonorsAttributes.map(x => this.updateRowStatus(x));
+    this.crisprAttempt.mutagenesisDonors.map(x => this.updateRowStatus(x));
   }
 
   updateRowStatus(donor: Donor): void {
@@ -107,6 +121,13 @@ export class MutagenesisDonorsComponent implements OnInit {
         this.editionStatusByDonor.set(donor.id, '');
       }
     }
+  }
+
+  getValueOrNull(value) {
+    if (!value || '' === value) {
+      return null;
+    }
+    return value;
   }
 
   getNumericValueOrNull(value): number {
@@ -121,8 +142,8 @@ export class MutagenesisDonorsComponent implements OnInit {
   }
 
   deletePrimerInMemory(donor: Donor): void {
-    this.crisprAttempt.mutagenesisDonorsAttributes = this.crisprAttempt.mutagenesisDonorsAttributes.filter(x => x.id !== donor.id);
-    this.dataSource = [...this.crisprAttempt.mutagenesisDonorsAttributes];
+    this.crisprAttempt.mutagenesisDonors = this.crisprAttempt.mutagenesisDonors.filter(x => x.id !== donor.id);
+    this.dataSource = [...this.crisprAttempt.mutagenesisDonors];
   }
 
 }

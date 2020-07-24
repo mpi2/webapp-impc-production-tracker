@@ -10,7 +10,7 @@
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
   </app-plan-details>
 
-  <app-phenotyping-attempt *ngIf="plan.phenotypingAttemptAttributes" [phenotypingAttempt]="plan.phenotypingAttemptAttributes"
+  <app-phenotyping-attempt *ngIf="plan.phenotypingAttempt" [phenotypingAttempt]="plan.phenotypingAttempt"
   [canUpdatePlan]="canUpdatePlan">
 </app-phenotyping-attempt>
 

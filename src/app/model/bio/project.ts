@@ -9,14 +9,13 @@ export class Project {
     imitsMiPlanId: number;
     assignmentStatusName: string;
     summaryStatusName: string;
-    assignmentStatusDates: StatusDate[];
+    assignmentStatusStamps: StatusDate[];
     isObjectRestricted: boolean;
     consortia: InstitutesConsortium[];
     privacyName: string;
     species: string[];
     externalReference: string;
     projectIntentions: ProjectIntention[];
-    recovery: boolean;
     comment: string;
     relatedWorkUnitNames: string[];
     relatedWorkGroupNames: string[];

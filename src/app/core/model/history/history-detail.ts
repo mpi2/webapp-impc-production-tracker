@@ -3,5 +3,5 @@ export class HistoryDetail {
     formattedField: string;
     newValue: string;
     oldValue: string;
-    description: string;
+    note: string;
 }

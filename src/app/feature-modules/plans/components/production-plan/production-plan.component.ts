@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
 import { Plan, PlanAdapter } from '../../model/plan';
-import { PermissionsService, ChangesHistory, ChangesHistoryAdapter, LoggedUserService } from 'src/app/core';
+import { PermissionsService, ChangesHistory, LoggedUserService } from 'src/app/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 import { Project } from 'src/app/model/bio/project';
+import { ChangeResponse } from 'src/app/core/model/history/change-response';
 
 @Component({
   selector: 'app-production-plan',
@@ -31,7 +32,6 @@ export class ProductionPlanComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private planService: PlanService,
-    private changeHistoryAdapter: ChangesHistoryAdapter,
     private planAdapter: PlanAdapter,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService) { }
@@ -44,6 +44,8 @@ export class ProductionPlanComponent implements OnInit {
   reloadForPin(pin: string) {
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = this.planAdapter.adapt(data);
+      console.log('this.plan==>', this.plan);
+
       this.originalPlanAsString = JSON.stringify(this.plan);
       this.error = null;
       this.evaluateUpdatePermissions();
@@ -73,22 +75,21 @@ export class ProductionPlanComponent implements OnInit {
   updatePlan() {
     this.loading = true;
     this.planService.updateProductionPlan(
-      this.plan.pin, this.plan).subscribe(
-        data => {
+      this.plan.pin, this.plan).subscribe((changeResponse: ChangeResponse) => {
           this.loading = false;
           this.originalPlanAsString = JSON.stringify(this.plan);
-          this.changeDetails = data;
-          this.changeDetails.details.map(x => x.field = this.changeHistoryAdapter.formatPropertyName(x.field));
-          this.snackBar.openFromComponent(UpdateNotificationComponent, {
-            duration: 3000,
-            data: this.changeDetails
-          });
+          if (changeResponse && changeResponse.history.length > 0) {
+            this.changeDetails = changeResponse.history[0];
+            this.snackBar.openFromComponent(UpdateNotificationComponent, {
+              duration: 3000,
+              data: this.changeDetails
+            });
+          }
           this.error = null;
           this.reloadForPin(this.plan.pin);
         }, error => {
           console.error('Error while updating plan', error);
           this.error = error;
-
         }
       );
   }
