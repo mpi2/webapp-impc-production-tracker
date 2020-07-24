@@ -43,6 +43,10 @@ export class ProjectService {
     return this.http.get<Project>(this.apiServiceUrl + '/api/projects/' + tpn);
   }
 
+  getProjectByUrl(url: string) {
+    return this.http.get<Project>(url);
+  }
+
   postProject(newProject: Project) {
     return this.http.post<Project>(this.apiServiceUrl + '/api/projects/', newProject);
   }

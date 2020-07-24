@@ -8,6 +8,7 @@ import { UpdateNotificationComponent } from '../update-notification/update-notif
 import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 import { Project } from 'src/app/model/bio/project';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
+import { ProjectService } from 'src/app/feature-modules/projects';
 
 @Component({
   selector: 'app-production-plan',
@@ -32,6 +33,7 @@ export class ProductionPlanComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private planService: PlanService,
+    private projectService: ProjectService,
     private planAdapter: PlanAdapter,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService) { }
@@ -44,13 +46,24 @@ export class ProductionPlanComponent implements OnInit {
   reloadForPin(pin: string) {
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = this.planAdapter.adapt(data);
-      console.log('this.plan==>', this.plan);
+      const projectUrl = this.plan._links.project.href;
+      this.loadProject(projectUrl);
+
 
       this.originalPlanAsString = JSON.stringify(this.plan);
       this.error = null;
       this.evaluateUpdatePermissions();
     }, error => {
       this.error = error;
+    });
+  }
+  loadProject(projectUrl: any) {
+    console.log('Loading ', projectUrl);
+    this.projectService.getProjectByUrl(projectUrl).subscribe(data => {
+      this.project = data;
+    }, error => {
+      console.log(error);
+
     });
   }
 
