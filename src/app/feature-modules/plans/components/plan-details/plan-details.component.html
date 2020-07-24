@@ -19,6 +19,14 @@
             {{plan.typeName}}
           </td>
         </tr>
+        <tr>
+          <td>
+            Project id:
+          </td>
+          <td>
+            <a routerLink="/projects/{{ plan.tpn }}">{{ plan.tpn }}</a>
+          </td>
+        </tr>
         <ng-template [ngIf]="plan.typeName === 'phenotyping'">
           <tr>
             <td>

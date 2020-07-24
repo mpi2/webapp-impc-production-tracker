@@ -3,6 +3,8 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { Plan } from '../../model/plan';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { ProjectService } from 'src/app/feature-modules/projects';
+import { Project } from 'src/app/model';
 
 
 @Component({
@@ -13,6 +15,8 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 export class PlanDetailsComponent implements OnInit {
 
   @Input() plan: Plan;
+
+  project: Project = new Project();
 
   canUpdatePlan: boolean;
 
@@ -42,18 +46,19 @@ export class PlanDetailsComponent implements OnInit {
       comment: ['', Validators.required],
     });
 
+
     this.editPlanDetails.get('comment').setValue(this.plan.comment);
   }
 
   loadPermissions(): void {
     if (this.loggedUserService.getLoggerUser()) {
-    this.permissionsService.evaluatePermissionByActionOnResource(
-      PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
-        this.canUpdatePlan = canUpdatePlan;
+      this.permissionsService.evaluatePermissionByActionOnResource(
+        PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
+          this.canUpdatePlan = canUpdatePlan;
 
-      }, error => {
-        console.error('Error getting permissions');
-      });
+        }, error => {
+          console.error('Error getting permissions');
+        });
     } else {
       this.canUpdatePlan = false;
     }
