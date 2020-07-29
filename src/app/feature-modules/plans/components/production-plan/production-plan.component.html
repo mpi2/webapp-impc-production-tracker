@@ -10,6 +10,11 @@
 
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
 </app-plan-details>
+<app-status-transition
+  *ngIf="plan.statusTransition" 
+  [statusTransition]="plan.statusTransition"
+  [canUpdate]="canUpdatePlan">
+</app-status-transition>
 
 <app-crispr-attempt *ngIf="plan.crisprAttempt" [crisprAttempt]="plan.crisprAttempt"
   [canUpdatePlan]="canUpdatePlan">

@@ -42,6 +42,7 @@ import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
 import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { StatusTransitionComponent } from './components/status-transition/status-transition.component';
 
 @NgModule({
   declarations: [
@@ -51,7 +52,8 @@ import { LayoutModule } from '@angular/cdk/layout';
     ExpandableContentComponent,
     DigitOnlyDirective,
     InformativeDialogComponent,
-    DialogBoxComponent],
+    DialogBoxComponent,
+    StatusTransitionComponent],
   imports: [
     MatAutocompleteModule,
     CommonModule,
@@ -102,6 +104,7 @@ import { LayoutModule } from '@angular/cdk/layout';
     MatExpansionModule,
     MatFormFieldModule,
     GoBackComponent,
+    StatusTransitionComponent,
     MatToolbarModule,
     MatTooltipModule,
     MatButtonModule,

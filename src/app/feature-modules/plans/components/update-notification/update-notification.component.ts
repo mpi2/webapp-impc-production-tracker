@@ -22,6 +22,8 @@ export class UpdateNotificationComponent implements OnInit {
 
   // Remove the records for Element changed because we don't need them here
   removeElementChanged(changeDetails: ChangesHistory) {
-    changeDetails.details = changeDetails.details.filter(x => x.note !== 'Element changed');
+    if (changeDetails.details) {
+      changeDetails.details = changeDetails.details.filter(x => x.note !== 'Element changed');
+    }
   }
 }
