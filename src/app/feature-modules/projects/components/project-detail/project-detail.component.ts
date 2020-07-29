@@ -5,7 +5,7 @@ import { Project, ProjectAdapter } from '../../../../model/bio/project';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ConfigurationData, PermissionsService, ConfigurationDataService,
-  LoggedUserService, ChangesHistory, ChangesHistoryAdapter } from 'src/app/core';
+  LoggedUserService, ChangesHistory } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -46,7 +46,6 @@ export class ProjectDetailComponent implements OnInit {
     private permissionsService: PermissionsService,
     private configurationDataService: ConfigurationDataService,
     private loggedUserService: LoggedUserService,
-    private changeHistoryAdapter: ChangesHistoryAdapter,
     private snackBar: MatSnackBar, ) { }
 
   ngOnInit() {

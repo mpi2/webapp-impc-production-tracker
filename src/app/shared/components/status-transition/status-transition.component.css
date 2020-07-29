@@ -1,0 +1,27 @@
+label, .label {
+    clear: both;
+    float: left;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    width: 10%
+}
+input, select {
+    float: left;
+}
+.content {
+    width: 300px;
+    float: left;
+}
+.note {
+    width: 300px;
+    float: left;
+    font-size: 12px;
+    padding-bottom: 5px;
+    color: #f44336;
+}
+fieldset {
+    /* font-size: 16px; */
+    border: 0;
+    border-spacing: 10px;
+}
+
