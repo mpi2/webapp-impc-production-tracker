@@ -1,9 +1,9 @@
 label, .label {
     clear: both;
     float: left;
-    padding-right: 5px;
     padding-bottom: 5px;
-    width: 12%
+    /* min-width: 30%; */
+    width: 180px;
 }
 input, select {
     float: left;
@@ -11,16 +11,6 @@ input, select {
 .content {
     width: 300px;
     float: left;
-}
-.note {
-    width: 300px;
-    float: left;
-    font-size: 12px;
     padding-bottom: 5px;
-    color: #f44336;
-}
-fieldset {
-    border: 0;
-    border-spacing: 10px;
 }
 
