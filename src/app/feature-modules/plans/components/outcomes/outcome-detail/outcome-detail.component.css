@@ -1,9 +1,9 @@
 label, .label {
     clear: both;
     float: left;
-    padding-right: 5px;
     padding-bottom: 5px;
-    width: 12%
+    /* width: 16% */
+    width: 180px;
 }
 input, select {
     float: left;
@@ -11,16 +11,21 @@ input, select {
 .content {
     width: 300px;
     float: left;
+    padding-bottom: 5px;
 }
 .note {
     width: 300px;
     float: left;
     font-size: 12px;
     padding-bottom: 5px;
-    color: #f44336;
 }
 fieldset {
     border: 0;
     border-spacing: 10px;
+}
+
+.colonySection {
+    clear: both;
+    float: left;
 }
 

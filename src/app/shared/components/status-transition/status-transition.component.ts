@@ -17,7 +17,7 @@ export class StatusTransitionComponent implements OnInit , OnChanges {
   selectedTransition: Transition;
   userTransitions: Transition[];
 
-  constructor(private formBuilder: FormBuilder, ) { }
+  constructor(private formBuilder: FormBuilder ) { }
 
   ngOnInit(): void {
     this.userTransitions = [...this.statusTransition.transitions.filter(x => x.triggeredByUser)];

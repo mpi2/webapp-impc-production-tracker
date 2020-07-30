@@ -20,7 +20,7 @@ import { TargetGeneListModule } from './feature-modules/target-gene-list/target-
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule, // Here to prevent double instantiation of BrowserModule

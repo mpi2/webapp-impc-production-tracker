@@ -11,6 +11,9 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { UpdateNotificationComponent } from './components/update-notification/update-notification.component';
 import { IntentionsModule } from '../intentions/intentions.module';
 import { PlanRouterComponent } from './components/plan-router/plan-router.component';
+import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/outcome-detail.component';
+import { OutcomeListComponent } from './components/outcomes/outcome-list/outcome-list.component';
+import { ColonyDetailComponent } from './components/outcomes/colony-detail/colony-detail.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +23,10 @@ import { PlanRouterComponent } from './components/plan-router/plan-router.compon
     PlanSummaryComponent,
     PlanDetailsComponent,
     UpdateNotificationComponent,
-    PlanRouterComponent
+    PlanRouterComponent,
+    OutcomeDetailComponent,
+    OutcomeListComponent,
+    ColonyDetailComponent
   ],
   imports: [
     SharedModule,

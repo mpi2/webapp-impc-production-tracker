@@ -1,0 +1,9 @@
+<mat-card>
+    <mat-card-subtitle>Outcomes</mat-card-subtitle>
+    <mat-card-content>
+        <div *ngFor="let outcome of outcomes">
+            <app-outcome-detail [outcome]="outcome"></app-outcome-detail>
+        </div>
+    </mat-card-content>
+  </mat-card>
+  
