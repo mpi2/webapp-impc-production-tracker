@@ -14,6 +14,7 @@ import { PlanRouterComponent } from './components/plan-router/plan-router.compon
 import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/outcome-detail.component';
 import { OutcomeListComponent } from './components/outcomes/outcome-list/outcome-list.component';
 import { ColonyDetailComponent } from './components/outcomes/colony-detail/colony-detail.component';
+import { DistributionProductListComponent } from './components/outcomes/distribution-product-list/distribution-product-list.component';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { ColonyDetailComponent } from './components/outcomes/colony-detail/colon
     PlanRouterComponent,
     OutcomeDetailComponent,
     OutcomeListComponent,
-    ColonyDetailComponent
+    ColonyDetailComponent,
+    DistributionProductListComponent
   ],
   imports: [
     SharedModule,

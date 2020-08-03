@@ -9,6 +9,7 @@ import { Outcome } from '../../../model/outcomes/outcome';
 })
 export class OutcomeDetailComponent implements OnInit {
   @Input() outcome: Outcome;
+  @Input() canUpdate: boolean;
 
   outcomeForm: FormGroup;
 

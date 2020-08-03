@@ -1,0 +1,132 @@
+<!-- <mat-card>
+    <mat-card-subtitle>Distribution Products</mat-card-subtitle>
+    <mat-card-content> -->
+<!-- <table class="mat-elevation-z8"> -->
+<table>
+    <tr>
+        <th>Distribution Centre</th>
+        <th>Product Type</th>
+        <th>Distribution Network</th>
+        <th>Start Date</th>
+        <th>End Date</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <ng-template ngFor let-distributionProduct [ngForOf]="dataSource">
+        <div *ngIf="canUpdate; then editableRow else readOnlyRow">
+        </div>
+        <ng-template #editableRow>
+            <tr>
+                <td>
+                    <mat-select (selectionChange)="onDistributionProductChanged(distributionProduct)"
+                        [(value)]="distributionProduct.distributionCentreName">
+                        <mat-option *ngFor="let distributionCentresName of distributionCentresNames"
+                            [value]="distributionCentresName.name">
+                            {{distributionCentresName.name}}
+                        </mat-option>
+                    </mat-select>
+                </td>
+                <td>
+                    <mat-select (selectionChange)="onDistributionProductChanged(distributionProduct)"
+                        [(value)]="distributionProduct.productTypeName">
+                        <mat-option *ngFor="let productTypesName of productTypesNames" [value]="productTypesName.name">
+                            {{productTypesName.name}}
+                        </mat-option>
+                    </mat-select>
+                </td>
+                <td>
+                    <mat-select (selectionChange)="onDistributionProductChanged(distributionProduct)"
+                        [(value)]="distributionProduct.distributionNetworkName">
+                        <mat-option *ngFor="let distributionNetworkName of distributionNetworksNames"
+                            [value]="distributionNetworkName.name">
+                            {{distributionNetworkName.name}}
+                        </mat-option>
+                    </mat-select>
+                </td>
+
+                <td>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput (dateInput)="onStartDateChanged(distributionProduct, $event)"
+                            (dateChange)="onStartDateChanged(distributionProduct, $event)" [matDatepicker]="startDate"
+                            [value]="distributionProduct.startDate">
+
+                        <mat-datepicker-toggle matSuffix [for]="startDate"></mat-datepicker-toggle>
+                        <mat-datepicker #startDate></mat-datepicker>
+                    </mat-form-field>
+
+                </td>
+
+                <td>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="endDate">
+                        <mat-datepicker-toggle matSuffix [for]="endDate"></mat-datepicker-toggle>
+                        <mat-datepicker #endDate></mat-datepicker>
+                    </mat-form-field>
+                </td>
+
+                <td class="delete">
+                    <button (click)="onClickToDeleteDistributionProduct(distributionProduct)">
+                        <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                    </button>
+                </td>
+                <td class="status">
+                    {{ getEditionStatusForDistributionProduct(distributionProduct.id)}}
+                </td>
+
+
+
+
+
+                <!-- <td>
+                            <input [ngClass]="{'required': sequence.invalid, 'sequence_input':true}" name="sequence"
+                                #sequence="ngModel" [(ngModel)]="primer.sequence" placeholder="Sequence"
+                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
+                        </td>
+                        <td>
+                            <input app-digit-only placeholder="Start Coordinate"
+                                [(ngModel)]="primer.genomicStartCoordinate" (keyup)="onPrimerChanged(primer)"
+                                [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>
+                            <input app-digit-only placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
+                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>
+                            <button (click)="onClickToDeleteElement(primer)">
+                                <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
+                            </button>
+                        </td>
+                        <td class="status">
+                            {{ getEditionStatusForGuideId(primer.id) }}
+                        </td> -->
+            </tr>
+        </ng-template>
+        <ng-template #readOnlyRow>
+            <tr>
+                <td>
+                    {{distributionProduct.distributionCentreName}}
+                </td>
+                <!-- <td>
+                            {{primer.sequence}}
+                        </td>
+                        <td>
+                            {{primer.genomicStartCoordinate || "Not defined"}}
+                        </td>
+                        <td>
+                            {{primer.genomicEndCoordinate || "Not defined"}}
+                        </td> -->
+            </tr>
+        </ng-template>
+    </ng-template>
+    <tr>
+        <td class="no_border"><button (click)="addDistributionProduct()" [disabled]="false" *ngIf="canUpdate">
+                <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+            </button>
+        </td>
+    </tr>
+</table>
+
+<!-- </mat-card-content>
+</mat-card> -->

@@ -43,6 +43,7 @@ import { InformativeDialogComponent } from './components/informative-dialog/info
 import { DialogBoxComponent } from './components/dialog-box/dialog-box.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { StatusTransitionComponent } from './components/status-transition/status-transition.component';
+import { StatusDateComponent } from './components/status-date/status-date.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { StatusTransitionComponent } from './components/status-transition/status
     DigitOnlyDirective,
     InformativeDialogComponent,
     DialogBoxComponent,
-    StatusTransitionComponent],
+    StatusTransitionComponent,
+    StatusDateComponent],
   imports: [
     MatAutocompleteModule,
     CommonModule,
@@ -105,6 +107,7 @@ import { StatusTransitionComponent } from './components/status-transition/status
     MatFormFieldModule,
     GoBackComponent,
     StatusTransitionComponent,
+    StatusDateComponent,
     MatToolbarModule,
     MatTooltipModule,
     MatButtonModule,
