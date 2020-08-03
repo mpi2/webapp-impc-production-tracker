@@ -1,0 +1,12 @@
+table {
+    /* border-spacing: 100px; */
+    border-collapse: separate;
+    font-size: 16px;
+}
+
+.mat-column-status {
+    width: 200px;
+}
+.mat-column-date {
+    width: 200px;
+}

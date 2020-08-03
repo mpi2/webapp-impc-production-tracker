@@ -9,12 +9,15 @@ import { Colony } from '../../../model/outcomes/colony';
 })
 export class ColonyDetailComponent implements OnInit {
   @Input() colony: Colony;
+  @Input() canUpdate: boolean;
 
   colonyForm: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
+    console.log('colony=>', this.colony);
+
     this.colonyForm = this.formBuilder.group({
       name: [''],
     });

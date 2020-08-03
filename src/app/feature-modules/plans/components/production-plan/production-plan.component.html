@@ -16,7 +16,7 @@
   [canUpdate]="canUpdatePlan">
 </app-status-transition>
 
-<app-outcome-list [outcomes]=outcomes></app-outcome-list>
+<app-outcome-list *ngIf="outcomes" [outcomes]=outcomes [canUpdate]="canUpdatePlan"></app-outcome-list>
 
 <app-crispr-attempt *ngIf="plan.crisprAttempt" [crisprAttempt]="plan.crisprAttempt"
   [canUpdatePlan]="canUpdatePlan">

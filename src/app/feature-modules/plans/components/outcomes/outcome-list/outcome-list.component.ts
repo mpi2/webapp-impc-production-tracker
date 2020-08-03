@@ -8,6 +8,7 @@ import { Outcome } from '../../../model/outcomes/outcome';
 })
 export class OutcomeListComponent implements OnInit {
   @Input() outcomes: Outcome[];
+  @Input() canUpdate: boolean;
 
   constructor() { }
 

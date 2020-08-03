@@ -1,0 +1,22 @@
+table {
+  border-spacing: 10px;
+  border-collapse: separate;
+  padding-bottom: 10px;
+}
+
+td {
+  min-width: 150px;
+}
+
+td.no_border {
+  border-bottom-style: none;
+}
+
+td.status {
+  font-style: italic;
+  color: #d83d3d;
+}
+td.delete {
+    min-width: 50px;
+    width: 50px;
+}

@@ -9,7 +9,7 @@
                 <label for="outcomeTypeName">Type:</label>
                 <div id="outcomeTypeName" class="content" >{{ outcome.outcomeTypeName}}</div>
                 <div *ngIf="outcome.colony" class="colonySection">
-                    <app-colony-detail [colony]="outcome.colony"></app-colony-detail>
+                    <app-colony-detail [colony]="outcome.colony" [canUpdate]="canUpdate"></app-colony-detail>
                 </div>
                 
                 <!-- <div *ngIf="canUpdate">

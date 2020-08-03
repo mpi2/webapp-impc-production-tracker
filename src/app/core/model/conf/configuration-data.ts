@@ -26,4 +26,6 @@ export class ConfigurationData {
     attemptTypes: string[];
     nucleaseTypes: string[];
     nucleaseClasses: string[];
+    productTypes: string[];
+    distributionNetworks: string[];
 }

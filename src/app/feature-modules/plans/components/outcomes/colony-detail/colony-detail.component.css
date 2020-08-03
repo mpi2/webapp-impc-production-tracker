@@ -13,4 +13,7 @@ input, select {
     float: left;
     padding-bottom: 5px;
 }
-
+.section {
+    clear: both;
+    float: left;
+}
