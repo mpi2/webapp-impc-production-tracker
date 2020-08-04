@@ -10,7 +10,7 @@ import { MatDatepickerInputEvent } from '@angular/material/datepicker';
   templateUrl: './distribution-product-list.component.html',
   styleUrls: ['./distribution-product-list.component.css']
 })
-export class DistributionProductListComponent implements OnInit , OnChanges {
+export class DistributionProductListComponent implements OnInit, OnChanges {
   @Input() colony: Colony;
   @Input() canUpdate: boolean;
 
@@ -48,7 +48,9 @@ export class DistributionProductListComponent implements OnInit , OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.crisprAttempt) {
+    console.log('changes: ', changes);
+
+    if (changes.colony) {
       this.colony = changes.colony.currentValue;
       this.setInitialData();
     }
@@ -65,6 +67,8 @@ export class DistributionProductListComponent implements OnInit , OnChanges {
   onDistributionProductChanged(distributionProduct: DistributionProduct) {
     console.log('distributionProduct', distributionProduct);
     this.updateRowStatus(distributionProduct);
+    console.log('after update', this.colony);
+
   }
 
   addDistributionProduct() {

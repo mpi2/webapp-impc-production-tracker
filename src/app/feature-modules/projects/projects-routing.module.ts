@@ -8,6 +8,8 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { HistoryComponent } from 'src/app/shared/components/history/history.component';
 import { ProductionPlanComponent } from '../plans/components/production-plan/production-plan.component';
 import { PhenotypingPlanComponent } from '../plans/components/phenotyping-plan/phenotyping-plan.component';
+import { PlanRouterComponent } from '../plans/components/plan-router/plan-router.component';
+import { OutcomeDetailComponent } from '../plans/components/outcomes/outcome-detail/outcome-detail.component';
 
 const routes: Routes = [
   {
@@ -18,6 +20,13 @@ const routes: Routes = [
   },
   {
     path: 'projects/:id/phenotyping-plan/:pid', component: PhenotypingPlanComponent
+  },
+  {
+    path: 'projects/:id/plan/:pid', component: PlanRouterComponent
+  },
+
+  {
+    path: 'projects/:id/plans/:pid/outcomes/:tpo', component: OutcomeDetailComponent
   },
 
   {
