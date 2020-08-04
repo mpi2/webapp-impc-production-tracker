@@ -24,7 +24,7 @@
 
 <mat-card>
   <mat-card-content>
-    <button mat-raised-button color="primary" [disabled]="!planHasChanged()" *ngIf="canUpdatePlan"
-      (click)="updatePlan()">Update</button>
+    <button mat-raised-button color="primary" [disabled]="!enableUpdateButton()" *ngIf="canUpdatePlan"
+      (click)="update()">Update</button>
   </mat-card-content>
 </mat-card>

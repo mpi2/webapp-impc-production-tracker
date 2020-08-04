@@ -22,9 +22,11 @@ export class ProductionPlanComponent implements OnInit {
   plan: Plan = new Plan();
   project: Project = new Project();
 
+  // Content previous modifications so we can tell when something has changed
   originalPlanAsString: string;
+  originalOutcomesAsString: string;
+
   canUpdatePlan: boolean;
-  dataChanged = false;
   loading = false;
   error: string;
 
@@ -76,7 +78,8 @@ export class ProductionPlanComponent implements OnInit {
       /* tslint:disable:no-string-literal */
       if (data['_embedded']) {
         this.outcomes = data['_embedded']['outcomes'];
-        console.log(this.outcomes);
+        this.outcomes.forEach(x => x.tpn = this.plan.tpn);
+        this.originalOutcomesAsString = JSON.stringify(this.outcomes);
       }
       /* tslint:enable:no-string-literal */
     }, error => {
@@ -101,9 +104,21 @@ export class ProductionPlanComponent implements OnInit {
   }
 
   /**
-   * Update the plan with the information that each child component changed.
+   * Updates the information of the plan and/or its outcomes.
    */
-  updatePlan() {
+  update() {
+    if (this.planHasChanged()) {
+      this.updatePlan();
+    }
+    if (this.outcomesChanged()) {
+      this.updateOutcomes();
+    }
+  }
+
+  /**
+   * Updates the plan
+   */
+  private updatePlan() {
     this.loading = true;
     this.planService.updateProductionPlan(
       this.plan.pin, this.plan).subscribe((changeResponse: ChangeResponse) => {
@@ -118,14 +133,46 @@ export class ProductionPlanComponent implements OnInit {
         }
         this.error = null;
         this.reloadForPin(this.plan.pin);
-      }, error => {
-        console.error('Error while updating plan', error);
-        this.error = error;
-      }
+      },
+        error => {
+          console.error('Error while updating plan', error);
+          this.error = error;
+        }
       );
+  }
+
+  private updateOutcomes() {
+    this.outcomes.forEach(x => {
+      this.outcomeService.updateOutcome(this.plan.pin, x).subscribe((changeResponse: ChangeResponse) => {
+        this.loading = false;
+        // this.originalPlanAsString = JSON.stringify(this.plan);
+        if (changeResponse && changeResponse.history.length > 0) {
+          this.changeDetails = changeResponse.history[0];
+          this.snackBar.openFromComponent(UpdateNotificationComponent, {
+            duration: 3000,
+            data: this.changeDetails
+          });
+        }
+        this.error = null;
+        this.reloadForPin(this.plan.pin);
+      },
+        error => {
+          console.error('Error while updating plan outcome', error);
+          this.error = error;
+        }
+      );
+    });
+  }
+
+  enableUpdateButton() {
+    return this.planHasChanged() || this.outcomesChanged();
   }
 
   planHasChanged() {
     return this.originalPlanAsString !== JSON.stringify(this.plan);
+  }
+
+  outcomesChanged() {
+    return this.originalOutcomesAsString !== JSON.stringify(this.outcomes);
   }
 }

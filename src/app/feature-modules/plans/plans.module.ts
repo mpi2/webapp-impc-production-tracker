@@ -11,10 +11,11 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { UpdateNotificationComponent } from './components/update-notification/update-notification.component';
 import { IntentionsModule } from '../intentions/intentions.module';
 import { PlanRouterComponent } from './components/plan-router/plan-router.component';
-import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/outcome-detail.component';
+import { OutcomeSummaryComponent } from './components/outcomes/outcome-summary/outcome-summary.component';
 import { OutcomeListComponent } from './components/outcomes/outcome-list/outcome-list.component';
 import { ColonyDetailComponent } from './components/outcomes/colony-detail/colony-detail.component';
 import { DistributionProductListComponent } from './components/outcomes/distribution-product-list/distribution-product-list.component';
+import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/outcome-detail.component';
 
 @NgModule({
   declarations: [
@@ -25,10 +26,11 @@ import { DistributionProductListComponent } from './components/outcomes/distribu
     PlanDetailsComponent,
     UpdateNotificationComponent,
     PlanRouterComponent,
-    OutcomeDetailComponent,
+    OutcomeSummaryComponent,
     OutcomeListComponent,
     ColonyDetailComponent,
-    DistributionProductListComponent
+    DistributionProductListComponent,
+    OutcomeDetailComponent
   ],
   imports: [
     SharedModule,
