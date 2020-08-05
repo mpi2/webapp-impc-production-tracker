@@ -1,15 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Colony } from '../../../model/outcomes/colony';
 
 @Component({
-  selector: 'app-colony-detail',
-  templateUrl: './colony-detail.component.html',
-  styleUrls: ['./colony-detail.component.css']
+  selector: 'app-colony-summary',
+  templateUrl: './colony-summary.component.html',
+  styleUrls: ['./colony-summary.component.css']
 })
-export class ColonyDetailComponent implements OnInit {
+export class ColonySummaryComponent implements OnInit {
+
   @Input() colony: Colony;
-  @Input() canUpdate: boolean;
 
   colonyForm: FormGroup;
 
@@ -17,7 +17,6 @@ export class ColonyDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.colonyForm = this.formBuilder.group({
-      name: [''],
     });
   }
 

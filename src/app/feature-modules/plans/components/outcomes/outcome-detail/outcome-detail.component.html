@@ -1,1 +1,26 @@
-<p>outcome-detail works!</p>
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<mat-card>
+    <mat-card-content>
+        <a [routerLink]="['history']">History</a>
+        <div>
+            <app-go-back></app-go-back>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-content>
+        <form [formGroup]="outcomeForm">
+            <fieldset>
+                <label for="tpo">Outcome id:</label>
+                <div id="tpo">{{ outcome.tpo }}</div>
+
+                <label for="outcomeTypeName">Type:</label>
+                <div id="outcomeTypeName" class="content">{{ outcome.outcomeTypeName}}</div>
+                <div *ngIf="outcome.colony" class="colonySection">
+                    <app-colony-detail [colony]="outcome.colony" [canUpdate]="canUpdate"></app-colony-detail>
+                </div>
+            </fieldset>
+        </form>
+    </mat-card-content>
+</mat-card>
