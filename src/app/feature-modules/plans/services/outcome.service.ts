@@ -22,6 +22,14 @@ export class OutcomeService {
         return this.http.get<Outcome[]>(this.apiServiceUrl + '/api/plans/' + pin + '/outcomes');
     }
 
+    getOutcome(pin: string, tpo: string) {
+        return this.http.get<Outcome>(this.apiServiceUrl + '/api/plans/' + pin + '/outcomes/' + tpo);
+    }
+
+    getMutationsByOutcome(pin: string, tpo: string) {
+        return this.http.get<Outcome>(this.apiServiceUrl + '/api/plans/' + pin + '/outcomes/' + tpo + '/mutations');
+    }
+
     updateOutcome(pin: string, outcome: Outcome) {
         return this.http.put<any>(this.apiServiceUrl + '/api/plans/' + pin + '/outcomes/' + outcome.tpo, outcome);
     }

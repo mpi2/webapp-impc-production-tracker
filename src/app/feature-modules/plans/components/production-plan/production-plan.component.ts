@@ -78,8 +78,24 @@ export class ProductionPlanComponent implements OnInit {
       /* tslint:disable:no-string-literal */
       if (data['_embedded']) {
         this.outcomes = data['_embedded']['outcomes'];
-        this.outcomes.forEach(x => x.tpn = this.plan.tpn);
+        this.outcomes.forEach(x => {
+          x.tpn = this.plan.tpn;
+          this.loadMutationsByOutcomes(x);
+        });
         this.originalOutcomesAsString = JSON.stringify(this.outcomes);
+      }
+      /* tslint:enable:no-string-literal */
+    }, error => {
+      this.error = error;
+      console.log(error);
+    });
+  }
+
+  loadMutationsByOutcomes(outcome: Outcome) {
+    this.outcomeService.getMutationsByOutcome(this.plan.pin, outcome.tpo).subscribe(data => {
+      /* tslint:disable:no-string-literal */
+      if (data['_embedded']) {
+        outcome.mutations = data['_embedded']['mutations'];
       }
       /* tslint:enable:no-string-literal */
     }, error => {

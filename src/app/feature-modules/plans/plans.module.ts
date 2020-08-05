@@ -16,6 +16,7 @@ import { OutcomeListComponent } from './components/outcomes/outcome-list/outcome
 import { ColonyDetailComponent } from './components/outcomes/colony-detail/colony-detail.component';
 import { DistributionProductListComponent } from './components/outcomes/distribution-product-list/distribution-product-list.component';
 import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/outcome-detail.component';
+import { ColonySummaryComponent } from './components/outcomes/colony-summary/colony-summary.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/out
     OutcomeListComponent,
     ColonyDetailComponent,
     DistributionProductListComponent,
-    OutcomeDetailComponent
+    OutcomeDetailComponent,
+    ColonySummaryComponent
   ],
   imports: [
     SharedModule,

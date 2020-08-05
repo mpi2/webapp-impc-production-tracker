@@ -1,5 +1,6 @@
 import { Colony } from './colony';
 import { Specimen } from './specimen';
+import { Mutation } from './mutation';
 
 export class Outcome {
     tpo: string;
@@ -8,4 +9,5 @@ export class Outcome {
     outcomeTypeName: string;
     colony: Colony;
     specimen: Specimen;
+    mutations: Mutation[];
 }
