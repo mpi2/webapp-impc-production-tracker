@@ -4,7 +4,7 @@ export class Mutation {
     min: string;
     mgiAlleleId: string;
     imitsAllele: number;
-    mgiAlleleSymbol: string;
+    symbol: string;
     mgiAlleleSymbolWithoutImpcAbbreviation: boolean;
     mgiAlleleSymbolRequiresConstruction: boolean;
     geneticMutationTypeName: string;
@@ -13,4 +13,5 @@ export class Mutation {
     mutationSequences: any[];
     mutationCategorizations: any[];
     genes: Gene[];
+    calculatedMgiAlleleSymbol: string;
 }

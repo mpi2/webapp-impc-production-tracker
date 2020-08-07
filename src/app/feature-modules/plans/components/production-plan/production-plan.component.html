@@ -10,16 +10,15 @@
 
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
 </app-plan-details>
-<app-status-transition
-  *ngIf="plan.statusTransition" 
-  [statusTransition]="plan.statusTransition"
-  [canUpdate]="canUpdatePlan">
-</app-status-transition>
+<div class="section">
+  <app-status-transition *ngIf="plan.statusTransition" [statusTransition]="plan.statusTransition"
+    [canUpdate]="canUpdatePlan">
+  </app-status-transition>
+</div>
 
 <app-outcome-list *ngIf="outcomes" [outcomes]=outcomes [canUpdate]="canUpdatePlan"></app-outcome-list>
 
-<app-crispr-attempt *ngIf="plan.crisprAttempt" [crisprAttempt]="plan.crisprAttempt"
-  [canUpdatePlan]="canUpdatePlan">
+<app-crispr-attempt *ngIf="plan.crisprAttempt" [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>
 
 <mat-card>
