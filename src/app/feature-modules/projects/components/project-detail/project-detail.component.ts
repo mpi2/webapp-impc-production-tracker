@@ -28,8 +28,6 @@ export class ProjectDetailComponent implements OnInit {
   error;
   changeDetails: ChangesHistory;
 
-  assignmentStatusDatesColumns = ['name', 'date'];
-
   configurationData: ConfigurationData;
 
   privacies: NamedValue[] = [];

@@ -68,31 +68,6 @@
 
 <app-status-date [statusDates]="project.assignmentStatusStamps" [title]="'Assignment Status Stamps'"></app-status-date>
 
-<mat-accordion>
-  <mat-expansion-panel>
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Status Stamps
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-
-    <table mat-table [dataSource]="project.assignmentStatusStamps" class="mat-elevation-z8">
-      <ng-container matColumnDef="name">
-        <th mat-header-cell *matHeaderCellDef> Name </th>
-        <td mat-cell *matCellDef="let element"> {{element.statusName}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-      </ng-container>
-
-      <tr mat-header-row *matHeaderRowDef="assignmentStatusDatesColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: assignmentStatusDatesColumns;"></tr>
-    </table>
-  </mat-expansion-panel>
-</mat-accordion>
-
 <mat-card *ngIf="productionPlansDetails.length > 0">
   <mat-card-subtitle>Production Plans</mat-card-subtitle>
   <mat-card-content>

@@ -28,6 +28,14 @@ const routes: Routes = [
   {
     path: 'projects/:id/plans/:pid/outcomes/:tpo', component: OutcomeDetailComponent
   },
+  {
+    path: 'projects/:id/plans/:pid/outcomes/:tpo/history', component: HistoryComponent,
+    data: {
+      title: 'Outcome History',
+      id: 'tpo',
+      entity: 'outcome'
+    }
+  },
 
   {
     path: 'projects/:id/history', component: HistoryComponent,

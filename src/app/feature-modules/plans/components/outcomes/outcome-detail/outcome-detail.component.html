@@ -24,3 +24,11 @@
         </form>
     </mat-card-content>
 </mat-card>
+
+<mat-card>
+    <mat-card-content>
+      <button mat-raised-button color="primary" [disabled]="!enableUpdateButton()" *ngIf="canUpdate"
+        (click)="update()">Update</button>
+    </mat-card-content>
+  </mat-card>
+

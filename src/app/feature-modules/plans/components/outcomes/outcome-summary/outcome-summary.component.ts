@@ -13,30 +13,31 @@ export class OutcomeSummaryComponent implements OnInit {
 
   outcomeForm: FormGroup;
 
-  mutationSummaryColumns: string[] = ['alleleSymbol', 'molecularMutationType'];
+  mutationSummaryColumns: string[] = ['symbol', 'molecularMutationType'];
 
   constructor(private formBuilder: FormBuilder) { }
 
   ngOnInit(): void {
-    console.log('outcome', this.outcome);
-
     this.outcomeForm = this.formBuilder.group({
       outcomeTypeName: [''],
     });
   }
 
-  formatAlleleSymbol(calculatedAlleleSymbol: string) {
+  formatAlleleSymbol(symbol: string) {
     let result = '';
-    const splited = calculatedAlleleSymbol.split('');
-    splited.forEach(x => {
-      if (x === '<') {
-        result += '<sup>';
-      } else if (x === '>') {
-        result += '</sup>';
-      } else {
-        result += x;
-      }
-    });
+    if (symbol) {
+      const splited = symbol.split('');
+      splited.forEach(x => {
+        if (x === '<') {
+          result += '<sup>';
+        } else if (x === '>') {
+          result += '</sup>';
+        } else {
+          result += x;
+        }
+      });
+    }
+
     return result;
   }
 

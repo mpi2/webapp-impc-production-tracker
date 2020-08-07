@@ -3,6 +3,7 @@ import { ChangesHistory, ChangesHistoryAdapter } from 'src/app/core/model/histor
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { ProjectService } from 'src/app/feature-modules/projects';
+import { OutcomeService } from 'src/app/feature-modules/plans/services/outcome.service';
 
 @Component({
   selector: 'app-history',
@@ -17,13 +18,16 @@ export class HistoryComponent implements OnInit {
   private id: string;
   error: string;
 
+  pid: string;
+
+
   private readonly LENGTH_LIMIT = 100;
-  private isContentLengthGreaterThanLimit: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private planService: PlanService,
     private projectService: ProjectService,
+    private outcomeService: OutcomeService,
     private adapter: ChangesHistoryAdapter) { }
 
   ngOnInit() {
@@ -34,18 +38,28 @@ export class HistoryComponent implements OnInit {
     this.route.data.subscribe(
       v => {
         this.entity = v.entity;
+        console.log(this.route.snapshot.params);
+
         this.id = this.route.snapshot.params[v.id];
+        this.pid = this.route.snapshot.params.pid;
+        console.log('PID', this.pid );
+
         this.getHistory();
       });
   }
 
-  private getHistory(): void  {
+  private getHistory(): void {
+    console.log('this.entity', this.entity);
+
     switch (this.entity) {
       case 'project':
         this.getProjectHistory(this.id);
         break;
       case 'plan':
         this.getPlanHistory(this.id);
+        break;
+      case 'outcome':
+        this.getOutcomeHistory(this.pid, this.id);
         break;
     }
   }
@@ -60,7 +74,7 @@ export class HistoryComponent implements OnInit {
     });
   }
 
-  private getPlanHistory(pid: string): void  {
+  private getPlanHistory(pid: string): void {
     this.planService.getHistoryByPid(pid).subscribe(data => {
       this.historyRecords = data;
       this.adaptData();
@@ -70,7 +84,19 @@ export class HistoryComponent implements OnInit {
     });
   }
 
-  private adaptData(): void  {
+  private getOutcomeHistory(pid: string, tpo: string): void {
+    console.log('getOutcomeHistory', pid, tpo);
+
+    this.outcomeService.getHistoryByTpo(pid, tpo).subscribe(data => {
+      this.historyRecords = data;
+      this.adaptData();
+      this.error = null;
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private adaptData(): void {
     this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
     this.sortedData = this.historyRecords.slice();
   }
