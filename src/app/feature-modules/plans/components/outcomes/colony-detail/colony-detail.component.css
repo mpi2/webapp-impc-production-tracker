@@ -17,3 +17,7 @@ input, select {
     clear: both;
     float: left;
 }
+.name {
+    font-weight: bold;
+}
+

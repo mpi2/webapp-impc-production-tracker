@@ -1,31 +1,35 @@
-label, .label {
-    clear: both;
-    float: left;
-    padding-bottom: 5px;
-    /* width: 16% */
-    width: 180px;
+label,
+.label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 180px;
 }
-input, select {
-    float: left;
+input,
+select {
+  float: left;
 }
 .content {
-    width: 300px;
-    float: left;
-    padding-bottom: 5px;
+  width: 300px;
+  float: left;
+  padding-bottom: 5px;
 }
 .note {
-    width: 300px;
-    float: left;
-    font-size: 12px;
-    padding-bottom: 5px;
+  width: 300px;
+  float: left;
+  font-size: 12px;
+  padding-bottom: 5px;
 }
 fieldset {
-    border: 0;
-    border-spacing: 10px;
+  border: 0;
+  border-spacing: 10px;
 }
 
 .section {
-    clear: both;
-    float: left;
+  clear: both;
+  float: left;
 }
 
+td {
+  min-width: 150px;
+}
