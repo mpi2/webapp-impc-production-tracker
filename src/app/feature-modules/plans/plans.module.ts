@@ -17,6 +17,7 @@ import { ColonyDetailComponent } from './components/outcomes/colony-detail/colon
 import { DistributionProductListComponent } from './components/outcomes/distribution-product-list/distribution-product-list.component';
 import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/outcome-detail.component';
 import { ColonySummaryComponent } from './components/outcomes/colony-summary/colony-summary.component';
+import { MutationDetailComponent } from './components/outcomes/mutation-detail/mutation-detail.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ColonySummaryComponent } from './components/outcomes/colony-summary/col
     ColonyDetailComponent,
     DistributionProductListComponent,
     OutcomeDetailComponent,
-    ColonySummaryComponent
+    ColonySummaryComponent,
+    MutationDetailComponent
   ],
   imports: [
     SharedModule,

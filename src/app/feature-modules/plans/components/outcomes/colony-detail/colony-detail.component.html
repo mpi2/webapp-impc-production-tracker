@@ -9,12 +9,5 @@
 
     <label for="backgroundStrainName">Background Strain:</label>
     <div id="backgroundStrainName" class="content">{{ colony.backgroundStrainName}}</div>
-
-    <div class="section">
-        <app-distribution-product-list [colony]="colony" [canUpdate]="canUpdate"></app-distribution-product-list>
-    </div>
-
-    <div class="section">
-        <app-status-date [statusDates]="colony.statusDates" [title]='"Colony Status Stamps"'></app-status-date>
-    </div>
+  
 </form>
