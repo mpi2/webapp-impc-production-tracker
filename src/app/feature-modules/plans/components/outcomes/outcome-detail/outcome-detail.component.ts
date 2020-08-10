@@ -48,13 +48,26 @@ export class OutcomeDetailComponent implements OnInit {
 
   reloadOutcome() {
     this.outcomeService.getOutcome(this.pin, this.tpo).subscribe(data => {
-      console.log('data', data);
       this.outcome = data;
+      this.loadMutations();
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
       this.error = null;
       this.evaluateUpdatePermissions();
     }, error => {
       this.error = error;
+    });
+  }
+
+  loadMutations() {
+    this.outcomeService.getMutationsByOutcome(this.pin, this.outcome.tpo).subscribe(data => {
+      /* tslint:disable:no-string-literal */
+      if (data['_embedded']) {
+        this.outcome.mutations = data['_embedded']['mutations'];
+      }
+      /* tslint:enable:no-string-literal */
+    }, error => {
+      this.error = error;
+      console.log(error);
     });
   }
 

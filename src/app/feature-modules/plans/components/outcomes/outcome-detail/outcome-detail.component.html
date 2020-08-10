@@ -17,18 +17,40 @@
 
                 <label for="outcomeTypeName">Type:</label>
                 <div id="outcomeTypeName" class="content">{{ outcome.outcomeTypeName}}</div>
-                <div *ngIf="outcome.colony" class="colonySection">
+
+                <div *ngIf="outcome.colony" class="section">
                     <app-colony-detail [colony]="outcome.colony" [canUpdate]="canUpdate"></app-colony-detail>
                 </div>
+
+                <div id="mutations">
+                    <app-mutation-detail *ngFor="let mutation of outcome.mutations" [mutation]="mutation"
+                        class="section">
+                    </app-mutation-detail>
+                </div>
+
             </fieldset>
         </form>
     </mat-card-content>
 </mat-card>
 
+<div *ngIf="outcome.colony">
+    <mat-card>
+        <mat-card-content>
+            <label for="distributionProducts">Distribution Products:</label>
+            <div id="distributionProducts">
+                <app-distribution-product-list [colony]="outcome.colony" [canUpdate]="canUpdate">
+                </app-distribution-product-list>
+            </div>
+        </mat-card-content>
+    </mat-card>
+
+
+    <app-status-date [statusDates]="outcome.colony.statusDates" [title]='"Colony Status Stamps"'></app-status-date>
+</div>
+
 <mat-card>
     <mat-card-content>
-      <button mat-raised-button color="primary" [disabled]="!enableUpdateButton()" *ngIf="canUpdate"
-        (click)="update()">Update</button>
+        <button mat-raised-button color="primary" [disabled]="!enableUpdateButton()" *ngIf="canUpdate"
+            (click)="update()">Update</button>
     </mat-card-content>
-  </mat-card>
-
+</mat-card>
