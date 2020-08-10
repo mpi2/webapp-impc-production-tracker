@@ -28,6 +28,8 @@ spec:
         env:
         - name: API_SERVICE_HOST
           value: www.gentar.org
+        - name: API_SERVICE_PROTOCOL
+          value: "https"
         - name: API_SERVICE_PORT
           value: "443\\/production-tracker-sandbox-api"
         - name: REDEPLOY_KEY

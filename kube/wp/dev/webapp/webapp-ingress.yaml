@@ -32,14 +32,20 @@ metadata:
     # see: https://github.com/kubernetes/ingress-nginx/issues/646
     nginx.ingress.kubernetes.io/configuration-snippet: |
         rewrite ^(/production-tracker-dev)$ $1/ permanent;
-    nginx.ingress.kubernetes.io/ssl-redirect: "false"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
 
 spec:
   rules:
-  - http:
+  - host: www.gentar.org
+    http:
       paths:
       - path: /production-tracker-dev(/|$)(.*)
       #- path:
         backend:
           serviceName: webapp-dev
           servicePort: 80
+  tls:
+    - hosts:
+        - gentar.org
+        - www.gentar.org
+      secretName: gentar-tls
