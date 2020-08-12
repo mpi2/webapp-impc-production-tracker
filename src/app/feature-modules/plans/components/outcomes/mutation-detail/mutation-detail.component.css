@@ -1,7 +1,10 @@
-label {
+label,
+.label {
   clear: both;
   float: left;
   padding-bottom: 5px;
+  list-style: 1.7;
+  padding-top: 5px;
   width: 180px;
 }
 input,
@@ -9,8 +12,8 @@ select {
   float: left;
 }
 .content {
-  width: 300px;
-  float: left;
+  clear: both;
+  float: none;
   padding-bottom: 5px;
 }
 .section {
@@ -19,4 +22,20 @@ select {
 }
 .name {
   font-weight: bold;
+}
+
+.large-content {
+  width: 500px;
+  line-height: 1.7;
+  padding-bottom: 5px;
+}
+
+button {
+  clear: both;
+  float: left;
+}
+
+mat-checkbox {
+  clear: both;
+  float: left;
 }

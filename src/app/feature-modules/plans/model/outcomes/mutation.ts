@@ -2,6 +2,7 @@ import { Gene } from 'src/app/core';
 
 export class Mutation {
     min: string;
+    pin: string;
     mgiAlleleId: string;
     imitsAllele: number;
     symbol: string;
@@ -13,5 +14,7 @@ export class Mutation {
     mutationSequences: any[];
     mutationCategorizations: any[];
     genes: Gene[];
+    geneSymbolsOrAccessionIds: string[];
     calculatedMgiAlleleSymbol: string;
+    symbolSuggestionRequest: any;
 }
