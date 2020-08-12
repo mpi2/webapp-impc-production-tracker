@@ -83,7 +83,7 @@ export class AutocompleteGeneComponent implements OnInit {
 
   // Add the new gene object to the current record (if it does not exist already)
   private addGeneToList(label: string) {
-    //const genes: Gene[] = this.record.genes;
+    // const genes: Gene[] = this.record.genes;
     const alreadyExistingGene = this.genes.find(x => x.symbol === label);
     if (!alreadyExistingGene) {
       const newGene = new Gene();
