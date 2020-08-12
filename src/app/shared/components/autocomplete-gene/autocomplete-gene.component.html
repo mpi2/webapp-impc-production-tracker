@@ -1,0 +1,23 @@
+<mat-form-field class="example-chip-list largeElement">
+    <mat-chip-list #chipList>
+        <mat-chip *ngFor="let geneSymbol of getGenesNamesByElement()" (removed)="remove(geneSymbol)">
+            {{geneSymbol}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+        <input
+            #geneInput
+            [formControl]="genesCtrl"
+            [matAutocomplete]="auto"
+            (input)="onSearchChange($event.target.value)"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            [matChipInputAddOnBlur]="true"
+            (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+            {{option}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-form-field>
