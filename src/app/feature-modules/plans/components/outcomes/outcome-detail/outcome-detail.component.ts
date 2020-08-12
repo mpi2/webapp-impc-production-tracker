@@ -7,6 +7,8 @@ import { PermissionsService, LoggedUserService, ChangesHistory } from 'src/app/c
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../../update-notification/update-notification.component';
+import { Project } from 'src/app/model';
+import { ProjectService } from 'src/app/feature-modules/projects';
 
 @Component({
   selector: 'app-outcome-detail',
@@ -18,8 +20,11 @@ export class OutcomeDetailComponent implements OnInit {
 
   outcomeForm: FormGroup;
 
+  project: Project;
+
   tpo: string;
   pin: string;
+  tpn: string;
 
   canUpdate: boolean;
   loading = false;
@@ -29,18 +34,20 @@ export class OutcomeDetailComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
-
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private outcomeService: OutcomeService,
     private permissionsService: PermissionsService,
+    private projectService: ProjectService,
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit(): void {
     this.pin = this.route.snapshot.params.pid;
     this.tpo = this.route.snapshot.params.tpo;
-    this.reloadOutcome();
+    this.tpn = this.route.snapshot.params.id;
 
+    this.loadProject();
+    this.reloadOutcome();
     this.outcomeForm = this.formBuilder.group({
       outcomeTypeName: [''],
     });
@@ -49,6 +56,8 @@ export class OutcomeDetailComponent implements OnInit {
   reloadOutcome() {
     this.outcomeService.getOutcome(this.pin, this.tpo).subscribe(data => {
       this.outcome = data;
+      console.log('this.outcome', this.outcome);
+
       this.loadMutations();
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
       this.error = null;
@@ -63,6 +72,7 @@ export class OutcomeDetailComponent implements OnInit {
       /* tslint:disable:no-string-literal */
       if (data['_embedded']) {
         this.outcome.mutations = data['_embedded']['mutations'];
+        this.outcome.mutations.map(x => x.pin = this.pin);
       }
       /* tslint:enable:no-string-literal */
     }, error => {
@@ -70,6 +80,18 @@ export class OutcomeDetailComponent implements OnInit {
       console.log(error);
     });
   }
+
+  loadProject() {
+    this.projectService.getProject(this.tpn).subscribe(data => {
+      console.log('data with', this.tpn, data);
+
+      this.project = data;
+    }, error => {
+      this.error = error;
+      console.log(error);
+    });
+  }
+
 
   evaluateUpdatePermissions() {
     if (this.loggedUserService.getLoggerUser()) {
@@ -89,8 +111,6 @@ export class OutcomeDetailComponent implements OnInit {
   enableUpdateButton() {
     return true;
   }
-
-
 
   update() {
     this.outcomeService.updateOutcome(this.outcome.pin, this.outcome).subscribe((changeResponse: ChangeResponse) => {

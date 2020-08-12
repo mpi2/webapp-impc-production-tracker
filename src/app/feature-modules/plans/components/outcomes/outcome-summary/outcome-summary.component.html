@@ -13,7 +13,7 @@
                     <app-colony-summary [colony]="outcome.colony"></app-colony-summary>
                 </div>
                 <label for="tpo">Mutations:</label>
-                
+
                 <div class="section">
                     <table mat-table [dataSource]="outcome.mutations" class="mat-elevation-z8">
 
@@ -25,10 +25,8 @@
 
                         <ng-container matColumnDef="molecularMutationType">
                             <th mat-header-cell *matHeaderCellDef> Molecular Mutation Type </th>
-                            <td mat-cell *matCellDef="let element"> <span
-                                    [innerHTML]="formatAlleleSymbol(element.molecularMutationTypeName )"></span> </td>
+                            <td mat-cell *matCellDef="let element"> {{ element.molecularMutationTypeName }} </td>
                         </ng-container>
-
 
                         <tr mat-header-row *matHeaderRowDef="mutationSummaryColumns"></tr>
                         <tr mat-row *matRowDef="let row; columns: mutationSummaryColumns;"></tr>

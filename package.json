@@ -28,7 +28,7 @@
     "node-gyp": "^6.1.0",
     "rebuild": "^0.1.2",
     "rxjs": "^6.5.4",
-    "serialize-javascript": "^2.1.2",
+    "serialize-javascript": "^4.0.0",
     "tslib": "^1.13.0",
     "zone.js": "~0.10.2"
   },

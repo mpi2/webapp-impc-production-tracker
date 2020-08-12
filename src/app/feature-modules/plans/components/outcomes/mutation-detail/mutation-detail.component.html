@@ -1,16 +1,48 @@
 <mat-card>
-    <mat-card-content>
+    <mat-card-content class="large-content">
         <form [formGroup]="mutationForm">
-            <!-- <fieldset> -->
-                <label for="tpo">Mutation id:</label>
-                <div id="tpo" class="content">{{ mutation.min }}</div>
 
-                <!-- <label for="outcomeTypeName">Type:</label>
-                <div id="outcomeTypeName" class="content">{{ outcome.outcomeTypeName}}</div>
-                <div *ngIf="outcome.colony" class="colonySection">
-                    <app-colony-detail [colony]="outcome.colony" [canUpdate]="canUpdate"></app-colony-detail>
-                </div> -->
-            <!-- </fieldset> -->
+            <label for="tpo">Mutation id:</label>
+            <div id="tpo">{{ mutation.min }}</div>
+
+            <fieldset class="content">
+                <legend>Mutation Symbol</legend>
+
+                <label for="symbol">Symbol:</label>
+                <mat-form-field class="example-full-width">
+                    <input matInput value="{{ mutation.symbol }}">
+                </mat-form-field>
+
+                <div id="symbolSugestionSection" *ngIf=shouldSuggestSymbol>
+                    <label for="consortium">Consortium abbreviation:</label>
+
+                    <mat-form-field id="consortium" appearance="fill" class="content">
+                        <mat-select [(value)]="selectedConsortium">
+                            <mat-option value="">Without abbreviation</mat-option>
+                            <mat-option *ngFor="let consortium of this.consortia" [(value)]="consortium.name">
+                                {{consortium.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+
+                    <button (click)="suggestSymbol() " mat-raised-button color="primary">Suggest Symbol</button>
+                </div>
+
+            </fieldset>
+
+            <label for="molecularMutationType">Molecular Mutation Type:</label>
+            <div id="molecularMutationType"> {{ mutation.molecularMutationTypeName }} </div>
+
+            <fieldset class="content">
+                <legend>Mutation Categorizations:</legend>
+                <label for="repairMechanism">Repair Mechanism:</label>
+                <div id="repairMechanism"> {{ repairMechanismsNames }} </div>
+            </fieldset>
+
+            <div id="genes">
+                <label for="genes">Genes:</label>
+            </div>
+
         </form>
     </mat-card-content>
 </mat-card>

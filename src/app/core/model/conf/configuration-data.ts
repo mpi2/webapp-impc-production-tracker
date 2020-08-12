@@ -28,4 +28,5 @@ export class ConfigurationData {
     nucleaseClasses: string[];
     productTypes: string[];
     distributionNetworks: string[];
+    consortiaToConstructSymbols: string[];
 }
