@@ -44,6 +44,7 @@ import { DialogBoxComponent } from './components/dialog-box/dialog-box.component
 import { LayoutModule } from '@angular/cdk/layout';
 import { StatusTransitionComponent } from './components/status-transition/status-transition.component';
 import { StatusDateComponent } from './components/status-date/status-date.component';
+import { AutocompleteGeneComponent } from './components/autocomplete-gene/autocomplete-gene.component';
 
 @NgModule({
   declarations: [
@@ -55,7 +56,8 @@ import { StatusDateComponent } from './components/status-date/status-date.compon
     InformativeDialogComponent,
     DialogBoxComponent,
     StatusTransitionComponent,
-    StatusDateComponent],
+    StatusDateComponent,
+    AutocompleteGeneComponent],
   imports: [
     MatAutocompleteModule,
     CommonModule,
@@ -108,6 +110,7 @@ import { StatusDateComponent } from './components/status-date/status-date.compon
     GoBackComponent,
     StatusTransitionComponent,
     StatusDateComponent,
+    AutocompleteGeneComponent,
     MatToolbarModule,
     MatTooltipModule,
     MatButtonModule,
