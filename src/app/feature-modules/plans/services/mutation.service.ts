@@ -18,7 +18,7 @@ export class MutationService {
      * Converts the characters "<" and ">" in html superscript tags
      * @param symbol Symbol in the mutation
      */
-    public formatAlleleSymbol(symbol: string) {
+    formatAlleleSymbol(symbol: string) {
         let result = '';
         if (symbol) {
             const splited = symbol.split('');
@@ -36,8 +36,18 @@ export class MutationService {
         return result;
     }
 
-    public getSuggestedSymbol(pin: string, mutation: Mutation) {
+    getSuggestedSymbol(pin: string, mutation: Mutation) {
         return this.http.post(this.apiServiceUrl + '/api/plans/' + pin + '/outcomes/suggestedSymbol', mutation,  {responseType: 'text'});
+    }
+
+    updateMutation(mutation: Mutation) {
+        return this.http.put<any>(
+            this.apiServiceUrl + '/api/plans/' + mutation.pin + '/outcomes/' + mutation.tpo + '/mutations/' + mutation.min, mutation);
+    }
+
+    createMutation(mutation: Mutation) {
+        return this.http.post<any>(
+            this.apiServiceUrl + '/api/plans/' + mutation.pin + '/outcomes/' + mutation.tpo + '/mutations/' + mutation.min, mutation);
     }
 
 }

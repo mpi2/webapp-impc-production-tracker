@@ -48,8 +48,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log('changes: ', changes);
-
     if (changes.colony) {
       this.colony = changes.colony.currentValue;
       this.setInitialData();

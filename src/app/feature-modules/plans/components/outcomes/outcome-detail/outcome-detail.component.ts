@@ -8,7 +8,8 @@ import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../../update-notification/update-notification.component';
 import { Project } from 'src/app/model';
-import { ProjectService } from 'src/app/feature-modules/projects';
+import { MutationService } from '../../../services/mutation.service';
+import { Mutation } from '../../../model/outcomes/mutation';
 
 @Component({
   selector: 'app-outcome-detail',
@@ -17,6 +18,7 @@ import { ProjectService } from 'src/app/feature-modules/projects';
 })
 export class OutcomeDetailComponent implements OnInit {
   outcome: Outcome = new Outcome();
+  // mutations: Mutation[] = [];
 
   outcomeForm: FormGroup;
 
@@ -29,7 +31,10 @@ export class OutcomeDetailComponent implements OnInit {
   canUpdate: boolean;
   loading = false;
   error: string;
+
   originalOutcomeAsString: string;
+  originalMutationsAsString: string;
+
   changeDetails: ChangesHistory;
 
   constructor(
@@ -37,8 +42,8 @@ export class OutcomeDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private outcomeService: OutcomeService,
+    private mutationService: MutationService,
     private permissionsService: PermissionsService,
-    private projectService: ProjectService,
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit(): void {
@@ -46,52 +51,55 @@ export class OutcomeDetailComponent implements OnInit {
     this.tpo = this.route.snapshot.params.tpo;
     this.tpn = this.route.snapshot.params.id;
 
-    this.loadProject();
-    this.reloadOutcome();
+    this.evaluateUpdatePermissions();
+    this.fetchOutcome();
     this.outcomeForm = this.formBuilder.group({
       outcomeTypeName: [''],
     });
   }
 
-  reloadOutcome() {
+  private fetchOutcome() {
     this.outcomeService.getOutcome(this.pin, this.tpo).subscribe(data => {
       this.outcome = data;
-      console.log('this.outcome', this.outcome);
-
-      this.loadMutations();
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
-      this.error = null;
-      this.evaluateUpdatePermissions();
-    }, error => {
+      this.fetchMutationsByOutcome(this.outcome);
+     }, error => {
       this.error = error;
     });
   }
 
-  loadMutations() {
-    this.outcomeService.getMutationsByOutcome(this.pin, this.outcome.tpo).subscribe(data => {
-      /* tslint:disable:no-string-literal */
+  private fetchMutationsByOutcome(outcome: Outcome) {
+    /* tslint:disable:no-string-literal */
+    this.outcomeService.getMutationsByOutcome(this.pin, outcome.tpo).subscribe(data => {
       if (data['_embedded']) {
-        this.outcome.mutations = data['_embedded']['mutations'];
-        this.outcome.mutations.map(x => x.pin = this.pin);
+        const mutations = data['_embedded'].mutations;
+        this.originalMutationsAsString = JSON.stringify(mutations);
+        this.setMutations(mutations);
+        console.log('mutations', mutations);
       }
-      /* tslint:enable:no-string-literal */
     }, error => {
       this.error = error;
-      console.log(error);
     });
+    /* tslint:enable:no-string-literal */
   }
 
-  loadProject() {
-    this.projectService.getProject(this.tpn).subscribe(data => {
-      console.log('data with', this.tpn, data);
 
-      this.project = data;
-    }, error => {
-      this.error = error;
-      console.log(error);
-    });
+  setMutations(mutations: Mutation[]) {
+    if (mutations) {
+      mutations.forEach(x => {
+        this.completeDataInMutation(x);
+      });
+      this.outcome.mutations = mutations;
+      console.log(this.outcome.mutations);
+
+    }
   }
 
+  completeDataInMutation(mutation: Mutation) {
+    mutation.pin = this.pin;
+    mutation.tpo = this.tpo;
+    mutation.geneSymbolsOrAccessionIds = mutation.genes.map(x => x.symbol);
+  }
 
   evaluateUpdatePermissions() {
     if (this.loggedUserService.getLoggerUser()) {
@@ -113,24 +121,60 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   update() {
-    this.outcomeService.updateOutcome(this.outcome.pin, this.outcome).subscribe((changeResponse: ChangeResponse) => {
-      this.loading = false;
-      this.originalOutcomeAsString = JSON.stringify(this.outcome);
-      if (changeResponse && changeResponse.history.length > 0) {
-        this.changeDetails = changeResponse.history[0];
-        this.snackBar.openFromComponent(UpdateNotificationComponent, {
-          duration: 3000,
-          data: this.changeDetails
-        });
-      }
-      this.error = null;
-      this.reloadOutcome();
-    },
-      error => {
-        console.error('Error while updating plan outcome', error);
-        this.error = error;
-      }
-    );
+    this.updateOutcome();
+    this.updateMutations();
+  }
+
+  updateOutcome() {
+    if (this.originalOutcomeAsString !== JSON.stringify(this.outcome)) {
+      this.loading = true;
+      this.outcomeService.updateOutcome(this.outcome.pin, this.outcome).subscribe((changeResponse: ChangeResponse) => {
+        this.loading = false;
+        this.originalOutcomeAsString = JSON.stringify(this.outcome);
+        this.showChangeNotification(changeResponse);
+        this.error = null;
+      },
+        error => {
+          console.error('Error while updating plan outcome', error);
+          this.error = error;
+          this.loading = false;
+        }
+      );
+    }
+  }
+
+  updateMutations() {
+    if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
+      const mutationsToUpdate = this.outcome.mutations.filter(x => x.min !== null);
+
+      mutationsToUpdate.forEach(x => {
+        this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {
+          this.showChangeNotification(changeResponse);
+        },
+          error => {
+            console.log(error);
+          });
+      });
+    }
+  }
+
+  createMutations() {
+    const mutationsToCreate = [];
+  }
+
+  private showChangeNotification(changeResponse: ChangeResponse) {
+    if (changeResponse && changeResponse.history.length > 0) {
+      this.changeDetails = changeResponse.history[0];
+      this.snackBar.openFromComponent(UpdateNotificationComponent, {
+        duration: 3000,
+        data: this.changeDetails
+      });
+    }
+  }
+
+  print() {
+    console.log(this.outcome.mutations.map(x => x.geneSymbolsOrAccessionIds.join(',')));
+
   }
 
 }

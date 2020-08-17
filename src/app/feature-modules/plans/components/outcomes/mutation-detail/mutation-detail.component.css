@@ -1,10 +1,14 @@
+mat-card {
+  min-width: 800px;
+  max-width: 1000px;
+}
+
 label,
 .label {
   clear: both;
   float: left;
   padding-bottom: 5px;
   list-style: 1.7;
-  padding-top: 5px;
   width: 180px;
 }
 input,
@@ -38,4 +42,20 @@ button {
 mat-checkbox {
   clear: both;
   float: left;
+}
+
+.select-content {
+  max-width: 50%;
+}
+
+.select-content-fix-width {
+  width: 250px;
+}
+
+fieldset {
+  width: 600px;
+}
+
+.genes {
+  padding-top: 10px;
 }

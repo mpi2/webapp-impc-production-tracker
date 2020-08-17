@@ -1,5 +1,4 @@
 import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
-import { Gene } from 'src/app/model';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -14,7 +13,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class AutocompleteGeneComponent implements OnInit {
 
-  @Input() genes: Gene[];
+  @Input() symbols: string[];
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
   options: string[] = [];
   filteredOptions: Observable<string[]> = of([]);
@@ -58,7 +57,7 @@ export class AutocompleteGeneComponent implements OnInit {
   }
 
   public getGenesNamesByElement(): string[] {
-    return this.genes.map(x => x.symbol);
+    return this.symbols.map(x => x);
   }
 
   add(event: MatChipInputEvent): void {
@@ -83,12 +82,9 @@ export class AutocompleteGeneComponent implements OnInit {
 
   // Add the new gene object to the current record (if it does not exist already)
   private addGeneToList(label: string) {
-    // const genes: Gene[] = this.record.genes;
-    const alreadyExistingGene = this.genes.find(x => x.symbol === label);
+    const alreadyExistingGene = this.symbols.find(x => x === label);
     if (!alreadyExistingGene) {
-      const newGene = new Gene();
-      newGene.symbol = label;
-      this.genes.push(newGene);
+      this.symbols.push(label);
     }
   }
 
@@ -103,9 +99,9 @@ export class AutocompleteGeneComponent implements OnInit {
   }
 
   private removeGeneFromList(label: string) {
-    const index = this.genes.findIndex(x => x.symbol === label);
+    const index = this.symbols.findIndex(x => x === label);
     if (index >= 0) {
-      this.genes.splice(index, 1);
+      this.symbols.splice(index, 1);
     }
   }
 

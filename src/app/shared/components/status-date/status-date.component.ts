@@ -15,7 +15,6 @@ export class StatusDateComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('statusDates', this.statusDates);
 
   }
 

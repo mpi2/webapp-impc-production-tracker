@@ -3,6 +3,7 @@ import { Gene } from 'src/app/core';
 export class Mutation {
     min: string;
     pin: string;
+    tpo: string;
     mgiAlleleId: string;
     imitsAllele: number;
     symbol: string;
