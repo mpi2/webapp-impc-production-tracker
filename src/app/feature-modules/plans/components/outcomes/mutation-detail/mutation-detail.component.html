@@ -1,48 +1,109 @@
 <mat-card>
+    <mat-slide-toggle (change)="changeViewMode($event)">
+        <strong>Change mode (TEST)</strong>
+    </mat-slide-toggle>
     <mat-card-content class="large-content">
         <form [formGroup]="mutationForm">
 
             <label for="tpo">Mutation id:</label>
             <div id="tpo">{{ mutation.min }}</div>
 
-            <fieldset class="content">
-                <legend>Mutation Symbol</legend>
+            <div *ngIf="canUpdate; then editable else readOnly"></div>
 
-                <label for="symbol">Symbol:</label>
-                <mat-form-field class="example-full-width">
-                    <input matInput value="{{ mutation.symbol }}">
-                </mat-form-field>
+            <ng-template #editable>
+                <fieldset class="content">
+                    <legend>Mutation Symbol</legend>
 
-                <div id="symbolSugestionSection" *ngIf=shouldSuggestSymbol>
-                    <label for="consortium">Consortium abbreviation:</label>
-
-                    <mat-form-field id="consortium" appearance="fill" class="content">
-                        <mat-select [(value)]="selectedConsortium">
-                            <mat-option value="">Without abbreviation</mat-option>
-                            <mat-option *ngFor="let consortium of this.consortia" [(value)]="consortium.name">
-                                {{consortium.name}}
-                            </mat-option>
-                        </mat-select>
+                    <label for="symbol">Symbol:</label>
+                    <mat-form-field class="example-full-width">
+                        <input matInput value="{{ mutation.symbol }}">
                     </mat-form-field>
 
-                    <button (click)="suggestSymbol() " mat-raised-button color="primary">Suggest Symbol</button>
+                    <div id="symbolSugestionSection" *ngIf=shouldSuggestSymbol>
+                        <label for="consortium">Consortium abbreviation:</label>
+
+                        <mat-form-field id="consortium" appearance="fill" class="content">
+                            <mat-select [(value)]="selectedConsortium">
+                                <mat-option value="">Without abbreviation</mat-option>
+                                <mat-option *ngFor="let consortium of this.consortia" [(value)]="consortium.name">
+                                    {{consortium.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+
+                        <button (click)="suggestSymbol() " mat-raised-button color="primary">Suggest Symbol</button>
+                    </div>
+
+                </fieldset>
+
+                <label for="molecularMutationType">Molecular Mutation Type:</label>
+                <div id="molecularMutationType">
+
+                    <mat-select class="select-content" [(value)]="mutation.molecularMutationTypeName">
+                        <mat-option *ngFor="let molecularMutationType of molecularMutationTypes"
+                            [value]="molecularMutationType.name">
+                            {{molecularMutationType.name}}
+                        </mat-option>
+                    </mat-select>
                 </div>
 
-            </fieldset>
+                <fieldset class="content">
+                    <legend>Mutation Categorizations:</legend>
+                    <label for="repairMechanism">Repair Mechanism:</label>
+                    <div id="repairMechanism">
+                        <mat-select class="select-content" [(value)]="repairMechanismsNames"
+                            (selectionChange)="onRepairMechanismChanged($event)">
+                            <mat-option
+                                *ngFor="let repairMechanism of this.molecularMutationTypesByType[repairMechanismKey]"
+                                [value]="repairMechanism.name">
+                                {{repairMechanism.name}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                    <label for="alleleCategory">Allele Categories :</label>
+                    <div id="alleleCathegory">
+                        <mat-select class="select-content" [(value)]="alleleCategories" multiple>
+                            <mat-option
+                                *ngFor="let alleleCategory of this.molecularMutationTypesByType[alleleCategoryKey]"
+                                [value]="alleleCategory.name">
+                                {{alleleCategory.name}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                </fieldset>
 
-            <label for="molecularMutationType">Molecular Mutation Type:</label>
-            <div id="molecularMutationType"> {{ mutation.molecularMutationTypeName }} </div>
+                <div id="genes" class="genes">
+                    <label for="genes">Genes:</label>
+                    <app-autocomplete-gene [symbols]="mutation.geneSymbolsOrAccessionIds"></app-autocomplete-gene>
+                </div>
 
-            <fieldset class="content">
-                <legend>Mutation Categorizations:</legend>
-                <label for="repairMechanism">Repair Mechanism:</label>
-                <div id="repairMechanism"> {{ repairMechanismsNames }} </div>
-            </fieldset>
+            </ng-template>
 
-            <div id="genes">
-                <label for="genes">Genes:</label>
-                <app-autocomplete-gene [genes]="mutation.genes"></app-autocomplete-gene>
-            </div>
+            <ng-template #readOnly>
+
+                <label for="symbol">Symbol:</label>
+                <div id="symbol"><span [innerHTML]="formatAlleleSymbol(mutation.symbol )"></span></div>
+
+                <label for="molecularMutationType">Molecular Mutation Type:</label>
+                <div id="molecularMutationType"> {{ mutation.molecularMutationTypeName }} </div>
+
+                <fieldset class="content">
+                    <legend>Mutation Categorizations:</legend>
+                    <label for="repairMechanism">Repair Mechanism:</label>
+                    <div id="repairMechanism"> {{ repairMechanismsNames }} </div>
+                </fieldset>
+
+                <div id="genes" class="genes">
+                    <label for="genes">Genes:</label>
+
+                    <mat-chip-list cdkDropListOrientation="horizontal">
+                        <mat-chip *ngFor="let geneSymbolOrAccessionId of mutation.geneSymbolsOrAccessionIds">
+                            {{geneSymbolOrAccessionId}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+
+            </ng-template>
 
         </form>
     </mat-card-content>

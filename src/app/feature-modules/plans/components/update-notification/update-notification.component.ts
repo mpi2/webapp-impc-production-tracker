@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
 import { ChangesHistory } from 'src/app/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
@@ -11,9 +11,22 @@ export class UpdateNotificationComponent implements OnInit {
 
   changeDetails: ChangesHistory;
 
+  showDetails = false;
+  NUMBER_DETAILS_THRESHOLD = 10;
+
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
     this.changeDetails = data;
-    this.removeElementChanged(this.changeDetails);
+
+    if (this.changeDetails.details) {
+      this.showDetails = true;
+      if (this.changeDetails.details.length < this.NUMBER_DETAILS_THRESHOLD) {
+        this.showDetails = true;
+        this.removeElementChanged(this.changeDetails);
+        this.removeElementAddedNewValue(this.changeDetails);
+      } else {
+        this.showDetails = false;
+      }
+    }
   }
 
   ngOnInit() {
@@ -24,6 +37,17 @@ export class UpdateNotificationComponent implements OnInit {
   removeElementChanged(changeDetails: ChangesHistory) {
     if (changeDetails.details) {
       changeDetails.details = changeDetails.details.filter(x => x.note !== 'Element changed');
+    }
+  }
+
+  // Remove the records for Element changed because we don't need them here
+  removeElementAddedNewValue(changeDetails: ChangesHistory) {
+    if (changeDetails.details) {
+      changeDetails.details.forEach(x => {
+        if (x.note === 'Element added') {
+          x.newValue = null;
+        }
+      });
     }
   }
 }
