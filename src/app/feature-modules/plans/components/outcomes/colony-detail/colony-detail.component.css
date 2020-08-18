@@ -15,10 +15,15 @@ select {
 }
 .section {
   clear: both;
-  float: left; 
+  float: left;
   min-width: 800px;
   max-width: 1000px;
 }
 .name {
   font-weight: bold;
+}
+.space {
+  clear: both;
+  float: left;
+  padding-bottom: 20px;
 }

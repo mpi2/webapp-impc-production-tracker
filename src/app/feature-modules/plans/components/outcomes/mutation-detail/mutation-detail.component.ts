@@ -39,7 +39,7 @@ export class MutationDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadConfigurationData();
-    const repairMechanisms = this.mutation.mutationCategorizations.filter(x => x.typeName === 'repair_mechanism');
+    const repairMechanisms = this.mutation.mutationCategorizations.filter(x => x.typeName === this.repairMechanismKey);
     this.repairMechanismsNames = repairMechanisms.map(x => x.name).join(',');
     const alleleCategories = this.mutation.mutationCategorizations.filter(x => x.typeName === this.alleleCategoryKey);
     this.alleleCategoriesNames = alleleCategories.map(x => x.name);
@@ -82,8 +82,7 @@ export class MutationDetailComponent implements OnInit {
   }
 
   onRepairMechanismChanged(e) {
-    console.log('onRepairMechanismChanged');
-    const repairMechanismList = this.mutation.mutationCategorizations.filter(x => x.typeName === 'repair_mechanism');
+    const repairMechanismList = this.mutation.mutationCategorizations.filter(x => x.typeName === this.repairMechanismKey);
     if (repairMechanismList && repairMechanismList.length > 0) {
       const repairMechanism = repairMechanismList[0];
       repairMechanism.name = e.value;
@@ -104,14 +103,6 @@ export class MutationDetailComponent implements OnInit {
       };
       this.mutation.mutationCategorizations.push(alleleCategory);
     });
-  }
-
-  changeViewMode(event) {
-    this.canUpdate = event.checked;
-  }
-
-  print() {
-    console.log(this.mutation.geneSymbolsOrAccessionIds);
   }
 
 }

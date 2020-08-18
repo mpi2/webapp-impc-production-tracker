@@ -35,11 +35,15 @@
 
     </ng-template>
 
-
+    <div class="space"></div>
     <div class="section">
         <app-status-transition *ngIf="colony.statusTransition" [statusTransition]="colony.statusTransition"
             [canUpdate]="canUpdate">
         </app-status-transition>
+
+        <app-status-date [statusDates]="colony.statusDates" [title]='"Colony Status History"'></app-status-date>
     </div>
+
+    <div class="space"></div>
 
 </form>
