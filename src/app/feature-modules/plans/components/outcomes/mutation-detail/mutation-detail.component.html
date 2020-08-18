@@ -62,7 +62,8 @@
                     </div>
                     <label for="alleleCategory">Allele Categories :</label>
                     <div id="alleleCathegory">
-                        <mat-select class="select-content" [(value)]="alleleCategories" multiple>
+                        <mat-select class="select-content" [(value)]="alleleCategoriesNames"
+                            (selectionChange)="onAlleleCategoriesChanged($event)" multiple>
                             <mat-option
                                 *ngFor="let alleleCategory of this.molecularMutationTypesByType[alleleCategoryKey]"
                                 [value]="alleleCategory.name">
@@ -91,12 +92,16 @@
                     <legend>Mutation Categorizations:</legend>
                     <label for="repairMechanism">Repair Mechanism:</label>
                     <div id="repairMechanism"> {{ repairMechanismsNames }} </div>
+
+                    <label for="alleleCategory">Allele Categories :</label>
+                    <div id="alleleCathegory">{{ alleleCategoriesNames.join(", ") }} </div>
+
                 </fieldset>
 
                 <div id="genes" class="genes">
                     <label for="genes">Genes:</label>
 
-                    <mat-chip-list cdkDropListOrientation="horizontal">
+                    <mat-chip-list>
                         <mat-chip *ngFor="let geneSymbolOrAccessionId of mutation.geneSymbolsOrAccessionIds">
                             {{geneSymbolOrAccessionId}}
                         </mat-chip>

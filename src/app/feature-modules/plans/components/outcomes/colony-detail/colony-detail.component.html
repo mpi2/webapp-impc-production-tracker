@@ -1,13 +1,45 @@
-
 <form [formGroup]="colonyForm">
 
-    <label for="name">Name:</label>
-    <div id="name" class="content, name">{{ colony.name}}</div>
+    <div *ngIf="canUpdate; then editable else readOnly"></div>
+    <ng-template #editable>
 
-    <label for="genotypingComment">Genotyping comment:</label>
-    <div id="genotypingComment" class="content">{{ colony.genotypingComment }}</div>
+        <label for="name">Name:</label>
+        <div id="name" class="content, name">
+            <mat-form-field class="example-full-width">
+                <input matInput [(ngModel)]="colony.name" [ngModelOptions]="{standalone: true}" >
+            </mat-form-field>
+        </div>
 
-    <label for="backgroundStrainName">Background Strain:</label>
-    <div id="backgroundStrainName" class="content">{{ colony.backgroundStrainName}}</div>
-  
+        <label for="genotypingComment">Genotyping comment:</label>
+        <div id="genotypingComment" class="content">
+            <mat-form-field class="example-full-width">
+                <input matInput [(ngModel)]="colony.genotypingComment" [ngModelOptions]="{standalone: true}" >
+            </mat-form-field>
+        </div>
+
+        <label for="backgroundStrainName">Background Strain:</label>
+        <div id="backgroundStrainName" class="content">{{ colony.backgroundStrainName}}</div>
+
+    </ng-template>
+
+    <ng-template #readOnly>
+
+        <label for="name">Name:</label>
+        <div id="name" class="content, name">{{ colony.name}}</div>
+
+        <label for="genotypingComment">Genotyping comment:</label>
+        <div id="genotypingComment" class="content">{{ colony.genotypingComment }}</div>
+
+        <label for="backgroundStrainName">Background Strain:</label>
+        <div id="backgroundStrainName" class="content">{{ colony.backgroundStrainName}}</div>
+
+    </ng-template>
+
+
+    <div class="section">
+        <app-status-transition *ngIf="colony.statusTransition" [statusTransition]="colony.statusTransition"
+            [canUpdate]="canUpdate">
+        </app-status-transition>
+    </div>
+
 </form>

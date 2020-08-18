@@ -15,7 +15,7 @@ export class MutationDetailComponent implements OnInit {
   @Input() canUpdate: boolean;
 
   repairMechanismsNames: string;
-  alleleCategories: [];
+  alleleCategoriesNames: string[];
 
   selectedConsortium: string;
   selected: any;
@@ -41,6 +41,8 @@ export class MutationDetailComponent implements OnInit {
     this.loadConfigurationData();
     const repairMechanisms = this.mutation.mutationCategorizations.filter(x => x.typeName === 'repair_mechanism');
     this.repairMechanismsNames = repairMechanisms.map(x => x.name).join(',');
+    const alleleCategories = this.mutation.mutationCategorizations.filter(x => x.typeName === this.alleleCategoryKey);
+    this.alleleCategoriesNames = alleleCategories.map(x => x.name);
     this.shouldSuggestSymbol = this.mutation.symbol ? false : true;
     this.mutationForm = this.formBuilder.group({
       abbreviation: []
@@ -86,6 +88,22 @@ export class MutationDetailComponent implements OnInit {
       const repairMechanism = repairMechanismList[0];
       repairMechanism.name = e.value;
     }
+  }
+
+  onAlleleCategoriesChanged(e) {
+    const alleleCategoriesValues: string[] = e.value;
+
+    // Delete all the allele categories and set new values
+    this.mutation.mutationCategorizations =
+    this.mutation.mutationCategorizations.filter(x => x.typeName !== this.alleleCategoryKey);
+
+    alleleCategoriesValues.forEach(x => {
+      const alleleCategory = {
+        name: x,
+        typeName: this.alleleCategoryKey
+      };
+      this.mutation.mutationCategorizations.push(alleleCategory);
+    });
   }
 
   changeViewMode(event) {
