@@ -1,0 +1,18 @@
+label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  list-style: 1.7;
+  width: 180px;
+}
+
+.content {
+  /* clear: both; */
+  float: none;
+  padding-bottom: 5px;
+}
+
+textarea {
+    width: 500px;
+    height: 200px;
+}

@@ -1,6 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { IndexedSequence } from '../../model/indexed-sequence';
-import { FormGroup, FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-indexed-sequence',
@@ -10,16 +9,9 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 export class IndexedSequenceComponent implements OnInit {
   @Input() indexedSequence: IndexedSequence;
 
-  indexedSequenceForm: FormGroup;
-
-  constructor(private formBuilder: FormBuilder) { }
+  constructor() { }
 
   ngOnInit(): void {
-    this.indexedSequence = new IndexedSequence();
-
-    this.indexedSequenceForm = this.formBuilder.group({
-      sequence: [this.indexedSequence.sequence],
-    });
   }
 
 }

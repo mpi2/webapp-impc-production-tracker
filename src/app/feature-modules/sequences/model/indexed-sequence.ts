@@ -1,9 +1,8 @@
 import { IndexedLocation } from './indexed-location';
+import { Sequence } from 'src/app/model';
 
 export class IndexedSequence {
     index: number;
-    sequence: string;
-    typeName: string;
-    categoryName: string;
-    sequenceLocations: IndexedLocation[];
+    sequence: Sequence;
 }
+
