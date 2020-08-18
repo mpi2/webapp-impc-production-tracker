@@ -21,7 +21,7 @@
                     </div>
                 </div>
             </fieldset>
-            <fieldset *ngIf="selectedTransition">
+            <fieldset *ngIf="selectedTransition && selectedTransition.note">
                 <label for="note">Note:</label>
                 <div class="note">{{selectedTransition ?  selectedTransition.note : '' }}</div>
             </fieldset>

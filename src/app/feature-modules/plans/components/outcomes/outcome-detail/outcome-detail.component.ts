@@ -121,6 +121,8 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   update() {
+    console.log('to update:', this.outcome);
+
     this.updateOutcome();
     this.updateMutations();
   }
