@@ -18,6 +18,7 @@ import { DistributionProductListComponent } from './components/outcomes/distribu
 import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/outcome-detail.component';
 import { ColonySummaryComponent } from './components/outcomes/colony-summary/colony-summary.component';
 import { MutationDetailComponent } from './components/outcomes/mutation-detail/mutation-detail.component';
+import { SequencesModule } from '../sequences/sequences.module';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import { MutationDetailComponent } from './components/outcomes/mutation-detail/m
     SharedModule,
     PlansRoutingModule,
     AttemptsModule,
-    IntentionsModule
+    IntentionsModule,
+    SequencesModule
 
   ],
   exports: [

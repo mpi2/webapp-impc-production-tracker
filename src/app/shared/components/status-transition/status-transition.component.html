@@ -6,15 +6,15 @@
                 <label for="currentStatus">Current Status:</label>
                 <div id="currentStatus">{{ statusTransition.currentStatus }}</div>
                 <div *ngIf="canUpdate">
-                    <label for="transition">Transition:</label>
+                    <label for="transition">Next step:</label>
                     <div id="transition">
                         <mat-form-field class="content">
-                            <mat-label>Select a transition to execute on update</mat-label>
+                            <mat-label>Select the new status on update</mat-label>
                             <mat-select>
                                 <mat-option (click)="onTransitionSelected(null)">None</mat-option>
                                 <mat-option *ngFor="let transition of userTransitions"
                                     (click)="onTransitionSelected(transition)" [value]="transition.description">
-                                    {{transition.description}}
+                                    {{transition.nextStatus}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>

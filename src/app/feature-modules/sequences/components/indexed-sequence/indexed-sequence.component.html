@@ -1,0 +1,17 @@
+<form [formGroup]="indexedSequenceForm">
+
+<label for="index">Index:</label>
+<div id="index">{{ indexedSequence.index }}</div>
+
+<label for="sequence">Sequence:</label>
+<div id="sequence" class="content">
+    <textarea type="text" formControlName="sequence" class="form-control"></textarea>
+</div>
+
+<label for="type">Type:</label>
+<div id="type" class="content">{{ indexedSequence.typeName }}</div>
+
+<label for="type">Category:</label>
+<div id="type" class="content">{{ indexedSequence.categoryName }}</div>
+
+</form>

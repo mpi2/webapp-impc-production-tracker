@@ -1,16 +1,22 @@
 <mat-card>
-    <mat-slide-toggle (change)="changeViewMode($event)">
-        <strong>Change mode (TEST)</strong>
-    </mat-slide-toggle>
     <mat-card-content class="large-content">
         <form [formGroup]="mutationForm">
 
-            <label for="tpo">Mutation id:</label>
-            <div id="tpo">{{ mutation.min }}</div>
-
+          
             <div *ngIf="canUpdate; then editable else readOnly"></div>
 
             <ng-template #editable>
+
+
+                <div id="genes" class="genes">
+                    <label for="genes">Genes:</label>
+                    <app-autocomplete-gene [symbols]="mutation.geneSymbolsOrAccessionIds"></app-autocomplete-gene>
+                </div>
+
+                <label for="tpo">Mutation id:</label>
+                <div id="tpo">{{ mutation.min }}</div>
+    
+
                 <fieldset class="content">
                     <legend>Mutation Symbol</legend>
 
@@ -73,14 +79,37 @@
                     </div>
                 </fieldset>
 
-                <div id="genes" class="genes">
-                    <label for="genes">Genes:</label>
-                    <app-autocomplete-gene [symbols]="mutation.geneSymbolsOrAccessionIds"></app-autocomplete-gene>
-                </div>
+                
+
+                <!-- <div id="mutationSequences" class="mutationSequences">
+                    <label for="genes">Mutation Sequences?:</label>
+
+                    <div *ngFor="let mutationSequence of mutation.mutationSequences" class="sequenceIntentionSection">
+
+                        <mat-card>
+                            <app-indexed-sequence [indexedSequence]=mutationSequence></app-indexed-sequence>
+                        </mat-card>
+                    </div>
+                </div> -->
+
+
 
             </ng-template>
 
             <ng-template #readOnly>
+
+                <div id="genes" class="genes">
+                    <label for="genes">Genes:</label>
+
+                    <mat-chip-list>
+                        <mat-chip *ngFor="let geneSymbolOrAccessionId of mutation.geneSymbolsOrAccessionIds">
+                            {{geneSymbolOrAccessionId}}
+                        </mat-chip>
+                    </mat-chip-list>
+                </div>
+
+                <label for="tpo">Mutation id:</label>
+                <div id="tpo">{{ mutation.min }}</div>
 
                 <label for="symbol">Symbol:</label>
                 <div id="symbol"><span [innerHTML]="formatAlleleSymbol(mutation.symbol )"></span></div>
@@ -98,15 +127,7 @@
 
                 </fieldset>
 
-                <div id="genes" class="genes">
-                    <label for="genes">Genes:</label>
-
-                    <mat-chip-list>
-                        <mat-chip *ngFor="let geneSymbolOrAccessionId of mutation.geneSymbolsOrAccessionIds">
-                            {{geneSymbolOrAccessionId}}
-                        </mat-chip>
-                    </mat-chip-list>
-                </div>
+                
 
             </ng-template>
 
