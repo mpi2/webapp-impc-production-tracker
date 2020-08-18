@@ -62,8 +62,7 @@
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                 <div>
 
-                    <div *ngFor="let intentionBySequence of element.intentionsBySequence"
-                        class="sequenceIntentionSection">
+                    <div *ngFor="let intentionBySequence of element.intentionsBySequence">
                         <mat-card>
                             <app-sequence-intention-detail [intentionBySequence]=intentionBySequence>
                             </app-sequence-intention-detail>

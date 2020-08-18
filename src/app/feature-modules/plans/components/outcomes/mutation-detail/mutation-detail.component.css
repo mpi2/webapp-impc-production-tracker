@@ -3,8 +3,7 @@ mat-card {
   max-width: 1000px;
 }
 
-label,
-.label {
+label {
   clear: both;
   float: left;
   padding-bottom: 5px;
@@ -59,4 +58,11 @@ fieldset {
 .genes {
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.mutationSequences {
+  padding-top: 200px;
+  clear: both;
+   /* float: none;  */
+  padding-bottom: 5px;
 }
