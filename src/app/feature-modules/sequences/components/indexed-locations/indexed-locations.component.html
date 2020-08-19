@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="indexedSequence.sequence.sequenceLocations" class="mat-elevation-z1">
+<!-- <table mat-table [dataSource]="indexedSequence.sequence.sequenceLocations" class="mat-elevation-z1">
 
     <ng-container matColumnDef="index">
         <th mat-header-cell *matHeaderCellDef> Index </th>
@@ -59,4 +59,106 @@
 
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table> -->
+
+
+<table>
+    <tr class="header">
+        <th>Index</th>
+        <th>Chr</th>
+        <th>Start</th>
+        <th>Stop</th>
+        <th>Strand</th>
+        <th>Genome Build</th>
+        <th>Strain</th>
+        <th>Species</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <ng-template ngFor let-sequenceLocation [ngForOf]="indexedSequence.sequence.sequenceLocations">
+        <div *ngIf="canUpdate; then editableRow else readOnlyRow">
+        </div>
+        <ng-template #editableRow>
+            <tr class="cell">
+                <td>
+                    <mat-form-field class="short-field">
+                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.locationIndex">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="short-field">
+                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.chr">
+                    </mat-form-field>
+                </td>
+                <td>
+                    <mat-form-field class="medium-short-field">
+                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.start">
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field class="medium-short-field">
+                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.stop">
+                    </mat-form-field>
+
+                </td>
+
+                <td>
+                    <mat-form-field class="short-field">
+                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.strand">
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field class="medium-field">
+                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.genomeBuild">
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field class="medium-large-field">
+                        <mat-select [(value)]="sequenceLocation.location.strainName">
+                            <mat-option *ngFor="let strain of strains" [value]="strain.name">
+                                {{strain.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+
+                <td>
+                    <mat-form-field>
+                        <mat-select [(value)]="sequenceLocation.location.speciesName">
+                            <mat-option *ngFor="let speciesElement of species" [value]="speciesElement.name">
+                                {{speciesElement.name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+
+                <td class="delete">
+                    <!-- <button (click)="onClickToDeleteDistributionProduct(distributionProduct)">
+                        <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                    </button> -->
+                </td>
+                <td class="status">
+                    {{ getEditionStatusByLocation(sequenceLocation.id)}}
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template #readOnlyRow>
+            <tr>
+                <!-- <td>
+                    {{distributionProduct.distributionCentreName}}
+                </td> -->
+
+            </tr>
+        </ng-template>
+    </ng-template>
+    <tr>
+        <td class="no_border"><button (click)="addRow()" [disabled]="false" *ngIf="canUpdate">
+                <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+            </button>
+        </td>
+    </tr>
 </table>

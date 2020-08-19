@@ -1,4 +1,4 @@
-import { Sequence } from '../../../model/bio/sequence';
+import { Sequence } from './sequence';
 
 describe('Sequence', () => {
   it('should create an instance', () => {

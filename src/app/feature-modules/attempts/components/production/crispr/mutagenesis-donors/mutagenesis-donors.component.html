@@ -29,7 +29,7 @@
             </mat-select>
           </td>
           <td>	
-            <input app-digit-only decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"	
+            <input appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"	
               #concentration="ngModel" [(ngModel)]="donor.concentration"	
               (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">	
           </td>
