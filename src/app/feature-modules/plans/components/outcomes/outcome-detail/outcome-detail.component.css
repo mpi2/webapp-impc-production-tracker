@@ -2,7 +2,6 @@ label, .label {
     clear: both;
     float: left;
     padding-bottom: 5px;
-    /* width: 16% */
     width: 180px;
 }
 input, select {

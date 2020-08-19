@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="mutation-card">
     <mat-card-content class="large-content">
         <form [formGroup]="mutationForm">
 
@@ -76,7 +76,7 @@
                     </div>
                 </fieldset>
 
-                <mat-card>
+                <mat-card class="sequences-card">
                     <mat-card-subtitle>Sequences</mat-card-subtitle>
                     <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
                         <app-indexed-sequence [indexedSequence]=mutationSequence></app-indexed-sequence>
