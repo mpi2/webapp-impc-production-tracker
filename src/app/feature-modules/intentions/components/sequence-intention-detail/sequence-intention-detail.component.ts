@@ -11,7 +11,6 @@ export class SequenceIntentionDetailComponent implements OnInit {
   sequenceIntentionDetailForm: FormGroup;
   displayedColumns: string[] = ['index', 'chr', 'start', 'stop', 'strand', 'genomeBuild', 'strain', 'species'];
 
-
   @Input() intentionBySequence: IntentionBySequence;
 
   constructor(private formBuilder: FormBuilder) { }

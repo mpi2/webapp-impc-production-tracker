@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="sequence-card">
     <mat-card-content>
 
         <label for="index">Index:</label>
@@ -15,7 +15,14 @@
 
         <label for="type">Category:</label>
         <div id="type" class="content">{{ indexedSequence.sequence.categoryName }}</div>
+        
 
+        <div>
+            <label>Locations:</label>
+            <app-indexed-locations [indexedSequence]=indexedSequence ></app-indexed-locations>
+        </div>
+
+    
     </mat-card-content>
 
 </mat-card>

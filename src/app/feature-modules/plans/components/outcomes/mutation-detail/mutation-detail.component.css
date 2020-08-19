@@ -1,6 +1,10 @@
-mat-card {
-  min-width: 800px;
-  max-width: 1000px;
+.mutation-card {
+  width: 1000px;
+}
+
+.sequences-card {
+  width: 950px;
+  padding-top: 10px;
 }
 
 label {

@@ -22,6 +22,7 @@
                     <app-colony-detail [colony]="outcome.colony" [canUpdate]="canUpdate"></app-colony-detail>
                 </div>
 
+                <label for="mutations">Mutations:</label>
                 <div id="mutations" *ngIf="this.outcome.mutations">
                     <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
                         [mutation]="mutation" class="section">
