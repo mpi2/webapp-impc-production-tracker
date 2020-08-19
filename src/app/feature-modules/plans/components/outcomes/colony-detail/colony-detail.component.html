@@ -6,19 +6,25 @@
         <label for="name">Name:</label>
         <div id="name" class="content, name">
             <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="colony.name" [ngModelOptions]="{standalone: true}" >
+                <input matInput [(ngModel)]="colony.name" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
         </div>
 
         <label for="genotypingComment">Genotyping comment:</label>
         <div id="genotypingComment" class="content">
             <mat-form-field class="example-full-width">
-                <input matInput [(ngModel)]="colony.genotypingComment" [ngModelOptions]="{standalone: true}" >
+                <input matInput [(ngModel)]="colony.genotypingComment" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
         </div>
 
         <label for="backgroundStrainName">Background Strain:</label>
-        <div id="backgroundStrainName" class="content">{{ colony.backgroundStrainName}}</div>
+        <div id="backgroundStrainName" class="content">
+            <mat-select class="select-content" [(value)]="colony.backgroundStrainName">
+                <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
+                    {{backGroundStrain.name}}
+                </mat-option>
+            </mat-select>
+        </div>
 
     </ng-template>
 
