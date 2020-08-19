@@ -1,4 +1,7 @@
+import { Location } from '../';
+
 export class IndexedLocation {
+    id: number;
     locationIndex: number;
-    location: Location;
+    location: Location = new Location();
 }

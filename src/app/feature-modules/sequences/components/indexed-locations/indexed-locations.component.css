@@ -1,3 +1,50 @@
 table {
     width: 700px;
+
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
 }
+
+.header {
+    color: rgba(0, 0, 0, 0.54);
+    text-align: left;
+    font-size: 12px;
+    font-weight: 500;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+    padding-left: 24px;
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+}
+
+.cell {
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    border-bottom-color: rgba(0, 0, 0, 0.12);
+}
+
+.short-field {
+    width: 70px;
+}
+.medium-short-field {
+    width: 90px;
+}
+
+.medium-field {
+    width: 110px;
+}
+
+.medium-large-field {
+    width: 150px;
+}
+mat-select {
+    width: 150px;
+}
+
+td.status {
+    font-style: italic;
+    color: #d83d3d;
+  }
+

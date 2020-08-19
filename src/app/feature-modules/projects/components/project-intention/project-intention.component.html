@@ -26,12 +26,12 @@
                                 (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
                         </td>
                         <td>
-                            <input app-digit-only placeholder="Start Coordinate"
+                            <input appDigitOnly placeholder="Start Coordinate"
                                 [(ngModel)]="primer.genomicStartCoordinate" (keyup)="onPrimerChanged(primer)"
                                 [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>
-                            <input app-digit-only placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
+                            <input appDigitOnly placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
                                 (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}">
                         </td>
                         <td>

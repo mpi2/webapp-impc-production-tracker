@@ -6,7 +6,11 @@
         <ng-template #editable>
 
             <label for="index">Index:</label>
-            <div id="index">{{ indexedSequence.index }}</div>
+            <div id="index">
+                <mat-form-field class="example-full-width">
+                    <input appDigitOnly matInput [(ngModel)]="indexedSequence.index">
+                </mat-form-field>
+            </div>
 
             <label for="sequence">Sequence:</label>
             <div id="sequence" class="content">
@@ -56,7 +60,7 @@
 
         <div>
             <label>Locations:</label>
-            <app-indexed-locations [indexedSequence]=indexedSequence></app-indexed-locations>
+            <app-indexed-locations [indexedSequence]="indexedSequence" [canUpdate]="canUpdate"></app-indexed-locations>
         </div>
 
 

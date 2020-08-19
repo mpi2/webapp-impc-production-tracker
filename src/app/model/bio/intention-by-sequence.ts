@@ -1,4 +1,4 @@
-import { Sequence } from './sequence';
+import { Sequence } from '..';
 
 export class IntentionBySequence {
     sequence: Sequence;

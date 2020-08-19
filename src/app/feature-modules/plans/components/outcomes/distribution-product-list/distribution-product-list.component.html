@@ -1,7 +1,3 @@
-<!-- <mat-card>
-    <mat-card-subtitle>Distribution Products</mat-card-subtitle>
-    <mat-card-content> -->
-<!-- <table class="mat-elevation-z8"> -->
 <table>
     <tr>
         <th>Distribution Centre</th>
@@ -75,32 +71,6 @@
                     {{ getEditionStatusForDistributionProduct(distributionProduct.id)}}
                 </td>
 
-
-
-
-
-                <!-- <td>
-                            <input [ngClass]="{'required': sequence.invalid, 'sequence_input':true}" name="sequence"
-                                #sequence="ngModel" [(ngModel)]="primer.sequence" placeholder="Sequence"
-                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
-                        </td>
-                        <td>
-                            <input app-digit-only placeholder="Start Coordinate"
-                                [(ngModel)]="primer.genomicStartCoordinate" (keyup)="onPrimerChanged(primer)"
-                                [ngModelOptions]="{standalone: true}">
-                        </td>
-                        <td>
-                            <input app-digit-only placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
-                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}">
-                        </td>
-                        <td>
-                            <button (click)="onClickToDeleteElement(primer)">
-                                <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
-                            </button>
-                        </td>
-                        <td class="status">
-                            {{ getEditionStatusForGuideId(primer.id) }}
-                        </td> -->
             </tr>
         </ng-template>
         <ng-template #readOnlyRow>
@@ -108,15 +78,7 @@
                 <td>
                     {{distributionProduct.distributionCentreName}}
                 </td>
-                <!-- <td>
-                            {{primer.sequence}}
-                        </td>
-                        <td>
-                            {{primer.genomicStartCoordinate || "Not defined"}}
-                        </td>
-                        <td>
-                            {{primer.genomicEndCoordinate || "Not defined"}}
-                        </td> -->
+
             </tr>
         </ng-template>
     </ng-template>
@@ -127,6 +89,3 @@
         </td>
     </tr>
 </table>
-
-<!-- </mat-card-content>
-</mat-card> -->

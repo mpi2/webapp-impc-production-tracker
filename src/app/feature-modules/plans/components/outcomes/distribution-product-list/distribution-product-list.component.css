@@ -17,6 +17,6 @@ td.status {
   color: #d83d3d;
 }
 td.delete {
-    min-width: 50px;
-    width: 50px;
+  min-width: 50px;
+  width: 50px;
 }
