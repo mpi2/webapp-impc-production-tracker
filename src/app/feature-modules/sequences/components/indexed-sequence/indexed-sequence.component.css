@@ -21,3 +21,11 @@ textarea {
   width: 500px;
   height: 200px;
 }
+
+.select-content {
+    max-width: 50%;
+  }
+
+  mat-select {
+      width: 250px;
+  }
