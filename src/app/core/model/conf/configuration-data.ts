@@ -13,6 +13,7 @@ export class ConfigurationData {
     institutes: string[];
     roles: string[];
     trackedStrains: string[];
+    backgroundStrains: string[];
     materialTypes: string[];
     preparationTypes: string[];
     searchTypes: string[];
