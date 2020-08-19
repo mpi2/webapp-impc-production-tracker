@@ -79,9 +79,8 @@
                 <mat-card class="sequences-card">
                     <mat-card-subtitle>Sequences</mat-card-subtitle>
                     <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
-                        <app-indexed-sequence [indexedSequence]=mutationSequence></app-indexed-sequence>
+                        <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"></app-indexed-sequence>
                     </div>
-
                 </mat-card>
 
             </ng-template>
@@ -116,6 +115,13 @@
                     <div id="alleleCathegory">{{ alleleCategoriesNames.join(", ") }} </div>
 
                 </fieldset>
+
+                <mat-card class="sequences-card">
+                    <mat-card-subtitle>Sequences</mat-card-subtitle>
+                    <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
+                        <app-indexed-sequence [indexedSequence]="mutationSequence"></app-indexed-sequence>
+                    </div>
+                </mat-card>
 
             </ng-template>
 
