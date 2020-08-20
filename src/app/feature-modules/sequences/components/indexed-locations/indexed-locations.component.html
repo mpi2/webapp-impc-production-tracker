@@ -73,7 +73,6 @@
         <th>Strain</th>
         <th>Species</th>
         <th></th>
-        <th></th>
     </tr>
     <ng-template ngFor let-sequenceLocation [ngForOf]="indexedSequence.sequence.sequenceLocations">
         <div *ngIf="canUpdate; then editableRow else readOnlyRow">
@@ -82,42 +81,49 @@
             <tr class="cell">
                 <td>
                     <mat-form-field class="short-field">
-                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.locationIndex">
+                        <input (keyup)="onChange(sequenceLocation)" appDigitOnly matInput
+                            [(ngModel)]="sequenceLocation.locationIndex">
                     </mat-form-field>
                 </td>
                 <td>
                     <mat-form-field class="short-field">
-                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.chr">
+                        <input (keyup)="onChange(sequenceLocation)" matInput
+                            [(ngModel)]="sequenceLocation.location.chr">
                     </mat-form-field>
                 </td>
                 <td>
                     <mat-form-field class="medium-short-field">
-                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.start">
+                        <input (keyup)="onChange(sequenceLocation)" appDigitOnly matInput
+                            [(ngModel)]="sequenceLocation.location.start">
                     </mat-form-field>
                 </td>
 
                 <td>
                     <mat-form-field class="medium-short-field">
-                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.stop">
+                        <input (keyup)="onChange(sequenceLocation)" appDigitOnly matInput
+                            [(ngModel)]="sequenceLocation.location.stop">
                     </mat-form-field>
 
                 </td>
 
                 <td>
                     <mat-form-field class="short-field">
-                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.strand">
+                        <input (keyup)="onChange(sequenceLocation)" matInput
+                            [(ngModel)]="sequenceLocation.location.strand">
                     </mat-form-field>
                 </td>
 
                 <td>
                     <mat-form-field class="medium-field">
-                        <input appDigitOnly matInput [(ngModel)]="sequenceLocation.location.genomeBuild">
+                        <input (keyup)="onChange(sequenceLocation)" matInput
+                            [(ngModel)]="sequenceLocation.location.genomeBuild">
                     </mat-form-field>
                 </td>
 
                 <td>
                     <mat-form-field class="medium-large-field">
-                        <mat-select [(value)]="sequenceLocation.location.strainName">
+                        <mat-select (selectionChange)="onChange(sequenceLocation)"
+                            [(value)]="sequenceLocation.location.strainName">
                             <mat-option *ngFor="let strain of strains" [value]="strain.name">
                                 {{strain.name}}
                             </mat-option>
@@ -127,7 +133,8 @@
 
                 <td>
                     <mat-form-field>
-                        <mat-select [(value)]="sequenceLocation.location.speciesName">
+                        <mat-select (selectionChange)="onChange(sequenceLocation)"
+                            [(value)]="sequenceLocation.location.speciesName">
                             <mat-option *ngFor="let speciesElement of species" [value]="speciesElement.name">
                                 {{speciesElement.name}}
                             </mat-option>
@@ -136,12 +143,9 @@
                 </td>
 
                 <td class="delete">
-                    <!-- <button (click)="onClickToDeleteDistributionProduct(distributionProduct)">
+                    <button (click)="deleteRow(sequenceLocation)">
                         <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
-                    </button> -->
-                </td>
-                <td class="status">
-                    {{ getEditionStatusByLocation(sequenceLocation.id)}}
+                    </button>
                 </td>
 
             </tr>

@@ -14,8 +14,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   @Input() colony: Colony;
   @Input() canUpdate: boolean;
 
-  editionStatusByDistributionProduct = new Map<number, string>();
-
   dataSource: DistributionProduct[];
   originalData: DistributionProduct[];
 
@@ -23,7 +21,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   distributionCentresNames: NamedValue[] = [];
   productTypesNames: NamedValue[] = [];
   distributionNetworksNames: NamedValue[] = [];
-  nextNewId = 0;
 
   constructor(private configurationDataService: ConfigurationDataService) { }
 
@@ -43,7 +40,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   setInitialData(): void {
     this.loadConfigurationData();
     this.dataSource = this.colony.distributionProducts;
-    this.setEmptyEditionStatuses();
     this.setOriginalDonors();
   }
 
@@ -54,47 +50,23 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
     }
   }
 
-  setEmptyEditionStatuses(): void {
-    this.colony.distributionProducts.map(x => this.editionStatusByDistributionProduct.set(x.id, ''));
-  }
 
   setOriginalDonors(): void {
     this.originalData = JSON.parse(JSON.stringify(this.colony.distributionProducts));
   }
 
   onDistributionProductChanged(distributionProduct: DistributionProduct) {
-    console.log('distributionProduct', distributionProduct);
-    this.updateRowStatus(distributionProduct);
-    console.log('after update', this.colony);
-
   }
 
   addDistributionProduct() {
     const distributionProduct: DistributionProduct = new DistributionProduct();
-    distributionProduct.id = this.nextNewId--;
 
     this.colony.distributionProducts.push(distributionProduct);
-    this.editionStatusByDistributionProduct.set(distributionProduct.id, 'Created in memory');
     this.dataSource = [...this.colony.distributionProducts];
   }
 
-  getEditionStatusForDistributionProduct(id: number): string {
-    return this.editionStatusByDistributionProduct.get(id);
-  }
 
   onClickToDeleteDistributionProduct(distributionProduct: DistributionProduct) {
-
-  }
-
-  updateRowStatus(distributionProduct: DistributionProduct): void {
-    const originalDistributionProduct = this.originalData.find(x => x.id === distributionProduct.id);
-    if (originalDistributionProduct) {
-      if (JSON.stringify(originalDistributionProduct) !== JSON.stringify(distributionProduct)) {
-        this.editionStatusByDistributionProduct.set(distributionProduct.id, 'Modified in memory');
-      } else {
-        this.editionStatusByDistributionProduct.set(distributionProduct.id, '');
-      }
-    }
   }
 
   onStartDateChanged(distributionProduct: DistributionProduct, event: MatDatepickerInputEvent<Date>) {
