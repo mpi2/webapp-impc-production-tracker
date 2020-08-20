@@ -27,13 +27,15 @@
                 </mat-select>
             </div>
 
-            <label for="type">Category:</label>
-            <div id="type" class="content">
-                <mat-select [(value)]="indexedSequence.sequence.categoryName">
-                    <mat-option *ngFor="let sequenceCategory of sequenceCategories" [value]="sequenceCategory.name">
-                        {{sequenceCategory.name}}
-                    </mat-option>
-                </mat-select>
+            <div id="sequenceCategory" *ngIf="showSequenceCategory">
+                <label for="type">Category:</label>
+                <div id="type" class="content">
+                    <mat-select [(value)]="indexedSequence.sequence.categoryName">
+                        <mat-option *ngFor="let sequenceCategory of sequenceCategories" [value]="sequenceCategory.name">
+                            {{sequenceCategory.name}}
+                        </mat-option>
+                    </mat-select>
+                </div>
             </div>
 
         </ng-template>
@@ -52,8 +54,10 @@
             <label for="type">Type:</label>
             <div id="type" class="content">{{ indexedSequence.sequence.typeName }}</div>
 
-            <label for="type">Category:</label>
-            <div id="type" class="content">{{ indexedSequence.sequence.categoryName }}</div>
+            <div id="sequenceCategory" *ngIf="showSequenceCategory">
+                <label for="type">Category:</label>
+                <div id="type" class="content">{{ indexedSequence.sequence.categoryName }}</div>
+            </div>
 
         </ng-template>
 

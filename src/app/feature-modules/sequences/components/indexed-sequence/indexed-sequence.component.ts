@@ -11,6 +11,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 export class IndexedSequenceComponent implements OnInit {
   @Input() indexedSequence: IndexedSequence;
   @Input() canUpdate: boolean;
+  @Input() showSequenceCategory: boolean;
 
   configurationData: ConfigurationData;
 
