@@ -46,5 +46,6 @@ mat-select {
 td.status {
     font-style: italic;
     color: #d83d3d;
+    width: 100px;
   }
 

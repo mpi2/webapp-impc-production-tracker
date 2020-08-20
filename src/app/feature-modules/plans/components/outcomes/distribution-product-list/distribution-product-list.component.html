@@ -6,7 +6,6 @@
         <th>Start Date</th>
         <th>End Date</th>
         <th></th>
-        <th></th>
     </tr>
     <ng-template ngFor let-distributionProduct [ngForOf]="dataSource">
         <div *ngIf="canUpdate; then editableRow else readOnlyRow">
@@ -66,9 +65,6 @@
                     <button (click)="onClickToDeleteDistributionProduct(distributionProduct)">
                         <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
                     </button>
-                </td>
-                <td class="status">
-                    {{ getEditionStatusForDistributionProduct(distributionProduct.id)}}
                 </td>
 
             </tr>

@@ -1,4 +1,4 @@
-import { Location } from '../';
+import { Location } from './location';
 
 export class IndexedLocation {
     id: number;

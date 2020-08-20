@@ -35,7 +35,6 @@ export class TissueDistributionCentreComponent implements OnInit {
       this.workUnits = this.configurationData.workUnits;
     });
 
-
   }
   onDeleteElement(e) {
     console.log('delete', e);
