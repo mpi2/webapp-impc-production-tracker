@@ -152,9 +152,30 @@
         </ng-template>
         <ng-template #readOnlyRow>
             <tr>
-                <!-- <td>
-                    {{distributionProduct.distributionCentreName}}
-                </td> -->
+                <td>
+                    {{ sequenceLocation.locationIndex }}
+                </td>
+                <td>
+                    {{ sequenceLocation.location.chr }}
+                </td>
+                <td>
+                    {{ sequenceLocation.location.start }}
+                </td>
+                <td>
+                    {{ sequenceLocation.location.stop }}
+                </td>
+                <td>
+                    {{ sequenceLocation.location.strand }}
+                </td>
+                <td>
+                    {{ sequenceLocation.location.genomeBuild }}
+                </td>
+                <td>
+                    {{ sequenceLocation.location.strainName }}
+                </td>
+                <td>
+                    {{ sequenceLocation.location.speciesName }}
+                </td>
 
             </tr>
         </ng-template>
