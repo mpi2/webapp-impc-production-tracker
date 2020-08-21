@@ -14,6 +14,7 @@ export class Plan {
     workUnitName: string;
     isActive: boolean;
     statusName: string;
+    summaryStatusName: string;
     statusDates: StatusDate[];
     typeName: string;
     parentColonyName: string;
