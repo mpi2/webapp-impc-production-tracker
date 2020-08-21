@@ -5,8 +5,7 @@
       <tr>
         <th scope="col">Oligo Sequence Fasta </th>
         <th scope="col">Preparation Type </th>
-        <th scope="col">Concentration </th>
-        <th scope="col"> </th>
+        <th scope="col">Concentration (ng/uL) </th>
         <th scope="col"> </th>
       </tr>
     </thead>
@@ -18,28 +17,26 @@
         <tr>
           <td>
             <input [ngClass]="{'required': oligo_sequence_fa.invalid}" name="oligo_sequence_fa"
-              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligoSequenceFasta"
-              (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">
+              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligoSequenceFasta" (keyup)="onDonorChanged(donor)"
+              [ngModelOptions]="{standalone: true}">
           </td>
           <td>
-            <mat-select (selectionChange)="onDonorChanged(donor)" class="preparation" [(value)]="donor.preparationTypeName">
+            <mat-select (selectionChange)="onDonorChanged(donor)" class="preparation"
+              [(value)]="donor.preparationTypeName">
               <mat-option *ngFor="let preparationType of preparationTypes" [value]="preparationType.name">
                 {{preparationType.name}}
               </mat-option>
             </mat-select>
           </td>
-          <td>	
-            <input appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"	
-              #concentration="ngModel" [(ngModel)]="donor.concentration"	
-              (keyup)="onDonorChanged(donor)" [ngModelOptions]="{standalone: true}">	
+          <td>
+            <input appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"
+              #concentration="ngModel" [(ngModel)]="donor.concentration" (keyup)="onDonorChanged(donor)"
+              [ngModelOptions]="{standalone: true}">
           </td>
           <td>
             <button (click)="onClickToDeleteElement(donor)">
               <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
             </button>
-          </td>
-          <td class="status">
-            {{ getEditionStatusForDonor(donor.id)}}
           </td>
         </tr>
       </ng-template>
@@ -52,7 +49,7 @@
             {{donor.preparationTypeName || "Not defined"}}
           </td>
           <td>
-            {{donor.concentration}}	
+            {{donor.concentration}}
           </td>
 
         </tr>

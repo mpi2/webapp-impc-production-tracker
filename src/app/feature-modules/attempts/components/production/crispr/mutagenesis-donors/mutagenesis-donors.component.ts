@@ -19,7 +19,6 @@ export class MutagenesisDonorsComponent implements OnInit, OnChanges {
 
   dataSource: Donor[];
   originalData: Donor[];
-  editionStatusByDonor = new Map<number, string>();
   nextNewId = -1;
   configurationData: ConfigurationData;
   preparationTypes: NamedValue[] = [];
@@ -42,7 +41,6 @@ export class MutagenesisDonorsComponent implements OnInit, OnChanges {
 
   setInitialData(): void {
     this.dataSource = this.crisprAttempt.mutagenesisDonors;
-    this.setEmptyEditionStatuses();
     this.setOriginalDonors();
   }
 
@@ -53,24 +51,14 @@ export class MutagenesisDonorsComponent implements OnInit, OnChanges {
     }
   }
 
-  setEmptyEditionStatuses(): void {
-    this.crisprAttempt.mutagenesisDonors.map(x => this.editionStatusByDonor.set(x.id, ''));
-  }
-
   setOriginalDonors(): void {
     this.originalData = JSON.parse(JSON.stringify(this.crisprAttempt.mutagenesisDonors));
-  }
-
-  getEditionStatusForDonor(id: number): string {
-    return this.editionStatusByDonor.get(id);
   }
 
   addDonor(): void {
     const donor: Donor = new Donor();
     donor.id = this.nextNewId--;
-
     this.crisprAttempt.mutagenesisDonors.push(donor);
-    this.editionStatusByDonor.set(donor.id, 'Created in memory');
     this.dataSource = [...this.crisprAttempt.mutagenesisDonors];
   }
 
@@ -94,7 +82,6 @@ export class MutagenesisDonorsComponent implements OnInit, OnChanges {
   onDonorChanged(donor: Donor): void {
     this.convertNumericFields(donor);
     this.setEmptyValuesToNull(donor);
-    this.updateRowStatus(donor);
   }
 
   convertNumericFields(donor: Donor): void {
@@ -106,21 +93,6 @@ export class MutagenesisDonorsComponent implements OnInit, OnChanges {
 
   setEmptyValuesToNull(donor: Donor): void {
     donor.oligoSequenceFasta = this.getValueOrNull(donor.oligoSequenceFasta);
-  }
-
-  updateAllRowsStatus(): void {
-    this.crisprAttempt.mutagenesisDonors.map(x => this.updateRowStatus(x));
-  }
-
-  updateRowStatus(donor: Donor): void {
-    const originalDonor = this.originalData.find(x => x.id === donor.id);
-    if (originalDonor) {
-      if (JSON.stringify(originalDonor) !== JSON.stringify(donor)) {
-        this.editionStatusByDonor.set(donor.id, 'Modified in memory');
-      } else {
-        this.editionStatusByDonor.set(donor.id, '');
-      }
-    }
   }
 
   getValueOrNull(value) {
