@@ -60,20 +60,6 @@ export class IndexedLocationsComponent implements OnInit {
     } else {
       this.showDeleteConfirmationDialog(indexedLocation);
     }
-
-  }
-
-  onClickToDeleteElement(element): void {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '250px',
-      data: { confirmed: false }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteLocation(element);
-      }
-    });
   }
 
   showDeleteConfirmationDialog(indexedLocation: IndexedLocation) {
