@@ -1,22 +1,30 @@
-table {
-  border-spacing: 10px;
-  border-collapse: separate;
-  padding-bottom: 10px;
-}
-
 td {
   min-width: 150px;
 }
-
-td.no_border {
-  border-bottom-style: none;
+table {
+  width: 1000px;
+  padding-left: 20px;
 }
 
-td.status {
-  font-style: italic;
-  color: #d83d3d;
+.header {
+  color: rgba(0, 0, 0, 0.54);
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  padding-left: 24px;
+  padding: 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
 }
+
 td.delete {
   min-width: 50px;
   width: 50px;
+}
+
+.title {
+  clear: both;
+  float: none;
+  padding-bottom: 10px;
 }

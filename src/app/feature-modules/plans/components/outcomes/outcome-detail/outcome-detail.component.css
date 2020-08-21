@@ -28,4 +28,9 @@ fieldset {
     float: left;
 }
 
+.distributionProductsSection {
+   clear: both; 
+    float: none;
+}
+
 
