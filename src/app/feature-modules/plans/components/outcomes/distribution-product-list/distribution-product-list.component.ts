@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core';
 import { Colony } from '../../../model/outcomes/colony';
 import { DistributionProduct } from '../../../model/outcomes/distribution-product';
-import { ConfigurationData, ConfigurationDataService, WorkUnit } from 'src/app/core';
+import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { MatDatepickerInputEvent } from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-distribution-product-list',
@@ -55,26 +54,14 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
     this.originalData = JSON.parse(JSON.stringify(this.colony.distributionProducts));
   }
 
-  onDistributionProductChanged(distributionProduct: DistributionProduct) {
-  }
-
   addDistributionProduct() {
     const distributionProduct: DistributionProduct = new DistributionProduct();
-
     this.colony.distributionProducts.push(distributionProduct);
     this.dataSource = [...this.colony.distributionProducts];
   }
 
 
   onClickToDeleteDistributionProduct(distributionProduct: DistributionProduct) {
-  }
-
-  onStartDateChanged(distributionProduct: DistributionProduct, event: MatDatepickerInputEvent<Date>) {
-
-    distributionProduct.startDate = event.value;
-    console.log(distributionProduct);
-    console.log(event);
-    this.onDistributionProductChanged(distributionProduct);
   }
 
 }

@@ -35,15 +35,10 @@
 </mat-card>
 
 <div *ngIf="outcome.colony">
-    <mat-card>
-        <mat-card-content>
-            <label for="distributionProducts">Distribution Products:</label>
-            <div id="distributionProducts">
-                <app-distribution-product-list [colony]="outcome.colony" [canUpdate]="canUpdate">
-                </app-distribution-product-list>
-            </div>
-        </mat-card-content>
-    </mat-card>
+    <div id="distributionProducts">
+        <app-distribution-product-list  class="distributionProductsSection" [colony]="outcome.colony" [canUpdate]="canUpdate">
+        </app-distribution-product-list>
+    </div>
 </div>
 
 <mat-card>
