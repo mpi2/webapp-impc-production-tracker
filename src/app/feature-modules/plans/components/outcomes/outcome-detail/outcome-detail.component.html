@@ -27,6 +27,8 @@
                     <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
                         [mutation]="mutation" class="section">
                     </app-mutation-detail>
+                    <button class="create-button" mat-raised-button (click)="createMutation()" color="primary"
+                        *ngIf="canUpdate">Create Mutation</button>
                 </div>
 
             </fieldset>
@@ -36,7 +38,8 @@
 
 <div *ngIf="outcome.colony">
     <div id="distributionProducts">
-        <app-distribution-product-list  class="distributionProductsSection" [colony]="outcome.colony" [canUpdate]="canUpdate">
+        <app-distribution-product-list class="distributionProductsSection" [colony]="outcome.colony"
+            [canUpdate]="canUpdate">
         </app-distribution-product-list>
     </div>
 </div>

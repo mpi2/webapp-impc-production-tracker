@@ -11,11 +11,11 @@ export class Mutation {
     mgiAlleleSymbolRequiresConstruction: boolean;
     geneticMutationTypeName: string;
     molecularMutationTypeName: string;
-    mutationQcResults: any[];
-    mutationSequences: any[];
-    mutationCategorizations: any[];
-    genes: Gene[];
-    geneSymbolsOrAccessionIds: string[];
+    mutationQcResults: any[] = [];
+    mutationSequences: any[] = [];
+    mutationCategorizations: any[] = [];
+    genes: Gene[] = [];
+    geneSymbolsOrAccessionIds: string[] = [];
     calculatedMgiAlleleSymbol: string;
     symbolSuggestionRequest: any;
 }
