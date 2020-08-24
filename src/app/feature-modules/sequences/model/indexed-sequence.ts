@@ -1,7 +1,7 @@
-import { IndexedLocation } from './indexed-location';
 import { Sequence } from 'src/app/model';
 
 export class IndexedSequence {
+    id: number;
     index: number;
-    sequence: Sequence;
+    sequence: Sequence = new Sequence();
 }

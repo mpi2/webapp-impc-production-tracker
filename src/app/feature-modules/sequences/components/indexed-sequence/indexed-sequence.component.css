@@ -1,5 +1,6 @@
 .sequence-card {
   width: 1100px;
+  margin-bottom: 20px;
 }
 
 label {
@@ -18,13 +19,17 @@ label {
 
 textarea {
   width: 500px;
-  height: 200px;
+  min-width: 100px;
 }
 
 .select-content {
-    max-width: 50%;
-  }
+  max-width: 50%;
+}
 
-  mat-select {
-      width: 250px;
-  }
+mat-select {
+  width: 250px;
+}
+
+mat-card-actions {
+  margin-top: 10px;
+}

@@ -79,8 +79,12 @@
                 <mat-card class="sequences-card">
                     <mat-card-subtitle>Sequences</mat-card-subtitle>
                     <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
-                        <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate" [showSequenceCategory]=false></app-indexed-sequence>
+                        <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
+                            [showSequenceCategory]=false (sequenceDeleted)="delete($event)"></app-indexed-sequence>
                     </div>
+                    <button class="create-button" mat-raised-button (click)="create()" color="primary"
+                        *ngIf="canUpdate">Create
+                        Sequence</button>
                 </mat-card>
 
             </ng-template>

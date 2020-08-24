@@ -79,8 +79,9 @@
                 </td>
 
                 <td class="delete">
-                    <button (click)="deleteRow(sequenceLocation)">
-                        <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                    <button class="iconbutton delete-button" mat-icon-button matTooltip="Click to Delete" color="warn"
+                        (click)="deleteRow(sequenceLocation)">
+                        <mat-icon aria-label="Delete">delete</mat-icon>
                     </button>
                 </td>
 
