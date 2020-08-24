@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IndexedSequence } from '../../model/indexed-sequence';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
@@ -12,6 +12,7 @@ export class IndexedSequenceComponent implements OnInit {
   @Input() indexedSequence: IndexedSequence;
   @Input() canUpdate: boolean;
   @Input() showSequenceCategory: boolean;
+  @Output() sequenceDeleted = new EventEmitter<IndexedSequence>();
 
   configurationData: ConfigurationData;
 
@@ -31,5 +32,14 @@ export class IndexedSequenceComponent implements OnInit {
       this.sequenceCategories = this.configurationData.sequenceCategorizations.map(x => ({ name: x }));
     });
   }
+
+  delete() {
+    this.sequenceDeleted.emit(this.indexedSequence);
+    console.log('emited');
+
+
+  }
+
+
 
 }

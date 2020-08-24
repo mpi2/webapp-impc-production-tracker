@@ -4,6 +4,9 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { MutationService } from '../../../services/mutation.service';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
+import { IndexedSequence } from 'src/app/feature-modules/sequences';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-mutation-detail',
@@ -13,6 +16,9 @@ import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 export class MutationDetailComponent implements OnInit {
   @Input() mutation: Mutation;
   @Input() canUpdate: boolean;
+
+  tmpIndexRowName = 'tmp_id';
+  nextNewId = -1;
 
   repairMechanismsNames: string;
   alleleCategoriesNames: string[];
@@ -35,7 +41,8 @@ export class MutationDetailComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private mutationService: MutationService,
-    private configurationDataService: ConfigurationDataService) { }
+    private configurationDataService: ConfigurationDataService,
+    public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
@@ -103,6 +110,47 @@ export class MutationDetailComponent implements OnInit {
       };
       this.mutation.mutationCategorizations.push(alleleCategory);
     });
+  }
+
+  create() {
+    console.log('Creste');
+    const indexedSequence: IndexedSequence = new IndexedSequence();
+    indexedSequence[this.tmpIndexRowName] = this.nextNewId--;
+    this.mutation.mutationSequences.push(indexedSequence);
+  }
+
+  delete(indexedSequence: IndexedSequence) {
+    if (this.isNewRecord(indexedSequence)) {
+      this.deleteSequence(indexedSequence);
+    } else {
+      this.showDeleteConfirmationDialog(indexedSequence);
+    }
+  }
+
+   deleteSequence(indexedSequence: IndexedSequence ) {
+    if (this.isNewRecord(indexedSequence)) {
+      this.mutation.mutationSequences = this.mutation.mutationSequences
+        .filter(x => x[this.tmpIndexRowName] !== indexedSequence[this.tmpIndexRowName]);
+    } else {
+      this.mutation.mutationSequences = this.mutation.mutationSequences
+        .filter(x => x.id !== indexedSequence.id);
+    }
+  }
+
+  showDeleteConfirmationDialog(indexedSequence: IndexedSequence) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '250px',
+      data: { confirmed: false }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteSequence(indexedSequence);
+      }
+    });
+  }
+
+  private isNewRecord(indexedSequence: IndexedSequence) {
+    return indexedSequence.id == null;
   }
 
 }

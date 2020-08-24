@@ -1,9 +1,8 @@
-import { Location } from './location';
 import { IndexedLocation } from '..';
 
 export class Sequence {
     sequence: string;
     typeName: string;
     categoryName: string;
-    sequenceLocations: IndexedLocation[];
+    sequenceLocations: IndexedLocation[] = [];
 }

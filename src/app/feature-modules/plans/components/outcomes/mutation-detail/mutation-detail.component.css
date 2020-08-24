@@ -4,7 +4,9 @@
 
 .sequences-card {
   width: 1150px;
-  padding-top: 10px;
+  padding-top: 15px;
+  margin-top: 10px;
+  float: none;
 }
 
 label {
@@ -27,6 +29,16 @@ select {
   clear: both;
   float: left;
 }
+
+.create-button {
+  float: none;
+  margin-top: 10px;
+}
+
+.delete-button {
+  float: none;
+}
+
 .name {
   font-weight: bold;
 }

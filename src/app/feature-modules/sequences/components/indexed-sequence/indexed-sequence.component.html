@@ -60,13 +60,16 @@
 
         </ng-template>
 
-
         <div>
             <label>Locations:</label>
             <app-indexed-locations [indexedSequence]="indexedSequence" [canUpdate]="canUpdate"></app-indexed-locations>
         </div>
 
+        <mat-card-actions>
+            <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
+            (click)="delete()">Delete Sequence</button>
+        </mat-card-actions>
+        
 
     </mat-card-content>
-
 </mat-card>
