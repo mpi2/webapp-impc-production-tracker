@@ -14,6 +14,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 export class AutocompleteGeneComponent implements OnInit {
 
   @Input() symbols: string[];
+
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
   options: string[] = [];
   filteredOptions: Observable<string[]> = of([]);
@@ -26,6 +27,9 @@ export class AutocompleteGeneComponent implements OnInit {
   constructor(private geneService: GeneService) { }
 
   ngOnInit(): void {
+    // if (!this.symbols) {
+    //   this.symbols = [];
+    // }
   }
 
   public onSearchChange(value: string) {

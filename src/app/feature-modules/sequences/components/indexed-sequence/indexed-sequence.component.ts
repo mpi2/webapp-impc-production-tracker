@@ -12,6 +12,7 @@ export class IndexedSequenceComponent implements OnInit {
   @Input() indexedSequence: IndexedSequence;
   @Input() canUpdate: boolean;
   @Input() showSequenceCategory: boolean;
+  @Input() showLocations: boolean;
   @Output() sequenceDeleted = new EventEmitter<IndexedSequence>();
 
   configurationData: ConfigurationData;
@@ -35,11 +36,6 @@ export class IndexedSequenceComponent implements OnInit {
 
   delete() {
     this.sequenceDeleted.emit(this.indexedSequence);
-    console.log('emited');
-
-
   }
-
-
 
 }

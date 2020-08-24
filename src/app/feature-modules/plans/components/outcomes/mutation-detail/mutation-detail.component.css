@@ -1,5 +1,9 @@
 .mutation-card {
   width: 1200px;
+  border-width: 2px;
+  border-style: groove;
+  box-shadow: none;
+  margin-bottom: 20px;
 }
 
 .sequences-card {
@@ -43,12 +47,6 @@ select {
   font-weight: bold;
 }
 
-.large-content {
-  width: 500px;
-  line-height: 1.7;
-  padding-bottom: 5px;
-}
-
 button {
   clear: both;
   float: left;
@@ -82,3 +80,23 @@ fieldset {
    /* float: none;  */
   padding-bottom: 5px;
 }
+
+/* button {
+  clear: both;
+  float: none;
+} */
+
+mat-card-actions {
+  text-align: right;
+}
+
+.delete-button {
+  text-align: right;
+  clear: both;
+  float: right;
+}
+
+#suggestSymbolButton {
+  color: aquamarine;
+}
+

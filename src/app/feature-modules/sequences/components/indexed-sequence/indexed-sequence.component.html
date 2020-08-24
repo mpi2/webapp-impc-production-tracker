@@ -1,6 +1,11 @@
 <mat-card class="sequence-card">
     <mat-card-content>
 
+        <mat-card-actions>
+            <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
+                (click)="delete()">Delete Mutation Description</button>
+        </mat-card-actions>
+
         <div *ngIf="canUpdate; then editable else readOnly"></div>
 
         <ng-template #editable>
@@ -60,16 +65,10 @@
 
         </ng-template>
 
-        <div>
+        <div *ngIf="showLocations">
             <label>Locations:</label>
             <app-indexed-locations [indexedSequence]="indexedSequence" [canUpdate]="canUpdate"></app-indexed-locations>
         </div>
-
-        <mat-card-actions>
-            <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
-            (click)="delete()">Delete Sequence</button>
-        </mat-card-actions>
         
-
     </mat-card-content>
 </mat-card>

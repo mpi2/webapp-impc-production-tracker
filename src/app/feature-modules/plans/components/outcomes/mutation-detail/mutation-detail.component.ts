@@ -1,4 +1,4 @@
-import { Component, OnInit, Input} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Mutation } from '../../../model/outcomes/mutation';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MutationService } from '../../../services/mutation.service';
@@ -23,7 +23,7 @@ export class MutationDetailComponent implements OnInit {
   repairMechanismsNames: string;
   alleleCategoriesNames: string[];
 
-  selectedConsortium: string;
+  selectedConsortium = '';
   selected: any;
   configurationData: ConfigurationData;
 
@@ -46,14 +46,21 @@ export class MutationDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadConfigurationData();
-    const repairMechanisms = this.mutation.mutationCategorizations.filter(x => x.typeName === this.repairMechanismKey);
-    this.repairMechanismsNames = repairMechanisms.map(x => x.name).join(',');
-    const alleleCategories = this.mutation.mutationCategorizations.filter(x => x.typeName === this.alleleCategoryKey);
-    this.alleleCategoriesNames = alleleCategories.map(x => x.name);
+    this.setMutationCategorizationsData();
     this.shouldSuggestSymbol = this.mutation.symbol ? false : true;
     this.mutationForm = this.formBuilder.group({
       abbreviation: []
     });
+  }
+
+  setMutationCategorizationsData() {
+    const mutationCategotizations = this.mutation.mutationCategorizations;
+    if (mutationCategotizations) {
+      const repairMechanisms = mutationCategotizations.filter(x => x.typeName === this.repairMechanismKey);
+      this.repairMechanismsNames = repairMechanisms.map(x => x.name).join(',');
+      const alleleCategories = mutationCategotizations.filter(x => x.typeName === this.alleleCategoryKey);
+      this.alleleCategoriesNames = alleleCategories.map(x => x.name);
+    }
   }
 
   loadConfigurationData() {
@@ -74,16 +81,18 @@ export class MutationDetailComponent implements OnInit {
   }
 
   suggestSymbol() {
+
+    console.log('selectedConsortium', this.selectedConsortium);
+
+
     const symbolSuggestionRequest = {
-      consortiumAbbreviation: 'IMPC',
-      excludeConsortiumAbbreviation: false
+      consortiumAbbreviation: this.selectedConsortium,
     };
     this.mutation.symbolSuggestionRequest = symbolSuggestionRequest;
     this.mutationService.getSuggestedSymbol(this.mutation.pin, this.mutation).subscribe(data => {
       this.mutation.symbol = data;
 
     }, error => {
-      // this.error = error;
       console.log(error);
     });
   }
@@ -101,7 +110,7 @@ export class MutationDetailComponent implements OnInit {
 
     // Delete all the allele categories and set new values
     this.mutation.mutationCategorizations =
-    this.mutation.mutationCategorizations.filter(x => x.typeName !== this.alleleCategoryKey);
+      this.mutation.mutationCategorizations.filter(x => x.typeName !== this.alleleCategoryKey);
 
     alleleCategoriesValues.forEach(x => {
       const alleleCategory = {
@@ -113,7 +122,6 @@ export class MutationDetailComponent implements OnInit {
   }
 
   create() {
-    console.log('Creste');
     const indexedSequence: IndexedSequence = new IndexedSequence();
     indexedSequence[this.tmpIndexRowName] = this.nextNewId--;
     this.mutation.mutationSequences.push(indexedSequence);
@@ -127,7 +135,7 @@ export class MutationDetailComponent implements OnInit {
     }
   }
 
-   deleteSequence(indexedSequence: IndexedSequence ) {
+  deleteSequence(indexedSequence: IndexedSequence) {
     if (this.isNewRecord(indexedSequence)) {
       this.mutation.mutationSequences = this.mutation.mutationSequences
         .filter(x => x[this.tmpIndexRowName] !== indexedSequence[this.tmpIndexRowName]);

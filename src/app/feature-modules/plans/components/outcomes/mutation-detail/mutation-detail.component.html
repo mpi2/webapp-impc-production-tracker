@@ -2,6 +2,11 @@
     <mat-card-content class="large-content">
         <form [formGroup]="mutationForm">
 
+            <div class="delete-button">
+                <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
+                    (click)="delete(null)">Delete Mutation</button>
+            </div>
+
             <div *ngIf="canUpdate; then editable else readOnly"></div>
 
             <ng-template #editable>
@@ -24,7 +29,6 @@
 
                     <div id="symbolSugestionSection" *ngIf=shouldSuggestSymbol>
                         <label for="consortium">Consortium abbreviation:</label>
-
                         <mat-form-field id="consortium" appearance="fill" class="content">
                             <mat-select [(value)]="selectedConsortium">
                                 <mat-option value="">Without abbreviation</mat-option>
@@ -34,7 +38,9 @@
                             </mat-select>
                         </mat-form-field>
 
-                        <button (click)="suggestSymbol() " mat-raised-button color="primary">Suggest Symbol</button>
+                        <div id="suggestSymbolButton">
+                            <button (click)="suggestSymbol()" mat-raised-button color="primary">Suggest Symbol</button>
+                        </div>
                     </div>
 
                 </fieldset>
@@ -77,14 +83,14 @@
                 </fieldset>
 
                 <mat-card class="sequences-card">
-                    <mat-card-subtitle>Sequences</mat-card-subtitle>
+                    Mutation description:
                     <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
                         <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
-                            [showSequenceCategory]=false (sequenceDeleted)="delete($event)"></app-indexed-sequence>
+                            [showSequenceCategory]=false [showLocations]=false (sequenceDeleted)="delete($event)">
+                        </app-indexed-sequence>
                     </div>
                     <button class="create-button" mat-raised-button (click)="create()" color="primary"
-                        *ngIf="canUpdate">Create
-                        Sequence</button>
+                        *ngIf="canUpdate">Add Mutation description</button>
                 </mat-card>
 
             </ng-template>

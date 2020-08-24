@@ -17,7 +17,7 @@ $impc-app-secondary: mat-palette($mat-light-blue, 800);
 $impc-app-accent:  mat-palette($mat-blue, 300);
 
 // The warn palette is optional (defaults to red).
-$impc-app-warn:    mat-palette($mat-red);
+$impc-app-warn:    mat-palette($mat-grey, 200);
 
 // Create the theme object (a Sass map containing all of the palettes).
 $impc-app-theme: mat-light-theme($impc-app-primary, $impc-app-accent, $impc-app-warn);

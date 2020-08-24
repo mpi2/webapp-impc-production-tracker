@@ -18,8 +18,6 @@ import { Mutation } from '../../../model/outcomes/mutation';
 })
 export class OutcomeDetailComponent implements OnInit {
   outcome: Outcome = new Outcome();
-  // mutations: Mutation[] = [];
-
   outcomeForm: FormGroup;
 
   project: Project;
@@ -36,6 +34,9 @@ export class OutcomeDetailComponent implements OnInit {
   originalMutationsAsString: string;
 
   changeDetails: ChangesHistory;
+
+  tmpIndexRowName = 'tmp_id';
+  nextNewId = -1;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -75,7 +76,6 @@ export class OutcomeDetailComponent implements OnInit {
         const mutations = data['_embedded'].mutations;
         this.originalMutationsAsString = JSON.stringify(mutations);
         this.setMutations(mutations);
-        console.log('mutations', mutations);
       }
     }, error => {
       this.error = error;
@@ -90,8 +90,6 @@ export class OutcomeDetailComponent implements OnInit {
         this.completeDataInMutation(x);
       });
       this.outcome.mutations = mutations;
-      console.log(this.outcome.mutations);
-
     }
   }
 
@@ -160,10 +158,6 @@ export class OutcomeDetailComponent implements OnInit {
     }
   }
 
-  createMutations() {
-    const mutationsToCreate = [];
-  }
-
   private showChangeNotification(changeResponse: ChangeResponse) {
     if (changeResponse && changeResponse.history.length > 0) {
       this.changeDetails = changeResponse.history[0];
@@ -174,9 +168,11 @@ export class OutcomeDetailComponent implements OnInit {
     }
   }
 
-  print() {
-    console.log(this.outcome.mutations.map(x => x.geneSymbolsOrAccessionIds.join(',')));
-
+  createMutation() {
+    const mutation: Mutation = new Mutation();
+    mutation.pin = this.pin;
+    mutation[this.tmpIndexRowName] = this.nextNewId--;
+    this.outcome.mutations.push(mutation);
   }
 
 }
