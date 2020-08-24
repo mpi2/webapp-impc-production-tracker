@@ -14,6 +14,7 @@
   <app-status-transition *ngIf="plan.statusTransition" [statusTransition]="plan.statusTransition"
     [canUpdate]="canUpdatePlan">
   </app-status-transition>
+  <app-status-date [statusDates]="plan.statusDates" [title]='"Plan Status History"'></app-status-date>
 </div>
 
 <app-outcome-list *ngIf="outcomes" [outcomes]=outcomes [canUpdate]="canUpdatePlan"></app-outcome-list>
