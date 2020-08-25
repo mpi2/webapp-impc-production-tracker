@@ -48,7 +48,7 @@
                 <label for="molecularMutationType">Molecular Mutation Type:</label>
                 <div id="molecularMutationType">
 
-                    <mat-select class="select-content" [(value)]="mutation.molecularMutationTypeName">
+                    <mat-select class="select-content-fix-width" [(value)]="mutation.molecularMutationTypeName">
                         <mat-option *ngFor="let molecularMutationType of molecularMutationTypes"
                             [value]="molecularMutationType.name">
                             {{molecularMutationType.name}}
@@ -83,12 +83,14 @@
                 </fieldset>
 
                 <mat-card class="sequences-card">
-                    Mutation description:
+                    <label for="mutationSequences">Mutation description:</label>
+                    
                     <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
                         <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
                             [showSequenceCategory]=false [showLocations]=false (sequenceDeleted)="delete($event)">
                         </app-indexed-sequence>
                     </div>
+                    <div class="separator"></div>
                     <button class="create-button" mat-raised-button (click)="create()" color="primary"
                         *ngIf="canUpdate">Add Mutation description</button>
                 </mat-card>

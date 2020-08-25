@@ -37,10 +37,7 @@ select {
 .create-button {
   float: none;
   margin-top: 10px;
-}
-
-.delete-button {
-  float: none;
+  clear: both;
 }
 
 .name {
@@ -61,6 +58,11 @@ mat-checkbox {
   max-width: 50%;
 }
 
+.separator {
+  clear: both;
+  float: none;
+}
+
 .select-content-fix-width {
   width: 250px;
 }
@@ -77,7 +79,6 @@ fieldset {
 .mutationSequences {
   padding-top: 200px;
   clear: both;
-   /* float: none;  */
   padding-bottom: 5px;
 }
 
@@ -99,4 +100,3 @@ mat-card-actions {
 #suggestSymbolButton {
   color: aquamarine;
 }
-

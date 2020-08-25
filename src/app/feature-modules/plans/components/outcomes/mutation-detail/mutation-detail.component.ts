@@ -98,11 +98,15 @@ export class MutationDetailComponent implements OnInit {
   }
 
   onRepairMechanismChanged(e) {
-    const repairMechanismList = this.mutation.mutationCategorizations.filter(x => x.typeName === this.repairMechanismKey);
-    if (repairMechanismList && repairMechanismList.length > 0) {
-      const repairMechanism = repairMechanismList[0];
-      repairMechanism.name = e.value;
-    }
+    const repairMechanismValue = e.value;
+    // Delete previous value
+    this.mutation.mutationCategorizations =
+      this.mutation.mutationCategorizations.filter(x => x.typeName !== this.repairMechanismKey);
+    const newRepairMechanism = {
+      name: repairMechanismValue,
+      typeName: this.repairMechanismKey
+    };
+    this.mutation.mutationCategorizations.push(newRepairMechanism);
   }
 
   onAlleleCategoriesChanged(e) {

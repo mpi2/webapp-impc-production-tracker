@@ -119,10 +119,9 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   update() {
-    console.log('to update:', this.outcome);
-
     this.updateOutcome();
     this.updateMutations();
+    this.createMutations();
   }
 
   updateOutcome() {
@@ -145,7 +144,9 @@ export class OutcomeDetailComponent implements OnInit {
 
   updateMutations() {
     if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
-      const mutationsToUpdate = this.outcome.mutations.filter(x => x.min !== null);
+      const mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
+      console.log('mutationsToUpdate', mutationsToUpdate);
+
 
       mutationsToUpdate.forEach(x => {
         this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {
@@ -156,6 +157,21 @@ export class OutcomeDetailComponent implements OnInit {
           });
       });
     }
+  }
+
+  createMutations() {
+    const mutationsToCreate = this.outcome.mutations.filter(x => !x.min);
+    console.log('cre', mutationsToCreate);
+
+    mutationsToCreate.forEach(x => {
+      this.mutationService.createMutation(x).subscribe((changeResponse: ChangeResponse) => {
+        this.showChangeNotification(changeResponse);
+      },
+        error => {
+          console.log(error);
+        });
+    });
+
   }
 
   private showChangeNotification(changeResponse: ChangeResponse) {
@@ -171,6 +187,7 @@ export class OutcomeDetailComponent implements OnInit {
   createMutation() {
     const mutation: Mutation = new Mutation();
     mutation.pin = this.pin;
+    mutation.tpo = this.tpo;
     mutation[this.tmpIndexRowName] = this.nextNewId--;
     this.outcome.mutations.push(mutation);
   }
