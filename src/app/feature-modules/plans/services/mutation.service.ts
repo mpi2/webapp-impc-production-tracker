@@ -47,7 +47,7 @@ export class MutationService {
 
     createMutation(mutation: Mutation) {
         return this.http.post<any>(
-            this.apiServiceUrl + '/api/plans/' + mutation.pin + '/outcomes/' + mutation.tpo + '/mutations/' + mutation.min, mutation);
+            this.apiServiceUrl + '/api/plans/' + mutation.pin + '/outcomes/' + mutation.tpo + '/mutations/', mutation);
     }
 
 }
