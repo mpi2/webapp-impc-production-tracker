@@ -37,7 +37,7 @@ export class MutationService {
     }
 
     getSuggestedSymbol(pin: string, mutation: Mutation) {
-        return this.http.post(this.apiServiceUrl + '/api/plans/' + pin + '/outcomes/suggestedSymbol', mutation,  {responseType: 'text'});
+        return this.http.post(this.apiServiceUrl + '/api/plans/' + pin + '/outcomes/suggestedSymbol', mutation, { responseType: 'text' });
     }
 
     updateMutation(mutation: Mutation) {
@@ -48,6 +48,12 @@ export class MutationService {
     createMutation(mutation: Mutation) {
         return this.http.post<any>(
             this.apiServiceUrl + '/api/plans/' + mutation.pin + '/outcomes/' + mutation.tpo + '/mutations/', mutation);
+    }
+
+    deleteMutation(mutation: Mutation) {
+        return this.http.delete<any>(
+            this.apiServiceUrl + '/api/plans/' + mutation.pin + '/outcomes/' + mutation.tpo +
+            '/mutations/deleteAssociations?min=' + mutation.min);
     }
 
 }

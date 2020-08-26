@@ -25,7 +25,8 @@
                 <label for="mutations">Mutations:</label>
                 <div id="mutations" *ngIf="this.outcome.mutations">
                     <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
-                        [mutation]="mutation" class="section">
+                        [mutation]="mutation" (mutationDeleted)="onMutationDeleted($event)"
+                        class="section">
                     </app-mutation-detail>
                     <button class="create-button" mat-raised-button (click)="createMutation()" color="primary"
                         *ngIf="canUpdate">Add Mutation</button>
