@@ -69,6 +69,10 @@ export class MutationDetailComponent implements OnInit {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.consortia = this.configurationData.consortiaToConstructSymbols.map(x => ({ name: x }));
+      if (this.consortia.length > 0) {
+        this.selectedConsortium = this.consortia[0].name;
+      }
+
       this.molecularMutationTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
 
       Object.keys(this.configurationData.mutationCategorizationsByType).map(key => {
@@ -83,10 +87,6 @@ export class MutationDetailComponent implements OnInit {
   }
 
   suggestSymbol() {
-
-    console.log('selectedConsortium', this.selectedConsortium);
-
-
     const symbolSuggestionRequest = {
       consortiumAbbreviation: this.selectedConsortium,
     };

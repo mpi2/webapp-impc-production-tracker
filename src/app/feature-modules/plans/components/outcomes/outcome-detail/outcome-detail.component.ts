@@ -66,7 +66,7 @@ export class OutcomeDetailComponent implements OnInit {
       this.outcome = data;
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
       this.fetchMutationsByOutcome(this.outcome);
-     }, error => {
+    }, error => {
       this.error = error;
     });
   }
@@ -162,7 +162,6 @@ export class OutcomeDetailComponent implements OnInit {
 
   createMutations() {
     const mutationsToCreate = this.outcome.mutations.filter(x => !x.min);
-    console.log('cre', mutationsToCreate);
 
     mutationsToCreate.forEach(x => {
       this.mutationService.createMutation(x).subscribe((changeResponse: ChangeResponse) => {
