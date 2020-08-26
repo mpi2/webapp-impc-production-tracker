@@ -38,6 +38,8 @@ export class OutcomeDetailComponent implements OnInit {
   tmpIndexRowName = 'tmp_id';
   nextNewId = -1;
 
+  mutationsToDelete: Mutation[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -122,6 +124,7 @@ export class OutcomeDetailComponent implements OnInit {
     this.updateOutcome();
     this.updateMutations();
     this.createMutations();
+    this.deleteMutations();
   }
 
   updateOutcome() {
@@ -145,8 +148,6 @@ export class OutcomeDetailComponent implements OnInit {
   updateMutations() {
     if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
       const mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
-      console.log('mutationsToUpdate', mutationsToUpdate);
-
 
       mutationsToUpdate.forEach(x => {
         this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {
@@ -174,6 +175,17 @@ export class OutcomeDetailComponent implements OnInit {
 
   }
 
+  deleteMutations() {
+    this.mutationsToDelete.forEach(x => {
+      this.mutationService.deleteMutation(x).subscribe((changeResponse: ChangeResponse) => {
+        this.showChangeNotification(changeResponse);
+      },
+        error => {
+          console.log(error);
+        });
+    });
+  }
+
   private showChangeNotification(changeResponse: ChangeResponse) {
     if (changeResponse && changeResponse.history.length > 0) {
       this.changeDetails = changeResponse.history[0];
@@ -190,6 +202,26 @@ export class OutcomeDetailComponent implements OnInit {
     mutation.tpo = this.tpo;
     mutation[this.tmpIndexRowName] = this.nextNewId--;
     this.outcome.mutations.push(mutation);
+  }
+
+  onMutationDeleted(e) {
+    this.deleteMutation(e);
+    this.mutationsToDelete.push(e);
+  }
+
+  // Deletes the mutation in memory
+  deleteMutation(mutation: Mutation) {
+    if (this.isNewRecord(mutation)) {
+      this.outcome.mutations = this.outcome.mutations
+        .filter(x => x[this.tmpIndexRowName] !== mutation[this.tmpIndexRowName]);
+    } else {
+      this.outcome.mutations = this.outcome.mutations
+        .filter(x => x.min !== mutation.min);
+    }
+  }
+
+  private isNewRecord(mutation: Mutation) {
+    return mutation.min == null;
   }
 
 }

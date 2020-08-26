@@ -4,7 +4,7 @@
 
             <div class="delete-button">
                 <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
-                    (click)="delete(null)">Delete Mutation</button>
+                    (click)="onDeleteMutation()">Delete Mutation</button>
             </div>
 
             <div *ngIf="canUpdate; then editable else readOnly"></div>
@@ -87,7 +87,7 @@
                     
                     <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
                         <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
-                            [showSequenceCategory]=false [showLocations]=false (sequenceDeleted)="delete($event)">
+                            [showSequenceCategory]=false [showLocations]=false (sequenceDeleted)="onDeleteSequence($event)">
                         </app-indexed-sequence>
                     </div>
                     <div class="separator"></div>

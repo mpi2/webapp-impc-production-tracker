@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
 import { Mutation } from '../../../model/outcomes/mutation';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MutationService } from '../../../services/mutation.service';
@@ -16,6 +16,8 @@ import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-co
 export class MutationDetailComponent implements OnInit {
   @Input() mutation: Mutation;
   @Input() canUpdate: boolean;
+
+  @Output() mutationDeleted = new EventEmitter<Mutation>();
 
   tmpIndexRowName = 'tmp_id';
   nextNewId = -1;
@@ -131,7 +133,33 @@ export class MutationDetailComponent implements OnInit {
     this.mutation.mutationSequences.push(indexedSequence);
   }
 
-  delete(indexedSequence: IndexedSequence) {
+  onDeleteMutation() {
+
+    if (this.mutation.min) {
+      this.showDeleteMutationConfirmationDialog();
+
+    } else {
+      this.emmitMutationDeletion();
+    }
+  }
+
+  emmitMutationDeletion() {
+    this.mutationDeleted.emit(this.mutation);
+  }
+
+  showDeleteMutationConfirmationDialog() {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '250px',
+      data: { confirmed: false }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.emmitMutationDeletion();
+      }
+    });
+  }
+
+  onDeleteSequence(indexedSequence: IndexedSequence) {
     if (this.isNewRecord(indexedSequence)) {
       this.deleteSequence(indexedSequence);
     } else {
