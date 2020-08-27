@@ -3,6 +3,8 @@ import { Colony } from '../../../model/outcomes/colony';
 import { DistributionProduct } from '../../../model/outcomes/distribution-product';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-distribution-product-list',
@@ -21,7 +23,10 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   productTypesNames: NamedValue[] = [];
   distributionNetworksNames: NamedValue[] = [];
 
-  constructor(private configurationDataService: ConfigurationDataService) { }
+  tmpIndexRowName = 'tmp_id';
+  nextNewId = -1;
+
+  constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.setInitialData();
@@ -49,19 +54,55 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
     }
   }
 
-
   setOriginalDonors(): void {
     this.originalData = JSON.parse(JSON.stringify(this.colony.distributionProducts));
   }
 
   addDistributionProduct() {
     const distributionProduct: DistributionProduct = new DistributionProduct();
+    distributionProduct[this.tmpIndexRowName] = this.nextNewId--;
     this.colony.distributionProducts.push(distributionProduct);
     this.dataSource = [...this.colony.distributionProducts];
   }
 
 
   onClickToDeleteDistributionProduct(distributionProduct: DistributionProduct) {
+    if (this.isNewRecord(distributionProduct)) {
+      console.log('plain delete');
+
+      this.deleteDistributionProduct(distributionProduct);
+    } else {
+      this.showDeleteMutationConfirmationDialog(distributionProduct);
+    }
+  }
+
+  showDeleteMutationConfirmationDialog(distributionProduct: DistributionProduct) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '250px',
+      data: { confirmed: false }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteDistributionProduct(distributionProduct);
+      }
+    });
+  }
+
+  deleteDistributionProduct(distributionProduct: DistributionProduct) {
+    if (this.isNewRecord(distributionProduct)) {
+      this.colony.distributionProducts = this.colony.distributionProducts
+        .filter(x => x[this.tmpIndexRowName] !== distributionProduct[this.tmpIndexRowName]);
+    } else {
+      this.colony.distributionProducts = this.colony.distributionProducts
+        .filter(x => x.id !== distributionProduct.id);
+    }
+    console.log('after deleted: ', this.colony.distributionProducts);
+    this.dataSource = [...this.colony.distributionProducts];
+
+  }
+
+  private isNewRecord(distributionProduct: DistributionProduct) {
+    return distributionProduct.id == null;
   }
 
 }
