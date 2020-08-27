@@ -17,7 +17,6 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
 
   nextNewId = -1;
 
-  editionStatusByGuide = new Map<number, string>();
 
   constructor(public dialog: MatDialog, private changeDetector: ChangeDetectorRef) { }
 
@@ -27,7 +26,6 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
 
   setInitialData(): void {
     this.dataSource = this.crisprAttempt.genotypePrimers;
-    this.setEmptyEditionStatuses();
     this.setOriginalPrimers();
   }
 
@@ -47,35 +45,12 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
     this.originaPrimers = JSON.parse(JSON.stringify(this.crisprAttempt.genotypePrimers));
   }
 
-  setEmptyEditionStatuses(): void {
-    this.crisprAttempt.genotypePrimers.map(x => this.editionStatusByGuide.set(x.id, ''));
-  }
-
-  getEditionStatusForGuideId(id: number): string {
-    return this.editionStatusByGuide.get(id);
-  }
-
   onPrimerChanged(primer: GenotypePrimer): void {
     primer.genomicStartCoordinate = this.getNumericValueOrNull(primer.genomicStartCoordinate);
     primer.genomicEndCoordinate = this.getNumericValueOrNull(primer.genomicEndCoordinate);
-
-    this.updateRowStatus(primer);
   }
 
-  updateAllRowsStatus(): void {
-    this.crisprAttempt.genotypePrimers.map(x => this.updateRowStatus(x));
-  }
 
-  updateRowStatus(primer: GenotypePrimer): void {
-    const originalPrimer = this.originaPrimers.find(x => x.id === primer.id);
-    if (originalPrimer) {
-      if (JSON.stringify(originalPrimer) !== JSON.stringify(primer)) {
-        this.editionStatusByGuide.set(primer.id, 'Modified in memory');
-      } else {
-        this.editionStatusByGuide.set(primer.id, '');
-      }
-    }
-  }
 
   getNumericValueOrNull(value): number {
     if (!value || isNaN(value) || '' === value) {
@@ -89,7 +64,6 @@ export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContent
     genotypePrimer.id = this.nextNewId--;
 
     this.crisprAttempt.genotypePrimers.push(genotypePrimer);
-    this.editionStatusByGuide.set(genotypePrimer.id, 'Created in memory');
     this.dataSource = [...this.crisprAttempt.genotypePrimers];
   }
 

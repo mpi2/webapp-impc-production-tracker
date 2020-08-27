@@ -31,4 +31,6 @@ export class ConfigurationData {
     productTypes: string[];
     distributionNetworks: string[];
     consortiaToConstructSymbols: string[];
+    qcTypes: string[];
+    qcStatuses: string[];
 }

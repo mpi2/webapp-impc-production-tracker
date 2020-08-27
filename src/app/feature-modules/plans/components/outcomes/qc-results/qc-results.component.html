@@ -1,0 +1,58 @@
+<mat-card>
+    <mat-card-content>
+        <div class="title">
+            QC Results:
+        </div>
+
+        <table>
+            <tr class="header">
+                <th>Type</th>
+                <th>Status</th>
+                <th></th>
+            </tr>
+            <ng-template ngFor let-mutationQcResult [ngForOf]="mutation.mutationQcResults">
+                <div *ngIf="canUpdate; then editableRow else readOnlyRow">
+                </div>
+                <ng-template #editableRow>
+                    <tr>
+                        <td>
+                            <mat-select [(ngModel)]="mutationQcResult.qcTypeName">
+                                <mat-option *ngFor="let qcType of qcTypes" [value]="qcType.name">
+                                    {{qcType.name}}
+                                </mat-option>
+                            </mat-select>
+                        </td>
+                        <td>
+
+                            <mat-select [(ngModel)]="mutationQcResult.statusName">
+                                <mat-option *ngFor="let qcStatus of qcStatuses" [value]="qcStatus.name">
+                                    {{qcStatus.name}}
+                                </mat-option>
+                            </mat-select>
+                        </td>
+
+                    </tr>
+                    
+                </ng-template>
+                <ng-template #readOnlyRow>
+                    <tr>
+                        <td>
+                            {{ mutationQcResult.qcTypeName }}
+                        </td>
+                        <td>
+                            {{ mutationQcResult.statusName }}
+                        </td>
+
+                    </tr>
+                </ng-template>
+            </ng-template>
+            <tr>
+                <td class="no_border"><button [disabled]="false" *ngIf="canUpdate">
+                        <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </mat-card-content>
+
+</mat-card>

@@ -1,4 +1,5 @@
 import { Gene } from 'src/app/core';
+import { QcResult } from './qc_result';
 
 export class Mutation {
     min: string;
@@ -11,7 +12,7 @@ export class Mutation {
     mgiAlleleSymbolRequiresConstruction: boolean;
     geneticMutationTypeName: string;
     molecularMutationTypeName: string;
-    mutationQcResults: any[] = [];
+    mutationQcResults: QcResult[] = [];
     mutationSequences: any[] = [];
     mutationCategorizations: any[] = [];
     genes: Gene[] = [];
