@@ -68,8 +68,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
 
   onClickToDeleteDistributionProduct(distributionProduct: DistributionProduct) {
     if (this.isNewRecord(distributionProduct)) {
-      console.log('plain delete');
-
       this.deleteDistributionProduct(distributionProduct);
     } else {
       this.showDeleteMutationConfirmationDialog(distributionProduct);
@@ -96,7 +94,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
       this.colony.distributionProducts = this.colony.distributionProducts
         .filter(x => x.id !== distributionProduct.id);
     }
-    console.log('after deleted: ', this.colony.distributionProducts);
     this.dataSource = [...this.colony.distributionProducts];
 
   }

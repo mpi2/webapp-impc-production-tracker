@@ -31,6 +31,12 @@
                             </mat-select>
                         </td>
 
+                        <td class="delete">
+                            <button (click)="onClickToDelete(mutationQcResult)">
+                                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                            </button>
+                        </td>
+
                     </tr>
                     
                 </ng-template>
@@ -47,7 +53,7 @@
                 </ng-template>
             </ng-template>
             <tr>
-                <td class="no_border"><button [disabled]="false" *ngIf="canUpdate">
+                <td class="no_border"><button (click)="addRow()" *ngIf="canUpdate">
                         <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
                     </button>
                 </td>

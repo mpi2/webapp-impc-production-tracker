@@ -1,29 +1,32 @@
+table {
+  width: 500px;
+  padding-left: 20px;
+}
 
-  table {
-    width: 500px;
-    padding-left: 20px;
-  }
-  
-  .header {
-    color: rgba(0, 0, 0, 0.54);
-    text-align: left;
-    font-size: 12px;
-    font-weight: 500;
-    border-bottom-color: rgba(0, 0, 0, 0.12);
-    padding-left: 24px;
-    padding: 0;
-    border-bottom-width: 1px;
-    border-bottom-style: solid;
-  }
-  
-  td.delete {
-    min-width: 50px;
-    width: 50px;
-  }
-  
-  .title {
-    clear: both;
-    float: none;
-    padding-bottom: 10px;
-  }
-  
+.header {
+  color: rgba(0, 0, 0, 0.54);
+  text-align: left;
+  font-size: 12px;
+  font-weight: 500;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  padding-left: 24px;
+  padding: 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+}
+
+td.delete {
+  min-width: 50px;
+  width: 50px;
+}
+
+.title {
+  clear: both;
+  float: none;
+  padding-bottom: 10px;
+}
+
+mat-card {
+  margin-top: 20px;
+  width: 1150px;
+}
