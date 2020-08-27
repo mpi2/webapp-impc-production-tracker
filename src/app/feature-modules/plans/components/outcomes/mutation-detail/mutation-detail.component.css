@@ -82,11 +82,6 @@ fieldset {
   padding-bottom: 5px;
 }
 
-/* button {
-  clear: both;
-  float: none;
-} */
-
 mat-card-actions {
   text-align: right;
 }
@@ -97,6 +92,7 @@ mat-card-actions {
   float: right;
 }
 
-#suggestSymbolButton {
-  color: aquamarine;
+.qcResultsSection {
+  margin-top: 10px;
 }
+
