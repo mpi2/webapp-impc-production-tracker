@@ -138,5 +138,13 @@
             </ng-template>
 
         </form>
+
+
+        <div id="qc-results">
+            <app-qc-results class="distributionProductsSection" [mutation]="mutation"
+                [canUpdate]="canUpdate">
+            </app-qc-results>
+        </div>
+
     </mat-card-content>
 </mat-card>

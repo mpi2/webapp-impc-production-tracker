@@ -19,6 +19,7 @@ import { OutcomeDetailComponent } from './components/outcomes/outcome-detail/out
 import { ColonySummaryComponent } from './components/outcomes/colony-summary/colony-summary.component';
 import { MutationDetailComponent } from './components/outcomes/mutation-detail/mutation-detail.component';
 import { SequencesModule } from '../sequences/sequences.module';
+import { QcResultsComponent } from './components/outcomes/qc-results/qc-results.component';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,8 @@ import { SequencesModule } from '../sequences/sequences.module';
     DistributionProductListComponent,
     OutcomeDetailComponent,
     ColonySummaryComponent,
-    MutationDetailComponent
+    MutationDetailComponent,
+    QcResultsComponent
   ],
   imports: [
     SharedModule,

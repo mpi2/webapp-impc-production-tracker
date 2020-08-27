@@ -8,7 +8,6 @@
                 <th>Start Coordinate</th>
                 <th>End Coordinate</th>
                 <th></th>
-                <th></th>
             </tr>
             <ng-template ngFor let-primer [ngForOf]="dataSource">
                 <div *ngIf="canUpdatePlan; then editableRow else readOnlyRow">
@@ -38,9 +37,6 @@
                             <button (click)="onClickToDeleteElement(primer)">
                                 <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
                             </button>
-                        </td>
-                        <td class="status">
-                            {{ getEditionStatusForGuideId(primer.id) }}
                         </td>
                     </tr>
                 </ng-template>
