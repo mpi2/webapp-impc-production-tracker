@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Outcome } from '../../../model/outcomes/outcome';
 import { ActivatedRoute } from '@angular/router';
@@ -64,7 +64,7 @@ export class OutcomeDetailComponent implements OnInit {
   private fetchOutcome() {
     this.outcomeService.getOutcome(this.pin, this.tpo).subscribe(data => {
       this.outcome = data;
-      this.originalOutcomeAsString = JSON.stringify(this.outcome);
+
       this.fetchMutationsByOutcome(this.outcome);
     }, error => {
       this.error = error;
@@ -92,6 +92,7 @@ export class OutcomeDetailComponent implements OnInit {
         this.completeDataInMutation(x);
       });
       this.outcome.mutations = mutations;
+      this.originalOutcomeAsString = JSON.stringify(this.outcome);
     }
   }
 
@@ -117,7 +118,8 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   enableUpdateButton() {
-    return true;
+    const outcomeChanged = this.originalOutcomeAsString !== JSON.stringify(this.outcome);
+    return outcomeChanged;
   }
 
   update() {

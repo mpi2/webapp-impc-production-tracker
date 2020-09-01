@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Colony } from '../../../model/outcomes/colony';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 
 @Component({
   selector: 'app-colony-detail',
@@ -19,7 +20,10 @@ export class ColonyDetailComponent implements OnInit {
 
   configurationData: ConfigurationData;
 
-  constructor(private formBuilder: FormBuilder, private configurationDataService: ConfigurationDataService) { }
+  constructor(
+    private formBuilder: FormBuilder,
+    private configurationDataService: ConfigurationDataService,
+    private inputHandlerService: InputHandlerService) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
@@ -33,6 +37,10 @@ export class ColonyDetailComponent implements OnInit {
       this.configurationData = data;
       this.backGroundStrains = this.configurationData.backgroundStrains.map(x => ({ name: x }));
     });
+  }
+
+  onCommentChanged(e) {
+    this.colony.genotypingComment = this.inputHandlerService.getValueOrNull(e.target.value);
   }
 
 }
