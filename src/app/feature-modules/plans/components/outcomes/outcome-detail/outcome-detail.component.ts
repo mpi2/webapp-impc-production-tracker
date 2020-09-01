@@ -147,7 +147,7 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   enableUpdateButton() {
-    const outcomeChanged = this.originalOutcomeAsString !== JSON.stringify(this.outcome);
+    const outcomeChanged = this.originalOutcomeAsString !== JSON.stringify(this.outcome) && this.outcome.outcomeTypeName;
     return outcomeChanged;
   }
 
