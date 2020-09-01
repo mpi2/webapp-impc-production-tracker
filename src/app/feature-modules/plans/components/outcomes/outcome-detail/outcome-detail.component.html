@@ -38,14 +38,17 @@
                         [canUpdate]="canUpdate"></app-colony-detail>
                 </div>
 
-                <label for="mutations">Mutations:</label>
-                <div id="mutations" *ngIf="this.outcome.mutations">
-                    <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
-                        [mutation]="mutation" (mutationDeleted)="onMutationDeleted($event)" class="section">
-                    </app-mutation-detail>
-                </div>
-                <button class="create-button" mat-raised-button (click)="onAddMutation()" color="primary"
+                <div *ngIf="this.outcome.outcomeTypeName">
+
+                    <label for="mutations">Mutations:</label>
+                    <div id="mutations" *ngIf="this.outcome.mutations">
+                        <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
+                            [mutation]="mutation" (mutationDeleted)="onMutationDeleted($event)" class="section">
+                        </app-mutation-detail>
+                    </div>
+                    <button class="create-button" mat-raised-button (click)="onAddMutation()" color="primary"
                         *ngIf="canUpdate">Add Mutation</button>
+                </div>
 
             </fieldset>
         </form>
