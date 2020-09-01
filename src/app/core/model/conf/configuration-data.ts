@@ -22,6 +22,7 @@ export class ConfigurationData {
     molecularMutationTypes: string[];
     mutationCategorizations: string[];
     mutationCategorizationsByType: Map<string, any[]>;
+    outcomeTypes: string[];
     sequenceTypes: string[];
     sequenceCategorizations: string[];
     funders: string[];

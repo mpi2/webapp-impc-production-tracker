@@ -13,6 +13,7 @@ import { InputHandlerService } from 'src/app/core/services/input-handler.service
 export class ColonyDetailComponent implements OnInit {
   @Input() colony: Colony;
   @Input() canUpdate: boolean;
+  @Input() isNew: boolean;
 
   colonyForm: FormGroup;
 

@@ -17,7 +17,8 @@
   <app-status-date [statusDates]="plan.statusDates" [title]='"Plan Status History"'></app-status-date>
 </div>
 
-<app-outcome-list *ngIf="outcomes" [outcomes]=outcomes [canUpdate]="canUpdatePlan"></app-outcome-list>
+<app-outcome-list *ngIf="outcomes" [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [canUpdate]="canUpdatePlan">
+</app-outcome-list>
 
 <app-crispr-attempt *ngIf="plan.crisprAttempt" [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>

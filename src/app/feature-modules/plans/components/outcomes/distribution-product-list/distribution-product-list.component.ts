@@ -16,7 +16,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   @Input() canUpdate: boolean;
 
   dataSource: DistributionProduct[];
-  originalData: DistributionProduct[];
 
   configurationData: ConfigurationData;
   distributionCentresNames: NamedValue[] = [];
@@ -44,7 +43,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   setInitialData(): void {
     this.loadConfigurationData();
     this.dataSource = this.colony.distributionProducts;
-    this.setOriginalDonors();
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -52,10 +50,6 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
       this.colony = changes.colony.currentValue;
       this.setInitialData();
     }
-  }
-
-  setOriginalDonors(): void {
-    this.originalData = JSON.parse(JSON.stringify(this.colony.distributionProducts));
   }
 
   addDistributionProduct() {

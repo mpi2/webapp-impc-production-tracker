@@ -9,5 +9,5 @@ export class Outcome {
     outcomeTypeName: string;
     colony: Colony;
     specimen: Specimen;
-    mutations: Mutation[];
+    mutations: Mutation[] = [];
 }

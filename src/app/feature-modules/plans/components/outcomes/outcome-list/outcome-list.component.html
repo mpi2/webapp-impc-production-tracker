@@ -4,6 +4,9 @@
         <div *ngFor="let outcome of outcomes">
             <app-outcome-summary [outcome]="outcome" [canUpdate]="canUpdate"></app-outcome-summary>
         </div>
+        <a routerLink="/projects/{{ tpn }}/plans/{{ pin }}/outcome-creation"><button class="create-button"
+                mat-raised-button color="primary" *ngIf="canUpdate">Add
+                Outcome</button></a>
+
     </mat-card-content>
-  </mat-card>
-  
+</mat-card>
