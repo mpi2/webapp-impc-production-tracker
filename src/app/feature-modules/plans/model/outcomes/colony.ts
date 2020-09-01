@@ -9,6 +9,6 @@ export class Colony {
     statusName: string;
     statusDates: StatusDate[];
     backgroundStrainName: string;
-    distributionProducts: DistributionProduct[];
+    distributionProducts: DistributionProduct[] = [];
     statusTransition: StatusTransition;
 }

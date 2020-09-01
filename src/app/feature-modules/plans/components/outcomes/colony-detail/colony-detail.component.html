@@ -48,7 +48,7 @@
             [canUpdate]="canUpdate">
         </app-status-transition>
 
-        <app-status-date [statusDates]="colony.statusDates" [title]='"Colony Status History"'></app-status-date>
+        <app-status-date *ngIf="!isNew" [statusDates]="colony.statusDates" [title]='"Colony Status History"'></app-status-date>
     </div>
 
     <div class="space"></div>

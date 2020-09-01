@@ -3,13 +3,18 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { Outcome } from '../../../model/outcomes/outcome';
 import { ActivatedRoute } from '@angular/router';
 import { OutcomeService } from '../../../services/outcome.service';
-import { PermissionsService, LoggedUserService, ChangesHistory } from 'src/app/core';
+import {
+  PermissionsService, LoggedUserService, ChangesHistory,
+  ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../../update-notification/update-notification.component';
 import { Project } from 'src/app/model';
 import { MutationService } from '../../../services/mutation.service';
 import { Mutation } from '../../../model/outcomes/mutation';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+import { Colony } from '../../../model/outcomes/colony';
+import { Specimen } from '../../../model/outcomes/specimen';
 
 @Component({
   selector: 'app-outcome-detail',
@@ -22,9 +27,9 @@ export class OutcomeDetailComponent implements OnInit {
 
   project: Project;
 
+  tpn: string;
   tpo: string;
   pin: string;
-  tpn: string;
 
   canUpdate: boolean;
   loading = false;
@@ -38,7 +43,12 @@ export class OutcomeDetailComponent implements OnInit {
   tmpIndexRowName = 'tmp_id';
   nextNewId = -1;
 
+  isOutcomeBeingCreated = false;
+
   mutationsToDelete: Mutation[] = [];
+  outcomeTypes: NamedValue[];
+
+  configurationData: ConfigurationData;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -46,25 +56,44 @@ export class OutcomeDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private outcomeService: OutcomeService,
     private mutationService: MutationService,
+    private configurationDataService: ConfigurationDataService,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit(): void {
+    this.tpn = this.route.snapshot.params.id;
     this.pin = this.route.snapshot.params.pid;
     this.tpo = this.route.snapshot.params.tpo;
-    this.tpn = this.route.snapshot.params.id;
-
+    this.loadConfigurationData();
+    this.fetchOrCreateOutcome();
     this.evaluateUpdatePermissions();
-    this.fetchOutcome();
+
     this.outcomeForm = this.formBuilder.group({
       outcomeTypeName: [''],
     });
   }
 
+  loadConfigurationData() {
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.outcomeTypes = this.configurationData.outcomeTypes.map(x => ({ name: x }));
+    });
+  }
+
+  private fetchOrCreateOutcome() {
+    if (this.tpo) {
+      this.fetchOutcome();
+    } else {
+      this.isOutcomeBeingCreated = true;
+      this.outcome = new Outcome();
+      this.outcome.tpn = this.tpn;
+      this.outcome.pin = this.pin;
+    }
+  }
+
   private fetchOutcome() {
     this.outcomeService.getOutcome(this.pin, this.tpo).subscribe(data => {
       this.outcome = data;
-
       this.fetchMutationsByOutcome(this.outcome);
     }, error => {
       this.error = error;
@@ -120,6 +149,30 @@ export class OutcomeDetailComponent implements OnInit {
   enableUpdateButton() {
     const outcomeChanged = this.originalOutcomeAsString !== JSON.stringify(this.outcome);
     return outcomeChanged;
+  }
+
+  updateOrCreate() {
+    if (this.isOutcomeBeingCreated) {
+      this.create();
+
+    } else {
+      this.update();
+    }
+  }
+
+  create() {
+    this.outcomeService.createOutcome(this.outcome.pin, this.outcome).subscribe((changeResponse: ChangeResponse) => {
+      this.loading = false;
+      this.originalOutcomeAsString = JSON.stringify(this.outcome);
+      this.showChangeNotification(changeResponse);
+      this.error = null;
+    },
+      error => {
+        console.error('Error while creating plan outcome', error);
+        this.error = error;
+        this.loading = false;
+      }
+    );
   }
 
   update() {
@@ -197,11 +250,14 @@ export class OutcomeDetailComponent implements OnInit {
     }
   }
 
-  createMutation() {
+  onAddMutation() {
     const mutation: Mutation = new Mutation();
     mutation.pin = this.pin;
     mutation.tpo = this.tpo;
     mutation[this.tmpIndexRowName] = this.nextNewId--;
+    if (!this.outcome.mutations) {
+      this.outcome.mutations = [];
+    }
     this.outcome.mutations.push(mutation);
   }
 
@@ -223,6 +279,20 @@ export class OutcomeDetailComponent implements OnInit {
 
   private isNewRecord(mutation: Mutation) {
     return mutation.min == null;
+  }
+
+  onTypeSelected(e) {
+    this.initiOutcomeType(e.value);
+  }
+
+  private initiOutcomeType(type: string) {
+    if ('Colony' === type) {
+      this.outcome.colony = new Colony();
+      this.outcome.specimen = null;
+    } else if ('Specimen' === type) {
+      this.outcome.specimen = new Specimen();
+      this.outcome.colony = null;
+    }
   }
 
 }
