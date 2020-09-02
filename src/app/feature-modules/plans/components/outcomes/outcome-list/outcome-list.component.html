@@ -1,8 +1,10 @@
 <mat-card>
     <mat-card-subtitle>Production outcomes</mat-card-subtitle>
     <mat-card-content>
-        <div *ngFor="let outcome of outcomes">
-            <app-outcome-summary [outcome]="outcome" [canUpdate]="canUpdate"></app-outcome-summary>
+        <div *ngIf="outcomes">
+            <div *ngFor="let outcome of outcomes">
+                <app-outcome-summary [outcome]="outcome" [canUpdate]="canUpdate"></app-outcome-summary>
+            </div>
         </div>
         <a routerLink="/projects/{{ tpn }}/plans/{{ pin }}/outcome-creation"><button class="create-button"
                 mat-raised-button color="primary" *ngIf="canUpdate">Add
