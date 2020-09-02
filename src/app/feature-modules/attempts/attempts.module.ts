@@ -12,6 +12,7 @@ import { PhenotypingAttemptComponent } from './components/phenotyping/phenotypin
 // tslint:disable-next-line:max-line-length
 import { TissueDistributionCentreComponent } from './components/phenotyping/tissue-distribution-centre/tissue-distribution-centre.component';
 import { NucleaseComponent } from './components/production/crispr/nuclease/nuclease.component';
+import { ReagentsComponent } from './components/production/crispr/reagents/reagents.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,8 @@ import { NucleaseComponent } from './components/production/crispr/nuclease/nucle
     GuidesComponent,
     PhenotypingAttemptComponent,
     TissueDistributionCentreComponent,
-    NucleaseComponent
+    NucleaseComponent,
+    ReagentsComponent
   ],
   imports: [
     SharedModule,
