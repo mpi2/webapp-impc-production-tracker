@@ -1,0 +1,61 @@
+<mat-card>
+    <mat-card-subtitle>Reagents</mat-card-subtitle>
+    <mat-card-content>
+        <table class="mat-elevation-z8">
+            <tr>
+                <th>Name</th>
+                <th>Concentration (ng/uL)</th>
+                <th></th>
+            </tr>
+            <ng-template ngFor let-reagent [ngForOf]="crisprAttempt.reagents">
+                <div *ngIf="canUpdatePlan; then editableRow else readOnlyRow">
+                </div>
+                <ng-template #editableRow>
+                    <tr>
+                        <td>
+
+                            <mat-select [(ngModel)]="reagent.reagentName">
+                                <mat-option *ngFor="let reagentName of reagentNames" [value]="reagentName.name">
+                                    {{reagentName.name}}
+                                </mat-option>
+                            </mat-select>
+                        </td>
+                        <td>
+                            <input appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}"
+                                name="concentration" #concentration="ngModel" [(ngModel)]="reagent.concentration"
+                                (keyup)="onReagentChanged(reagent)" [ngModelOptions]="{standalone: true}">
+                        </td>
+                        <td>
+                            <button (click)="onClickToDeleteReagent(reagent)">
+                                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                            </button>
+                        </td>
+
+                    </tr>
+
+                </ng-template>
+                <ng-template #readOnlyRow>
+                    <tr>
+                        <td>
+                            {{ reagent.reagentName || "Not defined" }}
+                        </td>
+                        <td>
+                            {{ reagent.concentration || "Not defined" }}
+                        </td>
+
+
+                    </tr>
+                </ng-template>
+            </ng-template>
+
+            <tr *ngIf="canUpdatePlan">
+                <td class="no_border"><button (click)="addRow()" [disabled]="false">
+                        <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+                    </button>
+                </td>
+            </tr>
+
+        </table>
+
+    </mat-card-content>
+</mat-card>

@@ -24,7 +24,6 @@ export class ProductionPlanComponent implements OnInit {
 
   // Content previous modifications so we can tell when something has changed
   originalPlanAsString: string;
-  originalOutcomesAsString: string;
 
   canUpdatePlan: boolean;
   loading = false;
@@ -82,7 +81,6 @@ export class ProductionPlanComponent implements OnInit {
           x.tpn = this.plan.tpn;
           this.loadMutationsByOutcomes(x);
         });
-        this.originalOutcomesAsString = JSON.stringify(this.outcomes);
       }
       /* tslint:enable:no-string-literal */
     }, error => {
@@ -120,14 +118,11 @@ export class ProductionPlanComponent implements OnInit {
   }
 
   /**
-   * Updates the information of the plan and/or its outcomes.
+   * Updates the information of the plan.
    */
   update() {
     if (this.planHasChanged()) {
       this.updatePlan();
-    }
-    if (this.outcomesChanged()) {
-      this.updateOutcomes();
     }
   }
 
@@ -157,38 +152,12 @@ export class ProductionPlanComponent implements OnInit {
       );
   }
 
-  private updateOutcomes() {
-    this.outcomes.forEach(x => {
-      this.outcomeService.updateOutcome(this.plan.pin, x).subscribe((changeResponse: ChangeResponse) => {
-        this.loading = false;
-        // this.originalPlanAsString = JSON.stringify(this.plan);
-        if (changeResponse && changeResponse.history.length > 0) {
-          this.changeDetails = changeResponse.history[0];
-          this.snackBar.openFromComponent(UpdateNotificationComponent, {
-            duration: 3000,
-            data: this.changeDetails
-          });
-        }
-        this.error = null;
-        this.reloadForPin(this.plan.pin);
-      },
-        error => {
-          console.error('Error while updating plan outcome', error);
-          this.error = error;
-        }
-      );
-    });
-  }
-
   enableUpdateButton() {
-    return this.planHasChanged() || this.outcomesChanged();
+    return this.planHasChanged();
   }
 
   planHasChanged() {
     return this.originalPlanAsString !== JSON.stringify(this.plan);
   }
 
-  outcomesChanged() {
-    return this.originalOutcomesAsString !== JSON.stringify(this.outcomes);
-  }
 }

@@ -34,4 +34,5 @@ export class ConfigurationData {
     consortiaToConstructSymbols: string[];
     qcTypes: string[];
     qcStatuses: string[];
+    reagents: string[];
 }
