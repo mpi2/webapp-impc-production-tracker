@@ -1,0 +1,35 @@
+label {
+  clear: both;
+  float: left;
+  width: 300px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  margin-right: 25px;
+}
+input,
+mat-select {
+  width: 200px;
+}
+.content {
+  float: none;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.readOnlySection > .content {
+  float: left;
+}
+
+fieldset {
+  width: 100%;
+  float: none;
+  clear: both;
+}
+
+fieldset > label {
+    width: 285px;
+}
+
+.readOnlySection {
+  height: 500px;
+}

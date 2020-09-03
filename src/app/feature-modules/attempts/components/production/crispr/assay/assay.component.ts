@@ -1,0 +1,33 @@
+import { Component, OnInit, Input } from '@angular/core';
+import { CrisprAttempt } from 'src/app/feature-modules/attempts';
+import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+
+@Component({
+  selector: 'app-assay',
+  templateUrl: './assay.component.html',
+  styleUrls: ['./assay.component.css']
+})
+export class AssayComponent implements OnInit {
+  @Input() crisprAttempt: CrisprAttempt;
+  @Input() canUpdatePlan: boolean;
+
+  transferDays = ['Same Day', 'Next Day'];
+
+  configurationData: ConfigurationData;
+  assayTypes: NamedValue[] = [];
+
+  constructor(private configurationDataService: ConfigurationDataService) { }
+
+  ngOnInit(): void {
+    this.loadConfigurationData();
+  }
+
+  loadConfigurationData() {
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.assayTypes = this.configurationData.assayTypes.map(x => ({ name: x }));
+    });
+  }
+
+}
