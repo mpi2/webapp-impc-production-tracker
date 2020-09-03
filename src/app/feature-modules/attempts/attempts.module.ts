@@ -13,6 +13,8 @@ import { PhenotypingAttemptComponent } from './components/phenotyping/phenotypin
 import { TissueDistributionCentreComponent } from './components/phenotyping/tissue-distribution-centre/tissue-distribution-centre.component';
 import { NucleaseComponent } from './components/production/crispr/nuclease/nuclease.component';
 import { ReagentsComponent } from './components/production/crispr/reagents/reagents.component';
+import { AssayComponent } from './components/production/crispr/assay/assay.component';
+import { InjectionDetailsComponent } from './components/production/crispr/injection-details/injection-details.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +27,9 @@ import { ReagentsComponent } from './components/production/crispr/reagents/reage
     PhenotypingAttemptComponent,
     TissueDistributionCentreComponent,
     NucleaseComponent,
-    ReagentsComponent
+    ReagentsComponent,
+    AssayComponent,
+    InjectionDetailsComponent
   ],
   imports: [
     SharedModule,

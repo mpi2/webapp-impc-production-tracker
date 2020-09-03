@@ -1,0 +1,193 @@
+<mat-card>
+    <mat-card-subtitle>Assay [Founder/G0 Litter Details?]</mat-card-subtitle>
+    <mat-card-content>
+
+        <div *ngIf="canUpdatePlan; then editable else readOnly"></div>
+
+        <ng-template #editable>
+            <div class="editableSection">
+                <label for="totalEmbryosInjected">Number Transfered:</label>
+                <div id="totalEmbryosInjected" class="content">
+                    <mat-form-field class="example-full-width">
+                        <input matInput value="{{ crisprAttempt.assay.totalTransferred }}">
+                    </mat-form-field>
+                </div>
+
+                <label for="embryoTransferDay">Embryo Transfer Day:</label>
+                <div id="embryoTransferDay">
+                    <mat-select [(ngModel)]="crisprAttempt.assay.embryoTransferDay">
+                        <mat-option *ngFor="let transferDay of transferDays" [value]="transferDay">
+                            {{transferDay}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+
+                <label for="numFounderPups">Number of Founder Pups [Number of G0 Pups Born]:</label>
+                <div id="numFounderPups" class="content">
+                    <mat-form-field class="example-full-width">
+                        <input matInput value="{{ crisprAttempt.assay.numFounderPups }}">
+                    </mat-form-field>
+                </div>
+
+                <label for="typeName">Assay Type Used:</label>
+                <div id="typeName">
+                    <mat-select [(ngModel)]="crisprAttempt.assay.typeName">
+                        <mat-option *ngFor="let assayType of assayTypes" [value]="assayType.name">
+                            {{assayType.name}}
+                        </mat-option>
+                    </mat-select>
+                </div>
+
+                <label for="founderNumAssays">Number of founders Assayed [Number of G0s Assayed]:</label>
+                <div id="founderNumAssays" class="content">
+                    <mat-form-field class="example-full-width">
+                        <input matInput value="{{ crisprAttempt.assay.founderNumAssays }}">
+                    </mat-form-field>
+                </div>
+
+                <label for="numG0WhereMutationDetected">Number of G0 with a Detected Mutation:</label>
+                <div id="numG0WhereMutationDetected" class="content">
+                    <mat-form-field class="example-full-width">
+                        <input matInput value="{{ crisprAttempt.assay.numG0WhereMutationDetected }}">
+                    </mat-form-field>
+                </div>
+
+
+                <fieldset class="content">
+                    <legend>G0 Allele Screen Details</legend>
+
+                    <label for="numNhejG0Mutants">Number of G0 with NHEJ Mutation:</label>
+                    <div id="numNhejG0Mutants" class="content">
+                        <mat-form-field class="example-full-width">
+                            <input matInput value="{{ crisprAttempt.assay.numNhejG0Mutants }}">
+                        </mat-form-field>
+                    </div>
+
+                    <label for="numDeletionG0Mutants">Number of G0 with Deletion Mutation:</label>
+                    <div id="numDeletionG0Mutants" class="content">
+                        <mat-form-field class="example-full-width">
+                            <input matInput value="{{ crisprAttempt.assay.numDeletionG0Mutants }}">
+                        </mat-form-field>
+                    </div>
+
+                    <label for="numHrG0Mutants">Number of G0 with HR Mutation:</label>
+                    <div id="numHrG0Mutants" class="content">
+                        <mat-form-field class="example-full-width">
+                            <input matInput value="{{ crisprAttempt.assay.numHrG0Mutants }}">
+                        </mat-form-field>
+                    </div>
+
+                    <label for="numHdrG0Mutants">Number of G0 with HDR Mutation:</label>
+                    <div id="numHdrG0Mutants" class="content">
+                        <mat-form-field class="example-full-width">
+                            <input matInput value="{{ crisprAttempt.assay.numHdrG0Mutants }}">
+                        </mat-form-field>
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="content">
+                    <legend>G0 Allele Screen Details</legend>
+
+                    <label for="numHdrG0MutantsAllDonorsInserted">Number of G0 with All Donors Inserted:</label>
+                    <div id="numHdrG0MutantsAllDonorsInserted" class="content">
+                        <mat-form-field class="example-full-width">
+                            <input matInput value="{{ crisprAttempt.assay.numHdrG0MutantsAllDonorsInserted }}">
+                        </mat-form-field>
+                    </div>
+
+                    <label for="numHdrG0MutantsSubsetDonorsInserted">Number of G0 with Subset of Donors
+                        Inserted:</label>
+                    <div id="numHdrG0MutantsSubsetDonorsInserted" class="content">
+                        <mat-form-field class="example-full-width">
+                            <input matInput value="{{ crisprAttempt.assay.numHdrG0MutantsSubsetDonorsInserted }}">
+                        </mat-form-field>
+                    </div>
+
+                </fieldset>
+
+            </div>
+
+
+        </ng-template>
+
+        <ng-template #readOnly>
+            <div class="readOnlySection">
+                <label for="totalEmbryosInjected">Number Transfered:</label>
+                <div id="totalEmbryosInjected" class="content">
+                    {{ crisprAttempt.assay.totalTransferred }}
+                </div>
+
+                <label for="sembryoTransferDaymbol">Embryo Transfer Day:</label>
+                <div id="embryoTransferDay" class="content">
+                    {{ crisprAttempt.assay.embryoTransferDay }}
+                </div>
+
+                <label for="numFounderPups">Number of Founder Pups [Number of G0 Pups Born]:</label>
+                <div id="numFounderPups" class="content">
+                    {{ crisprAttempt.assay.numFounderPups }}
+                </div>
+
+                <label for="typeName">Assay Type Used:</label>
+                <div id="typeName" class="content">
+                    {{crisprAttempt.assay.typeName}}
+                </div>
+
+                <label for="founderNumAssays">Number of founders Assayed [Number of G0s Assayed]:</label>
+                <div id="founderNumAssays" class="content">
+                    {{ crisprAttempt.assay.founderNumAssays }}
+                </div>
+
+                <label for="numG0WhereMutationDetected">Number of G0 with a Detected Mutation:</label>
+                <div id="numG0WhereMutationDetected" class="content">
+                    {{ crisprAttempt.assay.numG0WhereMutationDetected }}
+                </div>
+
+                <fieldset class="content">
+                    <legend>G0 Allele Screen Details</legend>
+
+                    <label for="numNhejG0Mutants">Number of G0 with NHEJ Mutation:</label>
+                    <div id="numNhejG0Mutants" class="content">
+                        {{ crisprAttempt.assay.numNhejG0Mutants }}
+                    </div>
+
+                    <label for="numDeletionG0Mutants">Number of G0 with Deletion Mutation:</label>
+                    <div id="numDeletionG0Mutants" class="content">
+                        {{ crisprAttempt.assay.numDeletionG0Mutants }}
+                    </div>
+
+                    <label for="numHrG0Mutants">Number of G0 with HR Mutation:</label>
+                    <div id="numHrG0Mutants" class="content">
+                        {{ crisprAttempt.assay.numHrG0Mutants }}
+
+                    </div>
+
+                    <label for="numHdrG0Mutants">Number of G0 with HDR Mutation:</label>
+                    <div id="numHdrG0Mutants" class="content">
+                        {{ crisprAttempt.assay.numHdrG0Mutants }}
+                    </div>
+
+                </fieldset>
+
+                <fieldset class="content">
+                    <legend>G0 Allele Screen Details</legend>
+
+                    <label for="numHdrG0MutantsAllDonorsInserted">Number of G0 with All Donors Inserted:</label>
+                    <div id="numHdrG0MutantsAllDonorsInserted" class="content">
+                        {{ crisprAttempt.assay.numHdrG0MutantsAllDonorsInserted }}
+                    </div>
+
+                    <label for="numHdrG0MutantsSubsetDonorsInserted">Number of G0 with Subset of Donors
+                        Inserted:</label>
+                    <div id="numHdrG0MutantsSubsetDonorsInserted" class="content">
+                        {{ crisprAttempt.assay.numHdrG0MutantsSubsetDonorsInserted }}
+                    </div>
+
+                </fieldset>
+
+            </div>
+
+        </ng-template>
+
+    </mat-card-content>
+</mat-card>
