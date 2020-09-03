@@ -52,7 +52,6 @@
                     </mat-form-field>
                 </div>
 
-
                 <fieldset class="content">
                     <legend>G0 Allele Screen Details</legend>
 
@@ -106,8 +105,14 @@
 
                 </fieldset>
 
-            </div>
+                <label for="numFounderSelectedForBreeding">Number of G0s Selected For Breeding:</label>
+                <div id="numFounderSelectedForBreeding" class="content">
+                    <mat-form-field class="example-full-width">
+                        <input matInput value="{{ crisprAttempt.assay.numFounderSelectedForBreeding }}">
+                    </mat-form-field>
+                </div>
 
+            </div>
 
         </ng-template>
 
@@ -184,6 +189,11 @@
                     </div>
 
                 </fieldset>
+
+                <label for="numFounderSelectedForBreeding">Number of G0s Selected For Breeding:</label>
+                <div id="numFounderSelectedForBreeding" class="content">
+                    {{ crisprAttempt.assay.numFounderSelectedForBreeding }}
+                </div>
 
             </div>
 
