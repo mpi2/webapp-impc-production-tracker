@@ -9,7 +9,7 @@
                 <label for="totalEmbryosInjected">Number Transfered:</label>
                 <div id="totalEmbryosInjected" class="content">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.assay.totalTransferred }}">
+                        <input matInput [(ngModel)]="crisprAttempt.assay.totalTransferred">
                     </mat-form-field>
                 </div>
 
@@ -22,10 +22,10 @@
                     </mat-select>
                 </div>
 
-                <label for="numFounderPups">Number of Founder Pups [Number of G0 Pups Born]:</label>
+                <label for="numFounderPups">Number of G0 Pups Born:</label>
                 <div id="numFounderPups" class="content">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.assay.numFounderPups }}">
+                        <input matInput [(ngModel)]="crisprAttempt.assay.numFounderPups">
                     </mat-form-field>
                 </div>
 
@@ -38,17 +38,17 @@
                     </mat-select>
                 </div>
 
-                <label for="founderNumAssays">Number of founders Assayed [Number of G0s Assayed]:</label>
+                <label for="founderNumAssays">Number of G0s Assayed:</label>
                 <div id="founderNumAssays" class="content">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.assay.founderNumAssays }}">
+                        <input matInput [(ngModel)]="crisprAttempt.assay.founderNumAssays">
                     </mat-form-field>
                 </div>
 
                 <label for="numG0WhereMutationDetected">Number of G0 with a Detected Mutation:</label>
                 <div id="numG0WhereMutationDetected" class="content">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.assay.numG0WhereMutationDetected }}">
+                        <input matInput [(ngModel)]="crisprAttempt.assay.numG0WhereMutationDetected">
                     </mat-form-field>
                 </div>
 
@@ -58,28 +58,28 @@
                     <label for="numNhejG0Mutants">Number of G0 with NHEJ Mutation:</label>
                     <div id="numNhejG0Mutants" class="content">
                         <mat-form-field class="example-full-width">
-                            <input matInput value="{{ crisprAttempt.assay.numNhejG0Mutants }}">
+                            <input matInput [(ngModel)]="crisprAttempt.assay.numNhejG0Mutants">
                         </mat-form-field>
                     </div>
 
                     <label for="numDeletionG0Mutants">Number of G0 with Deletion Mutation:</label>
                     <div id="numDeletionG0Mutants" class="content">
                         <mat-form-field class="example-full-width">
-                            <input matInput value="{{ crisprAttempt.assay.numDeletionG0Mutants }}">
+                            <input matInput [(ngModel)]="crisprAttempt.assay.numDeletionG0Mutants">
                         </mat-form-field>
                     </div>
 
                     <label for="numHrG0Mutants">Number of G0 with HR Mutation:</label>
                     <div id="numHrG0Mutants" class="content">
                         <mat-form-field class="example-full-width">
-                            <input matInput value="{{ crisprAttempt.assay.numHrG0Mutants }}">
+                            <input matInput [(ngModel)]="crisprAttempt.assay.numHrG0Mutants">
                         </mat-form-field>
                     </div>
 
                     <label for="numHdrG0Mutants">Number of G0 with HDR Mutation:</label>
                     <div id="numHdrG0Mutants" class="content">
                         <mat-form-field class="example-full-width">
-                            <input matInput value="{{ crisprAttempt.assay.numHdrG0Mutants }}">
+                            <input matInput [(ngModel)]="crisprAttempt.assay.numHdrG0Mutants">
                         </mat-form-field>
                     </div>
 
@@ -91,7 +91,7 @@
                     <label for="numHdrG0MutantsAllDonorsInserted">Number of G0 with All Donors Inserted:</label>
                     <div id="numHdrG0MutantsAllDonorsInserted" class="content">
                         <mat-form-field class="example-full-width">
-                            <input matInput value="{{ crisprAttempt.assay.numHdrG0MutantsAllDonorsInserted }}">
+                            <input matInput [(ngModel)]="crisprAttempt.assay.numHdrG0MutantsAllDonorsInserted">
                         </mat-form-field>
                     </div>
 
@@ -99,7 +99,7 @@
                         Inserted:</label>
                     <div id="numHdrG0MutantsSubsetDonorsInserted" class="content">
                         <mat-form-field class="example-full-width">
-                            <input matInput value="{{ crisprAttempt.assay.numHdrG0MutantsSubsetDonorsInserted }}">
+                            <input matInput [(ngModel)]="crisprAttempt.assay.numHdrG0MutantsSubsetDonorsInserted">
                         </mat-form-field>
                     </div>
 
@@ -108,7 +108,7 @@
                 <label for="numFounderSelectedForBreeding">Number of G0s Selected For Breeding:</label>
                 <div id="numFounderSelectedForBreeding" class="content">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.assay.numFounderSelectedForBreeding }}">
+                        <input matInput [(ngModel)]="crisprAttempt.assay.numFounderSelectedForBreeding">
                     </mat-form-field>
                 </div>
 
@@ -128,7 +128,7 @@
                     {{ crisprAttempt.assay.embryoTransferDay }}
                 </div>
 
-                <label for="numFounderPups">Number of Founder Pups [Number of G0 Pups Born]:</label>
+                <label for="numFounderPups">Number of G0 Pups Born:</label>
                 <div id="numFounderPups" class="content">
                     {{ crisprAttempt.assay.numFounderPups }}
                 </div>
@@ -138,7 +138,7 @@
                     {{crisprAttempt.assay.typeName}}
                 </div>
 
-                <label for="founderNumAssays">Number of founders Assayed [Number of G0s Assayed]:</label>
+                <label for="founderNumAssays">Number of G0s Assayed:</label>
                 <div id="founderNumAssays" class="content">
                     {{ crisprAttempt.assay.founderNumAssays }}
                 </div>

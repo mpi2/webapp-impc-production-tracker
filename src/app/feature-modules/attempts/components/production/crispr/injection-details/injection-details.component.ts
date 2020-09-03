@@ -13,7 +13,6 @@ export class InjectionDetailsComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    console.log('InjectionDetailsComponent.canUpdatePlan--> ', this.canUpdatePlan);
   }
 
 }
