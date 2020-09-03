@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -62,7 +61,6 @@ import { AutocompleteGeneComponent } from './components/autocomplete-gene/autoco
     MatAutocompleteModule,
     CommonModule,
     FormsModule,
-    BrowserModule,
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
@@ -100,7 +98,6 @@ import { AutocompleteGeneComponent } from './components/autocomplete-gene/autoco
     MatAutocompleteModule,
     CommonModule,
     FormsModule,
-    BrowserModule,
     ReactiveFormsModule,
     RouterModule,
     HttpClientModule,
