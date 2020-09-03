@@ -10,14 +10,14 @@
                 <label for="totalEmbryosInjected">Number of Embryos Injected:</label>
                 <div id="totalEmbryosInjected" class="content">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.totalEmbryosInjected }}">
+                        <input matInput [(ngModel)]="crisprAttempt.totalEmbryosInjected">
                     </mat-form-field>
                 </div>
 
                 <label for="totalEmbryosSurvived">Number of Embryos Survived:</label>
                 <div id="totalEmbryosSurvived" class="content">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.totalEmbryosSurvived }}">
+                        <input matInput [(ngModel)]="crisprAttempt.totalEmbryosSurvived">
                     </mat-form-field>
                 </div>
 
@@ -25,7 +25,7 @@
                     day):</label>
                 <div id="embryo2Cell">
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ crisprAttempt.embryo2Cell }}">
+                        <input matInput [(ngModel)]="crisprAttempt.embryo2Cell">
                     </mat-form-field>
                 </div>
             </div>
