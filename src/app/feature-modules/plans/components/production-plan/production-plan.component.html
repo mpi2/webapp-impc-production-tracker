@@ -10,6 +10,7 @@
 
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
 </app-plan-details>
+
 <div class="section">
   <app-status-transition *ngIf="plan.statusTransition" [statusTransition]="plan.statusTransition"
     [canUpdate]="canUpdatePlan">

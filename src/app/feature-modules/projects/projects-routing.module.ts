@@ -10,6 +10,8 @@ import { ProductionPlanComponent } from '../plans/components/production-plan/pro
 import { PhenotypingPlanComponent } from '../plans/components/phenotyping-plan/phenotyping-plan.component';
 import { PlanRouterComponent } from '../plans/components/plan-router/plan-router.component';
 import { OutcomeDetailComponent } from '../plans/components/outcomes/outcome-detail/outcome-detail.component';
+// tslint:disable-next-line:max-line-length
+import { PhenotypingStageDetailsComponent } from '../attempts/components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
 
 const routes: Routes = [
   {
@@ -30,6 +32,9 @@ const routes: Routes = [
   },
   {
     path: 'projects/:id/plans/:pid/outcome-creation', component: OutcomeDetailComponent
+  },
+  {
+    path: 'projects/:id/phenotyping-plan/:pid/phenotyping-stage/:psn', component: PhenotypingStageDetailsComponent
   },
   {
     path: 'projects/:id/plans/:pid/outcomes/:tpo/history', component: HistoryComponent,

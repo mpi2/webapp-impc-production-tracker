@@ -12,6 +12,17 @@ const routes: Routes = [
   { path: 'production-plan/:pid', component: ProductionPlanComponent },
   { path: 'phenotyping-plan/:pid', component: PhenotypingPlanComponent },
   { path: 'plan/:pid/outcomes/:tpo', component: OutcomeDetailComponent },
+  {
+    path: 'outcomes/:tpo', component: OutcomeDetailComponent
+  },
+  {
+    path: 'outcomes/:tpo/history', component: HistoryComponent,
+    data: {
+      title: 'Outcome History',
+      id: 'tpo',
+      entity: 'outcome'
+    }
+  },
   { path: 'production-plan/:pid/history', component: HistoryComponent},
   { path: 'phenotyping-plan/:pid/history', component: HistoryComponent },
 ];

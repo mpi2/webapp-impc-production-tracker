@@ -4,6 +4,7 @@ import { Adapter } from 'src/app/core/model/adapter';
 import { PhenotypingAttempt } from '../../attempts/model/phenotyping/phenotyping_attempt';
 import { StatusDate } from 'src/app/model/bio/status-date';
 import { StatusTransition } from 'src/app/model/status_transition/status_transition';
+import { PhenotypingStartingPoint } from '../../attempts/model/phenotyping/phenotyping_starting_point';
 
 export class Plan {
     id: number;
@@ -21,9 +22,11 @@ export class Plan {
     comment: string;
     productsAvailableForGeneralPublic: boolean;
     crisprAttempt: CrisprAttempt;
-    phenotypingAttempt: PhenotypingAttempt;
+    phenotypingAttemptResponse: PhenotypingAttempt;
     productionPlanReference: string;
     statusTransition: StatusTransition;
+    // Applies only to phenotyping plans
+    phenotypingStartingPoint: PhenotypingStartingPoint;
     // tslint:disable-next-line
     _links: any;
 }

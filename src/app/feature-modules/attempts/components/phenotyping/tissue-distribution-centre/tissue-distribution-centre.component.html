@@ -9,7 +9,7 @@
                 <th class="mat-header-cell mat-column-material_type_name">Material Type</th>
                 <th class="mat-header-cell mat-column-action">Action</th>
             </tr>
-            <ng-template ngFor let-element [ngForOf]="phenotypingAttempt.tissueDistributionCentreAttributes">
+            <ng-template ngFor let-element [ngForOf]="phenotypingStage.tissueDistributions">
                 <tr class="mat-row ng-star-inserted">
                     <div *ngIf="canUpdatePlan; then editableFields else readOnlyFields"></div>
                     <ng-template #editableFields>
@@ -80,10 +80,5 @@
                 </tr>
             </ng-template>
         </table>
-
-
-
-
-
     </mat-card-content>
 </mat-card>

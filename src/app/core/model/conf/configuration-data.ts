@@ -36,4 +36,5 @@ export class ConfigurationData {
     qcStatuses: string[];
     reagents: string[];
     assayTypes: string[];
+    phenotypingStagesTypes: string[];
 }

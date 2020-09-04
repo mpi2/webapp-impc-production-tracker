@@ -15,6 +15,10 @@ import { NucleaseComponent } from './components/production/crispr/nuclease/nucle
 import { ReagentsComponent } from './components/production/crispr/reagents/reagents.component';
 import { AssayComponent } from './components/production/crispr/assay/assay.component';
 import { InjectionDetailsComponent } from './components/production/crispr/injection-details/injection-details.component';
+// tslint:disable-next-line:max-line-length
+import { PhenotypingAttemptDetailsComponent } from './components/phenotyping/phenotyping-attempt-details/phenotyping-attempt-details.component';
+import { PhenotypingStagesComponent } from './components/phenotyping/phenotyping-stages/phenotyping-stages.component';
+import { PhenotypingStageDetailsComponent } from './components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +33,10 @@ import { InjectionDetailsComponent } from './components/production/crispr/inject
     NucleaseComponent,
     ReagentsComponent,
     AssayComponent,
-    InjectionDetailsComponent
+    InjectionDetailsComponent,
+    PhenotypingAttemptDetailsComponent,
+    PhenotypingStagesComponent,
+    PhenotypingStageDetailsComponent
   ],
   imports: [
     SharedModule,

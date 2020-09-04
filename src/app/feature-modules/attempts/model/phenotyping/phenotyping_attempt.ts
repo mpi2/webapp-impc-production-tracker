@@ -1,3 +1,5 @@
+import { PhenotypingStartingPoint } from './phenotyping_starting_point';
+
 export interface TissueDistributionCentre {
     id: number;
     plan_id: number;
@@ -7,13 +9,15 @@ export interface TissueDistributionCentre {
     materialTypeName: string;
 }
 
+export interface PhenotypingLinks {
+    phenotypingStages: any[];
+}
+
 export interface PhenotypingAttempt {
-    planId: number;
-    imitsPhenotypeAttemptId: number;
-    imitsPhenotypingProductionId: number;
-    phenotypingExperimentsStarted: string;
-    phenotypingStarted: boolean;
-    phenotypingComplete: boolean;
-    doNotCountTowardsCompleteness: boolean;
-    tissueDistributionCentreAttributes: TissueDistributionCentre[];
+    phenotypingExternalRef: string;
+    phenotypingBackgroundStrainName: string;
+    phenotypingStartingPoint: PhenotypingStartingPoint;
+    // tslint:disable-next-line
+    _links: PhenotypingLinks;
+
 }
