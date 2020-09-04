@@ -3,6 +3,8 @@ import { TissueDistributionCentre, PhenotypingAttempt } from '../../../model/phe
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { PhenotypingStageDetailsComponent } from '../phenotyping-stage-details/phenotyping-stage-details.component';
+import { PhenotypingStage } from '../../../model/phenotyping/phenotyping-stage';
 
 export interface DialogData {
   animal: string;
@@ -16,8 +18,9 @@ export interface DialogData {
 })
 export class TissueDistributionCentreComponent implements OnInit {
 
-  @Input() phenotypingAttempt: PhenotypingAttempt;
+  @Input() phenotypingStage: PhenotypingStage;
   @Input() canUpdatePlan: boolean;
+
   configurationData: ConfigurationData;
   materialTypes: any[];
   workUnits: any[];

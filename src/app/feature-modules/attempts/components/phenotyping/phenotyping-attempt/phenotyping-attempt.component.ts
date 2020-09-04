@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { PhenotypingAttempt } from '../../../model/phenotyping/phenotyping_attempt';
 import { FormGroup, FormBuilder } from '@angular/forms';
+import { Plan } from 'src/app/feature-modules/plans/model/plan';
 
 @Component({
   selector: 'app-phenotyping-attempt',
@@ -9,6 +10,7 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 })
 export class PhenotypingAttemptComponent implements OnInit {
 
+  @Input() plan: Plan;
   @Input() phenotypingAttempt: PhenotypingAttempt;
   @Input() canUpdatePlan: boolean;
   phenotypingAttemptForm: FormGroup;

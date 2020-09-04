@@ -90,7 +90,7 @@ export class ProductionPlanComponent implements OnInit {
   }
 
   loadMutationsByOutcomes(outcome: Outcome) {
-    this.outcomeService.getMutationsByOutcome(this.plan.pin, outcome.tpo).subscribe(data => {
+    this.outcomeService.getMutationsByPinAndTpn(this.plan.pin, outcome.tpo).subscribe(data => {
       /* tslint:disable:no-string-literal */
       if (data['_embedded']) {
         outcome.mutations = data['_embedded']['mutations'];

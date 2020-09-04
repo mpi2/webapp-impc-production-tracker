@@ -1,0 +1,110 @@
+<mat-card>
+    <mat-card-content>
+        <form [formGroup]="phenotypingStageForm">
+
+            <div *ngIf="!isNew">
+                <label for="psn">Phenotyping Stage id:</label>
+                <div id="psn" class="content">{{ phenotypingStage.psn }}</div>
+            </div>
+
+            <div *ngIf="canUpdate; then editable else readOnly"></div>
+
+            <ng-template #editable>
+
+                <div *ngIf="isNew; then editableType else readOnlyType"></div>
+
+                <ng-template #editableType>
+                    <label for="phenotypingTypeName">Type:</label>
+                    <mat-select id="phenotypingTypeName" class="content"
+                        [(ngModel)]="phenotypingStage.phenotypingTypeName" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let phenotypingStagesType of phenotypingStagesTypes"
+                            [value]="phenotypingStagesType.name">
+                            {{phenotypingStagesType.name}}
+                        </mat-option>
+                    </mat-select>
+                </ng-template>
+
+                <ng-template #readOnlyType>
+                    <label for="phenotypingTypeName">Type:</label>
+                    <div id="phenotypingTypeName" class="content">{{ phenotypingStage.phenotypingTypeName}}</div>
+                </ng-template>
+
+                <div *ngIf="!isNew">
+                    <label for="statusName">Status:</label>
+                    <div id="statusName" class="content">{{ phenotypingStage.statusName }}</div>
+                </div>
+
+                <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
+                <mat-form-field id="phenotypingExternalRef">
+                    <input matInput [(ngModel)]="phenotypingStage.phenotypingExternalRef"
+                        [ngModelOptions]="{standalone: true}">
+                </mat-form-field>
+
+                <label for="phenotypingExperimentsStarted">Phenotyping Experiments Started:</label>
+                <div>
+                    <mat-form-field id="phenotypingExperimentsStarted">
+                        <input matInput [matDatepicker]="phenotypingExperimentsStarted"
+                            [(ngModel)]="phenotypingStage.phenotypingExperimentsStarted"
+                            [ngModelOptions]="{standalone: true}">
+                        <mat-datepicker-toggle matSuffix [for]="phenotypingExperimentsStarted"></mat-datepicker-toggle>
+                        <mat-datepicker #phenotypingExperimentsStarted></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+                <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
+                <div id="doNotCountTowardsCompleteness">
+                    <mat-checkbox [(ngModel)]="phenotypingStage.doNotCountTowardsCompleteness"
+                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                </div>
+
+                <label for="initialDataReleaseDate">Initial Data Release date:</label>
+                <div>
+                    <mat-form-field id="initialDataReleaseDate">
+                        <input matInput [matDatepicker]="initialDataReleaseDate"
+                            [(ngModel)]="phenotypingStage.initialDataReleaseDate" [ngModelOptions]="{standalone: true}">
+                        <mat-datepicker-toggle matSuffix [for]="initialDataReleaseDate"></mat-datepicker-toggle>
+                        <mat-datepicker #initialDataReleaseDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+
+
+
+            </ng-template>
+
+            <ng-template #readOnly>
+
+                <label for="phenotypingTypeName">Type:</label>
+                <div id="phenotypingTypeName" class="content">{{ phenotypingStage.phenotypingTypeName}}</div>
+
+                <label for="statusName">Status:</label>
+                <div id="statusName" class="content">{{ phenotypingStage.statusName }}</div>
+
+                <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
+                <div id="phenotypingExternalRef" class="content">{{ phenotypingStage.phenotypingExternalRef }}</div>
+
+                <label for="phenotypingExperimentsStarted">Phenotyping Experiments Started:</label>
+                <div>
+                    {{phenotypingStage.phenotypingExperimentsStarted}}
+                </div>
+
+                <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
+                <div id="doNotCountTowardsCompleteness">
+                    <mat-checkbox [disabled]=true [(ngModel)]="phenotypingStage.doNotCountTowardsCompleteness"
+                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                </div>
+
+                <label for="initialDataReleaseDate">Initial Data Release date:</label>
+                <div>
+                    {{phenotypingStage.initialDataReleaseDate}}
+                </div>
+
+            </ng-template>
+
+        </form>
+
+        <app-tissue-distribution-centre [phenotypingStage]=phenotypingStage [canUpdatePlan]=canUpdate>
+        </app-tissue-distribution-centre>
+
+    </mat-card-content>
+</mat-card>

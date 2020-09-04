@@ -1,0 +1,19 @@
+label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  list-style: 1.7;
+  width: 180px;
+}
+input,
+select {
+  float: left;
+}
+.content {
+  float: none;
+  padding-bottom: 5px;
+}
+
+.create-button {
+    margin-top: 10px;
+}

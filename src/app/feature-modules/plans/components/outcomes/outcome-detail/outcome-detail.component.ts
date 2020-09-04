@@ -5,7 +5,8 @@ import { ActivatedRoute } from '@angular/router';
 import { OutcomeService } from '../../../services/outcome.service';
 import {
   PermissionsService, LoggedUserService, ChangesHistory,
-  ConfigurationDataService, ConfigurationData } from 'src/app/core';
+  ConfigurationDataService, ConfigurationData
+} from 'src/app/core';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../../update-notification/update-notification.component';
@@ -66,8 +67,6 @@ export class OutcomeDetailComponent implements OnInit {
     this.tpo = this.route.snapshot.params.tpo;
     this.loadConfigurationData();
     this.fetchOrCreateOutcome();
-    this.evaluateUpdatePermissions();
-
     this.outcomeForm = this.formBuilder.group({
       outcomeTypeName: [''],
     });
@@ -80,9 +79,29 @@ export class OutcomeDetailComponent implements OnInit {
     });
   }
 
+  evaluateUpdatePermissions() {
+    if (this.loggedUserService.getLoggerUser()) {
+      this.permissionsService.evaluatePermissionByActionOnResource(
+        PermissionsService.UPDATE_PLAN_ACTION, this.pin).subscribe(canUpdate => {
+          this.canUpdate = canUpdate;
+          this.error = null;
+        },
+          error => {
+            this.error = error;
+          });
+    } else {
+      this.canUpdate = false;
+    }
+  }
+
   private fetchOrCreateOutcome() {
     if (this.tpo) {
-      this.fetchOutcome();
+      if (this.pin) {
+        this.fetchOutcomeByPinAndTpo();
+      } else {
+        this.fetchOutcomeByTpo();
+      }
+
     } else {
       this.isOutcomeBeingCreated = true;
       this.outcome = new Outcome();
@@ -91,18 +110,45 @@ export class OutcomeDetailComponent implements OnInit {
     }
   }
 
-  private fetchOutcome() {
-    this.outcomeService.getOutcome(this.pin, this.tpo).subscribe(data => {
+  private fetchOutcomeByTpo() {
+    this.outcomeService.getOutcomeByTpo(this.tpo).subscribe(data => {
       this.outcome = data;
-      this.fetchMutationsByOutcome(this.outcome);
+      this.pin = this.outcome.pin;
+      // Now that we have a pin we can calculate permissions
+      this.evaluateUpdatePermissions();
+      this.fetchMutationsByTpo(this.outcome);
     }, error => {
       this.error = error;
     });
   }
 
-  private fetchMutationsByOutcome(outcome: Outcome) {
+  private fetchOutcomeByPinAndTpo() {
+    this.outcomeService.getOutcomeByPinAndTpo(this.pin, this.tpo).subscribe(data => {
+      this.outcome = data;
+      this.evaluateUpdatePermissions();
+      this.fetchMutationsByPinAndTpo(this.outcome);
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private fetchMutationsByTpo(outcome: Outcome) {
     /* tslint:disable:no-string-literal */
-    this.outcomeService.getMutationsByOutcome(this.pin, outcome.tpo).subscribe(data => {
+    this.outcomeService.getMutationsByTpn(outcome.tpo).subscribe(data => {
+      if (data['_embedded']) {
+        const mutations = data['_embedded'].mutations;
+        this.originalMutationsAsString = JSON.stringify(mutations);
+        this.setMutations(mutations);
+      }
+    }, error => {
+      this.error = error;
+    });
+    /* tslint:enable:no-string-literal */
+  }
+
+  private fetchMutationsByPinAndTpo(outcome: Outcome) {
+    /* tslint:disable:no-string-literal */
+    this.outcomeService.getMutationsByPinAndTpn(this.pin, outcome.tpo).subscribe(data => {
       if (data['_embedded']) {
         const mutations = data['_embedded'].mutations;
         this.originalMutationsAsString = JSON.stringify(mutations);
@@ -129,21 +175,6 @@ export class OutcomeDetailComponent implements OnInit {
     mutation.pin = this.pin;
     mutation.tpo = this.tpo;
     mutation.geneSymbolsOrAccessionIds = mutation.genes.map(x => x.symbol);
-  }
-
-  evaluateUpdatePermissions() {
-    if (this.loggedUserService.getLoggerUser()) {
-      this.permissionsService.evaluatePermissionByActionOnResource(
-        PermissionsService.UPDATE_PLAN_ACTION, this.pin).subscribe(canUpdate => {
-          this.canUpdate = canUpdate;
-          this.error = null;
-        },
-          error => {
-            this.error = error;
-          });
-    } else {
-      this.canUpdate = false;
-    }
   }
 
   enableUpdateButton() {

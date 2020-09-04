@@ -1,3 +1,4 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
 <mat-card>
   <mat-card-content>
     <a [routerLink]="['history']">History</a>
@@ -8,9 +9,16 @@
 </mat-card>
 
 <app-plan-details *ngIf="plan.pin" [plan]="plan">
-  </app-plan-details>
+</app-plan-details>
 
-  <app-phenotyping-attempt *ngIf="plan.phenotypingAttempt" [phenotypingAttempt]="plan.phenotypingAttempt"
+<div class="section">
+  <app-status-transition *ngIf="plan.statusTransition" [statusTransition]="plan.statusTransition"
+    [canUpdate]="canUpdatePlan">
+  </app-status-transition>
+  <app-status-date [statusDates]="plan.statusDates" [title]='"Plan Status History"'></app-status-date>
+</div>
+
+<app-phenotyping-attempt *ngIf="plan.phenotypingAttemptResponse" [plan]=plan [phenotypingAttempt]="plan.phenotypingAttemptResponse"
   [canUpdatePlan]="canUpdatePlan">
 </app-phenotyping-attempt>
 

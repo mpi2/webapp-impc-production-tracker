@@ -1,0 +1,16 @@
+label {
+    clear: both;
+    float: left;
+    width: 300px;
+    margin-right: 25px;
+    vertical-align: middle;
+  }
+  input,
+  mat-select {
+    width: 200px;
+  }
+  .content {
+    float: none;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
