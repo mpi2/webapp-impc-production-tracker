@@ -40,7 +40,6 @@ export class QcResultsComponent implements OnInit {
     const qcResult: QcResult = new QcResult();
     qcResult[this.tmpIndexRowName] = this.nextNewId--;
     this.mutation.mutationQcResults.push(qcResult);
-
   }
 
   onClickToDelete(qcResult: QcResult) {

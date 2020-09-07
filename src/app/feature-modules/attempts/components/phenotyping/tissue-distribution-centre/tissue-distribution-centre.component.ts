@@ -1,9 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { TissueDistributionCentre, PhenotypingAttempt } from '../../../model/phenotyping/phenotyping_attempt';
+import { TissueDistributionCentre } from '../../../model/phenotyping/phenotyping_attempt';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { PhenotypingStageDetailsComponent } from '../phenotyping-stage-details/phenotyping-stage-details.component';
 import { PhenotypingStage } from '../../../model/phenotyping/phenotyping-stage';
 
 export interface DialogData {
@@ -29,6 +28,9 @@ export class TissueDistributionCentreComponent implements OnInit {
   name: string;
   confirmed: string;
 
+  tmpIndexRowName = 'tmp_id';
+  nextNewId = -1;
+
   constructor(private configurationDataService: ConfigurationDataService, public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -39,32 +41,46 @@ export class TissueDistributionCentreComponent implements OnInit {
     });
 
   }
-  onDeleteElement(e) {
-    console.log('delete', e);
 
+  onClickToDelete(tissueDistributionCentre: TissueDistributionCentre) {
+    if (this.isNewRecord(tissueDistributionCentre)) {
+      this.deleteTissueDistributionCentre(tissueDistributionCentre);
+    } else {
+      this.showDeleteMutationConfirmationDialog(tissueDistributionCentre);
+    }
   }
 
-  onClickToDeleteElement(element): void {
+  showDeleteMutationConfirmationDialog(tissueDistributionCentre: TissueDistributionCentre) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '250px',
       data: { confirmed: false }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.deleteTissueDistributionCentre(element);
+        this.deleteTissueDistributionCentre(tissueDistributionCentre);
       }
     });
   }
 
-  deleteTissueDistributionCentre(e: TissueDistributionCentre) {
-    console.log('Delete TissueDistributionCentre ', e);
+  deleteTissueDistributionCentre(tissueDistributionCentre: TissueDistributionCentre) {
+    if (this.isNewRecord(tissueDistributionCentre)) {
+      this.phenotypingStage.tissueDistributions = this.phenotypingStage.tissueDistributions
+        .filter(x => x[this.tmpIndexRowName] !== tissueDistributionCentre[this.tmpIndexRowName]);
+    } else {
+      this.phenotypingStage.tissueDistributions = this.phenotypingStage.tissueDistributions
+        .filter(x => x.id !== tissueDistributionCentre.id);
+    }
 
   }
-  onDateChanged() {
-    console.log('To be implemented');
 
+  private isNewRecord(tissueDistributionCentre: TissueDistributionCentre) {
+    return tissueDistributionCentre.id == null;
   }
 
+  addRow() {
+    const tissueDistributionCentre: TissueDistributionCentre = new TissueDistributionCentre();
+    tissueDistributionCentre[this.tmpIndexRowName] = this.nextNewId--;
+    this.phenotypingStage.tissueDistributions.push(tissueDistributionCentre);
+  }
 
 }

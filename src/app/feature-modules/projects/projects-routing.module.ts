@@ -44,6 +44,14 @@ const routes: Routes = [
       entity: 'outcome'
     }
   },
+  {
+    path: 'projects/:id/phenotyping-plan/:pid/phenotyping-stage/:psn/history', component: HistoryComponent,
+    data: {
+      title: 'Phenotyping Stage History',
+      id: 'psn',
+      entity: 'phenotyping-stage'
+    }
+  },
 
   {
     path: 'projects/:id/history', component: HistoryComponent,

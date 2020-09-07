@@ -1,10 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { ConfigurationDataService, PermissionsService, LoggedUserService, ConfigurationData } from 'src/app/core';
+import { ConfigurationDataService, PermissionsService, LoggedUserService, ConfigurationData, ChangesHistory } from 'src/app/core';
 import { PhenotypingStageService } from 'src/app/feature-modules/plans/services/phenotyping-stage.service';
 import { PhenotypingStage } from '../../../model/phenotyping/phenotyping-stage';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { ChangeResponse } from 'src/app/core/model/history/change-response';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UpdateNotificationComponent } from 'src/app/feature-modules/plans/components/update-notification/update-notification.component';
 
 @Component({
   selector: 'app-phenotyping-stage-details',
@@ -21,10 +24,14 @@ export class PhenotypingStageDetailsComponent implements OnInit {
 
   phenotypingStagesTypes: NamedValue[];
 
+  changeDetails: ChangesHistory;
+
   isNew = false;
 
   phenotypingStageForm: FormGroup;
   configurationData: ConfigurationData;
+
+  originalphenotypingStageAsString: string;
 
   pin: string;
   psn: string;
@@ -32,6 +39,7 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
     private phenotypingStageService: PhenotypingStageService,
     private configurationDataService: ConfigurationDataService,
     private permissionsService: PermissionsService,
@@ -82,12 +90,58 @@ export class PhenotypingStageDetailsComponent implements OnInit {
 
   fetchPhenotypingStage() {
     this.phenotypingStageService.getPhenotypingStageByPinAndPsn(this.pin, this.psn).subscribe(data => {
-      console.log('got data', data);
       this.phenotypingStage = data;
+      this.originalphenotypingStageAsString = JSON.stringify(data);
     }, error => {
       console.error(error);
 
     });
   }
 
+  enableUpdateButton() {
+    const changed = this.originalphenotypingStageAsString !== JSON.stringify(this.phenotypingStage);
+    return changed;
+  }
+
+  updateOrCreate() {
+    if (this.isNew) {
+      this.create();
+
+    } else {
+      this.update();
+    }
+
+  }
+
+  create() {
+    console.log('create');
+
+  }
+
+  update() {
+    this.loading = true;
+    this.phenotypingStageService.updatePhenotypingStage(this.pin, this.phenotypingStage).subscribe((changeResponse: ChangeResponse) => {
+      this.loading = false;
+      this.originalphenotypingStageAsString = JSON.stringify(this.phenotypingStage);
+      this.showChangeNotification(changeResponse);
+      this.error = null;
+    },
+      error => {
+        console.error('Error while updating plan outcome', error);
+        this.error = error;
+        this.loading = false;
+      }
+    );
+  }
+
+  private showChangeNotification(changeResponse: ChangeResponse) {
+    if (changeResponse && changeResponse.history.length > 0) {
+      this.changeDetails = changeResponse.history[0];
+      this.snackBar.openFromComponent(UpdateNotificationComponent, {
+        duration: 3000,
+        data: this.changeDetails
+      });
+    }
+  }
 }
+
