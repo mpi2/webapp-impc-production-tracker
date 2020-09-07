@@ -19,12 +19,7 @@
             <mat-card-content></mat-card-content>
         </mat-card>
 
-        <!-- <div *ngIf="phenotypingStages">
-            <div *ngFor="let phenotypingStage of phenotypingStages">
-                {{ phenotypingStage.psn}}
-            </div>
-        </div> -->
-        <a routerLink="/test"><button class="create-button" mat-raised-button color="primary" *ngIf="canUpdate">Add
+        <a routerLink="phenotyping-stage-creation"><button class="create-button" mat-raised-button color="primary" *ngIf="canUpdate">Add
                 Phenotyping Stage</button></a>
     </mat-card-content>
 </mat-card>

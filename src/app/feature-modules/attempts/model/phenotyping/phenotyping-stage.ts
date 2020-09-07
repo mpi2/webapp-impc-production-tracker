@@ -11,7 +11,7 @@ export class PhenotypingStage {
     phenotypingExperimentsStarted: Date;
     doNotCountTowardsCompleteness: boolean;
     initialDataReleaseDate: Date;
-    tissueDistributions: TissueDistributionCentre[];
+    tissueDistributions: TissueDistributionCentre[] = [];
     statusDates: StatusDate[];
     statusTransition: StatusTransition;
 }

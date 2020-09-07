@@ -36,7 +36,16 @@ export class PhenotypingStageService {
     }
 
     /**
-     * Updates a phenotypingStage.
+     * Creates a phenotyping stage.
+     * @param pin Public plan identifier.
+     * @param phenotypingStage Phenotyping stage object.
+     */
+    createPhenotypingStage(pin: string, phenotypingStage: PhenotypingStage) {
+        return this.http.post<any>(this.apiServiceUrl + '/api/plans/' + pin + '/phenotypingStages/', phenotypingStage);
+    }
+
+    /**
+     * Updates a phenotyping stage.
      * @param pin Public plan identifier.
      * @param phenotypingStage Phenotyping stage object.
      */

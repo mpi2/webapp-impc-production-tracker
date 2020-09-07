@@ -83,7 +83,7 @@ export class PhenotypingStageDetailsComponent implements OnInit {
       this.fetchPhenotypingStage();
     } else {
       this.isNew = true;
-      throw new Error('Method not implemented.');
+      this.phenotypingStage = new PhenotypingStage();
     }
 
   }
@@ -114,7 +114,19 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   }
 
   create() {
-    console.log('create');
+    this.loading = true;
+    this.phenotypingStageService.createPhenotypingStage(this.pin, this.phenotypingStage).subscribe((changeResponse: ChangeResponse) => {
+      this.loading = false;
+      this.originalphenotypingStageAsString = JSON.stringify(this.phenotypingStage);
+      this.showChangeNotification(changeResponse);
+      this.error = null;
+    },
+      error => {
+        console.error('Error while creating plan outcome', error);
+        this.error = error;
+        this.loading = false;
+      }
+    );
 
   }
 
