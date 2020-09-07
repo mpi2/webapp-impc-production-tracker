@@ -37,6 +37,9 @@ const routes: Routes = [
     path: 'projects/:id/phenotyping-plan/:pid/phenotyping-stage/:psn', component: PhenotypingStageDetailsComponent
   },
   {
+    path: 'projects/:id/phenotyping-plan/:pid/phenotyping-stage-creation', component: PhenotypingStageDetailsComponent
+  },
+  {
     path: 'projects/:id/plans/:pid/outcomes/:tpo/history', component: HistoryComponent,
     data: {
       title: 'Outcome History',

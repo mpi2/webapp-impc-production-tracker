@@ -23,14 +23,17 @@
                 <div *ngIf="isNew; then editableType else readOnlyType"></div>
 
                 <ng-template #editableType>
-                    <label for="phenotypingTypeName">Type:</label>
-                    <mat-select id="phenotypingTypeName" class="content"
-                        [(ngModel)]="phenotypingStage.phenotypingTypeName" [ngModelOptions]="{standalone: true}">
-                        <mat-option *ngFor="let phenotypingStagesType of phenotypingStagesTypes"
-                            [value]="phenotypingStagesType.name">
-                            {{phenotypingStagesType.name}}
-                        </mat-option>
-                    </mat-select>
+                    <div>
+                        <label for="phenotypingTypeName">Type:</label>
+                        <mat-select id="phenotypingTypeName" class="content"
+                            [(ngModel)]="phenotypingStage.phenotypingTypeName" [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let phenotypingStagesType of phenotypingStagesTypes"
+                                [value]="phenotypingStagesType.name">
+                                {{phenotypingStagesType.name}}
+                            </mat-option>
+                        </mat-select>
+                    </div>
+                   
                 </ng-template>
 
                 <ng-template #readOnlyType>
@@ -39,7 +42,7 @@
                 </ng-template>
 
                 <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
-                <mat-form-field id="phenotypingExternalRef">
+                <mat-form-field id="phenotypingExternalRef" class="content">
                     <input matInput [(ngModel)]="phenotypingStage.phenotypingExternalRef"
                         [ngModelOptions]="{standalone: true}">
                 </mat-form-field>

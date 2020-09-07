@@ -14,53 +14,77 @@
         <th>To</th>
       </tr>
       <ng-template ngFor let-historyRecord [ngForOf]="sortedData">
-        <ng-template *ngIf="historyRecord.details" ngFor let-change let-isFirst="first"
-          [ngForOf]="historyRecord.details">
+
+        <div *ngIf="historyRecord.details && historyRecord.details.length > 0 then changeWithDetails else changeWithoutDetails"></div>
+
+        <ng-template #changeWithDetails>
+
+          <ng-template ngFor let-change let-isFirst="first" [ngForOf]="historyRecord.details">
+            <tr>
+              <td *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+                {{historyRecord.id}}
+              </td>
+              <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+                {{historyRecord.user}}
+              </td>
+              <td class="nowrap-text-style" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+                {{historyRecord.date | date : 'medium'}}
+              </td>
+              <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+                {{ historyRecord.comment }}
+              </td>
+
+              <td> {{ change.field }}
+              </td>
+              <td> {{ change.note }}
+              </td>
+              <td>
+                <div
+                  *ngIf="isTextLargerThanLimit(change.oldValue); then showLargeTextContentOldValue else showContentOldValue">
+                </div>
+                <ng-template #showLargeTextContentOldValue>
+                  <app-expandable-content [title]="getTitleForExpandable()" [content]="change.oldValue">
+                  </app-expandable-content>
+                </ng-template>
+                <ng-template #showContentOldValue>
+                  {{ change.oldValue || 'null'}}
+                </ng-template>
+              </td>
+              <td>
+                <div
+                  *ngIf="isTextLargerThanLimit(change.newValue); then showLargeTextContentNewValue else showContentNewValue">
+                </div>
+                <ng-template #showLargeTextContentNewValue>
+                  <app-expandable-content [title]="getTitleForExpandable()" [content]="change.newValue">
+                  </app-expandable-content>
+
+                </ng-template>
+                <ng-template #showContentNewValue>
+                  {{ change.newValue || 'null'}}
+                </ng-template>
+              </td>
+            </tr>
+          </ng-template>
+        </ng-template>
+
+        <ng-template #changeWithoutDetails>
           <tr>
-            <td *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+            <td>
               {{historyRecord.id}}
             </td>
-            <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+            <td>
               {{historyRecord.user}}
             </td>
-            <td class="nowrap-text-style" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+            <td class="nowrap-text-style">
               {{historyRecord.date | date : 'medium'}}
             </td>
-            <td class="tablename" *ngIf="isFirst" [attr.rowspan]="historyRecord.details.length">
+            <td class="tablename">
               {{ historyRecord.comment }}
             </td>
-
-            <td> {{ change.field }}
-            </td>
-            <td > {{ change.note }}
-            </td>
-            <td>
-              <div
-                *ngIf="isTextLargerThanLimit(change.oldValue); then showLargeTextContentOldValue else showContentOldValue">
-              </div>
-              <ng-template #showLargeTextContentOldValue>
-                <app-expandable-content [title]="getTitleForExpandable()" [content]="change.oldValue">
-                </app-expandable-content>
-              </ng-template>
-              <ng-template #showContentOldValue>
-                {{ change.oldValue || 'null'}}
-              </ng-template>
-            </td>
-            <td>
-              <div
-                *ngIf="isTextLargerThanLimit(change.newValue); then showLargeTextContentNewValue else showContentNewValue">
-              </div>
-              <ng-template #showLargeTextContentNewValue>
-                <app-expandable-content [title]="getTitleForExpandable()" [content]="change.newValue">
-                </app-expandable-content>
-
-              </ng-template>
-              <ng-template #showContentNewValue>
-                {{ change.newValue || 'null'}}
-              </ng-template>
-            </td>
           </tr>
+
         </ng-template>
+
       </ng-template>
     </table>
   </mat-card-content>

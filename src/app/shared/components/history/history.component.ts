@@ -40,8 +40,6 @@ export class HistoryComponent implements OnInit {
     this.route.data.subscribe(
       v => {
         this.entity = v.entity;
-        console.log(this.route.snapshot.params);
-
         this.id = this.route.snapshot.params[v.id];
         this.pid = this.route.snapshot.params.pid;
         this.getHistory();
@@ -49,8 +47,6 @@ export class HistoryComponent implements OnInit {
   }
 
   private getHistory(): void {
-    console.log('this.entity', this.entity);
-
     switch (this.entity) {
       case 'project':
         this.getProjectHistory(this.id);
@@ -61,7 +57,7 @@ export class HistoryComponent implements OnInit {
       case 'outcome':
         this.getOutcomeHistory(this.pid, this.id);
         break;
-        case 'phenotyping-stage':
+      case 'phenotyping-stage':
         this.getPhenotypingStageHistory(this.pid, this.id);
         break;
     }
@@ -109,7 +105,29 @@ export class HistoryComponent implements OnInit {
 
   private adaptData(): void {
     this.historyRecords = this.historyRecords.map(x => this.adapter.adapt(x));
-    this.sortedData = this.historyRecords.slice();
+    this.sortedData = this.historyRecords.slice().sort(this.dateSortAsc);
+  }
+
+
+
+  private dateSortAsc = (date1, date2) => {
+    if (date1 > date2) {
+      return 1;
+    }
+    if (date1 < date2) {
+      return -1;
+    }
+    return 0;
+  }
+
+  private dateSortDesc = (date1, date2) => {
+    if (date1 > date2) {
+      return -1;
+    }
+    if (date1 < date2) {
+      return 1;
+    }
+    return 0;
   }
 
   isTextLargerThanLimit(text: string): boolean {
