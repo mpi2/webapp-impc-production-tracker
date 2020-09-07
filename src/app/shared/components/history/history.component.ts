@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { ProjectService } from 'src/app/feature-modules/projects';
 import { OutcomeService } from 'src/app/feature-modules/plans/services/outcome.service';
+import { PhenotypingStageService } from 'src/app/feature-modules/plans/services/phenotyping-stage.service';
 
 @Component({
   selector: 'app-history',
@@ -28,6 +29,7 @@ export class HistoryComponent implements OnInit {
     private planService: PlanService,
     private projectService: ProjectService,
     private outcomeService: OutcomeService,
+    private phenotypingStageService: PhenotypingStageService,
     private adapter: ChangesHistoryAdapter) { }
 
   ngOnInit() {
@@ -42,8 +44,6 @@ export class HistoryComponent implements OnInit {
 
         this.id = this.route.snapshot.params[v.id];
         this.pid = this.route.snapshot.params.pid;
-        console.log('PID', this.pid );
-
         this.getHistory();
       });
   }
@@ -60,6 +60,9 @@ export class HistoryComponent implements OnInit {
         break;
       case 'outcome':
         this.getOutcomeHistory(this.pid, this.id);
+        break;
+        case 'phenotyping-stage':
+        this.getPhenotypingStageHistory(this.pid, this.id);
         break;
     }
   }
@@ -85,9 +88,17 @@ export class HistoryComponent implements OnInit {
   }
 
   private getOutcomeHistory(pid: string, tpo: string): void {
-    console.log('getOutcomeHistory', pid, tpo);
-
     this.outcomeService.getHistoryByTpo(pid, tpo).subscribe(data => {
+      this.historyRecords = data;
+      this.adaptData();
+      this.error = null;
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private getPhenotypingStageHistory(pid: string, psn: string) {
+    this.phenotypingStageService.getHistory(pid, psn).subscribe(data => {
       this.historyRecords = data;
       this.adaptData();
       this.error = null;

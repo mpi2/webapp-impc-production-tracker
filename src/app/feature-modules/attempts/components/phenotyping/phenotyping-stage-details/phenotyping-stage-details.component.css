@@ -1,3 +1,7 @@
+.big-section {
+  min-height: 900px;
+}
+
 label {
   clear: both;
   float: left;
@@ -15,4 +19,20 @@ mat-select {
   margin-top: 5px;
   padding-top: 5px;
   margin-bottom: 5px;
+}
+.space {
+  clear: both;
+  float: left;
+  padding-bottom: 20px;
+}
+.section {
+  clear: both;
+  float: left;
+  width: 100%;
+}
+
+.small-section {
+  max-height: 100px;
+  clear: both;
+  float: none;
 }

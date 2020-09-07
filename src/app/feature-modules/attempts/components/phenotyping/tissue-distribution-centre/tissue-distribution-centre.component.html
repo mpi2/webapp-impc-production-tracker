@@ -3,37 +3,37 @@
     <mat-card-content>
         <table class="mat-elevation-z8 mat-table">
             <tr class="mat-header-row">
-                <th class="mat-header-cell mat-column-start_date">Start Date</th>
-                <th class="mat-header-cell mat-column-end_date">End Date</th>
-                <th class="mat-header-cell mat-column-workUnitName">Work Unit</th>
-                <th class="mat-header-cell mat-column-material_type_name">Material Type</th>
-                <th class="mat-header-cell mat-column-action">Action</th>
+                <th class="mat-header-cell">Start Date</th>
+                <th class="mat-header-cell">End Date</th>
+                <th class="mat-header-cell">Work Unit</th>
+                <th class="mat-header-cell">Material Type</th>
+                <th class="mat-header-cell">Action</th>
             </tr>
             <ng-template ngFor let-element [ngForOf]="phenotypingStage.tissueDistributions">
-                <tr class="mat-row ng-star-inserted">
+                <tr>
                     <div *ngIf="canUpdatePlan; then editableFields else readOnlyFields"></div>
                     <ng-template #editableFields>
-                        <td class="mat-cell">
+                        <td>
                             <mat-form-field>
                                 <input matInput [matDatepicker]="datePickerStartDate" [(ngModel)]="element.startDate"
-                                    [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
+                                    [ngModelOptions]="{standalone: true}">
                                 <mat-datepicker-toggle matSuffix [for]="datePickerStartDate"></mat-datepicker-toggle>
                                 <mat-datepicker #datePickerStartDate></mat-datepicker>
                             </mat-form-field>
                         </td>
 
-                        <td class="mat-cell">
+                        <td>
                             <mat-form-field>
                                 <input matInput [matDatepicker]="datePickerEndDate" [(ngModel)]="element.endDate"
-                                    [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
+                                    [ngModelOptions]="{standalone: true}">
                                 <mat-datepicker-toggle matSuffix [for]="datePickerEndDate"></mat-datepicker-toggle>
                                 <mat-datepicker #datePickerEndDate></mat-datepicker>
                             </mat-form-field>
                         </td>
 
-                        <td class="mat-cell">
+                        <td>
                             <mat-form-field>
-                                <mat-select value={{element.workUnitName}}>
+                                <mat-select [(ngModel)]="element.workUnitName">
                                     <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit">
                                         {{ workUnit }}
                                     </mat-option>
@@ -41,9 +41,9 @@
                             </mat-form-field>
                         </td>
 
-                        <td class="mat-cell">
-                            <mat-form-field>
-                                <mat-select value={{element.material_type_name}}>
+                        <td>
+                            <mat-form-field class="material-type">
+                                <mat-select  [(ngModel)]="element.materialDepositedTypeName">
                                     <mat-option *ngFor="let materialType of materialTypes" [value]="materialType">
                                         {{materialType}}
                                     </mat-option>
@@ -51,7 +51,7 @@
                             </mat-form-field>
                         </td>
                         <td>
-                            <button (click)="onClickToDeleteElement(element)">
+                            <button (click)="onClickToDelete(element)">
                                 <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
                             </button>
                         </td>
@@ -60,25 +60,31 @@
 
                     <ng-template #readOnlyFields>
 
-                        <td class="mat-cell">
-                            {{element.start_date | date}}
+                        <td>
+                            {{element.startDate | date}}
                         </td>
-                        <td class="mat-cell">
-                            {{element.end_date | date}}
+                        <td>
+                            {{element.endDate | date}}
                         </td>
 
-                        <td class="mat-cell">
+                        <td>
                             {{element.workUnitName}}
                         </td>
-                        <td class="mat-cell">
-                            {{element.material_type_name}}
+                        <td>
+                            {{element.materialDepositedTypeName}}
                         </td>
-                        <td class="mat-cell">
+                        <td>
 
                         </td>
                     </ng-template>
                 </tr>
             </ng-template>
+            <tr>
+                <td class="no_border"><button (click)="addRow()" *ngIf="canUpdatePlan">
+                        <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+                    </button>
+                </td>
+            </tr>
         </table>
     </mat-card-content>
 </mat-card>

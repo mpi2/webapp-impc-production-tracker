@@ -1,57 +1,43 @@
-/* table {
-    width: 70%
-} */
-
-.my-field{
-    /* display: block;
-    position: relative;
-    flex: auto;
-    min-width: 0; */
-    width: 10px;
+button {
+  background: none;
+  color: inherit;
+  border: none;
+  padding: 0 !important;
+  font: inherit;
+  cursor: pointer;
 }
 
-button {
-    background:none;
-    color:inherit;
-    border:none; 
-    padding:0!important;
-    font: inherit;
-    cursor: pointer;
-} 
+table,
+th,
+tr,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+}
 
-table, th, tr, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(0, 0, 0, 0.12);
-  }
-  .mat-column {
-    word-wrap: break-word !important;
-    white-space: unset !important;
-    overflow-wrap: break-word;
-    word-wrap: break-word;
-    word-break: break-word;
-    -ms-hyphens: auto;
-    -moz-hyphens: auto;
-    -webkit-hyphens: auto;
-    hyphens: auto;
-  }
-.mat-column-start_date {
-    width: 10px
-  }
- /*  
-  .mat-column-end_date {
-    width: 15%
-  }
+table {
+  margin-left: 0px;
+}
 
-  .mat-column-work_unit_name {
-    width: 15%
-  }
+th {
+  min-width: 80px;
+}
 
-  .mat-column-material_type_name {
-    width: 10%
-  }
-  .mat-column-action {
-    width: 20% 
-  } */
+.mat-column {
+  word-wrap: break-word !important;
+  white-space: unset !important;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  -ms-hyphens: auto;
+  -moz-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+
+.material-type {
+  width: 200px;
+}
