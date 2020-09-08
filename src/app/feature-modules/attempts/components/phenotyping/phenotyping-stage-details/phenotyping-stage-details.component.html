@@ -33,7 +33,7 @@
                             </mat-option>
                         </mat-select>
                     </div>
-                   
+
                 </ng-template>
 
                 <ng-template #readOnlyType>
@@ -41,11 +41,10 @@
                     <div id="phenotypingTypeName" class="content">{{ phenotypingStage.phenotypingTypeName}}</div>
                 </ng-template>
 
-                <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
-                <mat-form-field id="phenotypingExternalRef" class="content">
-                    <input matInput [(ngModel)]="phenotypingStage.phenotypingExternalRef"
-                        [ngModelOptions]="{standalone: true}">
-                </mat-form-field>
+                <div *ngIf="!isNew">
+                    <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
+                    <div id="phenotypingExternalRef" class="content">{{ phenotypingStage.phenotypingExternalRef }}</div>
+                </div>
 
                 <label for="phenotypingExperimentsStarted">Phenotyping Experiments Started:</label>
                 <div>
