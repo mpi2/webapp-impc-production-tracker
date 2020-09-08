@@ -17,6 +17,7 @@ import { GenesModule } from './feature-modules/genes/genes.module';
 import { SequencesModule } from './feature-modules/sequences/sequences.module';
 import { IntentionsModule } from './feature-modules/intentions/intentions.module';
 import { TargetGeneListModule } from './feature-modules/target-gene-list/target-gene-list.module';
+import { UsersModule } from './feature-modules/users/users.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { TargetGeneListModule } from './feature-modules/target-gene-list/target-
     CoreModule,
     SharedModule,
     LoginModule,
+    UsersModule,
     ProjectsModule,
     PlansModule,
     SearchModule,

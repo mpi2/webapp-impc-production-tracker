@@ -1,0 +1,79 @@
+<mat-card>
+    <mat-card-title>
+        Profile details
+    </mat-card-title>
+    <mat-card-content>
+        <div class="fieldsSection">
+            <div>
+                <label for="email">Email:</label>
+                {{ loggedUser.email }}
+            </div>
+            <div>
+                <label for="contactable">Contactable:</label>
+                <div id="contactable">
+                    <mat-checkbox [(ngModel)]="loggedUser.contactable" [ngModelOptions]="{standalone: true}">
+                    </mat-checkbox>
+                    <span class="note">by checking this box you agree to our <a
+                            href="https://www.ebi.ac.uk/data-protection/privacy-notice/imits-mailservices"
+                            target="_blank">Privacy Notice</a> </span>
+                </div>
+            </div>
+
+            <fieldset>
+                <legend> Work Units</legend>
+
+                <table mat-table [dataSource]="loggedUser.rolesWorkUnits" class="mat-elevation-z1">
+
+                    <ng-container matColumnDef="Work Unit">
+                      <th mat-header-cell *matHeaderCellDef> Work Unit </th>
+                      <td mat-cell *matCellDef="let element"> {{element.workUnitName}} </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="Role">
+                      <th mat-header-cell *matHeaderCellDef> Role </th>
+                      <td mat-cell *matCellDef="let element"> {{element.roleName}} </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsWorkUnitTable"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsWorkUnitTable;"></tr>
+                  </table>
+
+            </fieldset>
+
+            <fieldset>
+                <legend> Consortia</legend>
+
+                <table mat-table [dataSource]="loggedUser.rolesConsortia" class="mat-elevation-z1">
+
+                    <ng-container matColumnDef="Consortium">
+                      <th mat-header-cell *matHeaderCellDef> Consortium </th>
+                      <td mat-cell *matCellDef="let element"> {{element.consortiumName}} </td>
+                    </ng-container>
+                  
+                    <ng-container matColumnDef="Role">
+                      <th mat-header-cell *matHeaderCellDef> Role </th>
+                      <td mat-cell *matCellDef="let element"> {{element.roleName}} </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsConsortiumTable"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsConsortiumTable;"></tr>
+                  </table>
+
+            </fieldset>
+
+            <fieldset>
+                <legend> Change Password</legend>
+
+                <label for="currentPassword">Current Password:</label>
+                <input matInput [(ngModel)]="currentPassword" type="password">
+
+                <label for="currentPassword">New Password:</label>
+                <input matInput [(ngModel)]="newPassword" type="password">
+
+                <label for="currentPassword">Confirm New Password:</label>
+                <input matInput [(ngModel)]="newPasswordConfirmation" type="password">
+
+            </fieldset>
+        </div>
+    </mat-card-content>
+</mat-card>
