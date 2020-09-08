@@ -1,0 +1,37 @@
+mat-card-title {
+  font-size: large;
+}
+
+fieldset {
+  clear: both;
+  margin-bottom: 10px;
+}
+
+.fieldsSection {
+  padding-top: 20px;
+  line-height: 2;
+}
+
+.note {
+  font-size: small;
+  padding-left: 10px;
+}
+
+label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 180px;
+}
+input,
+select {
+  float: left;
+}
+.content {
+  float: left;
+  padding-bottom: 5px;
+}
+
+table {
+  min-width: 200px;
+}

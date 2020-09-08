@@ -7,6 +7,7 @@ export class User {
     password: string;
     email: string;
     isAdmin: boolean;
+    contactable: boolean;
     rolesWorkUnits: RoleWorkUnit[];
     rolesConsortia: RoleConsortium[];
     actionPermissions: ActionPermission[];

@@ -57,7 +57,7 @@
     <mat-menu #account_menu="matMenu">
         <button mat-flat-button [routerLink]="['./login']" routerLinkActive="active" *ngIf="!login">Sign
             in</button>
-        <button mat-menu-item [routerLink]="['./edit_profile']" *ngIf="false">Edit your
+        <button mat-menu-item [routerLink]="['./edit_profile']" *ngIf="login">Edit your
             profile</button>
         <button mat-menu-item *ngIf="login && isAdmin" routerLink="/admin">Admin</button>
         <button mat-menu-item *ngIf="login" routerLink="/login">Logout</button>
