@@ -1,10 +1,10 @@
 export class ProjectFilter {
-    tpns?: string[];
-    externalReferences?: string[];
-    genes?: string[];
-    intentions?: string[];
-    workUnitNames?: string[];
-    workGroupNames?: string[];
-    privacyNames?: string[];
-    consortiaNames?: string[];
+    tpn?: string[];
+    externalReference?: string[];
+    gene?: string[];
+    intention?: string[];
+    workUnitName?: string[];
+    workGroupName?: string[];
+    privacyName?: string[];
+    consortiaName?: string[];
 }

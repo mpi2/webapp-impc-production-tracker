@@ -67,7 +67,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.filterChangesSubscription.unsubscribe();
-    this.filterChangesSubscription.unsubscribe();
   }
 
   private subscribeToFilterChanges() {
@@ -111,7 +110,7 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     let initialFilterValues: ProjectFilter = new ProjectFilter();
     initialFilterValues = filtersByUrl;
     if (workUnitsByUser) {
-      initialFilterValues.workUnitNames = workUnitsByUser;
+      initialFilterValues.workUnitName = workUnitsByUser;
     }
     return initialFilterValues;
   }
