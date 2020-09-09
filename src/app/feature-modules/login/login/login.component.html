@@ -15,7 +15,7 @@
         <div class="form-group">
             <mat-form-field>
                 <mat-label>Password</mat-label>
-                <input matInput placeholder="password" id="password" formControlName="password" type="password"
+                <input matInput placeholder="password" id="password" formControlName="password" type="password" autocomplete="on"
                     [ngClass]="{ 'is-invalid': submitted && f.password.errors }">
                 <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
                     <div *ngIf="f.password.errors.required">Password is required</div>
