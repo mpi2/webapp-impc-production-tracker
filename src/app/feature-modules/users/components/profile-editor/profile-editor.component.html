@@ -87,5 +87,7 @@
     <mat-card-content>
         <button mat-raised-button color="primary" [disabled]="!enableUpdateButton()"
             (click)="onUpdate()">Update</button>
+            <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=20>
+            </mat-spinner>
     </mat-card-content>
 </mat-card>

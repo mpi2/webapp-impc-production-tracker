@@ -3,6 +3,7 @@ import { LoggedUserService } from 'src/app/core';
 import { User } from 'src/app/core/model/user/user';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/core/services/user.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile-editor',
@@ -16,6 +17,7 @@ export class ProfileEditorComponent implements OnInit {
   newPassword;
   newPasswordConfirmation;
   error;
+  isLoading = false;
 
   formGroup: FormGroup;
 
@@ -24,6 +26,7 @@ export class ProfileEditorComponent implements OnInit {
 
   constructor(
     private formBuilder: FormBuilder,
+    private snackBar: MatSnackBar,
     private loggedUserService: LoggedUserService,
     private userService: UserService) { }
 
@@ -37,7 +40,6 @@ export class ProfileEditorComponent implements OnInit {
     if (this.loggedUserService.getLoggerUser()) {
       this.loggedUserService.getLoggerUser().subscribe(data => {
         this.loggedUser = data;
-        console.log(data);
       }, error => {
         this.error = error;
       });
@@ -49,6 +51,7 @@ export class ProfileEditorComponent implements OnInit {
   }
 
   onUpdate() {
+    this.isLoading = true;
     this.error = null;
 
     if (this.newPassword) {
@@ -58,11 +61,16 @@ export class ProfileEditorComponent implements OnInit {
         this.loggedUser.currentPassword = this.currentPassword;
         this.loggedUser.newPassword = this.newPassword;
       }
-
     }
 
     this.userService.updateUser(this.loggedUser).subscribe(data => {
+      this.isLoading = false;
+      this.snackBar.open('Data updated.', 'Close', {
+        duration: 1500,
+      });
+
     }, error => {
+      this.isLoading = false;
       this.error = error;
     });
   }

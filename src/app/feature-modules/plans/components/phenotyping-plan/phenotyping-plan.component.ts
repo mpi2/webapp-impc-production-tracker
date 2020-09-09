@@ -29,7 +29,6 @@ export class PhenotypingPlanComponent implements OnInit {
     const pin = this.route.snapshot.params.pid;
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = data;
-      console.log('PhenotypingPlanComponent =>', this.plan);
       this.evaluateUpdatePermissions();
     }, error => {
       this.error = error;
