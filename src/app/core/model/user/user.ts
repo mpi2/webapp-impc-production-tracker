@@ -4,17 +4,17 @@ import { ActionPermission } from './action-permission';
 
 export class User {
     name: string;
-    password: string;
     email: string;
     isAdmin: boolean;
     contactable: boolean;
     rolesWorkUnits: RoleWorkUnit[];
     rolesConsortia: RoleConsortium[];
     actionPermissions: ActionPermission[];
+    currentPassword: string;
+    newPassword: string;
 
     constructor() {
         this.name = '';
-        this.password = null;
         this.email = '';
         this.isAdmin = false;
         this.rolesWorkUnits = [];

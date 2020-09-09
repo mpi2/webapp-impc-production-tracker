@@ -56,4 +56,11 @@ export class UserService {
     }));
   }
 
+  updateUser(user: User) {
+    return this.http.put<User[]>(this.apiServiceUrl + '/api/people', user)
+      .pipe(map(result => {
+        return result;
+      }));
+  }
+
 }
