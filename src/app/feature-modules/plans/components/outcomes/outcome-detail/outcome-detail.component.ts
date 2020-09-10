@@ -65,6 +65,7 @@ export class OutcomeDetailComponent implements OnInit {
     this.tpn = this.route.snapshot.params.id;
     this.pin = this.route.snapshot.params.pid;
     this.tpo = this.route.snapshot.params.tpo;
+    this.evaluateUpdatePermissions();
     this.loadConfigurationData();
     this.fetchOrCreateOutcome();
     this.outcomeForm = this.formBuilder.group({
