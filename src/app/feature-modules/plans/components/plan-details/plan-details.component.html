@@ -27,16 +27,6 @@
             <a routerLink="/projects/{{ plan.tpn }}">{{ plan.tpn }}</a>
           </td>
         </tr>
-        <ng-template [ngIf]="plan.typeName === 'phenotyping'">
-          <tr>
-            <td>
-              Production Plan reference:
-            </td>
-            <td>
-              {{plan.productionPlanReference}}
-            </td>
-          </tr>
-        </ng-template>
         <tr>
           <td>
             Summary Status:
@@ -55,10 +45,18 @@
         </tr>
         <tr>
           <td>
-            Funder:
+            Work Group:
           </td>
           <td>
-            {{plan.funderName || 'Not defined' }}
+            {{plan.workGroupName || 'Not defined' }}
+          </td>
+        </tr>
+        <tr>
+          <td>
+            Funders:
+          </td>
+          <td>
+            {{plan.funderNames || 'Not defined' }}
           </td>
         </tr>
         <tr>

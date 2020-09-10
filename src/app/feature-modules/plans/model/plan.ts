@@ -11,8 +11,9 @@ export class Plan {
     pin: string;
     projectId: number;
     tpn: string;
-    funderName: string;
+    funderNames: string[];
     workUnitName: string;
+    workGroupName: string;
     isActive: boolean;
     statusName: string;
     summaryStatusName: string;
