@@ -1,40 +1,47 @@
 table {
-    border-spacing: 10px;
-    border-collapse: separate;
-    font-size: 16px;
+  border-spacing: 10px;
+  border-collapse: separate;
+  font-size: 16px;
 }
 .mat-column-name {
-    width: 30% 
+  width: 30%;
 }
 .mat-column-date {
-    width: 28%;
+  width: 28%;
 }
 .name {
-    font-weight: bold;
+  font-weight: bold;
 }
+
 fieldset {
-    font-size: 16px;
-    border: 0;
-    border-spacing: 10px;
+  font-size: 16px;
+  border: 0;
+  border-spacing: 10px;
 }
 label {
-    clear: both;
-    float: left;
-    padding-right: 10px;
-    padding-bottom: 5px;
-    width: 15%
+  clear: both;
+  float: left;
+  padding-right: 10px;
+  padding-bottom: 5px;
+  width: 15%;
 }
-input, select, content {
-    float: left;
+input,
+select,
+content {
+  float: left;
 }
 .content {
-    min-width: 40%;
-    float: left;
+  min-width: 40%;
+  float: left;
 }
 .comment {
-    min-width: 200px;
-    float: left;
+  min-width: 200px;
+  float: left;
 }
 .select-content {
-    max-width: 35%;
+  max-width: 35%;
+}
+
+.separation {
+  padding-top: 10px;
 }
