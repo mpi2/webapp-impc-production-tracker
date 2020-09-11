@@ -12,10 +12,14 @@ import { PlanRouterComponent } from '../plans/components/plan-router/plan-router
 import { OutcomeDetailComponent } from '../plans/components/outcomes/outcome-detail/outcome-detail.component';
 // tslint:disable-next-line:max-line-length
 import { PhenotypingStageDetailsComponent } from '../attempts/components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
+import { PlanCreationComponent } from '../plans/components/plan-creation/plan-creation.component';
 
 const routes: Routes = [
   {
     path: 'projects/:id', component: ProjectDetailComponent,
+  },
+  {
+    path: 'projects/:id/plan-creation', component: PlanCreationComponent
   },
   {
     path: 'projects/:id/production-plan/:pid', component: ProductionPlanComponent

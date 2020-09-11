@@ -164,4 +164,8 @@ export class ProjectDetailComponent implements OnInit {
     return plans;
   }
 
+  onAddPlan() {
+
+  }
+
 }

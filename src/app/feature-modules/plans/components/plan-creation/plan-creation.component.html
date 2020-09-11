@@ -1,0 +1,72 @@
+<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<mat-card>
+    <mat-card-title>
+        Plan Creation
+    </mat-card-title>
+    <mat-card-content>
+
+        <div class="fieldsSection">
+            <label for="tpo">Project id:</label>
+            <div id="tpo"><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></div>
+
+            <label for="planType">Plan Type:</label>
+            <mat-select (selectionChange)="onPlanTypeSelected($event)" class="content" [(ngModel)]="plan.typeName"
+                [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let planType of planTypes" [value]="planType.name">
+                    {{planType.name}}
+                </mat-option>
+            </mat-select>
+
+            <label for="attemtpType">Attempt Type:</label>
+            <mat-select id="attemtpType" (selectionChange)="onAttemptTypeSelected($event)" class="content"
+                [(ngModel)]="plan.attemptTypeName" [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let attemptType of attemptTypes" [value]="attemptType.name">
+                    {{attemptType.name}}
+                </mat-option>
+            </mat-select>
+
+            <label for="workUnit">Work Unit:</label>
+            <mat-select id="workUnit" class="content" [(ngModel)]="plan.workUnitName"
+                [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
+                    {{workUnit.name}}
+                </mat-option>
+            </mat-select>
+
+            <label for="workGroup">Work Group:</label>
+            <mat-select id="workGroup" class="content" [(ngModel)]="plan.workGroupName"
+                [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let workGroup of workGroups" [value]="workGroup.name">
+                    {{workGroup.name}}
+                </mat-option>
+            </mat-select>
+
+            <label for="workGroup">Funders:</label>
+            <mat-select multiple id="workGroup" class="content" [(ngModel)]="plan.funderNames"
+                [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let funder of funders" [value]="funder.name">
+                    {{funder.name}}
+                </mat-option>
+            </mat-select>
+
+            <label for="productsAvailableGeneralPublic">Products available for general public?:</label>
+            <mat-checkbox id="productsAvailableGeneralPublic" class="content"
+                [(ngModel)]="plan.productsAvailableForGeneralPublic" [ngModelOptions]="{standalone: true}">
+            </mat-checkbox>
+
+            <label for="comment">Comment:</label>
+
+            <mat-form-field id="comment" class="content">
+                <textarea matInput [(ngModel)]="plan.comment" [ngModelOptions]="{standalone: true}"></textarea>
+            </mat-form-field>
+
+        </div>
+
+        <mat-card>
+            <mat-card-content class="update-button">
+                <button mat-raised-button color="primary" (click)="create()">Update</button>
+            </mat-card-content>
+        </mat-card>
+
+    </mat-card-content>
+</mat-card>

@@ -1,16 +1,9 @@
 <form [formGroup]="editCrisprAttemptDetails">
   <mat-card>
+    canUpdatePlan: {{canUpdatePlan}}
     <mat-card-subtitle>Crispr Attempt Details</mat-card-subtitle>
     <mat-card-content>
       <table>
-        <tr>
-          <td>
-            Attempt Type:
-          </td>
-          <td>
-            {{crisprAttempt.attemptTypeName}}
-          </td>
-        </tr>
         <tr>
           <td>
             MI date:

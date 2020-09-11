@@ -49,4 +49,8 @@ export class PlanService {
   updateProductionPlan(pin: string, plan: Plan) {
     return this.http.put<any>(this.apiServiceUrl + '/api/plans/' + pin, plan);
   }
+
+  createPlan(plan: Plan) {
+    return this.http.post<any>(this.apiServiceUrl + '/api/plans/', plan);
+  }
 }

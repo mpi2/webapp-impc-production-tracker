@@ -1,0 +1,30 @@
+mat-card-title {
+  font-size: large;
+}
+
+.fieldsSection {
+  padding-top: 20px;
+  line-height: 2;
+  height: 350px;
+}
+
+label,
+.label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 180px;
+}
+input,
+select {
+  float: left;
+}
+.content {
+  width: 300px;
+  float: left;
+  padding-bottom: 5px;
+}
+
+.section {
+  clear: both;
+}

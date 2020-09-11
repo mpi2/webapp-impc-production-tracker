@@ -1,12 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatDialog } from '@angular/material/dialog';
 import { Reagent } from 'src/app/feature-modules/attempts/model/production/crispr/reagent';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { DistributionProduct } from 'src/app/feature-modules/plans/model/outcomes/distribution-product';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
+import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 
 @Component({
   selector: 'app-reagents',

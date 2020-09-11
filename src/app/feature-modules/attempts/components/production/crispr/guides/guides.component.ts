@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CrisprAttempt, Guide } from '../../../..';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
+import { Guide } from 'src/app/feature-modules/attempts';
 
 @Component({
   selector: 'app-guides',

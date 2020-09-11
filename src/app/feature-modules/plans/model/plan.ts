@@ -1,10 +1,11 @@
-import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts';
+// import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
 import { PhenotypingAttempt } from '../../attempts/model/phenotyping/phenotyping_attempt';
 import { StatusDate } from 'src/app/model/bio/status-date';
 import { StatusTransition } from 'src/app/model/status_transition/status_transition';
 import { PhenotypingStartingPoint } from '../../attempts/model/phenotyping/phenotyping_starting_point';
+import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts/model/production/crispr/crispr-attempt';
 
 export class Plan {
     id: number;
@@ -19,6 +20,7 @@ export class Plan {
     summaryStatusName: string;
     statusDates: StatusDate[];
     typeName: string;
+    attemptTypeName: string;
     parentColonyName: string;
     comment: string;
     productsAvailableForGeneralPublic: boolean;

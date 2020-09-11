@@ -5,12 +5,12 @@ import { Plan, PlanAdapter } from '../../model/plan';
 import { PermissionsService, ChangesHistory, LoggedUserService } from 'src/app/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
-import { CrisprAttempt } from 'src/app/feature-modules/attempts';
 import { Project } from 'src/app/model/bio/project';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { ProjectService } from 'src/app/feature-modules/projects';
 import { Outcome } from '../../model/outcomes/outcome';
 import { OutcomeService } from '../../services/outcome.service';
+import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 
 @Component({
   selector: 'app-production-plan',
