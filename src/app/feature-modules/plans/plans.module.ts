@@ -20,6 +20,7 @@ import { ColonySummaryComponent } from './components/outcomes/colony-summary/col
 import { MutationDetailComponent } from './components/outcomes/mutation-detail/mutation-detail.component';
 import { SequencesModule } from '../sequences/sequences.module';
 import { QcResultsComponent } from './components/outcomes/qc-results/qc-results.component';
+import { PlanCreationComponent } from './components/plan-creation/plan-creation.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +38,8 @@ import { QcResultsComponent } from './components/outcomes/qc-results/qc-results.
     OutcomeDetailComponent,
     ColonySummaryComponent,
     MutationDetailComponent,
-    QcResultsComponent
+    QcResultsComponent,
+    PlanCreationComponent
   ],
   imports: [
     SharedModule,

@@ -59,12 +59,7 @@
     </form>
   </mat-card-content>
 </mat-card>
-<mat-card>
-  <mat-card-content>
-    <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
-      (click)="updateProject()">Update</button>
-  </mat-card-content>
-</mat-card>
+
 
 <app-status-date [statusDates]="project.assignmentStatusStamps" [title]="'Assignment Status Stamps'"></app-status-date>
 
@@ -91,5 +86,17 @@
         </tr>
       </tbody>
     </table>
+
+    <a routerLink="plan-creation" target="_blank"><button class="create-button"
+      mat-raised-button color="primary" *ngIf="canUpdateProject">Add
+      Plan</button></a>
+
+  </mat-card-content>
+</mat-card>
+
+<mat-card>
+  <mat-card-content>
+    <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
+      (click)="updateProject()">Update</button>
   </mat-card-content>
 </mat-card>

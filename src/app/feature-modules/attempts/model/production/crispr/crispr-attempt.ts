@@ -26,7 +26,7 @@ export class CrisprAttempt {
     mutagenesisStrategies: MutagenesisStrategy[];
     reagents: Reagent[] = [];
     genotypePrimers: GenotypePrimer[] = [];
-    assay: Assay;
+    assay: Assay = new Assay();
     strainInjected: StrainInjected[] = [];
 }
 
