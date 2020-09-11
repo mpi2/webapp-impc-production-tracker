@@ -13,7 +13,7 @@ label,
   clear: both;
   float: left;
   padding-bottom: 5px;
-  width: 180px;
+  width: 200px;
 }
 input,
 select {
@@ -27,4 +27,11 @@ select {
 
 .section {
   clear: both;
+}
+
+.update-button {
+  /* clear: both; */
+  height: 60px;
+  clear: left;
+  float: none;
 }

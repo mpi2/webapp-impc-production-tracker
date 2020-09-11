@@ -60,38 +60,43 @@
   </mat-card-content>
 </mat-card>
 
-
 <app-status-date [statusDates]="project.assignmentStatusStamps" [title]="'Assignment Status Stamps'"></app-status-date>
 
-<mat-card *ngIf="productionPlansDetails.length > 0">
-  <mat-card-subtitle>Production Plans</mat-card-subtitle>
-  <mat-card-content>
-    <table style="width: 100%;">
+<mat-card>
+  <fieldset>
+    <legend>
+      Production Plans
+    </legend>
+    <table style="width: 100%;" *ngIf="productionPlansDetails.length > 0">
       <tbody>
         <tr *ngFor="let productionPlanDetail of sortByPid(productionPlansDetails)">
           <app-plan-summary [plan]="productionPlanDetail"></app-plan-summary>
         </tr>
       </tbody>
     </table>
-  </mat-card-content>
-</mat-card>
+  </fieldset>
 
-<mat-card *ngIf="phenotypingPlansDetails.length > 0">
-  <mat-card-subtitle>Phenotyping Plans</mat-card-subtitle>
-  <mat-card-content>
-    <table style="width: 100%;">
+  <div class="separation"></div>
+
+  <fieldset>
+    <legend>
+      Phenotyping Plans
+    </legend>
+    <table style="width: 100%;" *ngIf="phenotypingPlansDetails.length > 0">
       <tbody>
         <tr *ngFor="let phenotypingPlanDetail of sortByPid(phenotypingPlansDetails)">
           <app-plan-summary [plan]="phenotypingPlanDetail"></app-plan-summary>
         </tr>
       </tbody>
     </table>
+  </fieldset>
 
-    <a routerLink="plan-creation" target="_blank"><button class="create-button"
-      mat-raised-button color="primary" *ngIf="canUpdateProject">Add
+</mat-card>
+
+<mat-card>
+  <a routerLink="plan-creation" target="_blank"><button class="create-button" mat-raised-button color="primary"
+      *ngIf="canUpdateProject">Add
       Plan</button></a>
-
-  </mat-card-content>
 </mat-card>
 
 <mat-card>

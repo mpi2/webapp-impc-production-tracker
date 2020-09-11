@@ -5,6 +5,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Plan } from '../../model/plan';
 import { PlanService } from '../../services/plan.service';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
+import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
 
 @Component({
   selector: 'app-plan-creation',
@@ -14,6 +15,7 @@ import { ChangeResponse } from 'src/app/core/model/history/change-response';
 export class PlanCreationComponent implements OnInit {
   tpn: string;
   error;
+  loading = false;
 
   plan: Plan = new Plan();
 
@@ -51,10 +53,10 @@ export class PlanCreationComponent implements OnInit {
   }
 
   onPlanTypeSelected(e) {
-    console.log('plan', e);
-    console.log(this.plan);
-
-
+    console.log('e.value', e.value);
+    if (e.value === 'phenotyping') {
+      this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
+    }
   }
 
   onAttemptTypeSelected(e) {
@@ -63,20 +65,17 @@ export class PlanCreationComponent implements OnInit {
   }
 
   create() {
-    console.log('create');
+    this.loading = true;
+    console.log('create:', this.plan);
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
-      console.log('data', changeResponse);
+      this.loading = false;
       const link: string = changeResponse._links.self.href;
       const pin = link.substring(link.lastIndexOf('/') + 1);
-      console.log(link);
-      console.log(pin);
       this.router.navigate(['/projects/' + this.tpn + '/plan/' + pin]);
-
-
     }, error => {
-      console.log('error', error);
+      this.error = error;
+      this.loading = false;
     });
-    // this.router.navigate(['/role']);
   }
 
 }

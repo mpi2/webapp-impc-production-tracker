@@ -25,6 +25,14 @@
                 </mat-option>
             </mat-select>
 
+            <!-- Starting Point section. Only available for phenotyping plans -->
+            <div id="startingPoint" *ngIf="plan.typeName === 'phenotyping'">
+                <label for="startingPoint">Starting point (Outcome id):</label>
+                <mat-form-field id="startingPoint" class="content">
+                    <input matInput [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo" [ngModelOptions]="{standalone: true}" />
+                </mat-form-field>
+            </div>
+
             <label for="workUnit">Work Unit:</label>
             <mat-select id="workUnit" class="content" [(ngModel)]="plan.workUnitName"
                 [ngModelOptions]="{standalone: true}">
@@ -62,9 +70,11 @@
 
         </div>
 
-        <mat-card>
-            <mat-card-content class="update-button">
-                <button mat-raised-button color="primary" (click)="create()">Update</button>
+        <mat-card class="update-button">
+            <mat-card-content >
+                <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
+                <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
+                </mat-spinner>
             </mat-card-content>
         </mat-card>
 
