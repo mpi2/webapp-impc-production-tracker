@@ -22,4 +22,16 @@ export class InputHandlerService {
         return Number(value);
     }
 
+    public getEmptyIfNull(value: string): string {
+        return value === null ? '' : value;
+    }
+
+    public getFalseIfNull(value: boolean): boolean {
+        return value === null ? false : value;
+    }
+
+    public getUTCFormat(originalData: Date): Date {
+        return new Date(originalData.toString() + 'T00:00:00Z');
+    }
+
 }

@@ -28,9 +28,13 @@
             <!-- Starting Point section. Only available for phenotyping plans -->
             <div id="startingPoint" *ngIf="plan.typeName === 'phenotyping'">
                 <label for="startingPoint">Starting point (Outcome id):</label>
-                <mat-form-field id="startingPoint" class="content">
-                    <input matInput [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo" [ngModelOptions]="{standalone: true}" />
-                </mat-form-field>
+                <mat-select  class="content" [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo"
+                [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.name">
+                    {{startingPoint.name}}
+                </mat-option>
+            </mat-select>
+
             </div>
 
             <label for="workUnit">Work Unit:</label>

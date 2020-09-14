@@ -26,7 +26,8 @@ export class Plan {
     productsAvailableForGeneralPublic: boolean;
     crisprAttempt: CrisprAttempt;
     phenotypingAttemptResponse: PhenotypingAttempt;
-    productionPlanReference: string;
+    // Need to keep this copu because phenotypingAttemptResponse is not processed by the update/create endpoint
+    phenotypingAttempt: PhenotypingAttempt;
     statusTransition: StatusTransition;
     // Applies only to phenotyping plans
     phenotypingStartingPoint: PhenotypingStartingPoint;

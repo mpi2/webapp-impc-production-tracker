@@ -75,6 +75,10 @@ export class ProjectService {
     return this.http.get<ChangesHistory[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/history');
   }
 
+  getProductionTposByProject(tpn: string) {
+    return this.http.get<string[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/productionTpos');
+  }
+
   public exportCsv(filters: ProjectFilter) {
     const queryParameters = this.queryBuilderService.buildQueryParameters(filters, null);
     let url = this.apiServiceUrl + '/api/projects/exportProjects?';

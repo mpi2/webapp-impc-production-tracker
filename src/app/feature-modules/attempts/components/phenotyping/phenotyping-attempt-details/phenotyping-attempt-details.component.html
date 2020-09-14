@@ -9,14 +9,14 @@
             <div>
                 <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
                 <mat-form-field id="phenotypingExternalRef">
-                    <input matInput [(ngModel)]="phenotypingAttempt.phenotypingExternalRef">
+                    <input matInput (keyup)="dataChanged($event)" [(ngModel)]="phenotypingAttempt.phenotypingExternalRef">
                 </mat-form-field>
             </div>
 
             <div>
                 <label for="phenotypingBackgroundStrainName">Background Strain:</label>
                 <div id="phenotypingBackgroundStrainName" class="content">
-                    <mat-select [(value)]="phenotypingAttempt.phenotypingBackgroundStrainName">
+                    <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.phenotypingBackgroundStrainName">
                         <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
                             {{ backGroundStrain.name }}
                         </mat-option>
