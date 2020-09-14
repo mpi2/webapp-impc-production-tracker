@@ -15,12 +15,13 @@ export class PlanRouterComponent implements OnInit {
 
   ngOnInit() {
     const pin = this.route.snapshot.params.pid;
+    const tpn = this.route.snapshot.params.id;
     this.planService.getPlanByPin(pin).subscribe((plan: Plan) => {
       if (plan) {
         if ('production' === plan.typeName) {
-          this.router.navigate(['production-plan', plan.pin]);
+          this.router.navigate(['projects/' + tpn + '/production-plan', plan.pin]);
         } else if ('phenotyping' === plan.typeName) {
-          this.router.navigate(['phenotyping-plan', plan.pin]);
+          this.router.navigate(['projects/' + tpn + '/phenotyping-plan', plan.pin]);
         }
       }
 

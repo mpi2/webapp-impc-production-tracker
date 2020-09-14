@@ -25,14 +25,16 @@ export class PhenotypingStagesComponent implements OnInit {
 
   fetchPhenotypingStages() {
     /* tslint:disable:no-string-literal */
-    const links = this.phenotypingAttempt._links.phenotypingStages.map(x => x['href']);
-    /* tslint:enable:no-string-literal */
-    if (links) {
-      links.forEach(x => this.phenotypingStageService.getPhenotypingStageByUrl(x).subscribe(data => {
-        this.phenotypingStages.push(data);
-      }, error => {
-        this.error = error;
-      }));
+    if (this.phenotypingAttempt._links) {
+      const links = this.phenotypingAttempt._links.phenotypingStages.map(x => x['href']);
+      /* tslint:enable:no-string-literal */
+      if (links) {
+        links.forEach(x => this.phenotypingStageService.getPhenotypingStageByUrl(x).subscribe(data => {
+          this.phenotypingStages.push(data);
+        }, error => {
+          this.error = error;
+        }));
+      }
     }
 
   }

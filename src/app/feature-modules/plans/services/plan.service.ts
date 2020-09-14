@@ -42,11 +42,7 @@ export class PlanService {
     return this.http.get<ChangesHistory[]>(this.apiServiceUrl + '/api/plans/' + pin + '/history');
   }
 
-  updatePlan(pin, plan) {
-    return this.http.put<any>(this.apiServiceUrl + '/api/plans/' + pin, plan);
-  }
-
-  updateProductionPlan(pin: string, plan: Plan) {
+  updatePlan(pin: string, plan: Plan) {
     return this.http.put<any>(this.apiServiceUrl + '/api/plans/' + pin, plan);
   }
 

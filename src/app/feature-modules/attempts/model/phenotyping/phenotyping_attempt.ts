@@ -15,8 +15,8 @@ export interface PhenotypingLinks {
 export class PhenotypingAttempt {
     phenotypingExternalRef: string;
     phenotypingBackgroundStrainName: string;
-    phenotypingStartingPoint: PhenotypingStartingPoint;
+    phenotypingStartingPoint?: PhenotypingStartingPoint;
     // tslint:disable-next-line
-    _links: PhenotypingLinks;
+    _links?: PhenotypingLinks;
 
 }

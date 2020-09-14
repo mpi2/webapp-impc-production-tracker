@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { Plan } from '../../model/plan';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../..';
-import { PermissionsService, LoggedUserService } from 'src/app/core';
+import { PermissionsService, LoggedUserService, ChangesHistory } from 'src/app/core';
+import { ChangeResponse } from 'src/app/core/model/history/change-response';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 
 @Component({
   selector: 'app-phenotyping-plan',
@@ -18,8 +21,14 @@ export class PhenotypingPlanComponent implements OnInit {
   loading = false;
   error: string;
 
+  changeDetails: ChangesHistory;
+
+  // Content previous modifications so we can tell when something has changed
+  originalPlanAsString: string;
+
   constructor(
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
     private planService: PlanService,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService
@@ -27,8 +36,13 @@ export class PhenotypingPlanComponent implements OnInit {
 
   ngOnInit() {
     const pin = this.route.snapshot.params.pid;
+    this.fetchByPin(pin);
+  }
+
+  fetchByPin(pin: string) {
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = data;
+      this.originalPlanAsString = JSON.stringify(this.plan);
       this.evaluateUpdatePermissions();
     }, error => {
       this.error = error;
@@ -51,7 +65,7 @@ export class PhenotypingPlanComponent implements OnInit {
   }
 
   shouldShowUpdateButton() {
-    return !this.loading && (this.planDetailsChanged || this.attemptChanged);
+    return this.originalPlanAsString !== JSON.stringify(this.plan);
   }
 
   onPlanDetailsChange() {
@@ -59,7 +73,26 @@ export class PhenotypingPlanComponent implements OnInit {
   }
 
   updatePlan() {
-    console.log('To be implemented');
+    this.loading = true;
+    this.planService.updatePlan(
+      this.plan.pin, this.plan).subscribe((changeResponse: ChangeResponse) => {
+        this.loading = false;
+        this.originalPlanAsString = JSON.stringify(this.plan);
+        if (changeResponse && changeResponse.history.length > 0) {
+          this.changeDetails = changeResponse.history[0];
+          this.snackBar.openFromComponent(UpdateNotificationComponent, {
+            duration: 3000,
+            data: this.changeDetails
+          });
+        }
+        this.error = null;
+        this.fetchByPin(this.plan.pin);
+      },
+        error => {
+          console.error('Error while updating plan', error);
+          this.error = error;
+        }
+      );
   }
 
   onAttemptChanged(e) {

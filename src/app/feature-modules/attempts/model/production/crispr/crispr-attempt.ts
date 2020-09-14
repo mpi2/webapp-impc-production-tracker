@@ -1,6 +1,7 @@
 import { Nuclease, Guide, Donor, Reagent, GenotypePrimer, Assay, StrainInjected, MutagenesisStrategy } from '../../..';
 import { Adapter } from 'src/app/core/model/adapter';
 import { Injectable } from '@angular/core';
+import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 
 export class CrisprAttempt {
     planId: number;
@@ -34,25 +35,16 @@ export class CrisprAttempt {
     providedIn: 'root'
 })
 export class CrisprAttemptAdapter implements Adapter<CrisprAttempt> {
+
+    constructor(private inputHandlerService: InputHandlerService) {
+
+    }
     adapt(item: any): CrisprAttempt {
         const crisprAttempt = item as CrisprAttempt;
-        crisprAttempt.miDate = this.getUTCFormat(crisprAttempt.miDate);
-        crisprAttempt.comment = this.getEmptyIfNull(crisprAttempt.comment);
-        crisprAttempt.attemptExternalRef = this.getEmptyIfNull(crisprAttempt.attemptExternalRef);
-        crisprAttempt.experimental = this.getFalseIfNull(crisprAttempt.experimental);
+        crisprAttempt.miDate = this.inputHandlerService.getUTCFormat(crisprAttempt.miDate);
+        crisprAttempt.comment = this.inputHandlerService.getEmptyIfNull(crisprAttempt.comment);
+        crisprAttempt.attemptExternalRef = this.inputHandlerService.getEmptyIfNull(crisprAttempt.attemptExternalRef);
+        crisprAttempt.experimental = this.inputHandlerService.getFalseIfNull(crisprAttempt.experimental);
         return crisprAttempt;
     }
-
-    private getEmptyIfNull(value: string): string {
-        return value === null ? '' : value;
-    }
-
-    private getFalseIfNull(value: boolean): boolean {
-        return value === null ? false : value;
-    }
-
-    private getUTCFormat(originalData: Date): Date {
-        return new Date(originalData.toString() + 'T00:00:00Z');
-    }
 }
-

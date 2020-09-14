@@ -6,6 +6,8 @@ import { Plan } from '../../model/plan';
 import { PlanService } from '../../services/plan.service';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
+import { Project } from 'src/app/model';
+import { ProjectService } from 'src/app/feature-modules/projects';
 
 @Component({
   selector: 'app-plan-creation',
@@ -19,6 +21,7 @@ export class PlanCreationComponent implements OnInit {
 
   plan: Plan = new Plan();
 
+
   configurationData: ConfigurationData;
 
   planTypes: NamedValue[];
@@ -26,17 +29,20 @@ export class PlanCreationComponent implements OnInit {
   workUnits: NamedValue[];
   workGroups: NamedValue[];
   funders: NamedValue[];
+  startingPoints: NamedValue[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private configurationDataService: ConfigurationDataService,
+    private projectService: ProjectService,
     private planService: PlanService) { }
 
   ngOnInit(): void {
     this.tpn = this.route.snapshot.params.id;
     this.plan.tpn = this.tpn;
     this.loadConfigurationData();
+    this.loadTpos(this.tpn);
   }
 
   loadConfigurationData() {
@@ -47,6 +53,15 @@ export class PlanCreationComponent implements OnInit {
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
       this.workGroups = this.configurationData.workGroups.map(x => ({ name: x }));
       this.funders = this.configurationData.funders.map(x => ({ name: x }));
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  loadTpos(tpn: string) {
+    this.projectService.getProductionTposByProject(tpn).subscribe(data => {
+      this.startingPoints = data.map(x => ({ name: x }));
+
     }, error => {
       this.error = error;
     });
@@ -66,7 +81,6 @@ export class PlanCreationComponent implements OnInit {
 
   create() {
     this.loading = true;
-    console.log('create:', this.plan);
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;
       const link: string = changeResponse._links.self.href;

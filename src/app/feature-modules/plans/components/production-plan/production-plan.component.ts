@@ -131,7 +131,7 @@ export class ProductionPlanComponent implements OnInit {
    */
   private updatePlan() {
     this.loading = true;
-    this.planService.updateProductionPlan(
+    this.planService.updatePlan(
       this.plan.pin, this.plan).subscribe((changeResponse: ChangeResponse) => {
         this.loading = false;
         this.originalPlanAsString = JSON.stringify(this.plan);
