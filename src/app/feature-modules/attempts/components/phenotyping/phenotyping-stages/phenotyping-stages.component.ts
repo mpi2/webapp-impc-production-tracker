@@ -24,7 +24,7 @@ export class PhenotypingStagesComponent implements OnInit {
   ngOnInit(): void {
     this.fetchPhenotypingStages();
     this.originalPhenotypingAttemptAsString = JSON.stringify(this.phenotypingAttempt);
-    
+
   }
 
   fetchPhenotypingStages() {
@@ -44,7 +44,7 @@ export class PhenotypingStagesComponent implements OnInit {
   }
 
   phenotypingAttemptExists() {
-    return this.originalPhenotypingAttemptAsString != '{}';
+    return this.originalPhenotypingAttemptAsString !== '{}';
   }
 
 }
