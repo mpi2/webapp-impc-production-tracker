@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
+import { ConfigurationDataService, ConfigurationData, LoggedUserService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Plan } from '../../model/plan';
 import { PlanService } from '../../services/plan.service';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
-import { Project } from 'src/app/model';
 import { ProjectService } from 'src/app/feature-modules/projects';
+import { User } from 'src/app/core/model/user/user';
+import { ProductionOutcomeSummary } from '../../model/outcomes/production-outcome-summary';
 
 @Component({
   selector: 'app-plan-creation',
@@ -20,20 +21,23 @@ export class PlanCreationComponent implements OnInit {
   loading = false;
 
   plan: Plan = new Plan();
-
+  showAllElementsInLists = false;
 
   configurationData: ConfigurationData;
+  loggedUser: User;
 
   planTypes: NamedValue[];
   attemptTypes: NamedValue[];
   workUnits: NamedValue[];
   workGroups: NamedValue[];
   funders: NamedValue[];
-  startingPoints: NamedValue[];
+
+  startingPoints: ProductionOutcomeSummary[];
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private loggedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService,
     private projectService: ProjectService,
     private planService: PlanService) { }
@@ -42,7 +46,7 @@ export class PlanCreationComponent implements OnInit {
     this.tpn = this.route.snapshot.params.id;
     this.plan.tpn = this.tpn;
     this.loadConfigurationData();
-    this.loadTpos(this.tpn);
+    this.loadOutcomesSummaries(this.tpn);
   }
 
   loadConfigurationData() {
@@ -53,14 +57,30 @@ export class PlanCreationComponent implements OnInit {
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
       this.workGroups = this.configurationData.workGroups.map(x => ({ name: x }));
       this.funders = this.configurationData.funders.map(x => ({ name: x }));
+      this.filterLists();
     }, error => {
       this.error = error;
     });
   }
 
-  loadTpos(tpn: string) {
-    this.projectService.getProductionTposByProject(tpn).subscribe(data => {
-      this.startingPoints = data.map(x => ({ name: x }));
+  filterLists() {
+    this.loggedUserService.getLoggerUser().subscribe(data => {
+      this.loggedUser = data;
+      this.showAllElementsInLists = data.isAdmin;
+      if (!this.showAllElementsInLists) {
+        this.workUnits = this.loggedUser.rolesWorkUnits.map(x => ({ name: x.workUnitName }));
+      }
+
+    }, error => {
+      console.log('error=> ', error);
+
+    });
+  }
+
+  loadOutcomesSummaries(tpn: string) {
+    this.projectService.getProductionOutcomesSummariesByProject(tpn).subscribe(data => {
+      console.log('DATA', data);
+      this.startingPoints = data;
 
     }, error => {
       this.error = error;
