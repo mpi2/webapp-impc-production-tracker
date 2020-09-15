@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Plan } from '../../model/plan';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PlanService } from '../..';
 import { PermissionsService, LoggedUserService, ChangesHistory } from 'src/app/core';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
@@ -28,6 +28,7 @@ export class PhenotypingPlanComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private snackBar: MatSnackBar,
     private planService: PlanService,
     private permissionsService: PermissionsService,
@@ -86,7 +87,7 @@ export class PhenotypingPlanComponent implements OnInit {
           });
         }
         this.error = null;
-        this.fetchByPin(this.plan.pin);
+        this.router.navigate(['/projects/' + this.plan.tpn + '/plan/' + this.plan.pin]);
       },
         error => {
           console.error('Error while updating plan', error);
