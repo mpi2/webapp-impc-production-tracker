@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigurationDataService, PermissionsService, LoggedUserService, ConfigurationData, ChangesHistory } from 'src/app/core';
 import { PhenotypingStageService } from 'src/app/feature-modules/plans/services/phenotyping-stage.service';
 import { PhenotypingStage } from '../../../model/phenotyping/phenotyping-stage';
@@ -35,10 +35,12 @@ export class PhenotypingStageDetailsComponent implements OnInit {
 
   pin: string;
   psn: string;
+  tpn: string;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private snackBar: MatSnackBar,
     private phenotypingStageService: PhenotypingStageService,
     private configurationDataService: ConfigurationDataService,
@@ -48,6 +50,7 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.pin = this.route.snapshot.params.pid;
     this.psn = this.route.snapshot.params.psn;
+    this.tpn = this.route.snapshot.params.id;
     this.evaluateUpdatePermissions();
     this.loadConfigurationData();
     this.fetchOrCreatePhenotypingStage();
@@ -119,15 +122,22 @@ export class PhenotypingStageDetailsComponent implements OnInit {
       this.loading = false;
       this.originalphenotypingStageAsString = JSON.stringify(this.phenotypingStage);
       this.showChangeNotification(changeResponse);
+      const link: string = changeResponse._links.self.href;
+      const psn = link.substring(link.lastIndexOf('/') + 1);
+      this.reloadForPsn(psn);
       this.error = null;
     },
       error => {
-        console.error('Error while creating plan outcome', error);
+        console.error('Error while creating phenotyping stage', error);
         this.error = error;
         this.loading = false;
       }
     );
 
+  }
+
+  reloadForPsn(psn: string) {
+    this.router.navigate(['/projects/' + this.tpn + '/phenotyping-plan/' + this.pin + '/phenotyping-stage/' + psn]);
   }
 
   update() {
@@ -137,9 +147,10 @@ export class PhenotypingStageDetailsComponent implements OnInit {
       this.originalphenotypingStageAsString = JSON.stringify(this.phenotypingStage);
       this.showChangeNotification(changeResponse);
       this.error = null;
+      this.fetchPhenotypingStage();
     },
       error => {
-        console.error('Error while updating plan outcome', error);
+        console.error('Error while updating phenotyping stage', error);
         this.error = error;
         this.loading = false;
       }

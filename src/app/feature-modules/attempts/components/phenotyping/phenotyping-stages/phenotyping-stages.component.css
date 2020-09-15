@@ -17,3 +17,6 @@ select {
 .create-button {
     margin-top: 10px;
 }
+.note {
+  font-size: small;
+}

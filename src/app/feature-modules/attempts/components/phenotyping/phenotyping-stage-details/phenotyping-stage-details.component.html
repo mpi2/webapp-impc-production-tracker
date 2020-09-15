@@ -16,6 +16,10 @@
                 <div id="psn" class="content">{{ phenotypingStage.psn }}</div>
             </div>
 
+            <label for="pin">Phenotyping Plan Id:</label>
+            <div id="pin"> <a routerLink="/projects/{{ tpn }}/phenotyping-plan/{{pin}}">
+                    {{ pin }}</a></div>
+
             <div *ngIf="canUpdate; then editable else readOnly"></div>
 
             <ng-template #editable>

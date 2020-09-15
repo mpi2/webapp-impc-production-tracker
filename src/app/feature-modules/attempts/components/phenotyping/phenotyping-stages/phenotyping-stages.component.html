@@ -19,7 +19,22 @@
             <mat-card-content></mat-card-content>
         </mat-card>
 
-        <a routerLink="phenotyping-stage-creation"><button class="create-button" mat-raised-button color="primary" *ngIf="canUpdate">Add
-                Phenotyping Stage</button></a>
+        <div id="addPhenotypingStageSection" *ngIf="canUpdate">
+            <div *ngIf="phenotypingAttemptExists(); then enabledButton else disabledButton"></div>
+            <ng-template #enabledButton>
+                <a routerLink="phenotyping-stage-creation"><button class="create-button" mat-raised-button
+                        color="primary">Add
+                        Phenotyping Stage</button></a>
+            </ng-template>
+            <ng-template #disabledButton>
+                <button class="create-button" mat-raised-button color="primary" [disabled]="true">Add
+                    Phenotyping Stage</button>
+                <div class="note">
+                    To create a phenotyping stage, please update first the plan with the Phenotyping Attempt details (external
+                    reference and background strain).
+                </div>
+            </ng-template>
+        </div>
+
     </mat-card-content>
 </mat-card>

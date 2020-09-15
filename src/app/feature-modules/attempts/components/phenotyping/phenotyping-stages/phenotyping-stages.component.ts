@@ -13,6 +13,8 @@ export class PhenotypingStagesComponent implements OnInit {
   @Input() phenotypingAttempt: PhenotypingAttempt;
   @Input() canUpdate: boolean;
 
+  originalPhenotypingAttemptAsString: string;
+
   error;
 
   phenotypingStages: PhenotypingStage[] = [];
@@ -21,6 +23,8 @@ export class PhenotypingStagesComponent implements OnInit {
 
   ngOnInit(): void {
     this.fetchPhenotypingStages();
+    this.originalPhenotypingAttemptAsString = JSON.stringify(this.phenotypingAttempt);
+
   }
 
   fetchPhenotypingStages() {
@@ -37,6 +41,10 @@ export class PhenotypingStagesComponent implements OnInit {
       }
     }
 
+  }
+
+  phenotypingAttemptExists() {
+    return this.originalPhenotypingAttemptAsString !== '{}';
   }
 
 }
