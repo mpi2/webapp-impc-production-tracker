@@ -16,7 +16,7 @@
                     <th>Start</th>
                     <th>Stop</th>
                     <th>Truncated Guide</th>
-                    <th>gRNA Concentration (ng/uL)</th>
+                    <th>gRNA Concentration (ng/µl)</th>
                 </tr>
                 <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides">
                     <tr>
@@ -44,10 +44,10 @@
                                 </div>
                                 <ng-template #concentrationEditable>
                                     <input type="text" formControlName="groupConcentration"
-                                        (keyup)="onGroupConcentrationChanged()"> ng/uL
+                                        (keyup)="onGroupConcentrationChanged()"> ng/µl
                                 </ng-template>
                                 <ng-template #concentrationReadOnly>
-                                    {{ guide.grnaConcentration ? guide.grnaConcentration || 'ng/uL' : ''}}
+                                    {{ guide.grnaConcentration ? guide.grnaConcentration || 'ng/µl' : ''}}
                                 </ng-template>
                             </td>
                         </ng-template>
@@ -62,7 +62,7 @@
                                              </div> 
                                 </ng-template>
                                 <ng-template #concentrationReadOnly>
-                                    {{ guide.grnaCncentration ? guide.grnaConcentration || 'ng/uL' : ''}}
+                                    {{ guide.grnaCncentration ? guide.grnaConcentration || 'ng/µl' : ''}}
                                 </ng-template>
                             </td>
                         </ng-template>

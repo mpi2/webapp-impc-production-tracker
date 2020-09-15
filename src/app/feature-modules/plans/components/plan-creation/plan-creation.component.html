@@ -30,8 +30,8 @@
                 <label for="startingPoint">Starting point (Outcome id):</label>
                 <mat-select  class="content" [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo"
                 [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.name">
-                    {{startingPoint.name}}
+                <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.tpo">
+                    {{startingPoint.tpo + ' (' + startingPoint.externalReference + ')' }}
                 </mat-option>
             </mat-select>
 

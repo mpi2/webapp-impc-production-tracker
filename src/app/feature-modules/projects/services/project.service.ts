@@ -7,6 +7,7 @@ import { Observable, from } from 'rxjs';
 import { Page } from 'src/app/model/page_structure/page';
 import { AssetConfiguration } from 'src/app/core/model/conf/asset-configuration';
 import { flatMap } from 'rxjs/operators';
+import { ProductionOutcomeSummary } from '../../plans/model/outcomes/production-outcome-summary';
 
 @Injectable({
   providedIn: 'root'
@@ -75,8 +76,8 @@ export class ProjectService {
     return this.http.get<ChangesHistory[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/history');
   }
 
-  getProductionTposByProject(tpn: string) {
-    return this.http.get<string[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/productionTpos');
+  getProductionOutcomesSummariesByProject(tpn: string) {
+    return this.http.get<ProductionOutcomeSummary[]>(this.apiServiceUrl + '/api/projects/' + tpn + '/productionOutcomesSummaries');
   }
 
   public exportCsv(filters: ProjectFilter) {
