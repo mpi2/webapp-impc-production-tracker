@@ -2,6 +2,8 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 import { Guide } from 'src/app/feature-modules/attempts';
+import { MatDialog } from '@angular/material/dialog';
+import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
   selector: 'app-guides',
@@ -17,7 +19,10 @@ export class GuidesComponent implements OnInit {
   guidesForm: FormGroup;
   concentrationForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) { }
+  tmpIndexRowName = 'tmp_id';
+  nextNewId = -1;
+
+  constructor(private formBuilder: FormBuilder, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.guidesForm = this.formBuilder.group({
@@ -68,6 +73,46 @@ export class GuidesComponent implements OnInit {
 
   onIndividualConcentrationChanged(guide: Guide) {
     guide.grnaConcentration = Number(guide.grnaConcentration);
+  }
+
+  addRow() {
+    const guide: Guide = new Guide();
+    guide[this.tmpIndexRowName] = this.nextNewId--;
+    this.crisprAttempt.guides.push(guide);
+  }
+
+  deleteRow(guide: Guide) {
+    if (this.isNewRecord(guide)) {
+      this.deleteGuide(guide);
+    } else {
+      this.showDeleteConfirmationDialog(guide);
+    }
+  }
+
+  showDeleteConfirmationDialog(guide: Guide) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '250px',
+      data: { confirmed: false }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteGuide(guide);
+      }
+    });
+  }
+
+  deleteGuide(guide: Guide) {
+    if (this.isNewRecord(guide)) {
+      this.crisprAttempt.guides = this.crisprAttempt.guides
+        .filter(x => x[this.tmpIndexRowName] !== guide[this.tmpIndexRowName]);
+    } else {
+      this.crisprAttempt.guides = this.crisprAttempt.guides
+        .filter(x => x.id !== guide.id);
+    }
+  }
+
+  private isNewRecord(guide: Guide) {
+    return guide.id == null;
   }
 
 }
