@@ -27,12 +27,16 @@ export class PlanCreationComponent implements OnInit {
   loggedUser: User;
 
   planTypes: NamedValue[];
-  attemptTypes: NamedValue[];
+  filteredAttemptTypesByPlanType: NamedValue[] = [];
   workUnits: NamedValue[];
-  workGroups: NamedValue[];
-  funders: NamedValue[];
+  filteredWorkGroupsByWorkUnit: NamedValue[] = [];
+  filteredFundersByWorkGroup: NamedValue[] = [];
 
   startingPoints: ProductionOutcomeSummary[];
+
+  workGroupsByWorkGroup = new Map<string, NamedValue[]>();
+  attemptTypesByPlanTypes = new Map<string, NamedValue[]>();
+  fundersByWorkGroups = new Map<string, NamedValue[]>();
 
   constructor(
     private route: ActivatedRoute,
@@ -53,10 +57,22 @@ export class PlanCreationComponent implements OnInit {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
-      this.attemptTypes = this.configurationData.attemptTypes.map(x => ({ name: x }));
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
-      this.workGroups = this.configurationData.workGroups.map(x => ({ name: x }));
-      this.funders = this.configurationData.funders.map(x => ({ name: x }));
+
+      Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {
+        const list = this.configurationData.workGroupsByWorkUnits[key];
+        this.workGroupsByWorkGroup.set(key, list.map(x => ({ name: x })));
+      });
+
+      Object.keys(this.configurationData.attemptTypesByPlanTypes).map(key => {
+        const list = this.configurationData.attemptTypesByPlanTypes[key];
+        this.attemptTypesByPlanTypes.set(key, list.map(x => ({ name: x })));
+      });
+
+      Object.keys(this.configurationData.fundersByWorkGroups).map(key => {
+        const list = this.configurationData.fundersByWorkGroups[key];
+        this.fundersByWorkGroups.set(key, list.map(x => ({ name: x })));
+      });
       this.filterLists();
     }, error => {
       this.error = error;
@@ -72,14 +88,12 @@ export class PlanCreationComponent implements OnInit {
       }
 
     }, error => {
-      console.log('error=> ', error);
-
+      this.error = error;
     });
   }
 
   loadOutcomesSummaries(tpn: string) {
     this.projectService.getProductionOutcomesSummariesByProject(tpn).subscribe(data => {
-      console.log('DATA', data);
       this.startingPoints = data;
 
     }, error => {
@@ -88,15 +102,22 @@ export class PlanCreationComponent implements OnInit {
   }
 
   onPlanTypeSelected(e) {
-    console.log('e.value', e.value);
     if (e.value === 'phenotyping') {
       this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
     }
+    this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(e.value);
   }
 
   onAttemptTypeSelected(e) {
-    console.log('attempt', e);
-    console.log(this.plan);
+  }
+
+  onWorkUnitChanged(e) {
+    this.filteredWorkGroupsByWorkUnit = this.workGroupsByWorkGroup.get(e.value);
+    this.filteredFundersByWorkGroup = [];
+  }
+
+  onWorkGroupChanged(e) {
+    this.filteredFundersByWorkGroup = this.fundersByWorkGroups.get(e.value);
   }
 
   create() {

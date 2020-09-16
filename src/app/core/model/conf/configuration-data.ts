@@ -8,6 +8,7 @@ export class ConfigurationData {
     statuses: string[];
     assignmentStatuses: string[];
     workGroups: string[];
+    workGroupsByWorkUnits: Map<string, any[]>;
     workUnits: string[];
     alleleTypes: string[];
     institutes: string[];
@@ -26,7 +27,9 @@ export class ConfigurationData {
     sequenceTypes: string[];
     sequenceCategorizations: string[];
     funders: string[];
+    fundersByWorkGroups: Map<string, any[]>;
     attemptTypes: string[];
+    attemptTypesByPlanTypes: Map<string, any[]>;
     nucleaseTypes: string[];
     nucleaseClasses: string[];
     productTypes: string[];

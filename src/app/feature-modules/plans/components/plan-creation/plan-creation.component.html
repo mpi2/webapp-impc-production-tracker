@@ -20,7 +20,7 @@
             <label for="attemtpType">Attempt Type:</label>
             <mat-select id="attemtpType" (selectionChange)="onAttemptTypeSelected($event)" class="content"
                 [(ngModel)]="plan.attemptTypeName" [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let attemptType of attemptTypes" [value]="attemptType.name">
+                <mat-option *ngFor="let attemptType of filteredAttemptTypesByPlanType" [value]="attemptType.name">
                     {{attemptType.name}}
                 </mat-option>
             </mat-select>
@@ -38,7 +38,7 @@
             </div>
 
             <label for="workUnit">Work Unit:</label>
-            <mat-select id="workUnit" class="content" [(ngModel)]="plan.workUnitName"
+            <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" class="content" [(ngModel)]="plan.workUnitName"
                 [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
                     {{workUnit.name}}
@@ -46,9 +46,9 @@
             </mat-select>
 
             <label for="workGroup">Work Group:</label>
-            <mat-select id="workGroup" class="content" [(ngModel)]="plan.workGroupName"
+            <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup" class="content" [(ngModel)]="plan.workGroupName"
                 [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let workGroup of workGroups" [value]="workGroup.name">
+                <mat-option *ngFor="let workGroup of filteredWorkGroupsByWorkUnit" [value]="workGroup.name">
                     {{workGroup.name}}
                 </mat-option>
             </mat-select>
@@ -56,7 +56,7 @@
             <label for="workGroup">Funders:</label>
             <mat-select multiple id="workGroup" class="content" [(ngModel)]="plan.funderNames"
                 [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let funder of funders" [value]="funder.name">
+                <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
                     {{funder.name}}
                 </mat-option>
             </mat-select>
