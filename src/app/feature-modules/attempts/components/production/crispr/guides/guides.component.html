@@ -16,30 +16,82 @@
                     <th>Start</th>
                     <th>Stop</th>
                     <th>Truncated Guide</th>
+                    <th>Genome Build</th>
+                    <th>PAM3</th>
+                    <th>PAM5</th>
+                    <th>Protospacer Sequence</th>
                     <th>gRNA Concentration (ng/µl)</th>
                 </tr>
                 <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides">
                     <tr>
-                        <td>
-                            {{guide.sequence}}
-                        </td>
-                        <td>
-                            {{guide.chr}}
-                        </td>
-                        <td>
-                            {{guide.start || "Not defined"}}
-                        </td>
-                        <td>
-                            {{guide.stop || "Not defined"}}
-                        </td>
-                        <td>
-                            {{guide.truncatedGuide}}
-                        </td>
+                        <div *ngIf="canUpdatePlan; then editable else readOnly"></div>
+
+                        <ng-template #editable>
+                            <td>
+                                <textarea class="content" matInput [(ngModel)]="guide.sequence"
+                                    [ngModelOptions]="{standalone: true}"></textarea>
+                            </td>
+                            <td class="short">
+                                <input matInput [(ngModel)]="guide.chr" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td class="medium">
+                                <input matInput [(ngModel)]="guide.start" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td class="medium">
+                                <input matInput [(ngModel)]="guide.stop" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td>
+                                <mat-checkbox [(ngModel)]="guide.truncatedGuide" [ngModelOptions]="{standalone: true}">
+                                </mat-checkbox>
+                            </td>
+                            <td class="mediumShort">
+                                <input matInput [(ngModel)]="guide.genomeBuild" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td class="short">
+                                <input matInput [(ngModel)]="guide.pam3" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td class="short">
+                                <input matInput [(ngModel)]="guide.pam5" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td>
+                                <input matInput [(ngModel)]="guide.protospacerSequence" [ngModelOptions]="{standalone: true}">
+                            </td>
+                        </ng-template>
+                        <ng-template #readOnly>
+                            <td>
+                                {{guide.sequence}}
+                            </td>
+                            <td>
+                                {{guide.chr}}
+                            </td>
+                            <td>
+                                {{guide.start || "Not defined"}}
+                            </td>
+                            <td>
+                                {{guide.stop || "Not defined"}}
+                            </td>
+                            <td>
+                                {{guide.truncatedGuide}}
+                            </td>
+                            <td>
+                                {{guide.genomeBuild}}
+                            </td>
+                            <td>
+                                {{guide.pam3}}
+                            </td>
+                            <td>
+                                {{guide.pam5}}
+                            </td>
+                            <td>
+                                {{guide.protospacerSequence}}
+                            </td>
+                        </ng-template>
+
                         <div
                             *ngIf="sameConcentrationForAll; then sameConcentrationForAllTemplate else individualConcentrationTemplate ">
                         </div>
                         <ng-template #sameConcentrationForAllTemplate>
-                            <td *ngIf="isFirst" [attr.rowspan]="numOfRows">
+                            <td *ngIf="isFirst" [attr.rowspan]="this.crisprAttempt.guides.length">
                                 <div *ngIf="canUpdatePlan; then concentrationEditable else concentrationReadOnly ">
                                 </div>
                                 <ng-template #concentrationEditable>
@@ -56,18 +108,31 @@
                                 <div *ngIf="canUpdatePlan; then concentrationEditable else concentrationReadOnly">
                                 </div>
                                 <ng-template #concentrationEditable>
-                                        <div [formGroup]="concentrationForm">
-                                                <input (keyup)="onIndividualConcentrationChanged(guide)"
-                                                [(ngModel)]="guide.grnaConcentration" [ngModelOptions]="{standalone: true}">
-                                             </div> 
+                                    <div [formGroup]="concentrationForm">
+                                        <input (keyup)="onIndividualConcentrationChanged(guide)"
+                                            [(ngModel)]="guide.grnaConcentration" [ngModelOptions]="{standalone: true}">
+                                    </div>
                                 </ng-template>
                                 <ng-template #concentrationReadOnly>
                                     {{ guide.grnaCncentration ? guide.grnaConcentration || 'ng/µl' : ''}}
                                 </ng-template>
                             </td>
                         </ng-template>
+
+                        <td>
+                            <button class="iconbutton delete-button" mat-icon-button matTooltip="Click to Delete" 
+                                (click)="deleteRow(guide)">
+                                <mat-icon aria-label="Delete">delete</mat-icon>
+                            </button>
+                        </td>
                     </tr>
                 </ng-template>
+                <tr>
+                    <td class="no_border"><button (click)="addRow()" [disabled]="false" *ngIf="canUpdatePlan">
+                            <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+                        </button>
+                    </td>
+                </tr>
             </table>
         </form>
     </mat-card-content>
