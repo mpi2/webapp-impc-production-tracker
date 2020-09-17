@@ -9,7 +9,6 @@ export class PhenotypingStage {
     phenotypingTypeName: string;
     phenotypingExternalRef: string;
     phenotypingExperimentsStarted: Date;
-    doNotCountTowardsCompleteness: boolean;
     initialDataReleaseDate: Date;
     tissueDistributions: TissueDistributionCentre[] = [];
     statusDates: StatusDate[];
