@@ -24,7 +24,7 @@
 
                     <label for="symbol">Symbol:</label>
                     <mat-form-field class="example-full-width">
-                        <input matInput value="{{ mutation.symbol }}">
+                        <input matInput [(ngModel)]="mutation.symbol" [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
 
                     <div id="symbolSugestionSection" *ngIf=shouldSuggestSymbol>
