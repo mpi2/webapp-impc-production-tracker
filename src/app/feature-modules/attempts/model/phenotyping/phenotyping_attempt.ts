@@ -16,6 +16,7 @@ export class PhenotypingAttempt {
     phenotypingExternalRef: string;
     phenotypingBackgroundStrainName: string;
     phenotypingStartingPoint?: PhenotypingStartingPoint;
+    doNotCountTowardsCompleteness: boolean;
     // tslint:disable-next-line
     _links?: PhenotypingLinks;
 

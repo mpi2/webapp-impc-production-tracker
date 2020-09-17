@@ -24,6 +24,15 @@
                 </div>
             </div>
 
+            <div>
+                <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
+                <div id="doNotCountTowardsCompleteness">
+                    <mat-checkbox (change)="dataChanged($event)" [(ngModel)]="phenotypingAttempt.doNotCountTowardsCompleteness"
+                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                </div>
+            </div>
+           
+
         </ng-template>
 
         <ng-template #readOnly>
@@ -42,6 +51,14 @@
                 </div>
             </div>
 
+            <div>
+                <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
+                <div id="doNotCountTowardsCompleteness">
+                    <mat-checkbox [disabled]=true [(ngModel)]="phenotypingAttempt.doNotCountTowardsCompleteness"
+                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
+                </div>
+            </div>
+            
         </ng-template>
 
         <fieldset class="content">

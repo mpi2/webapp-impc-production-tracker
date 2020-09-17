@@ -34,7 +34,8 @@ export class PhenotypingAttemptDetailsComponent implements OnInit {
   dataChanged(e) {
     this.plan.phenotypingAttempt = {
       phenotypingExternalRef: this.phenotypingAttempt.phenotypingExternalRef,
-      phenotypingBackgroundStrainName: this.phenotypingAttempt.phenotypingBackgroundStrainName
+      phenotypingBackgroundStrainName: this.phenotypingAttempt.phenotypingBackgroundStrainName,
+      doNotCountTowardsCompleteness: this.phenotypingAttempt.doNotCountTowardsCompleteness
     };
   }
 
