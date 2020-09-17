@@ -8,6 +8,8 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from 'src/app/feature-modules/plans/components/update-notification/update-notification.component';
+import { Plan } from 'src/app/feature-modules/plans/model/plan';
+import { PlanService } from 'src/app/feature-modules/plans';
 
 @Component({
   selector: 'app-phenotyping-stage-details',
@@ -22,7 +24,7 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   loading = false;
   error: string;
 
-  phenotypingStagesTypes: NamedValue[];
+  phenotypingStagesTypesByAttemptTypes = new Map<string, NamedValue[]>();
 
   changeDetails: ChangesHistory;
 
@@ -37,6 +39,10 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   psn: string;
   tpn: string;
 
+  plan: Plan;
+
+  filteredPhenotypingStagesTypesByAttemptTypes: NamedValue[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -45,16 +51,27 @@ export class PhenotypingStageDetailsComponent implements OnInit {
     private phenotypingStageService: PhenotypingStageService,
     private configurationDataService: ConfigurationDataService,
     private permissionsService: PermissionsService,
+    private planService: PlanService,
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit(): void {
     this.pin = this.route.snapshot.params.pid;
     this.psn = this.route.snapshot.params.psn;
     this.tpn = this.route.snapshot.params.id;
+    this.fetchPlan(this.pin);
     this.evaluateUpdatePermissions();
     this.loadConfigurationData();
     this.fetchOrCreatePhenotypingStage();
     this.phenotypingStageForm = this.formBuilder.group({
+    });
+  }
+
+  fetchPlan(pin: string) {
+    this.planService.getPlanByPin(pin).subscribe(data => {
+      this.plan = data;
+      this.filteredPhenotypingStagesTypesByAttemptTypes = this.phenotypingStagesTypesByAttemptTypes.get(this.plan.attemptTypeName);
+    }, error => {
+      this.error = error;
     });
   }
 
@@ -76,7 +93,10 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.phenotypingStagesTypes = this.configurationData.phenotypingStagesTypes.map(x => ({ name: x }));
+      Object.keys(this.configurationData.phenotypingStagesTypesByAttemptTypes).map(key => {
+        const list = this.configurationData.phenotypingStagesTypesByAttemptTypes[key];
+        this.phenotypingStagesTypesByAttemptTypes.set(key, list.map(x => ({ name: x })));
+      });
     });
   }
 

@@ -15,7 +15,6 @@ export class GuidesComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
   sameConcentrationForAll = true;
-  numOfRows: number;
   guidesForm: FormGroup;
   concentrationForm: FormGroup;
 
@@ -31,7 +30,6 @@ export class GuidesComponent implements OnInit {
     this.concentrationForm = this.formBuilder.group({
     });
 
-    this.numOfRows = this.crisprAttempt.guides.length;
     const sameConcentration = this.isConcentrationTheSameForAllGuides();
     if (sameConcentration) {
       this.guidesForm.get('groupConcentration').setValue(this.getCommonConcentration());

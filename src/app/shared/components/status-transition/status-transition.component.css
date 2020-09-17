@@ -1,9 +1,9 @@
-label, .label {
+label {
     clear: both;
     float: left;
     padding-right: 5px;
     padding-bottom: 5px;
-    width: 20%
+    width: 260px;
 }
 input, select {
     float: left;
