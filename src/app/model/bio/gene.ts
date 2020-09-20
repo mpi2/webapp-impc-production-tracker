@@ -5,3 +5,4 @@ export class Gene {
     speciesName: string;
     externalLink: string;
 }
+

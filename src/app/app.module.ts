@@ -21,7 +21,7 @@ import { UsersModule } from './feature-modules/users/users.module';
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserModule, // Here to prevent double instantiation of BrowserModule
@@ -37,7 +37,7 @@ import { UsersModule } from './feature-modules/users/users.module';
     IntentionsModule,
     SequencesModule,
     TargetGeneListModule,
-    AppRoutingModule,
+    AppRoutingModule
   ],
   exports: [
   ],

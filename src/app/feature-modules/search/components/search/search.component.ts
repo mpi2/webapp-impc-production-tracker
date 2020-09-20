@@ -4,7 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SearchService, Search, SearchType } from '../..';
 import { SearchResult } from '../../model/search.result';
-import { ProjectIntention } from 'src/app/model/bio/project-intention';
+import { ProjectIntention } from 'src/app/feature-modules/projects/model/project-intention';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { map, share, startWith } from 'rxjs/operators';

@@ -1,14 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfigurationDataService, ConfigurationData, LoggedUserService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { Plan } from '../../model/plan';
-import { PlanService } from '../../services/plan.service';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
-import { ProjectService } from 'src/app/feature-modules/projects';
+import { ProjectCreation, ProjectService } from 'src/app/feature-modules/projects';
 import { User } from 'src/app/core/model/user/user';
-import { ProductionOutcomeSummary } from '../../model/outcomes/production-outcome-summary';
+import { Plan } from 'src/app/feature-modules/plans/model/plan';
+import { ProductionOutcomeSummary } from 'src/app/feature-modules/plans/model/outcomes/production-outcome-summary';
+import { PlanService } from 'src/app/feature-modules/plans';
 
 @Component({
   selector: 'app-plan-creation',
@@ -16,9 +16,12 @@ import { ProductionOutcomeSummary } from '../../model/outcomes/production-outcom
   styleUrls: ['./plan-creation.component.css']
 })
 export class PlanCreationComponent implements OnInit {
+  @Input() projectCreation: ProjectCreation;
+
   tpn: string;
   error;
   loading = false;
+  planCreation = true;
 
   plan: Plan = new Plan();
   showAllElementsInLists = false;
@@ -47,16 +50,25 @@ export class PlanCreationComponent implements OnInit {
     private planService: PlanService) { }
 
   ngOnInit(): void {
-    this.tpn = this.route.snapshot.params.id;
-    this.plan.tpn = this.tpn;
+    if (!this.projectCreation) {
+      this.tpn = this.route.snapshot.params.id;
+      this.plan.tpn = this.tpn;
+      this.loadOutcomesSummaries(this.tpn);
+    } else {
+      this.planCreation = false;
+      this.projectCreation.planDetails = this.plan;
+    }
     this.loadConfigurationData();
-    this.loadOutcomesSummaries(this.tpn);
   }
 
   loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
+      if (!this.projectCreation) {
+        this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
+      } else {
+        this.planTypes = this.configurationData.planTypes.map(x => ({ name: x })).filter( x => x.name === 'production');
+      }
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
 
       Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {

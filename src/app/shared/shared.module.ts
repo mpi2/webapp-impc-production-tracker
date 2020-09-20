@@ -44,6 +44,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { StatusTransitionComponent } from './components/status-transition/status-transition.component';
 import { StatusDateComponent } from './components/status-date/status-date.component';
 import { AutocompleteGeneComponent } from './components/autocomplete-gene/autocomplete-gene.component';
+import { PlanCreationComponent } from './components/plan-creation/plan-creation.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,9 @@ import { AutocompleteGeneComponent } from './components/autocomplete-gene/autoco
     DialogBoxComponent,
     StatusTransitionComponent,
     StatusDateComponent,
-    AutocompleteGeneComponent],
+    AutocompleteGeneComponent,
+    PlanCreationComponent
+  ],
   imports: [
     MatAutocompleteModule,
     CommonModule,
@@ -134,7 +137,8 @@ import { AutocompleteGeneComponent } from './components/autocomplete-gene/autoco
     MatRadioModule,
     MatAutocompleteModule,
     MatStepperModule,
-    MatListModule
+    MatListModule,
+    PlanCreationComponent
   ],
   entryComponents: [
     DeleteConfirmationComponent, InformativeDialogComponent, DialogBoxComponent

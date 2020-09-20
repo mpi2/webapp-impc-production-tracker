@@ -3,4 +3,6 @@ export class ProjectDetails {
     assignmentStatusName: string;
     priorityName: string;
     intentions = [];
+
+    // TODO Missing consortium and institutes
 }

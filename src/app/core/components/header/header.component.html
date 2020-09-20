@@ -21,6 +21,7 @@
                 <button mat-menu-item *ngIf="canSeeProjectList" routerLink="/projects" routerLinkActive="active">Managed
                     Projects</button>
                 <button mat-menu-item *ngIf="login" routerLink="/gene-list" routerLinkActive="active">Gene List</button>
+                <button mat-menu-item routerLink="/projects/project-creation" routerLinkActive="active" *ngIf="login">Create a project</button>
                 <button mat-menu-item [matMenuTriggerFor]="attempt" *ngIf="login">Create an attempt</button>
                 <mat-menu #attempt="matMenu">
                     <button mat-menu-item routerLink="">CRISPR (Not available yet)</button>

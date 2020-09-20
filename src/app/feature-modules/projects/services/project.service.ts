@@ -8,6 +8,7 @@ import { Page } from 'src/app/model/page_structure/page';
 import { AssetConfiguration } from 'src/app/core/model/conf/asset-configuration';
 import { flatMap } from 'rxjs/operators';
 import { ProductionOutcomeSummary } from '../../plans/model/outcomes/production-outcome-summary';
+import { ProjectCreation } from '../model/project-creation';
 
 @Injectable({
   providedIn: 'root'
@@ -90,5 +91,9 @@ export class ProjectService {
   public updateProject(project: Project) {
     const url = this.apiServiceUrl + '/api/projects/' + project.tpn;
     return this.http.put<any>(url, project);
+  }
+
+  public createProject(project: ProjectCreation) {
+    return this.http.post<any>(this.apiServiceUrl + '/api/projects/', project);
   }
 }

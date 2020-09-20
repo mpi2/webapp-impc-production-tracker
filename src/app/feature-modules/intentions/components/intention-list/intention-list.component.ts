@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ProjectIntention } from 'src/app/model';
 import { MatDialog } from '@angular/material/dialog';
 import { trigger, state, style, transition, animate } from '@angular/animations';
+import { ProjectIntention } from 'src/app/feature-modules/projects';
 
 @Component({
   selector: 'app-intention-list',
