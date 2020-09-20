@@ -1,166 +1,77 @@
 <mat-card>
-    <mat-card-subtitle>Project Intention(s)</mat-card-subtitle>
-    <mat-card-content>
-        <table class="mat-elevation-z8">
-            <tr>
-                <th>Name</th>
-                <th class="sequence">Sequence</th>
-                <th>Start Coordinate</th>
-                <th>End Coordinate</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <ng-template ngFor let-primer [ngForOf]="dataSource">
-                <div *ngIf="canUpdatePlan; then editableRow else readOnlyRow">
-                </div>
-                <ng-template #editableRow>
-                    <tr>
-                        <td>
-                            <input [ngClass]="{'required': name.invalid}" name="name" #name="ngModel"
-                                [(ngModel)]="primer.name" placeholder="Primer's name" (keyup)="onPrimerChanged(primer)"
-                                [ngModelOptions]="{standalone: true}" required>
-                        </td>
-                        <td>
-                            <input [ngClass]="{'required': sequence.invalid, 'sequence_input':true}" name="sequence"
-                                #sequence="ngModel" [(ngModel)]="primer.sequence" placeholder="Sequence"
-                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
-                        </td>
-                        <td>
-                            <input appDigitOnly placeholder="Start Coordinate"
-                                [(ngModel)]="primer.genomicStartCoordinate" (keyup)="onPrimerChanged(primer)"
-                                [ngModelOptions]="{standalone: true}">
-                        </td>
-                        <td>
-                            <input appDigitOnly placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
-                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}">
-                        </td>
-                        <td>
-                            <button (click)="onClickToDeleteElement(primer)">
-                                <mat-icon aria-hidden="false" aria-label="Example home icon">delete</mat-icon>
-                            </button>
-                        </td>
-                        <td class="status">
-                            {{ getEditionStatusForGuideId(primer.id)}}
-                        </td>
-                    </tr>
-                </ng-template>
-                <ng-template #readOnlyRow>
-                    <tr>
-                        <td>
-                            {{primer.name}}
-                        </td>
-                        <td>
-                            {{primer.sequence}}
-                        </td>
-                        <td>
-                            {{primer.genomicStartCoordinate || "Not defined"}}
-                        </td>
-                        <td>
-                            {{primer.genomicEndCoordinate || "Not defined"}}
-                        </td>
-                    </tr>
-                </ng-template>
-            </ng-template>
-            <tr>
-                <td class="no_border"><button (click)="addPrimer()" [disabled]="false" *ngIf="canUpdatePlan">
-                        <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
-                    </button>
-                </td>
-            </tr>
-        </table>
+  <mat-card-subtitle>Intention(s)</mat-card-subtitle>
+  <mat-card-content>
+      <table class="mat-elevation-z8">
+          <tr>
+              <th>Molecular mutation type *</th>
+              <th>Mutation categorization(s)</th>
+              <th>Gene symbol *</th>
+              <th></th>
+          </tr>
+          <ng-template ngFor let-projectIntention [ngForOf]="projectCreation.projectIntentions">
+              <tr>
+                  <td>
+                      <mat-select class="molecularMutaionType"
+                          [(value)]="projectIntention.molecularMutationTypeName">
+                          <mat-option *ngFor="let molecularMutationType of molecularMutationTypes" [value]="molecularMutationType.name">
+                              {{ molecularMutationType.name }}
+                          </mat-option>
+                      </mat-select>
+                  </td>
+                  <td>
+                      <mat-select (selectionChange)="addMutationCategorization(projectIntention, mutationCategorizationNames)" class="class"
+                          [(value)]="mutationCategorizationNames" multiple>
+                          <mat-option *ngFor="let mutationCategorization of allMutationCategorizations" [value]="mutationCategorization.name">
+                              {{ mutationCategorization.name }}
+                          </mat-option>
+                      </mat-select>
+                  </td>
+                  <td>
+                    <mat-form-field class="content">
+                        <input matInput placeholder="" aria-label="State" [matAutocomplete]="auto" [formControl]="searchGeneCtrl" />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol" (onSelectionChange)="addGeneToIntention(projectIntention, gene)">
+                                    <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- <app-autocomplete-gene [symbols]="symbols"></app-autocomplete-gene> -->
+                  </td>
+                  <td>
+                      <button (click)="deleteRow(projectIntention)">
+                          <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                      </button>
+                  </td>
 
+              </tr>
 
+              <ng-template>
+                  <tr>
+                      <td>
+                        {{ projectIntention.molecularMutationTypeName || "Not defined" }}
+                      </td>
+                      <td>
+                        {{ projectIntention.mutationCategorizations || "Not defined" }}
+                      </td>
+                      <td>
+                        {{ projectIntention.intentionByGene.gene.symbol || "Not defined" }}	
+                      </td>
 
+                  </tr>
+              </ng-template>
+          </ng-template>
 
-        <div>
-            <mat-form-field class="example-full-width">
-              <input matInput placeholder="Search marker symbol" aria-label="Gene" [matAutocomplete]="auto" formControlName="genesSelected" [formControl]="searchGenesCtrl">
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
-                <ng-container *ngIf="!isLoading">
-                  <mat-option *ngFor="let gene of filteredGenes" [value]="gene" (click)="addGene()">
-                    <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
-                  </mat-option>
-                </ng-container>
-              </mat-autocomplete>
-            </mat-form-field>
-            <br>
-            <div class="alert alert-danger" *ngIf="errorMsg">
-              {{ errorMsg }}
-            </div>
-            <table mat-table [dataSource]="genesSelected" #genesSelectedTable class="my-table mat-elevation-z8">
-              <!-- Symbol Column -->
-              <ng-container matColumnDef="symbol">
-                <th mat-header-cell *matHeaderCellDef> Marker symbol </th>
-                <td mat-cell *matCellDef="let element"> {{ element.symbol }} </td>
-              </ng-container>
-            
-              <!-- MGI Column -->
-              <ng-container matColumnDef="accId">
-                <th mat-header-cell *matHeaderCellDef> MGI ID </th>
-                <td mat-cell *matCellDef="let element"> {{ element.accId }} </td>
-              </ng-container>
-            
-              <!-- Action Column -->
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef> Action </th>
-                <td mat-cell *matCellDef="let element" class="action-link"> 
-                  <a (click)="openDialogGenes('Delete', element)"><i class="material-icons alert-danger"> delete </i></a>  
-                </td>
-              </ng-container>
-                        
-              <tr mat-header-row *matHeaderRowDef="displayedColumnsGenes"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumnsGenes;"></tr>
-            </table>
-          </div>
-    
-          <div>
-            <mat-form-field class="example-full-width">
-              <mat-select matInput name="molecularMutationType" placeholder="Molecular Mutation Type" formControlName="molecularMutationType" required>
-                <mat-option *ngFor="let molecularMutationType of molecularMutTypes" [value]="molecularMutationType">{{ molecularMutationType.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-    
-          <div>
-            <mat-form-field class="example-full-width">
-              <mat-select matInput name="alleleType" placeholder="Allele Type" formControlName="alleleType" required>
-                <mat-option *ngFor="let alleleType of alleleTypes" [value]="alleleType">{{ alleleType.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-    
-          <div>
-            <mat-form-field class="example-full-width">
-              <mat-select matInput name="alleleCategorizations" placeholder="Allele Categorizations" multiple>
-                <mat-option *ngFor="let alleleCategorization of alleleCategorizations" [value]="alleleCategorizations">{{ alleleCategorization.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-    
-          <div>
-            <mat-form-field class="example-full-width">
-              <textarea formControlName="sequence" matInput placeholder="Sequence" class="create-project-textarea" ></textarea>
-            </mat-form-field>
-          </div>
-    
-          <div>
-            <mat-form-field class="example-full-width">
-              <mat-select matInput name="sequenceType" placeholder="Sequence Type" formControlName="sequenceType">
-                <mat-option *ngFor="let sequenceType of sequenceTypes" [value]="sequenceType">{{ sequenceType.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-    
-          <div>
-            <mat-form-field class="example-full-width">
-              <mat-select matInput name="sequenceCategory" placeholder="Sequence Category" formControlName="sequenceCategory">
-                <mat-option *ngFor="let sequenceCategory of sequenceCategories" [value]="sequenceCategory">{{ sequenceCategory.name }}</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
+          <tr>
+            <td class="no_border"><button (click)="addRow()" [disabled]="false">
+                <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+            </button>
+            </td>
+          </tr>
 
-          
+      </table>
 
-    </mat-card-content>
+  </mat-card-content>
 </mat-card>

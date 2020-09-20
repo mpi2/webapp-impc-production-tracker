@@ -1,7 +1,8 @@
 import { ProjectLinks } from '../../feature-modules/projects/model/project-links';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
-import { InstitutesConsortium, ProjectIntention, StatusDate } from '..';
+import { InstitutesConsortium, StatusDate } from '..';
+import { ProjectIntention } from 'src/app/feature-modules/projects/model/project-intention';
 
 export class Project {
     id: number;
@@ -19,6 +20,7 @@ export class Project {
     comment: string;
     relatedWorkUnitNames: string[];
     relatedWorkGroupNames: string[];
+    recovery: boolean;
 
     // tslint:disable-next-line
     _links: ProjectLinks;

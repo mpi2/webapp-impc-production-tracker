@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ProjectListComponent } from './components/project-list/project-list.component';
 import { ProjectDetailComponent } from './components/project-detail/project-detail.component';
-import { CreateProjectComponent } from './components/create-project/create-project.component';
+import { ProjectCreationComponent } from './components/project-creation/project-creation.component';
 import { AuthGuard } from 'src/app/core/guards/auth.guard';
 import { HistoryComponent } from 'src/app/shared/components/history/history.component';
 import { ProductionPlanComponent } from '../plans/components/production-plan/production-plan.component';
@@ -12,9 +12,12 @@ import { PlanRouterComponent } from '../plans/components/plan-router/plan-router
 import { OutcomeDetailComponent } from '../plans/components/outcomes/outcome-detail/outcome-detail.component';
 // tslint:disable-next-line:max-line-length
 import { PhenotypingStageDetailsComponent } from '../attempts/components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
-import { PlanCreationComponent } from '../plans/components/plan-creation/plan-creation.component';
+import { PlanCreationComponent } from 'src/app/shared/components/plan-creation/plan-creation.component';
 
 const routes: Routes = [
+  {
+    path: 'projects/project-creation', component: ProjectCreationComponent,
+  },
   {
     path: 'projects/:id', component: ProjectDetailComponent,
   },
@@ -86,8 +89,7 @@ const routes: Routes = [
     }
   },
 
-  { path: 'projects', component: ProjectListComponent },
-  { path: 'create-project', component: CreateProjectComponent, canActivate: [AuthGuard] },
+  { path: 'projects', component: ProjectListComponent }
 ];
 
 @NgModule({

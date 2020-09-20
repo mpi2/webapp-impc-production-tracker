@@ -3,7 +3,7 @@ import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { GeneService } from 'src/app/core';
+import { Gene, GeneService } from 'src/app/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
@@ -12,7 +12,6 @@ import { MatChipInputEvent } from '@angular/material/chips';
   styleUrls: ['./autocomplete-gene.component.css']
 })
 export class AutocompleteGeneComponent implements OnInit {
-
   @Input() symbols: string[];
 
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
@@ -27,9 +26,6 @@ export class AutocompleteGeneComponent implements OnInit {
   constructor(private geneService: GeneService) { }
 
   ngOnInit(): void {
-    // if (!this.symbols) {
-    //   this.symbols = [];
-    // }
   }
 
   public onSearchChange(value: string) {
@@ -86,6 +82,9 @@ export class AutocompleteGeneComponent implements OnInit {
 
   // Add the new gene object to the current record (if it does not exist already)
   private addGeneToList(label: string) {
+    if (!this.symbols) {
+      this.symbols = [];
+    }
     const alreadyExistingGene = this.symbols.find(x => x === label);
     if (!alreadyExistingGene) {
       this.symbols.push(label);

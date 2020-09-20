@@ -1,4 +1,4 @@
-<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<div *ngIf="error && !planCreation" class="alert alert-danger">{{error}}</div>
 <mat-card>
     <mat-card-title>
         Plan Creation
@@ -6,10 +6,10 @@
     <mat-card-content>
 
         <div class="fieldsSection">
-            <label for="tpo">Project id:</label>
-            <div id="tpo"><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></div>
+            <label *ngIf="planCreation" for="tpo">Project id:</label>
+            <div *ngIf="planCreation" id="tpo"><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></div>            
 
-            <label for="planType">Plan Type:</label>
+            <label for="planType">Plan Type *:</label>
             <mat-select (selectionChange)="onPlanTypeSelected($event)" class="content" [(ngModel)]="plan.typeName"
                 [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let planType of planTypes" [value]="planType.name">
@@ -17,7 +17,7 @@
                 </mat-option>
             </mat-select>
 
-            <label for="attemtpType">Attempt Type:</label>
+            <label for="attemtpType">Attempt Type *:</label>
             <mat-select id="attemtpType" (selectionChange)="onAttemptTypeSelected($event)" class="content"
                 [(ngModel)]="plan.attemptTypeName" [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let attemptType of filteredAttemptTypesByPlanType" [value]="attemptType.name">
@@ -37,7 +37,7 @@
 
             </div>
 
-            <label for="workUnit">Work Unit:</label>
+            <label for="workUnit">Work Unit *:</label>
             <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" class="content" [(ngModel)]="plan.workUnitName"
                 [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
@@ -45,7 +45,7 @@
                 </mat-option>
             </mat-select>
 
-            <label for="workGroup">Work Group:</label>
+            <label for="workGroup">Work Group *:</label>
             <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup" class="content" [(ngModel)]="plan.workGroupName"
                 [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let workGroup of filteredWorkGroupsByWorkUnit" [value]="workGroup.name">
@@ -74,7 +74,7 @@
 
         </div>
 
-        <mat-card class="update-button">
+        <mat-card *ngIf="planCreation" class="update-button">
             <mat-card-content >
                 <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
                 <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>

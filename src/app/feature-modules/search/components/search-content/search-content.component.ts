@@ -1,12 +1,12 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild, OnDestroy } from '@angular/core';
 import { SearchResult } from '../../model/search.result';
-import { ProjectIntention } from 'src/app/model';
 import { Page } from 'src/app/model/page_structure/page';
 import { Search, SearchService } from '../..';
 import { LoggedUserService } from 'src/app/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 import { Sort } from 'src/app/model/page_structure/sort';
+import { ProjectIntention } from 'src/app/feature-modules/projects/model/project-intention';
 
 @Component({
   selector: 'app-search-content',

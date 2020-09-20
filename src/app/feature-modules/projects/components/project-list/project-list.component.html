@@ -1,8 +1,4 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<mat-card *ngIf="false">
-    <a routerLink="/create-project" class="btn btn-primary active" role="button" aria-pressed="true">Create new
-        project</a>
-</mat-card>
 
 <button mat-button (click)="toogleShowFilters()">
     <mat-icon>filter_list</mat-icon> {{ filterVisible ? 'Hide Filters' : 'Show Filters' }}
