@@ -38,6 +38,8 @@
         </div>
       </fieldset>
 
+      <app-project-consortium-institutes [project]="project" [canUpdate]="canUpdateProject"></app-project-consortium-institutes>
+
       <fieldset>
         <p>Intentions:</p>
         <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions">

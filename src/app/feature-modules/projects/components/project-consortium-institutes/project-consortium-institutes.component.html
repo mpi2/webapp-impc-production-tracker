@@ -6,46 +6,50 @@
             <th>Institute(s)</th>
             <th></th>
         </tr>
-        <ng-template ngFor let-institutesConsortium [ngForOf]="projectCreation.consortia">
-            <tr>
-                <td>
-                    <mat-select class="consortiumName" [(value)]="institutesConsortium.consortiumName">
-                        <mat-option *ngFor="let consortium of consortia" [value]="consortium.name">
-                            {{ consortium.name }}
-                        </mat-option>
-                    </mat-select>
-                </td>
-                <td>
-                    <mat-select class="class" [(value)]="institutesConsortium.institutesNames" multiple>
-                        <mat-option *ngFor="let institute of institutes" [value]="institute.name">
-                            {{ institute.name }}
-                        </mat-option>
-                    </mat-select>
-                </td>
-                <td>
-                    <button (click)="deleteRow(institutesConsortium)">
-                        <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
-                    </button>
-                </td>
+        <ng-template ngFor let-institutesConsortium [ngForOf]="project.consortia">
+            <div *ngIf="canUpdate && false; then editable else readOnly"></div>
+            <ng-template #editable>
+                <tr>
+                    <td>
+                        <mat-select class="consortiumName" [(value)]="institutesConsortium.consortiumName">
+                            <mat-option *ngFor="let consortium of consortia" [value]="consortium.name">
+                                {{ consortium.name }}
+                            </mat-option>
+                        </mat-select>
+                    </td>
+                    <td>
+                        <mat-select class="class" [(value)]="institutesConsortium.institutes" multiple>
+                            <mat-option *ngFor="let institute of institutes" [value]="institute.name">
+                                {{ institute.name }}
+                            </mat-option>
+                        </mat-select>
+                    </td>
+                    <td>
+                        <button (click)="deleteRow(institutesConsortium)">
+                            <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                        </button>
+                    </td>
 
-            </tr>
+                </tr>
 
-            <ng-template>
+            </ng-template>
+
+            <ng-template #readOnly>
                 <tr>
                     <td>
                         {{ institutesConsortium.consortiumName || "Not defined" }}
                     </td>
                     <td>
-                        {{ institutesConsortium.institutesNames || "Not defined" }}
+                        {{ institutesConsortium.institutes || "Not defined" }}
                     </td>
                 </tr>
             </ng-template>
         </ng-template>
 
-        <tr>
+        <tr *ngIf="canUpdate && false">
             <td class="no_border"><button (click)="addRow()" [disabled]="false">
-                <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
-            </button>
+                    <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+                </button>
             </td>
         </tr>
 

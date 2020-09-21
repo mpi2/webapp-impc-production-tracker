@@ -2,9 +2,8 @@ import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { InstitutesConsortium } from 'src/app/model';
+import { InstitutesConsortium, Project } from 'src/app/model';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { ProjectCreation } from '../../model/project-creation';
 
 @Component({
   selector: 'app-project-consortium-institutes',
@@ -12,7 +11,8 @@ import { ProjectCreation } from '../../model/project-creation';
   styleUrls: ['./project-consortium-institutes.component.css']
 })
 export class ProjectConsortiumInstitutesComponent implements OnInit {
-  @Input() projectCreation: ProjectCreation;
+  @Input() project: Project;
+  @Input() canUpdate: boolean;
 
   configurationData: ConfigurationData;
   consortia: NamedValue[];
@@ -41,10 +41,10 @@ export class ProjectConsortiumInstitutesComponent implements OnInit {
   addRow() {
     const institutesConsortium: InstitutesConsortium = new InstitutesConsortium();
     institutesConsortium[this.tmpIndexRowName] = this.nextNewId--;
-    if (!this.projectCreation.consortia) {
-      this.projectCreation.consortia = [];
+    if (!this.project.consortia) {
+      this.project.consortia = [];
     }
-    this.projectCreation.consortia.push(institutesConsortium);
+    this.project.consortia.push(institutesConsortium);
   }
 
   deleteRow(institutesConsortium: InstitutesConsortium) {
@@ -69,12 +69,15 @@ export class ProjectConsortiumInstitutesComponent implements OnInit {
 
   deleteConsortia(institutesConsortium: InstitutesConsortium) {
     if (this.isNewRecord(institutesConsortium)) {
-      this.projectCreation.consortia = this.projectCreation.consortia
+      this.project.consortia = this.project.consortia
         .filter(x => x[this.tmpIndexRowName] !== institutesConsortium[this.tmpIndexRowName]);
     } else {
-      this.projectCreation.consortia = this.projectCreation.consortia
+      this.project.consortia = this.project.consortia
         .filter(x => x.id !== institutesConsortium.id);
     }
+
+    console.log(this.project.consortia );
+
   }
 
   private isNewRecord(institutesConsortium: InstitutesConsortium) {

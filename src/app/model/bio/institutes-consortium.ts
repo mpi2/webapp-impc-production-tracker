@@ -1,5 +1,5 @@
 export class InstitutesConsortium {
-    id: string;
+    id: number;
     consortiumName: string;
     institutesNames: string[];
 }
