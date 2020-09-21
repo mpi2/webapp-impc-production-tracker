@@ -7,7 +7,7 @@
             <th></th>
         </tr>
         <ng-template ngFor let-institutesConsortium [ngForOf]="project.consortia">
-            <div *ngIf="canUpdate && false; then editable else readOnly"></div>
+            <div *ngIf="canUpdate; then editable else readOnly"></div>
             <ng-template #editable>
                 <tr>
                     <td>
@@ -46,7 +46,7 @@
             </ng-template>
         </ng-template>
 
-        <tr *ngIf="canUpdate && false">
+        <tr *ngIf="canUpdate">
             <td class="no_border"><button (click)="addRow()" [disabled]="false">
                     <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
                 </button>
