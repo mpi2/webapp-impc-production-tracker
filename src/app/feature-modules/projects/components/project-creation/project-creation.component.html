@@ -8,7 +8,7 @@
         <mat-card-subtitle>Project Details</mat-card-subtitle>
         <mat-card-content>
             <div class="fieldsSectionProject">
-                <app-project-consortium-institutes [project]="projectCreation"></app-project-consortium-institutes>
+                <app-project-consortium-institutes [project]="projectCreation" [canUpdate]="true"></app-project-consortium-institutes>
 
                 <label for="privacy">Privacy *:</label>
                 <mat-select class="content" [(ngModel)]="projectCreation.privacyName" [ngModelOptions]="{standalone: true}">
