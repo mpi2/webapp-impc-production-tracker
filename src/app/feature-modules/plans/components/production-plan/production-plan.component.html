@@ -21,7 +21,7 @@
 <app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [canUpdate]="canUpdatePlan">
 </app-outcome-list>
 
-<app-crispr-attempt *ngIf="plan.attemptTypeName === 'crispr'"
+<app-crispr-attempt *ngIf="plan.attemptTypeName === 'crispr' || plan.attemptTypeName === 'haplo-essential crispr'"
   [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>
 
