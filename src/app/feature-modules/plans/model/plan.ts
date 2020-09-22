@@ -6,6 +6,7 @@ import { StatusDate } from 'src/app/model/bio/status-date';
 import { StatusTransition } from 'src/app/model/status_transition/status_transition';
 import { PhenotypingStartingPoint } from '../../attempts/model/phenotyping/phenotyping_starting_point';
 import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts/model/production/crispr/crispr-attempt';
+import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 
 export class Plan {
     id: number;
@@ -40,23 +41,20 @@ export class Plan {
 })
 export class PlanAdapter implements Adapter<Plan> {
     constructor(
-        private crisprAttemptAdapter: CrisprAttemptAdapter) { }
+        private crisprAttemptAdapter: CrisprAttemptAdapter, private inputHandlerService: InputHandlerService) { }
 
     adapt(item): Plan {
         const plan = item as Plan;
-        plan.comment = this.getEmptyIfNull(plan.comment);
-        plan.productsAvailableForGeneralPublic = this.getFalseIfNull(plan.productsAvailableForGeneralPublic);
+        plan.comment = this.inputHandlerService.getEmptyIfNull(plan.comment);
+        plan.productsAvailableForGeneralPublic = this.inputHandlerService.getFalseIfNull(plan.productsAvailableForGeneralPublic);
         if (plan.crisprAttempt) {
             plan.crisprAttempt = this.crisprAttemptAdapter.adapt(plan.crisprAttempt);
         }
+        if (plan.attemptTypeName === 'crispr' || plan.attemptTypeName === 'haplo-essential crispr') {
+            if (!plan.crisprAttempt) {
+                plan.crisprAttempt = new CrisprAttempt();
+            }
+        }
         return plan;
-    }
-
-    private getEmptyIfNull(value: string): string {
-        return value === null ? '' : value;
-    }
-
-    private getFalseIfNull(value: boolean): boolean {
-        return value === null ? false : value;
     }
 }
