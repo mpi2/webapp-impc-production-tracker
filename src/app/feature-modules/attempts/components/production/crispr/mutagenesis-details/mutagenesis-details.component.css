@@ -1,4 +1,25 @@
-th, td {
-    border-collapse:separate; 
-    padding:5px 
+label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 180px;
+}
+input,
+select {
+  float: left;
+}
+.content {
+  width: 300px;
+  float: left;
+  padding-bottom: 5px;
+}
+.section {
+  clear: both;
+  float: left;
+  min-width: 800px;
+  max-width: 1000px;
+}
+
+mat-card-content {
+    height: 90px;
 }

@@ -8,7 +8,7 @@
                 <th>Change</th>
             </tr>
             <tr *ngFor="let detail of changeDetails.details">
-                <td> {{ detail.field }} </td>
+                <td> {{ formatField( detail.field) }} </td>
                 <td> {{ detail.oldValue }} => {{ detail.newValue }} </td>
             </tr>
         </table>

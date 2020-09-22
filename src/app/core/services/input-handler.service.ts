@@ -31,7 +31,10 @@ export class InputHandlerService {
     }
 
     public getUTCFormat(originalData: Date): Date {
-        return new Date(originalData.toString() + 'T00:00:00Z');
+        if (originalData) {
+            return new Date(originalData.toString() + 'T00:00:00Z');
+        }
+        return null;
     }
 
 }

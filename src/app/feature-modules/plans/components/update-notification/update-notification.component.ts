@@ -33,6 +33,10 @@ export class UpdateNotificationComponent implements OnInit {
 
   }
 
+  formatField(field: string) {
+    return field.substring(field.lastIndexOf('.') + 1);
+  }
+
   // Remove the records for Element changed because we don't need them here
   removeElementChanged(changeDetails: ChangesHistory) {
     if (changeDetails.details) {
