@@ -27,7 +27,7 @@ export class Plan {
     productsAvailableForGeneralPublic: boolean;
     crisprAttempt: CrisprAttempt;
     phenotypingAttemptResponse: PhenotypingAttempt;
-    // Need to keep this copu because phenotypingAttemptResponse is not processed by the update/create endpoint
+    // Need to keep this copy because phenotypingAttemptResponse is not processed by the update/create endpoint
     phenotypingAttempt: PhenotypingAttempt;
     statusTransition: StatusTransition;
     // Applies only to phenotyping plans
@@ -46,7 +46,6 @@ export class PlanAdapter implements Adapter<Plan> {
     adapt(item): Plan {
         const plan = item as Plan;
         plan.comment = this.inputHandlerService.getEmptyIfNull(plan.comment);
-        plan.productsAvailableForGeneralPublic = this.inputHandlerService.getFalseIfNull(plan.productsAvailableForGeneralPublic);
         if (plan.crisprAttempt) {
             plan.crisprAttempt = this.crisprAttemptAdapter.adapt(plan.crisprAttempt);
         }

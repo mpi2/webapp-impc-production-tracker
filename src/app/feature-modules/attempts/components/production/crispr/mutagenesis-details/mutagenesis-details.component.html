@@ -1,15 +1,41 @@
 <mat-card>
   <mat-card-subtitle>Mutagenesis Details</mat-card-subtitle>
   <mat-card-content>
-    <table>
-      <tr>
-        <td>
-          Mutagenesis External Ref:
-        </td>
-        <td>
-          {{ crisprAttempt.mutagenesisExternalRef }}
-        </td>
-      </tr>
-    </table>
+    <div *ngIf="canUpdatePlan; then editable else readOnly"></div>
+
+    <ng-template #editable>
+
+      <div>
+        <label for="mutagenesisExternalRef">Mutagenesis External Ref:</label>
+        <mat-form-field id="mutagenesisExternalRef">
+          <input matInput [(ngModel)]="crisprAttempt.mutagenesisExternalRef" [ngModelOptions]="{standalone: true}">
+        </mat-form-field>
+      </div>
+
+      <label for="strainInjectedName">Strain Injected:</label>
+      <div id="strainInjectedName" class="content">
+        <mat-select class="select-content" [(value)]="crisprAttempt.strainInjectedName">
+          <mat-option *ngFor="let strain of strains" [value]="strain.name">
+            {{strain.name}}
+          </mat-option>
+        </mat-select>
+      </div>
+
+    </ng-template>
+
+    <ng-template #readOnly>
+
+      <div>
+        <label for="mutagenesisExternalRef">Mutagenesis External Ref:</label>
+        {{ crisprAttempt.mutagenesisExternalRef }}
+      </div>
+
+      <label for="strainInjectedName">Strain Injected:</label>
+      <div id="strainInjectedName" class="content">
+        {{ crisprAttempt.strainInjectedName }}
+      </div>
+
+    </ng-template>
+
   </mat-card-content>
 </mat-card>

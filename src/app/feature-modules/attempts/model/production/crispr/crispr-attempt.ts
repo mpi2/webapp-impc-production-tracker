@@ -28,7 +28,7 @@ export class CrisprAttempt {
     reagents: Reagent[] = [];
     genotypePrimers: GenotypePrimer[] = [];
     assay: Assay = new Assay();
-    strainInjected: StrainInjected[] = [];
+    strainInjectedName: string;
 }
 
 @Injectable({
@@ -44,7 +44,6 @@ export class CrisprAttemptAdapter implements Adapter<CrisprAttempt> {
         crisprAttempt.miDate = this.inputHandlerService.getUTCFormat(crisprAttempt.miDate);
         crisprAttempt.comment = this.inputHandlerService.getEmptyIfNull(crisprAttempt.comment);
         crisprAttempt.attemptExternalRef = this.inputHandlerService.getEmptyIfNull(crisprAttempt.attemptExternalRef);
-        crisprAttempt.experimental = this.inputHandlerService.getFalseIfNull(crisprAttempt.experimental);
         return crisprAttempt;
     }
 }
