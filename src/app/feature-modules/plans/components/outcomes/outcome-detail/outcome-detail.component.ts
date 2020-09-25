@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Outcome } from '../../../model/outcomes/outcome';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OutcomeService } from '../../../services/outcome.service';
 import {
   PermissionsService, LoggedUserService, ChangesHistory,
@@ -54,6 +54,7 @@ export class OutcomeDetailComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
+    private router: Router,
     private snackBar: MatSnackBar,
     private outcomeService: OutcomeService,
     private mutationService: MutationService,
@@ -114,6 +115,7 @@ export class OutcomeDetailComponent implements OnInit {
   private fetchOutcomeByTpo() {
     this.outcomeService.getOutcomeByTpo(this.tpo).subscribe(data => {
       this.outcome = data;
+      this.originalOutcomeAsString = JSON.stringify(this.outcome);
       this.pin = this.outcome.pin;
       // Now that we have a pin we can calculate permissions
       this.evaluateUpdatePermissions();
@@ -126,6 +128,7 @@ export class OutcomeDetailComponent implements OnInit {
   private fetchOutcomeByPinAndTpo() {
     this.outcomeService.getOutcomeByPinAndTpo(this.pin, this.tpo).subscribe(data => {
       this.outcome = data;
+      this.originalOutcomeAsString = JSON.stringify(this.outcome);
       this.evaluateUpdatePermissions();
       this.fetchMutationsByPinAndTpo(this.outcome);
     }, error => {
@@ -198,6 +201,10 @@ export class OutcomeDetailComponent implements OnInit {
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
       this.showChangeNotification(changeResponse);
       this.error = null;
+      const link: string = changeResponse._links.self.href;
+      const tpo = link.substring(link.lastIndexOf('/') + 1);
+      this.reloadForTpo(tpo);
+
     },
       error => {
         console.error('Error while creating plan outcome', error);
@@ -205,6 +212,10 @@ export class OutcomeDetailComponent implements OnInit {
         this.loading = false;
       }
     );
+  }
+
+  reloadForTpo(tpo: string) {
+    this.router.navigate(['/projects/' + this.tpn + '/plans/' + this.pin + '/outcomes/' + tpo]);
   }
 
   update() {
@@ -248,17 +259,18 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   createMutations() {
-    const mutationsToCreate = this.outcome.mutations.filter(x => !x.min);
+    if (this.outcome.mutations) {
+      const mutationsToCreate = this.outcome.mutations.filter(x => !x.min);
 
-    mutationsToCreate.forEach(x => {
-      this.mutationService.createMutation(x).subscribe((changeResponse: ChangeResponse) => {
-        this.showChangeNotification(changeResponse);
-      },
-        error => {
-          console.log(error);
-        });
-    });
-
+      mutationsToCreate.forEach(x => {
+        this.mutationService.createMutation(x).subscribe((changeResponse: ChangeResponse) => {
+          this.showChangeNotification(changeResponse);
+        },
+          error => {
+            console.log(error);
+          });
+      });
+    }
   }
 
   deleteMutations() {

@@ -30,6 +30,6 @@ fieldset {
   float: left;
 }
 
-td {
+td, th {
   min-width: 150px;
 }

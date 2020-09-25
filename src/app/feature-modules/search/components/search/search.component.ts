@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -22,7 +22,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css']
 })
-export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
+export class SearchComponent implements OnInit, OnDestroy {
 
   @ViewChild('drawer') drawer: MatSidenav;
 
@@ -69,6 +69,20 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
       this.configurationLoaded = true;
     });
     this.isLoading = true;
+
+    this.subscribeToFilterChanges();
+
+  }
+
+  private subscribeToFilterChanges() {
+    this.filterChangesSubscription = this.filterService.filterChange.subscribe(filters => {
+      this.filters = filters;
+      this.currentSearch.filters = filters;
+      const validatedFilters = this.filterService.buildValidFilter(filters);
+
+      this.updateUrlWithFilters(validatedFilters);
+      this.searchService.emitSearchChange(this.currentSearch);
+    });
   }
 
   setInitialSearchInformation() {
@@ -76,17 +90,6 @@ export class SearchComponent implements OnInit, AfterViewInit, OnDestroy {
     const searchInput: SearchInput = new SearchInput();
     searchInput.type = SearchInputType.Text;
     this.currentSearch.searchInput = searchInput;
-  }
-
-  ngAfterViewInit() {
-    this.filterChangesSubscription =
-      this.filterService.filterChange.subscribe(filters => {
-        this.filters = filters;
-        this.currentSearch.filters = filters;
-        const validatedFilters = this.filterService.buildValidFilter(filters);
-        this.updateUrlWithFilters(validatedFilters);
-        this.searchService.emitSearchChange(this.currentSearch);
-      });
   }
 
   ngOnDestroy() {
