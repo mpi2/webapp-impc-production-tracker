@@ -17,6 +17,10 @@
                     <div id="tpo">{{ outcome.tpo }}</div>
                 </div>
 
+                <label for="pin">Plan Id:</label>
+                <div id="pin" class="content"> <a routerLink="/projects/{{ tpn }}/production-plan/{{pin}}">
+                        {{ pin }}</a></div>
+
                 <div *ngIf="canUpdate && isOutcomeBeingCreated; then editable else readOnly"></div>
                 <ng-template #editable>
                     <label for="outcomeTypeName">Type:</label>
