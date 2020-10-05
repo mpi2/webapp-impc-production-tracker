@@ -16,7 +16,6 @@ export class ProjectConsortiumInstitutesComponent implements OnInit {
 
   configurationData: ConfigurationData;
   consortia: NamedValue[];
-  institutes: NamedValue[];
 
   tmpIndexRowName = 'tmp_id';
   nextNewId = -1;
@@ -34,7 +33,6 @@ export class ProjectConsortiumInstitutesComponent implements OnInit {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.consortia = this.configurationData.consortia.map(x => ({ name: x }));
-      this.institutes = this.configurationData.institutes.map(x => ({ name: x }));
     });
   }
 
