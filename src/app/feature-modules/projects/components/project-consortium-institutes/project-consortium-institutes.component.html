@@ -3,7 +3,6 @@
     <table class="mat-elevation-z8">
         <tr>
             <th>Consortium *</th>
-            <th>Institute(s)</th>
             <th></th>
         </tr>
         <ng-template ngFor let-institutesConsortium [ngForOf]="project.consortia">
@@ -14,13 +13,6 @@
                         <mat-select class="consortiumName" [(value)]="institutesConsortium.consortiumName">
                             <mat-option *ngFor="let consortium of consortia" [value]="consortium.name">
                                 {{ consortium.name }}
-                            </mat-option>
-                        </mat-select>
-                    </td>
-                    <td>
-                        <mat-select class="class" [(value)]="institutesConsortium.institutes" multiple>
-                            <mat-option *ngFor="let institute of institutes" [value]="institute.name">
-                                {{ institute.name }}
                             </mat-option>
                         </mat-select>
                     </td>
@@ -38,9 +30,6 @@
                 <tr>
                     <td>
                         {{ institutesConsortium.consortiumName || "Not defined" }}
-                    </td>
-                    <td>
-                        {{ institutesConsortium.institutes || "Not defined" }}
                     </td>
                 </tr>
             </ng-template>
