@@ -40,6 +40,8 @@ export class MutationDetailComponent implements OnInit {
 
   mutationForm: FormGroup;
 
+  geneSymbols = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private mutationService: MutationService,
@@ -50,6 +52,7 @@ export class MutationDetailComponent implements OnInit {
     this.loadConfigurationData();
     this.setMutationCategorizationsData();
     this.shouldSuggestSymbol = this.mutation.symbol ? false : true;
+    this.geneSymbols = this.mutation.genes.map(x => x.symbol);
     this.mutationForm = this.formBuilder.group({
       abbreviation: []
     });
@@ -82,6 +85,10 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
+  onSymbolSelected(e) {
+    this.mutation.genes = this.geneSymbols.map(x => ({ symbol: x }));
+  }
+
   formatAlleleSymbol(symbol: string) {
     return this.mutationService.formatAlleleSymbol(symbol);
   }
@@ -90,6 +97,7 @@ export class MutationDetailComponent implements OnInit {
     const symbolSuggestionRequest = {
       consortiumAbbreviation: this.selectedConsortium,
     };
+
     this.mutation.symbolSuggestionRequest = symbolSuggestionRequest;
     this.mutationService.getSuggestedSymbol(this.mutation.pin, this.mutation).subscribe(data => {
       this.mutation.symbol = data;

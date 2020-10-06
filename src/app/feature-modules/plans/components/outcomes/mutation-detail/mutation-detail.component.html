@@ -13,7 +13,8 @@
 
                 <div id="genes" class="genes">
                     <label for="genes">Genes:</label>
-                    <app-autocomplete-gene [symbols]="mutation.geneSymbolsOrAccessionIds"></app-autocomplete-gene>
+                    <app-autocomplete-gene [symbols]="geneSymbols"
+                        (symbolSelectedEmmiter)="onSymbolSelected($event)"></app-autocomplete-gene>
                 </div>
 
                 <label for="tpo">Mutation id:</label>
@@ -84,10 +85,11 @@
 
                 <mat-card class="sequences-card">
                     <label for="mutationSequences">Mutation description:</label>
-                    
+
                     <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
                         <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
-                            [showSequenceCategory]=false [showLocations]=false (sequenceDeleted)="onDeleteSequence($event)">
+                            [showSequenceCategory]=false [showLocations]=false
+                            (sequenceDeleted)="onDeleteSequence($event)">
                         </app-indexed-sequence>
                     </div>
                     <div class="separator"></div>
@@ -103,7 +105,7 @@
                     <label for="genes">Genes:</label>
 
                     <mat-chip-list>
-                        <mat-chip *ngFor="let geneSymbolOrAccessionId of mutation.geneSymbolsOrAccessionIds">
+                        <mat-chip *ngFor="let geneSymbolOrAccessionId of geneSymbols">
                             {{geneSymbolOrAccessionId}}
                         </mat-chip>
                     </mat-chip-list>
@@ -141,8 +143,7 @@
 
 
         <div id="qc-results">
-            <app-qc-results class="qcResultsSection" [mutation]="mutation"
-                [canUpdate]="canUpdate">
+            <app-qc-results class="qcResultsSection" [mutation]="mutation" [canUpdate]="canUpdate">
             </app-qc-results>
         </div>
 

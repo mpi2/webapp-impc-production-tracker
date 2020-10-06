@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
@@ -13,6 +13,7 @@ import { MatChipInputEvent } from '@angular/material/chips';
 })
 export class AutocompleteGeneComponent implements OnInit {
   @Input() symbols: string[];
+  @Output() symbolSelectedEmmiter = new EventEmitter<string[]>();
 
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
   options: string[] = [];
@@ -95,10 +96,12 @@ export class AutocompleteGeneComponent implements OnInit {
     this.addGeneToList(event.option.viewValue);
     this.geneInput.nativeElement.value = '';
     this.genesCtrl.setValue(null);
+    this.symbolSelectedEmmiter.emit(this.symbols);
   }
 
   remove(label: string) {
     this.removeGeneFromList(label);
+    this.symbolSelectedEmmiter.emit(this.symbols);
   }
 
   private removeGeneFromList(label: string) {

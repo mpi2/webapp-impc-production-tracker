@@ -16,7 +16,6 @@ export class Mutation {
     mutationSequences: any[] = [];
     mutationCategorizations: any[] = [];
     genes: Gene[] = [];
-    geneSymbolsOrAccessionIds: string[] = [];
     calculatedMgiAlleleSymbol: string;
     symbolSuggestionRequest: any;
 }
