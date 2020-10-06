@@ -178,7 +178,6 @@ export class OutcomeDetailComponent implements OnInit {
   completeDataInMutation(mutation: Mutation) {
     mutation.pin = this.pin;
     mutation.tpo = this.tpo;
-    mutation.geneSymbolsOrAccessionIds = mutation.genes.map(x => x.symbol);
   }
 
   enableUpdateButton() {
