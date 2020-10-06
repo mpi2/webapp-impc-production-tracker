@@ -44,10 +44,16 @@ services:
 
 
 stages:
+  - env
   - build
   - production-deploy
   - sandbox-deploy
   - dev-deploy
+
+env:
+  stage: env
+  script:
+    - export
 
 
 build_image:
@@ -91,9 +97,6 @@ hh-sandbox:
   stage: production-deploy
   image: dtzar/helm-kubectl:2.14.3
   rules:
-    - if: '$PRODUCTION_DEPLOYMENT == "true"'
-      when: manual
-      allow_failure: true
     - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
@@ -135,9 +138,6 @@ hx-sandbox:
   stage: production-deploy
   image: dtzar/helm-kubectl:2.14.3
   rules:
-    - if: '$PRODUCTION_DEPLOYMENT == "true"'
-      when: manual
-      allow_failure: true
     - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
