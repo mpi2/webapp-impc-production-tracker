@@ -54,6 +54,18 @@ env:
   stage: env
   script:
     - export
+    - echo '================================='
+    - echo $PRODUCTION_DEPLOYMENT
+    - echo $CI_PIPELINE_SOURCE
+
+env_rules:
+  stage: env
+  rules:
+    - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PIPELINE_SOURCE == "schedule"'
+  script:
+    - echo '================================='
+    - echo $PRODUCTION_DEPLOYMENT
+    - echo $CI_PIPELINE_SOURCE
 
 
 build_image:
