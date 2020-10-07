@@ -104,7 +104,7 @@ build_image:
 
 
 
-hh-sandbox:
+hh-production:
   stage: production-deploy
   image: dtzar/helm-kubectl:2.14.3
   rules:
@@ -145,7 +145,7 @@ hh-sandbox:
 
 
 
-hx-sandbox:
+hx-production:
   stage: production-deploy
   image: dtzar/helm-kubectl:2.14.3
   rules:
