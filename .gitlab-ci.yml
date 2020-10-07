@@ -190,12 +190,8 @@ hx-production:
 hh-sandbox:
   stage: sandbox-deploy
   image: dtzar/helm-kubectl:2.14.3
-  only:
-    refs:
-      # - master
-      - schedules
-    variables:
-      - $KUBERNETES_DEPLOYMENT == "true"
+  rules:
+    - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -235,12 +231,8 @@ hh-sandbox:
 hx-sandbox:
   stage: sandbox-deploy
   image: dtzar/helm-kubectl:2.14.3
-  only:
-    refs:
-      # - master
-      - schedules
-    variables:
-      - $KUBERNETES_DEPLOYMENT == "true"
+  rules:
+    - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -280,12 +272,8 @@ hx-sandbox:
 hh-dev:
   stage: dev-deploy
   image: dtzar/helm-kubectl:2.14.3
-  only:
-    refs:
-      - master
-      - schedules
-    variables:
-      - $KUBERNETES_DEPLOYMENT == "true"
+  rules:
+    - if: '$PRODUCTION_DEPLOYMENT != "true"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -340,12 +328,8 @@ hh-dev:
 hx-dev:
   stage: dev-deploy
   image: dtzar/helm-kubectl:2.14.3
-  only:
-    refs:
-      - master
-      - schedules
-    variables:
-      - $KUBERNETES_DEPLOYMENT == "true"
+  rules:
+    - if: '$PRODUCTION_DEPLOYMENT != "true"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
