@@ -66,7 +66,7 @@
 
 <mat-card>
   <fieldset>
-    <legend>
+    <legend class="subtitle">
       Production Plans
     </legend>
     <table style="width: 100%;" *ngIf="productionPlansDetails.length > 0">
@@ -76,12 +76,25 @@
         </tr>
       </tbody>
     </table>
+
+    <div *ngIf="canCreateProductionPlan; then enabledProductionPlanButton else disabledProductionPlanButton"></div>
+
+    <ng-template #enabledProductionPlanButton>
+      <a routerLink="plan-creation" [queryParams]="{planType: 'production'}" target="_blank"><button
+          class="create-button" mat-raised-button color="primary">Add Production
+          Plan</button></a>
+    </ng-template>
+
+    <ng-template #disabledProductionPlanButton>
+      <button class="create-button" disabled="true" mat-raised-button color="primary">Add Production Plan</button>
+    </ng-template>
+
   </fieldset>
 
   <div class="separation"></div>
 
   <fieldset>
-    <legend>
+    <legend class="subtitle">
       Phenotyping Plans
     </legend>
     <table style="width: 100%;" *ngIf="phenotypingPlansDetails.length > 0">
@@ -91,13 +104,23 @@
         </tr>
       </tbody>
     </table>
+
+    <div *ngIf="canCreatePhenotypingPlan; then enabledPhenotypingPlanButton else disabledPhenotypingPlanButton"></div>
+
+    <ng-template #enabledPhenotypingPlanButton>
+      <a routerLink="plan-creation" [queryParams]="{planType: 'phenotyping'}" target="_blank"><button
+          class="create-button" mat-raised-button color="primary">Add Phenotyping
+          Plan</button></a>
+    </ng-template>
+
+    <ng-template #disabledPhenotypingPlanButton>
+      <button class="create-button" mat-raised-button color="primary" disabled="true"
+        matTooltip="Info about the action">Add Phenotyping
+        Plan</button>
+    </ng-template>
+
   </fieldset>
 
-</mat-card>
-
-<mat-card>
-  <a routerLink="plan-creation" target="_blank"><button class="create-button" mat-raised-button color="primary"
-      *ngIf="canUpdateProject">Add Plan</button></a>
 </mat-card>
 
 <mat-card>

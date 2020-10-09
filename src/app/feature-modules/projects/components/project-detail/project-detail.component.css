@@ -43,5 +43,9 @@ content {
 }
 
 .separation {
-  padding-top: 10px;
+  padding-top: 20px;
+}
+
+.subtitle {
+  font-weight: 800;
 }

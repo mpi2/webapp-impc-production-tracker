@@ -4,8 +4,10 @@ import { ProjectService } from '../../services/project.service';
 import { Project, ProjectAdapter } from '../../../../model/bio/project';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
-import { ConfigurationData, PermissionsService, ConfigurationDataService,
-  LoggedUserService, ChangesHistory } from 'src/app/core';
+import {
+  ConfigurationData, PermissionsService, ConfigurationDataService,
+  LoggedUserService, ChangesHistory
+} from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,6 +27,8 @@ export class ProjectDetailComponent implements OnInit {
   productionPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
   canUpdateProject: boolean;
+  canCreateProductionPlan: boolean;
+  canCreatePhenotypingPlan: boolean;
   error;
   changeDetails: ChangesHistory;
 
@@ -89,8 +93,24 @@ export class ProjectDetailComponent implements OnInit {
         }, error => {
           this.error = error;
         });
+      this.permissionsService.evaluatePermissionByActionOnResource(
+        PermissionsService.CREATE_PRODUCTION_PLAN_ACTION, this.project.tpn).subscribe(canCreateProductionPlan => {
+          this.canCreateProductionPlan = canCreateProductionPlan;
+          this.error = null;
+        }, error => {
+          this.error = error;
+        });
+      this.permissionsService.evaluatePermissionByActionOnResource(
+        PermissionsService.CREATE_PHENOTYPING_PLAN_ACTION, this.project.tpn).subscribe(canCreatePhenotypingPlan => {
+          this.canCreatePhenotypingPlan = canCreatePhenotypingPlan;
+          this.error = null;
+        }, error => {
+          this.error = error;
+        });
     } else {
       this.canUpdateProject = false;
+      this.canCreateProductionPlan = false;
+      this.canCreatePhenotypingPlan = false;
     }
   }
 

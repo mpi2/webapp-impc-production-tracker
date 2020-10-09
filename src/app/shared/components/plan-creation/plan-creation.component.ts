@@ -41,6 +41,8 @@ export class PlanCreationComponent implements OnInit {
   attemptTypesByPlanTypes = new Map<string, NamedValue[]>();
   fundersByWorkGroups = new Map<string, NamedValue[]>();
 
+  preSelectedPlanType: string;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -61,14 +63,26 @@ export class PlanCreationComponent implements OnInit {
     this.loadConfigurationData();
   }
 
+  getPlanTypeFromUrl(): string {
+    const queryParams = this.route.snapshot.queryParams;
+    return queryParams.planType;
+  }
+
+  getValidatedPreSelectedPlanType(validPlanTypes: NamedValue[], selectedValue) {
+    if (selectedValue) {
+      if (validPlanTypes.filter(x => x.name === selectedValue).length === 0) {
+        this.error = 'Plan type ' + selectedValue + ' is not valid. The valid options are: ' + validPlanTypes.map(x => x.name);
+        return null;
+      } else {
+        return selectedValue;
+      }
+    }
+  }
+
   loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      if (!this.projectCreation) {
-        this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
-      } else {
-        this.planTypes = this.configurationData.planTypes.map(x => ({ name: x })).filter( x => x.name === 'production');
-      }
+      this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
 
       Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {
@@ -86,6 +100,8 @@ export class PlanCreationComponent implements OnInit {
         this.fundersByWorkGroups.set(key, list.map(x => ({ name: x })));
       });
       this.filterLists();
+
+      this.setPredefinedValues();
     }, error => {
       this.error = error;
     });
@@ -104,6 +120,19 @@ export class PlanCreationComponent implements OnInit {
     });
   }
 
+  setPredefinedValues() {
+    if (this.projectCreation) {
+      this.preSelectedPlanType = 'production';
+    } else {
+      this.preSelectedPlanType = this.getValidatedPreSelectedPlanType(this.planTypes, this.getPlanTypeFromUrl());
+    }
+    if (this.preSelectedPlanType) {
+      this.planTypes = this.planTypes.filter(x => x.name === this.preSelectedPlanType);
+      this.handlePlanTypeSelected(this.preSelectedPlanType);
+    }
+
+  }
+
   loadOutcomesSummaries(tpn: string) {
     this.projectService.getProductionOutcomesSummariesByProject(tpn).subscribe(data => {
       this.startingPoints = data;
@@ -114,10 +143,16 @@ export class PlanCreationComponent implements OnInit {
   }
 
   onPlanTypeSelected(e) {
-    if (e.value === 'phenotyping') {
+    this.handlePlanTypeSelected(e.value);
+  }
+
+  handlePlanTypeSelected(planType: string) {
+    if (planType === 'phenotyping') {
       this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
     }
-    this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(e.value);
+    this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
+    this.plan.typeName = planType;
+
   }
 
   onAttemptTypeSelected(e) {
