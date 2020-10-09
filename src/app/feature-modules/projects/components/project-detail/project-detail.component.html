@@ -36,6 +36,18 @@
             {{project.privacyName}}
           </ng-template>
         </div>
+
+        <label for="privacy">Recovery:</label>
+        <div id="privacy" class="content">
+          <div *ngIf="canUpdateProject; then recoveryEditable else recoveryReadOnly"></div>
+          <ng-template #recoveryEditable>
+            <mat-checkbox [(ngModel)]="project.recovery" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+          </ng-template>
+          <ng-template #recoveryReadOnly>
+            <mat-checkbox [(ngModel)]="project.recovery" [disabled]=true [ngModelOptions]="{standalone: true}"></mat-checkbox>
+          </ng-template>
+        </div>
+
       </fieldset>
 
       <app-project-consortium-institutes [project]="project" [canUpdate]="false"></app-project-consortium-institutes>
