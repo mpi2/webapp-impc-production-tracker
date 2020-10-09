@@ -1,4 +1,4 @@
-<div *ngIf="error && !planCreation" class="alert alert-danger">{{error}}</div>
+<div *ngIf="error && !projectCreation" class="alert alert-danger">{{error}}</div>
 <mat-card>
     <mat-card-title>
         Plan Creation
@@ -7,15 +7,22 @@
 
         <div class="fieldsSection">
             <label *ngIf="planCreation" for="tpo">Project id:</label>
-            <div *ngIf="planCreation" id="tpo"><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></div>            
+            <div *ngIf="planCreation" id="tpo"><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></div>
 
             <label for="planType">Plan Type *:</label>
-            <mat-select (selectionChange)="onPlanTypeSelected($event)" class="content" [(ngModel)]="plan.typeName"
-                [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let planType of planTypes" [value]="planType.name">
-                    {{planType.name}}
-                </mat-option>
-            </mat-select>
+
+            <div *ngIf="preSelectedPlanType; then readOnlyPlanType else editablePlanType"></div>
+            <ng-template #readOnlyPlanType>
+                {{ preSelectedPlanType}}
+            </ng-template>
+            <ng-template #editablePlanType>
+                <mat-select (selectionChange)="onPlanTypeSelected($event)" class="content" [(ngModel)]="plan.typeName"
+                    [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let planType of planTypes" [value]="planType.name">
+                        {{planType.name}}
+                    </mat-option>
+                </mat-select>
+            </ng-template>
 
             <label for="attemtpType">Attempt Type *:</label>
             <mat-select id="attemtpType" (selectionChange)="onAttemptTypeSelected($event)" class="content"
@@ -27,27 +34,27 @@
 
             <!-- Starting Point section. Only available for phenotyping plans -->
             <div id="startingPoint" *ngIf="plan.typeName === 'phenotyping'">
-                <label for="startingPoint">Starting point (Outcome id):</label>
-                <mat-select  class="content" [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo"
-                [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.tpo">
-                    {{startingPoint.tpo + ' (' + startingPoint.externalReference + ')' }}
-                </mat-option>
-            </mat-select>
+                <label for="startingPoint">Starting point (Outcome id) *:</label>
+                <mat-select class="content" [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo"
+                    [ngModelOptions]="{standalone: true}">
+                    <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.tpo">
+                        {{startingPoint.tpo + ' (' + startingPoint.externalReference + ')' }}
+                    </mat-option>
+                </mat-select>
 
             </div>
 
             <label for="workUnit">Work Unit *:</label>
-            <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" class="content" [(ngModel)]="plan.workUnitName"
-                [ngModelOptions]="{standalone: true}">
+            <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" class="content"
+                [(ngModel)]="plan.workUnitName" [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
                     {{workUnit.name}}
                 </mat-option>
             </mat-select>
 
             <label for="workGroup">Work Group *:</label>
-            <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup" class="content" [(ngModel)]="plan.workGroupName"
-                [ngModelOptions]="{standalone: true}">
+            <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup" class="content"
+                [(ngModel)]="plan.workGroupName" [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let workGroup of filteredWorkGroupsByWorkUnit" [value]="workGroup.name">
                     {{workGroup.name}}
                 </mat-option>
@@ -75,7 +82,7 @@
         </div>
 
         <mat-card *ngIf="planCreation" class="update-button">
-            <mat-card-content >
+            <mat-card-content>
                 <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
                 <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
                 </mat-spinner>

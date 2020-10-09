@@ -17,6 +17,8 @@ export class PermissionsService {
 
   // Actions
   static readonly UPDATE_PLAN_ACTION = 'canUpdatePlan';
+  static readonly CREATE_PRODUCTION_PLAN_ACTION = 'canCreateProductionPlan';
+  static readonly CREATE_PHENOTYPING_PLAN_ACTION = 'canCreatePhenotypingPlan';
   static readonly UPDATE_PROJECT_ACTION = 'canUpdateProject';
   static readonly MANAGE_GENE_LISTS = 'canManageGeneLists';
 
