@@ -22,7 +22,7 @@ export class UserService {
   }
 
   createUser(user: User) {
-    return this.http.post<User[]>(this.apiServiceUrl + '/auth/signup', user)
+    return this.http.post<User[]>(this.apiServiceUrl + '/api/people', user)
       .pipe(map(result => {
         // Create user successful if there's a user in the response
         return result;
