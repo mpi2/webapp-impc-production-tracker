@@ -11,6 +11,8 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { first } from 'rxjs/internal/operators/first';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @Component({
@@ -55,6 +57,7 @@ export class UserManagementComponent implements OnInit {
     private userService: UserService,
     private managedListsService: ManagedListsService,
     private loggedUserService: LoggedUserService,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -126,20 +129,56 @@ export class UserManagementComponent implements OnInit {
   get f() { return this.signupForm.controls; }
 
   onSubmit() {
+    this.loading = true;
     this.submitted = true;
+    this.user.name = this.f.name.value;
+    this.user.email = this.f.email.value;
     this.user.isAdmin = this.f.isAdmin.value;
     this.user.rolesWorkUnits = this.getNotNullRolesWorkUnits(this.getRoleWorkUnits());
     this.user.rolesConsortia = this.getNotNullRolesConsortia(this.getRoleConsortia());
+    this.user.password = this.f.password.value;
     this.validateData(this.user);
-    console.log('submit', this.user);
+    this.userService.createUser(this.user)
+      .pipe(first())
+      .subscribe(
+        data => {
+          this.error = null;
+          this.loading = false;
+          this.snackBar.open('User created.', 'Close', {
+            duration: 1500,
+          });
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+          console.log('error: ', this.error);
+        });
+
+
   }
 
   getNotNullRolesWorkUnits(rolesWorkUnits: RoleWorkUnit[]) {
-    return rolesWorkUnits.filter(x => x.roleName || x.workUnitName);
+    const notNullRolesWorkUnits = rolesWorkUnits.filter(x => x.roleName || x.workUnitName);
+    if (notNullRolesWorkUnits) {
+      notNullRolesWorkUnits.forEach(x => {
+        if (x.id < 0) {
+          x.id = null;
+        }
+      });
+    }
+    return notNullRolesWorkUnits;
   }
 
   getNotNullRolesConsortia(rolesConsortia: RoleConsortium[]) {
-    return rolesConsortia.filter(x => x.roleName || x.consortiumName);
+    const notNullRolesConsortia = rolesConsortia.filter(x => x.roleName || x.consortiumName);
+    if (notNullRolesConsortia) {
+      notNullRolesConsortia.forEach(x => {
+        if (x.id < 0) {
+          x.id = null;
+        }
+      });
+    }
+    return notNullRolesConsortia;
   }
 
   validateData(user: User) {

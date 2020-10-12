@@ -12,6 +12,7 @@ export class User {
     actionPermissions: ActionPermission[];
     currentPassword: string;
     newPassword: string;
+    password: string; // For creation
 
     constructor() {
         this.name = '';
