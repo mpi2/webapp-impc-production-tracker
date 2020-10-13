@@ -21,12 +21,8 @@ export class UserService {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 
-  createUser(user: User) {
-    return this.http.post<User[]>(this.apiServiceUrl + '/api/people', user)
-      .pipe(map(result => {
-        // Create user successful if there's a user in the response
-        return result;
-      }));
+  public createUser(user: User) {
+    return this.http.post<User>(this.apiServiceUrl + '/api/people/', user);
   }
 
   getCurrentLoggedUser(): Observable<User> {
