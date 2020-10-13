@@ -138,9 +138,7 @@ export class UserManagementComponent implements OnInit {
     this.user.rolesConsortia = this.getNotNullRolesConsortia(this.getRoleConsortia());
     this.user.password = this.f.password.value;
     this.validateData(this.user);
-    this.userService.createUser(this.user)
-      .pipe(first())
-      .subscribe(
+    this.userService.createUser(this.user).subscribe(
         data => {
           this.error = null;
           this.loading = false;
