@@ -14,20 +14,20 @@
       <mat-card>
         <mat-card-content>
           <h4>Gene List {{ currentConsortium ?  'for ' + currentConsortium : ''}} </h4>
-          <app-consortium-selector (consortiumSelected)="onConsortiumSelected($event)"
-            (updatePermissionSet)="onUpdatePermissionSet($event)">
+          <app-consortium-selector (updatePermissionSet)="onUpdatePermissionSet($event)">
           </app-consortium-selector>
         </mat-card-content>
       </mat-card>
-      <mat-card *ngIf="currentConsortium">
+
+      <mat-card>
         <mat-card-content>
 
           <app-list-controls [canUpdateList]="canUpdateList" [currentConsortium]="currentConsortium"
             (importFileSelected)="onImportFileSelected($event)" (editModeChanged)="onEditModeChanged($event)">
           </app-list-controls>
 
-          <app-list-content #listContent [currentConsortium]="currentConsortium"
-            [canUpdateList]="canUpdateList" [currentSelectedEditMode]="currentSelectedEditMode">
+          <app-list-content #listContent [canUpdateList]="canUpdateList"
+            [currentSelectedEditMode]="currentSelectedEditMode" (onErrorEmitter)="onErrorInContent($event)">
           </app-list-content>
         </mat-card-content>
       </mat-card>

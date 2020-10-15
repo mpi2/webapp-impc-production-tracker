@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
 import { GeneListRecord } from 'src/app/model';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -7,17 +7,21 @@ import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 import { merge, of } from 'rxjs';
 import { startWith, switchMap, catchError } from 'rxjs/operators';
+import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
   selector: 'app-list-content',
   templateUrl: './list-content.component.html',
   styleUrls: ['./list-content.component.css']
 })
-export class ListContentComponent implements OnInit,  AfterViewInit {
+export class ListContentComponent implements OnInit, AfterViewInit {
 
-  @Input() currentConsortium;
+
   @Input() canUpdateList;
   @Input() currentSelectedEditMode;
+  @Output() errorEmitter = new EventEmitter<string>();
+
+  currentConsortium;
 
   dataSource: GeneListRecord[] = [];
   recordIdsToDelete = [];
@@ -27,14 +31,21 @@ export class ListContentComponent implements OnInit,  AfterViewInit {
   private originalDataAsString: string;
   private originalRecordsStrings: Map<number, string> = new Map();
 
+  recordTypesByConsortium;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private targetGeneListService: TargetGeneListService,
     private filterService: FilterService,
+    private messageService: MessageService,
     public dialog: MatDialog) { }
 
   ngOnInit() {
+    this.messageService.getMessage().subscribe(data => {
+      this.currentConsortium = data.message.geneListSelectedConsortium;
+      this.getPage(0);
+    });
   }
 
   ngAfterViewInit() {
@@ -160,9 +171,9 @@ export class ListContentComponent implements OnInit,  AfterViewInit {
     if (this.recordIdsToDelete.length > 0) {
       this.targetGeneListService.deleteRecords(this.recordIdsToDelete, this.currentConsortium).subscribe(data => {
       },
-      error => {
-        this.error = error;
-      });
+        error => {
+          this.error = error;
+        });
     }
   }
 
@@ -177,9 +188,18 @@ export class ListContentComponent implements OnInit,  AfterViewInit {
     this.targetGeneListService.updateListWithFile(this.currentConsortium, file).subscribe(data => {
       // this.extractDataFromServerResponse(data);
       this.getPage(0);
+      this.errorEmitter.emit(null);
     }, error => {
       console.error('error', error);
+      this.errorEmitter.emit(error);
     });
+  }
+
+  calculateRowspan(element: GeneListRecord) {
+    if (element.projects && element.projects.length > 0) {
+      return element.projects.length;
+    }
+    return 1;
   }
 
 }

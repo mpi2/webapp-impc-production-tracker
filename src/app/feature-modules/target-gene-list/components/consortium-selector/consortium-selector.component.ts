@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { User } from 'src/app/core/model/user/user';
 import { ManagedListsService, LoggedUserService, PermissionsService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
   selector: 'app-consortium-selector',
@@ -15,11 +16,11 @@ export class ConsortiumSelectorComponent implements OnInit {
   consortia: NamedValue[] = [];
   canUpdateList = false;
 
-  @Output() consortiumSelected = new EventEmitter<string>();
   @Output() updatePermissionSet = new EventEmitter<boolean>();
 
   constructor(
     private managedListsService: ManagedListsService,
+    private messageService: MessageService,
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit() {
@@ -27,7 +28,8 @@ export class ConsortiumSelectorComponent implements OnInit {
   }
 
   onConsortiumChanged() {
-    this.consortiumSelected.emit(this.currentConsortium);
+    this.messageService.setMessage({geneListSelectedConsortium: this.currentConsortium});
+
   }
 
   loadPermissions(): void {

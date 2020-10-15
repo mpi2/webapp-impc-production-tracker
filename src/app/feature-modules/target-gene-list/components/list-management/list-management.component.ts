@@ -7,6 +7,7 @@ import { map, share, startWith} from 'rxjs/operators';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { ListContentComponent } from '../list-content/list-content.component';
 import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
+import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
   selector: 'app-list-management',
@@ -43,22 +44,22 @@ export class ListManagementComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
+    private messageService: MessageService,
     public dialog: MatDialog) { }
 
   ngOnInit() {
     this.setupFilters();
+    this.subscribeToChangeInConsortium();
+  }
+
+  subscribeToChangeInConsortium() {
+    this.messageService.getMessage().subscribe(data => {
+      this.currentConsortium = data.message.geneListSelectedConsortium;
+    });
   }
 
   toogleShowFilters() {
     this.filterVisible = !this.filterVisible;
-  }
-
-  // Get the consortium selected in the consortium selector component.
-  onConsortiumSelected(e) {
-    this.currentConsortium = e;
-    if (this.listContent) {
-      this.listContent.getPage(0);
-    }
   }
 
   // Get the update permission in the consortium selector component.
@@ -99,6 +100,10 @@ export class ListManagementComponent implements OnInit {
 
   onEditModeChanged(e) {
     this.currentSelectedEditMode = e;
+  }
+
+  onErrorInContent(e) {
+    this.error = e;
   }
 
 }
