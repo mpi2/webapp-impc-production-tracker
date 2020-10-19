@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { GeneListRecord } from 'src/app/model';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,7 +17,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   templateUrl: './list-content.component.html',
   styleUrls: ['./list-content.component.css']
 })
-export class ListContentComponent implements OnInit, AfterViewInit {
+export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
 
   @Input() canUpdateList;
@@ -41,6 +41,8 @@ export class ListContentComponent implements OnInit, AfterViewInit {
 
   filteredRecordTypes: NamedValue[];
 
+  messageSubscription;
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
@@ -53,11 +55,17 @@ export class ListContentComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.loadConfigurationData();
-    this.messageService.getMessage().subscribe(data => {
-      this.currentConsortium = data.message.geneListSelectedConsortium;
-      this.filteredRecordTypes = this.recordTypesByConsortium.get(this.currentConsortium);
-      this.getPage(0);
+    this.messageSubscription = this.messageService.getMessage().subscribe(data => {
+      if (data.message) {
+        this.currentConsortium = data.message.geneListSelectedConsortium;
+        this.filteredRecordTypes = this.recordTypesByConsortium.get(this.currentConsortium);
+        this.getPage(0);
+      }
     });
+  }
+
+  ngOnDestroy() {
+    this.messageSubscription.unsubscribe();
   }
 
   ngAfterViewInit() {
@@ -153,7 +161,6 @@ export class ListContentComponent implements OnInit, AfterViewInit {
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
-          console.log('delete!!');
           this.recordIdsToDelete.push(record.id);
           this.dataSource = this.dataSource.filter(x => x.tmpId !== record.tmpId);
         }

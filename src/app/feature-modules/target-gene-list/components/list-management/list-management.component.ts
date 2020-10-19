@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
@@ -14,7 +14,7 @@ import { MessageService } from 'src/app/core/services/message.service';
   templateUrl: './list-management.component.html',
   styleUrls: ['./list-management.component.css']
 })
-export class ListManagementComponent implements OnInit {
+export class ListManagementComponent implements OnInit, OnDestroy {
 
   updating = false;
 
@@ -28,6 +28,8 @@ export class ListManagementComponent implements OnInit {
   filterVisible = false;
   currentConsortium: string = undefined;
   canUpdateList: boolean;
+
+  messageSubscription;
 
   filters: FilterDefinition[];
 
@@ -52,8 +54,12 @@ export class ListManagementComponent implements OnInit {
     this.subscribeToChangeInConsortium();
   }
 
+  ngOnDestroy() {
+    this.messageSubscription.unsubscribe();
+  }
+
   subscribeToChangeInConsortium() {
-    this.messageService.getMessage().subscribe(data => {
+    this.messageSubscription = this.messageService.getMessage().subscribe(data => {
       this.currentConsortium = data.message.geneListSelectedConsortium;
     });
   }
