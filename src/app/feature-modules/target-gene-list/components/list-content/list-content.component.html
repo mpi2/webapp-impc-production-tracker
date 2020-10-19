@@ -1,6 +1,5 @@
 <mat-card>
   <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
-  isLoading {{isLoading}}
   <mat-card-content>
     <table *ngIf=!isLoading>
       <thead>
@@ -41,14 +40,14 @@
             <div *ngIf="checkEditable(); then editableType else readOnlyType">
             </div>
             <ng-template #editableType>
-          
+
               <mat-select multiple class="selectContent" [(ngModel)]="element.recordTypes"
                 [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let recordType of filteredRecordTypes" [value]="recordType.name">
-                    {{recordType.name}}
+                  {{recordType.name}}
                 </mat-option>
-            </mat-select>
-            
+              </mat-select>
+
             </ng-template>
             <ng-template #readOnlyType>
               {{ element.recordTypes }}
@@ -89,7 +88,8 @@
   </mat-card-content>
 
   <mat-card-actions *ngIf="checkEditable()">
-    <button [disabled]='!checkIfChanged()' (click)="updateLists()" mat-raised-button color="primary">Save
+    <button [disabled]='!checkIfChanged() || this.isLoading' (click)="updateLists()" mat-raised-button
+      color="primary">Save
       Changes</button>
   </mat-card-actions>
 </mat-card>

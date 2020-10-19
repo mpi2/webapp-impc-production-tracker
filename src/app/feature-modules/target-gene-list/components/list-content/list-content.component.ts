@@ -10,6 +10,7 @@ import { startWith, switchMap, catchError } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-list-content',
@@ -47,6 +48,7 @@ export class ListContentComponent implements OnInit, AfterViewInit {
     private filterService: FilterService,
     private messageService: MessageService,
     private configurationDataService: ConfigurationDataService,
+    private snackBar: MatSnackBar,
     public dialog: MatDialog) { }
 
   ngOnInit() {
@@ -172,6 +174,7 @@ export class ListContentComponent implements OnInit, AfterViewInit {
   }
 
   updateLists() {
+    this.isLoading = true;
     const dataToUpload: GeneListRecord[] = [];
 
     this.dataSource.forEach(x => {
@@ -191,10 +194,14 @@ export class ListContentComponent implements OnInit, AfterViewInit {
     this.targetGeneListService.uploadList(dataToUpload, this.currentConsortium).subscribe(data => {
       this.extractDataFromServerResponse(data);
       this.getPage(0);
+      this.snackBar.open('Data updated.', 'Close', {
+        duration: 1500,
+      });
+      this.isLoading = false;
 
     }, error => {
       console.error('there was an error', error);
-
+      this.isLoading = false;
     });
 
     if (this.recordIdsToDelete.length > 0) {
