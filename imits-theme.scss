@@ -40,6 +40,9 @@ mat-toolbar {
     .title {
         vertical-align: middle;
     }
+    .title a {
+        color: inherit;
+    }
     .logo {
         margin-left: 20px;
         img {
