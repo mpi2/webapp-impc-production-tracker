@@ -37,4 +37,8 @@ export class AuthenticationService {
   logout() {
     this.loggedUserService.removeToken();
   }
+
+  forgotPassword(userName: string) {
+    return this.http.post<any>(this.apiServiceUrl + '/api/people/requestPasswordReset', userName);
+  }
 }

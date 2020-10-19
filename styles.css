@@ -65,3 +65,9 @@ footer {
     background-color: #f8d7da;
     border-color: #f5c6cb;
 }
+
+.alert-success {
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
