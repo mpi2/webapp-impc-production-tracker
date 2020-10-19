@@ -11,3 +11,7 @@ table, th, tr, td {
 td.no_border {
     border-bottom-style: none;
 }
+
+.selectContent {
+    width: 100px;
+}

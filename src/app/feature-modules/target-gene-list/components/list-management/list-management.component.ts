@@ -77,20 +77,7 @@ export class ListManagementComponent implements OnInit {
         type: FilterType.Text,
         placeholder: 'Marker Symbol(s)'
       }
-      ,
-      {
-        title: 'Work Units',
-        name: 'workUnit',
-        type: FilterType.Checkboxes,
-        dataSource: [
-          {
-            name: 'WU1'
-          },
-          {
-            name: 'WU2'
-          }
-        ]
-      }
+
     ];
   }
 
