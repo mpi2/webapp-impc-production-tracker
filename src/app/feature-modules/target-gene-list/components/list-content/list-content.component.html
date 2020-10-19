@@ -3,18 +3,17 @@
     <table>
       <thead>
         <tr>
-          <th rowspan="2">Gene(s)</th>
-          <th rowspan="2">Note</th>
-          <th colspan="3">Associated Projects</th>
-          <th rowspan="2">Action</th>
-        </tr>
-        <tr>
-          <th>Project - Plan - Outcomes</th>
+          <th>Gene(s)</th>
+          <th>Note</th>
+          <th>Types</th>
+          <th>Project Id</th>
+          <th>Project Summary Status</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let element of dataSource">
-          <td class="geneSymbol">
+          <td rowspan="calculateRowspan(element)">
             <div *ngIf="checkEditable(); then editableGenes else readOnlyGenes">
             </div>
             <ng-template #editableGenes>
@@ -24,7 +23,7 @@
               {{ getGenesSymbols(element) }}
             </ng-template>
           </td>
-          <td>
+          <td rowspan="calculateRowspan(element)">
             <div *ngIf="checkEditable(); then editableNote else readOnlyNote">
             </div>
             <ng-template #editableNote>
@@ -36,10 +35,35 @@
               {{ element.note }}
             </ng-template>
           </td>
-          <td colspan="3">
+          <td rowspan="calculateRowspan(element)">
+            <div *ngIf="checkEditable(); then editableType else readOnlyType">
+            </div>
+            <ng-template #editableType>
+          
+              <!-- <mat-select multiple id="workGroup" class="content" [(ngModel)]="plan.funderNames"
+                [ngModelOptions]="{standalone: true}">
+                <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
+                    {{funder.name}}
+                </mat-option>
+            </mat-select> -->
+            
+              {{ element.recordTypes }}
+            </ng-template>
+            <ng-template #readOnlyType>
+              {{ element.recordTypes }}
+            </ng-template>
+          </td>
+          <td>
             <div *ngFor="let project of element.projects">
               <div *ngIf="project">
-                <app-project-card [project]="project"></app-project-card>
+                <div><a target="_blank" routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a></div>
+              </div>
+            </div>
+          </td>
+          <td>
+            <div *ngFor="let project of element.projects">
+              <div *ngIf="project">
+                {{ project.summaryStatus }}
               </div>
             </div>
           </td>

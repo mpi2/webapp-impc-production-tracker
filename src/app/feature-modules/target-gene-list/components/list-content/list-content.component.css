@@ -11,7 +11,3 @@ table, th, tr, td {
 td.no_border {
     border-bottom-style: none;
 }
-
-.geneSymbol {
-    width: 50%;
-}
