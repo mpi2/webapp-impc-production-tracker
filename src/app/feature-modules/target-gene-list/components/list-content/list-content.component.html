@@ -1,6 +1,8 @@
 <mat-card>
+  <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
+  isLoading {{isLoading}}
   <mat-card-content>
-    <table>
+    <table *ngIf=!isLoading>
       <thead>
         <tr>
           <th>Gene(s)</th>
@@ -40,14 +42,13 @@
             </div>
             <ng-template #editableType>
           
-              <!-- <mat-select multiple id="workGroup" class="content" [(ngModel)]="plan.funderNames"
+              <mat-select multiple class="selectContent" [(ngModel)]="element.recordTypes"
                 [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
-                    {{funder.name}}
+                <mat-option *ngFor="let recordType of filteredRecordTypes" [value]="recordType.name">
+                    {{recordType.name}}
                 </mat-option>
-            </mat-select> -->
+            </mat-select>
             
-              {{ element.recordTypes }}
             </ng-template>
             <ng-template #readOnlyType>
               {{ element.recordTypes }}

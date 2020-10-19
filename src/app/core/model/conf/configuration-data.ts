@@ -41,4 +41,5 @@ export class ConfigurationData {
     assayTypes: string[];
     phenotypingStagesTypes: string[];
     phenotypingStagesTypesByAttemptTypes: Map<string, any[]>;
+    recordTypesByConsortium: Map<string, any[]>;
 }

@@ -8,6 +8,8 @@ import { FilterService } from 'src/app/feature-modules/filters/services/filter.s
 import { merge, of } from 'rxjs';
 import { startWith, switchMap, catchError } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
+import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
+import { NamedValue } from 'src/app/core/model/common/named-value';
 
 @Component({
   selector: 'app-list-content',
@@ -30,8 +32,13 @@ export class ListContentComponent implements OnInit, AfterViewInit {
   page: any = {};
   private originalDataAsString: string;
   private originalRecordsStrings: Map<number, string> = new Map();
+  isLoading;
 
-  recordTypesByConsortium;
+  configurationData: ConfigurationData;
+
+  recordTypesByConsortium = new Map<string, NamedValue[]>();
+
+  filteredRecordTypes: NamedValue[];
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -39,11 +46,14 @@ export class ListContentComponent implements OnInit, AfterViewInit {
     private targetGeneListService: TargetGeneListService,
     private filterService: FilterService,
     private messageService: MessageService,
+    private configurationDataService: ConfigurationDataService,
     public dialog: MatDialog) { }
 
   ngOnInit() {
+    this.loadConfigurationData();
     this.messageService.getMessage().subscribe(data => {
       this.currentConsortium = data.message.geneListSelectedConsortium;
+      this.filteredRecordTypes = this.recordTypesByConsortium.get(this.currentConsortium);
       this.getPage(0);
     });
   }
@@ -67,11 +77,30 @@ export class ListContentComponent implements OnInit, AfterViewInit {
       });
   }
 
+  loadConfigurationData() {
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      Object.keys(this.configurationData.recordTypesByConsortium).map(key => {
+        const list = this.configurationData.recordTypesByConsortium[key];
+        this.recordTypesByConsortium.set(key, list.map(x => ({ name: x })));
+      });
+      console.log(this.recordTypesByConsortium);
+
+    }, error => {
+      this.error = error;
+    });
+  }
+
   public getPage(pageNumber: number) {
+    this.isLoading = true;
     this.clearDataSet();
     if (this.currentConsortium) {
       this.targetGeneListService.getListByConsortium(pageNumber, this.currentConsortium, null).subscribe(data => {
+        this.isLoading = false;
         this.extractDataFromServerResponse(data);
+      }, error => {
+        this.isLoading = false;
+        this.error = error;
       });
     }
   }
