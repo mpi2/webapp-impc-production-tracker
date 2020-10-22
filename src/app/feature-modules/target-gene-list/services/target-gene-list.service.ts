@@ -6,6 +6,7 @@ import { of, from } from 'rxjs';
 import { GeneListRecord } from 'src/app/model/bio/target_gene_list/gene-list-record';
 import { AssetConfiguration } from 'src/app/core/model/conf/asset-configuration';
 import { flatMap } from 'rxjs/operators';
+import { QueryBuilderService } from 'src/app/core';
 
 @Injectable({
   providedIn: 'root'
@@ -13,7 +14,10 @@ import { flatMap } from 'rxjs/operators';
 export class TargetGeneListService {
   private config$: Observable<AssetConfiguration>;
 
-  constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
+  constructor(
+    private http: HttpClient,
+    private configAssetLoaderService: ConfigAssetLoaderService,
+    private queryBuilderService: QueryBuilderService) {
     this.config$ = from(this.configAssetLoaderService.getConfig());
   }
 
@@ -28,6 +32,20 @@ export class TargetGeneListService {
         url = url + '&' + filterParameters;
       }
       return this.http.get<GeneListRecord[]>(url);
+    }));
+  }
+
+  exportCsv(consortiumName: string, filterValues): Observable<any> {
+    if (!consortiumName) {
+      return of([]);
+    }
+    return this.config$.pipe(flatMap(response => {
+      let url = `${response.appServerUrl}/api/geneList/${consortiumName}/export`;
+      const filterParameters = this.queryBuilderService.buildQueryParameters(filterValues, null);
+      if (filterParameters && filterParameters !== '') {
+        url = url + '&' + filterParameters;
+      }
+      return this.http.get(url, { responseType: 'text' });
     }));
   }
 
