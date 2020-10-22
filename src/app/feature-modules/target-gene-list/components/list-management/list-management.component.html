@@ -27,7 +27,7 @@
           </app-list-controls>
 
           <app-list-content #listContent [canUpdateList]="canUpdateList"
-            [currentSelectedEditMode]="currentSelectedEditMode" (onErrorEmitter)="onErrorInContent($event)">
+            [currentSelectedEditMode]="currentSelectedEditMode" (errorEventEmitter)="onErrorInContent($event)">
           </app-list-content>
         </mat-card-content>
       </mat-card>

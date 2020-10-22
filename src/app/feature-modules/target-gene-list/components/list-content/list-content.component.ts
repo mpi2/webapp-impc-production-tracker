@@ -22,7 +22,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @Input() canUpdateList;
   @Input() currentSelectedEditMode;
-  @Output() errorEmitter = new EventEmitter<string>();
+  @Output() errorEventEmitter = new EventEmitter<string>();
 
   currentConsortium;
 
@@ -229,12 +229,13 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public updateListWithFile(file) {
     this.targetGeneListService.updateListWithFile(this.currentConsortium, file).subscribe(data => {
-      // this.extractDataFromServerResponse(data);
       this.getPage(0);
-      this.errorEmitter.emit(null);
+      this.errorEventEmitter.emit('');
+      console.log(data);
+
     }, error => {
       console.error('error', error);
-      this.errorEmitter.emit(error);
+      this.errorEventEmitter.emit(error);
     });
   }
 
