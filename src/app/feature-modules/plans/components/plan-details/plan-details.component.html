@@ -69,15 +69,6 @@
         </tr>
         <tr>
           <td>
-            Products available for general public?:
-          </td>
-          <td>
-            <input type="checkbox" (change)="onProductsAvailableGeneralPublic()"
-              [checked]="plan.productsAvailableForGeneralPublic" [disabled]="!canUpdatePlan">
-          </td>
-        </tr>
-        <tr>
-          <td>
             Comment:
           </td>
           <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>

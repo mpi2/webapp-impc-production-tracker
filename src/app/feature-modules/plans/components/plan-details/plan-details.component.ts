@@ -69,8 +69,4 @@ export class PlanDetailsComponent implements OnInit {
     this.plan.comment = newComments;
   }
 
-  onProductsAvailableGeneralPublic() {
-    this.plan.productsAvailableForGeneralPublic = !this.plan.productsAvailableForGeneralPublic;
-  }
-
 }
