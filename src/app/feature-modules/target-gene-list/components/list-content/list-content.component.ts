@@ -255,6 +255,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isDownloading = false;
       }, error => {
         console.error(error);
+        this.isDownloading = false;
       });
   }
 
