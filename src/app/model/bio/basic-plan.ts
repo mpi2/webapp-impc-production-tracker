@@ -5,6 +5,5 @@ export class BasicPlan {
     planTypeName: string;
     parentColonyName: string;
     comment: string;
-    productsAvailableForGeneralPublic: boolean;
     attemptTypename: string;
 }

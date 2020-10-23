@@ -243,6 +243,8 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
+    console.log('mutations: ', this.outcome.mutations);
+
     if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
       const mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
 

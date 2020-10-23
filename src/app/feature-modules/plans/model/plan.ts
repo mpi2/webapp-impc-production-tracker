@@ -24,7 +24,6 @@ export class Plan {
     attemptTypeName: string;
     parentColonyName: string;
     comment: string;
-    productsAvailableForGeneralPublic: boolean;
     crisprAttempt: CrisprAttempt;
     phenotypingAttemptResponse: PhenotypingAttempt;
     // Need to keep this copy because phenotypingAttemptResponse is not processed by the update/create endpoint
