@@ -2,7 +2,6 @@ import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angu
 import { MatDialog } from '@angular/material/dialog';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
-import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { ImportListDialogComponent } from '../import-list-dialog/import-list-dialog.component';
 
 @Component({
@@ -15,6 +14,7 @@ export class ListControlsComponent implements OnInit, OnDestroy {
   @Input() currentConsortium;
 
   @Output() importFileSelected = new EventEmitter<any>();
+  @Output() exportOptionSelected = new EventEmitter<any>();
   @Output() editModeChanged = new EventEmitter<boolean>();
 
   downloading;
@@ -28,8 +28,7 @@ export class ListControlsComponent implements OnInit, OnDestroy {
 
   constructor(
     public dialog: MatDialog,
-    private filterService: FilterService,
-    private targetGeneListService: TargetGeneListService) { }
+    private filterService: FilterService) { }
 
   ngOnInit() {
     this.subscribeToFilterChanges();
@@ -72,26 +71,8 @@ export class ListControlsComponent implements OnInit, OnDestroy {
     this.importFileSelected.emit(file);
   }
 
-  downloadCsv() {
-    this.downloading = true;
-    this.targetGeneListService.exportCsv(this.currentConsortium, this.currentFilters)
-      .subscribe(data => {
-        this.download('gene_list_' + this.currentConsortium + '.csv', data);
-        this.downloading = false;
-      }, error => {
-        console.error(error);
-      });
-  }
-
-
-  download(filename, text) {
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
+  emitDownloadCsvEvent() {
+    this.exportOptionSelected.emit();
   }
 
 }

@@ -1,5 +1,5 @@
 <mat-card>
-  <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
+  <mat-spinner style="margin:0 auto;" *ngIf="isLoading || isDownloading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
   <mat-card-content>
     <table *ngIf=!isLoading>
       <thead>

@@ -23,7 +23,8 @@
         <mat-card-content>
 
           <app-list-controls [canUpdateList]="canUpdateList" [currentConsortium]="currentConsortium"
-            (importFileSelected)="onImportFileSelected($event)" (editModeChanged)="onEditModeChanged($event)">
+            (importFileSelected)="onImportFileSelected($event)" (exportOptionSelected)="onExportOptionSelected($event)"
+            (editModeChanged)="onEditModeChanged($event)">
           </app-list-controls>
 
           <app-list-content #listContent [canUpdateList]="canUpdateList"
