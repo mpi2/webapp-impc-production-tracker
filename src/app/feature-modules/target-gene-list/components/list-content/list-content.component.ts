@@ -34,6 +34,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
   private originalDataAsString: string;
   private originalRecordsStrings: Map<number, string> = new Map();
   isLoading;
+  isDownloading;
 
   configurationData: ConfigurationData;
 
@@ -244,6 +245,27 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
       return element.projects.length;
     }
     return 1;
+  }
+
+  downloadCsv() {
+    this.isDownloading = true;
+    this.targetGeneListService.exportCsv(this.currentConsortium, this.filterService.filter)
+      .subscribe(data => {
+        this.download('gene_list_' + this.currentConsortium + '.csv', data);
+        this.isDownloading = false;
+      }, error => {
+        console.error(error);
+      });
+  }
+
+  download(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   }
 
 }

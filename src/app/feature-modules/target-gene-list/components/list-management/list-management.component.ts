@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
-import { map, share, startWith} from 'rxjs/operators';
+import { map, share, startWith } from 'rxjs/operators';
 import { FilterDefinition } from 'src/app/feature-modules/filters/model/filter-definition';
 import { ListContentComponent } from '../list-content/list-content.component';
 import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
@@ -89,6 +89,11 @@ export class ListManagementComponent implements OnInit, OnDestroy {
 
   onImportFileSelected(e) {
     this.listContent.updateListWithFile(e);
+  }
+
+  onExportOptionSelected(e) {
+    this.listContent.downloadCsv();
+
   }
 
   onEditModeChanged(e) {
