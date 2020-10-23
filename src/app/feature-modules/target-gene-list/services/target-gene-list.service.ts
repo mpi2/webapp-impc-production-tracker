@@ -36,15 +36,19 @@ export class TargetGeneListService {
   }
 
   exportCsv(consortiumName: string, filterValues): Observable<any> {
+    console.warn(consortiumName);
+    console.warn(filterValues);
     if (!consortiumName) {
       return of([]);
     }
     return this.config$.pipe(flatMap(response => {
       let url = `${response.appServerUrl}/api/geneList/${consortiumName}/export`;
       const filterParameters = this.queryBuilderService.buildQueryParameters(filterValues, null);
+
       if (filterParameters && filterParameters !== '') {
-        url = url + '&' + filterParameters;
+        url = url + '?' + filterParameters;
       }
+
       return this.http.get(url, { responseType: 'text' });
     }));
   }
