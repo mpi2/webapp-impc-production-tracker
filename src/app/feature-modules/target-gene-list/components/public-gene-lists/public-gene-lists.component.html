@@ -1,0 +1,28 @@
+<mat-card>
+    <section>
+        <p>
+            This page shows the public or visible records in the consortia gene lists. A record in a gene list is
+            visible if the record type is
+            set to be visible (Tier1 for instance).
+        </p>
+
+        <p>
+            Select the consortium to see its visible gene list records:
+        </p>
+
+        <table>
+            <th>Consortium Name</th>
+            <tr *ngFor="let geneListDescription of geneListDescriptions">
+                <td> <button
+                        (click)="consortiumClicked(geneListDescription.consortiumName)">{{ geneListDescription.consortiumName }}</button>
+                </td>
+            </tr>
+        </table>
+    </section>
+    
+    <div *ngIf="selectedConsortium">
+        The content of the list is not implemented yet
+    </div>
+    <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
+    <mat-card-content></mat-card-content>
+</mat-card>

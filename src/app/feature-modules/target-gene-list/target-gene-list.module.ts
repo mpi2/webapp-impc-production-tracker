@@ -9,6 +9,7 @@ import { FiltersModule } from '../filters/filters.module';
 import { ConsortiumSelectorComponent } from './components/consortium-selector/consortium-selector.component';
 import { ListContentComponent } from './components/list-content/list-content.component';
 import { ListControlsComponent } from './components/list-controls/list-controls.component';
+import { PublicGeneListsComponent } from './components/public-gene-lists/public-gene-lists.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { ListControlsComponent } from './components/list-controls/list-controls.
     ImportListDialogComponent,
     ConsortiumSelectorComponent,
     ListContentComponent,
-    ListControlsComponent],
+    ListControlsComponent,
+    PublicGeneListsComponent],
   imports: [
     TargetGeneListRoutingModule,
     SharedModule,

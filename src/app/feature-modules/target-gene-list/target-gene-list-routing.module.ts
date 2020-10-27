@@ -1,11 +1,15 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { ListManagementComponent } from './components/list-management/list-management.component';
+import { PublicGeneListsComponent } from './components/public-gene-lists/public-gene-lists.component';
 
 
 const routes: Routes = [
   {
-    path: 'gene-list', component: ListManagementComponent
+    path: 'own-gene-list', component: ListManagementComponent
+  },
+  {
+    path: 'public-gene-lists', component: PublicGeneListsComponent
   }
 ];
 
