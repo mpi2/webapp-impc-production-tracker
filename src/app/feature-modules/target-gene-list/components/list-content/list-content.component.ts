@@ -11,6 +11,8 @@ import { MessageService } from 'src/app/core/services/message.service';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Page } from 'src/app/model/page_structure/page';
+import { Sort } from 'src/app/model/page_structure/sort';
 
 @Component({
   selector: 'app-list-content',
@@ -30,7 +32,6 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
   recordIdsToDelete = [];
   error;
   lastNewId = -1;
-  page: any = {};
   private originalDataAsString: string;
   private originalRecordsStrings: Map<number, string> = new Map();
   isLoading;
@@ -43,6 +44,9 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
   filteredRecordTypes: NamedValue[];
 
   messageSubscription;
+
+  sort: Sort = { property: 'id', direction: 'ASC' };
+  page: Page = { number: 0, size: 20, sorts: [this.sort] };
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
@@ -58,9 +62,10 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadConfigurationData();
     this.messageSubscription = this.messageService.getMessage().subscribe(data => {
       if (data.message) {
+        this.resetPage();
         this.currentConsortium = data.message.geneListSelectedConsortium;
         this.filteredRecordTypes = this.recordTypesByConsortium.get(this.currentConsortium);
-        this.getPage(0);
+        this.getPage(this.page);
       }
     });
   }
@@ -77,7 +82,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
         startWith({}),
         switchMap(() => {
           this.clearDataSet();
-          return this.targetGeneListService.getListByConsortium(0, this.currentConsortium, this.filterService.filter);
+          return this.targetGeneListService.getListByConsortium(this.page, this.currentConsortium, this.filterService.filter);
         }),
         catchError(() => {
           return of([]);
@@ -95,18 +100,17 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
         const list = this.configurationData.recordTypesByConsortium[key];
         this.recordTypesByConsortium.set(key, list.map(x => ({ name: x })));
       });
-      console.log(this.recordTypesByConsortium);
 
     }, error => {
       this.error = error;
     });
   }
 
-  public getPage(pageNumber: number) {
+  public getPage(page: Page) {
     this.isLoading = true;
     this.clearDataSet();
     if (this.currentConsortium) {
-      this.targetGeneListService.getListByConsortium(pageNumber, this.currentConsortium, null).subscribe(data => {
+      this.targetGeneListService.getListByConsortium(page, this.currentConsortium, null).subscribe(data => {
         this.isLoading = false;
         this.extractDataFromServerResponse(data);
       }, error => {
@@ -126,6 +130,8 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
       if (data['_embedded']) {
         const records = data['_embedded'].records;
         this.page = data['page'];
+        console.log('this.page', this.page);
+
         /* tslint:enable:no-string-literal */
         this.getDataSource(records);
       }
@@ -201,7 +207,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.targetGeneListService.uploadList(dataToUpload, this.currentConsortium).subscribe(data => {
       this.extractDataFromServerResponse(data);
-      this.getPage(0);
+      this.getPage(this.page);
       this.snackBar.open('Data updated.', 'Close', {
         duration: 1500,
       });
@@ -230,7 +236,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public updateListWithFile(file) {
     this.targetGeneListService.updateListWithFile(this.currentConsortium, file).subscribe(data => {
-      this.getPage(0);
+      this.getPage(this.page);
       this.errorEventEmitter.emit('');
       console.log(data);
 
@@ -267,6 +273,19 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  public onPaginatorChanged(paginator: MatPaginator) {
+    this.page.number = paginator.pageIndex;
+    this.page.size = paginator.pageSize;
+    this.getPage(this.page);
+  }
+
+  private resetPage() {
+    this.page.number = 0;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
   }
 
 }

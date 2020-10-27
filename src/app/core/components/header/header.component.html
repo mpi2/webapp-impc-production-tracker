@@ -20,8 +20,15 @@
             <mat-menu #project_menu="matMenu">
                 <button mat-menu-item *ngIf="canSeeProjectList" routerLink="/projects" routerLinkActive="active">Managed
                     Projects</button>
-                <button mat-menu-item *ngIf="login && false" routerLink="/gene-list" routerLinkActive="active">Gene List</button>
                 <button mat-menu-item routerLink="/projects/project-creation" routerLinkActive="active" *ngIf="login">Create a project</button>
+            </mat-menu>
+        </div>
+
+        <div id="geneList" *ngIf="login">
+            <button routerLinkActive="active" mat-menu-item [matMenuTriggerFor]="gene_list_menu">Gene List</button>
+            <mat-menu #gene_list_menu="matMenu">
+                <button mat-menu-item routerLink="/own-gene-list">Manage/View own Gene List</button>
+                <button mat-menu-item routerLink="/public-gene-lists">See all public Gene Lists</button>
             </mat-menu>
         </div>
 

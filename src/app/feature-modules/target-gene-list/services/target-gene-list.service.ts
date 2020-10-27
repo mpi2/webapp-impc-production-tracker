@@ -7,6 +7,8 @@ import { GeneListRecord } from 'src/app/model/bio/target_gene_list/gene-list-rec
 import { AssetConfiguration } from 'src/app/core/model/conf/asset-configuration';
 import { flatMap } from 'rxjs/operators';
 import { QueryBuilderService } from 'src/app/core';
+import { Page } from 'src/app/model/page_structure/page';
+import { GeneListDescription } from 'src/app/model/bio/target_gene_list/gene-list-description';
 
 @Injectable({
   providedIn: 'root'
@@ -21,23 +23,25 @@ export class TargetGeneListService {
     this.config$ = from(this.configAssetLoaderService.getConfig());
   }
 
-  getListByConsortium(pageNumber: number, consortiumName: string, filterValues): Observable<GeneListRecord[]> {
+  getAllListsDescriptions() {
+    return this.config$.pipe(flatMap(response => {
+      const url = `${response.appServerUrl}/api/geneList/descriptions`;
+      return this.http.get<GeneListDescription[]>(url);
+    }));
+  }
+
+  getListByConsortium(page: Page, consortiumName: string, filterValues): Observable<GeneListRecord[]> {
     if (!consortiumName) {
       return of([]);
     }
+    const queryParameters = this.queryBuilderService.buildQueryParameters(filterValues, page);
     return this.config$.pipe(flatMap(response => {
-      let url = `${response.appServerUrl}/api/geneList/${consortiumName}/content?page=${pageNumber}`;
-      const filterParameters = this.buildFilterParameters(filterValues);
-      if (filterParameters && filterParameters !== '') {
-        url = url + '&' + filterParameters;
-      }
+      const url = `${response.appServerUrl}/api/geneList/${consortiumName}/content?${queryParameters}`;
       return this.http.get<GeneListRecord[]>(url);
     }));
   }
 
   exportCsv(consortiumName: string, filterValues): Observable<any> {
-    console.warn(consortiumName);
-    console.warn(filterValues);
     if (!consortiumName) {
       return of([]);
     }
@@ -53,17 +57,7 @@ export class TargetGeneListService {
     }));
   }
 
-  private buildFilterParameters(filterValues) {
-    let filterParameters = '';
-    if (filterValues) {
-      if (filterValues.markerSymbol) {
-        const markerSymbolValues = [filterValues.markerSymbol];
-        const markerSymbolFilter = 'markerSymbol=' + markerSymbolValues.join(',');
-        filterParameters += markerSymbolFilter;
-      }
-    }
-    return filterParameters;
-  }
+
 
   updateListWithFile(consortiumName: string, file): Observable<GeneListRecord[]> {
     const formData: FormData = new FormData();
