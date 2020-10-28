@@ -41,6 +41,17 @@ export class TargetGeneListService {
     }));
   }
 
+  getPublicListByConsortium(page: Page, consortiumName: string, filterValues): Observable<GeneListRecord[]> {
+    if (!consortiumName) {
+      return of([]);
+    }
+    const queryParameters = this.queryBuilderService.buildQueryParameters(filterValues, page);
+    return this.config$.pipe(flatMap(response => {
+      const url = `${response.appServerUrl}/api/geneList/${consortiumName}/publicContent?${queryParameters}`;
+      return this.http.get<GeneListRecord[]>(url);
+    }));
+  }
+
   exportCsv(consortiumName: string, filterValues): Observable<any> {
     if (!consortiumName) {
       return of([]);

@@ -6,7 +6,7 @@ import { PublicGeneListsComponent } from './components/public-gene-lists/public-
 
 const routes: Routes = [
   {
-    path: 'own-gene-list', component: ListManagementComponent
+    path: 'your-gene-list', component: ListManagementComponent
   },
   {
     path: 'public-gene-lists', component: PublicGeneListsComponent

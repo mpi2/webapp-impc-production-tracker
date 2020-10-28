@@ -24,11 +24,11 @@
             </mat-menu>
         </div>
 
-        <div id="geneList" *ngIf="login">
+        <div id="geneList" *ngIf="login && false">
             <button routerLinkActive="active" mat-menu-item [matMenuTriggerFor]="gene_list_menu">Gene List</button>
             <mat-menu #gene_list_menu="matMenu">
-                <button mat-menu-item routerLink="/own-gene-list">Manage/View own Gene List</button>
-                <button mat-menu-item routerLink="/public-gene-lists">See all public Gene Lists</button>
+                <button mat-menu-item routerLink="/your-gene-list">Manage/View your Gene List</button>
+                <button mat-menu-item routerLink="/public-gene-lists">See public Gene Lists</button>
             </mat-menu>
         </div>
 

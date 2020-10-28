@@ -1,28 +1,70 @@
 <mat-card>
-    <section>
-        <p>
-            This page shows the public or visible records in the consortia gene lists. A record in a gene list is
-            visible if the record type is
-            set to be visible (Tier1 for instance).
-        </p>
+    <mat-card-title>Public Gene Lists</mat-card-title>
 
-        <p>
-            Select the consortium to see its visible gene list records:
-        </p>
+    <p>
+        Select the consortium to view each list:
+    </p>
 
-        <table>
-            <th>Consortium Name</th>
-            <tr *ngFor="let geneListDescription of geneListDescriptions">
-                <td> <button
-                        (click)="consortiumClicked(geneListDescription.consortiumName)">{{ geneListDescription.consortiumName }}</button>
-                </td>
-            </tr>
+    <table>
+        <tr *ngFor="let geneListDescription of geneListDescriptions">
+            <td> <button
+                    (click)="consortiumClicked(geneListDescription.consortiumName)">{{ geneListDescription.consortiumName }}</button>
+            </td>
+        </tr>
+    </table>
+
+    <div *ngIf="currentConsortium" class="geneList">
+        <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
+        <div *ngIf="!isLoading"><b>{{currentConsortium}}</b> public Gene List</div>
+        <table *ngIf=!isLoading class="content">
+            <thead>
+                <tr>
+                    <th>Gene(s)</th>
+                    <th>Note</th>
+                    <th>Types</th>
+                    <th>Project Id</th>
+                    <th>Project Summary Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let element of dataSource">
+                    <td rowspan="calculateRowspan(element)">
+
+                        {{ getGenesSymbols(element) }}
+
+                    </td>
+                    <td rowspan="calculateRowspan(element)">
+
+                        {{ element.note }}
+
+                    </td>
+                    <td rowspan="calculateRowspan(element)">
+                        {{ element.recordTypes }}
+
+                    </td>
+                    <td>
+                        <div *ngFor="let project of element.projects">
+                            <div *ngIf="project">
+                                <div><a target="_blank" routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngFor="let project of element.projects">
+                            <div *ngIf="project">
+                                {{ project.summaryStatus }}
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
         </table>
-    </section>
-    
-    <div *ngIf="selectedConsortium">
-        The content of the list is not implemented yet
+
+        <mat-paginator (page)="onPaginatorChanged(this.paginator)" [length]="page.totalElements" [pageSize]="page.size"
+            [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
     </div>
-    <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
+
     <mat-card-content></mat-card-content>
 </mat-card>
