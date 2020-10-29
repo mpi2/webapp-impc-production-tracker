@@ -1,12 +1,14 @@
 <mat-card>
-  <mat-spinner style="margin:0 auto;" *ngIf="isLoading || isDownloading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
+  <mat-spinner style="margin:0 auto;" *ngIf="isLoading || isDownloading" matSuffix mode="indeterminate" diameter=100>
+  </mat-spinner>
   <mat-card-content>
-    <table *ngIf=!isLoading>
+    <table *ngIf="!isLoading && currentConsortium">
       <thead>
         <tr>
           <th>Gene(s)</th>
           <th>Note</th>
           <th>Types</th>
+          <th>Visible</th>
           <th>Project Id</th>
           <th>Project Summary Status</th>
           <th></th>
@@ -36,6 +38,7 @@
               {{ element.note }}
             </ng-template>
           </td>
+
           <td rowspan="calculateRowspan(element)">
             <div *ngIf="checkEditable(); then editableType else readOnlyType">
             </div>
@@ -51,6 +54,18 @@
             </ng-template>
             <ng-template #readOnlyType>
               {{ element.recordTypes }}
+            </ng-template>
+          </td>
+
+          <td rowspan="calculateRowspan(element)">
+            <div *ngIf="checkEditable(); then editableVisible else readOnlyVisible">
+            </div>
+            <ng-template #editableVisible>
+              <mat-checkbox [(ngModel)]="element.visible" [ngModelOptions]="{standalone: true}"></mat-checkbox>
+            </ng-template>
+            <ng-template #readOnlyVisible>
+              <mat-checkbox [(ngModel)]="element.visible" [disabled]=true [ngModelOptions]="{standalone: true}">
+              </mat-checkbox>
             </ng-template>
           </td>
           <td>
@@ -83,8 +98,9 @@
       </tbody>
     </table>
 
-    <mat-paginator (page)="onPaginatorChanged(this.paginator)" [length]="page.totalElements" [pageSize]="page.size"
-      [pageSizeOptions]="[10,20,50,100,200]" id="server"></mat-paginator>
+    <mat-paginator *ngIf="this.currentConsortium" (page)="onPaginatorChanged(this.paginator)"
+      [length]="page.totalElements" [pageSize]="page.size" [pageSizeOptions]="[10,20,50,100,200]" id="server">
+    </mat-paginator>
   </mat-card-content>
 
   <mat-card-actions *ngIf="checkEditable()">
