@@ -13,6 +13,7 @@
   float: none;
 }
 
+
 label {
   clear: both;
   float: left;
@@ -20,15 +21,22 @@ label {
   list-style: 1.7;
   width: 180px;
 }
+
 input,
 select {
   float: left;
 }
+
+.mutationDescription {
+  vertical-align: top;
+}
+
 .content {
   clear: both;
   float: none;
   padding-bottom: 5px;
 }
+
 .section {
   clear: both;
   float: left;
@@ -77,7 +85,6 @@ fieldset {
 }
 
 .mutationSequences {
-  padding-top: 200px;
   clear: both;
   padding-bottom: 5px;
 }
@@ -93,6 +100,6 @@ mat-card-actions {
 }
 
 .qcResultsSection {
-  margin-top: 10px;
+  margin-top: 30px;
 }
 

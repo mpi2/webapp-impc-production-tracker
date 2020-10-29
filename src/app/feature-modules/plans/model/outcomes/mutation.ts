@@ -18,4 +18,5 @@ export class Mutation {
     genes: Gene[] = [];
     calculatedMgiAlleleSymbol: string;
     symbolSuggestionRequest: any;
+    description: string;
 }

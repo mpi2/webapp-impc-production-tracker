@@ -13,8 +13,8 @@
         <label for="genotypingComment">Genotyping comment:</label>
         <div id="genotypingComment" class="content">
             <mat-form-field class="example-full-width">
-                <input (keyup)="onCommentChanged($event)" matInput [(ngModel)]="colony.genotypingComment"
-                    [ngModelOptions]="{standalone: true}">
+                <textarea matInput (keyup)="onCommentChanged($event)" [(ngModel)]="colony.genotypingComment"
+                    [ngModelOptions]="{standalone: true}"></textarea>
             </mat-form-field>
         </div>
 

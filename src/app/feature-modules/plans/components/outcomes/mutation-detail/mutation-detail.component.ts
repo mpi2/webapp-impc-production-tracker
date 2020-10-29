@@ -6,6 +6,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { IndexedSequence } from 'src/app/feature-modules/sequences';
 import { MatDialog } from '@angular/material/dialog';
+import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
@@ -46,7 +47,8 @@ export class MutationDetailComponent implements OnInit {
     private formBuilder: FormBuilder,
     private mutationService: MutationService,
     private configurationDataService: ConfigurationDataService,
-    public dialog: MatDialog) { }
+    public dialog: MatDialog,
+    private inputHandlerService: InputHandlerService) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
@@ -199,6 +201,10 @@ export class MutationDetailComponent implements OnInit {
 
   private isNewRecord(indexedSequence: IndexedSequence) {
     return indexedSequence.id == null;
+  }
+
+  onDescriptionChanged(e) {
+    this.mutation.description = this.inputHandlerService.getValueOrNull(e.target.value);
   }
 
 }
