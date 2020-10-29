@@ -11,19 +11,19 @@
 
             <ng-template #editable>
 
+                <label for="genes">Genes:</label>
                 <div id="genes" class="genes">
-                    <label for="genes">Genes:</label>
                     <app-autocomplete-gene [symbols]="geneSymbols"
                         (symbolSelectedEmmiter)="onSymbolSelected($event)"></app-autocomplete-gene>
                 </div>
 
                 <label for="tpo">Mutation id:</label>
-                <div id="tpo">{{ mutation.min }}</div>
+                <div id="tpo" class="tpo">
+                    <div id="tpo">{{ mutation.min }}</div>
+                </div>
 
-                <fieldset class="content">
-                    <legend>Mutation Symbol</legend>
-
-                    <label for="symbol">Symbol:</label>
+                <label for="symbol">Mutation symbol:</label>
+                <div id="symbol" class="symbol">
                     <mat-form-field class="example-full-width">
                         <input matInput [(ngModel)]="mutation.symbol" [ngModelOptions]="{standalone: true}">
                     </mat-form-field>
@@ -44,58 +44,73 @@
                         </div>
                     </div>
 
-                </fieldset>
-
-                <label for="molecularMutationType">Molecular Mutation Type:</label>
-                <div id="molecularMutationType">
-
-                    <mat-select class="select-content-fix-width" [(value)]="mutation.molecularMutationTypeName">
-                        <mat-option *ngFor="let molecularMutationType of molecularMutationTypes"
-                            [value]="molecularMutationType.name">
-                            {{molecularMutationType.name}}
-                        </mat-option>
-                    </mat-select>
                 </div>
 
-                <fieldset class="content">
-                    <legend>Mutation Categorizations:</legend>
-                    <label for="repairMechanism">Repair Mechanism:</label>
-                    <div id="repairMechanism">
-                        <mat-select class="select-content" [(value)]="repairMechanismsNames"
-                            (selectionChange)="onRepairMechanismChanged($event)">
-                            <mat-option
-                                *ngFor="let repairMechanism of this.molecularMutationTypesByType[repairMechanismKey]"
-                                [value]="repairMechanism.name">
-                                {{ repairMechanism.name }}
+                <label for="molecularMutationType">Molecular Mutation Type:</label>
+                <div id="molecularMutationType" class="molecularMutationType">
+                    <div id="molecularMutationType">
+                        <mat-select class="select-content-fix-width" [(value)]="mutation.molecularMutationTypeName">
+                            <mat-option *ngFor="let molecularMutationType of molecularMutationTypes"
+                                [value]="molecularMutationType.name">
+                                {{molecularMutationType.name}}
                             </mat-option>
                         </mat-select>
                     </div>
-                    <label for="alleleCategory">Allele Categories :</label>
-                    <div id="alleleCathegory">
-                        <mat-select class="select-content" [(value)]="alleleCategoriesNames"
-                            (selectionChange)="onAlleleCategoriesChanged($event)" multiple>
-                            <mat-option
-                                *ngFor="let alleleCategory of this.molecularMutationTypesByType[alleleCategoryKey]"
-                                [value]="alleleCategory.name">
-                                {{alleleCategory.name}}
-                            </mat-option>
-                        </mat-select>
-                    </div>
-                </fieldset>
+                </div>
 
-                <mat-card class="sequences-card">
-                    <label for="mutationSequences">Mutation description:</label>
+                <br>
+                <div>
+                    <fieldset>
+                        <legend>Mutation Categorizations:</legend>
+                        <label for="repairMechanism">Repair Mechanism:</label>
+                        <div id="repairMechanism">
+                            <mat-select class="select-content" [(value)]="repairMechanismsNames"
+                                (selectionChange)="onRepairMechanismChanged($event)">
+                                <mat-option
+                                    *ngFor="let repairMechanism of this.molecularMutationTypesByType[repairMechanismKey]"
+                                    [value]="repairMechanism.name">
+                                    {{ repairMechanism.name }}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                        <label for="alleleCategory">Allele Categories :</label>
+                        <div id="alleleCathegory">
+                            <mat-select class="select-content" [(value)]="alleleCategoriesNames"
+                                (selectionChange)="onAlleleCategoriesChanged($event)" multiple>
+                                <mat-option
+                                    *ngFor="let alleleCategory of this.molecularMutationTypesByType[alleleCategoryKey]"
+                                    [value]="alleleCategory.name">
+                                    {{alleleCategory.name}}
+                                </mat-option>
+                            </mat-select>
+                        </div>
+                    </fieldset>
+                </div>
 
-                    <div id="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
-                        <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
-                            [showSequenceCategory]=false [showLocations]=false
-                            (sequenceDeleted)="onDeleteSequence($event)">
-                        </app-indexed-sequence>
-                    </div>
-                    <div class="separator"></div>
-                    <button class="create-button" mat-raised-button (click)="create()" color="primary"
-                        *ngIf="canUpdate">Add Mutation description</button>
-                </mat-card>
+                <br>
+                <div >
+                    <fieldset>
+                        <legend>Sequence(s) information:</legend>
+                        <div class="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
+                            <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
+                                [showSequenceCategory]=false [showLocations]=false
+                                (sequenceDeleted)="onDeleteSequence($event)">
+                            </app-indexed-sequence>
+                        </div>
+                        <div class="separator"></div>
+                        <button class="create-button" mat-raised-button (click)="create()" color="primary"
+                            *ngIf="canUpdate">Add sequence</button>
+                    </fieldset>
+                </div>
+
+                <br>
+                <label for="mutationDescription">Mutation description:</label>
+                <div id="mutationDescription" class="mutationDescription">
+                    <mat-form-field class="example-full-width">
+                        <textarea matInput (keyup)="onDescriptionChanged($event)" [(ngModel)]="mutation.description"
+                            [ngModelOptions]="{standalone: true}"></textarea>
+                    </mat-form-field>
+                </div>
 
             </ng-template>
 
@@ -103,7 +118,6 @@
 
                 <div id="genes" class="genes">
                     <label for="genes">Genes:</label>
-
                     <mat-chip-list>
                         <mat-chip *ngFor="let geneSymbolOrAccessionId of geneSymbols">
                             {{geneSymbolOrAccessionId}}
@@ -120,14 +134,13 @@
                 <label for="molecularMutationType">Molecular Mutation Type:</label>
                 <div id="molecularMutationType"> {{ mutation.molecularMutationTypeName }} </div>
 
-                <fieldset class="content">
+                <fieldset class="categorizations-card">
                     <legend>Mutation Categorizations:</legend>
                     <label for="repairMechanism">Repair Mechanism:</label>
                     <div id="repairMechanism"> {{ repairMechanismsNames }} </div>
 
                     <label for="alleleCategory">Allele Categories :</label>
                     <div id="alleleCathegory">{{ alleleCategoriesNames.join(", ") }} </div>
-
                 </fieldset>
 
                 <mat-card class="sequences-card">
@@ -137,15 +150,17 @@
                     </div>
                 </mat-card>
 
+                <label for="mutationDescription">Mutation description:</label>
+                <div id="mutationDescription" class="mutationDescription">{{ mutation.description }}</div>
+
             </ng-template>
 
+            <div id="qc-results">
+                <app-qc-results class="qcResultsSection" [mutation]="mutation" [canUpdate]="canUpdate">
+                </app-qc-results>
+            </div>
+
         </form>
-
-
-        <div id="qc-results">
-            <app-qc-results class="qcResultsSection" [mutation]="mutation" [canUpdate]="canUpdate">
-            </app-qc-results>
-        </div>
 
     </mat-card-content>
 </mat-card>

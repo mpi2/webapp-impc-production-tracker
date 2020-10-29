@@ -3,7 +3,7 @@
 
         <mat-card-actions>
             <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
-                (click)="delete()">Delete Mutation Description</button>
+                (click)="delete()">Delete sequence</button>
         </mat-card-actions>
 
         <div *ngIf="canUpdate; then editable else readOnly"></div>
