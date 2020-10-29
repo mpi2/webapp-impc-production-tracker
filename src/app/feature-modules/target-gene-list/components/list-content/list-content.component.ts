@@ -130,11 +130,12 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
       if (data['_embedded']) {
         const records = data['_embedded'].records;
         this.page = data['page'];
-        console.log('this.page', this.page);
-
         /* tslint:enable:no-string-literal */
         this.getDataSource(records);
       }
+    } else {
+      this.resetPage();
+      this.dataSource = [];
     }
   }
 
@@ -203,7 +204,6 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     });
     this.cleanPayload(dataToUpload);
-    console.log('dataToUpload:', dataToUpload);
 
     this.targetGeneListService.uploadList(dataToUpload, this.currentConsortium).subscribe(data => {
       this.extractDataFromServerResponse(data);
@@ -220,6 +220,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.recordIdsToDelete.length > 0) {
       this.targetGeneListService.deleteRecords(this.recordIdsToDelete, this.currentConsortium).subscribe(data => {
+        this.getPage(this.page);
       },
         error => {
           this.error = error;
@@ -238,8 +239,6 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
     this.targetGeneListService.updateListWithFile(this.currentConsortium, file).subscribe(data => {
       this.getPage(this.page);
       this.errorEventEmitter.emit('');
-      console.log(data);
-
     }, error => {
       console.error('error', error);
       this.errorEventEmitter.emit(error);

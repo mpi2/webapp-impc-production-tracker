@@ -4,6 +4,7 @@ export class GeneListRecord {
     id: number;
     tmpId: number;
     note: string;
+    visible: boolean;
     recordTypes: string[];
     genes: Gene[];
     projects: ProjectByTargetGeneSummary[] = [];

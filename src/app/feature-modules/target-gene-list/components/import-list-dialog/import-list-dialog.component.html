@@ -1,20 +1,23 @@
 <h1 mat-dialog-title>Import Gene List</h1>
 <div mat-dialog-content>
-    Choose a csv file providing the Gene(s) symbol, the record type and a note (leave empty if does not apply):
+    Choose a csv file providing the Gene(s) symbol, the record type, whether the record is visible or not, and a note (leave empty if does not apply):
     <table class="smallContent">
         <tr>
             <th>Genes</th>
             <th>Type</th>
+            <th>Visible</th>
             <th>Note</th>
           </tr>
         <tr>
             <td>Adamts2</td>
             <td>Tier2</td>
+            <th>true</th>
             <td>Note about this record</td>
           </tr>
         <tr>
           <td>Adamts6,Adamts10</td>
           <td>Tier1</td>
+          <th>false</th>
           <td>Multiple genes in a record</td>
         </tr>
       </table>
