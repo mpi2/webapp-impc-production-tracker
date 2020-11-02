@@ -15,6 +15,7 @@ export class PublicGeneListsComponent implements OnInit {
   dataSource: GeneListRecord[] = [];
 
   isLoading = false;
+  isDownloading;
   error;
 
   sort: Sort = { property: 'id', direction: 'ASC' };
@@ -92,6 +93,28 @@ export class PublicGeneListsComponent implements OnInit {
     if (this.paginator) {
       this.paginator.pageIndex = 0;
     }
+  }
+
+  onDownloadClicked() {
+    this.isDownloading = true;
+    this.targetGeneListService.exportPublicRecordsCsv(this.currentConsortium, null)
+      .subscribe(data => {
+        this.download('gene_list_' + this.currentConsortium + '.csv', data);
+        this.isDownloading = false;
+      }, error => {
+        console.error(error);
+        this.isDownloading = false;
+      });
+  }
+
+  download(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
   }
 
 }

@@ -68,7 +68,21 @@ export class TargetGeneListService {
     }));
   }
 
+  exportPublicRecordsCsv(consortiumName: string, filterValues): Observable<any> {
+    if (!consortiumName) {
+      return of([]);
+    }
+    return this.config$.pipe(flatMap(response => {
+      let url = `${response.appServerUrl}/api/geneList/${consortiumName}/exportPublic`;
+      const filterParameters = this.queryBuilderService.buildQueryParameters(filterValues, null);
 
+      if (filterParameters && filterParameters !== '') {
+        url = url + '?' + filterParameters;
+      }
+
+      return this.http.get(url, { responseType: 'text' });
+    }));
+  }
 
   updateListWithFile(consortiumName: string, file): Observable<GeneListRecord[]> {
     const formData: FormData = new FormData();

@@ -13,6 +13,12 @@
         </tr>
     </table>
 
+    <div>
+        <button *ngIf="currentConsortium" mat-button (click)="onDownloadClicked()" color="accent">
+          <mat-icon>save_alt</mat-icon> Download as CSV
+        </button>
+      </div>
+
     <div *ngIf="currentConsortium" class="geneList">
         <mat-spinner style="margin:0 auto;" *ngIf="isLoading" matSuffix mode="indeterminate" diameter=100></mat-spinner>
         <div *ngIf="!isLoading"><b>{{currentConsortium}}</b> public Gene List</div>
