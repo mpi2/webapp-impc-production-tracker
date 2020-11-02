@@ -215,6 +215,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
     }, error => {
       console.error('there was an error', error);
+      this.errorEventEmitter.emit(error);
       this.isLoading = false;
     });
 
@@ -224,6 +225,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
       },
         error => {
           this.error = error;
+          this.errorEventEmitter.emit(error);
         });
     }
   }
@@ -232,6 +234,9 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
   cleanPayload(dataToUpload: GeneListRecord[]) {
     dataToUpload.map(x => {
       x.projects = null;
+      if (x.id < 0) {
+        x.id = null;
+      }
     });
   }
 
