@@ -14,6 +14,17 @@
             </div>
 
             <div>
+                <label for="cohortProductionWorkUnitName">Cohort Production Work Unit Name:</label>
+                <div id="cohortProductionWorkUnitName" class="content">
+                    <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.cohortProductionWorkUnitName">
+                        <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
+                            {{ workUnit.name }}
+                        </mat-option>
+                    </mat-select>
+                </div>
+            </div>
+            <br>
+            <div>
                 <label for="phenotypingBackgroundStrainName">Background Strain:</label>
                 <div id="phenotypingBackgroundStrainName" class="content">
                     <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.phenotypingBackgroundStrainName">
@@ -23,7 +34,7 @@
                     </mat-select>
                 </div>
             </div>
-
+            <br>
             <div>
                 <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
                 <div id="doNotCountTowardsCompleteness">
@@ -31,7 +42,7 @@
                         [ngModelOptions]="{standalone: true}"></mat-checkbox>
                 </div>
             </div>
-           
+            <br>
 
         </ng-template>
 
@@ -41,6 +52,13 @@
                 <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
                 <div id="phenotypingExternalRef" class="content">
                     {{ phenotypingAttempt.phenotypingExternalRef }}
+                </div>
+            </div>
+
+            <div>
+                <label for="cohortProductionWorkUnitName">Cohort Production Work Unit Name:</label>
+                <div id="cohortProductionWorkUnitName" class="content">
+                    {{ phenotypingAttempt.cohortProductionWorkUnitName }}
                 </div>
             </div>
 
@@ -58,6 +76,7 @@
                         [ngModelOptions]="{standalone: true}"></mat-checkbox>
                 </div>
             </div>
+            <br>
             
         </ng-template>
 
