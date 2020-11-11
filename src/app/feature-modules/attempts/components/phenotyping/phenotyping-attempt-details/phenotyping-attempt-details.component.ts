@@ -17,6 +17,7 @@ export class PhenotypingAttemptDetailsComponent implements OnInit {
 
   configurationData: ConfigurationData;
   backGroundStrains: NamedValue[];
+  workUnits: NamedValue[];
 
   constructor(private configurationDataService: ConfigurationDataService, ) { }
 
@@ -28,6 +29,7 @@ export class PhenotypingAttemptDetailsComponent implements OnInit {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.backGroundStrains = this.configurationData.backgroundStrains.map(x => ({ name: x }));
+      this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
     });
   }
 
@@ -35,7 +37,8 @@ export class PhenotypingAttemptDetailsComponent implements OnInit {
     this.plan.phenotypingAttempt = {
       phenotypingExternalRef: this.phenotypingAttempt.phenotypingExternalRef,
       phenotypingBackgroundStrainName: this.phenotypingAttempt.phenotypingBackgroundStrainName,
-      doNotCountTowardsCompleteness: this.phenotypingAttempt.doNotCountTowardsCompleteness
+      doNotCountTowardsCompleteness: this.phenotypingAttempt.doNotCountTowardsCompleteness,
+      cohortProductionWorkUnitName: this.phenotypingAttempt.cohortProductionWorkUnitName
     };
   }
 
