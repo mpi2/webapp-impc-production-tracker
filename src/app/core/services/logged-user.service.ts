@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Observable, EMPTY, from } from 'rxjs';
-import { MessageService } from './message.service';
-import { Permission } from '../model/conf/permission';
-import { HttpClient } from '@angular/common/http';
-import { map, flatMap } from 'rxjs/operators';
-import { ConfigAssetLoaderService } from './config-asset-loader.service';
-import { AuthenticationResponse } from '../model/user/authentication-response';
-import { AssetConfiguration } from '../model/conf/asset-configuration';
-import { User } from '../model/user/user';
-import { UserService } from './user.service';
+import {Injectable} from '@angular/core';
+import {EMPTY, from, Observable} from 'rxjs';
+import {MessageService} from './message.service';
+import {Permission} from '../model/conf/permission';
+import {HttpClient} from '@angular/common/http';
+import {flatMap, map} from 'rxjs/operators';
+import {ConfigAssetLoaderService} from './config-asset-loader.service';
+import {AuthenticationResponse} from '../model/user/authentication-response';
+import {AssetConfiguration} from '../model/conf/asset-configuration';
+import {User} from '../model/user/user';
+import {UserService} from './user.service';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +30,12 @@ export class LoggedUserService {
     private configAssetLoaderService: ConfigAssetLoaderService,
     private userService: UserService) {
     this.config$ = from(this.configAssetLoaderService.getConfig());
+    this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
+  }
+
+  // Returns a key unique to this application that takes into account the base path as well as the host and port
+  getKey(key) {
+    return this.apiServiceUrl + '_' + key;
   }
 
   // Returns an object with permissions for the logged user.
@@ -40,18 +46,18 @@ export class LoggedUserService {
   }
 
   getAccessToken(): string {
-    const logginInfo: AuthenticationResponse = JSON.parse(localStorage.getItem(this.TOKEN_INFO_KEY));
+    const logginInfo: AuthenticationResponse = JSON.parse(localStorage.getItem(this.getKey(this.TOKEN_INFO_KEY)));
     return logginInfo ? logginInfo.accessToken : null;
   }
 
   storeToken(tokenInfo: any): void {
-    localStorage.setItem(this.TOKEN_INFO_KEY, JSON.stringify(tokenInfo));
+    localStorage.setItem(this.getKey(this.TOKEN_INFO_KEY), JSON.stringify(tokenInfo));
     this.messageService.setUserLoggedIn(true);
   }
 
   removeToken(): void {
     this.userService.clearCurrentLoggedUser();
-    localStorage.removeItem(this.TOKEN_INFO_KEY);
+    localStorage.removeItem(this.getKey(this.TOKEN_INFO_KEY));
     this.messageService.setUserLoggedIn(false);
   }
 
