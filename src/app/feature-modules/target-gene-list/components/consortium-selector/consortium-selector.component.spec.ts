@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ConsortiumSelectorComponent } from './consortium-selector.component';
 
@@ -6,7 +6,7 @@ describe('ConsortiumSelectorComponent', () => {
   let component: ConsortiumSelectorComponent;
   let fixture: ComponentFixture<ConsortiumSelectorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ConsortiumSelectorComponent ]
     })

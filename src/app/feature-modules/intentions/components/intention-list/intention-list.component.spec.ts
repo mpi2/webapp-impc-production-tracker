@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { IntentionListComponent } from './intention-list.component';
 
@@ -6,7 +6,7 @@ describe('IntentionListComponent', () => {
   let component: IntentionListComponent;
   let fixture: ComponentFixture<IntentionListComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ IntentionListComponent ]
     })

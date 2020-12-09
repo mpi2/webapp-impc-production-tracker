@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ExpandableContentComponent } from './expandable-content.component';
 
@@ -6,7 +6,7 @@ describe('ExpandableContentComponent', () => {
   let component: ExpandableContentComponent;
   let fixture: ComponentFixture<ExpandableContentComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ExpandableContentComponent ]
     })
