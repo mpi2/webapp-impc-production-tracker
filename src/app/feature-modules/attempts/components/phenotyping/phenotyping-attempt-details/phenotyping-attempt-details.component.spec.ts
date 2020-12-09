@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { PhenotypingAttemptDetailsComponent } from './phenotyping-attempt-details.component';
 
@@ -6,7 +6,7 @@ describe('PhenotypingAttemptDetailsComponent', () => {
   let component: PhenotypingAttemptDetailsComponent;
   let fixture: ComponentFixture<PhenotypingAttemptDetailsComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ PhenotypingAttemptDetailsComponent ]
     })

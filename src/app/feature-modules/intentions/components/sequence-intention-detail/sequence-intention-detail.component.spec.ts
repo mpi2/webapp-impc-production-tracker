@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { SequenceIntentionDetailComponent } from './sequence-intention-detail.component';
 
@@ -6,7 +6,7 @@ describe('SequenceIntentionDetailComponent', () => {
   let component: SequenceIntentionDetailComponent;
   let fixture: ComponentFixture<SequenceIntentionDetailComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ SequenceIntentionDetailComponent ]
     })
