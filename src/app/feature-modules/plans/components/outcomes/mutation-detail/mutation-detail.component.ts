@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
+
 @Component({
   selector: 'app-mutation-detail',
   templateUrl: './mutation-detail.component.html',

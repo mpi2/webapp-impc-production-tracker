@@ -21,8 +21,9 @@ label {
 }
 
 textarea {
-  width: 500px;
+  width: 40em;
   min-width: 100px;
+  height: 5em;
 }
 
 .select-content {
