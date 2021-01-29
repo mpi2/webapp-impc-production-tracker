@@ -6,7 +6,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { MatNativeDateModule } from '@angular/material/core';
+import {MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatNativeDateModule} from '@angular/material/core';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -45,6 +46,21 @@ import { StatusTransitionComponent } from './components/status-transition/status
 import { StatusDateComponent } from './components/status-date/status-date.component';
 import { AutocompleteGeneComponent } from './components/autocomplete-gene/autocomplete-gene.component';
 import { PlanCreationComponent } from './components/plan-creation/plan-creation.component';
+
+
+
+export const MY_DATE_FORMATS = {
+  parse: {
+    dateInput: 'YYYY-MM-DD',
+  },
+  display: {
+    dateInput: 'YYYY-MM-DD',
+    monthYearLabel: 'MMM YYYY',
+    dateA11yLabel: 'LL',
+    monthYearA11yLabel: 'MMMM YYYY'
+  }
+};
+
 
 @NgModule({
   declarations: [
@@ -92,6 +108,7 @@ import { PlanCreationComponent } from './components/plan-creation/plan-creation.
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMomentDateModule,
     MatRadioModule,
     MatAutocompleteModule,
     MatStepperModule,
@@ -134,14 +151,20 @@ import { PlanCreationComponent } from './components/plan-creation/plan-creation.
     MatSnackBarModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatMomentDateModule,
     MatRadioModule,
     MatAutocompleteModule,
     MatStepperModule,
     MatListModule,
-    PlanCreationComponent
+    PlanCreationComponent,
+  ],
+  providers: [
+    {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
+    {provide: MAT_DATE_LOCALE, useValue: 'en-GB'}
   ],
   entryComponents: [
     DeleteConfirmationComponent, InformativeDialogComponent, DialogBoxComponent
   ],
 })
+
 export class SharedModule { }
