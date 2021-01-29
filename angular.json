@@ -88,7 +88,7 @@
               "src/assets"
             ],
             "styles": [
-               "styles.css"
+              "styles.css"
             ],
             "scripts": []
           }
@@ -121,5 +121,8 @@
       }
     }
   },
-  "defaultProject": "web-production-tracker"
+  "defaultProject": "web-production-tracker",
+  "cli": {
+    "analytics": false
+  }
 }
