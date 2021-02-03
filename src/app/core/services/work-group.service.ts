@@ -16,10 +16,10 @@ export class WorkGroupService {
   }
 
   getAllWorkGroups() {
-    return this.http.get<WorkGroup[]>(this.apiServiceUrl + '/tracking-api/workGroups');
+    return this.http.get<WorkGroup[]>(this.apiServiceUrl + '/api/workGroups');
   }
 
   getWorkGroupByWorkUnit(name: string) {
-    return this.http.get<WorkGroup[]>(this.apiServiceUrl + '/api/workGroups?workUnitName=' + name );
+    return this.http.get<WorkGroup[]>(this.apiServiceUrl + '/api/workGroupsByWorkUnit?workUnitName=' + name );
   }
 }
