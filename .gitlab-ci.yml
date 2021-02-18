@@ -1,4 +1,6 @@
-image: docker:stable
+# To use the Docker Hub docker image
+#image: docker:latest
+image: $CI_REGISTRY/mouse-informatics/docker:latest
 
 variables:
   # When using dind service we need to instruct docker, to talk with the
@@ -38,10 +40,6 @@ variables:
   # see: https://gitlab.com/gitlab-com/gl-infra/production/issues/982
   DOCKER_TLS_CERTDIR: ""
 
-services:
-  - docker:dind
-
-
 
 stages:
   - env
@@ -70,20 +68,21 @@ stages:
 
 build_image:
   stage: build
+  services:
+    - name: $CI_REGISTRY/mouse-informatics/dind:latest
+      alias: docker
   except:
     - schedules
   before_script:
-    - docker info
+    # - docker info
     - mkdir -p "$MOUNT_POINT"
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin  ${CI_REGISTRY}
   script:
 
-    # Try to pull the image from the registry so that it can be used as a cache for the docker build command
-    - docker pull $CI_REGISTRY_IMAGE:latest || true
+    - docker build -t "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}" -t "${CI_REGISTRY_IMAGE}":latest .  | tee ${MOUNT_POINT}/build.log
 
-    - docker build --cache-from $CI_REGISTRY_IMAGE:latest -t "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}" -t "${CI_REGISTRY_IMAGE}":latest .  | tee ${MOUNT_POINT}/build.log
-
-    - docker push "${CI_REGISTRY_IMAGE}"  | tee ${MOUNT_POINT}/push.log
+    - docker push "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}"  | tee ${MOUNT_POINT}/push.log
+    - docker push "${CI_REGISTRY_IMAGE}":latest  | tee ${MOUNT_POINT}/push.log
 
     - docker logout ${CI_REGISTRY}
 
@@ -94,7 +93,8 @@ build_image:
           echo "${DOCKER_HUB_PSWD}" | docker login -u "${DOCKER_HUB_USER}" --password-stdin
           docker tag "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}" "${DOCKER_HUB_USER}"/"${DOCKER_HUB_REPO}":"${CI_COMMIT_SHA:0:12}"
           docker tag "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}" "${DOCKER_HUB_USER}"/"${DOCKER_HUB_REPO}":latest
-          docker push "${DOCKER_HUB_USER}"/"${DOCKER_HUB_REPO}"  | tee ${MOUNT_POINT}/dockerhub-push-latest.log
+          docker push "${DOCKER_HUB_USER}"/"${DOCKER_HUB_REPO}":"${CI_COMMIT_SHA:0:12}"  | tee ${MOUNT_POINT}/dockerhub-push-latest.log
+          docker push "${DOCKER_HUB_USER}"/"${DOCKER_HUB_REPO}":latest  | tee ${MOUNT_POINT}/dockerhub-push-latest.log
           docker logout
       fi
   artifacts:
@@ -105,7 +105,7 @@ build_image:
 
 hx-production:
   stage: production-deploy
-  image: dtzar/helm-kubectl:2.14.3
+  image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
     - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
@@ -147,7 +147,7 @@ hx-production:
 
 hh-sandbox:
   stage: sandbox-deploy
-  image: dtzar/helm-kubectl:2.14.3
+  image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
     - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
@@ -188,7 +188,7 @@ hh-sandbox:
 
 hx-sandbox:
   stage: sandbox-deploy
-  image: dtzar/helm-kubectl:2.14.3
+  image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
     - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
@@ -229,7 +229,10 @@ hx-sandbox:
 
 hh-dev:
   stage: dev-deploy
-  image: dtzar/helm-kubectl:2.14.3
+  services:
+    - name: $CI_REGISTRY/mouse-informatics/dind:latest
+      alias: docker
+  image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
     - if: '$PRODUCTION_DEPLOYMENT != "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics"'
   script:
@@ -238,6 +241,7 @@ hh-dev:
       if [ ! -z ${HH_KUBERNETES_ENDPOINT+set} ]; then
 
         apk --no-cache --update add jq curl
+        echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin  ${CI_REGISTRY}
 
         kubectl config set-cluster local --server="${HH_KUBERNETES_ENDPOINT}"
         kubectl config set clusters.local.certificate-authority-data "${HH_KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
@@ -253,11 +257,21 @@ hh-dev:
         # Need to check that the docker image corresponding to this CI_COMMIT_SHA exists in Docker Hub.
         # Scheduled turnover of the container can still run for a CI_COMMIT_SHA where the build fail to complete.
 
-        TOKEN=$( curl -sSLd "username=${DOCKER_HUB_USER}&password=${DOCKER_HUB_PSWD}" https://hub.docker.com/v2/users/login | jq -r ".token" )
-        JSON=$( curl -sH "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${DOCKER_HUB_USER}/${DOCKER_HUB_REPO}/tags/${CI_COMMIT_SHA:0:12}/")
-        IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
+        # TOKEN=$( curl -sSLd "username=${DOCKER_HUB_USER}&password=${DOCKER_HUB_PSWD}" https://hub.docker.com/v2/users/login | jq -r ".token" )
+        # JSON=$( curl -sH "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${DOCKER_HUB_USER}/${DOCKER_HUB_REPO}/tags/${CI_COMMIT_SHA:0:12}/")
+        # IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
-        if [ "$IMAGE_TAG_NAME" = "${CI_COMMIT_SHA:0:12}" ]; then
+        # This was used with Docker Hub
+        # if [ "$IMAGE_TAG_NAME" = "${CI_COMMIT_SHA:0:12}" ]; then
+
+
+
+        # Check for the tag by pulling the image
+        IMAGE_TAG_FOUND=$(docker pull "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}" && docker images | grep "${CI_COMMIT_SHA:0:12}")
+        docker logout ${CI_REGISTRY}
+
+        # This relies upon the grep exit status
+        if [ "$IMAGE_TAG_FOUND" ]; then
             # Substitute the "latest" image tag in your deployment template
             sed -i "s/latest/${CI_COMMIT_SHA:0:12}/g" kube/wp/dev/webapp/webapp-deployment.yaml
         else
@@ -285,7 +299,10 @@ hh-dev:
 
 hx-dev:
   stage: dev-deploy
-  image: dtzar/helm-kubectl:2.14.3
+  services:
+    - name: $CI_REGISTRY/mouse-informatics/dind:latest
+      alias: docker
+  image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
     - if: '$PRODUCTION_DEPLOYMENT != "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics"'
   script:
@@ -294,6 +311,7 @@ hx-dev:
       if [ ! -z ${HX_KUBERNETES_ENDPOINT+set} ]; then
 
         apk --no-cache --update add jq curl
+        echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin  ${CI_REGISTRY}
 
         kubectl config set-cluster local --server="${HX_KUBERNETES_ENDPOINT}"
         kubectl config set clusters.local.certificate-authority-data "${HX_KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
@@ -309,11 +327,21 @@ hx-dev:
         # Need to check that the docker image corresponding to this CI_COMMIT_SHA exists in Docker Hub.
         # Scheduled turnover of the container can still run for a CI_COMMIT_SHA where the build fail to complete.
 
-        TOKEN=$( curl -sSLd "username=${DOCKER_HUB_USER}&password=${DOCKER_HUB_PSWD}" https://hub.docker.com/v2/users/login | jq -r ".token" )
-        JSON=$( curl -sH "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${DOCKER_HUB_USER}/${DOCKER_HUB_REPO}/tags/${CI_COMMIT_SHA:0:12}/")
-        IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
+        # TOKEN=$( curl -sSLd "username=${DOCKER_HUB_USER}&password=${DOCKER_HUB_PSWD}" https://hub.docker.com/v2/users/login | jq -r ".token" )
+        # JSON=$( curl -sH "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${DOCKER_HUB_USER}/${DOCKER_HUB_REPO}/tags/${CI_COMMIT_SHA:0:12}/")
+        # IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
-        if [ "$IMAGE_TAG_NAME" = "${CI_COMMIT_SHA:0:12}" ]; then
+        # This was used with Docker Hub
+        # if [ "$IMAGE_TAG_NAME" = "${CI_COMMIT_SHA:0:12}" ]; then
+
+
+
+        # Check for the tag by pulling the image
+        IMAGE_TAG_FOUND=$(docker pull "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}" && docker images | grep "${CI_COMMIT_SHA:0:12}")
+        docker logout ${CI_REGISTRY}
+
+        # This relies upon the grep exit status
+        if [ "$IMAGE_TAG_FOUND" ]; then
             # Substitute the "latest" image tag in your deployment template
             sed -i "s/latest/${CI_COMMIT_SHA:0:12}/g" kube/wp/dev/webapp/webapp-deployment.yaml
         else
