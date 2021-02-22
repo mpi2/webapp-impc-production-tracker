@@ -1,7 +1,7 @@
 language: node_js
 node_js:
-  - "lts/*"
-dist: trusty
+  - "12.18.1"
+dist: bionic
 sudo: required
 branches:
   only:
