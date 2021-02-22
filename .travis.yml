@@ -7,6 +7,7 @@ branches:
   only:
   - master
 before_script:
+  - npm install -g npm
   - npm install -g @angular/cli
 script:
 # - ng lint
