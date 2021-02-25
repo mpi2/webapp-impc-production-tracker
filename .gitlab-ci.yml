@@ -269,8 +269,11 @@ hh-dev:
         echo "---------------"
         echo "$GITLAB_REGISTRY_ID"
         echo "---------------"
- 
-        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "https://gitlab.ebi.ac.uk/api/v4/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
+
+        echo "https://gitlab.ebi.ac.uk/api/v4/projects/1358/registry/repositories/203/tags/9e91b7fc2484/"
+        echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/"
+
+        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
         echo "$JSON"
@@ -342,6 +345,10 @@ hx-dev:
         echo "---------------"
         echo "$GITLAB_REGISTRY_ID"
         echo "---------------"
+
+        echo "https://gitlab.ebi.ac.uk/api/v4/projects/1358/registry/repositories/203/tags/9e91b7fc2484/"
+        echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/"
+
 
         JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
