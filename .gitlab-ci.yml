@@ -48,11 +48,11 @@ stages:
   - sandbox-deploy
   - dev-deploy
 
-env:
-  stage: env
-  script:
-    - export
-    - echo '================================='
+# env:
+#   stage: env
+#   script:
+#     - export
+#     - echo '================================='
 #     - echo $PRODUCTION_DEPLOYMENT
 #     - echo $CI_PIPELINE_SOURCE
 #
@@ -243,7 +243,6 @@ hh-dev:
       if [ ! -z ${HH_KUBERNETES_ENDPOINT+set} ]; then
 
         apk --no-cache --update add jq curl
-        echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin  ${CI_REGISTRY}
 
         kubectl config set-cluster local --server="${HH_KUBERNETES_ENDPOINT}"
         kubectl config set clusters.local.certificate-authority-data "${HH_KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
@@ -304,7 +303,6 @@ hx-dev:
       if [ ! -z ${HX_KUBERNETES_ENDPOINT+set} ]; then
 
         apk --no-cache --update add jq curl
-        echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin  ${CI_REGISTRY}
 
         kubectl config set-cluster local --server="${HX_KUBERNETES_ENDPOINT}"
         kubectl config set clusters.local.certificate-authority-data "${HX_KUBERNETES_CERTIFICATE_AUTHORITY_DATA}"
@@ -325,7 +323,7 @@ hx-dev:
         # IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
 
-        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "https://gitlab.ebi.ac.uk/api/v4/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
+        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
         if [ "$IMAGE_TAG_NAME" = "${CI_COMMIT_SHA:0:12}" ]; then
