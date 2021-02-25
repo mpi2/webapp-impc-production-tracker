@@ -262,6 +262,8 @@ hh-dev:
         # JSON=$( curl -sH "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${DOCKER_HUB_USER}/${DOCKER_HUB_REPO}/tags/${CI_COMMIT_SHA:0:12}/")
         # IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
+        REGISTRY_JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/")
+        GITLAB_REGISTRY_ID=$(echo $REGISTRY_JSON | jq  -r '.[0].id')
 
         JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "https://gitlab.ebi.ac.uk/api/v4/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
@@ -328,6 +330,8 @@ hx-dev:
         # JSON=$( curl -sH "Authorization: JWT $TOKEN" "https://hub.docker.com/v2/repositories/${DOCKER_HUB_USER}/${DOCKER_HUB_REPO}/tags/${CI_COMMIT_SHA:0:12}/")
         # IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
+        REGISTRY_JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/")
+        GITLAB_REGISTRY_ID=$(echo $REGISTRY_JSON | jq  -r '.[0].id')
 
         JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/{GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
