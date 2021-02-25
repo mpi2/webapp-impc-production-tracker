@@ -263,24 +263,10 @@ hh-dev:
         # IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
         REGISTRY_JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/")
-        GITLAB_REGISTRY_ID=$(echo $REGISTRY_JSON | jq '.[0].id')
+        REGISTRY_REPOSITORY_ID=$(echo $REGISTRY_JSON | jq '.[0].id')
         
-        echo "$REGISTRY_JSON"
-        echo "---------------"
-        echo "$GITLAB_REGISTRY_ID"
-        echo "---------------"
-
-        echo "https://gitlab.ebi.ac.uk/api/v4/projects/1358/registry/repositories/203/tags/9e91b7fc2484/"
-        echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/"
-
-        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
+        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${REGISTRY_REPOSITORY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
-
-        echo "$JSON"
-        echo "---------------"
-        echo "$IMAGE_TAG_NAME"
-        echo "---------------"
-        echo "${CI_COMMIT_SHA:0:12}"
 
         if [ "$IMAGE_TAG_NAME" = "${CI_COMMIT_SHA:0:12}" ]; then
             # Substitute the "latest" image tag in your deployment template
@@ -339,25 +325,10 @@ hx-dev:
         # IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
         REGISTRY_JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/")
-        GITLAB_REGISTRY_ID=$(echo $REGISTRY_JSON | jq  '.[0].id')
-       
-        echo "$REGISTRY_JSON"
-        echo "---------------"
-        echo "$GITLAB_REGISTRY_ID"
-        echo "---------------"
+        REGISTRY_REPOSITORY_ID=$(echo $REGISTRY_JSON | jq  '.[0].id')
 
-        echo "https://gitlab.ebi.ac.uk/api/v4/projects/1358/registry/repositories/203/tags/9e91b7fc2484/"
-        echo "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/"
-
-
-        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${GITLAB_REGISTRY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
+        JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${REGISTRY_REPOSITORY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
-
-        echo "$JSON"
-        echo "---------------"
-        echo "$IMAGE_TAG_NAME"
-        echo "---------------"
-        echo "${CI_COMMIT_SHA:0:12}"
 
         if [ "$IMAGE_TAG_NAME" = "${CI_COMMIT_SHA:0:12}" ]; then
             # Substitute the "latest" image tag in your deployment template
