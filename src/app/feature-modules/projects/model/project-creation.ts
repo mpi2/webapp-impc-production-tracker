@@ -8,7 +8,6 @@ import { ProjectIntention } from './project-intention';
 export class ProjectCreation {
     privacyName: string;
     speciesNames: string[];
-    externalReference: string;
     comment: string;
     recovery: boolean;
     consortia: InstitutesConsortium[];
@@ -27,7 +26,6 @@ export class ProjectCreationAdapter implements Adapter<ProjectCreation> {
     adapt(item: any): ProjectCreation {
         const projectCreation = item as ProjectCreation;
         projectCreation.privacyName = this.inputHandlerService.getEmptyIfNull(projectCreation.privacyName);
-        projectCreation.externalReference = this.inputHandlerService.getEmptyIfNull(projectCreation.externalReference);
         projectCreation.comment = this.inputHandlerService.getEmptyIfNull(projectCreation.comment);
         projectCreation.recovery = this.inputHandlerService.getFalseIfNull(projectCreation.recovery);
         return projectCreation;

@@ -17,11 +17,6 @@
                     </mat-option>
                 </mat-select>
 
-                <label for="externalReference">External reference:</label>
-                <mat-form-field id="externalReference"  class="content" >
-                    <input matInput [(ngModel)]="projectCreation.externalReference" [ngModelOptions]="{standalone: true}" />
-                </mat-form-field>
-
                 <label for="recovery">Recovery:</label>
                 <mat-checkbox id="recovery" class="content"
                     [(ngModel)]="projectCreation.recovery" [ngModelOptions]="{standalone: true}">

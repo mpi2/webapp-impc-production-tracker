@@ -7,7 +7,6 @@
         <table>
             <tr>
                 <th>Project Id</th>
-                <th>External Reference</th>
                 <th>Marker Symbol(s)</th>
                 <th>MGI</th>
                 <th>Intention</th>
@@ -16,6 +15,8 @@
                 <th>Work Group(s)</th>
                 <th>Project Assignment</th>
                 <th>Summary Status</th>
+                <th>Colony Name</th>
+                <th>Phenotyping External Reference</th>
                 <th>Privacy</th>
                 <th>Consortia</th>
             </tr>
@@ -23,9 +24,6 @@
                 <tr>
                     <td>
                         <a routerLink="/projects/{{ project.tpn }}">{{ project.tpn }}</a>
-                    </td>
-                    <td>
-                        {{ project.externalReference }}
                     </td>
                     <td>
                         <div *ngFor="let intention of project.projectIntentions">
@@ -71,6 +69,24 @@
                     <td>
                         {{ project.summaryStatusName }}
                     </td>
+
+
+
+                    <td>
+                        <div *ngFor="let colonyName of project.colonyNames">
+                            {{ colonyName }}
+                        </div>
+                    </td>
+
+                    <td>
+                        <div *ngFor="let phenotypingExternalRef of project.phenotypingExternalRefs">
+                            {{ phenotypingExternalRef }}
+                        </div>
+                    </td>
+
+
+
+
                     <td>
                         {{ project.privacyName }}
                     </td>

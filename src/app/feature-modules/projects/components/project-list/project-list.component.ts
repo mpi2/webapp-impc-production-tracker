@@ -169,8 +169,13 @@ export class ProjectListComponent implements OnInit, OnDestroy {
         type: FilterType.Text
       },
       {
-        title: 'External Reference',
-        name: 'externalReference',
+        title: 'Colony Name',
+        name: 'colonyName',
+        type: FilterType.Text
+      },
+      {
+        title: 'Phenotyping External Reference',
+        name: 'phenotypingExternalRef',
         type: FilterType.Text
       },
       {
