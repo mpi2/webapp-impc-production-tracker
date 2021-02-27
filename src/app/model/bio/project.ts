@@ -15,11 +15,12 @@ export class Project {
     consortia: InstitutesConsortium[];
     privacyName: string;
     species: string[];
-    externalReference: string;
     projectIntentions: ProjectIntention[];
     comment: string;
     relatedWorkUnitNames: string[];
     relatedWorkGroupNames: string[];
+    colonyNames: string[];
+    phenotypingExternalRefs: string[];
     recovery: boolean;
 
     // tslint:disable-next-line

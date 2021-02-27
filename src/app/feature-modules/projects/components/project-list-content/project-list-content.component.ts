@@ -69,6 +69,9 @@ export class ProjectListContentComponent implements OnInit, OnDestroy {
     if (data['_embedded']) {
       this.dataSource = data['_embedded']['projects'];
       this.page = data['page'];
+
+      console.log(this.dataSource);
+      
     } else {
       this.dataSource = [];
     }

@@ -1,6 +1,7 @@
 export class ProjectFilter {
     tpn?: string[];
-    externalReference?: string[];
+    colonyName?: string[];
+    phenotypingExternalRef?: string[];
     gene?: string[];
     intention?: string[];
     workUnitName?: string[];

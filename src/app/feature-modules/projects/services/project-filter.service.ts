@@ -26,7 +26,6 @@ export class ProjectFilterService {
     }
 
     private isValidTpn = (value: string, currentFilterValue): boolean => {
-
         const MINIMUN_SIZE = 7;
         let result = false;
         if (value) {
@@ -35,12 +34,26 @@ export class ProjectFilterService {
         return result;
     }
 
-    // External Reference Filter section
-    updateExternalReferencelFilter(externalReferenceFilter, filterInput) {
-        this.updateFilter(externalReferenceFilter, filterInput, this.isValidExternalReference);
+    // Colony Name Filter section
+    updateColonyNameFilter(colonyNameFilter, filterInput) {
+        this.updateFilter(colonyNameFilter, filterInput, this.isValidColonyName);
     }
 
-    isValidExternalReference(value: string, currentFilterValue): boolean {
+    isValidColonyName(value: string, currentFilterValue): boolean {
+        const MINIMUN_SIZE = 3;
+        let result = false;
+        if (value) {
+            result = value.length > MINIMUN_SIZE && value.trim() !== currentFilterValue;
+        }
+        return result;
+    }
+
+    // Phenotyping External Reference Filter section
+    updatePhenotypingExternalReflFilter(phenotypingExternalRefFilter, filterInput) {
+        this.updateFilter(phenotypingExternalRefFilter, filterInput, this.isValidPhenotypingExternalRef);
+    }
+
+    isValidPhenotypingExternalRef(value: string, currentFilterValue): boolean {
         const MINIMUN_SIZE = 3;
         let result = false;
         if (value) {
