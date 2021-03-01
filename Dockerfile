@@ -5,7 +5,7 @@ FROM node:lts-buster as build-stage
 
 COPY package*.json ./
 
-RUN npm install -g npm && npm set progress=false && npm config set depth 0 && npm cache clean --force
+RUN npm install -g npm && npm install -g yarn && yarn && npm set progress=false && npm config set depth 0 && npm cache clean --force
 
 ## Storing node modules on a separate layer
 ## will prevent unnecessary npm installs at each build
