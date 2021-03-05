@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { User } from '../model/user/user';
-import { map, publishReplay, refCount, flatMap } from 'rxjs/operators';
+import { map, publishReplay, refCount, mergeMap } from 'rxjs/operators';
 import { HttpClient } from '@angular/common/http';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
 import { Observable, from } from 'rxjs';
@@ -41,13 +41,13 @@ export class UserService {
   }
 
   fetchCurrentLoggedUser(): Observable<User> {
-    return this.config$.pipe(flatMap(response => {
+    return this.config$.pipe(mergeMap(response => {
       return this.http.get<User>(response.appServerUrl + '/api/people/currentPerson');
     }));
   }
 
   getUserByEmail(email: string): Observable<User> {
-    return this.config$.pipe(flatMap(response => {
+    return this.config$.pipe(mergeMap(response => {
       return this.http.get<User>(response.appServerUrl + '/api/people/' + email);
     }));
   }

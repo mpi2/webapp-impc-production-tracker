@@ -3,7 +3,7 @@ import {EMPTY, from, Observable} from 'rxjs';
 import {MessageService} from './message.service';
 import {Permission} from '../model/conf/permission';
 import {HttpClient} from '@angular/common/http';
-import {flatMap, map} from 'rxjs/operators';
+import {mergeMap, map} from 'rxjs/operators';
 import {ConfigAssetLoaderService} from './config-asset-loader.service';
 import {AuthenticationResponse} from '../model/user/authentication-response';
 import {AssetConfiguration} from '../model/conf/asset-configuration';
@@ -35,7 +35,7 @@ export class LoggedUserService {
     private userService: UserService) {
     this.config$ = from(this.configAssetLoaderService.getConfig());
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
-    
+
     if (this.apiServiceUrl === undefined) {
       this.apiServiceUrl = baseUrl;
     }
@@ -49,7 +49,7 @@ export class LoggedUserService {
 
   // Returns an object with permissions for the logged user.
   getPermissions() {
-    return this.config$.pipe(flatMap(response => {
+    return this.config$.pipe(mergeMap(response => {
       return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
     }));
   }

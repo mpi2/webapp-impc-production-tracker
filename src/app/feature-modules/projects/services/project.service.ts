@@ -6,7 +6,7 @@ import { ProjectFilter } from '../model/project-filter';
 import { Observable, from } from 'rxjs';
 import { Page } from 'src/app/model/page_structure/page';
 import { AssetConfiguration } from 'src/app/core/model/conf/asset-configuration';
-import { flatMap } from 'rxjs/operators';
+import { mergeMap } from 'rxjs/operators';
 import { ProductionOutcomeSummary } from '../../plans/model/outcomes/production-outcome-summary';
 import { ProjectCreation } from '../model/project-creation';
 
@@ -63,7 +63,7 @@ export class ProjectService {
 
   public getProjects(filters: ProjectFilter, page: Page): Observable<Project[]> {
     const queryParameters = this.queryBuilderService.buildQueryParameters(filters, page);
-    return this.config$.pipe(flatMap(response => {
+    return this.config$.pipe(mergeMap(response => {
       const url = `${response.appServerUrl}/api/projects?${queryParameters}`;
       return this.http.get<Project[]>(url);
     }));
