@@ -19,6 +19,8 @@ import { IntentionsModule } from './feature-modules/intentions/intentions.module
 import { TargetGeneListModule } from './feature-modules/target-gene-list/target-gene-list.module';
 import { UsersModule } from './feature-modules/users/users.module';
 
+import { BASE_API_URL_TOKEN } from './injectors';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -49,7 +51,14 @@ import { UsersModule } from './feature-modules/users/users.module';
       useFactory: (configService: ConfigAssetLoaderService) => () => configService.getConfig(),
       deps: [ConfigAssetLoaderService],
       multi: true
-    }
+    },
+    {
+      provide: BASE_API_URL_TOKEN,
+      useFactory: (config: ConfigAssetLoaderService) => {
+        return config.baseUrl;
+      },
+      deps: [ConfigAssetLoaderService],
+    },
   ],
   bootstrap: [AppComponent]
 })

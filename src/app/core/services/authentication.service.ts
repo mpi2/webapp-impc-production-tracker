@@ -2,10 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { tap } from 'rxjs/operators';
 import { LoggedUserService } from './logged-user.service';
-import { ConfigurationDataService } from './configuration-data.service';
 import { ConfigAssetLoaderService } from './config-asset-loader.service';
 import { AuthenticationRequest } from '../model/user/authentication-request';
-import { MessageService } from './message.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +15,7 @@ export class AuthenticationService {
   constructor(
     private http: HttpClient,
     private loggedUserService: LoggedUserService,
-    private configurationDataService: ConfigurationDataService,
-    private configAssetLoaderService: ConfigAssetLoaderService,
-    private messageService: MessageService) {
-
+    private configAssetLoaderService: ConfigAssetLoaderService,) {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
   }
 

@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
 import {EMPTY, from, Observable} from 'rxjs';
 import {MessageService} from './message.service';
 import {Permission} from '../model/conf/permission';
@@ -9,6 +9,9 @@ import {AuthenticationResponse} from '../model/user/authentication-response';
 import {AssetConfiguration} from '../model/conf/asset-configuration';
 import {User} from '../model/user/user';
 import {UserService} from './user.service';
+
+import { BASE_API_URL_TOKEN } from 'src/app/injectors';
+
 
 @Injectable({
   providedIn: 'root'
@@ -25,12 +28,18 @@ export class LoggedUserService {
   private config$: Observable<AssetConfiguration>;
 
   constructor(
+    @Inject(BASE_API_URL_TOKEN) public baseUrl: string,
     private http: HttpClient,
     private messageService: MessageService,
     private configAssetLoaderService: ConfigAssetLoaderService,
     private userService: UserService) {
     this.config$ = from(this.configAssetLoaderService.getConfig());
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
+    
+    if (this.apiServiceUrl === undefined) {
+      this.apiServiceUrl = baseUrl;
+    }
+    console.log('apiServiceUrl constructor => ', this.apiServiceUrl);
   }
 
   // Returns a key unique to this application that takes into account the base path as well as the host and port

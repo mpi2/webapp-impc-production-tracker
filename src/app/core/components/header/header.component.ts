@@ -34,7 +34,6 @@ export class HeaderComponent implements OnInit {
       this.apiDocumentationUrl = this.apiServiceUrl + '/docs/restapi.html';
     });
     this.messageService.getMessage().subscribe(data => {
-
       const userLoggedIn = data.isUserLoggedIn;
       if (userLoggedIn !== undefined) {
         if (userLoggedIn) {
