@@ -9,6 +9,10 @@ export class ConfigAssetLoaderService {
   private readonly CONFIG_URL = 'assets/config/config.json';
   private cachedResponse: AssetConfiguration = null;
 
+  get baseUrl(): string {
+    return this.cachedResponse.appServerUrl;
+  }
+
   async getConfig() {
     if (!this.cachedResponse) {
       const response = await fetch(this.CONFIG_URL);
