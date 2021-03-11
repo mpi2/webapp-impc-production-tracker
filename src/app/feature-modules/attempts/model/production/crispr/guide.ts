@@ -11,5 +11,5 @@ export class Guide {
     ensemblExonId: string;
     grnaConcentration: number;
     truncatedGuide: boolean;
-    reverse: boolean;
+    reversed: boolean;
 }
