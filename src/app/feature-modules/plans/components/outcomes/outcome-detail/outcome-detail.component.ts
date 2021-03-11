@@ -35,6 +35,7 @@ export class OutcomeDetailComponent implements OnInit {
   canUpdate: boolean;
   loading = false;
   error: string;
+  errorMutation: string;
 
   originalOutcomeAsString: string;
   originalMutationsAsString: string;
@@ -221,7 +222,9 @@ export class OutcomeDetailComponent implements OnInit {
     this.updateOutcome();
     this.updateMutations();
     this.createMutations();
-    this.deleteMutations();
+
+    // We don't allow to delete mutations at the moment.
+    // this.deleteMutations();
   }
 
   updateOutcome() {
@@ -243,32 +246,38 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-    console.log('mutations: ', this.outcome.mutations);
+    console.log('update mutations: ', this.outcome.mutations);
 
     if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
       const mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
 
       mutationsToUpdate.forEach(x => {
         this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {
+          console.log('update min: ', x);
           this.showChangeNotification(changeResponse);
         },
           error => {
-            console.log(error);
+            this.error = error;
+            console.log('update min: ', x, error);
           });
       });
     }
   }
 
   createMutations() {
+    console.log('create mutations: ', this.outcome.mutations);
+
     if (this.outcome.mutations) {
       const mutationsToCreate = this.outcome.mutations.filter(x => !x.min);
 
       mutationsToCreate.forEach(x => {
         this.mutationService.createMutation(x).subscribe((changeResponse: ChangeResponse) => {
           this.showChangeNotification(changeResponse);
+          console.log('create min: ', x);
         },
           error => {
-            console.log(error);
+            this.error = error;
+            console.log('create min: ', x, this.error);
           });
       });
     }
@@ -280,6 +289,7 @@ export class OutcomeDetailComponent implements OnInit {
         this.showChangeNotification(changeResponse);
       },
         error => {
+          this.error = error;
           console.log(error);
         });
     });

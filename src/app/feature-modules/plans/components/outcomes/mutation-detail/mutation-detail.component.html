@@ -2,11 +2,6 @@
     <mat-card-content class="large-content">
         <form [formGroup]="mutationForm">
 
-            <div class="delete-button">
-                <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
-                    (click)="onDeleteMutation()">Delete Mutation</button>
-            </div>
-
             <div *ngIf="canUpdate; then editable else readOnly"></div>
 
             <ng-template #editable>
@@ -39,8 +34,9 @@
                         </div>
                         
                         <div class="mutationSymbol">
-                            <mat-form-field class="example-full-width">
+                            <mat-form-field appearance="fill" class="example-full-width">
                                 <input matInput [(ngModel)]="mutation.symbol" [ngModelOptions]="{standalone: true}">
+                                <mat-hint>E.g: Otog&#60;em1(IMPC)J&#62;</mat-hint>
                             </mat-form-field>
                         </div>
                         <div class="mutationSymbol">
@@ -106,12 +102,15 @@
                 </div>
 
                 <br>
+
                 <label for="mutationDescription">Mutation description:</label>
                 <div id="mutationDescription" class="mutationDescription">
-                    <textarea matInput class="textareaMutationDescription" (keyup)="onDescriptionChanged($event)" 
+                    <mat-form-field appearance="fill" class="matFormFieldMutationDescription">
+                        <textarea matInput (keyup)="onDescriptionChanged($event)"  class="textareaMutationDescription"
                             [(ngModel)]="mutation.description"
-                            [ngModelOptions]="{standalone: true}"></textarea>
-                    
+                            [ngModelOptions]="{standalone: true}">
+                        </textarea>
+                    </mat-form-field>
                 </div>
 
             </ng-template>

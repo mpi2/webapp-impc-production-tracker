@@ -35,11 +35,6 @@
                             (keyup)="onNucleaseChanged(nuclease)"
                              [ngModelOptions]="{standalone: true}">	
                         </td>
-                        <td>
-                            <button (click)="deleteRow(nuclease)">
-                                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
-                            </button>
-                        </td>
 
                     </tr>
 
@@ -59,13 +54,6 @@
                     </tr>
                 </ng-template>
             </ng-template>
-
-            <tr *ngIf="canUpdatePlan">
-                <td class="no_border"><button (click)="addRow()" [disabled]="false">
-                    <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
-                  </button>
-                </td>
-              </tr>
 
         </table>
 

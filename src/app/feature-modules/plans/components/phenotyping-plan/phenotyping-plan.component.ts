@@ -87,10 +87,9 @@ export class PhenotypingPlanComponent implements OnInit {
           });
         }
         this.error = null;
-        this.router.navigate(['/projects/' + this.plan.tpn + '/plan/' + this.plan.pin]);
       },
         error => {
-          console.error('Error while updating plan', error);
+          console.error('Error while updating plan: ', error);
           this.error = error;
         }
       );

@@ -1,9 +1,14 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
-import { Guide } from 'src/app/feature-modules/attempts';
+import { Exon, Guide } from 'src/app/feature-modules/attempts';
+import { GeneService } from 'src/app/core';
 import { MatDialog } from '@angular/material/dialog';
+import { FormControl } from '@angular/forms';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { AttemptServiceService } from 'src/app/feature-modules/attempts/services/attempt-service.service';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
 
 @Component({
   selector: 'app-guides',
@@ -14,20 +19,44 @@ export class GuidesComponent implements OnInit {
 
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
+
   sameConcentrationForAll = true;
   guidesForm: FormGroup;
   concentrationForm: FormGroup;
+  getGuidesForm: FormGroup;
 
   tmpIndexRowName = 'tmp_id';
   nextNewId = -1;
 
-  constructor(private formBuilder: FormBuilder, public dialog: MatDialog) { }
+  error: string;
+  exons: Exon[];
+  gene_symbol: string;
+  guides: Guide[];
+
+  displayedExonColumns = ['exon_id'];
+  displayedGuideColumns = ['sequence'];
+
+  searchGene = new FormControl();
+  filteredGenes: any;
+  isLoading = false;
+  errorMsg: string;
+
+  highlightedRows = [];
+
+  constructor(
+    private formBuilder: FormBuilder, 
+    public dialog: MatDialog, 
+    private attemptService: AttemptServiceService,
+    private geneService: GeneService
+  ) { }
 
   ngOnInit() {
     this.guidesForm = this.formBuilder.group({
       groupConcentration: [''],
     });
     this.concentrationForm = this.formBuilder.group({
+    });
+    this.getGuidesForm = this.formBuilder.group({
     });
 
     const sameConcentration = this.isConcentrationTheSameForAllGuides();
@@ -36,6 +65,88 @@ export class GuidesComponent implements OnInit {
     }
 
     this.sameConcentrationForAll = sameConcentration;
+
+    this.searchGene.valueChanges
+      .pipe(
+        debounceTime(500),
+        tap(() => {
+          this.errorMsg = '';
+          this.filteredGenes = [];
+          this.isLoading = true;
+        }),
+        switchMap(value => this.geneService.findGenesExternalDataBySymbol(value)
+          .pipe(
+            finalize(() => {
+              this.isLoading = false;
+            }),
+          )
+        )
+      )
+      .subscribe(data => {
+        if (data.length === 0) {
+          this.errorMsg = data['Error'];
+          // this.errorMsg = 'Symbol does not exist.';
+          this.filteredGenes = [];
+        } else {
+          this.errorMsg = '';
+          this.filteredGenes = data;
+        }
+      });
+  }
+
+  highlight(row) {
+    if (this.highlightedRows.indexOf(row) > -1) {
+      this.highlightedRows.splice(this.highlightedRows.indexOf(row), 1);
+    } else {
+      this.highlightedRows = [];
+      this.highlightedRows.push(row);
+    }
+  }
+
+  findGuides() {
+    if (this.gene_symbol === undefined || this.gene_symbol === "") {
+      this.error = 'Enter a valid gene symbol.'
+      console.log('error => ', this.error);
+    } else {
+      this.attemptService.getExonsFromWge(this.gene_symbol).subscribe(data => {
+        this.exons = data;
+        this.error = '';
+      }, error => {
+        this.error = error;
+      });
+    }
+  }
+
+  selectedGene(gene: any) {
+    if (gene === undefined) {
+      this.error = 'Enter a valid gene symbol.'
+      console.log('error => ', this.error);
+      this.gene_symbol = undefined;
+      this.exons = undefined;
+      this.guides = undefined;
+    } else {
+      this.gene_symbol = gene.symbol;
+      this.exons = undefined;
+      this.guides = undefined;
+      this.error = '';
+    }
+  }
+
+  exonSelected(exon: Exon, click: boolean) {
+    if (click === true) {
+      this.guides = exon.guideDetails;
+    } else {
+      this.guides = undefined; 
+    }
+    
+  }
+
+  sequenceSelected(guide: Guide, click: boolean) {
+    if (click === true) {
+      this.crisprAttempt.guides.push(guide);
+    } else {
+      this.crisprAttempt.guides = this.crisprAttempt.guides.filter(({ id }) => id !== guide.id); 
+    }
   }
 
   getCommonConcentration(): number {

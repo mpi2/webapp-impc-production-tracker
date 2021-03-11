@@ -30,7 +30,7 @@
             <div *ngIf="checkEditable(); then editableNote else readOnlyNote">
             </div>
             <ng-template #editableNote>
-              <mat-form-field class="example-full-width">
+              <mat-form-field appearance="fill" class="example-full-width">
                 <input (input)="noteChanged(element, $event.target.value)" matInput [(value)]="element.note">
               </mat-form-field>
             </ng-template>

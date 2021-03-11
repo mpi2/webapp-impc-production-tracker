@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
@@ -13,7 +13,7 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
   templateUrl: './nuclease.component.html',
   styleUrls: ['./nuclease.component.css']
 })
-export class NucleaseComponent implements OnInit, OnChanges {
+export class NucleaseComponent implements OnInit {
 
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
@@ -38,37 +38,26 @@ export class NucleaseComponent implements OnInit, OnChanges {
       this.configurationData = data;
       this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
       this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
-    });
-    this.setInitialData();
+
+      this.setInitialData();
+    });    
   }
 
   setInitialData(): void {
-    this.dataSource = this.crisprAttempt.nucleases;
-  }
-
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes.crisprAttempt) {
-      this.crisprAttempt = changes.crisprAttempt.currentValue;
-      this.setInitialData();
+    let nuclease = new Nuclease();
+    nuclease.id = -1;
+    if (this.nucleaseTypes != undefined) {
+      nuclease.typeName = this.nucleaseTypes[0].name;
+      this.crisprAttempt.nucleases.push(nuclease);
+    } 
+    if (this.crisprAttempt.nucleases.length > 1) {
+      this.crisprAttempt.nucleases = this.crisprAttempt.nucleases.filter(({ id }) => id !== -1); 
     }
+    this.dataSource = this.crisprAttempt.nucleases;
   }
 
   onNucleaseChanged(nuclease: Nuclease) {
     this.convertNumericFields(nuclease);
-  }
-
-  addRow() {
-    const nuclease: Nuclease = new Nuclease();
-    nuclease[this.tmpIndexRowName] = this.nextNewId--;
-    this.crisprAttempt.nucleases.push(nuclease);
-  }
-
-  deleteRow(nuclease: Nuclease) {
-    if (this.isNewRecord(nuclease)) {
-      this.deleteNuclease(nuclease);
-    } else {
-      this.showDeleteConfirmationDialog(nuclease);
-    }
   }
 
   showDeleteConfirmationDialog(nuclease: Nuclease) {

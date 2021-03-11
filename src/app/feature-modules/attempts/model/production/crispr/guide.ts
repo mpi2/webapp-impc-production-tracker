@@ -1,14 +1,15 @@
 export class Guide {
     id: number;
-    chr: number;
-    end: number;
-    grnaConcentration: number;
     sequence: string;
+    guideSequence: string;
+    pam: string;
+    chr: number;
     start: number;
-    truncatedGuide: boolean;
+    end: number;
     strand: string;
     genomeBuild: string;
-    pam3: string;
-    pam5: string;
-    protospacerSequence: string;
+    ensemblExonId: string;
+    grnaConcentration: number;
+    truncatedGuide: boolean;
+    reverse: boolean;
 }

@@ -9,14 +9,14 @@
             <div class="editableSection">
                 <label for="totalEmbryosInjected">Number of Embryos Injected:</label>
                 <div id="totalEmbryosInjected" class="content">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field appearance="fill" class="example-full-width">
                         <input appDigitOnly matInput [(ngModel)]="crisprAttempt.totalEmbryosInjected">
                     </mat-form-field>
                 </div>
 
                 <label for="totalEmbryosSurvived">Number of Embryos Survived:</label>
                 <div id="totalEmbryosSurvived" class="content">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field appearance="fill" class="example-full-width">
                         <input appDigitOnly matInput [(ngModel)]="crisprAttempt.totalEmbryosSurvived">
                     </mat-form-field>
                 </div>
@@ -24,7 +24,7 @@
                 <label for="embryo2Cell">Number of Embryos Survived to 2 cell stage (Leave blank if transfered on same
                     day):</label>
                 <div id="embryo2Cell">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field appearance="fill" class="example-full-width">
                         <input appDigitOnly matInput [(ngModel)]="crisprAttempt.embryo2Cell">
                     </mat-form-field>
                 </div>

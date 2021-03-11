@@ -18,12 +18,12 @@
   <app-status-date [statusDates]="plan.statusDates" [title]='"Plan Status History"'></app-status-date>
 </div>
 
-<app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [canUpdate]="canUpdatePlan">
-</app-outcome-list>
-
 <app-crispr-attempt *ngIf="plan.attemptTypeName === 'crispr' || plan.attemptTypeName === 'haplo-essential crispr'"
   [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>
+
+<app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [canUpdate]="canUpdatePlan">
+</app-outcome-list>
 
 <mat-card>
   <mat-card-content class="update-button">

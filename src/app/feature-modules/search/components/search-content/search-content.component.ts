@@ -104,6 +104,8 @@ export class SearchContentComponent implements OnInit, OnDestroy {
         'Work Group(s)',
         'Project Assignment',
         'Summary Status',
+        'Colony Name(s)',
+        'Phenotyping External Reference(s)',
         'Privacy',
         'Consortia',
         'Access Restriction'];
@@ -119,6 +121,8 @@ export class SearchContentComponent implements OnInit, OnDestroy {
         'Work Group(s)',
         'Project Assignment',
         'Summary Status',
+        'Colony Name(s)',
+        'Phenotyping External Reference(s)',
         'Privacy',
         'Consortia',
         'Access Restriction'];

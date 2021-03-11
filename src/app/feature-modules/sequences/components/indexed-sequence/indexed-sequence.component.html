@@ -12,25 +12,43 @@
 
             <label for="index">Index:</label>
             <div id="index">
-                <mat-form-field class="example-full-width">
+                <mat-form-field appearance="fill" class="example-full-width">
                     <input appDigitOnly matInput [(ngModel)]="indexedSequence.index">
                 </mat-form-field>
             </div>
 
             <label for="sequence">Sequence:</label>
-            <div id="sequence" class="content">
-                <textarea matInput [(ngModel)]="indexedSequence.sequence.sequence"
-                    [ngModelOptions]="{standalone: true}"></textarea>
+            <div id="sequence" class="sequenceDiv">
+                <mat-form-field appearance="fill" class="matFormFieldSequence">
+                    <textarea matInput class="textareaSequence"
+                        [(ngModel)]="indexedSequence.sequence.sequence"
+                        [ngModelOptions]="{standalone: true}">
+                    </textarea>
+                </mat-form-field>
             </div>
 
+            <br>
+            <br>
+
             <label for="type">Type:</label>
-            <div id="type" class="content">
-                <mat-select [(value)]="indexedSequence.sequence.typeName">
-                    <mat-option *ngFor="let sequenceType of sequenceTypes" [value]="sequenceType.name">
-                        {{sequenceType.name}}
-                    </mat-option>
-                </mat-select>
+            <div id="sequenceType">
+                <mat-form-field appearance="fill" class="content">
+                    <mat-select [(value)]="indexedSequence.sequence.typeName">
+                        <mat-option *ngFor="let sequenceType of sequenceTypes" [value]="sequenceType.name">
+                            {{sequenceType.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
+
+
+    
+
+
+
+
+
+
 
             <div id="sequenceCategory" *ngIf="showSequenceCategory">
                 <label for="type">Category:</label>

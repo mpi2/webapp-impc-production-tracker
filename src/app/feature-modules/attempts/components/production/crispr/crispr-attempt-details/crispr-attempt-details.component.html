@@ -11,7 +11,7 @@
 
           <ng-template #miDateEditable>
             <td>
-              <mat-form-field>
+              <mat-form-field appearance="fill" >
                 <input matInput [matDatepicker]="datePicker" [(ngModel)]="crisprAttempt.miDate"
                   [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
                 <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>

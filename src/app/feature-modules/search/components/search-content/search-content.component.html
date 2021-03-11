@@ -108,6 +108,28 @@
         </td>
     </ng-container>
 
+    <ng-container matColumnDef="Colony Name(s)">
+        <th mat-header-cell *matHeaderCellDef>Colony Name(s)</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let colonyName of searchResult.project.colonyNames">
+                    {{ colonyName }}
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
+    <ng-container matColumnDef="Phenotyping External Reference(s)">
+        <th mat-header-cell *matHeaderCellDef>Phenotyping External Reference(s)</th>
+        <td mat-cell *matCellDef="let searchResult">
+            <div *ngIf="searchResult.project">
+                <div *ngFor="let phenotypingExternalRef of searchResult.project.phenotypingExternalRefs">
+                    {{ phenotypingExternalRef }}
+                </div>
+            </div>
+        </td>
+    </ng-container>
+
     <ng-container matColumnDef="Privacy">
         <th mat-header-cell *matHeaderCellDef>Privacy</th>
         <td mat-cell *matCellDef="let searchResult">

@@ -14,7 +14,7 @@
                     <div *ngIf="canUpdatePlan; then editableFields else readOnlyFields"></div>
                     <ng-template #editableFields>
                         <td>
-                            <mat-form-field>
+                            <mat-form-field appearance="fill">
                                 <input matInput [matDatepicker]="datePickerStartDate" [(ngModel)]="element.startDate"
                                     [ngModelOptions]="{standalone: true}">
                                 <mat-datepicker-toggle matSuffix [for]="datePickerStartDate"></mat-datepicker-toggle>
@@ -23,7 +23,7 @@
                         </td>
 
                         <td>
-                            <mat-form-field>
+                            <mat-form-field appearance="fill">
                                 <input matInput [matDatepicker]="datePickerEndDate" [(ngModel)]="element.endDate"
                                     [ngModelOptions]="{standalone: true}">
                                 <mat-datepicker-toggle matSuffix [for]="datePickerEndDate"></mat-datepicker-toggle>
@@ -32,7 +32,7 @@
                         </td>
 
                         <td>
-                            <mat-form-field>
+                            <mat-form-field appearance="fill">
                                 <mat-select [(ngModel)]="element.workUnitName">
                                     <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit">
                                         {{ workUnit }}

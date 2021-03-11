@@ -1,25 +1,91 @@
 <mat-card>
     <mat-card-subtitle>Guides</mat-card-subtitle>
+
+    <mat-card-content>
+        <div *ngIf="canUpdatePlan && crisprAttempt.nucleases[0].typeName == 'Cas9'" id="guidesSearch">
+            <div id="guidesSearchForm">
+                <form [formGroup]="getGuidesForm">
+                    <mat-form-field appearance="fill" >
+                        <input matInput placeholder="Search by gene symbol" aria-label="State" [matAutocomplete]="auto" [formControl]="searchGene" />
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                            <ng-container *ngIf="!isLoading">
+                                <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol" (onSelectionChange)="selectedGene(gene)">
+                                    <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
+                                </mat-option>
+                            </ng-container>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <div *ngIf="error" class="error">{{ error }}</div>
+                    <button mat-raised-button color="primary" (click)="findGuides();">Find guides</button>
+                </form>
+            </div>
+
+            <br/>
+
+            <div *ngIf="exons">
+                <div class="wge mat-elevation-z8">
+                    <table mat-table [dataSource]="exons" class="wge_info">
+                        <!-- Exon Id Column -->
+                        <ng-container matColumnDef="exon_id" sticky>
+                        <th mat-header-cell *matHeaderCellDef> Exons </th>
+                        <td mat-cell *matCellDef="let element"> {{ element.exonId }} </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedExonColumns sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedExonColumns; let idx=index;"
+                            class="element-row" 
+                            [style.background-color]="highlightedRows.indexOf(row) != -1 ? 'orange' : ''"
+                            (click)="exonSelected(row, !row.rowClicked); highlight(row);"></tr>
+                    </table>
+                </div>
+
+                <div *ngIf="guides" class="wge mat-elevation-z8">
+                    <table mat-table [dataSource]="guides" class="wge_info">
+                        <!-- Sequence Column -->
+                        <ng-container matColumnDef="sequence" sticky>
+                        <th mat-header-cell *matHeaderCellDef> Sequences </th>
+                        <td mat-cell *matCellDef="let element"> 
+                            {{ element.sequence }} 
+                            <span *ngIf="element.reverse" style="font-size:8px;vertical-align:sub;">(reversed)</span>
+                        </td>
+                        </ng-container>
+                    
+                        <tr mat-header-row *matHeaderRowDef="displayedGuideColumns sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedGuideColumns;"
+                            class="element-row" 
+                            [style.background-color]="row.rowClicked ? 'orange' : ''"
+                            (click)="sequenceSelected(row, !row.rowClicked); row.rowClicked = !row.rowClicked;"></tr>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+    </mat-card-content>
+
+    <br/>
+
     <mat-card-content>
         <div *ngIf="canUpdatePlan">
             Set individual Concentrations: <input type="checkbox"
                 (change)="onSetIndividualConcentrationsClicked($event)"
                 [checked]="!isConcentrationTheSameForAllGuides()">
         </div>
-    </mat-card-content>
-    <mat-card-content>
+        
+        <br/>
+
         <form [formGroup]="guidesForm">
             <table class="mat-elevation-z8">
                 <tr>
                     <th>Sequence</th>
+                    <th>Guide Sequence</th>
+                    <th>PAM</th>
                     <th>Chr</th>
                     <th>Start</th>
                     <th>Stop</th>
-                    <th>Truncated Guide</th>
+                    <th>Strand</th>
                     <th>Genome Build</th>
-                    <th>PAM3</th>
-                    <th>PAM5</th>
-                    <th>Protospacer Sequence</th>
+                    <th>ENSEMBL exon ID</th>
                     <th>gRNA Concentration (ng/µl)</th>
                 </tr>
                 <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides">
@@ -31,6 +97,12 @@
                                 <textarea class="content" matInput [(ngModel)]="guide.sequence"
                                     [ngModelOptions]="{standalone: true}"></textarea>
                             </td>
+                            <td>
+                                <input matInput [(ngModel)]="guide.guideSequence" [ngModelOptions]="{standalone: true}">
+                            </td>
+                            <td class="short">
+                                <input matInput [(ngModel)]="guide.pam" [ngModelOptions]="{standalone: true}">
+                            </td>
                             <td class="short">
                                 <input matInput [(ngModel)]="guide.chr" [ngModelOptions]="{standalone: true}">
                             </td>
@@ -40,50 +112,43 @@
                             <td class="medium">
                                 <input matInput [(ngModel)]="guide.stop" [ngModelOptions]="{standalone: true}">
                             </td>
-                            <td>
-                                <mat-checkbox [(ngModel)]="guide.truncatedGuide" [ngModelOptions]="{standalone: true}">
-                                </mat-checkbox>
+                            <td class="short">
+                                <input matInput [(ngModel)]="guide.strand" [ngModelOptions]="{standalone: true}">
                             </td>
-                            <td class="mediumShort">
+                            <td class="medium">
                                 <input matInput [(ngModel)]="guide.genomeBuild" [ngModelOptions]="{standalone: true}">
                             </td>
-                            <td class="short">
-                                <input matInput [(ngModel)]="guide.pam3" [ngModelOptions]="{standalone: true}">
-                            </td>
-                            <td class="short">
-                                <input matInput [(ngModel)]="guide.pam5" [ngModelOptions]="{standalone: true}">
-                            </td>
-                            <td>
-                                <input matInput [(ngModel)]="guide.protospacerSequence" [ngModelOptions]="{standalone: true}">
+                            <td class="medium">
+                                <input matInput [(ngModel)]="guide.ensemblExonId" [ngModelOptions]="{standalone: true}">
                             </td>
                         </ng-template>
                         <ng-template #readOnly>
                             <td>
-                                {{guide.sequence}}
+                                {{ guide.sequence }}
                             </td>
                             <td>
-                                {{guide.chr}}
+                                {{ guide.guide_sequence }}
                             </td>
                             <td>
-                                {{guide.start || "Not defined"}}
+                                {{ guide.pam }}
                             </td>
                             <td>
-                                {{guide.stop || "Not defined"}}
+                                {{ guide.chr }}
                             </td>
                             <td>
-                                {{guide.truncatedGuide}}
+                                {{ guide.start || "Not defined" }}
                             </td>
                             <td>
-                                {{guide.genomeBuild}}
+                                {{ guide.end || "Not defined" }}
                             </td>
                             <td>
-                                {{guide.pam3}}
+                                {{ guide.strand }}
                             </td>
                             <td>
-                                {{guide.pam5}}
+                                {{ guide.genomeBuild }}
                             </td>
                             <td>
-                                {{guide.protospacerSequence}}
+                                {{ guide.exon_id }}
                             </td>
                         </ng-template>
 

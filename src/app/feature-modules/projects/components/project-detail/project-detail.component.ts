@@ -4,6 +4,7 @@ import { ProjectService } from '../../services/project.service';
 import { Project, ProjectAdapter } from '../../../../model/bio/project';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
+import { Outcome } from 'src/app/feature-modules/plans/model/outcomes/outcome';
 import {
   ConfigurationData, PermissionsService, ConfigurationDataService,
   LoggedUserService, ChangesHistory
@@ -13,6 +14,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from 'src/app/feature-modules/plans/components/update-notification/update-notification.component';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
+import { OutcomeService } from 'src/app/feature-modules/plans/services/outcome.service';
 
 
 @Component({
@@ -26,6 +28,7 @@ export class ProjectDetailComponent implements OnInit {
   originalProjectAsString;
   productionPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
+  outcomes: Outcome[] = [];
   canUpdateProject: boolean;
   canCreateProductionPlan: boolean;
   canCreatePhenotypingPlan: boolean;
@@ -48,7 +51,8 @@ export class ProjectDetailComponent implements OnInit {
     private permissionsService: PermissionsService,
     private configurationDataService: ConfigurationDataService,
     private loggedUserService: LoggedUserService,
-    private snackBar: MatSnackBar, ) { }
+    private outcomeService: OutcomeService,
+    private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
     this.projectForm = this.formBuilder.group({
@@ -61,12 +65,43 @@ export class ProjectDetailComponent implements OnInit {
     });
 
     this.getProjectData();
+    this.coloniesExist();
   }
 
   private setFormValues(): void {
     this.projectForm.get('comments').setValue(this.project.comment);
     this.selectedPrivacy = [{ name: this.project.privacyName }];
     this.projectForm.get('privacy').setValue(this.selectedPrivacy);
+  }
+
+  private coloniesExist(): void {
+    this.productionPlansDetails.forEach(plan => {
+      console.log('pin => ', plan);
+      this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
+        /* tslint:disable:no-string-literal */
+        console.log('data => ', data);
+        if (data['_embedded']) {
+          this.outcomes.push(data['_embedded']['outcomes']);
+          console.log('outcomes => ', this.outcomes);
+        }
+        /* tslint:enable:no-string-literal */
+      }, error => {
+        this.error = error;
+        console.log(error);
+      });
+    });
+    var genotypeConfirmedColonies = 0;
+    this.outcomes.forEach(outcome => {
+      if (outcome.colony.statusName.localeCompare("Genotype Confirmed")) {
+        genotypeConfirmedColonies = genotypeConfirmedColonies + 1;
+        console.log('inside => ', genotypeConfirmedColonies);
+      }
+    });
+    if (genotypeConfirmedColonies === 0) {
+      this.canCreatePhenotypingPlan = false;
+    } else {
+      this.loadPermissions();
+    }
   }
 
   private getProjectData(): void {
@@ -162,7 +197,7 @@ export class ProjectDetailComponent implements OnInit {
     }, error => {
       this.error = error;
     });
-
+    this.coloniesExist();
   }
 
   shouldUpdateBeEnabled(): boolean {
