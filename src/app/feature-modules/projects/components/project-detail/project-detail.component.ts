@@ -90,9 +90,9 @@ export class ProjectDetailComponent implements OnInit {
         console.log(error);
       });
     });
-    var genotypeConfirmedColonies = 0;
+    let genotypeConfirmedColonies = 0;
     this.outcomes.forEach(outcome => {
-      if (outcome.colony.statusName.localeCompare("Genotype Confirmed")) {
+      if (outcome.colony.statusName.localeCompare('Genotype Confirmed')) {
         genotypeConfirmedColonies = genotypeConfirmedColonies + 1;
         console.log('inside => ', genotypeConfirmedColonies);
       }

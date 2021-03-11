@@ -68,7 +68,7 @@ export class ProjectListContentComponent implements OnInit, OnDestroy {
     /* tslint:disable:no-string-literal */
     if (data['_embedded']) {
       this.dataSource = data['_embedded']['projects'];
-      this.page = data['page'];      
+      this.page = data['page'];
     } else {
       this.dataSource = [];
     }
