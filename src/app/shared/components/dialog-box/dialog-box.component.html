@@ -1,6 +1,6 @@
   <!-- <h1 mat-dialog-title *ngIf="action !== ''">Row Action :: <strong>{{ action }}</strong></h1> -->
   <div mat-dialog-content>
-    <mat-form-field *ngIf="action === 'Update'">
+    <mat-form-field appearance="fill" *ngIf="action === 'Update'">
       <input placeholder="{{action}} Symbol " matInput [(ngModel)]="localData.symbol">
     </mat-form-field>
     <p *ngIf="action === 'Delete'">

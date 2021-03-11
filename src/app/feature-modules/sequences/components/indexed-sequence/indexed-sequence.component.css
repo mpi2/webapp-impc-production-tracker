@@ -20,10 +20,17 @@ label {
   padding-bottom: 5px;
 }
 
-textarea {
-  width: 40em;
-  min-width: 100px;
-  height: 5em;
+.sequenceDiv {
+  vertical-align: top;
+}
+
+.matFormFieldSequence {
+  width: 40em; 
+  height: 8em;
+}
+
+.textareaSequence {
+  height: 8em;
 }
 
 .select-content {

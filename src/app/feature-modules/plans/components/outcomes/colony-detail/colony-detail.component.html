@@ -5,14 +5,14 @@
 
         <label for="name">Name:</label>
         <div id="name" class="content, name">
-            <mat-form-field class="example-full-width">
+            <mat-form-field appearance="fill" class="example-full-width">
                 <input matInput [(ngModel)]="colony.name" [ngModelOptions]="{standalone: true}">
             </mat-form-field>
         </div>
 
         <label for="genotypingComment">Genotyping comment:</label>
         <div id="genotypingComment" class="content">
-            <mat-form-field class="example-full-width">
+            <mat-form-field appearance="fill" class="example-full-width">
                 <textarea matInput (keyup)="onCommentChanged($event)" [(ngModel)]="colony.genotypingComment"
                     [ngModelOptions]="{standalone: true}"></textarea>
             </mat-form-field>

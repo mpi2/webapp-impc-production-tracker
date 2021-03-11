@@ -16,26 +16,26 @@
         <ng-template #editableRow>
             <tr class="cell">
                 <td>
-                    <mat-form-field class="short-field">
+                    <mat-form-field appearance="fill" class="short-field">
                         <input (keyup)="onChange(sequenceLocation)" appDigitOnly matInput
                             [(ngModel)]="sequenceLocation.locationIndex">
                     </mat-form-field>
                 </td>
                 <td>
-                    <mat-form-field class="short-field">
+                    <mat-form-field appearance="fill" class="short-field">
                         <input (keyup)="onChange(sequenceLocation)" matInput
                             [(ngModel)]="sequenceLocation.location.chr">
                     </mat-form-field>
                 </td>
                 <td>
-                    <mat-form-field class="medium-short-field">
+                    <mat-form-field appearance="fill" class="medium-short-field">
                         <input (keyup)="onChange(sequenceLocation)" appDigitOnly matInput
                             [(ngModel)]="sequenceLocation.location.start">
                     </mat-form-field>
                 </td>
 
                 <td>
-                    <mat-form-field class="medium-short-field">
+                    <mat-form-field appearance="fill" class="medium-short-field">
                         <input (keyup)="onChange(sequenceLocation)" appDigitOnly matInput
                             [(ngModel)]="sequenceLocation.location.stop">
                     </mat-form-field>
@@ -43,21 +43,21 @@
                 </td>
 
                 <td>
-                    <mat-form-field class="short-field">
+                    <mat-form-field appearance="fill" class="short-field">
                         <input (keyup)="onChange(sequenceLocation)" matInput
                             [(ngModel)]="sequenceLocation.location.strand">
                     </mat-form-field>
                 </td>
 
                 <td>
-                    <mat-form-field class="medium-field">
+                    <mat-form-field appearance="fill" class="medium-field">
                         <input (keyup)="onChange(sequenceLocation)" matInput
                             [(ngModel)]="sequenceLocation.location.genomeBuild">
                     </mat-form-field>
                 </td>
 
                 <td>
-                    <mat-form-field class="medium-large-field">
+                    <mat-form-field appearance="fill" class="medium-large-field">
                         <mat-select (selectionChange)="onChange(sequenceLocation)"
                             [(value)]="sequenceLocation.location.strainName">
                             <mat-option *ngFor="let strain of strains" [value]="strain.name">
@@ -68,7 +68,7 @@
                 </td>
 
                 <td>
-                    <mat-form-field>
+                    <mat-form-field appearance="fill" >
                         <mat-select (selectionChange)="onChange(sequenceLocation)"
                             [(value)]="sequenceLocation.location.speciesName">
                             <mat-option *ngFor="let speciesElement of species" [value]="speciesElement.name">

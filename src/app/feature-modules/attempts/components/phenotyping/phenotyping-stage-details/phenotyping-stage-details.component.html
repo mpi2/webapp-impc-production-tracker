@@ -47,13 +47,13 @@
                 </ng-template>
 
                 <div *ngIf="!isNew">
-                    <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
+                    <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id):</label>
                     <div id="phenotypingExternalRef" class="content">{{ phenotypingStage.phenotypingExternalRef }}</div>
                 </div>
 
                 <label for="phenotypingExperimentsStarted">Phenotyping Experiments Started:</label>
                 <div>
-                    <mat-form-field id="phenotypingExperimentsStarted">
+                    <mat-form-field appearance="fill" id="phenotypingExperimentsStarted">
                         <input matInput [matDatepicker]="phenotypingExperimentsStarted"
                             [(ngModel)]="phenotypingStage.phenotypingExperimentsStarted"
                             [ngModelOptions]="{standalone: true}">
@@ -66,7 +66,7 @@
 
                 <label for="initialDataReleaseDate">Initial Data Release date:</label>
                 <div>
-                    <mat-form-field id="initialDataReleaseDate">
+                    <mat-form-field appearance="fill" id="initialDataReleaseDate">
                         <input matInput [matDatepicker]="initialDataReleaseDate"
                             [(ngModel)]="phenotypingStage.initialDataReleaseDate" [ngModelOptions]="{standalone: true}">
                         <mat-datepicker-toggle matSuffix [for]="initialDataReleaseDate"></mat-datepicker-toggle>
@@ -81,7 +81,7 @@
                 <label for="phenotypingTypeName">Type:</label>
                 <div id="phenotypingTypeName" class="content">{{ phenotypingStage.phenotypingTypeName}}</div>
 
-                <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
+                <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id):</label>
                 <div id="phenotypingExternalRef" class="content">{{ phenotypingStage.phenotypingExternalRef }}</div>
 
                 <label for="phenotypingExperimentsStarted">Phenotyping Experiments Started:</label>

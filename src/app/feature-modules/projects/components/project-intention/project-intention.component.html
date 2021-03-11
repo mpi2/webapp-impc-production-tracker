@@ -27,7 +27,7 @@
                       </mat-select>
                   </td>
                   <td>
-                    <mat-form-field class="content">
+                    <mat-form-field appearance="fill" class="content">
                         <input matInput placeholder="" aria-label="State" [matAutocomplete]="auto" [formControl]="searchGeneCtrl" />
                         <mat-autocomplete #auto="matAutocomplete">
                             <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>

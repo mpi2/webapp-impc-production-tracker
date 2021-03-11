@@ -1,5 +1,5 @@
 <p>Please select the consortium for which you want to view/manage the gene list:</p>
-<mat-form-field *ngIf="user">
+<mat-form-field appearance="fill" *ngIf="user">
     <mat-label>Consortium</mat-label>
     <mat-select [(value)]="currentConsortium" (selectionChange)="onConsortiumChanged()">
         <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>

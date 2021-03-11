@@ -8,7 +8,7 @@
                 <div *ngIf="canUpdate">
                     <label for="transition">Next step:</label>
                     <div id="transition">
-                        <mat-form-field class="content">
+                        <mat-form-field appearance="fill" class="content">
                             <mat-label>Select the new status on update</mat-label>
                             <mat-select>
                                 <mat-option (click)="onTransitionSelected(null)">None</mat-option>

@@ -37,9 +37,13 @@ select {
   float: left;
 }
 
-.textareaMutationDescription {
-  width: 40em; 
+.matFormFieldMutationDescription {
+  width: 50em; 
   height: 8em;
+}
+
+.textareaMutationDescription {
+  height: 10em;
 }
 
 .content {

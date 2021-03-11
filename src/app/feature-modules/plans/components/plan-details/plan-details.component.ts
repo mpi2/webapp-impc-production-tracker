@@ -3,7 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
 import { Plan } from '../../model/plan';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { ProjectService } from 'src/app/feature-modules/projects';
 import { Project } from 'src/app/model';
 
 

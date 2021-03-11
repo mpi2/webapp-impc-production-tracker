@@ -62,7 +62,6 @@ export class SearchService {
             queryString += '&' + inputQuery;
         }
         url = url + queryString;
-        console.log(url);
 
         return this.http.get<SearchResult[]>(url);
     }
@@ -131,7 +130,6 @@ export class SearchService {
         url += queryAsParameters;
         const file = search.searchInput.value;
         const formData: FormData = this.buildFormDataForFile(file);
-        console.log('url?', url);
         return this.http.post(url, formData, { responseType: 'text' });
     }
 }

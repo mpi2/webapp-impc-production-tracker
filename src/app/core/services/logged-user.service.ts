@@ -39,7 +39,6 @@ export class LoggedUserService {
     if (this.apiServiceUrl === undefined) {
       this.apiServiceUrl = baseUrl;
     }
-    console.log('apiServiceUrl constructor => ', this.apiServiceUrl);
   }
 
   // Returns a key unique to this application that takes into account the base path as well as the host and port

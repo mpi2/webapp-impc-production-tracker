@@ -1,4 +1,4 @@
-<mat-form-field class="example-chip-list largeElement">
+<mat-form-field appearance="fill" class="example-chip-list largeElement">
     <mat-chip-list #chipList>
         <mat-chip *ngFor="let geneSymbol of getGenesNamesByElement()" (removed)="remove(geneSymbol)">
             {{geneSymbol}}

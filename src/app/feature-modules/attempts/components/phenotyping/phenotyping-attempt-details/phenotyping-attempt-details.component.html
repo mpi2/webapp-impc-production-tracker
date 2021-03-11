@@ -7,8 +7,8 @@
         <ng-template #editable>
 
             <div>
-                <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
-                <mat-form-field id="phenotypingExternalRef">
+                <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id):</label>
+                <mat-form-field appearance="fill" id="phenotypingExternalRef">
                     <input matInput (keyup)="dataChanged($event)" [(ngModel)]="phenotypingAttempt.phenotypingExternalRef">
                 </mat-form-field>
             </div>
@@ -49,7 +49,7 @@
         <ng-template #readOnly>
 
             <div>
-                <label for="phenotypingExternalRef">External Reference (Colony or Specimen id):</label>
+                <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id):</label>
                 <div id="phenotypingExternalRef" class="content">
                     {{ phenotypingAttempt.phenotypingExternalRef }}
                 </div>

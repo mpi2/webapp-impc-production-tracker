@@ -7,3 +7,4 @@ export * from './model/production/crispr/reagent';
 export * from './model/production/crispr/genotype-primer';
 export * from './model/production/crispr/assay';
 export * from './model/production/crispr/strain-injected';
+export * from './model/production/crispr/exon';
