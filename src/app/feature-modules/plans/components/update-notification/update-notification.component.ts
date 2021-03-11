@@ -17,8 +17,6 @@ export class UpdateNotificationComponent implements OnInit {
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
     this.changeDetails = data;
 
-    console.log("this.changeDetails.details => ", this.changeDetails.details);
-
     if (this.changeDetails.details) {
       this.showDetails = true;
       if (this.changeDetails.details.length < this.NUMBER_DETAILS_THRESHOLD) {

@@ -30,7 +30,7 @@ export class GuidesComponent implements OnInit {
 
   error: string;
   exons: Exon[];
-  gene_symbol: string;
+  geneSymbol: string;
   guides: Guide[];
 
   displayedExonColumns = ['exon_id'];
@@ -44,8 +44,8 @@ export class GuidesComponent implements OnInit {
   highlightedRows = [];
 
   constructor(
-    private formBuilder: FormBuilder, 
-    public dialog: MatDialog, 
+    private formBuilder: FormBuilder,
+    public dialog: MatDialog,
     private attemptService: AttemptServiceService,
     private geneService: GeneService
   ) { }
@@ -84,8 +84,8 @@ export class GuidesComponent implements OnInit {
       )
       .subscribe(data => {
         if (data.length === 0) {
-          this.errorMsg = data['Error'];
-          // this.errorMsg = 'Symbol does not exist.';
+          const key = 'Error';
+          this.errorMsg = data[key];
           this.filteredGenes = [];
         } else {
           this.errorMsg = '';
@@ -104,11 +104,11 @@ export class GuidesComponent implements OnInit {
   }
 
   findGuides() {
-    if (this.gene_symbol === undefined || this.gene_symbol === "") {
+    if (this.geneSymbol === undefined || this.geneSymbol === '') {
       this.error = 'Enter a valid gene symbol.'
       console.log('error => ', this.error);
     } else {
-      this.attemptService.getExonsFromWge(this.gene_symbol).subscribe(data => {
+      this.attemptService.getExonsFromWge(this.geneSymbol).subscribe(data => {
         this.exons = data;
         this.error = '';
       }, error => {
@@ -121,11 +121,11 @@ export class GuidesComponent implements OnInit {
     if (gene === undefined) {
       this.error = 'Enter a valid gene symbol.'
       console.log('error => ', this.error);
-      this.gene_symbol = undefined;
+      this.geneSymbol = undefined;
       this.exons = undefined;
       this.guides = undefined;
     } else {
-      this.gene_symbol = gene.symbol;
+      this.geneSymbol = gene.symbol;
       this.exons = undefined;
       this.guides = undefined;
       this.error = '';
@@ -136,16 +136,15 @@ export class GuidesComponent implements OnInit {
     if (click === true) {
       this.guides = exon.guideDetails;
     } else {
-      this.guides = undefined; 
+      this.guides = undefined;
     }
-    
   }
 
   sequenceSelected(guide: Guide, click: boolean) {
     if (click === true) {
       this.crisprAttempt.guides.push(guide);
     } else {
-      this.crisprAttempt.guides = this.crisprAttempt.guides.filter(({ id }) => id !== guide.id); 
+      this.crisprAttempt.guides = this.crisprAttempt.guides.filter(({ id }) => id !== guide.id);
     }
   }
 

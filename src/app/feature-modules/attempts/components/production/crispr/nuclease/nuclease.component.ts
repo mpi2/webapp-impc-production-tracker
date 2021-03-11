@@ -40,18 +40,18 @@ export class NucleaseComponent implements OnInit {
       this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
 
       this.setInitialData();
-    });    
+    });
   }
 
   setInitialData(): void {
-    let nuclease = new Nuclease();
+    const nuclease = new Nuclease();
     nuclease.id = -1;
-    if (this.nucleaseTypes != undefined) {
+    if (this.nucleaseTypes !== undefined) {
       nuclease.typeName = this.nucleaseTypes[0].name;
       this.crisprAttempt.nucleases.push(nuclease);
-    } 
+    }
     if (this.crisprAttempt.nucleases.length > 1) {
-      this.crisprAttempt.nucleases = this.crisprAttempt.nucleases.filter(({ id }) => id !== -1); 
+      this.crisprAttempt.nucleases = this.crisprAttempt.nucleases.filter(({ id }) => id !== -1);
     }
     this.dataSource = this.crisprAttempt.nucleases;
   }
