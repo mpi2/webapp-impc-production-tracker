@@ -82,6 +82,7 @@ export class ProjectCreationComponent implements OnInit {
 
     this.projectService.createProject(this.projectCreation).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;
+      // eslint-disable-next-line no-underscore-dangle
       const link: string = changeResponse._links.self.href;
       const tpn = link.substring(link.lastIndexOf('/') + 1);
       this.router.navigate(['/projects/' + tpn]);

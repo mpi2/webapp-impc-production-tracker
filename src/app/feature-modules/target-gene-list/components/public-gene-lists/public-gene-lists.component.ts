@@ -12,20 +12,19 @@ import { TargetGeneListService } from '../../services/target-gene-list.service';
   styleUrls: ['./public-gene-lists.component.css']
 })
 export class PublicGeneListsComponent implements OnInit {
-  dataSource: GeneListRecord[] = [];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  dataSource: GeneListRecord[] = [];
   isLoading = false;
   isDownloading;
   error;
 
   sort: Sort = { property: 'id', direction: 'ASC' };
+  // eslint-disable-next-line id-blacklist
   page: Page = { number: 0, size: 20, sorts: [this.sort] };
 
   geneListDescriptions: GeneListDescription[] = [];
-
   currentConsortium: string;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(private targetGeneListService: TargetGeneListService) { }
 
@@ -62,38 +61,17 @@ export class PublicGeneListsComponent implements OnInit {
     }
   }
 
-  private clearDataSet() {
-    this.dataSource = [];
-  }
-
-  private extractDataFromServerResponse(data) {
-    if (data) {
-      /* tslint:disable:no-string-literal */
-      if (data['_embedded']) {
-        this.dataSource = data['_embedded'].records;
-        this.page = data['page'];
-        /* tslint:enable:no-string-literal */
-
-      }
-    }
-  }
-
   public getGenesSymbols(geneListRecord: GeneListRecord): string[] {
     return geneListRecord.genes.map(x => x.symbol);
   }
 
   public onPaginatorChanged(paginator: MatPaginator) {
+    // eslint-disable-next-line id-blacklist
     this.page.number = paginator.pageIndex;
     this.page.size = paginator.pageSize;
     this.getPage(this.page);
   }
 
-  private resetPage() {
-    this.page.number = 0;
-    if (this.paginator) {
-      this.paginator.pageIndex = 0;
-    }
-  }
 
   onDownloadClicked() {
     this.isDownloading = true;
@@ -115,6 +93,30 @@ export class PublicGeneListsComponent implements OnInit {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
+  }
+
+  private clearDataSet() {
+    this.dataSource = [];
+  }
+
+  private extractDataFromServerResponse(data) {
+    if (data) {
+      /* eslint-disable @typescript-eslint/dot-notation */
+      if (data['_embedded']) {
+        this.dataSource = data['_embedded'].records;
+        this.page = data['page'];
+        /* eslint-enable @typescript-eslint/dot-notation */
+
+      }
+    }
+  }
+
+  private resetPage() {
+    // eslint-disable-next-line id-blacklist
+    this.page.number = 0;
+    if (this.paginator) {
+      this.paginator.pageIndex = 0;
+    }
   }
 
 }

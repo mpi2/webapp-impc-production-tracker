@@ -16,25 +16,19 @@ import { MessageService } from 'src/app/core/services/message.service';
 })
 export class ListManagementComponent implements OnInit, OnDestroy {
 
+  @ViewChild('drawer') drawer: MatSidenav;
+  @ViewChild('listContent') listContent: ListContentComponent;
+
   updating = false;
-
   recordIdsToDelete = [];
-
   currentSelectedEditMode = false;
   newEditMode = 'edit';
-
   error;
-
   filterVisible = false;
   currentConsortium: string = undefined;
   canUpdateList: boolean;
-
   messageSubscription;
-
   filters: FilterDefinition[];
-
-  @ViewChild('drawer') drawer: MatSidenav;
-  @ViewChild('listContent') listContent: ListContentComponent;
 
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
@@ -80,7 +74,7 @@ export class ListManagementComponent implements OnInit, OnDestroy {
         name: 'markerSymbol',
         label: null,
         expanded: true,
-        type: FilterType.Text,
+        type: FilterType.text,
         placeholder: 'Marker Symbol(s)'
       }
 

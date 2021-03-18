@@ -15,14 +15,15 @@ import { GeneListRecord } from 'src/app/model';
 export class AutocompleteGeneInputsComponent implements OnInit {
 
   @Input() record: GeneListRecord;
+  @ViewChild('geneInput') geneInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
+
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
   options: string[] = [];
   filteredOptions: Observable<string[]> = of([]);
   genesCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
-
-  @ViewChild('geneInput') geneInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private geneService: GeneService) { }
 
@@ -39,11 +40,6 @@ export class AutocompleteGeneInputsComponent implements OnInit {
     } else {
       this.filteredOptions = of(this.filter(value));
     }
-  }
-
-  private filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   resetGeneSymbolValuesIfNeeded(value: string) {
@@ -81,6 +77,24 @@ export class AutocompleteGeneInputsComponent implements OnInit {
     }
   }
 
+  public remove(label: string): void {
+    this.removeGeneFromRecord(label);
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.addGeneToRecord(event.option.viewValue);
+    this.geneInput.nativeElement.value = '';
+    this.genesCtrl.setValue(null);
+  }
+
+  private removeGeneFromRecord(label: string) {
+    const genes: Gene[] = this.record.genes;
+    const index = genes.findIndex(x => x.symbol === label);
+    if (index >= 0) {
+      genes.splice(index, 1);
+    }
+  }
+
   // Add the new gene object to the current record (if it does not exist already)
   private addGeneToRecord(label: string) {
     const genes: Gene[] = this.record.genes;
@@ -92,22 +106,10 @@ export class AutocompleteGeneInputsComponent implements OnInit {
     }
   }
 
-  public remove(label: string): void {
-    this.removeGeneFromRecord(label);
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
-  private removeGeneFromRecord(label: string) {
-    const genes: Gene[] = this.record.genes;
-    const index = genes.findIndex(x => x.symbol === label);
-    if (index >= 0) {
-      genes.splice(index, 1);
-    }
-  }
-
-  selected(event: MatAutocompleteSelectedEvent): void {
-    this.addGeneToRecord(event.option.viewValue);
-    this.geneInput.nativeElement.value = '';
-    this.genesCtrl.setValue(null);
-  }
 
 }

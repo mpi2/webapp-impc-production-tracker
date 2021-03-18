@@ -8,10 +8,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
   styleUrls: ['./sequence-intention-detail.component.css']
 })
 export class SequenceIntentionDetailComponent implements OnInit {
+  @Input() intentionBySequence: IntentionBySequence;
+
   sequenceIntentionDetailForm: FormGroup;
   displayedColumns: string[] = ['index', 'chr', 'start', 'stop', 'strand', 'genomeBuild', 'strain', 'species'];
-
-  @Input() intentionBySequence: IntentionBySequence;
 
   constructor(private formBuilder: FormBuilder) { }
 

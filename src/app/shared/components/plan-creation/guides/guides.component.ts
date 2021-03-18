@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 import { Exon, Guide } from 'src/app/feature-modules/attempts';
 import { GeneService } from 'src/app/core';
@@ -8,7 +8,9 @@ import { FormControl } from '@angular/forms';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { AttemptServiceService } from 'src/app/feature-modules/attempts/services/attempt-service.service';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
-import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
+import { NamedValue } from 'src/app/core/model/common/named-value';
+import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
+
 
 @Component({
   selector: 'app-guides',
@@ -35,19 +37,24 @@ export class GuidesComponent implements OnInit {
 
   displayedExonColumns = ['exon_id'];
   displayedGuideColumns = ['sequence'];
+  highlightedRows = [];
+  isLoadingExons = false;
 
   searchGene = new FormControl();
   filteredGenes: any;
   isLoading = false;
   errorMsg: string;
 
-  highlightedRows = [];
+  configurationData: ConfigurationData;
+  formatNames: NamedValue[];
+  sourceNames: NamedValue[];
 
   constructor(
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private attemptService: AttemptServiceService,
-    private geneService: GeneService
+    private geneService: GeneService,
+    private configurationDataService: ConfigurationDataService
   ) { }
 
   ngOnInit() {
@@ -92,6 +99,16 @@ export class GuidesComponent implements OnInit {
           this.filteredGenes = data;
         }
       });
+
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.formatNames = this.configurationData.guideFormatNames.map(x => ({ name: x }));
+      this.sourceNames = this.configurationData.guideSourceNames.map(x => ({ name: x }));
+    });
+  }
+
+  get f(){
+    return this.guidesForm.controls;
   }
 
   highlight(row) {
@@ -105,21 +122,24 @@ export class GuidesComponent implements OnInit {
 
   findGuides() {
     if (this.geneSymbol === undefined || this.geneSymbol === '') {
-      this.error = 'Enter a valid gene symbol.'
+      this.error = 'Enter a valid gene symbol.';
       console.log('error => ', this.error);
     } else {
+      this.isLoadingExons = true;
       this.attemptService.getExonsFromWge(this.geneSymbol).subscribe(data => {
         this.exons = data;
         this.error = '';
+        this.isLoadingExons = false;
       }, error => {
         this.error = error;
+        this.isLoadingExons = false;
       });
     }
   }
 
   selectedGene(gene: any) {
     if (gene === undefined) {
-      this.error = 'Enter a valid gene symbol.'
+      this.error = 'Enter a valid gene symbol.';
       console.log('error => ', this.error);
       this.geneSymbol = undefined;
       this.exons = undefined;

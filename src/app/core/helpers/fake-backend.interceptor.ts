@@ -9,11 +9,11 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         const authHeader = request.headers.get('Authorization');
 
         // wrap in delayed observable to simulate server api call
-        return of(null).pipe(mergeMap(() => {
+        return of(null).pipe(mergeMap(() =>
             // pass through any requests not handled above
 
-            return next.handle(request);
-        }))
+             next.handle(request)
+        ))
             // call materialize and dematerialize to ensure delay even if an error is thrown
             // (https://github.com/Reactive-Extensions/RxJS/issues/648)
             .pipe(materialize())
@@ -22,27 +22,27 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
         // private helper functions
 
-        function getGenes() {
-            const genes = [
-                {
-                    name: 'Nxn',
-                    id: 'MGI:123456'
-                }
-            ];
-            return genes;
-        }
+        // function getGenes() {
+        //     const genes = [
+        //         {
+        //             name: 'Nxn',
+        //             id: 'MGI:123456'
+        //         }
+        //     ];
+        //     return genes;
+        // }
 
-        function ok(body) {
-            return of(new HttpResponse({ status: 200, body }));
-        }
+        // function ok(body) {
+        //     return of(new HttpResponse({ status: 200, body }));
+        // }
 
-        function unauthorised() {
-            return throwError({ status: 401, error: { message: 'Unauthorised' } });
-        }
+        // function unauthorised() {
+        //     return throwError({ status: 401, error: { message: 'Unauthorised' } });
+        // }
 
-        function error(message) {
-            return throwError({ status: 400, error: { message } });
-        }
+        // function error(message) {
+        //     return throwError({ status: 400, error: { message } });
+        // }
     }
 }
 

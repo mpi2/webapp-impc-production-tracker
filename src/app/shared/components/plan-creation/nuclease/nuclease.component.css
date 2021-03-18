@@ -9,11 +9,3 @@ table, th, tr, td {
 td.no_border {
     border-bottom-style: none;
 }
-
-.class {
-    width: 100px; 
-}
-
-.type {
-    width: 100px;
-}

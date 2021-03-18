@@ -54,9 +54,7 @@ import { BASE_API_URL_TOKEN } from './injectors';
     },
     {
       provide: BASE_API_URL_TOKEN,
-      useFactory: (config: ConfigAssetLoaderService) => {
-        return config.baseUrl;
-      },
+      useFactory: (config: ConfigAssetLoaderService) => config.baseUrl,
       deps: [ConfigAssetLoaderService],
     },
   ],

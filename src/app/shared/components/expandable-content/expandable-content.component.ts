@@ -10,6 +10,7 @@ export class ExpandableContentComponent {
   @Input() title: string;
   @Input() content: string;
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   private readonly TITLE_LENGTH_LIMIT = 35;
 
   private getTruncatedTitle(text: string): string {

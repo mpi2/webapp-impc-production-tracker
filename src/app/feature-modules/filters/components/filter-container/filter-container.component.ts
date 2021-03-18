@@ -16,7 +16,7 @@ export class FilterContainerComponent implements OnInit {
   @Output() filterLoaded = new EventEmitter<boolean>();
 
   filterForm: FormGroup;
-  FilterType = FilterType;
+  filterType = FilterType;
   initialValues = [];
   changed = [];
   wasAnyInitialValueSet = false;
@@ -41,6 +41,26 @@ export class FilterContainerComponent implements OnInit {
 
     this.setInitialValues();
     this.filterService.emitFilterLoaded(true);
+  }
+
+  public setFiltersInitialValues(filtersInitialValues) {
+    this.filtersInitialValues = filtersInitialValues;
+    this.filterForm.setValue(filtersInitialValues);
+  }
+
+  traceChange(value) {
+    Object.keys(value).map(key => {
+      const content = this.getUnifiedValue(value[key]);
+      const initialValue = this.initialValues[key];
+      this.changed[key] = initialValue !== content;
+    });
+  }
+
+  public clearFilters() {
+    const controls = this.filterForm.controls;
+    Object.keys(controls).map(key => {
+      controls[key].setValue([]);
+    });
   }
 
   private setInitialValues() {
@@ -68,26 +88,6 @@ export class FilterContainerComponent implements OnInit {
       contentAsArray = [content];
     }
     return contentAsArray;
-  }
-
-  public setFiltersInitialValues(filtersInitialValues) {
-    this.filtersInitialValues = filtersInitialValues;
-    this.filterForm.setValue(filtersInitialValues);
-  }
-
-  traceChange(value) {
-    Object.keys(value).map(key => {
-      const content = this.getUnifiedValue(value[key]);
-      const initialValue = this.initialValues[key];
-      this.changed[key] = initialValue !== content;
-    });
-  }
-
-  public clearFilters() {
-    const controls = this.filterForm.controls;
-    Object.keys(controls).map(key => {
-      controls[key].setValue([]);
-    });
   }
 
   private getUnifiedValue(value): string {

@@ -69,6 +69,117 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     this.filterChangesSubscription.unsubscribe();
   }
 
+  buildFilterDefinition(workUnitsFilteredData: string[]) {
+    const workUnitNames: NamedValue[] =
+      workUnitsFilteredData ?
+        workUnitsFilteredData.map(x => ({ name: x })) :
+        this.configurationData.workUnits.map(x => ({ name: x }));
+    const workGroupNames: NamedValue[] = this.configurationData.workGroups.map(x => ({ name: x }));
+    const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
+    const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
+    const intentionNames: NamedValue[] = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
+    const summaryStatuses: NamedValue[] = this.configurationData.statuses.map(x => ({ name: x }));
+    return [
+      {
+        title: 'Marker Symbol/ MGI',
+        name: 'gene',
+        type: FilterType.text
+      },
+      {
+        title: 'TPN',
+        name: 'tpn',
+        type: FilterType.text
+      },
+      {
+        title: 'Colony Name',
+        name: 'colonyName',
+        type: FilterType.text
+      },
+      {
+        title: 'Phenotyping External Reference',
+        name: 'phenotypingExternalRef',
+        type: FilterType.text
+      },
+      {
+        title: 'Intention',
+        name: 'intention',
+        type: FilterType.checkboxes,
+        dataSource: intentionNames
+      },
+      {
+        title: 'Work Unit',
+        name: 'workUnitName',
+        type: FilterType.checkboxes,
+        dataSource: workUnitNames
+      },
+      {
+        title: 'Work Group',
+        name: 'workGroupName',
+        type: FilterType.checkboxes,
+        dataSource: workGroupNames
+      },
+      {
+        title: 'Consortium',
+        name: 'consortiumName',
+        type: FilterType.checkboxes,
+        dataSource: consortiaNames
+      },
+      {
+        title: 'Privacy',
+        name: 'privacyName',
+        type: FilterType.checkboxes,
+        dataSource: privaciesNames
+      },
+      {
+        title: 'Summary Status',
+        name: 'summaryStatusName',
+        type: FilterType.checkboxes,
+        dataSource: summaryStatuses
+      }
+    ];
+  }
+
+  downloadCsv() {
+    this.downloading = true;
+    this.projectService.exportCsv(this.currentFilters).subscribe(data => {
+      this.download('projectResults.csv', data);
+      this.downloading = false;
+      this.error = '';
+    },
+      error => {
+        this.error = error;
+        this.downloading = false;
+      }
+    );
+  }
+
+  download(filename, text) {
+    const element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  onErrorLoadingContent(e) {
+    this.error = e;
+  }
+
+  toogleShowFilters() {
+    this.filterVisible = !this.filterVisible;
+  }
+
+  onFiltersChanged(e) {
+    const validatedFilters = this.filterService.buildValidFilter(e);
+    this.currentFilters = validatedFilters;
+    this.updateUrlWithFilters(validatedFilters);
+    if (this.filtersLoaded) {
+      this.projectService.emitFilterChange(e);
+    }
+  }
+
   private subscribeToFilterChanges() {
     this.filterChangesSubscription =
       this.filterService.filterChange.subscribe(filters => {
@@ -115,19 +226,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
     return initialFilterValues;
   }
 
-  toogleShowFilters() {
-    this.filterVisible = !this.filterVisible;
-  }
-
-  onFiltersChanged(e) {
-    const validatedFilters = this.filterService.buildValidFilter(e);
-    this.currentFilters = validatedFilters;
-    this.updateUrlWithFilters(validatedFilters);
-    if (this.filtersLoaded) {
-      this.projectService.emitFilterChange(e);
-    }
-  }
-
   private updateUrlWithFilters(filters) {
     this.router.navigate(
       [],
@@ -145,104 +243,6 @@ export class ProjectListComponent implements OnInit, OnDestroy {
       this.initFilters();
       this.configurationLoaded = true;
     });
-  }
-
-  buildFilterDefinition(workUnitsFilteredData: string[]) {
-    const workUnitNames: NamedValue[] =
-      workUnitsFilteredData ?
-        workUnitsFilteredData.map(x => ({ name: x })) :
-        this.configurationData.workUnits.map(x => ({ name: x }));
-    const workGroupNames: NamedValue[] = this.configurationData.workGroups.map(x => ({ name: x }));
-    const privaciesNames: NamedValue[] = this.configurationData.privacies.map(x => ({ name: x }));
-    const consortiaNames: NamedValue[] = this.configurationData.consortia.map(x => ({ name: x }));
-    const intentionNames: NamedValue[] = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
-    const summaryStatuses: NamedValue[] = this.configurationData.statuses.map(x => ({ name: x }));
-    return [
-      {
-        title: 'Marker Symbol/ MGI',
-        name: 'gene',
-        type: FilterType.Text
-      },
-      {
-        title: 'TPN',
-        name: 'tpn',
-        type: FilterType.Text
-      },
-      {
-        title: 'Colony Name',
-        name: 'colonyName',
-        type: FilterType.Text
-      },
-      {
-        title: 'Phenotyping External Reference',
-        name: 'phenotypingExternalRef',
-        type: FilterType.Text
-      },
-      {
-        title: 'Intention',
-        name: 'intention',
-        type: FilterType.Checkboxes,
-        dataSource: intentionNames
-      },
-      {
-        title: 'Work Unit',
-        name: 'workUnitName',
-        type: FilterType.Checkboxes,
-        dataSource: workUnitNames
-      },
-      {
-        title: 'Work Group',
-        name: 'workGroupName',
-        type: FilterType.Checkboxes,
-        dataSource: workGroupNames
-      },
-      {
-        title: 'Consortium',
-        name: 'consortiumName',
-        type: FilterType.Checkboxes,
-        dataSource: consortiaNames
-      },
-      {
-        title: 'Privacy',
-        name: 'privacyName',
-        type: FilterType.Checkboxes,
-        dataSource: privaciesNames
-      },
-      {
-        title: 'Summary Status',
-        name: 'summaryStatusName',
-        type: FilterType.Checkboxes,
-        dataSource: summaryStatuses
-      }
-    ];
-  }
-
-  downloadCsv() {
-    this.downloading = true;
-    this.projectService.exportCsv(this.currentFilters).subscribe(data => {
-      this.download('projectResults.csv', data);
-      this.downloading = false;
-      this.error = '';
-    },
-      error => {
-        this.error = error;
-        this.downloading = false;
-      }
-    );
-  }
-
-  download(filename, text) {
-    const element = document.createElement('a');
-    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
-    element.setAttribute('download', filename);
-    element.style.display = 'none';
-    document.body.appendChild(element);
-    element.click();
-    document.body.removeChild(element);
-  }
-
-  onErrorLoadingContent(e) {
-    this.error = e;
   }
 
 }

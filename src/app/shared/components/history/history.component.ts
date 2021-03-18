@@ -15,13 +15,13 @@ export class HistoryComponent implements OnInit {
 
   historyRecords: ChangesHistory[] = [];
   sortedData: ChangesHistory[] = [];
-  private entity: string;
-  private id: string;
   error: string;
-
   pid: string;
 
+  private entity: string;
+  private id: string;
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   private readonly LENGTH_LIMIT = 100;
 
   constructor(
@@ -34,6 +34,14 @@ export class HistoryComponent implements OnInit {
 
   ngOnInit() {
     this.getData();
+  }
+
+  isTextLargerThanLimit(text: string): boolean {
+    return text === null ? false : (text.length > this.LENGTH_LIMIT);
+  }
+
+  getTitleForExpandable(): string {
+    return 'Click to see element';
   }
 
   private getData() {
@@ -108,8 +116,6 @@ export class HistoryComponent implements OnInit {
     this.sortedData = this.historyRecords.slice().sort(this.dateSortAsc);
   }
 
-
-
   private dateSortAsc = (date1, date2) => {
     if (date1 > date2) {
       return 1;
@@ -118,7 +124,7 @@ export class HistoryComponent implements OnInit {
       return -1;
     }
     return 0;
-  }
+  };
 
   private dateSortDesc = (date1, date2) => {
     if (date1 > date2) {
@@ -128,13 +134,6 @@ export class HistoryComponent implements OnInit {
       return 1;
     }
     return 0;
-  }
+  };
 
-  isTextLargerThanLimit(text: string): boolean {
-    return text === null ? false : (text.length > this.LENGTH_LIMIT);
-  }
-
-  getTitleForExpandable(): string {
-    return 'Click to see element';
-  }
 }

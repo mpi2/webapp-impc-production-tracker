@@ -21,7 +21,6 @@ export class ListControlsComponent implements OnInit, OnDestroy {
 
   currentSelectedEditMode = false;
   newEditMode = 'edit';
-
   currentFilters: any = {};
   filterChangesSubscription;
   messageSubscription;
@@ -36,13 +35,6 @@ export class ListControlsComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.filterChangesSubscription.unsubscribe();
-  }
-
-  private subscribeToFilterChanges() {
-    this.filterChangesSubscription =
-      this.filterService.filterChange.subscribe(filters => {
-        this.currentFilters = filters;
-      });
   }
 
   checkEditable() {
@@ -73,6 +65,14 @@ export class ListControlsComponent implements OnInit, OnDestroy {
 
   emitDownloadCsvEvent() {
     this.exportOptionSelected.emit();
+  }
+
+
+  private subscribeToFilterChanges() {
+    this.filterChangesSubscription =
+      this.filterService.filterChange.subscribe(filters => {
+        this.currentFilters = filters;
+      });
   }
 
 }

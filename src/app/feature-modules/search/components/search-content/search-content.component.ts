@@ -17,15 +17,15 @@ export class SearchContentComponent implements OnInit, OnDestroy {
 
   @Input() search: Search;
   @Output() errorMessageChanged = new EventEmitter<string>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   dataSource: SearchResult[];
   sort: Sort = { property: 'tpn', direction: 'ASC'};
+  // eslint-disable-next-line id-blacklist
   page: Page = { number: 0, size: 20, sorts: [this.sort]};
   isLoading = true;
   displayedColumns: string[] = [];
   searchSubscription: Subscription;
-
-  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     private loggedUserService: LoggedUserService,
@@ -40,24 +40,13 @@ export class SearchContentComponent implements OnInit, OnDestroy {
     this.searchSubscription.unsubscribe();
   }
 
-  private resetPage() {
-    this.page.number = 0;
-    this.paginator.pageIndex = 0;
-  }
-
-  private subscribeToSearchChanges() {
-    this.searchSubscription = this.searchService.searchChange.subscribe((search: Search) => {
-      this.resetPage();
-      this.getPage(this.page, search);
-    });
-  }
-
   /**
    * Search projects using a set of filters
+   *
    * @param page Pagination parameters
    * @param filters Filters to apply in the search
    */
-  public getPage(page: Page, search: Search): void {
+   public getPage(page: Page, search: Search): void {
     this.isLoading = true;
     if (!this.loggedUserService.getLoggerUser()) {
       this.search.filters.privacyNames = ['public'];
@@ -72,15 +61,6 @@ export class SearchContentComponent implements OnInit, OnDestroy {
     });
   }
 
-  private processResponseData(data: SearchResult[]) {
-    /* tslint:disable:no-string-literal */
-    this.dataSource = data['results'];
-    this.dataSource.map(x => this.buildSearchResultComments(x));
-    this.refreshVisibleColumns();
-    this.page = data['page'];
-    /* tslint:enable:no-string-literal */
-  }
-
   buildSearchResultComments(searchResult: SearchResult): void {
     const result = [];
     result.push(searchResult.comment);
@@ -88,6 +68,44 @@ export class SearchContentComponent implements OnInit, OnDestroy {
       result.push('No projects found');
     }
     searchResult.searchResultComments = result;
+  }
+
+  public getTargetText(projectIntention: ProjectIntention): string {
+    let text = '';
+    const intentionByGene = projectIntention.intentionByGene;
+    if (intentionByGene && intentionByGene.gene) {
+      text = intentionByGene.gene.symbol;
+      return text;
+    }
+  }
+
+  public onPaginatorChanged(paginator: MatPaginator) {
+    // eslint-disable-next-line id-blacklist
+    this.page.number = paginator.pageIndex;
+    this.page.size = paginator.pageSize;
+    this.getPage(this.page, this.search);
+  }
+
+  private resetPage() {
+    // eslint-disable-next-line id-blacklist
+    this.page.number = 0;
+    this.paginator.pageIndex = 0;
+  }
+
+  private subscribeToSearchChanges() {
+    this.searchSubscription = this.searchService.searchChange.subscribe((search: Search) => {
+      this.resetPage();
+      this.getPage(this.page, search);
+    });
+  }
+
+  private processResponseData(data: SearchResult[]) {
+    /* eslint-disable @typescript-eslint/dot-notation */
+    this.dataSource = data['results'];
+    this.dataSource.map(x => this.buildSearchResultComments(x));
+    this.refreshVisibleColumns();
+    this.page = data['page'];
+    /* eslint-enable @typescript-eslint/dot-notation */
   }
 
   private refreshVisibleColumns(): void {
@@ -135,21 +153,6 @@ export class SearchContentComponent implements OnInit, OnDestroy {
 
   private updateErrorMessage(error) {
     this.errorMessageChanged.emit(error);
-  }
-
-  public getTargetText(projectIntention: ProjectIntention): string {
-    let text = '';
-    const intentionByGene = projectIntention.intentionByGene;
-    if (intentionByGene && intentionByGene.gene) {
-      text = intentionByGene.gene.symbol;
-      return text;
-    }
-  }
-
-  public onPaginatorChanged(paginator: MatPaginator) {
-    this.page.number = paginator.pageIndex;
-    this.page.size = paginator.pageSize;
-    this.getPage(this.page, this.search);
   }
 
 }

@@ -15,9 +15,10 @@ import { ProjectCreation } from '../model/project-creation';
 })
 export class ProjectService {
 
-  private apiServiceUrl;
   filterChange: EventEmitter<ProjectFilter> = new EventEmitter();
   filter: ProjectFilter;
+
+  private apiServiceUrl;
   private config$: Observable<AssetConfiguration>;
 
   constructor(
@@ -71,6 +72,7 @@ export class ProjectService {
 
   /**
    * Gets the history of the changes for a project.
+   *
    * @param tpn The identifier for the project.
    */
   getHistoryByTpn(tpn: string) {

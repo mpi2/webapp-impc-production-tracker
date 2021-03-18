@@ -12,9 +12,7 @@ export class ErrorInterceptor implements HttpInterceptor {
     constructor(private authenticationService: AuthenticationService, private router: Router) { }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        return next.handle(request).pipe(catchError(err => {
-            return this.handleError(err);
-        }));
+        return next.handle(request).pipe(catchError(err => this.handleError(err)));
     }
 
     handleError(errorResponse: HttpErrorResponse) {
@@ -55,19 +53,19 @@ export class ErrorInterceptor implements HttpInterceptor {
         return apiError;
     }
 
-    isUnauthorisedError(error): boolean {
+    private isUnauthorisedError(error): boolean {
         return error.status === 401;
     }
 
-    isForbiddenError(error): boolean {
+    private isForbiddenError(error): boolean {
         return error.status === 403;
     }
 
-    isNotFoundError(error): boolean {
+    private isNotFoundError(error): boolean {
         return error.status === 404;
     }
 
-    hasApiErrorFormat(error): boolean {
+    private hasApiErrorFormat(error): boolean {
         const errorObject = JSON.parse(error);
         return errorObject.apierror;
     }

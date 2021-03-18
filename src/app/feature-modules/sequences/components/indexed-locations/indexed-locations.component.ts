@@ -84,13 +84,12 @@ export class IndexedLocationsComponent implements OnInit {
     }
   }
 
+  onChange(indexedLocation: IndexedLocation) {
+    indexedLocation = this.fixFormat(indexedLocation);
+  }
 
   private isNewRecord(indexedLocation: IndexedLocation) {
     return indexedLocation.id == null;
-  }
-
-  onChange(indexedLocation: IndexedLocation) {
-    indexedLocation = this.fixFormat(indexedLocation);
   }
 
   private fixFormat(indexedLocation: IndexedLocation) {

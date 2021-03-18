@@ -14,9 +14,7 @@ import { BASE_API_URL_TOKEN } from 'src/app/injectors';
 export class ConfigurationDataService {
 
   private cache$: Observable<ConfigurationData>;
-
   private apiServiceUrl;
-  readonly CONFIGURATIONKEY = 'conf';
 
   constructor(
     @Inject(BASE_API_URL_TOKEN) public baseUrl: string,

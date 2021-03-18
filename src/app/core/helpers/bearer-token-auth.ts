@@ -15,6 +15,7 @@ export class BearerTokenAuth implements HttpInterceptor {
         if (token) {
             request = request.clone({
                 setHeaders: {
+                    // eslint-disable-next-line @typescript-eslint/naming-convention
                     Authorization: `Bearer ${token}`
                 }
             });

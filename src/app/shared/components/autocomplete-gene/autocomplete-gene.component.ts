@@ -14,15 +14,16 @@ import { MatChipInputEvent } from '@angular/material/chips';
 export class AutocompleteGeneComponent implements OnInit {
   @Input() symbols: string[];
   @Output() symbolSelectedEmmiter = new EventEmitter<string[]>();
+  @ViewChild('geneInput') geneInput: ElementRef<HTMLInputElement>;
+  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
+
   options: string[] = [];
   filteredOptions: Observable<string[]> = of([]);
   genesCtrl = new FormControl();
   separatorKeysCodes: number[] = [ENTER, COMMA];
-
-  @ViewChild('geneInput') geneInput: ElementRef<HTMLInputElement>;
-  @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
   constructor(private geneService: GeneService) { }
 
@@ -39,11 +40,6 @@ export class AutocompleteGeneComponent implements OnInit {
     } else {
       this.filteredOptions = of(this.filter(value));
     }
-  }
-
-  private filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   resetGeneSymbolValuesIfNeeded(value: string) {
@@ -81,17 +77,6 @@ export class AutocompleteGeneComponent implements OnInit {
     }
   }
 
-  // Add the new gene object to the current record (if it does not exist already)
-  private addGeneToList(label: string) {
-    if (!this.symbols) {
-      this.symbols = [];
-    }
-    const alreadyExistingGene = this.symbols.find(x => x === label);
-    if (!alreadyExistingGene) {
-      this.symbols.push(label);
-    }
-  }
-
   selected(event: MatAutocompleteSelectedEvent): void {
     this.addGeneToList(event.option.viewValue);
     this.geneInput.nativeElement.value = '';
@@ -102,6 +87,22 @@ export class AutocompleteGeneComponent implements OnInit {
   remove(label: string) {
     this.removeGeneFromList(label);
     this.symbolSelectedEmmiter.emit(this.symbols);
+  }
+
+  private filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.options.filter(option => option.toLowerCase().includes(filterValue));
+  }
+
+  // Add the new gene object to the current record (if it does not exist already)
+  private addGeneToList(label: string) {
+    if (!this.symbols) {
+      this.symbols = [];
+    }
+    const alreadyExistingGene = this.symbols.find(x => x === label);
+    if (!alreadyExistingGene) {
+      this.symbols.push(label);
+    }
   }
 
   private removeGeneFromList(label: string) {

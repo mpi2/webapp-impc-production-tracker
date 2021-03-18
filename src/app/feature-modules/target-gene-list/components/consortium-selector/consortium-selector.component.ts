@@ -11,12 +11,12 @@ import { MessageService } from 'src/app/core/services/message.service';
 })
 export class ConsortiumSelectorComponent implements OnInit {
 
+  @Output() updatePermissionSet = new EventEmitter<boolean>();
+
   user: User = undefined;
   currentConsortium: string = undefined;
   consortia: NamedValue[] = [];
   canUpdateList = false;
-
-  @Output() updatePermissionSet = new EventEmitter<boolean>();
 
   constructor(
     private managedListsService: ManagedListsService,

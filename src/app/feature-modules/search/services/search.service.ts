@@ -13,9 +13,11 @@ import { QueryBuilderService } from 'src/app/core';
     providedIn: 'root'
 })
 export class SearchService {
-    private apiServiceUrl;
+
     searchChange: EventEmitter<Search> = new EventEmitter();
     public search: Search;
+
+    private apiServiceUrl;
 
     constructor(
         private http: HttpClient,
@@ -40,6 +42,29 @@ export class SearchService {
             return this.executeSearchByText(search, queryAsParameters);
         } else if (search.searchInput.type === SearchInputType.File) {
             return this.executeSearchByFile(search, queryAsParameters);
+        }
+    }
+
+    buildFilterParameters(filters: SearchFilter) {
+        const filterParameters = [];
+        if (filters) {
+            Object.keys(filters).map(key => {
+                const content = filters[key];
+                if (content && content.length > 0) {
+                    const filterContent = key + '=' + content.join(',');
+                    filterParameters.push(filterContent);
+                }
+
+            });
+        }
+        return filterParameters.join('&');
+    }
+
+    public exportCsv(search: Search) {
+        if (this.isSearchByText(search)) {
+            return this.exportCsvForTextInputSearch(search);
+        } else if (this.isSearchByFile(search)) {
+            return this.exportCsvForFileInputSearch(search);
         }
     }
 
@@ -80,35 +105,12 @@ export class SearchService {
         return formData;
     }
 
-    buildFilterParameters(filters: SearchFilter) {
-        const filterParameters = [];
-        if (filters) {
-            Object.keys(filters).map(key => {
-                const content = filters[key];
-                if (content && content.length > 0) {
-                    const filterContent = key + '=' + content.join(',');
-                    filterParameters.push(filterContent);
-                }
-
-            });
-        }
-        return filterParameters.join('&');
-    }
-
     private isSearchByText(search: Search) {
         return search.searchInput.type === SearchInputType.Text;
     }
 
     private isSearchByFile(search: Search) {
         return search.searchInput.type === SearchInputType.File;
-    }
-
-    public exportCsv(search: Search) {
-        if (this.isSearchByText(search)) {
-            return this.exportCsvForTextInputSearch(search);
-        } else if (this.isSearchByFile(search)) {
-            return this.exportCsvForFileInputSearch(search);
-        }
     }
 
     private exportCsvForTextInputSearch(search: Search) {

@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ProjectService } from '../../services/project.service';
@@ -68,6 +69,54 @@ export class ProjectDetailComponent implements OnInit {
     this.coloniesExist();
   }
 
+  shouldUpdateBeEnabled(): boolean {
+    return this.originalProjectAsString !== JSON.stringify(this.project);
+  }
+
+  sortByPid(plans: Plan[]): Plan[] {
+    plans.sort((a, b) => {
+      const nameA = a.pin;
+      const nameB = b.pin;
+      if (nameA < nameB) {
+        return -1;
+      }
+      if (nameA > nameB) {
+        return 1;
+      }
+      return 0;
+    });
+    return plans;
+  }
+
+  onAddPlan() {
+
+  }
+
+  onTextCommentChanged(e): void {
+    const newComments = this.projectForm.get('comments').value;
+    this.project.comment = newComments;
+  }
+
+  onItemSelect(e): void {
+    this.project.privacyName = e;
+  }
+
+  updateProject(): void {
+    this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
+      if (changeResponse && changeResponse.history.length > 0) {
+        this.changeDetails = changeResponse.history[0];
+        this.snackBar.openFromComponent(UpdateNotificationComponent, {
+          duration: 3000,
+          data: this.changeDetails
+        });
+      }
+      this.error = null;
+    }, error => {
+      this.error = error;
+    });
+    this.coloniesExist();
+  }
+
   private setFormValues(): void {
     this.projectForm.get('comments').setValue(this.project.comment);
     this.selectedPrivacy = [{ name: this.project.privacyName }];
@@ -78,13 +127,13 @@ export class ProjectDetailComponent implements OnInit {
     this.productionPlansDetails.forEach(plan => {
       console.log('pin => ', plan);
       this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
-        /* tslint:disable:no-string-literal */
+        /* eslint-disable @typescript-eslint/dot-notation */
         console.log('data => ', data);
         if (data['_embedded']) {
           this.outcomes.push(data['_embedded']['outcomes']);
           console.log('outcomes => ', this.outcomes);
         }
-        /* tslint:enable:no-string-literal */
+        /* eslint-enable @typescript-eslint/dot-notation */
       }, error => {
         this.error = error;
         console.log(error);
@@ -119,7 +168,7 @@ export class ProjectDetailComponent implements OnInit {
     });
   }
 
-  loadPermissions(): void {
+  private loadPermissions(): void {
     if (this.loggedUserService.getLoggerUser()) {
       this.permissionsService.evaluatePermissionByActionOnResource(
         PermissionsService.UPDATE_PROJECT_ACTION, this.project.tpn).subscribe(canUpdateProject => {
@@ -173,54 +222,6 @@ export class ProjectDetailComponent implements OnInit {
         });
       });
     }
-  }
-
-  onTextCommentChanged(e): void {
-    const newComments = this.projectForm.get('comments').value;
-    this.project.comment = newComments;
-  }
-
-  onItemSelect(e): void {
-    this.project.privacyName = e;
-  }
-
-  updateProject(): void {
-    this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
-      if (changeResponse && changeResponse.history.length > 0) {
-        this.changeDetails = changeResponse.history[0];
-        this.snackBar.openFromComponent(UpdateNotificationComponent, {
-          duration: 3000,
-          data: this.changeDetails
-        });
-      }
-      this.error = null;
-    }, error => {
-      this.error = error;
-    });
-    this.coloniesExist();
-  }
-
-  shouldUpdateBeEnabled(): boolean {
-    return this.originalProjectAsString !== JSON.stringify(this.project);
-  }
-
-  sortByPid(plans: Plan[]): Plan[] {
-    plans.sort((a, b) => {
-      const nameA = a.pin;
-      const nameB = b.pin;
-      if (nameA < nameB) {
-        return -1;
-      }
-      if (nameA > nameB) {
-        return 1;
-      }
-      return 0;
-    });
-    return plans;
-  }
-
-  onAddPlan() {
-
   }
 
 }

@@ -74,17 +74,6 @@ export class SearchComponent implements OnInit, OnDestroy {
 
   }
 
-  private subscribeToFilterChanges() {
-    this.filterChangesSubscription = this.filterService.filterChange.subscribe(filters => {
-      this.filters = filters;
-      this.currentSearch.filters = filters;
-      const validatedFilters = this.filterService.buildValidFilter(filters);
-
-      this.updateUrlWithFilters(validatedFilters);
-      this.searchService.emitSearchChange(this.currentSearch);
-    });
-  }
-
   setInitialSearchInformation() {
     this.currentSearch.searchType = SearchType.Gene;
     const searchInput: SearchInput = new SearchInput();
@@ -111,43 +100,43 @@ export class SearchComponent implements OnInit, OnDestroy {
       {
         title: 'TPN',
         name: 'tpn',
-        type: FilterType.Text
+        type: FilterType.text
       },
       {
         title: 'Allele Intention',
         name: 'intentionTypeName',
-        type: FilterType.Checkboxes,
+        type: FilterType.checkboxes,
         dataSource: intentionNames
       },
       {
         title: 'Work Unit',
         name: 'workUnitName',
-        type: FilterType.Checkboxes,
+        type: FilterType.checkboxes,
         dataSource: workUnitNames
       },
       {
         title: 'Work Group',
         name: 'workGroupName',
-        type: FilterType.Checkboxes,
+        type: FilterType.checkboxes,
         dataSource: workGroupNames
       },
       {
         title: 'Consortium',
         name: 'consortiumName',
-        type: FilterType.Checkboxes,
+        type: FilterType.checkboxes,
         dataSource: consortiaNames
       },
       {
         title: 'Privacy',
         name: 'privacyName',
-        type: FilterType.Checkboxes,
+        type: FilterType.checkboxes,
         dataSource: privaciesNames
       }
       ,
       {
         title: 'Summary Status',
         name: 'summaryStatusName',
-        type: FilterType.Checkboxes,
+        type: FilterType.checkboxes,
         dataSource: summaryStatuses
       }
     ];
@@ -156,17 +145,6 @@ export class SearchComponent implements OnInit, OnDestroy {
   onSearchDefined(e) {
     this.currentSearch.searchInput = e;
     this.searchService.emitSearchChange(this.currentSearch);
-  }
-
-  private updateUrlWithFilters(filters) {
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.activatedRoute,
-        queryParams: filters,
-        replaceUrl: true
-      }
-    );
   }
 
   downloadCsv() {
@@ -192,13 +170,6 @@ export class SearchComponent implements OnInit, OnDestroy {
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
-  }
-
-  private buildSearch() {
-    if (!this.loggedUserService.getLoggerUser()) {
-      this.currentSearch.filters.privacy = ['public'];
-    }
-    return this.currentSearch;
   }
 
   buildSearchResultComments(searchResult: SearchResult): void {
@@ -227,4 +198,34 @@ export class SearchComponent implements OnInit, OnDestroy {
     const currentParameters = this.activatedRoute.snapshot.queryParams;
     this.filtersInitialValues = currentParameters;
   }
+
+  private subscribeToFilterChanges() {
+    this.filterChangesSubscription = this.filterService.filterChange.subscribe(filters => {
+      this.filters = filters;
+      this.currentSearch.filters = filters;
+      const validatedFilters = this.filterService.buildValidFilter(filters);
+
+      this.updateUrlWithFilters(validatedFilters);
+      this.searchService.emitSearchChange(this.currentSearch);
+    });
+  }
+
+  private buildSearch() {
+    if (!this.loggedUserService.getLoggerUser()) {
+      this.currentSearch.filters.privacy = ['public'];
+    }
+    return this.currentSearch;
+  }
+
+  private updateUrlWithFilters(filters) {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.activatedRoute,
+        queryParams: filters,
+        replaceUrl: true
+      }
+    );
+  }
+
 }

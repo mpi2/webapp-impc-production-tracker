@@ -52,6 +52,7 @@ export class ProductionPlanComponent implements OnInit {
   reloadForPin(pin: string) {
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = this.planAdapter.adapt(data);
+      // eslint-disable-next-line no-underscore-dangle
       const projectUrl = this.plan._links.project.href;
       this.loadProject(projectUrl);
       this.loadOutcomes();
@@ -74,7 +75,7 @@ export class ProductionPlanComponent implements OnInit {
 
   loadOutcomes() {
     this.outcomeService.getOutcomesByPin(this.plan.pin).subscribe(data => {
-      /* tslint:disable:no-string-literal */
+      /* eslint-disable @typescript-eslint/dot-notation */
       if (data['_embedded']) {
         this.outcomes = data['_embedded']['outcomes'];
         this.outcomes.forEach(x => {
@@ -82,7 +83,7 @@ export class ProductionPlanComponent implements OnInit {
           this.loadMutationsByOutcomes(x);
         });
       }
-      /* tslint:enable:no-string-literal */
+      /* eslint-enable @typescript-eslint/dot-notation */
     }, error => {
       this.error = error;
       console.log(error);
@@ -91,11 +92,11 @@ export class ProductionPlanComponent implements OnInit {
 
   loadMutationsByOutcomes(outcome: Outcome) {
     this.outcomeService.getMutationsByPinAndTpn(this.plan.pin, outcome.tpo).subscribe(data => {
-      /* tslint:disable:no-string-literal */
+      /* eslint-disable @typescript-eslint/dot-notation */
       if (data['_embedded']) {
         outcome.mutations = data['_embedded']['mutations'];
       }
-      /* tslint:enable:no-string-literal */
+      /* eslint-enable @typescript-eslint/dot-notation */
     }, error => {
       this.error = error;
       console.log(error);
@@ -126,6 +127,14 @@ export class ProductionPlanComponent implements OnInit {
     }
   }
 
+  enableUpdateButton() {
+    return this.planHasChanged();
+  }
+
+  planHasChanged() {
+    return this.originalPlanAsString !== JSON.stringify(this.plan);
+  }
+
   /**
    * Updates the plan
    */
@@ -150,14 +159,6 @@ export class ProductionPlanComponent implements OnInit {
           this.error = error;
         }
       );
-  }
-
-  enableUpdateButton() {
-    return this.planHasChanged();
-  }
-
-  planHasChanged() {
-    return this.originalPlanAsString !== JSON.stringify(this.plan);
   }
 
 }

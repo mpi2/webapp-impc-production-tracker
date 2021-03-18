@@ -142,6 +142,7 @@ export class PhenotypingStageDetailsComponent implements OnInit {
       this.loading = false;
       this.originalphenotypingStageAsString = JSON.stringify(this.phenotypingStage);
       this.showChangeNotification(changeResponse);
+      // eslint-disable-next-line no-underscore-dangle
       const link: string = changeResponse._links.self.href;
       const psn = link.substring(link.lastIndexOf('/') + 1);
       this.reloadForPsn(psn);

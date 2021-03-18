@@ -200,12 +200,11 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
-  private isNewRecord(indexedSequence: IndexedSequence) {
-    return indexedSequence.id == null;
-  }
-
   onDescriptionChanged(e) {
     this.mutation.description = this.inputHandlerService.getValueOrNull(e.target.value);
+  }
+  private isNewRecord(indexedSequence: IndexedSequence) {
+    return indexedSequence.id == null;
   }
 
 }

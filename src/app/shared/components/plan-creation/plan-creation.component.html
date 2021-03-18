@@ -1,84 +1,119 @@
-<div *ngIf="error && !projectCreation" class="alert alert-danger">{{error}}</div>
+<div *ngIf="error && !projectCreation" class="alert alert-danger">{{ error }}</div>
 <mat-card>
     <mat-card-title>
         Plan Creation
     </mat-card-title>
     <mat-card-content>
-
         <div class="fieldsSection">
             <label *ngIf="planCreation" for="tpo">Project id:</label>
             <div *ngIf="planCreation" id="tpo"><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></div>
-
+            <br>
+            
             <label for="planType">Plan Type *:</label>
-
             <div *ngIf="preSelectedPlanType; then readOnlyPlanType else editablePlanType"></div>
             <ng-template #readOnlyPlanType>
-                {{ preSelectedPlanType}}
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-label>{{ preSelectedPlanType }}</mat-label>
+                        <input matInput>
+                    </mat-form-field>
+                </div>
             </ng-template>
             <ng-template #editablePlanType>
-                <mat-select (selectionChange)="onPlanTypeSelected($event)" class="content" [(ngModel)]="plan.typeName"
-                    [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let planType of planTypes" [value]="planType.name">
-                        {{planType.name}}
-                    </mat-option>
-                </mat-select>
+                <div>
+                    <mat-form-field appearance="fill">
+                        <mat-select (selectionChange)="onPlanTypeSelected($event)" class="content" [(ngModel)]="plan.typeName"
+                            [ngModelOptions]="{standalone: true}">
+                            <mat-option *ngFor="let planType of planTypes" [value]="planType.name">
+                                {{ planType.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
             </ng-template>
 
-            <label for="attemtpType">Attempt Type *:</label>
-            <mat-select id="attemtpType" (selectionChange)="onAttemptTypeSelected($event)" class="content"
-                [(ngModel)]="plan.attemptTypeName" [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let attemptType of filteredAttemptTypesByPlanType" [value]="attemptType.name">
-                    {{attemptType.name}}
-                </mat-option>
-            </mat-select>
+            <div>
+                <label for="attemtpType">Attempt Type *:</label>
+                <mat-form-field appearance="fill">
+                    <mat-select id="attemtpType" (selectionChange)="onAttemptTypeSelected($event)" class="content"
+                        [(ngModel)]="plan.attemptTypeName" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let attemptType of filteredAttemptTypesByPlanType" [value]="attemptType.name">
+                            {{ attemptType.name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
             <!-- Starting Point section. Only available for phenotyping plans -->
             <div id="startingPoint" *ngIf="plan.typeName === 'phenotyping'">
                 <label for="startingPoint">Starting point (Outcome id) *:</label>
-                <mat-select class="content" [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo"
-                    [ngModelOptions]="{standalone: true}">
-                    <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.tpo">
-                        {{startingPoint.tpo + ' (' + startingPoint.externalReference + ')' }}
-                    </mat-option>
-                </mat-select>
-
+                <mat-form-field appearance="fill">
+                    <mat-select class="content" [(ngModel)]="plan.phenotypingStartingPoint.outcomeTpo"
+                        [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.tpo">
+                            {{startingPoint.tpo + ' (' + startingPoint.externalReference + ')' }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
             </div>
 
-            <label for="workUnit">Work Unit *:</label>
-            <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" class="content"
-                [(ngModel)]="plan.workUnitName" [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
-                    {{workUnit.name}}
-                </mat-option>
-            </mat-select>
+            <div>
+                <label for="workUnit">Work Unit *:</label>
+                <mat-form-field appearance="fill">
+                    <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" class="content"
+                        [(ngModel)]="plan.workUnitName" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
+                            {{workUnit.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
+            <div>
             <label for="workGroup">Work Group *:</label>
-            <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup" class="content"
-                [(ngModel)]="plan.workGroupName" [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let workGroup of filteredWorkGroupsByWorkUnit" [value]="workGroup.name">
-                    {{workGroup.name}}
-                </mat-option>
-            </mat-select>
+                <mat-form-field appearance="fill">
+                    <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup" class="content"
+                        [(ngModel)]="plan.workGroupName" [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let workGroup of filteredWorkGroupsByWorkUnit" [value]="workGroup.name">
+                            {{workGroup.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-            <label for="workGroup">Funders:</label>
-            <mat-select multiple id="workGroup" class="content" [(ngModel)]="plan.funderNames"
-                [ngModelOptions]="{standalone: true}">
-                <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
-                    {{funder.name}}
-                </mat-option>
-            </mat-select>
+            <div>
+                <label for="workGroup">Funders:</label>
+                <mat-form-field appearance="fill">
+                    <mat-select multiple id="workGroup" class="content" [(ngModel)]="plan.funderNames"
+                        [ngModelOptions]="{standalone: true}">
+                        <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
+                            {{funder.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
-            <label for="comment">Comment:</label>
+            <div>
+                <label for="comment">Comment:</label>
+                <mat-form-field appearance="fill" id="comment" >
+                    <textarea matInput [(ngModel)]="plan.comment" [ngModelOptions]="{standalone: true}"></textarea>
+                </mat-form-field>
+            </div>
+        </div>
 
-            <mat-form-field appearance="fill" id="comment" class="content">
-                <textarea matInput [(ngModel)]="plan.comment" [ngModelOptions]="{standalone: true}"></textarea>
-            </mat-form-field>
+        <div id="nuclease" *ngIf="plan.attemptTypeName === 'crispr'">
+            <!-- Nuclease section. Only available for production crispr plans -->
+            <app-nuclease [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-nuclease>
 
+            <!-- Guides section. Only available for production crispr plans -->
+            <app-guides [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-guides>
         </div>
 
         <mat-card *ngIf="planCreation" class="update-button">
             <mat-card-content>
                 <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
+                <br>
+                <span style="font-size: 10px; ">* required fields</span>
                 <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
                 </mat-spinner>
             </mat-card-content>

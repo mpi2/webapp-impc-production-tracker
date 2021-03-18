@@ -25,30 +25,27 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() canUpdateList;
   @Input() currentSelectedEditMode;
   @Output() errorEventEmitter = new EventEmitter<string>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   currentConsortium;
+  isLoading;
+  isDownloading;
+  error;
 
   dataSource: GeneListRecord[] = [];
   recordIdsToDelete = [];
-  error;
   lastNewId = -1;
-  private originalDataAsString: string;
-  private originalRecordsStrings: Map<number, string> = new Map();
-  isLoading;
-  isDownloading;
-
   configurationData: ConfigurationData;
-
   recordTypesByConsortium = new Map<string, NamedValue[]>();
-
   filteredRecordTypes: NamedValue[];
-
   messageSubscription;
 
   sort: Sort = { property: 'id', direction: 'ASC' };
+  // eslint-disable-next-line id-blacklist
   page: Page = { number: 0, size: 20, sorts: [this.sort] };
 
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  private originalDataAsString: string;
+  private originalRecordsStrings: Map<number, string> = new Map();
 
   constructor(
     private targetGeneListService: TargetGeneListService,
@@ -84,9 +81,7 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
           this.clearDataSet();
           return this.targetGeneListService.getListByConsortium(this.page, this.currentConsortium, this.filterService.filter);
         }),
-        catchError(() => {
-          return of([]);
-        })
+        catchError(() => of([]))
       )
       .subscribe(data => {
         this.extractDataFromServerResponse(data);
@@ -118,34 +113,6 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
         this.error = error;
       });
     }
-  }
-
-  private clearDataSet() {
-    this.dataSource = [];
-  }
-
-  private extractDataFromServerResponse(data) {
-    if (data) {
-      /* tslint:disable:no-string-literal */
-      if (data['_embedded']) {
-        const records = data['_embedded'].records;
-        this.page = data['page'];
-        /* tslint:enable:no-string-literal */
-        this.getDataSource(records);
-      }
-    } else {
-      this.resetPage();
-      this.dataSource = [];
-    }
-  }
-
-  private getDataSource(geneListRecords: GeneListRecord[]) {
-    this.dataSource = geneListRecords;
-    this.dataSource.forEach(x => {
-      x.tmpId = x.id;
-      this.originalRecordsStrings.set(x.id, JSON.stringify(x));
-    });
-    this.originalDataAsString = JSON.stringify(this.dataSource);
   }
 
   checkEditable() {
@@ -280,12 +247,42 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public onPaginatorChanged(paginator: MatPaginator) {
+    // eslint-disable-next-line id-blacklist
     this.page.number = paginator.pageIndex;
     this.page.size = paginator.pageSize;
     this.getPage(this.page);
   }
 
+  private clearDataSet() {
+    this.dataSource = [];
+  }
+
+  private extractDataFromServerResponse(data) {
+    if (data) {
+      /* eslint-disable @typescript-eslint/dot-notation */
+      if (data['_embedded']) {
+        const records = data['_embedded'].records;
+        this.page = data['page'];
+        /* eslint-enable @typescript-eslint/dot-notation */
+        this.getDataSource(records);
+      }
+    } else {
+      this.resetPage();
+      this.dataSource = [];
+    }
+  }
+
+  private getDataSource(geneListRecords: GeneListRecord[]) {
+    this.dataSource = geneListRecords;
+    this.dataSource.forEach(x => {
+      x.tmpId = x.id;
+      this.originalRecordsStrings.set(x.id, JSON.stringify(x));
+    });
+    this.originalDataAsString = JSON.stringify(this.dataSource);
+  }
+
   private resetPage() {
+    // eslint-disable-next-line id-blacklist
     this.page.number = 0;
     if (this.paginator) {
       this.paginator.pageIndex = 0;

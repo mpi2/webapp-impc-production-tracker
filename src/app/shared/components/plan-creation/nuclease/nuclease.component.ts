@@ -33,7 +33,7 @@ export class NucleaseComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    this.canUpdatePlan = false;
+    // this.canUpdatePlan = false;
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));

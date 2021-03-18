@@ -3,7 +3,11 @@ import { Directive, Input, ElementRef, HostListener } from '@angular/core';
 @Directive({
   selector: '[appDigitOnly]'
 })
+
 export class DigitOnlyDirective {
+  @Input() decimal ? = false;
+  inputElement: HTMLElement;
+
   private decimalCounter = 0;
   private navigationKeys = [
     'Backspace',
@@ -19,8 +23,6 @@ export class DigitOnlyDirective {
     'Copy',
     'Paste'
   ];
-  @Input() decimal ? = false;
-  inputElement: HTMLElement;
 
   constructor(public el: ElementRef) {
     this.inputElement = el.nativeElement;

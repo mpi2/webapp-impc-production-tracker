@@ -21,10 +21,9 @@ import { BASE_API_URL_TOKEN } from 'src/app/injectors';
  */
 export class LoggedUserService {
 
-  private apiServiceUrl;
-
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly TOKEN_INFO_KEY = 'tokenInfo';
-
+  private apiServiceUrl;
   private config$: Observable<AssetConfiguration>;
 
   constructor(
@@ -48,9 +47,7 @@ export class LoggedUserService {
 
   // Returns an object with permissions for the logged user.
   getPermissions() {
-    return this.config$.pipe(mergeMap(response => {
-      return this.http.get<Permission>(this.apiServiceUrl + '/api/permissions');
-    }));
+    return this.config$.pipe(mergeMap(response => this.http.get<Permission>(this.apiServiceUrl + '/api/permissions')));
   }
 
   getAccessToken(): string {
