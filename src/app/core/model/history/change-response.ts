@@ -2,6 +2,6 @@ import { ChangesHistory } from '../..';
 
 export class ChangeResponse {
     history: ChangesHistory[];
-    // tslint:disable-next-line
+    // eslint-disable-next-line
     _links: any;
 }

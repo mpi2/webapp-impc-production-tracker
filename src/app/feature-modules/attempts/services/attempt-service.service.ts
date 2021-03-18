@@ -17,6 +17,7 @@ export class AttemptServiceService {
 
   /**
    * Gets an attempt using a provided url.
+   *
    * @param url Url to get the attempt.
    */
   getAttemptByUrl(url: string) {

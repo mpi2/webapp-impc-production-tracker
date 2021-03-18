@@ -38,17 +38,13 @@ export class AuthGuard implements CanActivate, CanLoad {
 
     canExecuteManagerTasks() {
         return this.loggedUserService.getLoggerUser().pipe(
-            map(data => {
-                return PermissionsService.canExecuteManagerTasks(data);
-            })
+            map(data => PermissionsService.canExecuteManagerTasks(data))
         );
     }
 
     canManageUsers() {
         return this.loggedUserService.getLoggerUser().pipe(
-            map(data => {
-                return PermissionsService.canManageUsers(data);
-            })
+            map(data => PermissionsService.canManageUsers(data))
         );
     }
 

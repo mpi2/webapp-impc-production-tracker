@@ -28,10 +28,12 @@ export class PhenotypingStagesComponent implements OnInit {
   }
 
   fetchPhenotypingStages() {
-    /* tslint:disable:no-string-literal */
+    /* eslint-disable @typescript-eslint/dot-notation */
+    // eslint-disable-next-line no-underscore-dangle
     if (this.phenotypingAttempt._links) {
+      // eslint-disable-next-line no-underscore-dangle
       const links = this.phenotypingAttempt._links.phenotypingStages.map(x => x['href']);
-      /* tslint:enable:no-string-literal */
+      /* eslint-enable @typescript-eslint/dot-notation */
       if (links) {
         links.forEach(x => this.phenotypingStageService.getPhenotypingStageByUrl(x).subscribe(data => {
           this.phenotypingStages.push(data);

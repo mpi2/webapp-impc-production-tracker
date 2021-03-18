@@ -5,11 +5,13 @@ export class Guide {
     pam: string;
     chr: number;
     start: number;
-    end: number;
+    stop: number;
     strand: string;
     genomeBuild: string;
     ensemblExonId: string;
     grnaConcentration: number;
     truncatedGuide: boolean;
     reversed: boolean;
+    formatName: string;
+    sourceName: string;
 }

@@ -11,13 +11,13 @@
                 <div [class.changed]="changed[filter.name]">{{ filter.title }} </div>
             </mat-panel-title>
         </mat-expansion-panel-header>
-        <mat-form-field appearance="fill" *ngIf="filter.type === FilterType.Text">
+        <mat-form-field appearance="fill" *ngIf="filter.type === filterType.text">
             <mat-label *ngIf="filter.label">
                 {{ filter.label }}
             </mat-label>
             <input matInput placeholder="{{ filter.placeholder }}" formControlName="{{ filter.name }}">
         </mat-form-field>
-        <mat-selection-list dense *ngIf="filter.type === FilterType.Checkboxes" formControlName="{{ filter.name }}">
+        <mat-selection-list dense *ngIf="filter.type === filterType.checkboxes" formControlName="{{ filter.name }}">
             <mat-list-option *ngFor="let value of filter.dataSource" color="primary" [value]="value.name">
                 {{ value.name }}
             </mat-list-option>

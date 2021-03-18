@@ -17,6 +17,7 @@ export class PhenotypingStageService {
 
     /**
      * Gets a phenotyping stage by its url
+     *
      * @param url Url to get the phenotyping stage.
      */
     getPhenotypingStageByUrl(url: string) {
@@ -25,6 +26,7 @@ export class PhenotypingStageService {
 
     /**
      * Gets a phenotyping stage by its url
+     *
      * @param url Url to get the phenotyping stage.
      */
     getPhenotypingStageByPinAndPsn(pin: string, psn: string) {
@@ -37,6 +39,7 @@ export class PhenotypingStageService {
 
     /**
      * Creates a phenotyping stage.
+     *
      * @param pin Public plan identifier.
      * @param phenotypingStage Phenotyping stage object.
      */
@@ -46,6 +49,7 @@ export class PhenotypingStageService {
 
     /**
      * Updates a phenotyping stage.
+     *
      * @param pin Public plan identifier.
      * @param phenotypingStage Phenotyping stage object.
      */

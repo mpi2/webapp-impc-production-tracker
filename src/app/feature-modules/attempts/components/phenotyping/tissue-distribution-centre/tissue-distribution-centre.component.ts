@@ -73,14 +73,14 @@ export class TissueDistributionCentreComponent implements OnInit {
 
   }
 
-  private isNewRecord(tissueDistributionCentre: TissueDistributionCentre) {
-    return tissueDistributionCentre.id == null;
-  }
-
   addRow() {
     const tissueDistributionCentre: TissueDistributionCentre = new TissueDistributionCentre();
     tissueDistributionCentre[this.tmpIndexRowName] = this.nextNewId--;
     this.phenotypingStage.tissueDistributions.push(tissueDistributionCentre);
+  }
+
+  private isNewRecord(tissueDistributionCentre: TissueDistributionCentre) {
+    return tissueDistributionCentre.id == null;
   }
 
 }

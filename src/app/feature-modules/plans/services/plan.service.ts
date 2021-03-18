@@ -20,6 +20,7 @@ export class PlanService {
 
   /**
    * Get a plan using its identifier.
+   *
    * @param pin The identifier for the plan.
    */
   getPlanByPin(pin: string) {
@@ -28,6 +29,7 @@ export class PlanService {
 
   /**
    * Get a plan using its identifier.
+   *
    * @param pin The identifier for the plan.
    */
   getPlanByUrl(url: string) {
@@ -36,6 +38,7 @@ export class PlanService {
 
   /**
    * Gets the history of the changes for a plan.
+   *
    * @param pin The identifier for the plan.
    */
   getHistoryByPid(pin: string) {

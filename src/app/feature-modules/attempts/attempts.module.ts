@@ -7,15 +7,13 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { MutagenesisDetailsComponent } from './components/production/crispr/mutagenesis-details/mutagenesis-details.component';
 import { GenotypePrimersComponent } from './components/production/crispr/genotype-primers/genotype-primers.component';
 import { MutagenesisDonorsComponent } from './components/production/crispr/mutagenesis-donors/mutagenesis-donors.component';
-import { GuidesComponent } from './components/production/crispr/guides/guides.component';
 import { PhenotypingAttemptComponent } from './components/phenotyping/phenotyping-attempt/phenotyping-attempt.component';
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { TissueDistributionCentreComponent } from './components/phenotyping/tissue-distribution-centre/tissue-distribution-centre.component';
-import { NucleaseComponent } from './components/production/crispr/nuclease/nuclease.component';
 import { ReagentsComponent } from './components/production/crispr/reagents/reagents.component';
 import { AssayComponent } from './components/production/crispr/assay/assay.component';
 import { InjectionDetailsComponent } from './components/production/crispr/injection-details/injection-details.component';
-// tslint:disable-next-line:max-line-length
+// eslint-disable-next-line max-len
 import { PhenotypingAttemptDetailsComponent } from './components/phenotyping/phenotyping-attempt-details/phenotyping-attempt-details.component';
 import { PhenotypingStagesComponent } from './components/phenotyping/phenotyping-stages/phenotyping-stages.component';
 import { PhenotypingStageDetailsComponent } from './components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
@@ -27,10 +25,8 @@ import { PhenotypingStageDetailsComponent } from './components/phenotyping/pheno
     MutagenesisDetailsComponent,
     GenotypePrimersComponent,
     MutagenesisDonorsComponent,
-    GuidesComponent,
     PhenotypingAttemptComponent,
     TissueDistributionCentreComponent,
-    NucleaseComponent,
     ReagentsComponent,
     AssayComponent,
     InjectionDetailsComponent,

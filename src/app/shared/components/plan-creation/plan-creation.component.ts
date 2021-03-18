@@ -9,6 +9,8 @@ import { User } from 'src/app/core/model/user/user';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ProductionOutcomeSummary } from 'src/app/feature-modules/plans/model/outcomes/production-outcome-summary';
 import { PlanService } from 'src/app/feature-modules/plans';
+import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
+import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 
 @Component({
   selector: 'app-plan-creation',
@@ -43,13 +45,19 @@ export class PlanCreationComponent implements OnInit {
 
   preSelectedPlanType: string;
 
+  nucleases: Nuclease[];
+
+  nucleaseTypes: NamedValue[];
+  nucleaseClases: NamedValue[];
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private loggedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService,
     private projectService: ProjectService,
-    private planService: PlanService) { }
+    private planService: PlanService
+  ) { }
 
   ngOnInit(): void {
     if (!this.projectCreation) {
@@ -84,6 +92,8 @@ export class PlanCreationComponent implements OnInit {
       this.configurationData = data;
       this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
+      this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
+      this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
 
       Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {
         const list = this.configurationData.workGroupsByWorkUnits[key];
@@ -156,6 +166,9 @@ export class PlanCreationComponent implements OnInit {
   }
 
   onAttemptTypeSelected(e) {
+    if (e.value === 'crispr') {
+      this.plan.crisprAttempt = new CrisprAttempt();
+    }
   }
 
   onWorkUnitChanged(e) {
@@ -168,9 +181,14 @@ export class PlanCreationComponent implements OnInit {
   }
 
   create() {
+    console.log('nucleases => ', this.plan.crisprAttempt.nucleases);
+    console.log('guides => ', this.plan.crisprAttempt.guides);
+    this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+
     this.loading = true;
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;
+      // eslint-disable-next-line no-underscore-dangle
       const link: string = changeResponse._links.self.href;
       const pin = link.substring(link.lastIndexOf('/') + 1);
       this.router.navigate(['/projects/' + this.tpn + '/plan/' + pin]);
@@ -178,6 +196,10 @@ export class PlanCreationComponent implements OnInit {
       this.error = error;
       this.loading = false;
     });
+  }
+
+  private setIdNull(object) {
+    object.id = null;
   }
 
 }

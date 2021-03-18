@@ -42,4 +42,6 @@ export class ConfigurationData {
     phenotypingStagesTypes: string[];
     phenotypingStagesTypesByAttemptTypes: Map<string, any[]>;
     recordTypesByConsortium: Map<string, any[]>;
+    guideFormatNames: string[];
+    guideSourceNames: string[];
 }

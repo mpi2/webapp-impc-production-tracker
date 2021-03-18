@@ -31,7 +31,7 @@ export class Plan {
     statusTransition: StatusTransition;
     // Applies only to phenotyping plans
     phenotypingStartingPoint: PhenotypingStartingPoint;
-    // tslint:disable-next-line
+    // eslint-disable-next-line
     _links: any;
 }
 

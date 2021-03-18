@@ -1,0 +1,65 @@
+<mat-card>
+    <mat-card-subtitle>Nucleases</mat-card-subtitle>
+    <mat-card-content>
+        <table class="mat-elevation-z8">
+            <tr>
+                <th>Type</th>
+                <th>Class</th>
+                <th>Concentration (ng/µl)</th>
+                <th></th>
+            </tr>
+            <ng-template ngFor let-nuclease [ngForOf]="dataSource">
+                <div *ngIf="canUpdatePlan; then editableRow else readOnlyRow">
+                </div>
+                <ng-template #editableRow>
+                    <tr>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select (selectionChange)="onNucleaseChanged(nuclease)" [(value)]="nuclease.typeName">
+                                    <mat-option *ngFor="let nucleaseType of nucleaseTypes" [value]="nucleaseType.name">
+                                        {{nucleaseType.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select (selectionChange)="onNucleaseChanged(nuclease)" [(value)]="nuclease.className">
+                                    <mat-option *ngFor="let nucleaseClase of nucleaseClases" [value]="nucleaseClase.name">
+                                        {{nucleaseClase.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <input matInput appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"	
+                                #concentration="ngModel" [(ngModel)]="nuclease.concentration"
+                                (keyup)="onNucleaseChanged(nuclease)"
+                                [ngModelOptions]="{standalone: true}">	
+                            </mat-form-field>
+                        </td>
+
+                    </tr>
+
+                </ng-template>
+                <ng-template #readOnlyRow>
+                    <tr>
+                        <td>
+                            {{ nuclease.typeName || "Not defined" }}
+                        </td>
+                        <td>
+                            {{ nuclease.className || "Not defined" }}
+                        </td>
+                        <td>
+                            {{ nuclease.concentration || "Not defined" }}	
+                          </td>
+
+                    </tr>
+                </ng-template>
+            </ng-template>
+
+        </table>
+
+    </mat-card-content>
+</mat-card>

@@ -9,8 +9,8 @@ import { of } from 'rxjs';
 })
 export class GeneService {
 
+  readonly likeCharacter = '%25';
   private apiServiceUrl;
-  readonly LIKE_CHARACTER = '%25';
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
     this.configAssetLoaderService.getConfig().then(data => this.apiServiceUrl = data.appServerUrl);
@@ -22,7 +22,7 @@ export class GeneService {
 
   findGenesNamesStartingWith(symbol: string) {
     if (symbol.length >= 3) {
-      const input = symbol + this.LIKE_CHARACTER;
+      const input = symbol + this.likeCharacter;
 
       return this.http.get<string[]>(this.apiServiceUrl + '/api/genesNamesInExternalData?input=' + input);
     } else {
@@ -32,7 +32,7 @@ export class GeneService {
 
   findGenesExternalDataBySymbol(symbol: string) {
     if (symbol.length >= 3) {
-      const input = symbol + this.LIKE_CHARACTER;
+      const input = symbol + this.likeCharacter;
 
       return this.http.get<string[]>(this.apiServiceUrl + '/api/genesInExternalData?input=' + input);
     } else {

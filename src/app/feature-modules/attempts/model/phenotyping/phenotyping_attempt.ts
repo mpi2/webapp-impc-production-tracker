@@ -18,7 +18,7 @@ export class PhenotypingAttempt {
     phenotypingStartingPoint?: PhenotypingStartingPoint;
     doNotCountTowardsCompleteness: boolean;
     cohortProductionWorkUnitName: string;
-    // tslint:disable-next-line
+    // eslint-disable-next-line
     _links?: PhenotypingLinks;
 
 }

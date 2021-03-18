@@ -20,9 +20,7 @@ export class DashboardComponent implements OnInit {
 
   canExecuteManagerTasks() {
     return this.loggedUserService.getLoggerUser().pipe(
-        map(data => {
-            return PermissionsService.canExecuteManagerTasks(data);
-        })
+        map(data => PermissionsService.canExecuteManagerTasks(data))
     );
 }
 

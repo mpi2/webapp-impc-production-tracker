@@ -16,6 +16,7 @@ export class MutationService {
 
     /**
      * Converts the characters "<" and ">" in html superscript tags
+     *
      * @param symbol Symbol in the mutation
      */
     formatAlleleSymbol(symbol: string) {

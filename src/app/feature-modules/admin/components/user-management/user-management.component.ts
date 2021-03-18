@@ -11,7 +11,6 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { first } from 'rxjs/internal/operators/first';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 
@@ -85,44 +84,6 @@ export class UserManagementComponent implements OnInit {
       this.listsByUser = data;
       this.initLists();
     });
-  }
-
-  private initUserData() {
-    const email = this.route.snapshot.params.id;
-    if (email) {
-      this.userService.getUserByEmail(email).subscribe(data => {
-        this.user = data;
-        this.roleWorkUnits = this.user.rolesWorkUnits;
-        this.roleConsortia = this.user.rolesConsortia;
-        this.selectedWorkUnits = this.roleWorkUnits.map(x => x.workUnitName);
-        this.updatingUser = true;
-        this.formTitle = 'Update existing account';
-        this.buttonText = 'Update';
-        this.error = '';
-        this.setControlValuesForUpdate();
-      }, error => {
-        this.error = error;
-      });
-    } else {
-      this.formTitle = 'Creation of new account';
-      this.buttonText = 'Create';
-      this.updatingUser = false;
-      this.user = new User();
-    }
-  }
-
-  private setControlValuesForUpdate() {
-    // Dummy password to make the form valid. The value is not used in the update request
-    this.f.password.setValue('password');
-    this.f.name.setValue(this.user.name);
-    this.f.email.setValue(this.user.email);
-    this.f.isAdmin.setValue(this.user.isAdmin);
-  }
-
-  private initLists() {
-    this.workUnits = this.managedListsService.getValuesByEntity(this.listsByUser, 'workUnits');
-    this.roles = this.managedListsService.getValuesByEntity(this.listsByUser, 'roles');
-    this.consortia = this.managedListsService.getValuesByEntity(this.listsByUser, 'consortia');
   }
 
   // convenience getter for easy access to form fields
@@ -210,6 +171,70 @@ export class UserManagementComponent implements OnInit {
     });
   }
 
+  getEmailErrorMessage() {
+    return this.f.email.hasError('required') ? 'You must enter a value' :
+      this.f.email.hasError('email') ? 'Not a valid email' :
+        '';
+  }
+
+  addWorkUnitRole() {
+    const roleWorkUnit: RoleWorkUnit = new RoleWorkUnit();
+    roleWorkUnit.id = this.nextNewIdRoleWorkUnits--;
+    this.roleWorkUnits.push(roleWorkUnit);
+  }
+
+  addConsortiumRole() {
+    const roleConsortium: RoleConsortium = new RoleConsortium();
+    roleConsortium.id = this.nextNewIdRoleConsortia--;
+    this.roleConsortia.push(roleConsortium);
+  }
+
+  deleteWorkUnitRole(roleWorkUnit) {
+    this.roleWorkUnits = [...this.roleWorkUnits.filter(x => x.id !== roleWorkUnit.id)];
+  }
+
+  deleteConsortiumRole(roleConsortium) {
+    this.roleConsortia = [...this.roleConsortia.filter(x => x.id !== roleConsortium.id)];
+  }
+
+  private initUserData() {
+    const email = this.route.snapshot.params.id;
+    if (email) {
+      this.userService.getUserByEmail(email).subscribe(data => {
+        this.user = data;
+        this.roleWorkUnits = this.user.rolesWorkUnits;
+        this.roleConsortia = this.user.rolesConsortia;
+        this.selectedWorkUnits = this.roleWorkUnits.map(x => x.workUnitName);
+        this.updatingUser = true;
+        this.formTitle = 'Update existing account';
+        this.buttonText = 'Update';
+        this.error = '';
+        this.setControlValuesForUpdate();
+      }, error => {
+        this.error = error;
+      });
+    } else {
+      this.formTitle = 'Creation of new account';
+      this.buttonText = 'Create';
+      this.updatingUser = false;
+      this.user = new User();
+    }
+  }
+
+  private setControlValuesForUpdate() {
+    // Dummy password to make the form valid. The value is not used in the update request
+    this.f.password.setValue('password');
+    this.f.name.setValue(this.user.name);
+    this.f.email.setValue(this.user.email);
+    this.f.isAdmin.setValue(this.user.isAdmin);
+  }
+
+  private initLists() {
+    this.workUnits = this.managedListsService.getValuesByEntity(this.listsByUser, 'workUnits');
+    this.roles = this.managedListsService.getValuesByEntity(this.listsByUser, 'roles');
+    this.consortia = this.managedListsService.getValuesByEntity(this.listsByUser, 'consortia');
+  }
+
   private getRoleWorkUnits() {
     let roleWorkUnits: RoleWorkUnit[] = [];
     if (this.adminUser) {
@@ -236,31 +261,5 @@ export class UserManagementComponent implements OnInit {
       }
     }
     return roleConsortia;
-  }
-
-  getEmailErrorMessage() {
-    return this.f.email.hasError('required') ? 'You must enter a value' :
-      this.f.email.hasError('email') ? 'Not a valid email' :
-        '';
-  }
-
-  addWorkUnitRole() {
-    const roleWorkUnit: RoleWorkUnit = new RoleWorkUnit();
-    roleWorkUnit.id = this.nextNewIdRoleWorkUnits--;
-    this.roleWorkUnits.push(roleWorkUnit);
-  }
-
-  addConsortiumRole() {
-    const roleConsortium: RoleConsortium = new RoleConsortium();
-    roleConsortium.id = this.nextNewIdRoleConsortia--;
-    this.roleConsortia.push(roleConsortium);
-  }
-
-  deleteWorkUnitRole(roleWorkUnit) {
-    this.roleWorkUnits = [...this.roleWorkUnits.filter(x => x.id !== roleWorkUnit.id)];
-  }
-
-  deleteConsortiumRole(roleConsortium) {
-    this.roleConsortia = [...this.roleConsortia.filter(x => x.id !== roleConsortium.id)];
   }
 }

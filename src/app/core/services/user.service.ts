@@ -10,11 +10,12 @@ import { AssetConfiguration } from '../model/conf/asset-configuration';
   providedIn: 'root'
 })
 export class UserService {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  readonly TOKEN_INFO_KEY = 'tokenInfo';
 
   private apiServiceUrl;
   private currentLoggedUser: Observable<User>;
   private config$: Observable<AssetConfiguration>;
-  readonly TOKEN_INFO_KEY = 'tokenInfo';
 
   constructor(private http: HttpClient, private configAssetLoaderService: ConfigAssetLoaderService) {
     this.config$ = from(this.configAssetLoaderService.getConfig());
@@ -41,22 +42,16 @@ export class UserService {
   }
 
   fetchCurrentLoggedUser(): Observable<User> {
-    return this.config$.pipe(mergeMap(response => {
-      return this.http.get<User>(response.appServerUrl + '/api/people/currentPerson');
-    }));
+    return this.config$.pipe(mergeMap(response => this.http.get<User>(response.appServerUrl + '/api/people/currentPerson')));
   }
 
   getUserByEmail(email: string): Observable<User> {
-    return this.config$.pipe(mergeMap(response => {
-      return this.http.get<User>(response.appServerUrl + '/api/people/' + email);
-    }));
+    return this.config$.pipe(mergeMap(response => this.http.get<User>(response.appServerUrl + '/api/people/' + email)));
   }
 
   updateUser(user: User) {
     return this.http.put<User[]>(this.apiServiceUrl + '/api/people', user)
-      .pipe(map(result => {
-        return result;
-      }));
+      .pipe(map(result => result));
   }
 
 }

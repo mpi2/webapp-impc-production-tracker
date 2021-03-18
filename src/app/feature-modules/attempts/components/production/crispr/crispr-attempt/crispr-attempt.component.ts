@@ -9,10 +9,10 @@ import { CrisprAttempt } from '../../../../model/production/crispr/crispr-attemp
 })
 export class CrisprAttemptComponent implements OnInit {
 
-  editCrisprAttempt: FormGroup;
-
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
+
+  editCrisprAttempt: FormGroup;
 
   constructor(private formBuilder: FormBuilder) { }
 

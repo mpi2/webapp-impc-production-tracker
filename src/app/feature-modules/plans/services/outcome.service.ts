@@ -17,6 +17,7 @@ export class OutcomeService {
 
     /**
      * Get all the outcomes for a plan identified by 'pin'.
+     *
      * @param pin Identifier of the plan.
      */
     getOutcomesByPin(pin: string) {

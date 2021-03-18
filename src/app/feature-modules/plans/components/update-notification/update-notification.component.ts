@@ -9,10 +9,11 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 })
 export class UpdateNotificationComponent implements OnInit {
 
-  changeDetails: ChangesHistory;
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  readonly NUMBER_DETAILS_THRESHOLD = 10;
 
+  changeDetails: ChangesHistory;
   showDetails = false;
-  NUMBER_DETAILS_THRESHOLD = 10;
 
   constructor(@Inject(MAT_SNACK_BAR_DATA) public data: any) {
     this.changeDetails = data;

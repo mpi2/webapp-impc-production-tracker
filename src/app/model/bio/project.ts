@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { ProjectLinks } from '../../feature-modules/projects/model/project-links';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
@@ -22,8 +23,6 @@ export class Project {
     colonyNames: string[];
     phenotypingExternalRefs: string[];
     recovery: boolean;
-
-    // tslint:disable-next-line
     _links: ProjectLinks;
 }
 

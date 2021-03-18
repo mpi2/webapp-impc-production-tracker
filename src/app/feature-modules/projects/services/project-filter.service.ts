@@ -8,30 +8,9 @@ import { ArrayFilter } from 'src/app/core/model/common/array-filter';
 
 export class ProjectFilterService {
 
-    private updateFilter = (filter: Filter, input, validator) => {
-        if (input === '' || validator(input, filter.value)) {
-            filter.value = input.trim();
-        }
-    }
-
-    private updateArrayFilter = (filter: ArrayFilter, input, validator) => {
-        if (input === '' || validator(input, filter.values)) {
-            filter.values = input;
-        }
-    }
-
     // TPN Filter section
     updateTpnFilter(tpnFilter, filterInput) {
         this.updateFilter(tpnFilter, filterInput, this.isValidTpn);
-    }
-
-    private isValidTpn = (value: string, currentFilterValue): boolean => {
-        const MINIMUN_SIZE = 7;
-        let result = false;
-        if (value) {
-            result = value.toLocaleLowerCase().startsWith('tpn:') && value.length > MINIMUN_SIZE && value !== currentFilterValue;
-        }
-        return result;
     }
 
     // Colony Name Filter section
@@ -90,4 +69,25 @@ export class ProjectFilterService {
     updateAssignmentStatusesFilter(assigmentStatusesFilter: ArrayFilter, filterInput) {
         this.updateArrayFilter(assigmentStatusesFilter, filterInput, (a, b) => true);
     }
+
+    private updateFilter = (filter: Filter, input, validator) => {
+        if (input === '' || validator(input, filter.value)) {
+            filter.value = input.trim();
+        }
+    };
+
+    private updateArrayFilter = (filter: ArrayFilter, input, validator) => {
+        if (input === '' || validator(input, filter.values)) {
+            filter.values = input;
+        }
+    };
+
+    private isValidTpn = (value: string, currentFilterValue): boolean => {
+        const MINIMUN_SIZE = 7;
+        let result = false;
+        if (value) {
+            result = value.toLocaleLowerCase().startsWith('tpn:') && value.length > MINIMUN_SIZE && value !== currentFilterValue;
+        }
+        return result;
+    };
 }

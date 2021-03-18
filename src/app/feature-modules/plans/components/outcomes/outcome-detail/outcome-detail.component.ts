@@ -97,75 +97,6 @@ export class OutcomeDetailComponent implements OnInit {
     }
   }
 
-  private fetchOrCreateOutcome() {
-    if (this.tpo) {
-      if (this.pin) {
-        this.fetchOutcomeByPinAndTpo();
-      } else {
-        this.fetchOutcomeByTpo();
-      }
-
-    } else {
-      this.isOutcomeBeingCreated = true;
-      this.outcome = new Outcome();
-      this.outcome.tpn = this.tpn;
-      this.outcome.pin = this.pin;
-    }
-  }
-
-  private fetchOutcomeByTpo() {
-    this.outcomeService.getOutcomeByTpo(this.tpo).subscribe(data => {
-      this.outcome = data;
-      this.originalOutcomeAsString = JSON.stringify(this.outcome);
-      this.pin = this.outcome.pin;
-      // Now that we have a pin we can calculate permissions
-      this.evaluateUpdatePermissions();
-      this.fetchMutationsByTpo(this.outcome);
-    }, error => {
-      this.error = error;
-    });
-  }
-
-  private fetchOutcomeByPinAndTpo() {
-    this.outcomeService.getOutcomeByPinAndTpo(this.pin, this.tpo).subscribe(data => {
-      this.outcome = data;
-      this.originalOutcomeAsString = JSON.stringify(this.outcome);
-      this.evaluateUpdatePermissions();
-      this.fetchMutationsByPinAndTpo(this.outcome);
-    }, error => {
-      this.error = error;
-    });
-  }
-
-  private fetchMutationsByTpo(outcome: Outcome) {
-    /* tslint:disable:no-string-literal */
-    this.outcomeService.getMutationsByTpn(outcome.tpo).subscribe(data => {
-      if (data['_embedded']) {
-        const mutations = data['_embedded'].mutations;
-        this.originalMutationsAsString = JSON.stringify(mutations);
-        this.setMutations(mutations);
-      }
-    }, error => {
-      this.error = error;
-    });
-    /* tslint:enable:no-string-literal */
-  }
-
-  private fetchMutationsByPinAndTpo(outcome: Outcome) {
-    /* tslint:disable:no-string-literal */
-    this.outcomeService.getMutationsByPinAndTpn(this.pin, outcome.tpo).subscribe(data => {
-      if (data['_embedded']) {
-        const mutations = data['_embedded'].mutations;
-        this.originalMutationsAsString = JSON.stringify(mutations);
-        this.setMutations(mutations);
-      }
-    }, error => {
-      this.error = error;
-    });
-    /* tslint:enable:no-string-literal */
-  }
-
-
   setMutations(mutations: Mutation[]) {
     if (mutations) {
       mutations.forEach(x => {
@@ -201,6 +132,7 @@ export class OutcomeDetailComponent implements OnInit {
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
       this.showChangeNotification(changeResponse);
       this.error = null;
+      // eslint-disable-next-line no-underscore-dangle
       const link: string = changeResponse._links.self.href;
       const tpo = link.substring(link.lastIndexOf('/') + 1);
       this.reloadForTpo(tpo);
@@ -295,16 +227,6 @@ export class OutcomeDetailComponent implements OnInit {
     });
   }
 
-  private showChangeNotification(changeResponse: ChangeResponse) {
-    if (changeResponse && changeResponse.history.length > 0) {
-      this.changeDetails = changeResponse.history[0];
-      this.snackBar.openFromComponent(UpdateNotificationComponent, {
-        duration: 3000,
-        data: this.changeDetails
-      });
-    }
-  }
-
   onAddMutation() {
     const mutation: Mutation = new Mutation();
     mutation.pin = this.pin;
@@ -332,12 +254,90 @@ export class OutcomeDetailComponent implements OnInit {
     }
   }
 
-  private isNewRecord(mutation: Mutation) {
-    return mutation.min == null;
-  }
-
   onTypeSelected(e) {
     this.initiOutcomeType(e.value);
+  }
+
+  private fetchOrCreateOutcome() {
+    if (this.tpo) {
+      if (this.pin) {
+        this.fetchOutcomeByPinAndTpo();
+      } else {
+        this.fetchOutcomeByTpo();
+      }
+
+    } else {
+      this.isOutcomeBeingCreated = true;
+      this.outcome = new Outcome();
+      this.outcome.tpn = this.tpn;
+      this.outcome.pin = this.pin;
+    }
+  }
+
+  private fetchOutcomeByTpo() {
+    this.outcomeService.getOutcomeByTpo(this.tpo).subscribe(data => {
+      this.outcome = data;
+      this.originalOutcomeAsString = JSON.stringify(this.outcome);
+      this.pin = this.outcome.pin;
+      // Now that we have a pin we can calculate permissions
+      this.evaluateUpdatePermissions();
+      this.fetchMutationsByTpo(this.outcome);
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private fetchOutcomeByPinAndTpo() {
+    this.outcomeService.getOutcomeByPinAndTpo(this.pin, this.tpo).subscribe(data => {
+      this.outcome = data;
+      this.originalOutcomeAsString = JSON.stringify(this.outcome);
+      this.evaluateUpdatePermissions();
+      this.fetchMutationsByPinAndTpo(this.outcome);
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private fetchMutationsByTpo(outcome: Outcome) {
+    /* eslint-disable @typescript-eslint/dot-notation */
+    this.outcomeService.getMutationsByTpn(outcome.tpo).subscribe(data => {
+      if (data['_embedded']) {
+        const mutations = data['_embedded'].mutations;
+        this.originalMutationsAsString = JSON.stringify(mutations);
+        this.setMutations(mutations);
+      }
+    }, error => {
+      this.error = error;
+    });
+    /* eslint-enable @typescript-eslint/dot-notation */
+  }
+
+  private fetchMutationsByPinAndTpo(outcome: Outcome) {
+    /* eslint-disable @typescript-eslint/dot-notation */
+    this.outcomeService.getMutationsByPinAndTpn(this.pin, outcome.tpo).subscribe(data => {
+      if (data['_embedded']) {
+        const mutations = data['_embedded'].mutations;
+        this.originalMutationsAsString = JSON.stringify(mutations);
+        this.setMutations(mutations);
+      }
+    }, error => {
+      this.error = error;
+    });
+    /* eslint-enable @typescript-eslint/dot-notation */
+  }
+
+  private showChangeNotification(changeResponse: ChangeResponse) {
+    if (changeResponse && changeResponse.history.length > 0) {
+      this.changeDetails = changeResponse.history[0];
+      this.snackBar.openFromComponent(UpdateNotificationComponent, {
+        duration: 3000,
+        data: this.changeDetails
+      });
+    }
+  }
+
+  private isNewRecord(mutation: Mutation) {
+    return mutation.min == null;
   }
 
   private initiOutcomeType(type: string) {

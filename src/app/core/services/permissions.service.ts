@@ -11,15 +11,23 @@ import { User } from '../model/user/user';
 export class PermissionsService {
 
   // Paths
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly REGISTER_USER = 'register-user';
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly UPDATE_USER = 'update-user/:id';
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly EXECUTE_MANAGER_TASKS = 'execute-manager-tasks';
 
   // Actions
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly UPDATE_PLAN_ACTION = 'canUpdatePlan';
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly CREATE_PRODUCTION_PLAN_ACTION = 'canCreateProductionPlan';
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly CREATE_PHENOTYPING_PLAN_ACTION = 'canCreatePhenotypingPlan';
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly UPDATE_PROJECT_ACTION = 'canUpdateProject';
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   static readonly MANAGE_GENE_LISTS = 'canManageGeneLists';
 
   private apiServiceUrl;
