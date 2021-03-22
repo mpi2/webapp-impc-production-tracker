@@ -17,6 +17,7 @@
                     <tr>
                         <td>
                             <mat-select [(ngModel)]="mutationQcResult.qcTypeName">
+                                <mat-option></mat-option>
                                 <mat-option *ngFor="let qcType of qcTypes" [value]="qcType.name">
                                     {{qcType.name}}
                                 </mat-option>
@@ -25,6 +26,7 @@
                         <td>
 
                             <mat-select [(ngModel)]="mutationQcResult.statusName">
+                                <mat-option></mat-option>
                                 <mat-option *ngFor="let qcStatus of qcStatuses" [value]="qcStatus.name">
                                     {{qcStatus.name}}
                                 </mat-option>

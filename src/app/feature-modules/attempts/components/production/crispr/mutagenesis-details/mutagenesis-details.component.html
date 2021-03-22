@@ -13,13 +13,14 @@
       </div>
 
       <label for="strainInjectedName">Strain Injected:</label>
-      <div id="strainInjectedName" class="content">
+      <mat-form-field appearance="fill">
         <mat-select class="select-content" [(value)]="crisprAttempt.strainInjectedName">
+          <mat-option></mat-option>
           <mat-option *ngFor="let strain of strains" [value]="strain.name">
             {{strain.name}}
           </mat-option>
         </mat-select>
-      </div>
+      </mat-form-field>
 
     </ng-template>
 

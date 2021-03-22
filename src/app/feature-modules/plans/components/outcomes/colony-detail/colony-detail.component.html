@@ -21,6 +21,7 @@
         <label for="backgroundStrainName">Background Strain:</label>
         <div id="backgroundStrainName" class="content">
             <mat-select class="select-content" [(value)]="colony.backgroundStrainName">
+                <mat-option></mat-option>
                 <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
                     {{backGroundStrain.name}}
                 </mat-option>

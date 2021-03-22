@@ -2,6 +2,7 @@
 <mat-form-field appearance="fill" *ngIf="user">
     <mat-label>Consortium</mat-label>
     <mat-select [(value)]="currentConsortium" (selectionChange)="onConsortiumChanged()">
+        <mat-option></mat-option>
         <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>
             {{consortium.name}}
         </mat-option>

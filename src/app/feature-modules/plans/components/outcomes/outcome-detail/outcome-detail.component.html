@@ -26,6 +26,7 @@
                     <label for="outcomeTypeName">Type:</label>
                     <mat-select (selectionChange)="onTypeSelected($event)" class="content"
                         [(ngModel)]="outcome.outcomeTypeName" [ngModelOptions]="{standalone: true}">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let outcomeType of outcomeTypes" [value]="outcomeType.name">
                             {{outcomeType.name}}
                         </mat-option>

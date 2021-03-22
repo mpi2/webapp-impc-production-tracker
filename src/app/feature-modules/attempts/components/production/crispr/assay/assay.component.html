@@ -16,6 +16,7 @@
                 <label for="embryoTransferDay">Embryo Transfer Day:</label>
                 <div id="embryoTransferDay">
                     <mat-select [(ngModel)]="crisprAttempt.assay.embryoTransferDay">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let transferDay of transferDays" [value]="transferDay">
                             {{transferDay}}
                         </mat-option>
@@ -32,6 +33,7 @@
                 <label for="typeName">Assay Type Used:</label>
                 <div id="typeName">
                     <mat-select [(ngModel)]="crisprAttempt.assay.typeName">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let assayType of assayTypes" [value]="assayType.name">
                             {{assayType.name}}
                         </mat-option>

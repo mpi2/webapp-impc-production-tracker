@@ -13,6 +13,7 @@
                   <td>
                       <mat-select class="molecularMutaionType"
                           [(value)]="projectIntention.molecularMutationTypeName">
+                          <mat-option></mat-option>
                           <mat-option *ngFor="let molecularMutationType of molecularMutationTypes" [value]="molecularMutationType.name">
                               {{ molecularMutationType.name }}
                           </mat-option>
@@ -21,6 +22,7 @@
                   <td>
                       <mat-select (selectionChange)="addMutationCategorization(projectIntention, mutationCategorizationNames)" class="class"
                           [(value)]="mutationCategorizationNames" multiple>
+                          <mat-option></mat-option>
                           <mat-option *ngFor="let mutationCategorization of allMutationCategorizations" [value]="mutationCategorization.name">
                               {{ mutationCategorization.name }}
                           </mat-option>

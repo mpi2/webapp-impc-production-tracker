@@ -30,6 +30,7 @@
     "angular-scrollable-table": "^1.1.2",
     "angular4-material-table": "^0.8.0",
     "moment": "2.29.1",
+    "ngx-trim-directive": "^1.1.0",
     "node-gyp": "^6.1.0",
     "object-path-set": "^1.0.1",
     "rebuild": "^0.1.2",

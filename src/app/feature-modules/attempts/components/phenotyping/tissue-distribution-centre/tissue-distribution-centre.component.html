@@ -34,6 +34,7 @@
                         <td>
                             <mat-form-field appearance="fill">
                                 <mat-select [(ngModel)]="element.workUnitName">
+                                    <mat-option></mat-option>
                                     <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit">
                                         {{ workUnit }}
                                     </mat-option>
@@ -44,6 +45,7 @@
                         <td>
                             <mat-form-field appearance="fill">
                                 <mat-select  [(ngModel)]="element.materialDepositedTypeName">
+                                    <mat-option></mat-option>
                                     <mat-option *ngFor="let materialType of materialTypes" [value]="materialType">
                                         {{materialType}}
                                     </mat-option>

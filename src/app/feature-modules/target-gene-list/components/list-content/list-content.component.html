@@ -46,6 +46,7 @@
 
               <mat-select multiple class="selectContent" [(ngModel)]="element.recordTypes"
                 [ngModelOptions]="{standalone: true}">
+                <mat-option></mat-option>
                 <mat-option *ngFor="let recordType of filteredRecordTypes" [value]="recordType.name">
                   {{recordType.name}}
                 </mat-option>

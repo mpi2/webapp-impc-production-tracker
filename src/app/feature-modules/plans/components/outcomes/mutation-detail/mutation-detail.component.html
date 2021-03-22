@@ -25,6 +25,7 @@
                             <label for="symbolConsortium">Consortium abbreviation:</label>
                             <div id="symbolConsortium">
                                 <mat-select [(value)]="selectedConsortium" class="select-content-fix-width">
+                                    <mat-option></mat-option>
                                     <mat-option value="">Without abbreviation</mat-option>
                                     <mat-option *ngFor="let consortium of this.consortia" [(value)]="consortium.name">
                                         {{consortium.name}}
@@ -49,6 +50,7 @@
                 <label for="molecularMutationType">Molecular Mutation Type:</label>
                 <div id="molecularMutationType" class="molecularMutationType">
                     <mat-select class="select-content-fix-width" [(value)]="mutation.molecularMutationTypeName">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let molecularMutationType of molecularMutationTypes"
                             [value]="molecularMutationType.name">
                             {{molecularMutationType.name}}
@@ -64,6 +66,7 @@
                         <div id="repairMechanism">
                             <mat-select class="select-content" [(value)]="repairMechanismsNames"
                                 (selectionChange)="onRepairMechanismChanged($event)">
+                                <mat-option></mat-option>
                                 <mat-option
                                     *ngFor="let repairMechanism of this.molecularMutationTypesByType[repairMechanismKey]"
                                     [value]="repairMechanism.name">
@@ -75,6 +78,7 @@
                         <div id="alleleCathegory">
                             <mat-select class="select-content" [(value)]="alleleCategoriesNames"
                                 (selectionChange)="onAlleleCategoriesChanged($event)" multiple>
+                                <mat-option></mat-option>
                                 <mat-option
                                     *ngFor="let alleleCategory of this.molecularMutationTypesByType[alleleCategoryKey]"
                                     [value]="alleleCategory.name">

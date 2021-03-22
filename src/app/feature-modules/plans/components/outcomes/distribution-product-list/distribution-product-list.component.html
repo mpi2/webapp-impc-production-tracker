@@ -20,6 +20,7 @@
                     <tr>
                         <td>
                             <mat-select [(ngModel)]="distributionProduct.distributionCentreName">
+                                <mat-option></mat-option>
                                 <mat-option *ngFor="let distributionCentresName of distributionCentresNames"
                                     [value]="distributionCentresName.name">
                                     {{distributionCentresName.name}}
@@ -28,6 +29,7 @@
                         </td>
                         <td>
                             <mat-select [(ngModel)]="distributionProduct.productTypeName">
+                                <mat-option></mat-option>
                                 <mat-option *ngFor="let productTypesName of productTypesNames"
                                     [value]="productTypesName.name">
                                     {{productTypesName.name}}
@@ -36,6 +38,7 @@
                         </td>
                         <td>
                             <mat-select [(ngModel)]="distributionProduct.distributionNetworkName">
+                                <mat-option></mat-option>
                                 <mat-option *ngFor="let distributionNetworkName of distributionNetworksNames"
                                     [value]="distributionNetworkName.name">
                                     {{distributionNetworkName.name}}

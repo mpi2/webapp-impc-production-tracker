@@ -60,6 +60,7 @@
                     <mat-form-field appearance="fill" class="medium-large-field">
                         <mat-select (selectionChange)="onChange(sequenceLocation)"
                             [(value)]="sequenceLocation.location.strainName">
+                            <mat-option></mat-option>
                             <mat-option *ngFor="let strain of strains" [value]="strain.name">
                                 {{strain.name}}
                             </mat-option>
@@ -71,6 +72,7 @@
                     <mat-form-field appearance="fill" >
                         <mat-select (selectionChange)="onChange(sequenceLocation)"
                             [(value)]="sequenceLocation.location.speciesName">
+                            <mat-option></mat-option>
                             <mat-option *ngFor="let speciesElement of species" [value]="speciesElement.name">
                                 {{speciesElement.name}}
                             </mat-option>

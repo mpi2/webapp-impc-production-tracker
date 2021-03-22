@@ -94,19 +94,19 @@
                             <td style="width: 200px;">
                                 <mat-form-field appearance="fill" style="width: 200px;">
                                     <textarea matInput [(ngModel)]="guide.sequence" [ngModelOptions]="{standalone: true}"
-                                        oninput="this.value = this.value.toUpperCase()"></textarea>
+                                        oninput="this.value = this.value.toUpperCase()" trim></textarea>
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field appearance="fill">
                                     <textarea matInput [(ngModel)]="guide.guideSequence" [ngModelOptions]="{standalone: true}"
-                                        oninput="this.value = this.value.toUpperCase()"></textarea>
+                                        oninput="this.value = this.value.toUpperCase()" trim></textarea>
                                 </mat-form-field>
                             </td>
                             <td>
                                 <mat-form-field appearance="fill" class="mediumShort">
                                     <input matInput [(ngModel)]="guide.pam" [ngModelOptions]="{standalone: true}" 
-                                        oninput="this.value = this.value.toUpperCase()">
+                                        oninput="this.value = this.value.toUpperCase()" trim>
                                 </mat-form-field>
                             </td>
                             <td>
@@ -127,6 +127,7 @@
                             <td>
                                 <mat-form-field appearance="fill" class="mediumShort">
                                     <mat-select [(value)]="guide.strand">
+                                        <mat-option></mat-option>
                                         <mat-option *ngFor="let strand of strands" [value]="strand">
                                             {{ strand }}
                                         </mat-option>
@@ -136,6 +137,7 @@
                             <td>
                                 <mat-form-field appearance="fill" class="large">
                                     <mat-select [(value)]="guide.genomeBuild">
+                                        <mat-option></mat-option>
                                         <mat-option *ngFor="let genomeBuild of genomeBuilds" [value]="genomeBuild">
                                             {{ genomeBuild }}
                                         </mat-option>
@@ -145,6 +147,7 @@
                             <td>
                                 <mat-form-field appearance="fill" class="large">
                                     <mat-select [(value)]="guide.formatName">
+                                        <mat-option></mat-option>
                                         <mat-option *ngFor="let format of formatNames" [value]="format.name">
                                             {{ format.name }}
                                         </mat-option>
@@ -154,6 +157,7 @@
                             <td>
                                 <mat-form-field appearance="fill" class="large">
                                     <mat-select [(value)]="guide.sourceName">
+                                        <mat-option></mat-option>
                                         <mat-option *ngFor="let source of sourceNames" [value]="source.name">
                                             {{ source.name }}
                                         </mat-option>

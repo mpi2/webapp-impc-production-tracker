@@ -31,6 +31,7 @@
                         <label for="phenotypingTypeName">Type:</label>
                         <mat-select id="phenotypingTypeName" class="content"
                             [(ngModel)]="phenotypingStage.phenotypingTypeName" [ngModelOptions]="{standalone: true}">
+                            <mat-option></mat-option>
                             <mat-option
                                 *ngFor="let phenotypingStagesType of filteredPhenotypingStagesTypesByAttemptTypes"
                                 [value]="phenotypingStagesType.name">
