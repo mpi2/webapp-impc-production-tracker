@@ -27,6 +27,7 @@
           <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
           <ng-template #privacyEditable>
             <mat-select class="select-content" [(value)]="project.privacyName">
+              <mat-option></mat-option>
               <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
                 {{privacy.name}}
               </mat-option>

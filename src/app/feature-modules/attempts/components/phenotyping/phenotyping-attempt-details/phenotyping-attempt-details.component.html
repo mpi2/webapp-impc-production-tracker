@@ -17,6 +17,7 @@
                 <label for="cohortProductionWorkUnitName">Cohort Production Work Unit Name:</label>
                 <mat-form-field appearance="fill">
                     <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.cohortProductionWorkUnitName">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
                             {{ workUnit.name }}
                         </mat-option>
@@ -28,6 +29,7 @@
                 <label for="phenotypingBackgroundStrainName">Background Strain:</label>
                 <mat-form-field appearance="fill">
                     <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.phenotypingBackgroundStrainName">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
                             {{ backGroundStrain.name }}
                         </mat-option>

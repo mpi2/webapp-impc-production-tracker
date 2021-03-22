@@ -34,6 +34,7 @@
             <div id="sequenceType">
                 <mat-form-field appearance="fill" class="content">
                     <mat-select [(value)]="indexedSequence.sequence.typeName">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let sequenceType of sequenceTypes" [value]="sequenceType.name">
                             {{sequenceType.name}}
                         </mat-option>
@@ -45,6 +46,7 @@
                 <label for="type">Category:</label>
                 <div id="type" class="content">
                     <mat-select [(value)]="indexedSequence.sequence.categoryName">
+                        <mat-option></mat-option>
                         <mat-option *ngFor="let sequenceCategory of sequenceCategories" [value]="sequenceCategory.name">
                             {{sequenceCategory.name}}
                         </mat-option>

@@ -10,6 +10,7 @@
                 <tr>
                     <td>
                         <mat-select class="consortiumName" [(value)]="institutesConsortium.consortiumName">
+                            <mat-option></mat-option>
                             <mat-option *ngFor="let consortium of consortia" [value]="consortium.name">
                                 {{ consortium.name }}
                             </mat-option>

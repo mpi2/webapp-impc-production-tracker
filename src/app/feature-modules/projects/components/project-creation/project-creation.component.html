@@ -12,6 +12,7 @@
 
                 <label for="privacy">Privacy *:</label>
                 <mat-select class="content" [(ngModel)]="projectCreation.privacyName" [ngModelOptions]="{standalone: true}">
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
                         {{ privacy.name }}
                     </mat-option>
@@ -37,6 +38,7 @@
             <div class="fieldsSectionSpecies">
                 <label for="species">Species:</label>
                 <mat-select class="content" [(ngModel)]="projectCreation.speciesNames" [ngModelOptions]="{standalone: true}" multiple>
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let species of allSpecies" [value]="species.name">
                         {{ species.name }}
                     </mat-option>

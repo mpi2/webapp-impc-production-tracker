@@ -45,6 +45,7 @@
                 fxLayoutGap.xs="0">
                 <div class="item item-1" fxFlex="40%">
                   <mat-select placeholder="Work Unit" [(value)]="roleWorkUnit.workUnitName">
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name" required>
                       {{workUnit.name}}
                     </mat-option>
@@ -52,6 +53,7 @@
                 </div>
                 <div class="item item-2" fxFlex="40%">
                   <mat-select placeholder="Role" [(value)]="roleWorkUnit.roleName">
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let role of roles" [value]="role.name">
                       {{role.name}}
                     </mat-option>
@@ -75,6 +77,7 @@
             <mat-form-field appearance="fill">
               <mat-label>Work Unit</mat-label>
               <mat-select [(value)]="selectedWorkUnits" multiple>
+                <mat-option></mat-option>
                 <mat-option *ngFor="let workUnit of workUnits" value="{{ workUnit.name }}">{{workUnit.name}}
                 </mat-option>
               </mat-select>
@@ -95,6 +98,7 @@
                 fxLayoutGap.xs="0">
                 <div class="item item-1" fxFlex="40%">
                   <mat-select placeholder="Consortium" [(value)]="roleConsortium.consortiumName">
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let consortium of consortia" [value]="consortium.name" required>
                       {{consortium.name}}
                     </mat-option>
@@ -102,6 +106,7 @@
                 </div>
                 <div class="item item-2" fxFlex="40%">
                   <mat-select placeholder="Role" [(value)]="roleConsortium.roleName">
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let role of roles" [value]="role.name">
                       {{role.name}}
                     </mat-option>
@@ -125,6 +130,7 @@
               <mat-form-field appearance="fill">
                   <mat-label>Consortium</mat-label>
                   <mat-select [(value)]="selectedConsortia" multiple>
+                    <mat-option></mat-option>
                     <mat-option *ngFor="let consortium of consortia" value="{{ consortium.name }}">{{consortium.name}}
                     </mat-option>
                   </mat-select>

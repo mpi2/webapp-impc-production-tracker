@@ -32,6 +32,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatListModule } from '@angular/material/list';
+import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 
 // Own components
 import { GoBackComponent } from './components/go-back/go-back.component';
@@ -115,7 +116,8 @@ export const MY_DATE_FORMATS = {
     MatRadioModule,
     MatAutocompleteModule,
     MatStepperModule,
-    MatListModule
+    MatListModule,
+    NgxTrimDirectiveModule
   ],
   exports: [
     MatAutocompleteModule,
@@ -161,7 +163,8 @@ export const MY_DATE_FORMATS = {
     MatListModule,
     PlanCreationComponent,
     NucleaseComponent,
-    GuidesComponent
+    GuidesComponent,
+    NgxTrimDirectiveModule
   ],
   providers: [
     {provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS},
