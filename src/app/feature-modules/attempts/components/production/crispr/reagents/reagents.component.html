@@ -13,17 +13,20 @@
                 <ng-template #editableRow>
                     <tr>
                         <td>
-
-                            <mat-select [(ngModel)]="reagent.reagentName">
-                                <mat-option *ngFor="let reagentName of reagentNames" [value]="reagentName.name">
-                                    {{reagentName.name}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-form-field appearance="fill">
+                                <mat-select [(ngModel)]="reagent.reagentName">
+                                    <mat-option *ngFor="let reagentName of reagentNames" [value]="reagentName.name">
+                                        {{reagentName.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </td>
                         <td>
-                            <input appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}"
-                                name="concentration" #concentration="ngModel" [(ngModel)]="reagent.concentration"
-                                (keyup)="onReagentChanged(reagent)" [ngModelOptions]="{standalone: true}">
+                            <mat-form-field appearance="fill">
+                                <input matInput appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}"
+                                    name="concentration" #concentration="ngModel" [(ngModel)]="reagent.concentration"
+                                    (keyup)="onReagentChanged(reagent)" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
                         </td>
                         <td>
                             <button (click)="onClickToDeleteReagent(reagent)">

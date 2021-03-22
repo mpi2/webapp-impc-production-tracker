@@ -139,6 +139,8 @@ export class ProductionPlanComponent implements OnInit {
    * Updates the plan
    */
   private updatePlan() {
+    this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+
     this.loading = true;
     this.planService.updatePlan(
       this.plan.pin, this.plan).subscribe((changeResponse: ChangeResponse) => {
@@ -161,4 +163,7 @@ export class ProductionPlanComponent implements OnInit {
       );
   }
 
+  private setIdNull(object) {
+    object.id = null;
+  }
 }

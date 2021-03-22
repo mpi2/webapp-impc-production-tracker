@@ -1,9 +1,9 @@
 .editableSection {
-  height: 170px;
+  height: 200px;
 }
 
 .readOnlySection {
-    height: 100px;
+    height: 120px;
   }
 
 label {

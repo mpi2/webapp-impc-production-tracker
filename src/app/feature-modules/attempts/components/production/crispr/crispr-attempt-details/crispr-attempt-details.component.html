@@ -34,16 +34,16 @@
           <div *ngIf="canUpdatePlan; then miExternalRefEditable else miExternalRefReadOnly"></div>
           <ng-template #miExternalRefEditable>
             <td>
-              <div class="form-group">
-                <textarea type="text" formControlName="miExternalRef" class="form-control"
-                (keyup)="onTextmiExternalRefChanged()"></textarea>
-              </div>
+              <mat-form-field appearance="fill">
+                <input matInput formControlName="miExternalRef" class="form-control"
+                (keyup)="onTextmiExternalRefChanged()">
+              </mat-form-field>
             </td>
           </ng-template>
 
           <ng-template #miExternalRefReadOnly>
             <td>
-              {{crisprAttempt.attemptExternalRef}}
+              {{ crisprAttempt.attemptExternalRef }}
             </td>
           </ng-template>
         </tr>
@@ -64,10 +64,10 @@
           <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
           <ng-template #commentEditable>
             <td>
-              <div class="form-group">
-                <textarea type="text" #box formControlName="comment" class="form-control"
+              <mat-form-field appearance="fill">
+                <textarea matInput #box formControlName="comment" class="form-control"
                   (keyup)="onTextCommentChanged()"></textarea>
-              </div>
+              </mat-form-field>
             </td>
           </ng-template>
 

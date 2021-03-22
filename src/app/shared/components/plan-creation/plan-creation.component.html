@@ -14,8 +14,8 @@
             <ng-template #readOnlyPlanType>
                 <div>
                     <mat-form-field appearance="fill">
-                        <mat-label>{{ preSelectedPlanType }}</mat-label>
-                        <input matInput>
+                        <mat-label style="color: #000000;">{{ preSelectedPlanType }}</mat-label>
+                        <input matInput [disabled]="true">
                     </mat-form-field>
                 </div>
             </ng-template>
@@ -101,19 +101,19 @@
             </div>
         </div>
 
-        <div id="nuclease" *ngIf="plan.attemptTypeName === 'crispr'">
+        <!-- <div id="nuclease" *ngIf="plan.attemptTypeName === 'crispr'"> -->
             <!-- Nuclease section. Only available for production crispr plans -->
-            <app-nuclease [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-nuclease>
+            <!-- <app-nuclease [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-nuclease> -->
 
             <!-- Guides section. Only available for production crispr plans -->
-            <app-guides [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-guides>
-        </div>
+            <!-- <app-guides [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-guides> -->
+        <!-- </div> -->
 
         <mat-card *ngIf="planCreation" class="update-button">
             <mat-card-content>
                 <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
                 <br>
-                <span style="font-size: 10px; ">* required fields</span>
+                <span style="font-size: 12px; ">* required fields</span>
                 <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
                 </mat-spinner>
             </mat-card-content>

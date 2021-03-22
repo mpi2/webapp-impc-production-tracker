@@ -8,7 +8,6 @@ export class Guide {
     stop: number;
     strand: string;
     genomeBuild: string;
-    ensemblExonId: string;
     grnaConcentration: number;
     truncatedGuide: boolean;
     reversed: boolean;

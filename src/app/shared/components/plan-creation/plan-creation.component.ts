@@ -140,7 +140,6 @@ export class PlanCreationComponent implements OnInit {
       this.planTypes = this.planTypes.filter(x => x.name === this.preSelectedPlanType);
       this.handlePlanTypeSelected(this.preSelectedPlanType);
     }
-
   }
 
   loadOutcomesSummaries(tpn: string) {
@@ -163,12 +162,13 @@ export class PlanCreationComponent implements OnInit {
     this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
     this.plan.typeName = planType;
 
+    if (planType === 'crispr') {
+      // this.plan.crisprAttempt = new CrisprAttempt();
+    }
   }
 
   onAttemptTypeSelected(e) {
-    if (e.value === 'crispr') {
-      this.plan.crisprAttempt = new CrisprAttempt();
-    }
+
   }
 
   onWorkUnitChanged(e) {
@@ -181,10 +181,7 @@ export class PlanCreationComponent implements OnInit {
   }
 
   create() {
-    console.log('nucleases => ', this.plan.crisprAttempt.nucleases);
-    console.log('guides => ', this.plan.crisprAttempt.guides);
-    this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
-
+    // this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
     this.loading = true;
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;

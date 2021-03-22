@@ -16,22 +16,28 @@
       <ng-template #editableRow>
         <tr>
           <td>
-            <input [ngClass]="{'required': oligo_sequence_fa.invalid}" name="oligo_sequence_fa"
-              #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligoSequenceFasta" (keyup)="onDonorChanged(donor)"
-              [ngModelOptions]="{standalone: true}">
+            <mat-form-field appearance="fill">
+              <input matInput [ngClass]="{'required': oligo_sequence_fa.invalid}" name="oligo_sequence_fa"
+                #oligo_sequence_fa="ngModel" [(ngModel)]="donor.oligoSequenceFasta" (keyup)="onDonorChanged(donor)"
+                [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
           </td>
           <td>
-            <mat-select (selectionChange)="onDonorChanged(donor)" class="preparation"
-              [(value)]="donor.preparationTypeName">
-              <mat-option *ngFor="let preparationType of preparationTypes" [value]="preparationType.name">
-                {{preparationType.name}}
-              </mat-option>
-            </mat-select>
+            <mat-form-field appearance="fill">
+              <mat-select (selectionChange)="onDonorChanged(donor)" class="preparation"
+                [(value)]="donor.preparationTypeName">
+                <mat-option *ngFor="let preparationType of preparationTypes" [value]="preparationType.name">
+                  {{preparationType.name}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
           </td>
           <td>
-            <input appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"
-              #concentration="ngModel" [(ngModel)]="donor.concentration" (keyup)="onDonorChanged(donor)"
-              [ngModelOptions]="{standalone: true}">
+            <mat-form-field appearance="fill">
+              <input matInput appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"
+                #concentration="ngModel" [(ngModel)]="donor.concentration" (keyup)="onDonorChanged(donor)"
+                [ngModelOptions]="{standalone: true}">
+            </mat-form-field>
           </td>
           <td>
             <button (click)="onClickToDeleteElement(donor)">

@@ -37,6 +37,8 @@ export class GuidesComponent implements OnInit {
 
   displayedExonColumns = ['exon_id'];
   displayedGuideColumns = ['sequence'];
+  strands = ['+', '-'];
+  genomeBuilds = ['GRCm38', 'GRCm39'];
   highlightedRows = [];
   isLoadingExons = false;
 
@@ -161,10 +163,11 @@ export class GuidesComponent implements OnInit {
   }
 
   sequenceSelected(guide: Guide, click: boolean) {
+    guide[this.tmpIndexRowName] = this.nextNewId--;
     if (click === true) {
       this.crisprAttempt.guides.push(guide);
     } else {
-      this.crisprAttempt.guides = this.crisprAttempt.guides.filter(({ id }) => id !== guide.id);
+      this.crisprAttempt.guides = this.crisprAttempt.guides.filter(({ guideSequence }) => guideSequence !== guide.guideSequence);
     }
   }
 
@@ -181,7 +184,6 @@ export class GuidesComponent implements OnInit {
 
   isConcentrationTheSameForAllGuides(): boolean {
     const concentrations = this.crisprAttempt.guides.filter(x => x.grnaConcentration).map(x => x.grnaConcentration);
-
     return concentrations.every(v => v === concentrations[0]);
   }
 
@@ -237,6 +239,7 @@ export class GuidesComponent implements OnInit {
       this.crisprAttempt.guides = this.crisprAttempt.guides
         .filter(x => x.id !== guide.id);
     }
+    this.highlight(guide);
   }
 
   private isNewRecord(guide: Guide) {
