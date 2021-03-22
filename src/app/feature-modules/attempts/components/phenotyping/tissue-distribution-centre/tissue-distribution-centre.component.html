@@ -42,7 +42,7 @@
                         </td>
 
                         <td>
-                            <mat-form-field class="material-type">
+                            <mat-form-field appearance="fill">
                                 <mat-select  [(ngModel)]="element.materialDepositedTypeName">
                                     <mat-option *ngFor="let materialType of materialTypes" [value]="materialType">
                                         {{materialType}}

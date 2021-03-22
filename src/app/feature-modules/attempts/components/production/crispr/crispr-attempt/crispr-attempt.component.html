@@ -5,9 +5,9 @@
   <app-mutagenesis-details [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan">
   </app-mutagenesis-details>
 
-  <app-nuclease [crisprAttempt]="crisprAttempt" [canUpdatePlan]="false"></app-nuclease>
+  <app-nuclease [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan"></app-nuclease>
 
-  <app-guides [crisprAttempt]="crisprAttempt" [canUpdatePlan]="false"></app-guides>
+  <app-guides [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan"></app-guides>
 
   <app-genotype-primers [crisprAttempt]="crisprAttempt" [canUpdatePlan]="canUpdatePlan"></app-genotype-primers>
 

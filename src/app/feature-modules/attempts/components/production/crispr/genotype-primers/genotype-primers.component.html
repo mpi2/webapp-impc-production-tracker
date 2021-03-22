@@ -4,7 +4,7 @@
         <table class="mat-elevation-z8">
             <tr>
                 <th>Name</th>
-                <th class="sequence">Sequence</th>
+                <th>Sequence</th>
                 <th>Start Coordinate</th>
                 <th>End Coordinate</th>
                 <th></th>
@@ -15,23 +15,31 @@
                 <ng-template #editableRow>
                     <tr>
                         <td>
-                            <input [ngClass]="{'required': name.invalid}" name="name" #name="ngModel"
-                                [(ngModel)]="primer.name" placeholder="Primer's name" (keyup)="onPrimerChanged(primer)"
-                                [ngModelOptions]="{standalone: true}" required>
+                            <mat-form-field appearance="fill">
+                                <input matInput [ngClass]="{'required': name.invalid}" name="name" #name="ngModel"
+                                    [(ngModel)]="primer.name" placeholder="Primer's name" (keyup)="onPrimerChanged(primer)"
+                                    [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field>
                         </td>
                         <td>
-                            <input [ngClass]="{'required': sequence.invalid, 'sequence_input':true}" name="sequence"
-                                #sequence="ngModel" [(ngModel)]="primer.sequence" placeholder="Sequence"
-                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
+                            <mat-form-field appearance="fill">
+                                <input matInput [ngClass]="{'required': sequence.invalid, 'sequence_input':true}" name="sequence"
+                                    #sequence="ngModel" [(ngModel)]="primer.sequence" placeholder="Sequence"
+                                    (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}" required>
+                            </mat-form-field>
                         </td>
                         <td>
-                            <input appDigitOnly placeholder="Start Coordinate"
-                                [(ngModel)]="primer.genomicStartCoordinate" (keyup)="onPrimerChanged(primer)"
-                                [ngModelOptions]="{standalone: true}">
+                            <mat-form-field appearance="fill">
+                                <input matInput appDigitOnly placeholder="Start Coordinate"
+                                    [(ngModel)]="primer.genomicStartCoordinate" (keyup)="onPrimerChanged(primer)"
+                                    [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
                         </td>
                         <td>
-                            <input appDigitOnly placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
-                                (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}">
+                            <mat-form-field appearance="fill">
+                                <input matInput appDigitOnly placeholder="End Coordinate" [(ngModel)]="primer.genomicEndCoordinate"
+                                    (keyup)="onPrimerChanged(primer)" [ngModelOptions]="{standalone: true}">
+                            </mat-form-field>
                         </td>
                         <td>
                             <button (click)="onClickToDeleteElement(primer)">

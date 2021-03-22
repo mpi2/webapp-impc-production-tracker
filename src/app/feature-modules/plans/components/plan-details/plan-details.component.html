@@ -74,10 +74,10 @@
           <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
           <ng-template #commentEditable>
             <td>
-              <div class="form-group">
-                <textarea type="text" formControlName="comment" class="form-control"
+              <mat-form-field appearance="fill">
+                <textarea matInput formControlName="comment" class="form-control"
                   (keyup)="onTextCommentChanged()"></textarea>
-              </div>
+              </mat-form-field>
             </td>
           </ng-template>
 

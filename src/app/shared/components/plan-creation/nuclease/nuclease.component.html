@@ -3,9 +3,9 @@
     <mat-card-content>
         <table class="mat-elevation-z8">
             <tr>
-                <th>Type</th>
-                <th>Class</th>
-                <th>Concentration (ng/µl)</th>
+                <th>Type *</th>
+                <th>Class *</th>
+                <th>Concentration (ng/µl) *</th>
                 <th></th>
             </tr>
             <ng-template ngFor let-nuclease [ngForOf]="dataSource">
@@ -15,18 +15,18 @@
                     <tr>
                         <td>
                             <mat-form-field appearance="fill">
-                                <mat-select (selectionChange)="onNucleaseChanged(nuclease)" [(value)]="nuclease.typeName">
+                                <mat-select [(value)]="nuclease.typeName">
                                     <mat-option *ngFor="let nucleaseType of nucleaseTypes" [value]="nucleaseType.name">
-                                        {{nucleaseType.name}}
+                                        {{ nucleaseType.name }}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </td>
                         <td>
                             <mat-form-field appearance="fill">
-                                <mat-select (selectionChange)="onNucleaseChanged(nuclease)" [(value)]="nuclease.className">
+                                <mat-select [(value)]="nuclease.className">
                                     <mat-option *ngFor="let nucleaseClase of nucleaseClases" [value]="nucleaseClase.name">
-                                        {{nucleaseClase.name}}
+                                        {{ nucleaseClase.name }}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -35,7 +35,7 @@
                             <mat-form-field appearance="fill">
                                 <input matInput appDigitOnly decimal="true" [ngClass]="{'required': concentration.invalid}" name="concentration"	
                                 #concentration="ngModel" [(ngModel)]="nuclease.concentration"
-                                (keyup)="onNucleaseChanged(nuclease)"
+                                
                                 [ngModelOptions]="{standalone: true}">	
                             </mat-form-field>
                         </td>
