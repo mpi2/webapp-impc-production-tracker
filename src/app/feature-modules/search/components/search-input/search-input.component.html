@@ -12,7 +12,7 @@
                     (change)="clearAnySelectedFile()"
                     [ngModelOptions]="{standalone: true}"
                     rows="2"
-                    placeholder="Enter marker symbols or MGI Accession IDs (comma separated).">
+                    placeholder="">
                 </textarea>
                 <button mat-button *ngIf="textAreaContent" matSuffix mat-icon-button aria-label="Clear" (click)="textAreaContent=''">
                     <mat-icon>close</mat-icon>

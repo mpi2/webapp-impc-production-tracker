@@ -17,26 +17,28 @@
         <div id="tpn">{{ project.tpn }}</div>
 
         <label for="assignmentStatus">Assignment Status:</label>
-        <div id="assignmentStatus" class="content">{{project.assignmentStatusName}}</div>
+        <div id="assignmentStatus" class="content">{{ project.assignmentStatusName }}</div>
 
         <label for="summaryStatusName">Summary Status:</label>
-        <div id="summaryStatusName" class="content">{{project.summaryStatusName}}</div>
+        <div id="summaryStatusName" class="content">{{ project.summaryStatusName }}</div>
 
         <label for="privacy">Privacy:</label>
-        <div id="privacy" class="content">
-          <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
-          <ng-template #privacyEditable>
-            <mat-select class="select-content" [(value)]="project.privacyName">
-              <mat-option></mat-option>
-              <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
-                {{privacy.name}}
-              </mat-option>
-            </mat-select>
-          </ng-template>
-          <ng-template #privacyReadOnly>
-            {{project.privacyName}}
-          </ng-template>
-        </div>
+        <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
+        <ng-template #privacyEditable>
+          <div class="content">
+            <mat-form-field appearance="fill">
+              <mat-select [(value)]="project.privacyName" >
+                <mat-option></mat-option>
+                <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
+                  {{ privacy.name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+        </ng-template>
+        <ng-template #privacyReadOnly>
+          <div style="float: left;">{{ project.privacyName }}</div>
+        </ng-template>
 
         <label for="privacy">Recovery:</label>
         <div id="privacy" class="content">
@@ -48,7 +50,6 @@
             <mat-checkbox [(ngModel)]="project.recovery" [disabled]=true [ngModelOptions]="{standalone: true}"></mat-checkbox>
           </ng-template>
         </div>
-
       </fieldset>
 
       <app-project-consortium-institutes [project]="project" [canUpdate]="false"></app-project-consortium-institutes>
@@ -60,16 +61,16 @@
       </fieldset>
       <fieldset>
         <label for="comment">Comment:</label>
-        <div id="comment" class="comment">
-          <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
-          <ng-template #commentsEditable>
-            <textarea type="text" formControlName="comments" class="form-control"
+        <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
+        <ng-template #commentsEditable>
+          <mat-form-field appearance="fill">
+            <textarea matInput formControlName="comments" class="form-control"
               (change)="onTextCommentChanged($event)"></textarea>
-          </ng-template>
-          <ng-template #commentsReadOnly>
-            {{project.comment}}
-          </ng-template>
-        </div>
+          </mat-form-field>
+        </ng-template>
+        <ng-template #commentsReadOnly>
+          {{ project.comment }}
+        </ng-template>
       </fieldset>
     </form>
   </mat-card-content>

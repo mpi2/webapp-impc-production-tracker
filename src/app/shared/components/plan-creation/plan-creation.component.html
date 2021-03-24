@@ -106,14 +106,6 @@
             </div>
         </div>
 
-        <!-- <div id="nuclease" *ngIf="plan.attemptTypeName === 'crispr'"> -->
-            <!-- Nuclease section. Only available for production crispr plans -->
-            <!-- <app-nuclease [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-nuclease> -->
-
-            <!-- Guides section. Only available for production crispr plans -->
-            <!-- <app-guides [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="true"></app-guides> -->
-        <!-- </div> -->
-
         <mat-card *ngIf="planCreation" class="update-button">
             <mat-card-content>
                 <button mat-raised-button color="primary" (click)="create()">Create Plan</button>

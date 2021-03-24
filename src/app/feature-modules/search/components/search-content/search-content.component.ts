@@ -14,7 +14,6 @@ import { ProjectIntention } from 'src/app/feature-modules/projects/model/project
   styleUrls: ['./search-content.component.css']
 })
 export class SearchContentComponent implements OnInit, OnDestroy {
-
   @Input() search: Search;
   @Output() errorMessageChanged = new EventEmitter<string>();
   @ViewChild(MatPaginator) paginator: MatPaginator;

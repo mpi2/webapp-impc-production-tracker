@@ -47,8 +47,6 @@ import { StatusTransitionComponent } from './components/status-transition/status
 import { StatusDateComponent } from './components/status-date/status-date.component';
 import { AutocompleteGeneComponent } from './components/autocomplete-gene/autocomplete-gene.component';
 import { PlanCreationComponent } from './components/plan-creation/plan-creation.component';
-import { NucleaseComponent } from './components/plan-creation/nuclease/nuclease.component';
-import { GuidesComponent } from './components/plan-creation/guides/guides.component';
 
 
 export const MY_DATE_FORMATS = {
@@ -76,9 +74,7 @@ export const MY_DATE_FORMATS = {
     StatusTransitionComponent,
     StatusDateComponent,
     AutocompleteGeneComponent,
-    PlanCreationComponent,
-    NucleaseComponent,
-    GuidesComponent
+    PlanCreationComponent
   ],
   imports: [
     MatAutocompleteModule,
@@ -162,8 +158,6 @@ export const MY_DATE_FORMATS = {
     MatStepperModule,
     MatListModule,
     PlanCreationComponent,
-    NucleaseComponent,
-    GuidesComponent,
     NgxTrimDirectiveModule
   ],
   providers: [

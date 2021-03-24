@@ -61,7 +61,6 @@
         <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
             <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                 <div>
-
                     <div *ngFor="let intentionBySequence of element.intentionsBySequence">
                         <mat-card>
                             <app-sequence-intention-detail [intentionBySequence]=intentionBySequence>

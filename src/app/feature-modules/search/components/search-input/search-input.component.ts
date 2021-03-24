@@ -40,16 +40,17 @@ export class SearchInputComponent implements OnInit {
     this.searchDefined.emit(searchInput);
   }
 
-  checkIfValidStatus() {
+  public checkIfValidStatus() {
     return this.textAreaContent !== '' || this.selectedFile;
   }
 
-  onInputTextChanged(event) {
+  public onInputTextChanged(event) {
     this.clearAnySelectedFile();
   }
 
-  clearAnySelectedFile() {
+  public clearAnySelectedFile() {
     this.csvReader.nativeElement.value = '';
     this.selectedFile = null;
   }
+
 }
