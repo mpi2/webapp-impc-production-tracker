@@ -113,13 +113,21 @@ export class GuidesComponent implements OnInit {
     return this.guidesForm.controls;
   }
 
-  highlight(row) {
+  highlightExon(row) {
     if (this.highlightedRows.indexOf(row) > -1) {
       this.highlightedRows.splice(this.highlightedRows.indexOf(row), 1);
     } else {
       this.highlightedRows = [];
       this.highlightedRows.push(row);
     }
+    console.log(this.highlightedRows);
+    if (this.highlightedRows.length === 0) {
+      this.guides = [];
+    }
+  }
+
+  highlightSequence(row) {
+    row.rowClicked = !row.rowClicked;
   }
 
   findGuides() {
@@ -239,7 +247,7 @@ export class GuidesComponent implements OnInit {
       this.crisprAttempt.guides = this.crisprAttempt.guides
         .filter(x => x.id !== guide.id);
     }
-    this.highlight(guide);
+    this.highlightSequence(guide);
   }
 
   private isNewRecord(guide: Guide) {

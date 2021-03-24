@@ -37,7 +37,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedExonColumns; let idx=index;"
                             class="element-row" 
                             [style.background-color]="highlightedRows.indexOf(row) != -1 ? 'orange' : ''"
-                            (click)="exonSelected(row, !row.rowClicked); highlight(row);"></tr>
+                            (click)="exonSelected(row, !row.rowClicked); highlightExon(row);"></tr>
                     </table>
                 </div>
 
@@ -56,7 +56,7 @@
                         <tr mat-row *matRowDef="let row; columns: displayedGuideColumns;"
                             class="element-row" 
                             [style.background-color]="row.rowClicked ? 'orange' : ''"
-                            (click)="sequenceSelected(row, !row.rowClicked); row.rowClicked = !row.rowClicked;"></tr>
+                            (click)="sequenceSelected(row, !row.rowClicked); highlightSequence(row);"></tr>
                     </table>
                 </div>
             </div>
@@ -81,8 +81,8 @@
                         <th>Guide Sequence **</th>
                         <th>PAM</th>
                         <th>Chr</th>
-                        <th>Start</th>
-                        <th>Stop</th>
+                        <th>Start *</th>
+                        <th>Stop *</th>
                         <th>Strand</th>
                         <th>Genome Build ***</th>
                         <th>Format Name</th>

@@ -13,7 +13,6 @@ import { QueryBuilderService } from 'src/app/core';
     providedIn: 'root'
 })
 export class SearchService {
-
     searchChange: EventEmitter<Search> = new EventEmitter();
     public search: Search;
 
@@ -39,13 +38,14 @@ export class SearchService {
         let queryAsParameters = this.queryBuilderService.buildQueryParameters(search.filters, page);
         queryAsParameters = 'searchTypeName=' + search.searchType + '&' + queryAsParameters;
         if (search.searchInput.type === SearchInputType.Text) {
+            search.searchInput.value = this.formateString(search.searchInput.value);
             return this.executeSearchByText(search, queryAsParameters);
         } else if (search.searchInput.type === SearchInputType.File) {
             return this.executeSearchByFile(search, queryAsParameters);
         }
     }
 
-    buildFilterParameters(filters: SearchFilter) {
+    public buildFilterParameters(filters: SearchFilter) {
         const filterParameters = [];
         if (filters) {
             Object.keys(filters).map(key => {
@@ -54,7 +54,6 @@ export class SearchService {
                     const filterContent = key + '=' + content.join(',');
                     filterParameters.push(filterContent);
                 }
-
             });
         }
         return filterParameters.join('&');
@@ -66,6 +65,12 @@ export class SearchService {
         } else if (this.isSearchByFile(search)) {
             return this.exportCsvForFileInputSearch(search);
         }
+    }
+
+    private formateString(value) {
+        let str = value.split('\n');
+        str = str.filter((item) => item !== '');
+        return str.join(',').split(',,').join(',');
     }
 
     private getInputTextQuery(search: Search) {

@@ -13,6 +13,8 @@ import { TissueDistributionCentreComponent } from './components/phenotyping/tiss
 import { ReagentsComponent } from './components/production/crispr/reagents/reagents.component';
 import { AssayComponent } from './components/production/crispr/assay/assay.component';
 import { InjectionDetailsComponent } from './components/production/crispr/injection-details/injection-details.component';
+import { GuidesComponent } from './components/production/crispr/guides/guides.component';
+import { NucleaseComponent } from './components/production/crispr/nuclease/nuclease.component';
 // eslint-disable-next-line max-len
 import { PhenotypingAttemptDetailsComponent } from './components/phenotyping/phenotyping-attempt-details/phenotyping-attempt-details.component';
 import { PhenotypingStagesComponent } from './components/phenotyping/phenotyping-stages/phenotyping-stages.component';
@@ -32,7 +34,9 @@ import { PhenotypingStageDetailsComponent } from './components/phenotyping/pheno
     InjectionDetailsComponent,
     PhenotypingAttemptDetailsComponent,
     PhenotypingStagesComponent,
-    PhenotypingStageDetailsComponent
+    PhenotypingStageDetailsComponent,
+    GuidesComponent,
+    NucleaseComponent
   ],
   imports: [
     SharedModule,

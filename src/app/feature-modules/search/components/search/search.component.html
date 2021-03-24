@@ -5,16 +5,16 @@
 </button>
 
 <mat-sidenav-container>
+  
   <mat-sidenav #drawer [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
     [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false && filterVisible">
     <app-filter-container *ngIf="filtersDefinition && configurationLoaded" #filter [filters]="filtersDefinition"
       [filtersInitialValues]="filtersInitialValues">
     </app-filter-container>
   </mat-sidenav>
+
   <mat-sidenav-content>
-
     <app-search-input (searchDefined)="onSearchDefined($event)"></app-search-input>
-
     <div class="table-controllers" fxLayout="row" fxLayoutGap="20px" fxLayout.xs="column" fxLayout.sm="column">
       <div>
         <button mat-button (click)="downloadCsv()" color="primary">
@@ -30,4 +30,5 @@
       </app-search-content>
     </div>
   </mat-sidenav-content>
+
 </mat-sidenav-container>

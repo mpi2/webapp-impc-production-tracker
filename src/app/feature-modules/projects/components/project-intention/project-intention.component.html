@@ -11,22 +11,26 @@
           <ng-template ngFor let-projectIntention [ngForOf]="projectCreation.projectIntentions">
               <tr>
                   <td>
-                      <mat-select class="molecularMutaionType"
-                          [(value)]="projectIntention.molecularMutationTypeName">
-                          <mat-option></mat-option>
-                          <mat-option *ngFor="let molecularMutationType of molecularMutationTypes" [value]="molecularMutationType.name">
-                              {{ molecularMutationType.name }}
-                          </mat-option>
-                      </mat-select>
+                    <mat-form-field appearance="fill">
+                        <mat-select class="molecularMutaionType"
+                            [(value)]="projectIntention.molecularMutationTypeName">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let molecularMutationType of molecularMutationTypes" [value]="molecularMutationType.name">
+                                {{ molecularMutationType.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                   </td>
                   <td>
-                      <mat-select (selectionChange)="addMutationCategorization(projectIntention, mutationCategorizationNames)" class="class"
-                          [(value)]="mutationCategorizationNames" multiple>
-                          <mat-option></mat-option>
-                          <mat-option *ngFor="let mutationCategorization of allMutationCategorizations" [value]="mutationCategorization.name">
-                              {{ mutationCategorization.name }}
-                          </mat-option>
-                      </mat-select>
+                    <mat-form-field appearance="fill">
+                        <mat-select (selectionChange)="addMutationCategorization(projectIntention, mutationCategorizationNames)" class="class"
+                            [(value)]="mutationCategorizationNames" multiple>
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let mutationCategorization of allMutationCategorizations" [value]="mutationCategorization.name">
+                                {{ mutationCategorization.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
                   </td>
                   <td>
                     <mat-form-field appearance="fill" class="content">

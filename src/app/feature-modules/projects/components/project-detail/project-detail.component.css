@@ -26,10 +26,11 @@ label {
   width: 15%;
 }
 input,
-select,
+mat-select,
 content {
   float: left;
 }
+
 .content {
   min-width: 40%;
   float: left;
