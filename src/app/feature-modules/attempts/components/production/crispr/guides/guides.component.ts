@@ -38,7 +38,7 @@ export class GuidesComponent implements OnInit {
   displayedExonColumns = ['exon_id'];
   displayedGuideColumns = ['sequence'];
   strands = ['+', '-'];
-  genomeBuilds = ['GRCm38', 'GRCm39'];
+  genomeBuilds = ['NA', 'GRCm38', 'GRCm39'];
   highlightedRows = [];
   isLoadingExons = false;
 
@@ -120,7 +120,6 @@ export class GuidesComponent implements OnInit {
       this.highlightedRows = [];
       this.highlightedRows.push(row);
     }
-    console.log(this.highlightedRows);
     if (this.highlightedRows.length === 0) {
       this.guides = [];
     }
