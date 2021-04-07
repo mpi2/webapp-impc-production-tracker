@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: webapp-test
+  name: webapp-test
+  namespace: mi-production-tracker-test
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: webapp-test
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: webapp-test
+    spec:
+      containers:
+      - image: rwilsonebi/production-tracker-webapp:latest
+        imagePullPolicy: Always
+        name: webapp-test
+        env:
+        - name: API_SERVICE_HOST
+          value: www.gentar.org
+        - name: API_SERVICE_PROTOCOL
+          value: "https"
+        - name: API_SERVICE_PORT
+          value: "443\\/production-tracker-test-api"
+        - name: REDEPLOY_KEY
+          value: "STRING_REPLACED_DURING_REDEPLOY"
+        ports:
+        - containerPort: 80
+          protocol: TCP
+        resources: {}
