@@ -21,8 +21,10 @@ spec:
       labels:
         app: webapp-dev
     spec:
+      imagePullSecrets:
+      - name: tracker-web-registrycredentials
       containers:
-      - image: rwilsonebi/production-tracker-webapp:latest
+      - image: dockerhub.ebi.ac.uk/mouse-informatics/webapp-impc-production-tracker-mirror:latest
         imagePullPolicy: Always
         name: webapp-dev
         env:
