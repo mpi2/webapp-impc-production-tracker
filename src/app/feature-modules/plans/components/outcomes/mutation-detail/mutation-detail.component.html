@@ -48,24 +48,23 @@
 
                 <br>
                 <label for="molecularMutationType">Molecular Mutation Type:</label>
-                <div id="molecularMutationType" class="molecularMutationType">
-                    <mat-select class="select-content-fix-width" [(value)]="mutation.molecularMutationTypeName">
+                <mat-form-field appearance="fill">
+                    <mat-select [(value)]="mutation.molecularMutationTypeName">
                         <mat-option></mat-option>
                         <mat-option *ngFor="let molecularMutationType of molecularMutationTypes"
                             [value]="molecularMutationType.name">
                             {{molecularMutationType.name}}
                         </mat-option>
                     </mat-select>
-                </div>
+                </mat-form-field>
 
                 <br>
                 <div>
                     <fieldset>
                         <legend>Mutation Categorizations:</legend>
                         <label for="repairMechanism">Repair Mechanism:</label>
-                        <div id="repairMechanism">
-                            <mat-select class="select-content" [(value)]="repairMechanismsNames"
-                                (selectionChange)="onRepairMechanismChanged($event)">
+                        <mat-form-field appearance="fill">
+                            <mat-select [(value)]="repairMechanismsNames" (selectionChange)="onRepairMechanismChanged($event)">
                                 <mat-option></mat-option>
                                 <mat-option
                                     *ngFor="let repairMechanism of this.molecularMutationTypesByType[repairMechanismKey]"
@@ -73,10 +72,10 @@
                                     {{ repairMechanism.name }}
                                 </mat-option>
                             </mat-select>
-                        </div>
+                        </mat-form-field>
                         <label for="alleleCategory">Allele Categories :</label>
-                        <div id="alleleCathegory">
-                            <mat-select class="select-content" [(value)]="alleleCategoriesNames"
+                        <mat-form-field appearance="fill">
+                            <mat-select [(value)]="alleleCategoriesNames"
                                 (selectionChange)="onAlleleCategoriesChanged($event)" multiple>
                                 <mat-option></mat-option>
                                 <mat-option
@@ -85,7 +84,7 @@
                                     {{ alleleCategory.name }}
                                 </mat-option>
                             </mat-select>
-                        </div>
+                        </mat-form-field>
                     </fieldset>
                 </div>
 
