@@ -178,14 +178,11 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-    console.log('update mutations: ', this.outcome.mutations);
-
     if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
       const mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
 
       mutationsToUpdate.forEach(x => {
         this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {
-          console.log('update min: ', x);
           this.showChangeNotification(changeResponse);
         },
           error => {
@@ -197,15 +194,12 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   createMutations() {
-    console.log('create mutations: ', this.outcome.mutations);
-
     if (this.outcome.mutations) {
       const mutationsToCreate = this.outcome.mutations.filter(x => !x.min);
 
       mutationsToCreate.forEach(x => {
         this.mutationService.createMutation(x).subscribe((changeResponse: ChangeResponse) => {
           this.showChangeNotification(changeResponse);
-          console.log('create min: ', x);
         },
           error => {
             this.error = error;
