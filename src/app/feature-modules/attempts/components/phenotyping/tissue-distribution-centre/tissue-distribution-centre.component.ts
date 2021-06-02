@@ -80,7 +80,7 @@ export class TissueDistributionCentreComponent implements OnInit {
   }
 
   private isNewRecord(tissueDistributionCentre: TissueDistributionCentre) {
-    return tissueDistributionCentre.id == null;
+    return tissueDistributionCentre.id === null;
   }
 
 }
