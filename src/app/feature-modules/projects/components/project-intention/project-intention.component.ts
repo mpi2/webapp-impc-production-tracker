@@ -132,6 +132,6 @@ export class ProjectIntentionComponent implements OnInit {
   }
 
   private isNewRecord(intention: ProjectIntention) {
-    return intention.id == null;
+    return intention.id === null;
   }
 }

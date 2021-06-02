@@ -331,7 +331,7 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   private isNewRecord(mutation: Mutation) {
-    return mutation.min == null;
+    return mutation.min === null;
   }
 
   private initiOutcomeType(type: string) {

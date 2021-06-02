@@ -93,7 +93,7 @@ export class DistributionProductListComponent implements OnInit, OnChanges {
   }
 
   private isNewRecord(distributionProduct: DistributionProduct) {
-    return distributionProduct.id == null;
+    return distributionProduct.id === null;
   }
 
 }

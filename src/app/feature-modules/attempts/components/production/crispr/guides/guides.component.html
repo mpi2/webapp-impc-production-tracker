@@ -2,7 +2,7 @@
     <mat-card-subtitle>Guides</mat-card-subtitle>
 
     <mat-card-content>
-        <div *ngIf="canUpdatePlan && crisprAttempt.nucleases[0].typeName == 'Cas9'" id="guidesSearch">
+        <div *ngIf="canUpdatePlan && crisprAttempt.nucleases[0].typeName === 'Cas9'" id="guidesSearch">
             <div id="guidesSearchForm">
                 <form [formGroup]="getGuidesForm">
                     <mat-form-field appearance="fill" >
@@ -36,7 +36,7 @@
                         <tr mat-header-row *matHeaderRowDef="displayedExonColumns sticky: true"></tr>
                         <tr mat-row *matRowDef="let row; columns: displayedExonColumns; let idx=index;"
                             class="element-row" 
-                            [style.background-color]="highlightedRows.indexOf(row) != -1 ? 'orange' : ''"
+                            [style.background-color]="highlightedRows.indexOf(row) !== -1 ? 'orange' : ''"
                             (click)="exonSelected(row, !row.rowClicked); highlightExon(row);"></tr>
                     </table>
                 </div>
