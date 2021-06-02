@@ -80,7 +80,7 @@ export class ReagentsComponent implements OnInit {
   }
 
   private isNewRecord(reagent: Reagent) {
-    return reagent.id == null;
+    return reagent.id === null;
   }
 
 }

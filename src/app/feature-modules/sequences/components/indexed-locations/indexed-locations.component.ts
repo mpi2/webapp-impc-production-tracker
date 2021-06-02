@@ -89,7 +89,7 @@ export class IndexedLocationsComponent implements OnInit {
   }
 
   private isNewRecord(indexedLocation: IndexedLocation) {
-    return indexedLocation.id == null;
+    return indexedLocation.id === null;
   }
 
   private fixFormat(indexedLocation: IndexedLocation) {
