@@ -16,6 +16,7 @@
     "@angular-eslint/eslint-plugin": "^12.1.0",
     "@angular-eslint/eslint-plugin-template": "^12.1.0",
     "@angular-eslint/template-parser": "^12.1.0",
+    "@angular/compiler": "^12.0.3",
     "@types/debug": "^4.1.5",
     "@typescript-eslint/eslint-plugin": "^4.26.0",
     "@typescript-eslint/parser": "^4.26.0",
@@ -23,7 +24,7 @@
     "msw": "^0.29.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^0.901.15",
+    "@angular-devkit/build-angular": "^12.0.3",
     "@angular/cli": "^12.0.2",
     "@angular/compiler-cli": "^12.0.2",
     "@types/jasmine": "~3.7.6",
