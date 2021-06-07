@@ -65,6 +65,7 @@
   "devDependencies": {},
   "resolutions": {
     "minimist": "^1.2.5",
-    "object-path": "^0.11.5"
+    "object-path": "^0.11.5",
+    "postcss": "^8.2.15"
   }
 }
