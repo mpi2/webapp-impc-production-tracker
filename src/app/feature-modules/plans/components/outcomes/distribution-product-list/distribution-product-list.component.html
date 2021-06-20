@@ -1,9 +1,6 @@
 <mat-card>
+    <mat-card-subtitle>Distribution Products</mat-card-subtitle>
     <mat-card-content>
-        <div class="title">
-            Distribution Products:
-        </div>
-
         <table>
             <tr class="header">
                 <th>Distribution Centre</th>
@@ -19,31 +16,37 @@
                 <ng-template #editableRow>
                     <tr>
                         <td>
-                            <mat-select [(ngModel)]="distributionProduct.distributionCentreName">
-                                <mat-option></mat-option>
-                                <mat-option *ngFor="let distributionCentresName of distributionCentresNames"
-                                    [value]="distributionCentresName.name">
-                                    {{distributionCentresName.name}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="select-content" [(ngModel)]="distributionProduct.distributionCentreName">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let distributionCentresName of distributionCentresNames"
+                                        [value]="distributionCentresName.name">
+                                        {{ distributionCentresName.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </td>
                         <td>
-                            <mat-select [(ngModel)]="distributionProduct.productTypeName">
-                                <mat-option></mat-option>
-                                <mat-option *ngFor="let productTypesName of productTypesNames"
-                                    [value]="productTypesName.name">
-                                    {{productTypesName.name}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="select-content" [(ngModel)]="distributionProduct.productTypeName">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let productTypesName of productTypesNames"
+                                        [value]="productTypesName.name">
+                                        {{ productTypesName.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </td>
                         <td>
-                            <mat-select [(ngModel)]="distributionProduct.distributionNetworkName">
-                                <mat-option></mat-option>
-                                <mat-option *ngFor="let distributionNetworkName of distributionNetworksNames"
-                                    [value]="distributionNetworkName.name">
-                                    {{distributionNetworkName.name}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="select-content" [(ngModel)]="distributionProduct.distributionNetworkName">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let distributionNetworkName of distributionNetworksNames"
+                                        [value]="distributionNetworkName.name">
+                                        {{ distributionNetworkName.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </td>
 
                         <td>

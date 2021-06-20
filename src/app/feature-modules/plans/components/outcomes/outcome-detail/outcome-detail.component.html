@@ -1,4 +1,4 @@
-<div *ngIf="error" class="alert alert-danger">{{error}}</div>
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
 <mat-card>
     <mat-card-content>
         <a [routerLink]="['history']">History</a>
@@ -9,62 +9,71 @@
 </mat-card>
 
 <mat-card>
+    <mat-card-subtitle>Outcome Details</mat-card-subtitle>
     <mat-card-content>
-        <form [formGroup]="outcomeForm">
-            <fieldset>
-                <div *ngIf="!isOutcomeBeingCreated">
-                    <label for="tpo">Outcome id:</label>
-                    <div id="tpo">{{ outcome.tpo }}</div>
-                </div>
+        <table>
+            <tr>
+                <td><label for="pin">Plan Id:</label></td>
+                <td><a routerLink="/projects/{{ tpn }}/production-plan/{{pin}}">{{ pin }}</a></td>
+            </tr>
 
-                <label for="pin">Plan Id:</label>
-                <div id="pin" class="content"> <a routerLink="/projects/{{ tpn }}/production-plan/{{pin}}">
-                        {{ pin }}</a></div>
+            <div *ngIf="canUpdate && isOutcomeBeingCreated; then outcomeEditable else outcomeReadOnly"></div>
+            <ng-template #outcomeEditable>
+                <tr>
+                    <td><label for="tpo">Outcome id:</label></td>
+                    <td>{{ outcome.tpo }}</td>
+                </tr>
+                <tr>
+                    <td><label for="outcomeTypeName">Type:</label></td>
+                    <td>
+                        <mat-select (selectionChange)="onTypeSelected($event)" class="select-content"
+                            [(ngModel)]="outcome.outcomeTypeName" [ngModelOptions]="{standalone: true}">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let outcomeType of outcomeTypes" [value]="outcomeType.name">
+                                {{ outcomeType.name }}
+                            </mat-option>
+                        </mat-select>
+                    </td>
+                </tr>
+            </ng-template>
 
-                <div *ngIf="canUpdate && isOutcomeBeingCreated; then editable else readOnly"></div>
-                <ng-template #editable>
-                    <label for="outcomeTypeName">Type:</label>
-                    <mat-select (selectionChange)="onTypeSelected($event)" class="content"
-                        [(ngModel)]="outcome.outcomeTypeName" [ngModelOptions]="{standalone: true}">
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let outcomeType of outcomeTypes" [value]="outcomeType.name">
-                            {{outcomeType.name}}
-                        </mat-option>
-                    </mat-select>
+            <ng-template #outcomeReadOnly>
+                <td><label for="tpo">Outcome id:</label></td>
+                    <td>{{ outcome.tpo }}</td>
+                <tr>
+                    <td><label for="outcomeTypeName">Type:</label></td>
+                    <td>{{ outcome.outcomeTypeName }}</td>
+                </tr>
+            </ng-template>
+        </table>
+    </mat-card-content>
+</mat-card>
 
-                </ng-template>
-                <ng-template #readOnly>
-                    <label for="outcomeTypeName">Type:</label>
-                    <div id="outcomeTypeName" class="content">{{ outcome.outcomeTypeName}}</div>
-                </ng-template>
+<div *ngIf="outcome.colony" class="section">
+    <app-colony-detail [colony]="outcome.colony" [isNew]="isOutcomeBeingCreated" [canUpdate]="canUpdate"></app-colony-detail>
+</div>
 
-                <div *ngIf="outcome.colony" class="section">
-                    <app-colony-detail [colony]="outcome.colony" [isNew]="isOutcomeBeingCreated"
-                        [canUpdate]="canUpdate"></app-colony-detail>
-                </div>
-
-                <div *ngIf="this.outcome.outcomeTypeName">
-                    <label for="mutations">Mutations:</label>
-                    <div id="mutations" *ngIf="this.outcome.mutations">
-                        <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
-                            [mutation]="mutation" (mutationDeleted)="onMutationDeleted($event)" class="section">
-                        </app-mutation-detail>
-                    </div>
-                    <button class="create-button" mat-raised-button (click)="onAddMutation()" color="primary"
-                        *ngIf="canUpdate">Add Mutation</button>
-                </div>
-
-            </fieldset>
-        </form>
+<mat-card>
+    <p>Mutations</p>
+    <mat-card-content>
+        <div *ngIf="this.outcome.outcomeTypeName">
+            <div id="mutations" *ngIf="this.outcome.mutations">
+                <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
+                    [mutation]="mutation" (mutationDeleted)="onMutationDeleted($event)" class="section">
+                </app-mutation-detail>
+            </div>
+            <mat-card-actions>
+                <button class="create-button" mat-raised-button (click)="onAddMutation()" color="primary"
+                    *ngIf="canUpdate">Add Mutation</button>
+            </mat-card-actions>
+        </div>
     </mat-card-content>
 </mat-card>
 
 <div *ngIf="outcome.colony">
-    <div id="distributionProducts">
-        <app-distribution-product-list class="distributionProductsSection" [colony]="outcome.colony"
-            [canUpdate]="canUpdate">
-        </app-distribution-product-list>
-    </div>
+    <app-distribution-product-list class="distributionProductsSection" [colony]="outcome.colony"
+        [canUpdate]="canUpdate">
+    </app-distribution-product-list>
 </div>
 
 <mat-card>

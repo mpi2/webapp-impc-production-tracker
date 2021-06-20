@@ -14,8 +14,8 @@ export class StatusTransitionComponent implements OnInit , OnChanges {
   @Input() canUpdate: boolean;
   statusTransitionForm: FormGroup;
   nextStatus: string;
-  selectedTransition: Transition;
   userTransitions: Transition[];
+  transitionNote: string;
 
   constructor(private formBuilder: FormBuilder ) { }
 
@@ -31,13 +31,10 @@ export class StatusTransitionComponent implements OnInit , OnChanges {
   }
 
   onTransitionSelected(transition: Transition) {
-    console.log('current userTransitions:', this.userTransitions);
-    console.log('statusTransition.transitions:', this.statusTransition.transitions);
-    this.selectedTransition = transition;
     if (transition) {
-      this.statusTransition.actionToExecute = transition.action;
+      this.transitionNote = transition.note;
     } else {
-      this.statusTransition.actionToExecute = null;
+      this.transitionNote = null;
     }
   }
 

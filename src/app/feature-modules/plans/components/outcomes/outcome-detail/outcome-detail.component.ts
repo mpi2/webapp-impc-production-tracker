@@ -24,7 +24,6 @@ import { Specimen } from '../../../model/outcomes/specimen';
 })
 export class OutcomeDetailComponent implements OnInit {
   outcome: Outcome = new Outcome();
-  outcomeForm: FormGroup;
 
   project: Project;
 
@@ -53,7 +52,6 @@ export class OutcomeDetailComponent implements OnInit {
   configurationData: ConfigurationData;
 
   constructor(
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -70,9 +68,6 @@ export class OutcomeDetailComponent implements OnInit {
     this.evaluateUpdatePermissions();
     this.loadConfigurationData();
     this.fetchOrCreateOutcome();
-    this.outcomeForm = this.formBuilder.group({
-      outcomeTypeName: [''],
-    });
   }
 
   loadConfigurationData() {
@@ -331,7 +326,7 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   private isNewRecord(mutation: Mutation) {
-    return mutation.min == null;
+    return mutation.min === null;
   }
 
   private initiOutcomeType(type: string) {

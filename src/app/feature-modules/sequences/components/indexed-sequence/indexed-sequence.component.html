@@ -1,13 +1,10 @@
 <mat-card class="sequence-card">
     <mat-card-content>
-
         <mat-card-actions>
             <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
                 (click)="delete()">Delete sequence</button>
         </mat-card-actions>
-
         <div *ngIf="canUpdate; then editable else readOnly"></div>
-
         <ng-template #editable>
 
             <label for="index">Index:</label>

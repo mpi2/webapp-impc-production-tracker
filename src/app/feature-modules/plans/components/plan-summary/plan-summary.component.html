@@ -25,6 +25,14 @@
         {{plan.workUnitName || 'Not defined'}}
       </td>
     </tr>
+    <tr>
+      <td>
+        Attempt type:
+      </td>
+      <td>
+        {{plan.attemptTypeName || 'Not defined'}}
+      </td>
+    </tr>
   </table>
   <p>
     <a *ngIf="'production' === plan.typeName" [routerLink]="['production-plan', plan.pin]">See

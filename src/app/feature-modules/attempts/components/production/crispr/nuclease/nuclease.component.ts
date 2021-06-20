@@ -91,7 +91,7 @@ export class NucleaseComponent implements OnInit {
   }
 
   private isNewRecord(nuclease: Nuclease) {
-    return nuclease.id == null;
+    return nuclease.id === null;
   }
 
 }

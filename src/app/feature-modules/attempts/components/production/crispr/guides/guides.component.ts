@@ -250,7 +250,7 @@ export class GuidesComponent implements OnInit {
   }
 
   private isNewRecord(guide: Guide) {
-    return guide.id == null;
+    return guide.id === null;
   }
 
 }

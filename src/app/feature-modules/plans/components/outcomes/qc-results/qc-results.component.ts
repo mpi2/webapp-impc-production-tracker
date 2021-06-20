@@ -74,7 +74,7 @@ export class QcResultsComponent implements OnInit {
   }
 
   private isNewRecord(qcResult: QcResult) {
-    return qcResult.id == null;
+    return qcResult.id === null;
   }
 
 }

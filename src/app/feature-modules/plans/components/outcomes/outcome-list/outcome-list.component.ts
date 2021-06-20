@@ -11,6 +11,7 @@ export class OutcomeListComponent implements OnInit {
   @Input() canUpdate: boolean;
   @Input() tpn: string;
   @Input() pin: string;
+  @Input() attemptType: string;
 
   constructor() { }
 

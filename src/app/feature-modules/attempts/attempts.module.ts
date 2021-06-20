@@ -15,10 +15,12 @@ import { AssayComponent } from './components/production/crispr/assay/assay.compo
 import { InjectionDetailsComponent } from './components/production/crispr/injection-details/injection-details.component';
 import { GuidesComponent } from './components/production/crispr/guides/guides.component';
 import { NucleaseComponent } from './components/production/crispr/nuclease/nuclease.component';
+import { EscellAttemptComponent } from './components/production/escell/escell-attempt.component';
 // eslint-disable-next-line max-len
 import { PhenotypingAttemptDetailsComponent } from './components/phenotyping/phenotyping-attempt-details/phenotyping-attempt-details.component';
 import { PhenotypingStagesComponent } from './components/phenotyping/phenotyping-stages/phenotyping-stages.component';
 import { PhenotypingStageDetailsComponent } from './components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
+import { CreAlleleModificationComponent } from './components/production/cre-allele-modification/cre-allele-modification.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +38,9 @@ import { PhenotypingStageDetailsComponent } from './components/phenotyping/pheno
     PhenotypingStagesComponent,
     PhenotypingStageDetailsComponent,
     GuidesComponent,
-    NucleaseComponent
+    NucleaseComponent,
+    EscellAttemptComponent,
+    CreAlleleModificationComponent
   ],
   imports: [
     SharedModule,
@@ -45,6 +49,8 @@ import { PhenotypingStageDetailsComponent } from './components/phenotyping/pheno
   exports: [
     CrisprAttemptComponent,
     CrisprAttemptDetailsComponent,
+    EscellAttemptComponent,
+    CreAlleleModificationComponent,
     PhenotypingAttemptComponent
   ]
 })

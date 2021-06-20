@@ -204,7 +204,7 @@ export class MutationDetailComponent implements OnInit {
     this.mutation.description = this.inputHandlerService.getValueOrNull(e.target.value);
   }
   private isNewRecord(indexedSequence: IndexedSequence) {
-    return indexedSequence.id == null;
+    return indexedSequence.id === null;
   }
 
 }

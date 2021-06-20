@@ -79,7 +79,7 @@ export class ProjectConsortiumInstitutesComponent implements OnInit {
   }
 
   private isNewRecord(institutesConsortium: InstitutesConsortium) {
-    return institutesConsortium.id == null;
+    return institutesConsortium.id === null;
   }
 
 }

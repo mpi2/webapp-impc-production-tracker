@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
 import { Colony } from '../../../model/outcomes/colony';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
@@ -15,22 +14,14 @@ export class ColonyDetailComponent implements OnInit {
   @Input() canUpdate: boolean;
   @Input() isNew: boolean;
 
-  colonyForm: FormGroup;
-
   backGroundStrains: NamedValue[];
-
   configurationData: ConfigurationData;
 
-  constructor(
-    private formBuilder: FormBuilder,
-    private configurationDataService: ConfigurationDataService,
+  constructor(private configurationDataService: ConfigurationDataService,
     private inputHandlerService: InputHandlerService) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
-    this.colonyForm = this.formBuilder.group({
-      name: [''],
-    });
   }
 
   loadConfigurationData() {
