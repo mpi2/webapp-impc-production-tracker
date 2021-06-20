@@ -22,6 +22,10 @@
   [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="canUpdatePlan">
 </app-crispr-attempt>
 
+<app-escell-attempt *ngIf="plan.attemptTypeName === 'es cell'"
+  [esCellAttempt]="plan.esCellAttempt" [canUpdatePlan]="canUpdatePlan">
+</app-escell-attempt>
+
 <app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [canUpdate]="canUpdatePlan">
 </app-outcome-list>
 

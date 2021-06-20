@@ -1,0 +1,517 @@
+<form>
+  <mat-card>
+    <mat-card-subtitle>EsCell Attempt Details</mat-card-subtitle>
+    <mat-card-content>
+      <table>
+        <tr>
+          <td>ES Cell Name:</td>
+          <div
+            *ngIf="
+              canUpdatePlan;
+              then esCellNameEditable;
+              else esCellNameReadOnly
+            "
+          ></div>
+          <ng-template #esCellNameEditable>
+            <td>
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  [(ngModel)]="esCellAttempt.esCellName"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </mat-form-field>
+            </td>
+          </ng-template>
+
+          <ng-template #esCellNameReadOnly>
+            <td>
+              {{ esCellAttempt.esCellName }}
+            </td>
+          </ng-template>
+        </tr>
+
+        <tr>
+          <td>MI date:</td>
+          <div
+            *ngIf="canUpdatePlan; then miDateEditable; else miDateReadOnly"
+          ></div>
+          <ng-template #miDateEditable>
+            <td>
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  [matDatepicker]="datePicker"
+                  [(ngModel)]="esCellAttempt.miDate"
+                  [ngModelOptions]="{ standalone: true }"
+                  (dateChange)="onDateChanged()"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datePicker></mat-datepicker>
+              </mat-form-field>
+            </td>
+          </ng-template>
+
+          <ng-template #miDateReadOnly>
+            <td>
+              {{ esCellAttempt.miDate | date }}
+            </td>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>MI external Ref:</td>
+          <div
+            *ngIf="
+              canUpdatePlan;
+              then miExternalRefEditable;
+              else miExternalRefReadOnly
+            "
+          ></div>
+          <ng-template #miExternalRefEditable>
+            <td>
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  [(ngModel)]="esCellAttempt.attemptExternalRef"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </mat-form-field>
+            </td>
+          </ng-template>
+          <ng-template #miExternalRefReadOnly>
+            <td>
+              {{ esCellAttempt.attemptExternalRef }}
+            </td>
+          </ng-template>
+        </tr>
+
+        <tr>
+          <td>Experimental:</td>
+          <td>
+            <input
+              type="checkbox"
+              [(ngModel)]="esCellAttempt.experimental"
+              [ngModelOptions]="{ standalone: true }"
+              [disabled]="!canUpdatePlan"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>Comments:</td>
+          <div *ngIf="canUpdatePlan; then commentEditable; else commentReadOnly"></div>
+          <ng-template #commentEditable>
+            <td>
+              <mat-form-field appearance="fill">
+                <textarea
+                  matInput
+                  #box
+                  [(ngModel)]="esCellAttempt.comment"
+                  [ngModelOptions]="{ standalone: true }"
+                ></textarea>
+              </mat-form-field>
+            </td>
+          </ng-template>
+
+          <ng-template #commentReadOnly>
+            <td>{{ esCellAttempt.comment }}</td>
+          </ng-template>
+        </tr>
+      </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-subtitle>Transfer Details</mat-card-subtitle>
+    <mat-card-content> 
+        <div *ngIf="canUpdatePlan; then transferDetailsEditable else transferDetailsReadOnly"></div>
+        <table>
+            <ng-template #transferDetailsEditable>
+                <tr>
+                    <td><label for="blastStrainName">Blast Strain Name:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-select class="select-content" [(value)]="esCellAttempt.blastStrainName">
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let strain of strains" [value]="strain.name">
+                                    {{ strain.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalBlastsInjected">Total Blasts Injected:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalBlastsInjected">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.totalBlastsInjected" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                        <!-- <div *ngIf="blastInjectedError.invalid && (blastInjectedError.dirty || blastInjectedError.touched)">
+                            <div *ngIf="blastInjectedError.errors.pattern">
+                                <span style="background-color: red">Only Numbers allowed </span>
+                            </div>
+                        </div> -->
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalTransferred">Total Transferred:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalTransferred">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.totalTransferred" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberSurrogatesReceiving">Number Surrogates Receiving:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberSurrogatesReceiving">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberSurrogatesReceiving" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </ng-template>
+          
+            <ng-template #transferDetailsReadOnly>
+                <tr>
+                    <td><label for="blastStrainName">Blast Strain Name:</label></td>
+                    <td>{{ esCellAttempt.blastStrainName }}</td>
+                </tr>
+                <tr>
+                    <td><label for="totalBlastsInjected">Total Blasts Injected:</label></td>
+                    <td>{{ esCellAttempt.totalBlastsInjected }}</td>
+                </tr>
+                <tr>
+                    <td><label for="totalTransferred">Total Transferred:</label></td>
+                    <td>{{ esCellAttempt.totalTransferred }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberSurrogatesReceiving">Number Surrogates Receiving:</label></td>
+                    <td>{{ esCellAttempt.numberSurrogatesReceiving }}</td>
+                </tr>
+            </ng-template>
+        </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-subtitle>Litter Details</mat-card-subtitle>
+    <mat-card-content> 
+        <div *ngIf="canUpdatePlan; then litterDetailsEditable else litterDetailsReadOnly"></div>
+        <table>
+            <ng-template #litterDetailsEditable>
+                <tr>
+                    <td><label for="totalPupsBorn">Total Pups Born:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalPupsBorn">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.totalPupsBorn" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalFemaleChimeras">Total Female Chimeras:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalFemaleChimeras">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.totalFemaleChimeras" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalMaleChimeras">Total Male Chimeras:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalMaleChimeras">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.totalMaleChimeras" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith0To39PercentChimerism">Number of Males with 0-39% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith0To39PercentChimerism">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfMalesWith0To39PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith40To79PercentChimerism">Number of Males with 40-79% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith40To79PercentChimerism">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfMalesWith40To79PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith80To99PercentChimerism">Number of Males with 80-99% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith80To99PercentChimerism">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfMalesWith80To99PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith100PercentChimerism">Number of Males with 100% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith100PercentChimerism">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfMalesWith100PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </ng-template>
+          
+            <ng-template #litterDetailsReadOnly>
+                <tr>
+                    <td><label for="totalPupsBorn">Total Pups Born:</label></td>
+                    <td>{{ esCellAttempt.totalPupsBorn }}</td>
+                </tr>
+                <tr>
+                    <td><label for="totalFemaleChimeras">Total Female Chimeras:</label></td>
+                    <td>{{ esCellAttempt.totalFemaleChimeras }}</td>
+                </tr>
+                <tr>
+                    <td><label for="totalMaleChimeras">Total Male Chimeras:</label></td>
+                    <td>{{ esCellAttempt.totalMaleChimeras }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith0To39PercentChimerism">Number of Males with 0-39% Chimerism:</label></td>
+                    <td>{{ esCellAttempt.numberOfMalesWith0To39PercentChimerism }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith40To79PercentChimerism">Number of Males with 40-79% Chimerism:</label></td>
+                    <td>{{ esCellAttempt.numberOfMalesWith40To79PercentChimerism }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith80To99PercentChimerism">Number of Males with 80-99% Chimerism:</label></td>
+                    <td>{{ esCellAttempt.numberOfMalesWith80To99PercentChimerism }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith100PercentChimerism">Number of Males with 100% Chimerism:</label></td>
+                    <td>{{ esCellAttempt.numberOfMalesWith100PercentChimerism }}</td>
+                </tr>                
+            </ng-template>
+        </table>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card>
+    <mat-card-subtitle>Chimera Mating Details</mat-card-subtitle>
+    <mat-card-content> 
+        <div *ngIf="canUpdatePlan; then chimeraMatingDetailsEditable else chimeraMatingDetailsReadOnly"></div>
+        <table>
+            <ng-template #chimeraMatingDetailsEditable>
+                <tr>
+                    <td><label for="testCrossStrainName">Test Cross Strain Name:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-select class="select-content" [(value)]="esCellAttempt.testCrossStrainName">
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let strain of strains" [value]="strain.name">
+                                    {{ strain.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="dateChimerasMated">Date Chimeras Mated:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <input
+                              matInput
+                              [matDatepicker]="datePickerChimeras"
+                              [(ngModel)]="esCellAttempt.dateChimerasMated"
+                              [ngModelOptions]="{ standalone: true }"
+                              (onMatingDateChanged)="onDateChanged()"
+                            />
+                            <mat-datepicker-toggle
+                              matSuffix
+                              [for]="datePickerChimeras"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #datePickerChimeras></mat-datepicker>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimeraMatingsAttempted">Number Of Chimera Matings Attempted:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimeraMatingsAttempted">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimeraMatingsAttempted" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimeraMatingsSuccessful">Number Of Chimera Matings Successful:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimeraMatingsSuccessful">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimeraMatingsSuccessful" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWithGltFromCct">Number Of Chimeras With GLT From CCT:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimerasWithGltFromCct">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimerasWithGltFromCct" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWithGltFromGenotyping">Number Of Chimeras With GLT From Genotyping:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimerasWithGltFromGenotyping">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimerasWithGltFromGenotyping" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith0To9PercentGlt">Number of Chimeras with 0-9% GLT:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimerasWith0To9PercentGlt">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith0To9PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith10To49PercentGlt">Number of Chimeras with 10-49% GLT:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimerasWith10To49PercentGlt">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith10To49PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith50To99PercentGlt">Number of Chimeras with 50-99% GLT:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimerasWith50To99PercentGlt">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith50To99PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith100PercentGlt">Number of Chimeras with 100% GLT:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfChimerasWith100PercentGlt">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith100PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalF1MiceFromMatings">Total F1 Mice From Matings:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalF1MiceFromMatings">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.totalF1MiceFromMatings" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfCctOffspring">Number Of CCT Offspring:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfCctOffspring">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfCctOffspring" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="cassetteTransmissionVerified">Cassette Transmission Verified:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <input
+                              matInput
+                              [matDatepicker]="datePickerCassette"
+                              [(ngModel)]="esCellAttempt.cassetteTransmissionVerified"
+                              [ngModelOptions]="{ standalone: true }"
+                              (onMatingDateChanged)="onCassetteTransmissionChanged()"
+                            />
+                            <mat-datepicker-toggle
+                              matSuffix
+                              [for]="datePickerCassette"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #datePickerCassette></mat-datepicker>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfHetOffspring">Number Of HET Offspring:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfHetOffspring">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfHetOffspring" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfLiveGltOffspring">Number Of Live GLT Offspring:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfLiveGltOffspring">
+                            <input matInput numbersOnly [(ngModel)]="esCellAttempt.numberOfLiveGltOffspring" [ngModelOptions]="{standalone: true}" >   
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </ng-template>
+            
+            <ng-template #chimeraMatingDetailsReadOnly>
+                <tr>
+                    <td><label for="testCrossStrainName">Test Cross Strain Name:</label></td>
+                    <td>{{ esCellAttempt.testCrossStrainName }}</td>
+                </tr>
+                <tr>
+                    <td><label for="dateChimerasMated">Date Chimeras Mated:</label></td>
+                    <td>{{ esCellAttempt.dateChimerasMated | date }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimeraMatingsAttempted">Number Of Chimera Matings Attempted:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimeraMatingsAttempted }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimeraMatingsSuccessful">Number Of Chimera Matings Successful:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimeraMatingsSuccessful }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWithGltFromCct">Number Of Chimeras With GLT From CCT:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimerasWithGltFromCct }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWithGltFromGenotyping">Number Of Chimeras With GLT From Genotyping:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimerasWithGltFromGenotyping }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith0To9PercentGlt">Number of Chimeras with 0-9% GLT:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimerasWith0To9PercentGlt }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith10To49PercentGlt">Number of Chimeras with 10-49% GLT:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimerasWith10To49PercentGlt }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith50To99PercentGlt">Number of Chimeras with 50-99% GLT:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimerasWith10To49PercentGlt }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfChimerasWith100PercentGlt">Number of Chimeras with 100% GLT:</label></td>
+                    <td>{{ esCellAttempt.numberOfChimerasWith100PercentGlt }}</td>
+                </tr>
+                <tr>
+                    <td><label for="totalF1MiceFromMatings">Total F1 Mice From Matings:</label></td>
+                    <td>{{ esCellAttempt.totalF1MiceFromMatings }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfCctOffspring">Number Of CCT Offspring:</label></td>
+                    <td>{{ esCellAttempt.numberOfCctOffspring }}</td>
+                </tr>
+                <tr>
+                    <td><label for="cassetteTransmissionVerified">Cassette Transmission Verified:</label></td>
+                    <td>{{ esCellAttempt.cassetteTransmissionVerified | date }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfHetOffspring">Number Of HET Offspring:</label></td>
+                    <td>{{ esCellAttempt.numberOfHetOffspring }}</td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfLiveGltOffspring">Number Of Live GLT Offspring:</label></td>
+                    <td>{{ esCellAttempt.numberOfLiveGltOffspring }}</td>
+                </tr>
+            </ng-template>
+        </table>
+    </mat-card-content>
+  </mat-card>
+
+</form>

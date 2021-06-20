@@ -6,6 +6,7 @@ import { StatusDate } from 'src/app/model/bio/status-date';
 import { StatusTransition } from 'src/app/model/status_transition/status_transition';
 import { PhenotypingStartingPoint } from '../../attempts/model/phenotyping/phenotyping_starting_point';
 import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts/model/production/crispr/crispr-attempt';
+import { EsCellAttempt, EsCellAttemptAdapter } from '../../attempts/model/production/escell/escell-attempt';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 
 export class Plan {
@@ -25,6 +26,7 @@ export class Plan {
     parentColonyName: string;
     comment: string;
     crisprAttempt: CrisprAttempt;
+    esCellAttempt: EsCellAttempt;
     phenotypingAttemptResponse: PhenotypingAttempt;
     // Need to keep this copy because phenotypingAttemptResponse is not processed by the update/create endpoint
     phenotypingAttempt: PhenotypingAttempt;
@@ -40,11 +42,14 @@ export class Plan {
 })
 export class PlanAdapter implements Adapter<Plan> {
     constructor(
-        private crisprAttemptAdapter: CrisprAttemptAdapter, private inputHandlerService: InputHandlerService) { }
+        private crisprAttemptAdapter: CrisprAttemptAdapter,
+        private escellAttemptAdapter: EsCellAttemptAdapter,
+        private inputHandlerService: InputHandlerService) { }
 
     adapt(item): Plan {
         const plan = item as Plan;
         plan.comment = this.inputHandlerService.getEmptyIfNull(plan.comment);
+
         if (plan.crisprAttempt) {
             plan.crisprAttempt = this.crisprAttemptAdapter.adapt(plan.crisprAttempt);
         }
@@ -53,6 +58,16 @@ export class PlanAdapter implements Adapter<Plan> {
                 plan.crisprAttempt = new CrisprAttempt();
             }
         }
+
+        if (plan.esCellAttempt) {
+            plan.esCellAttempt = this.escellAttemptAdapter.adapt(plan.esCellAttempt);
+        }
+        if (plan.attemptTypeName === 'es cell') {
+            if (!plan.esCellAttempt) {
+                plan.esCellAttempt = new EsCellAttempt();
+            }
+        }
+
         return plan;
     }
 }
