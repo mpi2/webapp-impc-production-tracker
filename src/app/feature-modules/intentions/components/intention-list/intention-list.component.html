@@ -48,7 +48,7 @@
     <ng-container matColumnDef="sequence">
         <th mat-header-cell *matHeaderCellDef> Sequence Information </th>
         <td mat-cell *matCellDef="let element">
-            <div *ngIf="element.intentionsBySequence !== null && element.intentionsBySequence.length > 0;
+            <div *ngIf="element.intentionsBySequence !== undefined && element.intentionsBySequence !== null && element.intentionsBySequence.length > 0;
                 else elseBlock">
                 Click row to see sequence intention
             </div>

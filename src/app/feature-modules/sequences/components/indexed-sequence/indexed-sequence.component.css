@@ -1,8 +1,6 @@
 .sequence-card {
   width: 1100px;
   margin-bottom: 25px;
-  border-width: 2px;
-  border-style: groove;
   box-shadow: none;
 }
 

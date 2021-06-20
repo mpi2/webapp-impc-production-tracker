@@ -1,9 +1,6 @@
 <mat-card>
+    <mat-card-subtitle>QC Results</mat-card-subtitle>
     <mat-card-content>
-        <div class="title">
-            QC Results:
-        </div>
-
         <table>
             <tr class="header">
                 <th>Type</th>
@@ -16,21 +13,24 @@
                 <ng-template #editableRow>
                     <tr>
                         <td>
-                            <mat-select [(ngModel)]="mutationQcResult.qcTypeName">
-                                <mat-option></mat-option>
-                                <mat-option *ngFor="let qcType of qcTypes" [value]="qcType.name">
-                                    {{qcType.name}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="select-content" [(ngModel)]="mutationQcResult.qcTypeName">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let qcType of qcTypes" [value]="qcType.name">
+                                        {{ qcType.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </td>
                         <td>
-
-                            <mat-select [(ngModel)]="mutationQcResult.statusName">
-                                <mat-option></mat-option>
-                                <mat-option *ngFor="let qcStatus of qcStatuses" [value]="qcStatus.name">
-                                    {{qcStatus.name}}
-                                </mat-option>
-                            </mat-select>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="select-content" [(ngModel)]="mutationQcResult.statusName">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let qcStatus of qcStatuses" [value]="qcStatus.name">
+                                        {{ qcStatus.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
                         </td>
 
                         <td class="delete">
@@ -62,5 +62,4 @@
             </tr>
         </table>
     </mat-card-content>
-
 </mat-card>
