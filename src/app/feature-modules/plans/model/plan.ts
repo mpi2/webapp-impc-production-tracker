@@ -1,4 +1,3 @@
-// import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
 import { PhenotypingAttempt } from '../../attempts/model/phenotyping/phenotyping_attempt';
@@ -7,6 +6,7 @@ import { StatusTransition } from 'src/app/model/status_transition/status_transit
 import { PhenotypingStartingPoint } from '../../attempts/model/phenotyping/phenotyping_starting_point';
 import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts/model/production/crispr/crispr-attempt';
 import { EsCellAttempt, EsCellAttemptAdapter } from '../../attempts/model/production/escell/escell-attempt';
+import { CreAlleleModificationAttempt } from '../../attempts/model/production/cre-allele-modification/cre-allele-modification-attempt';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 
 export class Plan {
@@ -27,6 +27,7 @@ export class Plan {
     comment: string;
     crisprAttempt: CrisprAttempt;
     esCellAttempt: EsCellAttempt;
+    creAlleleModificationAttempt: CreAlleleModificationAttempt;
     phenotypingAttemptResponse: PhenotypingAttempt;
     // Need to keep this copy because phenotypingAttemptResponse is not processed by the update/create endpoint
     phenotypingAttempt: PhenotypingAttempt;
@@ -65,6 +66,18 @@ export class PlanAdapter implements Adapter<Plan> {
         if (plan.attemptTypeName === 'es cell') {
             if (!plan.esCellAttempt) {
                 plan.esCellAttempt = new EsCellAttempt();
+            }
+        }
+
+        if (plan.attemptTypeName === 'cre allele modification') {
+            if (!plan.creAlleleModificationAttempt) {
+                plan.creAlleleModificationAttempt = new CreAlleleModificationAttempt();
+            }
+        }
+
+        if (plan.attemptTypeName === 'adult and embryo phenotyping' || plan.attemptTypeName === 'haplo-essential phenotyping') {
+            if (!plan.phenotypingAttempt) {
+                plan.phenotypingAttempt = new PhenotypingAttempt();
             }
         }
 

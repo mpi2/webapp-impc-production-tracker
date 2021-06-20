@@ -15,6 +15,9 @@ export class ConfigurationData {
     roles: string[];
     trackedStrains: string[];
     backgroundStrains: string[];
+    deleterStrains: string[];
+    blastStrains: string[];
+    testCrossStrains: string[];
     materialTypes: string[];
     preparationTypes: string[];
     searchTypes: string[];

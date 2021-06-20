@@ -13,7 +13,8 @@ export class EscellAttemptComponent implements OnInit {
   @Input() esCellAttempt: EsCellAttempt;
   @Input() canUpdatePlan: boolean;
 
-  strains: NamedValue[];
+  blastStrains: NamedValue[];
+  testCrossStrains: NamedValue[];
   configurationData: ConfigurationData;
 
   constructor(private configurationDataService: ConfigurationDataService) { }
@@ -25,7 +26,8 @@ export class EscellAttemptComponent implements OnInit {
   loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.strains = this.configurationData.backgroundStrains.map(x => ({ name: x }));
+      this.blastStrains = this.configurationData.blastStrains.map(x => ({ name: x }));
+      this.testCrossStrains = this.configurationData.testCrossStrains.map(x => ({ name: x }));
     });
   }
 

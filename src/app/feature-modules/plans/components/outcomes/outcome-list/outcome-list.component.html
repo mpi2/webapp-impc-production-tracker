@@ -6,9 +6,11 @@
                 <app-outcome-summary [outcome]="outcome" [canUpdate]="canUpdate"></app-outcome-summary>
             </div>
         </div>
-        <a routerLink="/projects/{{ tpn }}/plans/{{ pin }}/outcome-creation"><button class="create-button"
-                mat-raised-button color="primary" *ngIf="canUpdate">Add
-                Outcome</button></a>
-
+        <div *ngIf="outcomes?.length === 1 && (attemptType === 'cre allele modification' || attemptType === 'es cell'); then NoAdd; else add"></div>
+        <ng-template #NoAdd></ng-template>
+        <ng-template #add>
+            <a routerLink="/projects/{{ tpn }}/plans/{{ pin }}/outcome-creation"><button class="create-button"
+                mat-raised-button color="primary" *ngIf="canUpdate">Add Outcome</button></a>
+        </ng-template>
     </mat-card-content>
 </mat-card>

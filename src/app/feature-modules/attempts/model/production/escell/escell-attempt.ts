@@ -46,9 +46,8 @@ export class EsCellAttempt {
 })
 export class EsCellAttemptAdapter implements Adapter<EsCellAttempt> {
 
-    constructor(private inputHandlerService: InputHandlerService) {
+    constructor(private inputHandlerService: InputHandlerService) {    }
 
-    }
     adapt(item: any): EsCellAttempt {
         const esCellAttempt = item as EsCellAttempt;
         esCellAttempt.miDate = this.inputHandlerService.getUTCFormat(esCellAttempt.miDate);
