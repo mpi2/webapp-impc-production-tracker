@@ -73,7 +73,7 @@
             <mat-card>
                 <mat-card-subtitle>Mutation Categorizations</mat-card-subtitle>
                 <mat-card-content>
-                    <table>
+                    
                         <tr>
                             <td><label for="repairMechanism">Repair Mechanism:</label></td>
                             <td>
@@ -105,7 +105,7 @@
                                 </mat-form-field>
                             </td>
                         </tr>
-                    </table>
+                    
                 </mat-card-content>
             </mat-card>
 
@@ -113,7 +113,6 @@
             <mat-card>
                 <mat-card-subtitle>Sequence(s) information</mat-card-subtitle>
                 <mat-card-content>
-                    <table>
                     
                         <div class="mutationSequences" *ngFor="let mutationSequence of mutation.mutationSequences">
                             <app-indexed-sequence [indexedSequence]="mutationSequence" [canUpdate]="canUpdate"
@@ -126,7 +125,7 @@
                             <button class="create-button" mat-raised-button (click)="create()" color="primary"
                                 *ngIf="canUpdate">Add sequence</button>
                         </mat-card-actions>
-                    </table>
+                    
                 </mat-card-content>
             </mat-card>
 

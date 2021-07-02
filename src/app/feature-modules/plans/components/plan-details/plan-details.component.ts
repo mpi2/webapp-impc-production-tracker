@@ -1,71 +1,73 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { ConfigurationData, PermissionsService, ConfigurationDataService, LoggedUserService } from 'src/app/core';
+import { Component, OnInit, Input, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Plan } from '../../model/plan';
-import { NamedValue } from 'src/app/core/model/common/named-value';
-import { Project } from 'src/app/model';
 
 
 @Component({
   selector: 'app-plan-details',
   templateUrl: './plan-details.component.html',
-  styleUrls: ['./plan-details.component.css']
+  styleUrls: ['./plan-details.component.css'],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PlanDetailsComponent),
+      multi: true
+    }
+  ]
 })
-export class PlanDetailsComponent implements OnInit {
+
+export class PlanDetailsComponent implements OnInit, ControlValueAccessor {
 
   @Input() plan: Plan;
+  @Input() canUpdatePlan: boolean;
 
-  project: Project = new Project();
+  planDetailsForm: FormGroup;
 
-  canUpdatePlan: boolean;
-
-  editPlanDetails: FormGroup;
-
-  privacies: NamedValue[] = [];
-  selectedPrivacy = [];
-
-  configurationData: ConfigurationData;
-
-  constructor(
-    private formBuilder: FormBuilder,
-    private permissionsService: PermissionsService,
-    private configurationDataService: ConfigurationDataService,
-    private loggedUserService: LoggedUserService) { }
+  constructor(private fb: FormBuilder) { }
 
   ngOnInit() {
-    this.configurationDataService.getConfigurationData().subscribe(data => {
-      this.configurationData = data;
-      this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
-    });
+    this.createPlanDetailsForm();
 
-    this.loadPermissions();
-
-    this.editPlanDetails = this.formBuilder.group({
-      privacy: ['', Validators.required],
-      comment: ['', Validators.required],
-    });
-
-
-    this.editPlanDetails.get('comment').setValue(this.plan.comment);
+    setTimeout (() => {
+      this.planDetailsForm.get('comment').setValue(this.plan.comment);
+    }, 1000);
   }
 
-  loadPermissions(): void {
-    if (this.loggedUserService.getLoggerUser()) {
-      this.permissionsService.evaluatePermissionByActionOnResource(
-        PermissionsService.UPDATE_PLAN_ACTION, this.plan.pin).subscribe(canUpdatePlan => {
-          this.canUpdatePlan = canUpdatePlan;
+  createPlanDetailsForm() {
+    this.planDetailsForm = this.fb.group({
+      comment: [this.plan.comment]
+    });
+  }
 
-        }, error => {
-          console.error('Error getting permissions');
-        });
-    } else {
-      this.canUpdatePlan = false;
+  onTouched = () => void {}; // initialize it with an empty function
+
+  writeValue(obj: any): void {
+    if (obj) {
+      this.planDetailsForm.patchValue(obj, { emitEvent: false });
     }
   }
 
-  onTextCommentChanged() {
-    const newComments = this.editPlanDetails.get('comment').value;
-    this.plan.comment = newComments;
+  // When we want to report that this form is being touched by the user. Meaning, that the user has tried to interact with the form somehow.
+  // It received a function.
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
+  // Disable or enable the form control
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.planDetailsForm.disable();
+    } else {
+      this.planDetailsForm.enable();
+    }
+  }
+
+  onCommentChange(comment: string): void {
+    this.plan.comment = comment;
+  }
+
+  // Received a callback, when ever our form value changes it reports the new value to the parent form
+  registerOnChange(fn: any): void {
+    this.planDetailsForm.valueChanges.subscribe(fn);
+  }
 }

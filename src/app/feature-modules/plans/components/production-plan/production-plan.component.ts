@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
 import { Plan, PlanAdapter } from '../../model/plan';
@@ -11,6 +12,7 @@ import { ProjectService } from 'src/app/feature-modules/projects';
 import { Outcome } from '../../model/outcomes/outcome';
 import { OutcomeService } from '../../services/outcome.service';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
+import { CreAlleleModificationAttempt, EsCellAttempt } from 'src/app/feature-modules/attempts';
 
 @Component({
   selector: 'app-production-plan',
@@ -19,22 +21,25 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
 })
 export class ProductionPlanComponent implements OnInit {
 
+  prodPlanForm: FormGroup;
+
   plan: Plan = new Plan();
   project: Project = new Project();
 
   // Content previous modifications so we can tell when something has changed
   originalPlanAsString: string;
+  outcomes: Outcome[];
+  // crisptAttempt: CrisprAttempt;
+  // esCellAttempt: EsCellAttempt;
+  // creAlleleModAttempt: CreAlleleModificationAttempt;
+  changeDetails: ChangesHistory;
 
   canUpdatePlan: boolean;
   loading = false;
   error: string;
 
-  outcomes: Outcome[];
-
-  crisptAttempt: CrisprAttempt;
-  changeDetails: ChangesHistory;
-
   constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private planService: PlanService,
@@ -47,6 +52,19 @@ export class ProductionPlanComponent implements OnInit {
   ngOnInit() {
     const pin = this.route.snapshot.params.pid;
     this.reloadForPin(pin);
+
+    this.prodPlanReactiveForm();
+  }
+
+  prodPlanReactiveForm() {
+    this.prodPlanForm = this.fb.group({
+      planDetails: [''],
+      // statusTransitionForm: new FormControl(''),
+      // crisprAttemptForm: new FormControl(''),
+      esCellAttempt: [''],
+      // creAlleleModAttemptForm: new FormControl(''),
+      // outcomeForm: new FormControl('')
+    });
   }
 
   reloadForPin(pin: string) {
@@ -118,15 +136,6 @@ export class ProductionPlanComponent implements OnInit {
     }
   }
 
-  /**
-   * Updates the information of the plan.
-   */
-  update() {
-    if (this.planHasChanged()) {
-      this.updatePlan();
-    }
-  }
-
   enableUpdateButton() {
     return this.planHasChanged();
   }
@@ -136,12 +145,27 @@ export class ProductionPlanComponent implements OnInit {
   }
 
   /**
+   * Updates the information of the plan.
+   */
+  update() {
+    if (this.planHasChanged()) {
+      this.updatePlan();
+    } else {
+      console.log('Plan has not changed!');
+    }
+  }
+  /**
    * Updates the plan
    */
   private updatePlan() {
-    this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+    if (this.plan.attemptTypeName === 'crispr') {
+      this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+    }
 
     this.loading = true;
+
+    console.log('plan: ', this.plan);
+
     this.planService.updatePlan(
       this.plan.pin, this.plan).subscribe((changeResponse: ChangeResponse) => {
         this.loading = false;

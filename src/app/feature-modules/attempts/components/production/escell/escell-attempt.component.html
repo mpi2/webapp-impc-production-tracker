@@ -1,4 +1,4 @@
-<form>
+<ng-container [formGroup]="esCellAttemptForm">
   <mat-card>
     <mat-card-subtitle>EsCell Attempt Details</mat-card-subtitle>
     <mat-card-content>
@@ -17,8 +17,11 @@
               <mat-form-field appearance="fill">
                 <input
                   matInput
-                  [(ngModel)]="esCellAttempt.esCellName"
-                  [ngModelOptions]="{ standalone: true }"
+                  (blur)="onTouched()" 
+                  formControlName="esCellName"
+                  class="form-control"
+                  (change)="onEsCellNameChange()"
+                  (keyup)="onEsCellNameChange()"
                 />
               </mat-form-field>
             </td>
@@ -42,9 +45,10 @@
                 <input
                   matInput
                   [matDatepicker]="datePicker"
-                  [(ngModel)]="esCellAttempt.miDate"
-                  [ngModelOptions]="{ standalone: true }"
-                  (dateChange)="onDateChanged()"
+                  (blur)="onTouched()" 
+                  formControlName="miDate"
+                  (dateChange)="onMiDateChanged()"
+                  class="form-control"
                 />
                 <mat-datepicker-toggle
                   matSuffix
@@ -75,8 +79,11 @@
               <mat-form-field appearance="fill">
                 <input
                   matInput
-                  [(ngModel)]="esCellAttempt.attemptExternalRef"
-                  [ngModelOptions]="{ standalone: true }"
+                  (blur)="onTouched()" 
+                  formControlName="attemptExternalRef"
+                  class="form-control"
+                  (change)="onAttemptExternalRefChange()"
+                  (keyup)="onAttemptExternalRefChange()"
                 />
               </mat-form-field>
             </td>
@@ -90,14 +97,24 @@
 
         <tr>
           <td>Experimental:</td>
-          <td>
+          <div *ngIf="canUpdatePlan; then experimentaltEditable; else experimentalReadOnly"></div>
+          <ng-template #experimentaltEditable>
+            <td>
+                <input id="experimental"
+                  type="checkbox"
+                  (blur)="onTouched()" 
+                  formControlName="experimental"
+                  class="form-control"
+                  (change)="onExperimentalChange()"
+                />
+              </td>
+          </ng-template>
+          <ng-template #experimentalReadOnly>
             <input
-              type="checkbox"
-              [(ngModel)]="esCellAttempt.experimental"
-              [ngModelOptions]="{ standalone: true }"
-              [disabled]="!canUpdatePlan"
-            />
-          </td>
+                  type="checkbox"
+                  disabled="false"
+                />
+          </ng-template>
         </tr>
         <tr>
           <td>Comments:</td>
@@ -108,8 +125,11 @@
                 <textarea
                   matInput
                   #box
-                  [(ngModel)]="esCellAttempt.comment"
-                  [ngModelOptions]="{ standalone: true }"
+                  (blur)="onTouched()" 
+                  formControlName="comment"
+                  class="form-control"
+                  (change)="onCommentChange()"
+                  (keyup)="onCommentChange()"
                 ></textarea>
               </mat-form-field>
             </td>
@@ -133,7 +153,10 @@
                     <td><label for="blastStrainName">Blast Strain Name:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select class="select-content" [(value)]="esCellAttempt.blastStrainName">
+                            <mat-select class="form-control"
+                                    (blur)="onTouched()" 
+                                    formControlName="blastStrainName" 
+                                    (selectionChange)="onBlastStrainNameChange()" >
                                 <mat-option></mat-option>
                                 <mat-option *ngFor="let strain of blastStrains" [value]="strain.name">
                                     {{ strain.name }}
@@ -146,7 +169,13 @@
                     <td><label for="totalBlastsInjected">Total Blasts Injected:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="totalBlastsInjected">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.totalBlastsInjected" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalBlastsInjected"
+                                (change)="onTotalBlastsInjectedChange()"
+                                (keyup)="onTotalBlastsInjectedChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -154,7 +183,13 @@
                     <td><label for="totalTransferred">Total Transferred:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="totalTransferred">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.totalTransferred" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalTransferred"
+                                (change)="onTotalTransferredChange()"
+                                (keyup)="onTotalTransferredChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -162,7 +197,13 @@
                     <td><label for="numberSurrogatesReceiving">Number Surrogates Receiving:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberSurrogatesReceiving">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberSurrogatesReceiving" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberSurrogatesReceiving"
+                                (change)="onNumberSurrogatesReceivingChange()"
+                                (keyup)="onNumberSurrogatesReceivingChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -200,7 +241,13 @@
                     <td><label for="totalPupsBorn">Total Pups Born:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="totalPupsBorn">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.totalPupsBorn" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalPupsBorn"
+                                (change)="onTotalPupsBornChange()"
+                                (keyup)="onTotalPupsBornChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -208,7 +255,13 @@
                     <td><label for="totalFemaleChimeras">Total Female Chimeras:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="totalFemaleChimeras">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.totalFemaleChimeras" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalFemaleChimeras"
+                                (change)="onTotalFemaleChimerasChange()"
+                                (keyup)="onTotalFemaleChimerasChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -216,7 +269,13 @@
                     <td><label for="totalMaleChimeras">Total Male Chimeras:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="totalMaleChimeras">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.totalMaleChimeras" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalMaleChimeras"
+                                (change)="onTotalMaleChimerasChange()"
+                                (keyup)="onTotalMaleChimerasChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -224,7 +283,13 @@
                     <td><label for="numberOfMalesWith0To39PercentChimerism">Number of Males with 0-39% Chimerism:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfMalesWith0To39PercentChimerism">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfMalesWith0To39PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith0To39PercentChimerism"
+                                (change)="onNumberOfMalesWith0To39PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith0To39PercentChimerismChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -232,7 +297,13 @@
                     <td><label for="numberOfMalesWith40To79PercentChimerism">Number of Males with 40-79% Chimerism:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfMalesWith40To79PercentChimerism">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfMalesWith40To79PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith40To79PercentChimerism"
+                                (change)="onNumberOfMalesWith40To79PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith40To79PercentChimerismChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -240,7 +311,13 @@
                     <td><label for="numberOfMalesWith80To99PercentChimerism">Number of Males with 80-99% Chimerism:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfMalesWith80To99PercentChimerism">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfMalesWith80To99PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith80To99PercentChimerism"
+                                (change)="onNumberOfMalesWith80To99PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith80To99PercentChimerismChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -248,7 +325,13 @@
                     <td><label for="numberOfMalesWith100PercentChimerism">Number of Males with 100% Chimerism:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfMalesWith100PercentChimerism">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfMalesWith100PercentChimerism" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith100PercentChimerism"
+                                (change)="onNumberOfMalesWith100PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith100PercentChimerismChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -298,7 +381,11 @@
                     <td><label for="testCrossStrainName">Test Cross Strain Name:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select class="select-content" [(value)]="esCellAttempt.testCrossStrainName">
+                            <mat-select class="select-content" 
+                                (blur)="onTouched()" 
+                                formControlName="testCrossStrainName"
+                                (selectionChange)="onTestCrossStrainNameChange()"
+                                class="form-control">
                                 <mat-option></mat-option>
                                 <mat-option *ngFor="let strain of testCrossStrains" [value]="strain.name">
                                     {{ strain.name }}
@@ -314,9 +401,10 @@
                             <input
                               matInput
                               [matDatepicker]="datePickerChimeras"
-                              [(ngModel)]="esCellAttempt.dateChimerasMated"
-                              [ngModelOptions]="{ standalone: true }"
-                              (onMatingDateChanged)="onDateChanged()"
+                              (blur)="onTouched()" 
+                              formControlName="dateChimerasMated"
+                              (dateChange)="onMatingDateChanged()"
+                              class="form-control"
                             />
                             <mat-datepicker-toggle
                               matSuffix
@@ -330,7 +418,13 @@
                     <td><label for="numberOfChimeraMatingsAttempted">Number Of Chimera Matings Attempted:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimeraMatingsAttempted">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimeraMatingsAttempted" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimeraMatingsAttempted"
+                                (change)="onNumberOfChimeraMatingsAttemptedChange()"
+                                (keyup)="onNumberOfChimeraMatingsAttemptedChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -338,7 +432,13 @@
                     <td><label for="numberOfChimeraMatingsSuccessful">Number Of Chimera Matings Successful:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimeraMatingsSuccessful">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimeraMatingsSuccessful" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimeraMatingsSuccessful"
+                                (change)="onNumberOfChimeraMatingsSuccessfulChange()"
+                                (keyup)="onNumberOfChimeraMatingsSuccessfulChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -346,7 +446,13 @@
                     <td><label for="numberOfChimerasWithGltFromCct">Number Of Chimeras With GLT From CCT:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimerasWithGltFromCct">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimerasWithGltFromCct" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimerasWithGltFromCct"
+                                (change)="onNumberOfChimeraWithGltFromCctChange()"
+                                (keyup)="onNumberOfChimeraWithGltFromCctChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -354,7 +460,13 @@
                     <td><label for="numberOfChimerasWithGltFromGenotyping">Number Of Chimeras With GLT From Genotyping:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimerasWithGltFromGenotyping">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimerasWithGltFromGenotyping" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimerasWithGltFromGenotyping"
+                                (change)="onNumberOfChimeraWithGltFromGenotypingChange()"
+                                (keyup)="onNumberOfChimeraWithGltFromGenotypingChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -362,7 +474,13 @@
                     <td><label for="numberOfChimerasWith0To9PercentGlt">Number of Chimeras with 0-9% GLT:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimerasWith0To9PercentGlt">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith0To9PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimerasWith0To9PercentGlt"
+                                (change)="onNumberOfChimeraWith0To9PercentGltChange()"
+                                (keyup)="onNumberOfChimeraWith0To9PercentGltChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -370,7 +488,13 @@
                     <td><label for="numberOfChimerasWith10To49PercentGlt">Number of Chimeras with 10-49% GLT:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimerasWith10To49PercentGlt">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith10To49PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimerasWith10To49PercentGlt"
+                                (change)="onNumberOfChimeraWith10To49PercentGltChange()"
+                                (keyup)="onNumberOfChimeraWith10To49PercentGltChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -378,7 +502,13 @@
                     <td><label for="numberOfChimerasWith50To99PercentGlt">Number of Chimeras with 50-99% GLT:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimerasWith50To99PercentGlt">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith50To99PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimerasWith50To99PercentGlt"
+                                (change)="onNumberOfChimeraWith50To99PercentGltChange()"
+                                (keyup)="onNumberOfChimeraWith50To99PercentGltChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -386,7 +516,13 @@
                     <td><label for="numberOfChimerasWith100PercentGlt">Number of Chimeras with 100% GLT:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfChimerasWith100PercentGlt">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfChimerasWith100PercentGlt" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfChimerasWith100PercentGlt"
+                                (change)="onNumberOfChimeraWith100PercentGltChange()"
+                                (keyup)="onNumberOfChimeraWith100PercentGltChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -394,7 +530,13 @@
                     <td><label for="totalF1MiceFromMatings">Total F1 Mice From Matings:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="totalF1MiceFromMatings">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.totalF1MiceFromMatings" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalF1MiceFromMatings"
+                                (change)="onTotalF1MiceFromMatingsChange()"
+                                (keyup)="onTotalF1MiceFromMatingsChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -402,7 +544,13 @@
                     <td><label for="numberOfCctOffspring">Number Of CCT Offspring:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfCctOffspring">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfCctOffspring" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfCctOffspring"
+                                (change)="onNumberOfCctOffspringChange()"
+                                (keyup)="onNumberOfCctOffspringChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -413,9 +561,10 @@
                             <input
                               matInput
                               [matDatepicker]="datePickerCassette"
-                              [(ngModel)]="esCellAttempt.cassetteTransmissionVerified"
-                              [ngModelOptions]="{ standalone: true }"
-                              (onMatingDateChanged)="onCassetteTransmissionChanged()"
+                              (blur)="onTouched()" 
+                              formControlName="cassetteTransmissionVerified"
+                              (dateChange)="onCassetteTransmissionChanged()"
+                              class="form-control"
                             />
                             <mat-datepicker-toggle
                               matSuffix
@@ -429,7 +578,13 @@
                     <td><label for="numberOfHetOffspring">Number Of HET Offspring:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfHetOffspring">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfHetOffspring" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfHetOffspring"
+                                (change)="onNumberOfHetOffspringChange()"
+                                (keyup)="onNumberOfHetOffspringChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -437,7 +592,13 @@
                     <td><label for="numberOfLiveGltOffspring">Number Of Live GLT Offspring:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="numberOfLiveGltOffspring">
-                            <input matInput appDigitOnly [(ngModel)]="esCellAttempt.numberOfLiveGltOffspring" [ngModelOptions]="{standalone: true}" >   
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfLiveGltOffspring"
+                                (change)="onNumberOfLiveGltOffspringChange()"
+                                (keyup)="onNumberOfLiveGltOffspringChange()"
+                                class="form-control"
+                            />   
                         </mat-form-field>
                     </td>
                 </tr>
@@ -509,4 +670,4 @@
     </mat-card-content>
   </mat-card>
 
-</form>
+</ng-container>
