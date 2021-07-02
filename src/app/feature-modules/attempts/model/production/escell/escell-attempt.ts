@@ -4,7 +4,6 @@ import { InputHandlerService } from 'src/app/core/services/input-handler.service
 
 export class EsCellAttempt {
     planId: number;
-    imitsMiAttemptId: number;
     attemptTypeName: string;
     esCellName: string;
     miDate: Date;
@@ -36,9 +35,12 @@ export class EsCellAttempt {
     totalF1MiceFromMatings: number;
     numberOfCctOffspring: number;
     cassetteTransmissionVerified: Date;
-    cassetteTransmissionVerifiedAutoComplete: boolean;
     numberOfHetOffspring: number;
     numberOfLiveGltOffspring: number;
+
+    public constructor(init?: Partial<EsCellAttempt>) {
+        Object.assign(this, init);
+    }
 }
 
 @Injectable({
@@ -51,6 +53,8 @@ export class EsCellAttemptAdapter implements Adapter<EsCellAttempt> {
     adapt(item: any): EsCellAttempt {
         const esCellAttempt = item as EsCellAttempt;
         esCellAttempt.miDate = this.inputHandlerService.getUTCFormat(esCellAttempt.miDate);
+        esCellAttempt.dateChimerasMated = this.inputHandlerService.getUTCFormat(esCellAttempt.dateChimerasMated);
+        esCellAttempt.cassetteTransmissionVerified = this.inputHandlerService.getUTCFormat(esCellAttempt.cassetteTransmissionVerified);
         esCellAttempt.comment = this.inputHandlerService.getEmptyIfNull(esCellAttempt.comment);
         esCellAttempt.attemptExternalRef = this.inputHandlerService.getEmptyIfNull(esCellAttempt.attemptExternalRef);
         return esCellAttempt;

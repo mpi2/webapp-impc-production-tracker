@@ -125,7 +125,6 @@ export class ProjectDetailComponent implements OnInit {
 
   private coloniesExist(): void {
     this.productionPlansDetails.forEach(plan => {
-      console.log('pin => ', plan);
       this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
         /* eslint-disable @typescript-eslint/dot-notation */
         console.log('data => ', data);

@@ -1,41 +1,48 @@
 <div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<mat-card>
-  <mat-card-content>
-    <a [routerLink]="['history']">History</a>
-    <div>
-      <app-go-back></app-go-back>
-    </div>
-  </mat-card-content>
-</mat-card>
 
-<app-plan-details *ngIf="plan.pin" [plan]="plan">
-</app-plan-details>
-
-<div class="section">
-  <app-status-transition *ngIf="plan.statusTransition" [statusTransition]="plan.statusTransition"
-    [canUpdate]="canUpdatePlan">
-  </app-status-transition>
-  <app-status-date [statusDates]="plan.statusDates" [title]='"Plan Status History"'></app-status-date>
+<div class="container">
+  <mat-card>
+    <mat-card-content>
+      <a [routerLink]="['history']">History</a>
+      <div>
+        <app-go-back></app-go-back>
+      </div>
+    </mat-card-content>
+  </mat-card>
 </div>
 
-<app-crispr-attempt *ngIf="plan.attemptTypeName === 'crispr' || plan.attemptTypeName === 'haplo-essential crispr'"
-  [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="canUpdatePlan">
-</app-crispr-attempt>
+<mat-sidenav-container>
+  <mat-sidenav-content>
+      <form [formGroup]="prodPlanForm" (ngSubmit)="update()" novalidate>
 
-<app-escell-attempt *ngIf="plan.attemptTypeName === 'es cell'"
-  [esCellAttempt]="plan.esCellAttempt" [canUpdatePlan]="canUpdatePlan">
-</app-escell-attempt>
+        <app-plan-details [plan]="plan" [canUpdatePlan]="canUpdatePlan" formControlName="planDetails">
+        </app-plan-details>
 
-<app-cre-allele-modification *ngIf="plan.attemptTypeName === 'cre allele modification'"
-  [creAlleleModificationAttempt]="plan.creAlleleModificationAttempt" [canUpdatePlan]="canUpdatePlan">
-</app-cre-allele-modification>
+        <app-status-transition *ngIf="plan.statusTransition" [statusTransition]="plan.statusTransition"
+          [canUpdate]="canUpdatePlan">
+        </app-status-transition>
+        <app-status-date [statusDates]="plan.statusDates" [title]='"Plan Status History"'></app-status-date>
 
-<app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [attemptType]=plan.attemptTypeName [canUpdate]="canUpdatePlan">
-</app-outcome-list>
+        <app-crispr-attempt *ngIf="plan.attemptTypeName === 'crispr' || plan.attemptTypeName === 'haplo-essential crispr'"
+          [crisprAttempt]="plan.crisprAttempt" [canUpdatePlan]="canUpdatePlan">
+        </app-crispr-attempt>
 
-<mat-card>
-  <mat-card-content class="update-button">
-    <button mat-raised-button color="primary" [disabled]="!enableUpdateButton()" *ngIf="canUpdatePlan"
-      (click)="update()">Update</button>
-  </mat-card-content>
-</mat-card>
+        <app-escell-attempt *ngIf="plan.attemptTypeName === 'es cell'" formControlName="esCellAttempt"
+          [esCellAttempt]="plan.esCellAttempt" [canUpdatePlan]="canUpdatePlan">
+        </app-escell-attempt>
+
+        <app-cre-allele-modification *ngIf="plan.attemptTypeName === 'cre allele modification'"
+          [creAlleleModificationAttempt]="plan.creAlleleModificationAttempt" [canUpdatePlan]="canUpdatePlan">
+        </app-cre-allele-modification>
+
+        <app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [attemptType]=plan.attemptTypeName [canUpdate]="canUpdatePlan">
+        </app-outcome-list>
+
+        <!-- Submit -->
+        <div class="button-wrapper">
+          <button mat-raised-button color="primary" [disabled]="prodPlanForm.invalid" *ngIf="canUpdatePlan">Update</button>
+        </div>
+
+    </form>
+  </mat-sidenav-content>
+</mat-sidenav-container>
