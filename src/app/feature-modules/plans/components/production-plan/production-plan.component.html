@@ -31,8 +31,9 @@
           [esCellAttempt]="plan.esCellAttempt" [canUpdatePlan]="canUpdatePlan">
         </app-escell-attempt>
 
-        <app-cre-allele-modification *ngIf="plan.attemptTypeName === 'cre allele modification'"
-          [creAlleleModificationAttempt]="plan.creAlleleModificationAttempt" [canUpdatePlan]="canUpdatePlan">
+        <app-cre-allele-modification *ngIf="plan.attemptTypeName === 'cre allele modification'" formControlName="creAlleleModificationAttempt"
+          [creAlleleModificationAttempt]="plan.creAlleleModificationAttempt" [creAlleleModificationStartingPoint]="plan.creAlleleModificationStartingPoint"
+          [canUpdatePlan]="canUpdatePlan">
         </app-cre-allele-modification>
 
         <app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [attemptType]=plan.attemptTypeName [canUpdate]="canUpdatePlan">
