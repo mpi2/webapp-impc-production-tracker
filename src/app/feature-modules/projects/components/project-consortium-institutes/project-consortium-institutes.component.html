@@ -1,47 +1,27 @@
-<mat-card-content>
-    <table class="mat-elevation-z8">
-        <tr>
-            <th>Consortium *</th>
-            <th></th>
-        </tr>
-        <ng-template ngFor let-institutesConsortium [ngForOf]="project.consortia">
-            <div *ngIf="canUpdate; then editable else readOnly"></div>
-            <ng-template #editable>
-                <tr>
-                    <td>
-                        <mat-select class="consortiumName" [(value)]="institutesConsortium.consortiumName">
-                            <mat-option></mat-option>
-                            <mat-option *ngFor="let consortium of consortia" [value]="consortium.name">
-                                {{ consortium.name }}
-                            </mat-option>
-                        </mat-select>
-                    </td>
-                    <td>
-                        <button (click)="deleteRow(institutesConsortium)">
-                            <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
-                        </button>
-                    </td>
-
-                </tr>
-
-            </ng-template>
-
-            <ng-template #readOnly>
-                <tr>
-                    <td>
-                        {{ institutesConsortium.consortiumName || "Not defined" }}
-                    </td>
-                </tr>
-            </ng-template>
-        </ng-template>
-
-        <tr *ngIf="canUpdate">
-            <td class="no_border"><button (click)="addRow()" [disabled]="false">
-                    <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
-                </button>
-            </td>
-        </tr>
-
-    </table>
-
-</mat-card-content>
+<div *ngIf="canUpdate; then consortiaEditable else consortiaReadOnly"></div>
+<ng-template #consortiaEditable>
+    <ng-container [formGroup]="consortiaForm">
+        <label for="consortiumName">Consortia *:</label>
+        <mat-form-field appearance="fill">
+            <mat-label>Choose your consortium</mat-label>
+            <mat-select multiple
+                        (blur)="onTouched()" 
+                        formControlName="consortiumName">
+                <mat-option *ngFor="let consortium of consortia" [value]="consortium.name">
+                    {{ consortium.name }}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </ng-container>
+    <br>
+</ng-template>
+<ng-template #consortiaReadOnly>
+    <tr>
+        <td><label for="consortia">Consortia:</label></td>
+        <td>
+            <ng-container *ngFor="let consortium of project.consortia">
+                {{ consortium.consortiumName }},
+            </ng-container>
+        </td>
+    </tr>
+</ng-template>

@@ -2,7 +2,7 @@
 import { ProjectLinks } from '../../feature-modules/projects/model/project-links';
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
-import { InstitutesConsortium, StatusDate } from '..';
+import { InstitutesConsortium, StatusDate, EsCellQc } from '..';
 import { ProjectIntention } from 'src/app/feature-modules/projects/model/project-intention';
 
 export class Project {
@@ -23,6 +23,9 @@ export class Project {
     colonyNames: string[];
     phenotypingExternalRefs: string[];
     recovery: boolean;
+    completionNote: string;
+    completionComment: string;
+    esCellDetails: EsCellQc;
     _links: ProjectLinks;
 }
 

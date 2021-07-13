@@ -1,5 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
+  AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import { ConfigurationDataService, ConfigurationData, LoggedUserService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
@@ -15,10 +18,22 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
 @Component({
   selector: 'app-plan-creation',
   templateUrl: './plan-creation.component.html',
-  styleUrls: ['./plan-creation.component.css']
+  styleUrls: ['./plan-creation.component.css'],
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => PlanCreationComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => PlanCreationComponent),
+      multi: true
+    }
+  ]
 })
-export class PlanCreationComponent implements OnInit {
-  @Input() projectCreation: ProjectCreation;
+export class PlanCreationComponent implements OnInit, ControlValueAccessor, Validator {
+  @Input() projectCreation: boolean;
 
   tpn: string;
   error;
@@ -48,16 +63,23 @@ export class PlanCreationComponent implements OnInit {
   nucleases: Nuclease[];
 
   nucleaseTypes: NamedValue[];
-  nucleaseClases: NamedValue[];
+  nucleaseClasses: NamedValue[];
+
+  planCreationForm: FormGroup;
+  selectType: boolean;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
+    private fb: FormBuilder,
     private loggedUserService: LoggedUserService,
     private configurationDataService: ConfigurationDataService,
     private projectService: ProjectService,
     private planService: PlanService
-  ) { }
+  )
+  {
+    this.loadConfigurationData();
+  }
 
   ngOnInit(): void {
     if (!this.projectCreation) {
@@ -66,9 +88,20 @@ export class PlanCreationComponent implements OnInit {
       this.loadOutcomesSummaries(this.tpn);
     } else {
       this.planCreation = false;
-      this.projectCreation.planDetails = this.plan;
     }
-    this.loadConfigurationData();
+    this.planCreationReactiveForm();
+  }
+
+  planCreationReactiveForm() {
+    this.planCreationForm = this.fb.group({
+      typeName: ['', Validators.required],
+      attemptTypeName: ['', Validators.required],
+      workUnitName: ['', Validators.required],
+      workGroupName: ['', Validators.required],
+      funderNames: [[]],
+      comment: [''],
+      startingPoint: [[]]
+    });
   }
 
   getPlanTypeFromUrl(): string {
@@ -93,7 +126,7 @@ export class PlanCreationComponent implements OnInit {
       this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
       this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
-      this.nucleaseClases = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
+      this.nucleaseClasses = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
 
       Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {
         const list = this.configurationData.workGroupsByWorkUnits[key];
@@ -156,14 +189,25 @@ export class PlanCreationComponent implements OnInit {
   }
 
   handlePlanTypeSelected(planType: string) {
+    if (planType) {
+      this.planCreationForm.get('typeName').patchValue(planType);
+      this.selectType = false;
+    } else {
+      this.selectType = true;
+    }
+
     if (planType === 'phenotyping') {
       this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
     }
     this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
-    this.plan.typeName = planType;
+    // this.plan.typeName = planType;
 
     if (planType === 'crispr') {
       // this.plan.crisprAttempt = new CrisprAttempt();
+    }
+
+    if (planType === 'es cell') {
+      // this.plan.esCell = new CrisprAttempt();
     }
   }
 
@@ -181,22 +225,50 @@ export class PlanCreationComponent implements OnInit {
   }
 
   create() {
+    console.log(this.plan);
+    console.log(this.planCreationForm.value);
+
     // this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
-    this.loading = true;
-    this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
-      this.loading = false;
-      // eslint-disable-next-line no-underscore-dangle
-      const link: string = changeResponse._links.self.href;
-      const pin = link.substring(link.lastIndexOf('/') + 1);
-      this.router.navigate(['/projects/' + this.tpn + '/plan/' + pin]);
-    }, error => {
-      this.error = error;
-      this.loading = false;
-    });
+    // this.loading = true;
+    // this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
+    //   this.loading = false;
+    //   // eslint-disable-next-line no-underscore-dangle
+    //   const link: string = changeResponse._links.self.href;
+    //   const pin = link.substring(link.lastIndexOf('/') + 1);
+    //   this.router.navigate(['/projects/' + this.tpn + '/plan/' + pin]);
+    // }, error => {
+    //   this.error = error;
+    //   this.loading = false;
+    // });
   }
 
-  private setIdNull(object) {
-    object.id = null;
+  writeValue(obj: any): void {
+    if (obj) {
+      this.planCreationForm.setValue(obj, { emitEvent: false });
+    }
+  }
+
+  onTouched = () => void {};
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  // Disable or enable the form control
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.planCreationForm.disable();
+    } else {
+      this.planCreationForm.enable();
+    }
+  }
+
+  // Received a callback, when ever our form value changes it reports the new value to the parent form
+  registerOnChange(fn: any): void {
+    this.planCreationForm.valueChanges.subscribe(fn);
+  }
+
+  validate(c: AbstractControl): ValidationErrors | null {
+    return this.planCreationForm.valid ? null : { invalidForm: {valid: false, message: 'planCreationForm fields are invalid'} };
   }
 
 }

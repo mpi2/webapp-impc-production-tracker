@@ -154,6 +154,7 @@ export class ProductionPlanComponent implements OnInit {
       console.log('Plan has not changed!');
     }
   }
+
   /**
    * Updates the plan
    */

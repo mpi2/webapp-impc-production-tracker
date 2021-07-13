@@ -1,9 +1,11 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
+import { FormGroup, FormBuilder, Validators, FormArray } from '@angular/forms';
+
 import { ConfigurationData, ConfigurationDataService, LoggedUserService, GeneService, Gene } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { User } from 'src/app/core/model/user/user';
-import { InstitutesConsortium, MutationCategorization } from 'src/app/model';
+import { InstitutesConsortium, IntentionByGene, MutationCategorization } from 'src/app/model';
 import { ProjectService } from '../../services/project.service';
 import { MatDialog } from '@angular/material/dialog';
 import { trigger, state, style, transition, animate } from '@angular/animations';
@@ -11,6 +13,8 @@ import { ProjectCreation } from '../../model/project-creation';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ProjectIntention } from '../../model/project-intention';
+import { PlanDetails } from 'src/app/feature-modules/plans';
+
 
 @Component({
   selector: 'app-project-creation',
@@ -35,6 +39,7 @@ export class ProjectCreationComponent implements OnInit {
   showAllElementsInLists = false;
 
   configurationData: ConfigurationData;
+  projectCreationForm: FormGroup;
   loggedUser: User;
 
   privacies: NamedValue[];
@@ -46,11 +51,25 @@ export class ProjectCreationComponent implements OnInit {
     private router: Router,
     private configurationDataService: ConfigurationDataService,
     private projectService: ProjectService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private fb: FormBuilder
   ) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
+    this.projectCreationReactiveForm();
+  }
+
+  projectCreationReactiveForm() {
+    this.projectCreationForm = this.fb.group({
+      comment: [''],
+      consortiaNames: [''],
+      planDetails:[''],
+      privacyName: ['', Validators.required],
+      projectIntentions: [''],
+      recovery: [false],
+      species: ['']
+    });
   }
 
   loadConfigurationData() {
@@ -65,21 +84,37 @@ export class ProjectCreationComponent implements OnInit {
     });
   }
 
-  addConsortiumInstitutes(): void {
-    const institutesConsortium: InstitutesConsortium = new InstitutesConsortium();
-    this.projectCreation.consortia.push(institutesConsortium);
-  }
+  createProject() {
+    this.projectCreation = Object.assign(this.projectCreation, this.projectCreationForm.value);
 
-  onConsortiumChanged(e) {
-  }
+    this.projectCreation.consortia = new Array<InstitutesConsortium>();
+    this.projectCreationForm.get('consortiaNames').value.consortiumName.forEach(name => {
+      const consortium = new InstitutesConsortium();
+      consortium.consortiumName = name;
+      this.projectCreation.consortia.push(consortium);
+    });
 
-  onInstitutesChanged(e) {
-  }
+    this.projectCreation.projectIntentions = new Array<ProjectIntention>();
+    this.projectCreationForm.get('projectIntentions').value.intentions.forEach(element => {
+      const intention = new ProjectIntention();
+      intention.molecularMutationTypeName = element.molecularMutationType;
 
-  create() {
+      const gene = new Gene();
+      gene.symbol = element.geneSymbol;
+      const geneIntention = new IntentionByGene();
+      geneIntention.gene = gene;
+      intention.intentionByGene = geneIntention;
+
+      intention.mutationCategorizations = new Array<MutationCategorization>();
+      for(const x of element.mutationCategorizations) {
+        const mutationCategorization = new MutationCategorization();
+        mutationCategorization.name = x;
+        intention.mutationCategorizations.push(mutationCategorization);
+      }
+      this.projectCreation.projectIntentions.push(intention);
+    });
+
     this.loading = true;
-    // console.log('projectCreation => ' + JSON.stringify(this.projectCreation));
-
     this.projectService.createProject(this.projectCreation).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;
       // eslint-disable-next-line no-underscore-dangle

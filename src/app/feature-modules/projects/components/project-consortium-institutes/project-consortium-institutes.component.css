@@ -1,15 +1,13 @@
-table,
-th,
-tr,
-td {
-  padding: 10px;
-  text-align: left;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: rgba(0, 0, 0, 0.12);
-  font-size: 14px;
+label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 200px;
 }
 
-td {
-  min-width: 150px;
+mat-select {
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  padding: 0;
 }

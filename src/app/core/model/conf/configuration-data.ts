@@ -47,4 +47,7 @@ export class ConfigurationData {
     recordTypesByConsortium: Map<string, any[]>;
     guideFormatNames: string[];
     guideSourceNames: string[];
+    receivedFromCentres: string[];
+    qcComments: string[];
+    completionNotes: string[];
 }

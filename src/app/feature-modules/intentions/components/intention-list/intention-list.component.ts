@@ -20,7 +20,6 @@ export class IntentionListComponent implements OnInit {
   @Input() projectIntentions: ProjectIntention[];
 
   expandedElement: ProjectIntention | null;
-  // dataSource = this.projectIntentions;
 
   displayedColumns: string[] = ['molecularMutationType', 'mutationCategorizations', 'geneSymbol', 'accessionId', 'species', 'sequence'];
 

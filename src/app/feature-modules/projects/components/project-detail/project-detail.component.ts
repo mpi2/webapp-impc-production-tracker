@@ -35,16 +35,16 @@ export class ProjectDetailComponent implements OnInit {
   canCreatePhenotypingPlan: boolean;
   error;
   changeDetails: ChangesHistory;
-
   configurationData: ConfigurationData;
 
   privacies: NamedValue[] = [];
+  completionNotes: NamedValue[] = [];
   selectedPrivacy = [];
 
   projectForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private projectAdapter: ProjectAdapter,
@@ -56,22 +56,30 @@ export class ProjectDetailComponent implements OnInit {
     private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
-    this.projectForm = this.formBuilder.group({
-      privacy: ['', Validators.required],
-      comments: ['', Validators.required],
-    });
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
+      this.completionNotes = this.configurationData.completionNotes.map(x => ({ name: x }));
     });
-
+    this.projectReactiveForm();
     this.getProjectData();
     this.coloniesExist();
   }
 
-  shouldUpdateBeEnabled(): boolean {
-    return this.originalProjectAsString !== JSON.stringify(this.project);
+  showEsCellDetails(): boolean {
+    // console.log('all: ', this.productionPlansDetails);
+    return this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
   }
+
+  projectReactiveForm() {
+    this.projectForm = this.fb.group({
+      privacy: ['', Validators.required],
+      comments: [''],
+      completionComment: [''],
+      esCellDetails: ['']
+    });
+  }
+
 
   sortByPid(plans: Plan[]): Plan[] {
     plans.sort((a, b) => {
@@ -90,6 +98,11 @@ export class ProjectDetailComponent implements OnInit {
 
   onAddPlan() {
 
+  }
+
+  onTextCompletionCommentChanged(e): void {
+    const newComments = this.projectForm.get('completionComment').value;
+    this.project.completionComment = newComments;
   }
 
   onTextCommentChanged(e): void {

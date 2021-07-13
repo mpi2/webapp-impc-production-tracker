@@ -1,21 +1,36 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, Gene, GeneService } from 'src/app/core';
+import { ControlValueAccessor, FormControl, FormGroup, FormBuilder, Validators, Validator,
+  AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormArray } from '@angular/forms';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { ProjectCreation } from '../../model/project-creation';
-import { FormControl } from '@angular/forms';
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { ProjectIntention } from '../../model/project-intention';
 import { IntentionByGene, MutationCategorization } from 'src/app/model';
+
 
 @Component({
   selector: 'app-project-intention',
   templateUrl: './project-intention.component.html',
-  styleUrls: ['./project-intention.component.css']
+  styleUrls: ['./project-intention.component.css'],
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => ProjectIntentionComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ProjectIntentionComponent),
+      multi: true
+    }
+  ]
 })
-export class ProjectIntentionComponent implements OnInit {
-  @Input() projectCreation: ProjectCreation;
+export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, Validator {
+  @Input() projectCreation: boolean;
 
   configurationData: ConfigurationData;
   allMutationCategorizations: NamedValue[];
@@ -31,8 +46,11 @@ export class ProjectIntentionComponent implements OnInit {
   tmpIndexRowName = 'tmp_id';
   nextNewId = -1;
 
+  projectIntentionsForm: FormGroup;
+
   constructor(
     private configurationDataService: ConfigurationDataService,
+    private fb: FormBuilder,
     public dialog: MatDialog,
     private geneService: GeneService
   ) { }
@@ -66,6 +84,36 @@ export class ProjectIntentionComponent implements OnInit {
           this.filteredGenes = data;
         }
       });
+
+    this.projectIntentionsForm = this.fb.group({
+      intentions: this.fb.array([this.addIntentionFormGroup()])
+    });
+  }
+
+  addIntentionFormGroup(): FormGroup {
+    return this.fb.group({
+      molecularMutationType: ['', Validators.required],
+      mutationCategorizations: [[]],
+      geneSymbol: ['', Validators.required]
+    });
+  }
+
+  addIntentioButtonClick(): void {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const control = <FormArray>this.projectIntentionsForm.get('intentions');
+    control.push(this.addIntentionFormGroup());
+  }
+
+  removeIntentioButtonClick(i: number) {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const control = <FormArray>this.projectIntentionsForm.get('intentions');
+    control.removeAt(i);
+  }
+
+  geneSelected(i: number, symbol: string) {
+    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
+    const intention = (<FormArray>this.projectIntentionsForm.get('intentions')).at(i);
+    intention.patchValue({geneSymbol: symbol});
   }
 
   loadConfigurationData() {
@@ -76,62 +124,92 @@ export class ProjectIntentionComponent implements OnInit {
     });
   }
 
-  addRow() {
-    const intention: ProjectIntention = new ProjectIntention();
-    intention[this.tmpIndexRowName] = this.nextNewId--;
-    if (!this.projectCreation.projectIntentions) {
-      this.projectCreation.projectIntentions = [];
+  writeValue(obj: any): void {
+    if (obj) {
+      this.projectIntentionsForm.setValue(obj, { emitEvent: false });
     }
-    this.projectCreation.projectIntentions.push(intention);
   }
 
-  addGeneToIntention(projectIntention: ProjectIntention, gene: any) {
-    projectIntention.intentionByGene = new IntentionByGene();
-    projectIntention.intentionByGene.gene = new Gene();
-    projectIntention.intentionByGene.gene.symbol = gene.symbol;
-    projectIntention.intentionByGene.gene.accessionId = gene.accId;
+  onTouched = () => void {};
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
   }
 
-  addMutationCategorization(projectIntention: ProjectIntention, names: string[]) {
-    projectIntention.mutationCategorizations = [];
-    names.forEach((name) => {
-      const mutationCategorization = new MutationCategorization();
-      mutationCategorization.name = name;
-      projectIntention.mutationCategorizations.push(mutationCategorization);
-    });
-  }
-
-  deleteRow(intention: ProjectIntention) {
-    if (this.isNewRecord(intention)) {
-      this.deleteProjectIntention(intention);
+  // Disable or enable the form control
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.projectIntentionsForm.disable();
     } else {
-      this.showDeleteConfirmationDialog(intention);
+      this.projectIntentionsForm.enable();
     }
   }
 
-  showDeleteConfirmationDialog(intention: ProjectIntention) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '250px',
-      data: { confirmed: false }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteProjectIntention(intention);
-      }
-    });
+  // Received a callback, when ever our form value changes it reports the new value to the parent form
+  registerOnChange(fn: any): void {
+    this.projectIntentionsForm.valueChanges.subscribe(fn);
   }
 
-  deleteProjectIntention(intention: ProjectIntention) {
-    if (this.isNewRecord(intention)) {
-      this.projectCreation.projectIntentions = this.projectCreation.projectIntentions
-        .filter(x => x[this.tmpIndexRowName] !== intention[this.tmpIndexRowName]);
-    } else {
-      this.projectCreation.projectIntentions = this.projectCreation.projectIntentions
-        .filter(x => x.id !== intention.id);
-    }
+  validate(c: AbstractControl): ValidationErrors | null {
+    return this.projectIntentionsForm.valid ? null : { invalidForm: {valid: false, message: 'consortiaForm fields are invalid'} };
   }
 
-  private isNewRecord(intention: ProjectIntention) {
-    return intention.id === null;
-  }
+
+  // addRow() {
+  //   const intention: ProjectIntention = new ProjectIntention();
+  //   intention[this.tmpIndexRowName] = this.nextNewId--;
+  //   if (!this.projectCreation.projectIntentions) {
+  //     this.projectCreation.projectIntentions = [];
+  //   }
+  //   this.projectCreation.projectIntentions.push(intention);
+  // }
+
+  // addGeneToIntention(projectIntention: ProjectIntention, gene: any) {
+  //   projectIntention.intentionByGene = new IntentionByGene();
+  //   projectIntention.intentionByGene.gene = new Gene();
+  //   projectIntention.intentionByGene.gene.symbol = gene.symbol;
+  //   projectIntention.intentionByGene.gene.accessionId = gene.accId;
+  // }
+
+  // addMutationCategorization(projectIntention: ProjectIntention, names: string[]) {
+  //   projectIntention.mutationCategorizations = [];
+  //   names.forEach((name) => {
+  //     const mutationCategorization = new MutationCategorization();
+  //     mutationCategorization.name = name;
+  //     projectIntention.mutationCategorizations.push(mutationCategorization);
+  //   });
+  // }
+
+  // deleteRow(intention: ProjectIntention) {
+  //   if (this.isNewRecord(intention)) {
+  //     this.deleteProjectIntention(intention);
+  //   } else {
+  //     this.showDeleteConfirmationDialog(intention);
+  //   }
+  // }
+
+  // showDeleteConfirmationDialog(intention: ProjectIntention) {
+  //   const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+  //     width: '250px',
+  //     data: { confirmed: false }
+  //   });
+  //   dialogRef.afterClosed().subscribe(result => {
+  //     if (result) {
+  //       this.deleteProjectIntention(intention);
+  //     }
+  //   });
+  // }
+
+  // deleteProjectIntention(intention: ProjectIntention) {
+  //   if (this.isNewRecord(intention)) {
+  //     this.projectCreation.projectIntentions = this.projectCreation.projectIntentions
+  //       .filter(x => x[this.tmpIndexRowName] !== intention[this.tmpIndexRowName]);
+  //   } else {
+  //     this.projectCreation.projectIntentions = this.projectCreation.projectIntentions
+  //       .filter(x => x.id !== intention.id);
+  //   }
+  // }
+
+  // private isNewRecord(intention: ProjectIntention) {
+  //   return intention.id === null;
+  // }
 }
