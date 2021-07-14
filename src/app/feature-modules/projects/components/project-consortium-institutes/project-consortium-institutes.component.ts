@@ -32,6 +32,7 @@ export class ProjectConsortiumInstitutesComponent implements OnInit, ControlValu
   configurationData: ConfigurationData;
   consortia: NamedValue[];
   consortiaForm: FormGroup;
+  consortiumNames: string;
 
   constructor(
     private configurationDataService: ConfigurationDataService,
@@ -42,6 +43,22 @@ export class ProjectConsortiumInstitutesComponent implements OnInit, ControlValu
   ngOnInit(): void {
     this.loadConfigurationData();
     this.consortiaReactiveForm();
+
+    setTimeout(() => {
+      this.setListConsortiaNames();
+    }, 1000);
+  }
+
+  setListConsortiaNames(): void {
+    if (this.project.consortia !== null && this.project.consortia !== undefined) {
+      for (const consortium of this.project.consortia) {
+        if (this.consortiumNames === undefined) {
+          this.consortiumNames = consortium.consortiumName;
+        } else {
+          this.consortiumNames += ', ' + consortium.consortiumName;
+        }
+      }
+    }
   }
 
   consortiaReactiveForm() {

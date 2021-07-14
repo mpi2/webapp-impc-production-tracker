@@ -74,9 +74,6 @@ export class ProductionPlanComponent implements OnInit {
       this.originalPlanAsString = JSON.stringify(this.plan);
       this.error = null;
       this.evaluateUpdatePermissions();
-
-      console.log('plan => ', this.plan);
-
     }, error => {
       this.error = error;
     });
@@ -160,7 +157,9 @@ export class ProductionPlanComponent implements OnInit {
    */
   private updatePlan() {
     if (this.plan.attemptTypeName === 'crispr') {
-      this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+      if (this.plan.crisprAttempt.nucleases !== undefined){
+        this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+      }
     }
 
     this.loading = true;

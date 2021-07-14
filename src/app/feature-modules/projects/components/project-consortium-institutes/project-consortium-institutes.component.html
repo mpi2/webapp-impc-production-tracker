@@ -16,12 +16,8 @@
     <br>
 </ng-template>
 <ng-template #consortiaReadOnly>
-    <tr>
-        <td><label for="consortia">Consortia:</label></td>
-        <td>
-            <ng-container *ngFor="let consortium of project.consortia">
-                {{ consortium.consortiumName }},
-            </ng-container>
-        </td>
-    </tr>
+    <label for="consortia">Consortia:</label>
+    <mat-form-field appearance="fill">
+        <input matInput readonly [(value)]="consortiumNames" />
+    </mat-form-field>
 </ng-template>

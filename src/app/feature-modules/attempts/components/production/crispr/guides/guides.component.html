@@ -2,62 +2,64 @@
     <mat-card-subtitle>Guides</mat-card-subtitle>
 
     <mat-card-content>
-        <div *ngIf="canUpdatePlan && crisprAttempt.nucleases[0].typeName === 'Cas9'" id="guidesSearch">
-            <div id="guidesSearchForm">
-                <form [formGroup]="getGuidesForm">
-                    <mat-form-field appearance="fill" >
-                        <input matInput placeholder="Search by gene symbol" aria-label="State" [matAutocomplete]="auto" [formControl]="searchGene" />
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
-                            <ng-container *ngIf="!isLoading">
-                                <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol" (onSelectionChange)="selectedGene(gene)">
-                                    <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
-                                </mat-option>
-                            </ng-container>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                    <div *ngIf="error" class="error">{{ error }}</div>
-                    <button mat-raised-button color="primary" (click)="findGuides();">Find cas9 guides</button>
-                    <mat-option *ngIf="isLoadingExons" class="is-loading">Loading...</mat-option>
-                </form>
-            </div>
-
-            <br/>
-
-            <div *ngIf="exons">
-                <div class="wge mat-elevation-z8">
-                    <table mat-table [dataSource]="exons" class="wge_info">
-                        <!-- Exon Id Column -->
-                        <ng-container matColumnDef="exon_id" sticky>
-                            <th mat-header-cell *matHeaderCellDef> Exons </th>
-                            <td mat-cell *matCellDef="let element"> {{ element.exonId }} </td>
-                        </ng-container>
-                    
-                        <tr mat-header-row *matHeaderRowDef="displayedExonColumns sticky: true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedExonColumns; let idx=index;"
-                            class="element-row" 
-                            [style.background-color]="highlightedRows.indexOf(row) !== -1 ? 'orange' : ''"
-                            (click)="exonSelected(row, !row.rowClicked); highlightExon(row);"></tr>
-                    </table>
+        <div *ngIf="canUpdatePlan && crisprAttempt.nucleases !== undefined">
+            <div *ngIf="crisprAttempt.nucleases[0].typeName === 'Cas9'" id="guidesSearch">
+                <div id="guidesSearchForm">
+                    <form [formGroup]="getGuidesForm">
+                        <mat-form-field appearance="fill" >
+                            <input matInput placeholder="Search by gene symbol" aria-label="State" [matAutocomplete]="auto" [formControl]="searchGene" />
+                            <mat-autocomplete #auto="matAutocomplete">
+                                <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                <ng-container *ngIf="!isLoading">
+                                    <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol" (onSelectionChange)="selectedGene(gene)">
+                                        <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
+                                    </mat-option>
+                                </ng-container>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <div *ngIf="error" class="error">{{ error }}</div>
+                        <button mat-raised-button color="primary" (click)="findGuides();">Find cas9 guides</button>
+                        <mat-option *ngIf="isLoadingExons" class="is-loading">Loading...</mat-option>
+                    </form>
                 </div>
 
-                <div *ngIf="guides" class="wge mat-elevation-z8">
-                    <table mat-table [dataSource]="guides" class="wge_info">
-                        <!-- Sequence Column -->
-                        <ng-container matColumnDef="sequence" sticky>
-                            <th mat-header-cell *matHeaderCellDef> Sequences </th>
-                            <td mat-cell *matCellDef="let element"> 
-                                {{ element.sequence }} 
-                                <span *ngIf="element.reversed" style="font-size:8px;vertical-align:sub;">(reversed)</span>
-                            </td>
+                <br/>
+
+                <div *ngIf="exons">
+                    <div class="wge mat-elevation-z8">
+                        <table mat-table [dataSource]="exons" class="wge_info">
+                            <!-- Exon Id Column -->
+                            <ng-container matColumnDef="exon_id" sticky>
+                                <th mat-header-cell *matHeaderCellDef> Exons </th>
+                                <td mat-cell *matCellDef="let element"> {{ element.exonId }} </td>
                             </ng-container>
-                    
-                        <tr mat-header-row *matHeaderRowDef="displayedGuideColumns sticky: true"></tr>
-                        <tr mat-row *matRowDef="let row; columns: displayedGuideColumns;"
-                            class="element-row" 
-                            [style.background-color]="row.rowClicked ? 'orange' : ''"
-                            (click)="sequenceSelected(row, !row.rowClicked); highlightSequence(row);"></tr>
-                    </table>
+                        
+                            <tr mat-header-row *matHeaderRowDef="displayedExonColumns sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedExonColumns; let idx=index;"
+                                class="element-row" 
+                                [style.background-color]="highlightedRows.indexOf(row) !== -1 ? 'orange' : ''"
+                                (click)="exonSelected(row, !row.rowClicked); highlightExon(row);"></tr>
+                        </table>
+                    </div>
+
+                    <div *ngIf="guides" class="wge mat-elevation-z8">
+                        <table mat-table [dataSource]="guides" class="wge_info">
+                            <!-- Sequence Column -->
+                            <ng-container matColumnDef="sequence" sticky>
+                                <th mat-header-cell *matHeaderCellDef> Sequences </th>
+                                <td mat-cell *matCellDef="let element"> 
+                                    {{ element.sequence }} 
+                                    <span *ngIf="element.reversed" style="font-size:8px;vertical-align:sub;">(reversed)</span>
+                                </td>
+                                </ng-container>
+                        
+                            <tr mat-header-row *matHeaderRowDef="displayedGuideColumns sticky: true"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedGuideColumns;"
+                                class="element-row" 
+                                [style.background-color]="row.rowClicked ? 'orange' : ''"
+                                (click)="sequenceSelected(row, !row.rowClicked); highlightSequence(row);"></tr>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>

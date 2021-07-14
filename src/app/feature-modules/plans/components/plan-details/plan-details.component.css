@@ -3,3 +3,14 @@ table {
     border-collapse: separate;
     font-size: 15px;
 }
+
+.separation {
+    padding-top: 10px;
+}
+
+label {
+    clear: both;
+    float: left;
+    padding-bottom: 5px;
+    width: 200px;
+}

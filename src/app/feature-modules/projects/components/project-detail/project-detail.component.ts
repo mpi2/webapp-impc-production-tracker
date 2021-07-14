@@ -67,19 +67,19 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   showEsCellDetails(): boolean {
-    // console.log('all: ', this.productionPlansDetails);
     return this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
   }
 
   projectReactiveForm() {
     this.projectForm = this.fb.group({
       privacy: ['', Validators.required],
+      recovery: [false],
       comments: [''],
       completionComment: [''],
+      completionNote: [''],
       esCellDetails: ['']
     });
   }
-
 
   sortByPid(plans: Plan[]): Plan[] {
     plans.sort((a, b) => {
@@ -96,25 +96,38 @@ export class ProjectDetailComponent implements OnInit {
     return plans;
   }
 
-  onAddPlan() {
+  // onAddPlan() {
 
-  }
+  // }
 
-  onTextCompletionCommentChanged(e): void {
-    const newComments = this.projectForm.get('completionComment').value;
-    this.project.completionComment = newComments;
-  }
+  // onTextCompletionCommentChanged(e): void {
+  //   const newComments = this.projectForm.get('completionComment').value;
+  //   this.project.completionComment = newComments;
+  // }
 
-  onTextCommentChanged(e): void {
-    const newComments = this.projectForm.get('comments').value;
-    this.project.comment = newComments;
-  }
+  // onTextCommentChanged(e): void {
+  //   const newComments = this.projectForm.get('comments').value;
+  //   this.project.comment = newComments;
+  // }
 
-  onItemSelect(e): void {
-    this.project.privacyName = e;
-  }
+  // onItemSelect(e): void {
+  //   this.project.privacyName = e;
+  // }
 
   updateProject(): void {
+    console.log('project: ', this.project);
+
+    this.project = Object.assign(this.project, this.projectForm.value);
+
+    if (this.project.esCellDetails) {
+      // TODO entity conversion
+    } else {
+      delete this.project.esCellDetails;
+    }
+
+    console.log('project: ', this.project);
+    console.log('form: ', this.projectForm.value);
+
     this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
       if (changeResponse && changeResponse.history.length > 0) {
         this.changeDetails = changeResponse.history[0];
@@ -131,9 +144,11 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private setFormValues(): void {
+    this.projectForm.get('privacy').setValue(this.project.privacyName);
     this.projectForm.get('comments').setValue(this.project.comment);
-    this.selectedPrivacy = [{ name: this.project.privacyName }];
-    this.projectForm.get('privacy').setValue(this.selectedPrivacy);
+    this.projectForm.get('completionComment').setValue(this.project.completionComment);
+    this.projectForm.get('completionNote').setValue(this.project.completionNote);
+    this.projectForm.get('recovery').setValue(this.project.recovery);
   }
 
   private coloniesExist(): void {

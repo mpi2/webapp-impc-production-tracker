@@ -37,14 +37,6 @@
         </td>
     </ng-container>
 
-    <!-- Species -->
-    <ng-container matColumnDef="species">
-        <th mat-header-cell *matHeaderCellDef> Species </th>
-        <td mat-cell *matCellDef="let element">
-            {{ element.intentionByGene.gene.speciesName }}
-        </td>
-    </ng-container>
-
     <!-- Sequence link -->
     <ng-container matColumnDef="sequence">
         <th mat-header-cell *matHeaderCellDef> Sequence Information </th>
@@ -56,7 +48,6 @@
             <ng-template #elseBlock>No sequence intention information.</ng-template>
         </td>
     </ng-container>
-
 
     <ng-container matColumnDef="expandedDetail">
         <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">

@@ -3,8 +3,8 @@
     <mat-card-content>
         <form [formGroup]="statusTransitionForm">
             <div *ngIf="canUpdate; then statusTransitionEditable else statusTransitionReadOnly"></div>
-            <table>
-                <ng-template #statusTransitionEditable>
+            <ng-template #statusTransitionEditable>
+                <table>
                     <tr>
                         <td><label for="currentStatus">Current Status:</label></td>
                         <td>
@@ -32,14 +32,14 @@
                             </div>
                         </td>
                     </tr>
-                </ng-template>
-                <ng-template #statusTransitionReadOnly>
-                    <tr>
-                        <td><label for="currentStatus">Current Status:</label></td>
-                        <td>{{ statusTransition.currentStatus }}</td>
-                    </tr>
-                </ng-template>
-            </table>        
+                </table> 
+            </ng-template>
+            <ng-template #statusTransitionReadOnly>
+                <label for="currentStatus">Current Status:</label>
+                {{ statusTransition.currentStatus }}
+                <br>
+            </ng-template>
+                   
         </form>
     </mat-card-content>
 </mat-card>

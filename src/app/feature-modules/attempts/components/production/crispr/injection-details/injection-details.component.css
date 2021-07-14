@@ -1,27 +1,6 @@
-.editableSection {
-  height: 200px;
-}
-
-.readOnlySection {
-    height: 120px;
-  }
-
 label {
   clear: both;
   float: left;
-  width: 300px;
-  margin-top: 5px; 
-  margin-bottom: 5px;
-  margin-right: 30px;
-}
-input,
-mat-select {
+  padding-bottom: 5px;
   width: 200px;
 }
-.content {
-  float: none;
-  margin-bottom: 5px;
-  margin-right: 30px;
-}
-
-

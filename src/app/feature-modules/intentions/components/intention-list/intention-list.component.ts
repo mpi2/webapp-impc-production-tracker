@@ -21,7 +21,7 @@ export class IntentionListComponent implements OnInit {
 
   expandedElement: ProjectIntention | null;
 
-  displayedColumns: string[] = ['molecularMutationType', 'mutationCategorizations', 'geneSymbol', 'accessionId', 'species', 'sequence'];
+  displayedColumns: string[] = ['molecularMutationType', 'mutationCategorizations', 'geneSymbol', 'accessionId', 'sequence'];
 
   constructor(public dialog: MatDialog) { }
 

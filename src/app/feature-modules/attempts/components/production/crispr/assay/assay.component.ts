@@ -12,8 +12,6 @@ export class AssayComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
 
-  transferDays = ['Same Day', 'Next Day'];
-
   configurationData: ConfigurationData;
   assayTypes: NamedValue[] = [];
 

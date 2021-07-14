@@ -1,58 +1,74 @@
 <mat-card>
     <mat-card-subtitle>Crispr Injection Details</mat-card-subtitle>
     <mat-card-content>
-
         <div *ngIf="canUpdatePlan; then editable else readOnly"></div>
-
         <ng-template #editable>
+            <label for="totalEmbryosInjected">Number of Embryos Injected:</label>
+            <mat-form-field appearance="fill">
+                <input appDigitOnly matInput [(ngModel)]="crisprAttempt.totalEmbryosInjected">
+            </mat-form-field>
+            <br>
 
-            <div class="editableSection">
-                <label for="totalEmbryosInjected">Number of Embryos Injected:</label>
-                <div id="totalEmbryosInjected" class="content">
-                    <mat-form-field appearance="fill" class="example-full-width">
-                        <input appDigitOnly matInput [(ngModel)]="crisprAttempt.totalEmbryosInjected">
-                    </mat-form-field>
-                </div>
+            <label for="totalEmbryosSurvived">Number of Embryos Survived:</label>
+            <mat-form-field appearance="fill">
+                <input appDigitOnly matInput [(ngModel)]="crisprAttempt.totalEmbryosSurvived">
+            </mat-form-field>
+            <br>
 
-                <label for="totalEmbryosSurvived">Number of Embryos Survived:</label>
-                <div id="totalEmbryosSurvived" class="content">
-                    <mat-form-field appearance="fill" class="example-full-width">
-                        <input appDigitOnly matInput [(ngModel)]="crisprAttempt.totalEmbryosSurvived">
-                    </mat-form-field>
-                </div>
+            <label for="embryoTransferDay">Embryo Transfer Day:</label>
+            <mat-form-field appearance="fill">
+                <mat-select class="select-content" [(ngModel)]="crisprAttempt.assay.embryoTransferDay">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let transferDay of transferDays" [value]="transferDay">
+                        {{ transferDay }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <br>
 
-                <label for="embryo2Cell">Number of Embryos Survived to 2 cell stage (Leave blank if transfered on same
-                    day):</label>
-                <div id="embryo2Cell">
-                    <mat-form-field appearance="fill" class="example-full-width">
-                        <input appDigitOnly matInput [(ngModel)]="crisprAttempt.embryo2Cell">
-                    </mat-form-field>
-                </div>
-            </div>
+            <label for="embryo2Cell">Number of Embryos Survived to 2 cell stage (Leave blank if transfered on same day):</label>
+            <mat-form-field appearance="fill">
+                <input appDigitOnly matInput [(ngModel)]="crisprAttempt.embryo2Cell">
+            </mat-form-field>
+            <br>
 
+            <label for="totalEmbryosInjected">Number Transfered:</label>
+            <mat-form-field appearance="fill" class="example-full-width">
+                <input appDigitOnly matInput [(ngModel)]="crisprAttempt.assay.totalTransferred">
+            </mat-form-field>
+            <br>
         </ng-template>
 
         <ng-template #readOnly>
+            <label for="totalEmbryosInjected">Number of Embryos Injected:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="crisprAttempt.totalEmbryosInjected" />
+            </mat-form-field>
+            <br>
 
-            <div class="readOnlySection">
-                <label for="totalEmbryosInjected">Number of Embryos Injected:</label>
-                <div id="totalEmbryosInjected" class="content">
-                    {{ crisprAttempt.totalEmbryosInjected }}
-                </div>
+            <label for="totalEmbryosSurvived">Number of Embryos Survived:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="crisprAttempt.totalEmbryosSurvived" />
+            </mat-form-field>
+            <br>
 
-                <label for="totalEmbryosSurvived">Number of Embryos Survived:</label>
-                <div id="totalEmbryosSurvived" class="content">
-                    {{ crisprAttempt.totalEmbryosSurvived }}
-                </div>
+            <label for="sembryoTransferDaymbol">Embryo Transfer Day:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="crisprAttempt.assay.embryoTransferDay" />
+            </mat-form-field>
+            <br>
 
-                <label for="embryo2Cell">Number of Embryos Survived to 2 cell stage (Leave blank if transfered on same
-                    day):</label>
-                <div id="embryo2Cell">
-                    {{ crisprAttempt.embryo2Cell }}
-                </div>
-            </div>
+            <label for="embryo2Cell">Number of Embryos Survived to 2 cell stage (Leave blank if transfered on same day):</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="crisprAttempt.embryo2Cell" />
+            </mat-form-field>
+            <br>
 
+            <label for="totalEmbryosInjected">Number Transfered:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="crisprAttempt.assay.totalTransferred" />
+            </mat-form-field>
+            <br>
         </ng-template>
-
     </mat-card-content>
 </mat-card>

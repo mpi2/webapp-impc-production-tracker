@@ -2,16 +2,12 @@
   <mat-card-subtitle>Mutagenesis Details</mat-card-subtitle>
   <mat-card-content>
     <div *ngIf="canUpdatePlan; then editable else readOnly"></div>
-
     <ng-template #editable>
-
-      <div>
-        <label for="mutagenesisExternalRef">Mutagenesis External Ref:</label>
-        <mat-form-field appearance="fill" id="mutagenesisExternalRef">
-          <input matInput [(ngModel)]="crisprAttempt.mutagenesisExternalRef" [ngModelOptions]="{standalone: true}">
-        </mat-form-field>
-      </div>
-
+      <label for="mutagenesisExternalRef">Mutagenesis External Ref:</label>
+      <mat-form-field appearance="fill" id="mutagenesisExternalRef">
+        <input matInput [(ngModel)]="crisprAttempt.mutagenesisExternalRef" [ngModelOptions]="{standalone: true}">
+      </mat-form-field>
+      <br>
       <label for="strainInjectedName">Strain Injected:</label>
       <mat-form-field appearance="fill">
         <mat-select class="select-content" [(value)]="crisprAttempt.strainInjectedName">
@@ -21,22 +17,20 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
-
+      <br>
     </ng-template>
 
     <ng-template #readOnly>
-
-      <div>
-        <label for="mutagenesisExternalRef">Mutagenesis External Ref:</label>
-        {{ crisprAttempt.mutagenesisExternalRef }}
-      </div>
+      <label for="mutagenesisExternalRef">Mutagenesis External Ref:</label>
+      <mat-form-field appearance="fill">
+        <input matInput readonly [(value)]="crisprAttempt.mutagenesisExternalRef" />
+      </mat-form-field>
+      <br>
 
       <label for="strainInjectedName">Strain Injected:</label>
-      <div id="strainInjectedName" class="content">
-        {{ crisprAttempt.strainInjectedName }}
-      </div>
-
+      <mat-form-field appearance="fill">
+        <input matInput readonly [(value)]="crisprAttempt.strainInjectedName" />
+      </mat-form-field>
     </ng-template>
-
   </mat-card-content>
 </mat-card>
