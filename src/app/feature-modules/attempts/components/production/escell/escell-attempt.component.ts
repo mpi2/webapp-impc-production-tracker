@@ -273,7 +273,7 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
   // }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    console.log('escellAttemptForm validation: ', this.esCellAttemptForm.valid);
+    // console.log('escellAttemptForm validation: ', this.esCellAttemptForm.valid);
     return this.esCellAttemptForm.valid ? null : { invalidForm: {valid: false, message: 'escellAttemptForm fields are invalid'} };
   }
 

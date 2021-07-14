@@ -1,121 +1,56 @@
 mat-card-title {
-    font-size: large;
-  }
+  font-size: large;
+}
   
-  .fieldsSectionPlan {
-    padding-top: 20px;
-    line-height: 2;
-    height: 350px;
-  }
+.fieldsSectionPlan {
+  padding-top: 20px;
+  line-height: 2;
+  height: 350px;
+}
 
-  .fieldsSectionProject {
-    padding-top: 20px;
-    line-height: 2;
-    height: 450px;
-  }
+.fieldsSectionProject {
+  padding-top: 20px;
+  line-height: 2;
+  height: 350px;
+}
 
-  .fieldsSectionSpecies {
-    padding-top: 20px;
-    line-height: 2;
-    height: 60px;
-  }
-  
-  label,
-  .label {
-    clear: both;
-    float: left;
-    padding-bottom: 5px;
-    width: 200px;
-  }
-  input,
-  select {
-    float: left;
-  }
-  .content {
-    width: 300px;
-    float: left;
-    padding-bottom: 5px;
-  }
-  
-  .section {
-    clear: both;
-  }
-  
-  .update-button {
-    /* clear: both; */
-    height: 60px;
-    clear: left;
-    float: none;
-  }
-  
+.fieldsSectionSpecies {
+  padding-top: 20px;
+  line-height: 2;
+  height: 60px;
+}
 
-  table, th, tr, td {
-    padding: 10px;
-    text-align: left;
-    border-bottom-style: solid;
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(0, 0, 0, 0.12);
-    font-size: 14px;
-  }
+label,
+.label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 200px;
+}
 
-  td.no_border {
-    border-bottom-style: none;
-  }
+input,
+select {
+  float: left;
+  display: block;
+}
 
-  .required {
-    border-color: #dd2030;
-  }
+.content {
+  width: 300px;
+  float: left;
+  padding-bottom: 5px;
+}
 
-  td.status {
-    font-style: italic;
-    color: #D83D3D;
-  }
-  
-  table {
-    width: 100%;
-  }
-  
-  tr.example-detail-row {
-    height: 0;
-  }
-  
-  tr.example-element-row:not(.example-expanded-row):hover {
-    background: whitesmoke;
-  }
-  
-  tr.example-element-row:not(.example-expanded-row):active {
-    background: #efefef;
-  }
-  
-  .example-element-row td {
-    border-bottom-width: 0;
-  }
-  
-  .example-element-detail {
-    overflow: hidden;
-    display: flex;
-  }
-  
-  .example-element-diagram {
-    min-width: 80px;
-    border: 2px solid black;
-    padding: 8px;
-    font-weight: lighter;
-    margin: 8px 0;
-    height: 104px;
-  }
-  
-  .example-element-symbol {
-    font-weight: bold;
-    font-size: 40px;
-    line-height: normal;
-  }
-  
-  .example-element-description {
-    padding: 16px;
-  }
-  
-  .example-element-description-attribution {
-    opacity: 0.5;
-  }
-  
+.section {
+  clear: both;
+}
+
+.update-button {
+  /* clear: both; */
+  height: 60px;
+  clear: left;
+  float: none;
+}
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+}

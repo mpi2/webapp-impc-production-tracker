@@ -12,6 +12,7 @@ import { FiltersModule } from '../filters/filters.module';
 import { ProjectCreationComponent } from './components/project-creation/project-creation.component';
 import { ProjectIntentionComponent } from './components/project-intention/project-intention.component';
 import { ProjectConsortiumInstitutesComponent } from './components/project-consortium-institutes/project-consortium-institutes.component';
+import { ProjectEsCellQcComponent } from './components/project-es-cell-qc/project-es-cell-qc/project-es-cell-qc.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +22,8 @@ import { ProjectConsortiumInstitutesComponent } from './components/project-conso
     ProjectListContentComponent,
     ProjectCreationComponent,
     ProjectIntentionComponent,
-    ProjectConsortiumInstitutesComponent
+    ProjectConsortiumInstitutesComponent,
+    ProjectEsCellQcComponent
   ],
   imports: [
     ProjectsRoutingModule,

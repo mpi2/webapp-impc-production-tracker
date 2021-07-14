@@ -1,32 +1,70 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
+  AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { InstitutesConsortium, Project } from 'src/app/model';
-import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { Project } from 'src/app/model';
+
 
 @Component({
   selector: 'app-project-consortium-institutes',
   templateUrl: './project-consortium-institutes.component.html',
-  styleUrls: ['./project-consortium-institutes.component.css']
+  styleUrls: ['./project-consortium-institutes.component.css'],
+  providers: [
+    {
+      provide: NG_VALIDATORS,
+      useExisting: forwardRef(() => ProjectConsortiumInstitutesComponent),
+      multi: true
+    },
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => ProjectConsortiumInstitutesComponent),
+      multi: true
+    }
+  ]
 })
-export class ProjectConsortiumInstitutesComponent implements OnInit {
+export class ProjectConsortiumInstitutesComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() project: Project;
   @Input() canUpdate: boolean;
 
   configurationData: ConfigurationData;
   consortia: NamedValue[];
-
-  tmpIndexRowName = 'tmp_id';
-  nextNewId = -1;
+  consortiaForm: FormGroup;
+  consortiumNames: string;
 
   constructor(
     private configurationDataService: ConfigurationDataService,
+    private fb: FormBuilder,
     public dialog: MatDialog
   ) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
+    this.consortiaReactiveForm();
+
+    setTimeout(() => {
+      this.setListConsortiaNames();
+    }, 1000);
+  }
+
+  setListConsortiaNames(): void {
+    if (this.project.consortia !== null && this.project.consortia !== undefined) {
+      for (const consortium of this.project.consortia) {
+        if (this.consortiumNames === undefined) {
+          this.consortiumNames = consortium.consortiumName;
+        } else {
+          this.consortiumNames += ', ' + consortium.consortiumName;
+        }
+      }
+    }
+  }
+
+  consortiaReactiveForm() {
+    this.consortiaForm = this.fb.group({
+      consortiumName: [[], Validators.required]
+    });
   }
 
   loadConfigurationData() {
@@ -36,50 +74,33 @@ export class ProjectConsortiumInstitutesComponent implements OnInit {
     });
   }
 
-  addRow() {
-    const institutesConsortium: InstitutesConsortium = new InstitutesConsortium();
-    institutesConsortium[this.tmpIndexRowName] = this.nextNewId--;
-    if (!this.project.consortia) {
-      this.project.consortia = [];
+  writeValue(obj: any): void {
+    if (obj) {
+      this.consortiaForm.setValue(obj, { emitEvent: false });
     }
-    this.project.consortia.push(institutesConsortium);
   }
 
-  deleteRow(institutesConsortium: InstitutesConsortium) {
-    if (this.isNewRecord(institutesConsortium)) {
-      this.deleteConsortia(institutesConsortium);
+  onTouched = () => void {};
+  registerOnTouched(fn: any): void {
+    this.onTouched = fn;
+  }
+
+  // Disable or enable the form control
+  setDisabledState?(isDisabled: boolean): void {
+    if (isDisabled) {
+      this.consortiaForm.disable();
     } else {
-      this.showDeleteConfirmationDialog(institutesConsortium);
+      this.consortiaForm.enable();
     }
   }
 
-  showDeleteConfirmationDialog(institutesConsortium: InstitutesConsortium) {
-    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-      width: '250px',
-      data: { confirmed: false }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.deleteConsortia(institutesConsortium);
-      }
-    });
+  // Received a callback, when ever our form value changes it reports the new value to the parent form
+  registerOnChange(fn: any): void {
+    this.consortiaForm.valueChanges.subscribe(fn);
   }
 
-  deleteConsortia(institutesConsortium: InstitutesConsortium) {
-    if (this.isNewRecord(institutesConsortium)) {
-      this.project.consortia = this.project.consortia
-        .filter(x => x[this.tmpIndexRowName] !== institutesConsortium[this.tmpIndexRowName]);
-    } else {
-      this.project.consortia = this.project.consortia
-        .filter(x => x.id !== institutesConsortium.id);
-    }
-
-    console.log(this.project.consortia );
-
-  }
-
-  private isNewRecord(institutesConsortium: InstitutesConsortium) {
-    return institutesConsortium.id === null;
+  validate(c: AbstractControl): ValidationErrors | null {
+    return this.consortiaForm.valid ? null : { invalidForm: {valid: false, message: 'consortiaForm fields are invalid'} };
   }
 
 }

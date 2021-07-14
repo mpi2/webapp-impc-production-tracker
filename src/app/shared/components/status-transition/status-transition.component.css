@@ -7,3 +7,14 @@
     padding-bottom: 5px;
     color: #f44336;
 }
+
+.separation {
+    padding-top: 10px;
+}
+
+label {
+    clear: both;
+    float: left;
+    padding-bottom: 5px;
+    width: 200px;
+}

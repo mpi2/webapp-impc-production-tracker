@@ -31,8 +31,9 @@
           [esCellAttempt]="plan.esCellAttempt" [canUpdatePlan]="canUpdatePlan">
         </app-escell-attempt>
 
-        <app-cre-allele-modification *ngIf="plan.attemptTypeName === 'cre allele modification'"
-          [creAlleleModificationAttempt]="plan.creAlleleModificationAttempt" [canUpdatePlan]="canUpdatePlan">
+        <app-cre-allele-modification *ngIf="plan.attemptTypeName === 'cre allele modification'" formControlName="creAlleleModificationAttempt"
+          [creAlleleModificationAttempt]="plan.creAlleleModificationAttempt" [creAlleleModificationStartingPoint]="plan.creAlleleModificationStartingPoint"
+          [canUpdatePlan]="canUpdatePlan">
         </app-cre-allele-modification>
 
         <app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [attemptType]=plan.attemptTypeName [canUpdate]="canUpdatePlan">
@@ -40,7 +41,7 @@
 
         <!-- Submit -->
         <div class="button-wrapper">
-          <button mat-raised-button color="primary" [disabled]="prodPlanForm.invalid" *ngIf="canUpdatePlan">Update</button>
+          <button mat-raised-button color="primary" [disabled]="prodPlanForm.invalid || !prodPlanForm.dirty" *ngIf="canUpdatePlan">Update</button>
         </div>
 
     </form>

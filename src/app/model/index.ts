@@ -10,3 +10,4 @@ export * from './bio/status-date';
 export * from './bio/basic-plan';
 export * from './bio/mutation-categorization';
 export * from './bio/intention-by-gene';
+export * from './bio/es-cell-qc';

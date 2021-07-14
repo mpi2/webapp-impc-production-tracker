@@ -12,7 +12,7 @@ import { ProjectService } from 'src/app/feature-modules/projects';
 import { Outcome } from '../../model/outcomes/outcome';
 import { OutcomeService } from '../../services/outcome.service';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
-import { CreAlleleModificationAttempt, EsCellAttempt } from 'src/app/feature-modules/attempts';
+
 
 @Component({
   selector: 'app-production-plan',
@@ -30,8 +30,6 @@ export class ProductionPlanComponent implements OnInit {
   originalPlanAsString: string;
   outcomes: Outcome[];
   // crisptAttempt: CrisprAttempt;
-  // esCellAttempt: EsCellAttempt;
-  // creAlleleModAttempt: CreAlleleModificationAttempt;
   changeDetails: ChangesHistory;
 
   canUpdatePlan: boolean;
@@ -52,18 +50,17 @@ export class ProductionPlanComponent implements OnInit {
   ngOnInit() {
     const pin = this.route.snapshot.params.pid;
     this.reloadForPin(pin);
-
     this.prodPlanReactiveForm();
   }
 
   prodPlanReactiveForm() {
     this.prodPlanForm = this.fb.group({
       planDetails: [''],
-      // statusTransitionForm: new FormControl(''),
-      // crisprAttemptForm: new FormControl(''),
+      // statusTransitionForm: [''],
+      // crisprAttemptForm: [''],
       esCellAttempt: [''],
-      // creAlleleModAttemptForm: new FormControl(''),
-      // outcomeForm: new FormControl('')
+      creAlleleModificationAttempt: [''],
+      // outcomeForm: ['']
     });
   }
 
@@ -154,12 +151,15 @@ export class ProductionPlanComponent implements OnInit {
       console.log('Plan has not changed!');
     }
   }
+
   /**
    * Updates the plan
    */
   private updatePlan() {
     if (this.plan.attemptTypeName === 'crispr') {
-      this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+      if (this.plan.crisprAttempt.nucleases !== undefined){
+        this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+      }
     }
 
     this.loading = true;

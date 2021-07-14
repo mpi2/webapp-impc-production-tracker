@@ -1,68 +1,59 @@
-<div *ngIf="error" class="alert alert-danger">{{error}}</div>
-<mat-card>
-    <mat-card-title>
-        Project Creation
-    </mat-card-title>
-    
+<div *ngIf="error" class="alert alert-danger">{{ error }}</div>
+<form [formGroup]="projectCreationForm" (ngSubmit)="createProject()">
     <mat-card>
-        <mat-card-subtitle>Project Details</mat-card-subtitle>
-        <mat-card-content>
-            <div class="fieldsSectionProject">
-                <app-project-consortium-institutes [project]="projectCreation" [canUpdate]="true"></app-project-consortium-institutes>
+        <mat-card-title>
+            Project Creation
+        </mat-card-title>
+        
+        <mat-card>
+            <mat-card-subtitle>Project Details</mat-card-subtitle>
+            <mat-card-content>
+                <div class="fieldsSectionProject">
+                    <app-project-consortium-institutes [project]="" [canUpdate]="true" formControlName="consortiaNames">
+                    </app-project-consortium-institutes>
 
-                <label for="privacy">Privacy *:</label>
-                <mat-form-field appearance="fill">
-                    <mat-select [(ngModel)]="projectCreation.privacyName" [ngModelOptions]="{standalone: true}">
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
-                            {{ privacy.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
+                    <label for="privacy">Privacy *:</label>
+                    <mat-form-field appearance="fill">
+                        <mat-label>Choose privacy</mat-label>
+                        <mat-select formControlName="privacyName">
+                            <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
+                                {{ privacy.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
 
-                <section class="">
-                    <label for="recovery">Recovery:</label>
-                    <mat-checkbox id="recovery" 
-                        [(ngModel)]="projectCreation.recovery" [ngModelOptions]="{standalone: true}">
-                    </mat-checkbox>
-                </section>
-                
-                <br>
+                    <section class="">
+                        <label for="recovery">Recovery:</label>
+                        <mat-checkbox id="recovery" formControlName="recovery">
+                        </mat-checkbox>
+                    </section>
+                    <br>
 
-                <label for="projectComment">Project comment:</label>
-                <mat-form-field appearance="fill" id="projectComment">
-                    <textarea matInput [(ngModel)]="projectCreation.comment" [ngModelOptions]="{standalone: true}"></textarea>
-                </mat-form-field>
-            </div>
-        </mat-card-content>
+                    <label for="projectComment">Project comment:</label>
+                    <mat-form-field appearance="fill" id="projectComment">
+                        <textarea matInput formControlName="comment"></textarea>
+                    </mat-form-field>
+                    <br>
+
+                    <label for="species">Species:</label>
+                    <mat-radio-group aria-label="Select an option" formControlName="species">
+                        <mat-radio-button *ngFor="let species of allSpecies" [value]="species.name">{{ species.name }}</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <app-project-intention [projectCreation]="true" formControlName="projectIntentions"></app-project-intention>
+
+        <app-plan-creation [projectCreation]="true" formControlName="planDetails"></app-plan-creation>
+
+        <mat-card class="update-button">
+            <mat-card-content >
+                <button mat-raised-button color="primary" [disabled]="projectCreationForm.invalid || !projectCreationForm.dirty">Create Project</button>
+                <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
+                </mat-spinner>
+            </mat-card-content>
+        </mat-card>
     </mat-card>
 
-    <app-project-intention [projectCreation]="projectCreation"></app-project-intention>
-
-    <mat-card>
-        <mat-card-content>
-            <div class="fieldsSectionSpecies">
-                <label for="species">Species:</label>
-                <mat-form-field appearance="fill">
-                    <mat-select [(ngModel)]="projectCreation.speciesNames" [ngModelOptions]="{standalone: true}" multiple>
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let species of allSpecies" [value]="species.name">
-                            {{ species.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-        </mat-card-content>
-    </mat-card>
-
-    <app-plan-creation [projectCreation]="projectCreation"></app-plan-creation>
-
-    <mat-card class="update-button">
-        <mat-card-content >
-            <button mat-raised-button color="primary" (click)="create()">Create Project</button>
-            <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
-            </mat-spinner>
-        </mat-card-content>
-    </mat-card>
-</mat-card>
-
+</form>

@@ -1,0 +1,150 @@
+<p>Es Cell Details:</p>
+<ng-container [formGroup]="esCellDetailsForm">
+    <div *ngIf="canUpdate; then orderInfoEditable else orderInfoReadOnly"></div>
+    <ng-template #orderInfoEditable>
+        <mat-card>
+            <mat-card-subtitle>Order Info</mat-card-subtitle>
+            <mat-card-content>
+                <table>
+                    <tr>
+                        <td><label for="numberOfEsCellsReceived">Number Of Es Cells Received:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfCreMatingsSuccessful">
+                                <input matInput appDigitOnly 
+                                        (blur)="onTouched()" 
+                                        formControlName="numberOfEsCellsReceived"
+                                        class="form-control"
+                                        (change)="onInputChange($event)"
+                                        (keyup)="onInputChange($event)" />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="esCellsReceivedFromName">Es Cell Received From:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="form-control"
+                                            (blur)="onTouched()" 
+                                            formControlName="esCellsReceivedFromName" 
+                                            [(value)]="this.esCellQc.esCellsReceivedFromName" >
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let centre of receivedFromCentres" [value]="centre.name">
+                                        {{ centre.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="esCellsReceivedOn">Es Cells Received On:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <input
+                                    matInput
+                                    [matDatepicker]="datePicker"
+                                    (blur)="onTouched()" 
+                                    formControlName="esCellsReceivedOn"
+                                    (dateChange)="onReceivedOnDateChanged()"
+                                    class="form-control"
+                                />
+                                <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+                                <mat-datepicker #datePicker></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </mat-card-content>
+        </mat-card>
+    </ng-template>
+    
+    <ng-template #orderInfoReadOnly>
+        <table>
+            <tr>
+                <td><label for="numberOfEsCellsReceived">Number Of Es Cells Received:</label></td>
+                <td>{{ esCellQc.numberOfEsCellsReceived }}</td>
+            </tr>
+            <tr>
+                <td><label for="esCellsReceivedFromName">Es Cell Received From:</label></td>
+                <td>{{ esCellQc.esCellsReceivedFromName }}</td>
+            </tr>
+            <tr>
+                <td><label for="esCellsReceivedOn">Es Cells Received On:</label></td>
+                <td>{{ esCellQc.esCellsReceivedOn }}</td>
+            </tr>
+        </table>
+    </ng-template>
+
+
+
+    <mat-card>
+        <mat-card-subtitle>ES Cell QC</mat-card-subtitle>
+        <mat-card-content>
+            <div *ngIf="canUpdate; then esCellQcEditable else esCellQcReadOnly"></div>
+            <ng-template #esCellQcEditable>
+                <table>
+                    <tr>
+                        <td><label for="numberOfEsCellsStartingQc">Number Of Es Cells Starting Qc:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfEsCellsStartingQc">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfEsCellsStartingQc"
+                                    class="form-control"
+                                    (change)="onInputChange($event)"
+                                    (keyup)="onInputChange($event)" />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfEsCellsPassingQc">Number Of Es Cells Passing Qc:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfEsCellsPassingQc">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfEsCellsPassingQc"
+                                    class="form-control"
+                                    (change)="onInputChange($event)"
+                                    (keyup)="onInputChange($event)" />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="esCellQcComment">Es QC Comment:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="form-control"
+                                            (blur)="onTouched()" 
+                                            formControlName="esCellQcComment" 
+                                            [(value)]="this.esCellQc.esCellQcComment" >
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let comment of qcComments" [value]="comment.name">
+                                        {{ comment.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
+
+    <ng-template #esCellQcReadOnly>
+        <table>
+            <tr>
+                <td><label for="numberOfEsCellsStartingQc">Number Of Es Cells Starting Qc:</label></td>
+                <td>{{ esCellQc.numberOfEsCellsStartingQc }}</td>
+            </tr>
+            <tr>
+                <td><label for="numberOfEsCellsPassingQc">Number Of Es Cells Passing Qc:</label></td>
+                <td>{{ esCellQc.numberOfEsCellsPassingQc }}</td>
+            </tr>
+            <tr>
+                <td><label for="esCellQcComment">Es QC Comment:</label></td>
+                <td>{{ esCellQc.esCellQcComment }}</td>
+            </tr>
+        </table>
+    </ng-template>
+
+
+</ng-container>

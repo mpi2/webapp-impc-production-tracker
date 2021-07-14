@@ -10,3 +10,4 @@ export * from './model/production/crispr/strain-injected';
 export * from './model/production/crispr/exon';
 export * from './model/production/escell/escell-attempt';
 export * from './model/production/cre-allele-modification/cre-allele-modification-attempt';
+export * from './model/production/cre-allele-modification/starting-point/cre-allele-modification-starting-point';

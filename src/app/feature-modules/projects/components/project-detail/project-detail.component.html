@@ -10,73 +10,118 @@
 <mat-card>
   <mat-card-subtitle>Project Details</mat-card-subtitle>
   <mat-card-content>
-    <form [formGroup]="projectForm">
-      <fieldset>
+    <form [formGroup]="projectForm" (ngSubmit)="updateProject()">
+      <label for="tpn">Project id:</label>
+      {{ project.tpn }}
+      <div class="separation"></div>
+    
+      <label for="assignmentStatus">Assignment Status:</label>
+      {{ project.assignmentStatusName }}
+      <div class="separation"></div>
+    
+      <label for="summaryStatusName">Summary Status:</label>
+      {{ project.summaryStatusName }}
+      <div class="separation"></div>
+ 
+      <label for="intentions">Intentions:</label>
+      <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions"></app-intention-list>
+      <div class="separation"></div>
 
-        <label for="tpn">Project id:</label>
-        <div id="tpn">{{ project.tpn }}</div>
-
-        <label for="assignmentStatus">Assignment Status:</label>
-        <div id="assignmentStatus" class="content">{{ project.assignmentStatusName }}</div>
-
-        <label for="summaryStatusName">Summary Status:</label>
-        <div id="summaryStatusName" class="content">{{ project.summaryStatusName }}</div>
-
+      <div *ngIf="canUpdateProject; then projectEditable else projectReadOnly"></div>
+      <ng-template #projectEditable>
         <label for="privacy">Privacy:</label>
-        <div *ngIf="canUpdateProject; then privacyEditable else privacyReadOnly"></div>
-        <ng-template #privacyEditable>
-          <div class="content">
-            <mat-form-field appearance="fill">
-              <mat-select [(value)]="project.privacyName" >
-                <mat-option></mat-option>
-                <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
-                  {{ privacy.name }}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-        </ng-template>
-        <ng-template #privacyReadOnly>
-          <div style="float: left;">{{ project.privacyName }}</div>
-        </ng-template>
+        <mat-form-field appearance="fill">
+          <mat-select formControlName="privacy">
+            <mat-option></mat-option>
+            <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
+              {{ privacy.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+        
+        <label for="recovery">Recovery:</label>
+        <mat-checkbox formControlName="recovery"></mat-checkbox>
+        <div class="separation"></div>
+        
+        <app-project-consortium-institutes [project]="project" [canUpdate]="false"></app-project-consortium-institutes>
+        <br>
 
-        <label for="privacy">Recovery:</label>
-        <div id="privacy" class="content">
-          <div *ngIf="canUpdateProject; then recoveryEditable else recoveryReadOnly"></div>
-          <ng-template #recoveryEditable>
-            <mat-checkbox [(ngModel)]="project.recovery" [ngModelOptions]="{standalone: true}"></mat-checkbox>
-          </ng-template>
-          <ng-template #recoveryReadOnly>
-            <mat-checkbox [(ngModel)]="project.recovery" [disabled]=true [ngModelOptions]="{standalone: true}"></mat-checkbox>
-          </ng-template>
-        </div>
-      </fieldset>
-
-      <app-project-consortium-institutes [project]="project" [canUpdate]="false"></app-project-consortium-institutes>
-
-      <fieldset>
-        <p>Intentions:</p>
-        <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions">
-        </app-intention-list>
-      </fieldset>
-      <fieldset>
         <label for="comment">Comment:</label>
-        <div *ngIf="canUpdateProject; then commentsEditable else commentsReadOnly"></div>
-        <ng-template #commentsEditable>
-          <mat-form-field appearance="fill">
-            <textarea matInput formControlName="comments" class="form-control"
-              (change)="onTextCommentChanged($event)"></textarea>
-          </mat-form-field>
-        </ng-template>
-        <ng-template #commentsReadOnly>
-          {{ project.comment }}
-        </ng-template>
-      </fieldset>
+        <mat-form-field appearance="fill">
+          <textarea matInput formControlName="comments"></textarea>
+        </mat-form-field>
+        <br>
+
+        <label for="completionNote">Completion Note:</label>
+        <mat-form-field appearance="fill">
+          <mat-select formControlName="completionNote" >
+            <mat-option></mat-option>
+            <mat-option *ngFor="let note of completionNotes" [value]="note.name">
+              {{ note.name }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <br>
+
+        <label for="completionComment">Completion Comment:</label>
+        <mat-form-field appearance="fill">
+          <textarea matInput formControlName="completionComment" class="form-control" ></textarea>
+        </mat-form-field>
+        <br>
+      </ng-template>
+
+      <ng-template #projectReadOnly>
+        <label for="privacy">Privacy:</label>
+        <mat-form-field appearance="fill">
+            <input matInput readonly [(value)]="project.privacyName" />
+        </mat-form-field>
+        <br>
+
+        <label for="recovery">Recovery:</label>
+        <mat-checkbox [(value)]="project.recovery" [disabled]=true></mat-checkbox>
+        <div class="separation"></div>
+
+        <app-project-consortium-institutes [project]="project" [canUpdate]="false"></app-project-consortium-institutes>
+        <br>
+
+        <label for="comment">Comment:</label>
+        <mat-form-field appearance="fill">
+            <textarea matInput readonly [(value)]="project.comment"></textarea> 
+        </mat-form-field>
+        <br>
+
+        <label for="completionNote">Completion Note:</label>
+        <mat-form-field appearance="fill">
+            <input matInput readonly [(value)]="project.completionNote" />
+        </mat-form-field>
+        <br>
+
+        <label for="completionComment">Completion Comment:</label>
+        <mat-form-field appearance="fill">
+            <textarea matInput readonly [(value)]="project.completionComment"></textarea> 
+        </mat-form-field>
+        <br>
+      </ng-template>
+
+      <app-project-es-cell-qc *ngIf="project.esCellDetails" [esCellQc]="project.esCellDetails" [canUpdate]="canUpdateProject"
+      formControlName="esCellDetails">
+
+      </app-project-es-cell-qc>
+
+      <app-status-date [statusDates]="project.assignmentStatusStamps" [title]="'Assignment Status Stamps'"></app-status-date>
+
+      <div class="separation"></div>
+
+      <!-- Submit -->
+      <div class="button-wrapper">
+        <button mat-raised-button color="primary" [disabled]="projectForm.invalid || !projectForm.dirty" *ngIf="canUpdateProject">Update</button>
+      </div>
     </form>
   </mat-card-content>
 </mat-card>
 
-<app-status-date [statusDates]="project.assignmentStatusStamps" [title]="'Assignment Status Stamps'"></app-status-date>
+
 
 <mat-card>
   <fieldset>
@@ -137,9 +182,3 @@
 
 </mat-card>
 
-<mat-card>
-  <mat-card-content>
-    <button mat-raised-button color="primary" [disabled]="!shouldUpdateBeEnabled()" *ngIf="canUpdateProject"
-      (click)="updateProject()">Update</button>
-  </mat-card-content>
-</mat-card>

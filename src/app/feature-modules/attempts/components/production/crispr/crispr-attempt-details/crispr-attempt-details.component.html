@@ -2,82 +2,59 @@
   <mat-card>
     <mat-card-subtitle>Crispr Attempt Details</mat-card-subtitle>
     <mat-card-content>
-      <table>
-        <tr>
-          <td>
-            MI date:
-          </td>
-          <div *ngIf="canUpdatePlan; then miDateEditable else miDateReadOnly"></div>
+      <div *ngIf="canUpdatePlan; then attemptEditable else attemptReadOnly"></div>
+      <ng-template #attemptEditable>
+        <label for="miDate">MI date:</label>
+        <mat-form-field appearance="fill" >
+          <input matInput [matDatepicker]="datePicker" [(ngModel)]="crisprAttempt.miDate"
+            [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+        <br>
 
-          <ng-template #miDateEditable>
-            <td>
-              <mat-form-field appearance="fill" >
-                <input matInput [matDatepicker]="datePicker" [(ngModel)]="crisprAttempt.miDate"
-                  [ngModelOptions]="{standalone: true}" (dateChange)="onDateChanged()">
-                <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
-                <mat-datepicker #datePicker></mat-datepicker>
-              </mat-form-field>
-            </td>
-          </ng-template>
+        <label for="attemptExternalRef">MI external Ref:</label>
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="miExternalRef" class="form-control"
+          (keyup)="onTextmiExternalRefChanged()">
+        </mat-form-field>
+        <br>
 
-          <ng-template #miDateReadOnly>
-            <td>
-              {{crisprAttempt.miDate | date}}
-            </td>
-          </ng-template>
-        </tr>
+        <label for="privacy">Recovery:</label>
+        <mat-checkbox (change)="onExperimentalChecked()" [checked]="this.crisprAttempt.experimental"></mat-checkbox>
+        <div class="separation"></div>
 
-        <tr>
-          <td>
-            MI external Ref:
-          </td>
-          <div *ngIf="canUpdatePlan; then miExternalRefEditable else miExternalRefReadOnly"></div>
-          <ng-template #miExternalRefEditable>
-            <td>
-              <mat-form-field appearance="fill">
-                <input matInput formControlName="miExternalRef" class="form-control"
-                (keyup)="onTextmiExternalRefChanged()">
-              </mat-form-field>
-            </td>
-          </ng-template>
+        <label for="comment">Comment:</label>
+        <mat-form-field appearance="fill">
+          <textarea matInput #box formControlName="comment" class="form-control"
+            (keyup)="onTextCommentChanged()"></textarea>
+        </mat-form-field>
+        <br>
+      </ng-template>
 
-          <ng-template #miExternalRefReadOnly>
-            <td>
-              {{ crisprAttempt.attemptExternalRef }}
-            </td>
-          </ng-template>
-        </tr>
+      <ng-template #attemptReadOnly>
+        <label for="miDate">MI date:</label>
+        <mat-form-field appearance="fill">
+          <input matInput readonly [(value)]="crisprAttempt.miDate" />
+        </mat-form-field>
+        <br>
 
-        <tr>
-          <td>
-            Experimental:
-          </td>
-          <td>
-            <input type="checkbox" (change)="onExperimentalChecked()" [checked]="this.crisprAttempt.experimental"
-              [disabled]="!canUpdatePlan">
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Comments:
-          </td>
-          <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
-          <ng-template #commentEditable>
-            <td>
-              <mat-form-field appearance="fill">
-                <textarea matInput #box formControlName="comment" class="form-control"
-                  (keyup)="onTextCommentChanged()"></textarea>
-              </mat-form-field>
-            </td>
-          </ng-template>
+        <label for="attemptExternalRef">MI external Ref:</label>
+        <mat-form-field appearance="fill">
+          <input matInput readonly [(value)]="crisprAttempt.attemptExternalRef" />
+        </mat-form-field>
+        <br>
 
-          <ng-template #commentReadOnly>
-            <td>
-              {{crisprAttempt.comment}}
-            </td>
-          </ng-template>
-        </tr>
-      </table>
+        <label for="experimental">Experimental:</label>
+        <mat-checkbox [(value)]="crisprAttempt.experimental" [disabled]=true></mat-checkbox>
+        <div class="separation"></div>
+
+        <label for="comment">Comment:</label>
+        <mat-form-field appearance="fill">
+            <textarea matInput readonly [(value)]="crisprAttempt.comment"></textarea> 
+        </mat-form-field>
+        <br>
+      </ng-template>
     </mat-card-content>
   </mat-card>
 </form>

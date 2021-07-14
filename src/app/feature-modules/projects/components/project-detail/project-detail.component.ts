@@ -35,16 +35,16 @@ export class ProjectDetailComponent implements OnInit {
   canCreatePhenotypingPlan: boolean;
   error;
   changeDetails: ChangesHistory;
-
   configurationData: ConfigurationData;
 
   privacies: NamedValue[] = [];
+  completionNotes: NamedValue[] = [];
   selectedPrivacy = [];
 
   projectForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private projectAdapter: ProjectAdapter,
@@ -56,21 +56,29 @@ export class ProjectDetailComponent implements OnInit {
     private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
-    this.projectForm = this.formBuilder.group({
-      privacy: ['', Validators.required],
-      comments: ['', Validators.required],
-    });
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
+      this.completionNotes = this.configurationData.completionNotes.map(x => ({ name: x }));
     });
-
+    this.projectReactiveForm();
     this.getProjectData();
     this.coloniesExist();
   }
 
-  shouldUpdateBeEnabled(): boolean {
-    return this.originalProjectAsString !== JSON.stringify(this.project);
+  showEsCellDetails(): boolean {
+    return this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
+  }
+
+  projectReactiveForm() {
+    this.projectForm = this.fb.group({
+      privacy: ['', Validators.required],
+      recovery: [false],
+      comments: [''],
+      completionComment: [''],
+      completionNote: [''],
+      esCellDetails: ['']
+    });
   }
 
   sortByPid(plans: Plan[]): Plan[] {
@@ -88,20 +96,38 @@ export class ProjectDetailComponent implements OnInit {
     return plans;
   }
 
-  onAddPlan() {
+  // onAddPlan() {
 
-  }
+  // }
 
-  onTextCommentChanged(e): void {
-    const newComments = this.projectForm.get('comments').value;
-    this.project.comment = newComments;
-  }
+  // onTextCompletionCommentChanged(e): void {
+  //   const newComments = this.projectForm.get('completionComment').value;
+  //   this.project.completionComment = newComments;
+  // }
 
-  onItemSelect(e): void {
-    this.project.privacyName = e;
-  }
+  // onTextCommentChanged(e): void {
+  //   const newComments = this.projectForm.get('comments').value;
+  //   this.project.comment = newComments;
+  // }
+
+  // onItemSelect(e): void {
+  //   this.project.privacyName = e;
+  // }
 
   updateProject(): void {
+    console.log('project: ', this.project);
+
+    this.project = Object.assign(this.project, this.projectForm.value);
+
+    if (this.project.esCellDetails) {
+      // TODO entity conversion
+    } else {
+      delete this.project.esCellDetails;
+    }
+
+    console.log('project: ', this.project);
+    console.log('form: ', this.projectForm.value);
+
     this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
       if (changeResponse && changeResponse.history.length > 0) {
         this.changeDetails = changeResponse.history[0];
@@ -118,9 +144,11 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private setFormValues(): void {
+    this.projectForm.get('privacy').setValue(this.project.privacyName);
     this.projectForm.get('comments').setValue(this.project.comment);
-    this.selectedPrivacy = [{ name: this.project.privacyName }];
-    this.projectForm.get('privacy').setValue(this.selectedPrivacy);
+    this.projectForm.get('completionComment').setValue(this.project.completionComment);
+    this.projectForm.get('completionNote').setValue(this.project.completionNote);
+    this.projectForm.get('recovery').setValue(this.project.recovery);
   }
 
   private coloniesExist(): void {

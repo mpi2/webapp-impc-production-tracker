@@ -1,52 +1,16 @@
-table {
-  border-spacing: 10px;
-  border-collapse: separate;
-  font-size: 16px;
-}
-.mat-column-name {
-  width: 30%;
-}
-.mat-column-date {
-  width: 28%;
-}
-.name {
-  font-weight: bold;
-}
-
 fieldset {
   font-size: 16px;
   border: 0;
   border-spacing: 10px;
-}
-label {
-  clear: both;
-  float: left;
-  padding-right: 10px;
-  padding-bottom: 5px;
-  width: 15%;
-}
-input,
-mat-select,
-content {
-  float: left;
-}
-
-.content {
-  min-width: 40%;
-  float: left;
-}
-.comment {
-  min-width: 200px;
-  float: left;
-}
-.select-content {
-  max-width: 35%;
 }
 
 .separation {
   padding-top: 20px;
 }
 
-.subtitle {
-  font-weight: 800;
+label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 200px;
 }

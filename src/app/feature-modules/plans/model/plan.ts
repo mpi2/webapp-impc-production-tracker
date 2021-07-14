@@ -8,6 +8,7 @@ import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts/model/produc
 import { EsCellAttempt, EsCellAttemptAdapter } from '../../attempts/model/production/escell/escell-attempt';
 import { CreAlleleModificationAttempt } from '../../attempts/model/production/cre-allele-modification/cre-allele-modification-attempt';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
+import { CreAlleleModificationStartingPoint } from '../../attempts';
 
 export class Plan {
     id: number;
@@ -28,6 +29,7 @@ export class Plan {
     crisprAttempt: CrisprAttempt;
     esCellAttempt: EsCellAttempt;
     creAlleleModificationAttempt: CreAlleleModificationAttempt;
+    creAlleleModificationStartingPoint: CreAlleleModificationStartingPoint;
     phenotypingAttemptResponse: PhenotypingAttempt;
     // Need to keep this copy because phenotypingAttemptResponse is not processed by the update/create endpoint
     phenotypingAttempt: PhenotypingAttempt;
