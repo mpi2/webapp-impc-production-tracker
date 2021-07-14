@@ -11,6 +11,4 @@ export class Assay {
     numHdrG0MutantsSubsetDonorsInserted: number;
     numHrG0Mutants: number;
     numNhejG0Mutants: number;
-    embryoTransferDay: string;
-    totalTransferred: number;
 }

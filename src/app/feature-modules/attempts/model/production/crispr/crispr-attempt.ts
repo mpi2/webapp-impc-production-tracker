@@ -19,7 +19,7 @@ export class CrisprAttempt {
     totalEmbryosSurvived: number;
     embryoTransferDay: string;
     embryo2Cell: string;
-    totalTransfered: number;
+    totalTransferred: number;
     noFounderPups: number;
     nucleases: Nuclease[] = [];
     guides: Guide[] = [];

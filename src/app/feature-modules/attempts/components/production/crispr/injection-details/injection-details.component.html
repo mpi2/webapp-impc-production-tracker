@@ -17,7 +17,7 @@
 
             <label for="embryoTransferDay">Embryo Transfer Day:</label>
             <mat-form-field appearance="fill">
-                <mat-select class="select-content" [(ngModel)]="crisprAttempt.assay.embryoTransferDay">
+                <mat-select class="select-content" [(ngModel)]="crisprAttempt.embryoTransferDay">
                     <mat-option></mat-option>
                     <mat-option *ngFor="let transferDay of transferDays" [value]="transferDay">
                         {{ transferDay }}
@@ -34,7 +34,7 @@
 
             <label for="totalEmbryosInjected">Number Transfered:</label>
             <mat-form-field appearance="fill" class="example-full-width">
-                <input appDigitOnly matInput [(ngModel)]="crisprAttempt.assay.totalTransferred">
+                <input appDigitOnly matInput [(ngModel)]="crisprAttempt.totalTransferred">
             </mat-form-field>
             <br>
         </ng-template>
@@ -54,7 +54,7 @@
 
             <label for="sembryoTransferDaymbol">Embryo Transfer Day:</label>
             <mat-form-field appearance="fill">
-                <input matInput readonly [(value)]="crisprAttempt.assay.embryoTransferDay" />
+                <input matInput readonly [(value)]="crisprAttempt.embryoTransferDay" />
             </mat-form-field>
             <br>
 
@@ -66,7 +66,7 @@
 
             <label for="totalEmbryosInjected">Number Transfered:</label>
             <mat-form-field appearance="fill">
-                <input matInput readonly [(value)]="crisprAttempt.assay.totalTransferred" />
+                <input matInput readonly [(value)]="crisprAttempt.totalTransferred" />
             </mat-form-field>
             <br>
         </ng-template>
