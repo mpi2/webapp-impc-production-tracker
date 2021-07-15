@@ -1,6 +1,6 @@
-mat-select {
-    border: none;
-    border-radius: 0;
-    background-color: transparent;
-    padding: 0;
+label {
+    clear: both;
+    float: left;
+    padding-bottom: 5px;
+    width: 200px;
 }

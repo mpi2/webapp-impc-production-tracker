@@ -42,6 +42,7 @@ export class ProjectDetailComponent implements OnInit {
   selectedPrivacy = [];
 
   projectForm: FormGroup;
+  isEsCellProject: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -64,6 +65,10 @@ export class ProjectDetailComponent implements OnInit {
     this.projectReactiveForm();
     this.getProjectData();
     this.coloniesExist();
+
+    setTimeout (() => {
+      this.isEsCellProject = this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
+    }, 1000);
   }
 
   showEsCellDetails(): boolean {
@@ -72,12 +77,12 @@ export class ProjectDetailComponent implements OnInit {
 
   projectReactiveForm() {
     this.projectForm = this.fb.group({
-      privacy: ['', Validators.required],
+      privacyName: ['', Validators.required],
       recovery: [false],
-      comments: [''],
+      comment: [''],
       completionComment: [''],
       completionNote: [''],
-      esCellDetails: ['']
+      esCellDetails: [null]
     });
   }
 
@@ -96,37 +101,11 @@ export class ProjectDetailComponent implements OnInit {
     return plans;
   }
 
-  // onAddPlan() {
-
-  // }
-
-  // onTextCompletionCommentChanged(e): void {
-  //   const newComments = this.projectForm.get('completionComment').value;
-  //   this.project.completionComment = newComments;
-  // }
-
-  // onTextCommentChanged(e): void {
-  //   const newComments = this.projectForm.get('comments').value;
-  //   this.project.comment = newComments;
-  // }
-
-  // onItemSelect(e): void {
-  //   this.project.privacyName = e;
-  // }
-
   updateProject(): void {
-    console.log('project: ', this.project);
-
     this.project = Object.assign(this.project, this.projectForm.value);
 
-    if (this.project.esCellDetails) {
-      // TODO entity conversion
-    } else {
-      delete this.project.esCellDetails;
-    }
-
-    console.log('project: ', this.project);
     console.log('form: ', this.projectForm.value);
+    console.log('project: ', this.project);
 
     this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
       if (changeResponse && changeResponse.history.length > 0) {
@@ -140,25 +119,23 @@ export class ProjectDetailComponent implements OnInit {
     }, error => {
       this.error = error;
     });
-    this.coloniesExist();
   }
 
   private setFormValues(): void {
-    this.projectForm.get('privacy').setValue(this.project.privacyName);
-    this.projectForm.get('comments').setValue(this.project.comment);
+    this.projectForm.get('privacyName').setValue(this.project.privacyName);
+    this.projectForm.get('comment').setValue(this.project.comment);
     this.projectForm.get('completionComment').setValue(this.project.completionComment);
     this.projectForm.get('completionNote').setValue(this.project.completionNote);
     this.projectForm.get('recovery').setValue(this.project.recovery);
+    this.projectForm.get('esCellDetails').setValue(this.project.esCellDetails);
   }
 
   private coloniesExist(): void {
     this.productionPlansDetails.forEach(plan => {
       this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
         /* eslint-disable @typescript-eslint/dot-notation */
-        console.log('data => ', data);
         if (data['_embedded']) {
           this.outcomes.push(data['_embedded']['outcomes']);
-          console.log('outcomes => ', this.outcomes);
         }
         /* eslint-enable @typescript-eslint/dot-notation */
       }, error => {
@@ -170,7 +147,6 @@ export class ProjectDetailComponent implements OnInit {
     this.outcomes.forEach(outcome => {
       if (outcome.colony.statusName.localeCompare('Genotype Confirmed')) {
         genotypeConfirmedColonies = genotypeConfirmedColonies + 1;
-        console.log('inside => ', genotypeConfirmedColonies);
       }
     });
     if (genotypeConfirmedColonies === 0) {
@@ -250,5 +226,4 @@ export class ProjectDetailComponent implements OnInit {
       });
     }
   }
-
 }

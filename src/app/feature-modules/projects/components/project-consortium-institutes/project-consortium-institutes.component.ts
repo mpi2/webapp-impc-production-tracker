@@ -5,7 +5,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { Project } from 'src/app/model';
+import { InstitutesConsortium, Project } from 'src/app/model';
 
 
 @Component({
@@ -26,7 +26,7 @@ import { Project } from 'src/app/model';
   ]
 })
 export class ProjectConsortiumInstitutesComponent implements OnInit, ControlValueAccessor, Validator {
-  @Input() project: Project;
+  @Input() projectConsortia: InstitutesConsortium[];
   @Input() canUpdate: boolean;
 
   configurationData: ConfigurationData;
@@ -43,15 +43,12 @@ export class ProjectConsortiumInstitutesComponent implements OnInit, ControlValu
   ngOnInit(): void {
     this.loadConfigurationData();
     this.consortiaReactiveForm();
-
-    setTimeout(() => {
-      this.setListConsortiaNames();
-    }, 1000);
+    this.setListConsortiaNames();
   }
 
   setListConsortiaNames(): void {
-    if (this.project.consortia !== null && this.project.consortia !== undefined) {
-      for (const consortium of this.project.consortia) {
+    if (this.consortia !== null && this.projectConsortia !== undefined) {
+      for (const consortium of this.projectConsortia) {
         if (this.consortiumNames === undefined) {
           this.consortiumNames = consortium.consortiumName;
         } else {

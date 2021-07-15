@@ -2,7 +2,7 @@ import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
   AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 
-import { EsCellQc } from 'src/app/model';
+import { Project, EsCellQc } from 'src/app/model';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 
@@ -51,6 +51,9 @@ export class ProjectEsCellQcComponent implements OnInit, ControlValueAccessor, V
   }
 
   createEsCellDetailsForm() {
+    if (this.esCellQc === undefined) {
+      this.esCellQc = new EsCellQc();
+    }
     this.esCellDetailsForm = this.fb.group({
       numberOfEsCellsReceived: [this.esCellQc.numberOfEsCellsReceived, Validators.pattern('^[0-9]*$')], // number
       esCellsReceivedFromName: [this.esCellQc.esCellsReceivedFromName], // string
@@ -59,20 +62,6 @@ export class ProjectEsCellQcComponent implements OnInit, ControlValueAccessor, V
       numberOfEsCellsPassingQc: [this.esCellQc.numberOfEsCellsPassingQc, Validators.pattern('^[0-9]*$')], // number
       esCellQcComment: [this.esCellQc.esCellQcComment] // string
     });
-  }
-
-  onInputChange(event: any) {
-    const inputChanged = event.target.getAttribute('formControlName');
-    this.esCellQc[inputChanged] = this.esCellDetailsForm.get(inputChanged).value;
-  }
-
-  onReceivedOnDateChanged() {
-    if (this.esCellDetailsForm.get('esCellsReceivedOn').value != null) {
-      const dateReceivedOn = this.esCellDetailsForm.get('esCellsReceivedOn').value;
-      this.esCellQc.esCellsReceivedOn = dateReceivedOn.toISOString();
-    } else {
-      this.esCellQc.esCellsReceivedOn = null;
-    }
   }
 
   writeValue(obj: any): void {
@@ -101,7 +90,6 @@ export class ProjectEsCellQcComponent implements OnInit, ControlValueAccessor, V
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    console.log('esCellDetailsForm valid: ', this.esCellDetailsForm.valid);
     return this.esCellDetailsForm.valid ? null : { invalidForm: {valid: false, message: 'escellAttemptForm fields are invalid'} };
   }
 
