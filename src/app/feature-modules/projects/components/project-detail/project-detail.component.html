@@ -29,9 +29,9 @@
 
       <div *ngIf="canUpdateProject; then projectEditable else projectReadOnly"></div>
       <ng-template #projectEditable>
-        <label for="privacy">Privacy:</label>
+        <label for="privacyName">Privacy:</label>
         <mat-form-field appearance="fill">
-          <mat-select formControlName="privacy">
+          <mat-select formControlName="privacyName">
             <mat-option></mat-option>
             <mat-option *ngFor="let privacy of privacies" [value]="privacy.name">
               {{ privacy.name }}
@@ -44,12 +44,12 @@
         <mat-checkbox formControlName="recovery"></mat-checkbox>
         <div class="separation"></div>
         
-        <app-project-consortium-institutes [project]="project" [canUpdate]="false"></app-project-consortium-institutes>
+        <app-project-consortium-institutes [projectConsortia]="project.consortia" [canUpdate]="false"></app-project-consortium-institutes>
         <br>
 
         <label for="comment">Comment:</label>
         <mat-form-field appearance="fill">
-          <textarea matInput formControlName="comments"></textarea>
+          <textarea matInput formControlName="comment"></textarea>
         </mat-form-field>
         <br>
 
@@ -82,7 +82,7 @@
         <mat-checkbox [(value)]="project.recovery" [disabled]=true></mat-checkbox>
         <div class="separation"></div>
 
-        <app-project-consortium-institutes [project]="project" [canUpdate]="false"></app-project-consortium-institutes>
+        <app-project-consortium-institutes [projectConsortia]="project.consortia" [canUpdate]="false"></app-project-consortium-institutes>
         <br>
 
         <label for="comment">Comment:</label>
@@ -104,9 +104,8 @@
         <br>
       </ng-template>
 
-      <app-project-es-cell-qc *ngIf="project.esCellDetails" [esCellQc]="project.esCellDetails" [canUpdate]="canUpdateProject"
+      <app-project-es-cell-qc *ngIf="isEsCellProject" [esCellQc]="project.esCellDetails" [canUpdate]="canUpdateProject"
       formControlName="esCellDetails">
-
       </app-project-es-cell-qc>
 
       <app-status-date [statusDates]="project.assignmentStatusStamps" [title]="'Assignment Status Stamps'"></app-status-date>
@@ -121,8 +120,6 @@
   </mat-card-content>
 </mat-card>
 
-
-
 <mat-card>
   <fieldset>
     <legend class="subtitle">
@@ -135,19 +132,17 @@
         </tr>
       </tbody>
     </table>
+    <br>
 
     <div *ngIf="canCreateProductionPlan; then enabledProductionPlanButton else disabledProductionPlanButton"></div>
-
     <ng-template #enabledProductionPlanButton>
       <a routerLink="plan-creation" [queryParams]="{planType: 'production'}" target="_blank"><button
           class="create-button" mat-raised-button color="primary">Add Production
           Plan</button></a>
     </ng-template>
-
     <ng-template #disabledProductionPlanButton>
       <button class="create-button" disabled="true" mat-raised-button color="primary">Add Production Plan</button>
     </ng-template>
-
   </fieldset>
 
   <div class="separation"></div>
@@ -164,21 +159,19 @@
       </tbody>
     </table>
 
+    <br>
+    
     <div *ngIf="canCreatePhenotypingPlan; then enabledPhenotypingPlanButton else disabledPhenotypingPlanButton"></div>
-
     <ng-template #enabledPhenotypingPlanButton>
       <a routerLink="plan-creation" [queryParams]="{planType: 'phenotyping'}" target="_blank"><button
           class="create-button" mat-raised-button color="primary">Add Phenotyping
           Plan</button></a>
-    </ng-template>
-
+      </ng-template>
     <ng-template #disabledPhenotypingPlanButton>
       <button class="create-button" mat-raised-button color="primary" disabled="true"
         matTooltip="Info about the action">Add Phenotyping
         Plan</button>
     </ng-template>
-
   </fieldset>
-
 </mat-card>
 

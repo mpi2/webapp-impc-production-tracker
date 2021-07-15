@@ -56,20 +56,19 @@
                 <div>
                     <mat-form-field appearance="fill" id="phenotypingExperimentsStarted">
                         <input matInput [matDatepicker]="phenotypingExperimentsStarted"
-                            [(ngModel)]="phenotypingStage.phenotypingExperimentsStarted"
+                            [(ngModel)]="phenotypingStage.phenotypingExperimentsStarted" 
                             [ngModelOptions]="{standalone: true}">
                         <mat-datepicker-toggle matSuffix [for]="phenotypingExperimentsStarted"></mat-datepicker-toggle>
                         <mat-datepicker #phenotypingExperimentsStarted></mat-datepicker>
                     </mat-form-field>
                 </div>
 
-
-
                 <label for="initialDataReleaseDate">Initial Data Release date:</label>
                 <div>
                     <mat-form-field appearance="fill" id="initialDataReleaseDate">
                         <input matInput [matDatepicker]="initialDataReleaseDate"
-                            [(ngModel)]="phenotypingStage.initialDataReleaseDate" [ngModelOptions]="{standalone: true}">
+                            [(ngModel)]="phenotypingStage.initialDataReleaseDate" 
+                            [ngModelOptions]="{standalone: true}">
                         <mat-datepicker-toggle matSuffix [for]="initialDataReleaseDate"></mat-datepicker-toggle>
                         <mat-datepicker #initialDataReleaseDate></mat-datepicker>
                     </mat-form-field>
@@ -89,8 +88,6 @@
                 <div>
                     {{phenotypingStage.phenotypingExperimentsStarted}}
                 </div>
-
-
 
                 <label for="initialDataReleaseDate">Initial Data Release date:</label>
                 <div>
