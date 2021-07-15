@@ -1,8 +1,7 @@
-<form [formGroup]="colonyForm">
+<label for="name">Name:</label>
+<b>{{ colony.name }}</b>
+<div class="separation"></div>
 
-    <label for="name">Name:</label>
-    <div id="name" class="content, name">{{ colony.name}}</div>
-
-    <label for="backgroundStrainName">Background Strain:</label>
-    <div id="backgroundStrainName" class="content">{{ colony.backgroundStrainName}}</div>
-</form>
+<label for="backgroundStrainName">Background Strain:</label>
+{{ colony.backgroundStrainName}}
+<div class="separation"></div>

@@ -35,12 +35,15 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
 
   esCellAttemptForm: FormGroup;
 
+  emptyString: string;
+
   constructor(private configurationDataService: ConfigurationDataService,
               private fb: FormBuilder) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
     this.createEsCellAttemptForm();
+    this.emptyString = ' ';
   }
 
   createEsCellAttemptForm() {

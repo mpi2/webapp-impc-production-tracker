@@ -1,18 +1,10 @@
-label, .label {
+.separation {
+    padding-top: 10px;
+}
+
+label {
     clear: both;
     float: left;
     padding-bottom: 5px;
-    /* min-width: 30%; */
-    width: 180px;
-}
-input, select {
-    float: left;
-}
-.content {
-    width: 300px;
-    float: left;
-    padding-bottom: 5px;
-}
-.name {
-    font-weight: bold;
+    width: 200px;
 }
