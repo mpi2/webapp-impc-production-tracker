@@ -18,6 +18,7 @@ import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-co
 export class MutationDetailComponent implements OnInit {
   @Input() mutation: Mutation;
   @Input() canUpdate: boolean;
+  @Input() attemptType: string;
 
   @Output() mutationDeleted = new EventEmitter<Mutation>();
 
@@ -26,6 +27,7 @@ export class MutationDetailComponent implements OnInit {
 
   repairMechanismsNames: string;
   alleleCategoriesNames: string[];
+  esCellAlleleTypes: string;
 
   selectedConsortium = '';
   selected: any;
@@ -33,12 +35,13 @@ export class MutationDetailComponent implements OnInit {
 
   consortia: NamedValue[] = [];
   molecularMutationTypes: NamedValue[] = [];
-  molecularMutationTypesByType = new Map<string, NamedValue[]>();
+  mutationCategorizationsByType = new Map<string, NamedValue[]>();
 
   shouldSuggestSymbol: boolean;
 
   repairMechanismKey = 'repair_mechanism';
   alleleCategoryKey = 'allele_category';
+  esCellAlleleClass = 'esc_allele_class';
 
   mutationForm: FormGroup;
 
@@ -66,6 +69,10 @@ export class MutationDetailComponent implements OnInit {
     if (mutationCategotizations) {
       const repairMechanisms = mutationCategotizations.filter(x => x.typeName === this.repairMechanismKey);
       this.repairMechanismsNames = repairMechanisms.map(x => x.name).join(',');
+
+      const esCellAlleleTypes = mutationCategotizations.filter(x => x.typeName === this.esCellAlleleClass);
+      this.esCellAlleleTypes = esCellAlleleTypes.map(x => x.name).join(',');
+
       const alleleCategories = mutationCategotizations.filter(x => x.typeName === this.alleleCategoryKey);
       this.alleleCategoriesNames = alleleCategories.map(x => x.name);
     }
@@ -83,7 +90,7 @@ export class MutationDetailComponent implements OnInit {
 
       Object.keys(this.configurationData.mutationCategorizationsByType).map(key => {
         const list = this.configurationData.mutationCategorizationsByType[key];
-        this.molecularMutationTypesByType[key] = list.map(x => ({ name: x }));
+        this.mutationCategorizationsByType[key] = list.map(x => ({ name: x }));
       });
     });
   }
@@ -120,6 +127,16 @@ export class MutationDetailComponent implements OnInit {
       typeName: this.repairMechanismKey
     };
     this.mutation.mutationCategorizations.push(newRepairMechanism);
+  }
+
+  onEsCellAlleleTypeChanged(e) {
+    const esCellAlleleTypeValue = e.value;
+    this.mutation.mutationCategorizations = this.mutation.mutationCategorizations.filter(x => x.typeName !== this.esCellAlleleClass);
+    const newEsCellAlleleType = {
+      name: esCellAlleleTypeValue,
+      typeName: this.esCellAlleleClass
+    };
+    this.mutation.mutationCategorizations.push(newEsCellAlleleType);
   }
 
   onAlleleCategoriesChanged(e) {

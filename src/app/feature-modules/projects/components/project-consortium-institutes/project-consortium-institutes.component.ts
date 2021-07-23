@@ -43,7 +43,10 @@ export class ProjectConsortiumInstitutesComponent implements OnInit, ControlValu
   ngOnInit(): void {
     this.loadConfigurationData();
     this.consortiaReactiveForm();
-    this.setListConsortiaNames();
+
+    setTimeout (() => {
+      this.setListConsortiaNames();
+    }, 500);
   }
 
   setListConsortiaNames(): void {

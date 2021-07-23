@@ -48,10 +48,11 @@
         <app-plan-creation [projectCreation]="true" formControlName="planDetails"></app-plan-creation>
 
         <mat-card class="update-button">
-            <mat-card-content >
-                <button mat-raised-button color="primary" [disabled]="projectCreationForm.invalid || !projectCreationForm.dirty">Create Project</button>
-                <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
-                </mat-spinner>
+            <mat-card-content>
+                <button mat-raised-button type="submit" color="primary" [disabled]="projectCreationForm.invalid || !projectCreationForm.dirty">
+                    Create Project
+                </button>
+                <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20></mat-spinner>
             </mat-card-content>
         </mat-card>
     </mat-card>

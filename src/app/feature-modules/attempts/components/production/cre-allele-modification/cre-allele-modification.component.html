@@ -1,22 +1,14 @@
 <mat-card>
     <mat-card-subtitle>Original Allele Details</mat-card-subtitle>
     <mat-card-content>
-        <table>
-            <tr>
-                <td><label for="modificationExternalRef">Original outcome:</label></td>
-                <td>
-                    <a target="_blank" routerLink="/outcomes/{{ creAlleleModificationStartingPoint.outcomeTpo }}">
-                        {{ creAlleleModificationStartingPoint.outcomeTpo }}</a>
-                </td>
-            </tr>
-            <tr>
-                <td><label for="modificationExternalRef">Production Plan:</label></td>
-                <td>
-                    <a target="_blank" routerLink="/outcomes/{{ creAlleleModificationStartingPoint.productionPlanPin }}">
-                        {{ creAlleleModificationStartingPoint.productionPlanPin }}</a>
-                </td>
-            </tr>
-        </table>
+        <label for="modificationExternalRef">Original outcome:</label>
+        <a target="_blank" routerLink="/outcomes/{{ creAlleleModificationStartingPoint.outcomeTpo }}">
+            {{ creAlleleModificationStartingPoint.outcomeTpo }}</a>
+        <div class="separation"></div>
+        <label for="modificationExternalRef">Production Plan:</label>
+        <a target="_blank" routerLink="/outcomes/{{ creAlleleModificationStartingPoint.productionPlanPin }}">
+            {{ creAlleleModificationStartingPoint.productionPlanPin }}</a>
+        <div class="separation"></div>
     </mat-card-content>
 </mat-card>
 
@@ -24,9 +16,9 @@
     <mat-card>
         <mat-card-subtitle>Allele Modification Details</mat-card-subtitle>
         <mat-card-content>
-            <table>
-                <div *ngIf="canUpdatePlan; then alleleModificationEditable else alleleModificationReadOnly"></div>
-                <ng-template #alleleModificationEditable>
+            <div *ngIf="canUpdatePlan; then alleleModificationEditable else alleleModificationReadOnly"></div>
+            <ng-template #alleleModificationEditable>
+                <table>
                     <tr>
                         <td><label for="modificationExternalRef">Cre Allele Modification external Ref:</label></td>
                         <td>
@@ -78,27 +70,32 @@
                             </mat-form-field>
                         </td>
                     </tr>
-                </ng-template>
+                </table>
+            </ng-template>
               
-                <ng-template #alleleModificationReadOnly>
-                    <tr>
-                        <td><label for="modificationExternalRef">Cre Allele Modification external Ref:</label></td>
-                        <td>{{ creAlleleModificationAttempt.modificationExternalRef }}</td>
-                    </tr>
-                    <tr>
-                        <td><label for="tatCre">Cre Excision via TAT-Cre?:</label></td>
-                        <td>{{ creAlleleModificationAttempt.tatCre }}</td>
-                    </tr>
-                    <tr>
-                        <td><label for="deleterStrainName">Deleter Strain Name:</label></td>
-                        <td>{{ creAlleleModificationAttempt.deleterStrainName }}</td>
-                    </tr>
-                    <tr>
-                        <td><label for="numberOfCreMatingsSuccessful">Number Of Cre Matings Successful:</label></td>
-                        <td>{{ creAlleleModificationAttempt.numberOfCreMatingsSuccessful }}</td>
-                    </tr>
-                </ng-template>
-            </table>
+            <ng-template #alleleModificationReadOnly>
+                <label for="modificationExternalRef">Cre Allele Modification external Ref:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="creAlleleModificationAttempt.modificationExternalRef" />
+                </mat-form-field>
+                <br>
+                
+                <label for="tatCre">Cre Excision via TAT-Cre?:</label>
+                <input type="checkbox" disabled="true" [checked]="creAlleleModificationAttempt.tatCre" />
+                <br>
+
+                <label for="deleterStrainName">Deleter Strain Name:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="creAlleleModificationAttempt.deleterStrainName" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfCreMatingsSuccessful">Number Of Cre Matings Successful:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="creAlleleModificationAttempt.numberOfCreMatingsSuccessful" />
+                </mat-form-field>
+                <br>
+            </ng-template>
         </mat-card-content>
     </mat-card>
 </ng-container>

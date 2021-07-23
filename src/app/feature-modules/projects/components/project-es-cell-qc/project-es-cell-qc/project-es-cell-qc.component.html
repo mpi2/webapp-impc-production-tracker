@@ -1,11 +1,11 @@
-<p>Es Cell Details:</p>
+<p>ES Cell Details:</p>
 <ng-container [formGroup]="esCellDetailsForm">
     <div *ngIf="canUpdate; then orderInfoEditable else orderInfoReadOnly"></div>
     <ng-template #orderInfoEditable>
         <mat-card>
             <mat-card-subtitle>Order Info</mat-card-subtitle>
             <mat-card-content>
-                <label for="numberOfEsCellsReceived">Number Of Es Cells Received:</label>
+                <label for="numberOfEsCellsReceived">Number Of ES Cells Received:</label>
                 <mat-form-field appearance="fill" id="numberOfCreMatingsSuccessful">
                     <input matInput appDigitOnly 
                             (blur)="onTouched()" 
@@ -14,7 +14,7 @@
                 </mat-form-field>
                 <br>
                 
-                <label for="esCellsReceivedFromName">Es Cell Received From:</label>
+                <label for="esCellsReceivedFromName">ES Cell Received From:</label>
                 <mat-form-field appearance="fill">
                     <mat-select (blur)="onTouched()" 
                                 formControlName="esCellsReceivedFromName" >
@@ -40,19 +40,19 @@
     </ng-template>
     
     <ng-template #orderInfoReadOnly>
-        <label for="numberOfEsCellsReceived">Number Of Es Cells Received:</label>
+        <label for="numberOfEsCellsReceived">Number Of ES Cells Received:</label>
         <mat-form-field appearance="fill">
             <input matInput readonly [(value)]="esCellQc.numberOfEsCellsReceived" />
         </mat-form-field>
         <br>
 
-        <label for="esCellsReceivedFromName">Es Cell Received From:</label>
+        <label for="esCellsReceivedFromName">ES Cell Received From:</label>
         <mat-form-field appearance="fill">
             <input matInput readonly [(value)]="esCellQc.esCellsReceivedFromName" />
         </mat-form-field>
         <br>
 
-        <label for="esCellsReceivedOn">Es Cells Received On:</label>
+        <label for="esCellsReceivedOn">ES Cells Received On:</label>
         <mat-form-field appearance="fill">
             <input matInput readonly [(value)]="esCellQc.esCellsReceivedOn" />
         </mat-form-field>
@@ -64,7 +64,7 @@
         <mat-card-content>
             <div *ngIf="canUpdate; then esCellQcEditable else esCellQcReadOnly"></div>
             <ng-template #esCellQcEditable>
-                <label for="numberOfEsCellsStartingQc">Number Of Es Cells Starting Qc:</label>
+                <label for="numberOfEsCellsStartingQc">Number Of ES Cells Starting Qc:</label>
                 <mat-form-field appearance="fill" id="numberOfEsCellsStartingQc">
                     <input matInput appDigitOnly 
                         (blur)="onTouched()" 
@@ -73,7 +73,7 @@
                 </mat-form-field>
                 <br>
 
-                <label for="numberOfEsCellsPassingQc">Number Of Es Cells Passing Qc:</label>
+                <label for="numberOfEsCellsPassingQc">Number Of ES Cells Passing Qc:</label>
                 <mat-form-field appearance="fill" id="numberOfEsCellsPassingQc">
                     <input matInput appDigitOnly 
                         (blur)="onTouched()" 
@@ -98,13 +98,13 @@
     </mat-card>
 
     <ng-template #esCellQcReadOnly>
-        <label for="numberOfEsCellsStartingQc">Number Of Es Cells Starting Qc:</label>
+        <label for="numberOfEsCellsStartingQc">Number Of ES Cells Starting Qc:</label>
         <mat-form-field appearance="fill">
             <input matInput readonly [(value)]="esCellQc.numberOfEsCellsStartingQc" />
         </mat-form-field>
         <br>
 
-        <label for="numberOfEsCellsPassingQc">Number Of Es Cells Passing Qc:</label>
+        <label for="numberOfEsCellsPassingQc">Number Of ES Cells Passing Qc:</label>
         <mat-form-field appearance="fill">
             <input matInput readonly [(value)]="esCellQc.numberOfEsCellsPassingQc" />
         </mat-form-field>

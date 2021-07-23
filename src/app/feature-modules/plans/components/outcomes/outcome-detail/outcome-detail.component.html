@@ -58,7 +58,7 @@
     <mat-card-content>
         <div *ngIf="this.outcome.outcomeTypeName">
             <div id="mutations" *ngIf="this.outcome.mutations">
-                <app-mutation-detail [canUpdate]="canUpdate" *ngFor="let mutation of this.outcome.mutations"
+                <app-mutation-detail [canUpdate]="canUpdate" [attemptType]="attemptType" *ngFor="let mutation of this.outcome.mutations"
                     [mutation]="mutation" (mutationDeleted)="onMutationDeleted($event)" class="section">
                 </app-mutation-detail>
             </div>

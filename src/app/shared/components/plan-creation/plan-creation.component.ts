@@ -7,13 +7,13 @@ import { ConfigurationDataService, ConfigurationData, LoggedUserService } from '
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
-import { ProjectCreation, ProjectService } from 'src/app/feature-modules/projects';
+import { ProjectService } from 'src/app/feature-modules/projects';
 import { User } from 'src/app/core/model/user/user';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ProductionOutcomeSummary } from 'src/app/feature-modules/plans/model/outcomes/production-outcome-summary';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
-import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
+
 
 @Component({
   selector: 'app-plan-creation',
@@ -76,8 +76,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     private configurationDataService: ConfigurationDataService,
     private projectService: ProjectService,
     private planService: PlanService
-  )
-  {
+  ) {
     this.loadConfigurationData();
   }
 
@@ -104,117 +103,6 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     });
   }
 
-  getPlanTypeFromUrl(): string {
-    const queryParams = this.route.snapshot.queryParams;
-    return queryParams.planType;
-  }
-
-  getValidatedPreSelectedPlanType(validPlanTypes: NamedValue[], selectedValue) {
-    if (selectedValue) {
-      if (validPlanTypes.filter(x => x.name === selectedValue).length === 0) {
-        this.error = 'Plan type ' + selectedValue + ' is not valid. The valid options are: ' + validPlanTypes.map(x => x.name);
-        return null;
-      } else {
-        return selectedValue;
-      }
-    }
-  }
-
-  loadConfigurationData() {
-    this.configurationDataService.getConfigurationData().subscribe(data => {
-      this.configurationData = data;
-      this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
-      this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
-      this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
-      this.nucleaseClasses = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
-
-      Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {
-        const list = this.configurationData.workGroupsByWorkUnits[key];
-        this.workGroupsByWorkGroup.set(key, list.map(x => ({ name: x })));
-      });
-
-      Object.keys(this.configurationData.attemptTypesByPlanTypes).map(key => {
-        const list = this.configurationData.attemptTypesByPlanTypes[key];
-        this.attemptTypesByPlanTypes.set(key, list.map(x => ({ name: x })));
-      });
-
-      Object.keys(this.configurationData.fundersByWorkGroups).map(key => {
-        const list = this.configurationData.fundersByWorkGroups[key];
-        this.fundersByWorkGroups.set(key, list.map(x => ({ name: x })));
-      });
-      this.filterLists();
-
-      this.setPredefinedValues();
-    }, error => {
-      this.error = error;
-    });
-  }
-
-  filterLists() {
-    this.loggedUserService.getLoggerUser().subscribe(data => {
-      this.loggedUser = data;
-      this.showAllElementsInLists = data.isAdmin;
-      if (!this.showAllElementsInLists) {
-        this.workUnits = this.loggedUser.rolesWorkUnits.map(x => ({ name: x.workUnitName }));
-      }
-
-    }, error => {
-      this.error = error;
-    });
-  }
-
-  setPredefinedValues() {
-    if (this.projectCreation) {
-      this.preSelectedPlanType = 'production';
-    } else {
-      this.preSelectedPlanType = this.getValidatedPreSelectedPlanType(this.planTypes, this.getPlanTypeFromUrl());
-    }
-    if (this.preSelectedPlanType) {
-      this.planTypes = this.planTypes.filter(x => x.name === this.preSelectedPlanType);
-      this.handlePlanTypeSelected(this.preSelectedPlanType);
-    }
-  }
-
-  loadOutcomesSummaries(tpn: string) {
-    this.projectService.getProductionOutcomesSummariesByProject(tpn).subscribe(data => {
-      this.startingPoints = data;
-
-    }, error => {
-      this.error = error;
-    });
-  }
-
-  onPlanTypeSelected(e) {
-    this.handlePlanTypeSelected(e.value);
-  }
-
-  handlePlanTypeSelected(planType: string) {
-    if (planType) {
-      this.planCreationForm.get('typeName').patchValue(planType);
-      this.selectType = false;
-    } else {
-      this.selectType = true;
-    }
-
-    if (planType === 'phenotyping') {
-      this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
-    }
-    this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
-    // this.plan.typeName = planType;
-
-    if (planType === 'crispr') {
-      // this.plan.crisprAttempt = new CrisprAttempt();
-    }
-
-    if (planType === 'es cell') {
-      // this.plan.esCell = new CrisprAttempt();
-    }
-  }
-
-  onAttemptTypeSelected(e) {
-
-  }
-
   onWorkUnitChanged(e) {
     this.filteredWorkGroupsByWorkUnit = this.workGroupsByWorkGroup.get(e.value);
     this.filteredFundersByWorkGroup = [];
@@ -224,22 +112,29 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     this.filteredFundersByWorkGroup = this.fundersByWorkGroups.get(e.value);
   }
 
-  create() {
-    console.log(this.plan);
-    console.log(this.planCreationForm.value);
+  onPlanTypeSelected(e) {
+    this.handlePlanTypeSelected(e.value);
+  }
 
-    // this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
-    // this.loading = true;
-    // this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
-    //   this.loading = false;
-    //   // eslint-disable-next-line no-underscore-dangle
-    //   const link: string = changeResponse._links.self.href;
-    //   const pin = link.substring(link.lastIndexOf('/') + 1);
-    //   this.router.navigate(['/projects/' + this.tpn + '/plan/' + pin]);
-    // }, error => {
-    //   this.error = error;
-    //   this.loading = false;
-    // });
+  onAttemptTypeSelected(e) {
+
+  }
+
+  create() {
+    // console.log(this.plan);
+    // console.log(this.planCreationForm.value);
+    this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+    this.loading = true;
+    this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
+      this.loading = false;
+      // eslint-disable-next-line no-underscore-dangle
+      const link: string = changeResponse._links.self.href;
+      const pin = link.substring(link.lastIndexOf('/') + 1);
+      this.router.navigate(['/projects/' + this.tpn + '/plan/' + pin]);
+    }, error => {
+      this.error = error;
+      this.loading = false;
+    });
   }
 
   writeValue(obj: any): void {
@@ -271,4 +166,121 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     return this.planCreationForm.valid ? null : { invalidForm: {valid: false, message: 'planCreationForm fields are invalid'} };
   }
 
+  private setIdNull(object) {
+    object.id = null;
+  }
+
+  private getPlanTypeFromUrl(): string {
+    const queryParams = this.route.snapshot.queryParams;
+    return queryParams.planType;
+  }
+
+  private getValidatedPreSelectedPlanType(validPlanTypes: NamedValue[], selectedValue) {
+    if (selectedValue) {
+      if (validPlanTypes.filter(x => x.name === selectedValue).length === 0) {
+        this.error = 'Plan type ' + selectedValue + ' is not valid. The valid options are: ' + validPlanTypes.map(x => x.name);
+        return null;
+      } else {
+        return selectedValue;
+      }
+    }
+  }
+
+  private loadConfigurationData() {
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
+      this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
+      this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
+      this.nucleaseClasses = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
+
+      Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {
+        const list = this.configurationData.workGroupsByWorkUnits[key];
+        this.workGroupsByWorkGroup.set(key, list.map(x => ({ name: x })));
+      });
+
+      Object.keys(this.configurationData.attemptTypesByPlanTypes).map(key => {
+        const list = this.configurationData.attemptTypesByPlanTypes[key];
+        this.attemptTypesByPlanTypes.set(key, list.map(x => ({ name: x })));
+      });
+
+      Object.keys(this.configurationData.fundersByWorkGroups).map(key => {
+        const list = this.configurationData.fundersByWorkGroups[key];
+        this.fundersByWorkGroups.set(key, list.map(x => ({ name: x })));
+      });
+
+      setTimeout(()=>{ // this will make the execution after the above boolean has changed
+        this.filterLists();
+        this.setPredefinedValues();
+      },0);
+
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private filterLists() {
+    this.loggedUserService.getLoggerUser().subscribe(data => {
+      this.loggedUser = data;
+      this.showAllElementsInLists = data.isAdmin;
+      if (!this.showAllElementsInLists) {
+        this.workUnits = this.loggedUser.rolesWorkUnits.map(x => ({ name: x.workUnitName }));
+      }
+
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private setPredefinedValues() {
+    if (this.projectCreation) {
+      this.preSelectedPlanType = 'production';
+      this.setAttemptTypesForProjectCreation();
+    } else {
+      this.preSelectedPlanType = this.getValidatedPreSelectedPlanType(this.planTypes, this.getPlanTypeFromUrl());
+    }
+    if (this.preSelectedPlanType) {
+      this.planTypes = this.planTypes.filter(x => x.name === this.preSelectedPlanType);
+      this.handlePlanTypeSelected(this.preSelectedPlanType);
+    }
+  }
+
+  private setAttemptTypesForProjectCreation() {
+    if (this.projectCreation) {
+      this.attemptTypesByPlanTypes.delete('phenotyping');
+      const prod = this.attemptTypesByPlanTypes.get('production')
+                                                      .filter(t => !(t.name === 'cre allele modification' || t.name === 'breeding'));
+      this.attemptTypesByPlanTypes.set('production', prod);
+    }
+  }
+
+  private loadOutcomesSummaries(tpn: string) {
+    this.projectService.getProductionOutcomesSummariesByProject(tpn).subscribe(data => {
+      this.startingPoints = data;
+    }, error => {
+      this.error = error;
+    });
+  }
+
+  private handlePlanTypeSelected(planType: string) {
+    if (planType) {
+      this.planCreationForm.get('typeName').patchValue(planType);
+      this.selectType = false;
+    } else {
+      this.selectType = true;
+    }
+
+    if (planType === 'phenotyping') {
+      this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
+    }
+    this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
+
+    if (planType === 'crispr') {
+
+    }
+
+    if (planType === 'es cell') {
+
+    }
+  }
 }
