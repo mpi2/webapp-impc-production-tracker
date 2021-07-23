@@ -8,6 +8,7 @@ import { IndexedSequence } from 'src/app/feature-modules/sequences';
 import { MatDialog } from '@angular/material/dialog';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { Outcome } from '../../../model/outcomes/outcome';
 
 
 @Component({
@@ -16,6 +17,7 @@ import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-co
   styleUrls: ['./mutation-detail.component.css']
 })
 export class MutationDetailComponent implements OnInit {
+  @Input() outcome: Outcome;
   @Input() mutation: Mutation;
   @Input() canUpdate: boolean;
   @Input() attemptType: string;
@@ -155,14 +157,7 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
-  create() {
-    const indexedSequence: IndexedSequence = new IndexedSequence();
-    indexedSequence[this.tmpIndexRowName] = this.nextNewId--;
-    this.mutation.mutationSequences.push(indexedSequence);
-  }
-
   onDeleteMutation() {
-
     if (this.mutation.min) {
       this.showDeleteMutationConfirmationDialog();
 
@@ -220,6 +215,7 @@ export class MutationDetailComponent implements OnInit {
   onDescriptionChanged(e) {
     this.mutation.description = this.inputHandlerService.getValueOrNull(e.target.value);
   }
+
   private isNewRecord(indexedSequence: IndexedSequence) {
     return indexedSequence.id === null;
   }

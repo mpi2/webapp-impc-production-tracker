@@ -2,6 +2,7 @@ import { Gene } from 'src/app/core';
 import { QcResult } from './qc_result';
 
 export class Mutation {
+    id: number;
     min: string;
     pin: string;
     tpo: string;

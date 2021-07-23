@@ -1,10 +1,44 @@
-.mutationDescription {
-  vertical-align: top;
+label {
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 200px;
 }
-.matFormFieldMutationDescription {
-  width: 50em; 
-  height: 8em;
+
+table {
+  border-collapse: collapse;
+  width: 100%;
 }
-.textareaMutationDescription {
-  height: 10em;
+
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #ddd;
+}
+
+#suggestSymbolButton {
+  margin-left: 10px;
+}
+
+.minDisplay {
+  width: 142px;
+}
+
+.separation {
+  padding-top: 10px;
+}
+
+.textarea-full-width {
+  width: 80%;
+}
+
+span {
+  position: absolute;
+  left: 2px;
 }

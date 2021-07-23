@@ -51,7 +51,7 @@ export class OutcomeDetailComponent implements OnInit {
   outcomeTypes: NamedValue[];
 
   attemptType: string;
-
+  mutations: Mutation[];
   configurationData: ConfigurationData;
 
   constructor(
@@ -110,7 +110,7 @@ export class OutcomeDetailComponent implements OnInit {
       mutations.forEach(x => {
         this.completeDataInMutation(x);
       });
-      this.outcome.mutations = mutations;
+      this.outcome.mutations = mutations.sort((a,b) => a.id - b.id);
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
     }
   }
@@ -267,7 +267,6 @@ export class OutcomeDetailComponent implements OnInit {
       } else {
         this.fetchOutcomeByTpo();
       }
-
     } else {
       this.isOutcomeBeingCreated = true;
       this.outcome = new Outcome();

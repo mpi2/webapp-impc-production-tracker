@@ -7,7 +7,7 @@ label {
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 40%;
 }
 
 td, th {
@@ -25,32 +25,3 @@ th {
 .separation {
   padding-top: 10px;
 }
-
-/* 
-input,
-mat-select {
-  width: 200px;
-}
-.content {
-  float: none;
-  margin-top: 5px;
-  margin-bottom: 5px;
-}
-
-.readOnlySection > .content {
-  float: left;
-}
-
-fieldset {
-  width: 100%;
-  float: none;
-  clear: both;
-}
-
-fieldset > label {
-    width: 285px;
-}
-
-.readOnlySection {
-  height: 500px;
-} */

@@ -14,7 +14,7 @@
                 <mat-select class="select-content" [(ngModel)]="crisprAttempt.assay.typeName">
                     <mat-option></mat-option>
                     <mat-option *ngFor="let assayType of assayTypes" [value]="assayType.name">
-                        {{assayType.name}}
+                        {{ assayType.name }}
                     </mat-option>
                 </mat-select>
             </mat-form-field>
@@ -36,11 +36,6 @@
                 </thead>
                 <tbody>
                     <td style="text-align: center; vertical-align: top;">
-                        <div style="padding:30px 0px 0px 0px ; width:110px">
-                            Assay results
-                        </div>
-                    </td>
-                    <td style="text-align: center; vertical-align: top;">
                         <label for="numG0WhereMutationDetected">Number of G0 with a Detected Mutation:</label>
                         <mat-form-field appearance="fill" class="example-full-width">
                             <input appDigitOnly matInput [(ngModel)]="crisprAttempt.assay.numG0WhereMutationDetected">
@@ -48,7 +43,7 @@
                         <br>
 
                         <mat-accordion>
-                            <mat-expansion-panel>
+                            <mat-expansion-panel [expanded]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>G0 Allele Screen Details</mat-panel-title>
                                 </mat-expansion-panel-header>
@@ -79,7 +74,7 @@
                         </mat-accordion>
 
                         <mat-accordion>
-                            <mat-expansion-panel>
+                            <mat-expansion-panel [expanded]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>G0 Donor Insertion Details</mat-panel-title>
                                 </mat-expansion-panel-header>
@@ -139,11 +134,6 @@
                 </thead>
                 <tbody>
                     <td style="text-align: center; vertical-align: top;">
-                        <div style="padding:30px 0px 0px 0px ; width:110px">
-                            Assay results
-                        </div>
-                    </td>
-                    <td style="text-align: center; vertical-align: top;">
                         <label for="numG0WhereMutationDetected">Number of G0 with a Detected Mutation:</label>
                         <mat-form-field appearance="fill">
                             <input matInput readonly [(value)]="crisprAttempt.assay.numG0WhereMutationDetected" />
@@ -151,7 +141,7 @@
                         <br>
 
                         <mat-accordion>
-                            <mat-expansion-panel>
+                            <mat-expansion-panel [expanded]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>G0 Allele Screen Details</mat-panel-title>
                                 </mat-expansion-panel-header>
@@ -182,7 +172,7 @@
                         </mat-accordion>
 
                         <mat-accordion>
-                            <mat-expansion-panel>
+                            <mat-expansion-panel [expanded]="true">
                                 <mat-expansion-panel-header>
                                     <mat-panel-title>G0 Donor Insertion Details</mat-panel-title>
                                 </mat-expansion-panel-header>

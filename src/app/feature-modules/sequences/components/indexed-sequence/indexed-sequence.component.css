@@ -1,44 +1,30 @@
-.sequence-card {
-  width: 1100px;
-  margin-bottom: 25px;
-  box-shadow: none;
-}
-
 label {
   clear: both;
   float: left;
   padding-bottom: 5px;
-  list-style: 1.7;
-  width: 180px;
+  width: 200px;
 }
 
-.content {
-  /* clear: both; */
-  float: none;
-  padding-bottom: 5px;
+table {
+  width: 100%;
 }
 
-.sequenceDiv {
-  vertical-align: top;
+table,
+th,
+tr,
+td {
+  padding: 10px;
+  text-align: left;
+  border-bottom-style: solid;
+  border-bottom-width: 1px;
+  border-bottom-color: rgba(0, 0, 0, 0.12);
+  font-size: 14px;
 }
 
-.matFormFieldSequence {
-  width: 40em; 
-  height: 8em;
+.separation {
+  padding-top: 10px;
 }
 
-.textareaSequence {
-  height: 8em;
-}
-
-.select-content {
-  max-width: 50%;
-}
-
-mat-select {
-  width: 250px;
-}
-
-mat-card-actions {
-  text-align: right;
+.textarea-full-width {
+  width: 100%;
 }
