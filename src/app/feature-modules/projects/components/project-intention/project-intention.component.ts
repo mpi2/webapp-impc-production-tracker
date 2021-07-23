@@ -1,16 +1,11 @@
-import { Component, OnInit, Input, forwardRef } from '@angular/core';
-import { ConfigurationData, ConfigurationDataService, Gene, GeneService } from 'src/app/core';
+import { Component, OnInit, Input, forwardRef, ElementRef } from '@angular/core';
+import { ConfigurationData, ConfigurationDataService, GeneService } from 'src/app/core';
 import { ControlValueAccessor, FormControl, FormGroup, FormBuilder, Validators, Validator,
   AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS, FormArray } from '@angular/forms';
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatDialog } from '@angular/material/dialog';
-import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { ProjectCreation } from '../../model/project-creation';
-import { ProjectIntention } from '../../model/project-intention';
-import { IntentionByGene, MutationCategorization } from 'src/app/model';
-
 
 @Component({
   selector: 'app-project-intention',
@@ -35,6 +30,7 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
   configurationData: ConfigurationData;
   allMutationCategorizations: NamedValue[];
   molecularMutationTypes: NamedValue[];
+  mutationCategorizationsByType = new Map<string, NamedValue[]>();
 
   searchGeneCtrl = new FormControl();
   filteredGenes: any;
@@ -42,9 +38,7 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
   errorMsg: string;
 
   mutationCategorizationNames: string[];
-
-  tmpIndexRowName = 'tmp_id';
-  nextNewId = -1;
+  alleleCategoryKey = 'allele_category';
 
   projectIntentionsForm: FormGroup;
 
@@ -52,11 +46,14 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
     private configurationDataService: ConfigurationDataService,
     private fb: FormBuilder,
     public dialog: MatDialog,
-    private geneService: GeneService
-  ) { }
+    private geneService: GeneService,
+    private elementRef: ElementRef)
+  {
+    this.loadConfigurationData();
+  }
 
   ngOnInit() {
-    this.loadConfigurationData();
+    this.createProjectIntentionsForm();
 
     this.searchGeneCtrl.valueChanges
       .pipe(
@@ -84,13 +81,19 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
           this.filteredGenes = data;
         }
       });
+  }
 
+  createProjectIntentionsForm() {
     this.projectIntentionsForm = this.fb.group({
-      intentions: this.fb.array([this.addIntentionFormGroup()])
+      intentions: this.fb.array([this.newIntentionFormGroup()])
     });
   }
 
-  addIntentionFormGroup(): FormGroup {
+  get intentions(): FormArray {
+    return this.projectIntentionsForm.get('intentions') as FormArray;
+  }
+
+  newIntentionFormGroup(): FormGroup {
     return this.fb.group({
       molecularMutationType: ['', Validators.required],
       mutationCategorizations: [[]],
@@ -98,29 +101,42 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
     });
   }
 
-  addIntentioButtonClick(): void {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const control = <FormArray>this.projectIntentionsForm.get('intentions');
-    control.push(this.addIntentionFormGroup());
+  addIntentionButtonClick() {
+    const newIntention = this.newIntentionFormGroup();
+    this.intentions.push(newIntention);
+    const inputId = '#geneSymbol' + (this.intentions.length - 1);
+    setTimeout(()=>{ // this will make the execution after the above boolean has changed
+      this.elementRef.nativeElement.querySelector(inputId).value = '';
+    },0);
   }
 
-  removeIntentioButtonClick(i: number) {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const control = <FormArray>this.projectIntentionsForm.get('intentions');
-    control.removeAt(i);
+  removeIntentionButtonClick(i: number) {
+    if (this.intentions.length > 1) {
+      this.intentions.removeAt(i);
+    } else {
+      this.intentions.reset();
+    }
   }
 
-  geneSelected(i: number, symbol: string) {
-    // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-    const intention = (<FormArray>this.projectIntentionsForm.get('intentions')).at(i);
-    intention.patchValue({geneSymbol: symbol});
+  geneInput(i: number, symbol: string) {
+
+  }
+
+  geneSelected(i: number, geneSelected: any) {
+    const intentions = this.projectIntentionsForm.get('intentions') as FormArray;
+    intentions.at(i).patchValue({geneSymbol: geneSelected.symbol});
   }
 
   loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.allMutationCategorizations = this.configurationData.mutationCategorizations.map(x => ({ name: x }));
-      this.molecularMutationTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
+      this.molecularMutationTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x })).filter(n => n.name !== 'legacy');
+
+      Object.keys(this.configurationData.mutationCategorizationsByType).map(key => {
+        const list = this.configurationData.mutationCategorizationsByType[key];
+        this.mutationCategorizationsByType[key] = list.map(x => ({ name: x }));
+      });
     });
   }
 
@@ -152,64 +168,4 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
   validate(c: AbstractControl): ValidationErrors | null {
     return this.projectIntentionsForm.valid ? null : { invalidForm: {valid: false, message: 'consortiaForm fields are invalid'} };
   }
-
-
-  // addRow() {
-  //   const intention: ProjectIntention = new ProjectIntention();
-  //   intention[this.tmpIndexRowName] = this.nextNewId--;
-  //   if (!this.projectCreation.projectIntentions) {
-  //     this.projectCreation.projectIntentions = [];
-  //   }
-  //   this.projectCreation.projectIntentions.push(intention);
-  // }
-
-  // addGeneToIntention(projectIntention: ProjectIntention, gene: any) {
-  //   projectIntention.intentionByGene = new IntentionByGene();
-  //   projectIntention.intentionByGene.gene = new Gene();
-  //   projectIntention.intentionByGene.gene.symbol = gene.symbol;
-  //   projectIntention.intentionByGene.gene.accessionId = gene.accId;
-  // }
-
-  // addMutationCategorization(projectIntention: ProjectIntention, names: string[]) {
-  //   projectIntention.mutationCategorizations = [];
-  //   names.forEach((name) => {
-  //     const mutationCategorization = new MutationCategorization();
-  //     mutationCategorization.name = name;
-  //     projectIntention.mutationCategorizations.push(mutationCategorization);
-  //   });
-  // }
-
-  // deleteRow(intention: ProjectIntention) {
-  //   if (this.isNewRecord(intention)) {
-  //     this.deleteProjectIntention(intention);
-  //   } else {
-  //     this.showDeleteConfirmationDialog(intention);
-  //   }
-  // }
-
-  // showDeleteConfirmationDialog(intention: ProjectIntention) {
-  //   const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
-  //     width: '250px',
-  //     data: { confirmed: false }
-  //   });
-  //   dialogRef.afterClosed().subscribe(result => {
-  //     if (result) {
-  //       this.deleteProjectIntention(intention);
-  //     }
-  //   });
-  // }
-
-  // deleteProjectIntention(intention: ProjectIntention) {
-  //   if (this.isNewRecord(intention)) {
-  //     this.projectCreation.projectIntentions = this.projectCreation.projectIntentions
-  //       .filter(x => x[this.tmpIndexRowName] !== intention[this.tmpIndexRowName]);
-  //   } else {
-  //     this.projectCreation.projectIntentions = this.projectCreation.projectIntentions
-  //       .filter(x => x.id !== intention.id);
-  //   }
-  // }
-
-  // private isNewRecord(intention: ProjectIntention) {
-  //   return intention.id === null;
-  // }
 }

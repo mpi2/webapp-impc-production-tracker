@@ -13,7 +13,6 @@ import { ProjectCreation } from '../../model/project-creation';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ProjectIntention } from '../../model/project-intention';
-import { PlanDetails } from 'src/app/feature-modules/plans';
 
 
 @Component({
@@ -114,6 +113,7 @@ export class ProjectCreationComponent implements OnInit {
       this.projectCreation.projectIntentions.push(intention);
     });
 
+    console.log(this.projectCreation);
     this.loading = true;
     this.projectService.createProject(this.projectCreation).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;

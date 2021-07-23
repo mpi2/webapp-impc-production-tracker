@@ -30,8 +30,7 @@
                                             (blur)="onTouched()" 
                                             [id]="'mutationCategorizations' + i"
                                             formControlName="mutationCategorizations">
-                                    <mat-option></mat-option>
-                                    <mat-option *ngFor="let mutationCategorization of allMutationCategorizations" [value]="mutationCategorization.name">
+                                    <mat-option *ngFor="let mutationCategorization of mutationCategorizationsByType[alleleCategoryKey]" [value]="mutationCategorization.name">
                                         {{ mutationCategorization.name }}
                                     </mat-option>
                                 </mat-select>
@@ -41,16 +40,15 @@
                             <mat-form-field appearance="fill" class="content">
                                 <input matInput 
                                     placeholder="" 
-                                    aria-label="State" 
+                                    aria-label="Gene" 
                                     [matAutocomplete]="auto" 
                                     [formControl]="searchGeneCtrl" 
-                                    (blur)="onTouched()" 
-                                    [id]="'geneSymbol' + i"
-                                    (change)="geneSelected(i, $event.target.value)" />
+                                    [id]="'geneSymbol' + i" 
+                                    (change)="geneInput(i, $event.target.value)" /> 
                                 <mat-autocomplete #auto="matAutocomplete">
                                     <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
                                     <ng-container *ngIf="!isLoading" >
-                                        <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol">
+                                        <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol" (onSelectionChange)="geneSelected(i, gene)">
                                             <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
                                         </mat-option>
                                     </ng-container>
@@ -58,16 +56,17 @@
                             </mat-form-field>
                         </td>
                         <td>
-                            <button (click)="removeIntentioButtonClick(i)">
+                            <button type="button" (click)="removeIntentionButtonClick(i)">
                                 <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
                             </button>
                         </td>
                     </ng-container>
                 </tr>
                 <tr>
-                    <td class="no_border"><button (click)="addIntentioButtonClick()" [disabled]="false">
-                        <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
-                    </button>
+                    <td>
+                        <button type="button" (click)="addIntentionButtonClick()">
+                            <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+                        </button>
                     </td>
                 </tr>
             </table>

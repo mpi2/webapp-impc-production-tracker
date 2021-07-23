@@ -16,6 +16,8 @@ import { Mutation } from '../../../model/outcomes/mutation';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Colony } from '../../../model/outcomes/colony';
 import { Specimen } from '../../../model/outcomes/specimen';
+import { PlanService } from 'src/app/feature-modules/plans';
+
 
 @Component({
   selector: 'app-outcome-detail',
@@ -24,7 +26,6 @@ import { Specimen } from '../../../model/outcomes/specimen';
 })
 export class OutcomeDetailComponent implements OnInit {
   outcome: Outcome = new Outcome();
-
   project: Project;
 
   tpn: string;
@@ -49,6 +50,8 @@ export class OutcomeDetailComponent implements OnInit {
   mutationsToDelete: Mutation[] = [];
   outcomeTypes: NamedValue[];
 
+  attemptType: string;
+
   configurationData: ConfigurationData;
 
   constructor(
@@ -59,7 +62,8 @@ export class OutcomeDetailComponent implements OnInit {
     private mutationService: MutationService,
     private configurationDataService: ConfigurationDataService,
     private permissionsService: PermissionsService,
-    private loggedUserService: LoggedUserService) { }
+    private loggedUserService: LoggedUserService,
+    private planService: PlanService) { }
 
   ngOnInit(): void {
     this.tpn = this.route.snapshot.params.id;
@@ -68,6 +72,15 @@ export class OutcomeDetailComponent implements OnInit {
     this.evaluateUpdatePermissions();
     this.loadConfigurationData();
     this.fetchOrCreateOutcome();
+    this.getAttemptType();
+  }
+
+  getAttemptType() {
+    this.planService.getPlanByPin(this.pin).subscribe(data => {
+      this.attemptType = data.attemptTypeName;
+    }, error => {
+      this.error = error;
+    });
   }
 
   loadConfigurationData() {

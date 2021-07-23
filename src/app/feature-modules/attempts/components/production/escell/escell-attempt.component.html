@@ -1,6 +1,6 @@
 <ng-container [formGroup]="esCellAttemptForm">
   <mat-card>
-    <mat-card-subtitle>EsCell Attempt Details</mat-card-subtitle>
+    <mat-card-subtitle>ES Cell Attempt Details</mat-card-subtitle>
     <mat-card-content>
       <table>
         <tr>
@@ -110,15 +110,15 @@
                   class="form-control"
                   (change)="onExperimentalChange()"
                 />
-              </td>
-          </ng-template>
-          <ng-template #experimentalReadOnly>
+            </td>
+        </ng-template>
+        <ng-template #experimentalReadOnly>
             <input
-                  type="checkbox"
-                  disabled="true"
-                  [checked]="esCellAttempt.experimental"
-                />
-          </ng-template>
+                type="checkbox"
+                disabled="true"
+                [checked]="esCellAttempt.experimental"
+            />
+        </ng-template>
         </tr>
         <tr>
           <td>Comments:</td>
