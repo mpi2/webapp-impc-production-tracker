@@ -6,98 +6,81 @@
 
         <ng-template #editable>
 
-            <div>
-                <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id) *:</label>
-                <mat-form-field appearance="fill" id="phenotypingExternalRef">
-                    <input matInput (keyup)="dataChanged($event)" [(ngModel)]="phenotypingAttempt.phenotypingExternalRef">
-                </mat-form-field>
-            </div>
+            <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id) *:</label>
+            <mat-form-field appearance="fill" id="phenotypingExternalRef">
+                <input matInput (keyup)="dataChanged($event)" [(ngModel)]="phenotypingAttempt.phenotypingExternalRef">
+            </mat-form-field>
+            <br>
 
-            <div>
-                <label for="cohortProductionWorkUnitName">Cohort Production Work Unit Name:</label>
-                <mat-form-field appearance="fill">
-                    <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.cohortProductionWorkUnitName">
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
-                            {{ workUnit.name }}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+            <label for="cohortProductionWorkUnitName">Cohort Production Work Unit Name:</label>
+            <mat-form-field appearance="fill">
+                <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.cohortProductionWorkUnitName">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
+                        {{ workUnit.name }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
             <br>
-            <div>
-                <label for="phenotypingBackgroundStrainName">Background Strain *:</label>
-                <mat-form-field appearance="fill">
-                    <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.phenotypingBackgroundStrainName">
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
-                            {{ backGroundStrain.name }}
-                        </mat-option>
-                    </mat-select> 
-                </mat-form-field>
-            </div>
+
+            <label for="phenotypingBackgroundStrainName">Background Strain *:</label>
+            <mat-form-field appearance="fill">
+                <mat-select (selectionChange)="dataChanged($event)" [(value)]="phenotypingAttempt.phenotypingBackgroundStrainName">
+                    <mat-option></mat-option>
+                    <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
+                        {{ backGroundStrain.name }}
+                    </mat-option>
+                </mat-select> 
+            </mat-form-field>
             <br>
-            <div>
-                <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
-                <div id="doNotCountTowardsCompleteness">
-                    <mat-checkbox (change)="dataChanged($event)" [(ngModel)]="phenotypingAttempt.doNotCountTowardsCompleteness"
-                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
-                </div>
-            </div>
+
+            <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
+            <mat-checkbox (change)="dataChanged($event)" [(ngModel)]="phenotypingAttempt.doNotCountTowardsCompleteness"
+                    [ngModelOptions]="{standalone: true}"></mat-checkbox>
             <br>
 
         </ng-template>
 
         <ng-template #readOnly>
-
-            <div>
-                <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id):</label>
-                <div id="phenotypingExternalRef" class="content">
-                    {{ phenotypingAttempt.phenotypingExternalRef }}
-                </div>
-            </div>
-
-            <div>
-                <label for="cohortProductionWorkUnitName">Cohort Production Work Unit Name:</label>
-                <div id="cohortProductionWorkUnitName" class="content">
-                    {{ phenotypingAttempt.cohortProductionWorkUnitName }}
-                </div>
-            </div>
-
-            <div>
-                <label for="phenotypingBackgroundStrainName">Background Strain:</label>
-                <div id="phenotypingBackgroundStrainName" class="content">
-                    {{ phenotypingAttempt.phenotypingBackgroundStrainName }}
-                </div>
-            </div>
-
-            <div>
-                <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
-                <div id="doNotCountTowardsCompleteness">
-                    <mat-checkbox [disabled]=true [(ngModel)]="phenotypingAttempt.doNotCountTowardsCompleteness"
-                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
-                </div>
-            </div>
+            <label for="phenotypingExternalRef">Phenotyping External Reference (Colony or Specimen id):</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="phenotypingAttempt.phenotypingExternalRef" />
+            </mat-form-field>
             <br>
-            
+
+            <label for="cohortProductionWorkUnitName">Cohort Production Work Unit Name:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="phenotypingAttempt.cohortProductionWorkUnitName" />
+            </mat-form-field>
+            <br>
+
+            <label for="phenotypingBackgroundStrainName">Background Strain:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [(value)]="phenotypingAttempt.phenotypingBackgroundStrainName" />
+            </mat-form-field>
+            <br>
+
+            <label for="doNotCountTowardsCompleteness">Do not count towards completeness:</label>
+            <mat-checkbox [disabled]=true [(ngModel)]="phenotypingAttempt.doNotCountTowardsCompleteness"
+                        [ngModelOptions]="{standalone: true}"></mat-checkbox>
+            <br>
         </ng-template>
+        <div class="separation"></div>
+        
+        <mat-card>
+            <mat-card-subtitle>Starting Point</mat-card-subtitle>
+            <mat-card-content>
+                <label class="startingPoint" for="outcomeTpo">Outcome:</label>
+                <a target="_blank" routerLink="/outcomes/{{ plan.phenotypingStartingPoint.outcomeTpo }}">
+                    {{ plan.phenotypingStartingPoint.outcomeTpo }}</a>
+                <div class="separation"></div>
 
-        <fieldset class="content">
-            <legend>Starting Point</legend>
-
-            <label for="outcomeTpo">Outcome:</label>
-            <div id="outcomeTpo" class="content">
-                <div id="tpo"> <a target="_blank" routerLink="/outcomes/{{ plan.phenotypingStartingPoint.outcomeTpo }}">
-                        {{ plan.phenotypingStartingPoint.outcomeTpo }}</a></div>
-            </div>
-
-            <label for="productionPlanPin">Production Plan:</label>
-            <div id="productionPlanPin" class="content">
+                <label class="startingPoint" for="productionPlanPin">Production Plan:</label>
                 <a target="_blank" routerLink="/plan/{{ plan.phenotypingStartingPoint.productionPlanPin }}">
                     {{ plan.phenotypingStartingPoint.productionPlanPin }}</a>
-            </div>
-
-        </fieldset>
+                <div class="separation"></div>
+            </mat-card-content>
+        </mat-card>
 
     </mat-card-content>
 </mat-card>
