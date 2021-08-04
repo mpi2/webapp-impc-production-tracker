@@ -28,7 +28,7 @@
     "ajv": "^6.12.6",
     "angular-scrollable-table": "^1.1.2",
     "moment": "^2.29.1",
-    "msw": "^0.29.0",
+    "msw": "^0.28.2",
     "ngx-trim-directive": "^1.1.0",
     "zone.js": "^0.11.4"
   },
