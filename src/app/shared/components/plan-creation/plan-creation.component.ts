@@ -34,6 +34,7 @@ import { Nuclease } from 'src/app/feature-modules/attempts/model/production/cris
 })
 export class PlanCreationComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() projectCreation: boolean;
+  @Input() firstAttemptType: string;
 
   tpn: string;
   error;
@@ -121,8 +122,6 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   }
 
   create() {
-    // console.log(this.plan);
-    // console.log(this.planCreationForm.value);
     this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
     this.loading = true;
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
@@ -238,6 +237,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.setAttemptTypesForProjectCreation();
     } else {
       this.preSelectedPlanType = this.getValidatedPreSelectedPlanType(this.planTypes, this.getPlanTypeFromUrl());
+      this.setAttemptTypesForPlanCreation();
     }
     if (this.preSelectedPlanType) {
       this.planTypes = this.planTypes.filter(x => x.name === this.preSelectedPlanType);
@@ -250,6 +250,14 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.attemptTypesByPlanTypes.delete('phenotyping');
       const prod = this.attemptTypesByPlanTypes.get('production')
                                                       .filter(t => !(t.name === 'cre allele modification' || t.name === 'breeding'));
+      this.attemptTypesByPlanTypes.set('production', prod);
+    }
+  }
+
+  private setAttemptTypesForPlanCreation() {
+    if (this.planCreation) {
+      const prod = this.attemptTypesByPlanTypes.get('production')
+                                                      .filter(t => !(t.name === 'breeding'));
       this.attemptTypesByPlanTypes.set('production', prod);
     }
   }
@@ -273,14 +281,13 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     if (planType === 'phenotyping') {
       this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
     }
-    this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
-
     if (planType === 'crispr') {
 
     }
-
     if (planType === 'es cell') {
 
     }
+    this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
   }
+
 }

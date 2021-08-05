@@ -6,10 +6,13 @@
     <mat-card-content>
         <ng-container [formGroup]="planCreationForm">
             <table>
-                <label *ngIf="planCreation" for="tpo">Project id:</label>
-                <div *ngIf="planCreation" id="tpo"><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></div>
-                <br>
-            
+                <ng-container *ngIf="planCreation" >
+                    <tr>
+                        <td><label for="tpo">Project id:</label></td>
+                        <td><a routerLink="/projects/{{ this.tpn }}">{{ this.tpn }}</a></td>
+                    </tr>
+                    <br>
+                </ng-container>
                 <tr>
                     <td><label for="planType">Plan Type *:</label></td>
                     <td>
@@ -17,11 +20,11 @@
                             <input matInput *ngIf="!selectType"
                                 (blur)="onTouched()" 
                                 formControlName="typeName"
-                                class="form-control"
+                                
                                 readonly />
                             <mat-select *ngIf="selectType"
                                 (selectionChange)="onPlanTypeSelected($event)"
-                                class="form-control"
+                                
                                 (blur)="onTouched()" 
                                 formControlName="typeName"
                             >
@@ -40,7 +43,7 @@
                         <mat-form-field appearance="fill">
                             <mat-select id="attemtpType" 
                                     (selectionChange)="onAttemptTypeSelected($event)"
-                                    class="form-control"
+                                    
                                     (blur)="onTouched()" 
                                     formControlName="attemptTypeName"
                             >
@@ -54,12 +57,12 @@
                 </tr>
 
                 <!-- Starting Point section. Only available for phenotyping plans -->
-                <ng-template id="startingPoint" *ngIf="plan.typeName === 'phenotyping'">
+                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping'">
                     <tr>
                         <td><label for="startingPoint">Starting point (Outcome id) *:</label></td>
                         <td>
                             <mat-form-field appearance="fill">
-                                <mat-select class="form-control"
+                                <mat-select 
                                         (blur)="onTouched()" 
                                         formControlName="startingPoint"
                                 >
@@ -70,14 +73,14 @@
                             </mat-form-field>
                         </td>
                     </tr>
-                </ng-template>
+                </ng-container>
 
                 <tr>
                     <td><label for="workUnit">Work Unit *:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
                             <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" 
-                                    class="form-control"
+                                    
                                     (blur)="onTouched()" 
                                     formControlName="workUnitName"
                             >
@@ -95,7 +98,7 @@
                     <td>
                         <mat-form-field appearance="fill">
                             <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup"
-                                    class="form-control"
+                                    
                                     (blur)="onTouched()" 
                                     formControlName="workGroupName"
                             >
@@ -113,7 +116,7 @@
                     <td>
                         <mat-form-field appearance="fill">
                             <mat-select multiple id="funderNames"
-                                class="form-control"
+                                
                                 (blur)="onTouched()" 
                                 formControlName="funderNames"
                             >
@@ -133,24 +136,20 @@
                             <textarea matInput 
                                 (blur)="onTouched()" 
                                 formControlName="comment"
-                                class="form-control">
+                            >
                             </textarea>
                         </mat-form-field>
                     </td>
                 </tr>
 
-
-                <mat-card *ngIf="planCreation" class="update-button">
-                    <mat-card-content>
-                        <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
-                        <br>
-                        <span style="font-size: 12px; ">* required fields</span>
-                        <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
-                        </mat-spinner>
-                    </mat-card-content>
-                </mat-card>
-
             </table>
+
+            <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
+            <br>
+            <span style="font-size: 12px; ">* required fields</span>
+            <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
+            </mat-spinner>
+
         </ng-container>
     </mat-card-content>
 </mat-card>
