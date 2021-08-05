@@ -131,8 +131,8 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     if (this.planCreationForm.get('attemptTypeName').value === 'cre allele modification') {
       this.plan.creAlleleModificationStartingPoint = new CreAlleleModificationStartingPoint();
       this.plan.creAlleleModificationStartingPoint.outcomeTpo = e.value;
-     }
-    else if (this.planCreationForm.get('attemptTypeName').value === 'phenotyping') {
+    }
+    if (this.preSelectedPlanType === 'phenotyping') {
       this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
       this.plan.phenotypingStartingPoint.outcomeTpo = e.value;
     }
@@ -145,7 +145,6 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
     }
 
-    console.log('plan after: ', this.plan);
     this.loading = true;
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;
@@ -301,15 +300,6 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.selectType = true;
     }
 
-    if (planType === 'phenotyping') {
-      // this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
-    }
-    if (planType === 'crispr') {
-
-    }
-    if (planType === 'es cell') {
-
-    }
     this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
   }
 
