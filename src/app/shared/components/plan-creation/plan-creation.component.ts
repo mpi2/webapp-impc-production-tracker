@@ -7,6 +7,8 @@ import { ConfigurationDataService, ConfigurationData, LoggedUserService } from '
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
+import { CreAlleleModificationStartingPoint } from
+        'src/app/feature-modules/attempts/model/production/cre-allele-modification/starting-point/cre-allele-modification-starting-point';
 import { ProjectService } from 'src/app/feature-modules/projects';
 import { User } from 'src/app/core/model/user/user';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
@@ -40,6 +42,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   error;
   loading = false;
   planCreation = true;
+  creAlleleMod = false;
 
   plan: Plan = new Plan();
   showAllElementsInLists = false;
@@ -112,14 +115,27 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     this.filteredFundersByWorkGroup = this.fundersByWorkGroups.get(e.value);
   }
 
+  onAttemptTypeSelected(e) {
+    if (e.value === 'cre allele modification') {
+      this.creAlleleMod = true;
+    } else {
+      this.creAlleleMod = false;
+    }
+  }
+
   onPlanTypeSelected(e) {
     this.handlePlanTypeSelected(e.value);
   }
 
   onStartingPointChanged(e) {
-    console.log(e.value);
-    this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
-    this.plan.phenotypingStartingPoint.outcomeTpo = e.value;
+    if (this.planCreationForm.get('attemptTypeName').value === 'cre allele modification') {
+      this.plan.creAlleleModificationStartingPoint = new CreAlleleModificationStartingPoint();
+      this.plan.creAlleleModificationStartingPoint.outcomeTpo = e.value;
+     }
+    else if (this.planCreationForm.get('attemptTypeName').value === 'phenotyping') {
+      this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
+      this.plan.phenotypingStartingPoint.outcomeTpo = e.value;
+    }
   }
 
   create() {
@@ -272,7 +288,6 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   private loadOutcomesSummaries(tpn: string) {
     this.projectService.getProductionOutcomesSummariesByProject(tpn).subscribe(data => {
       this.startingPoints = data;
-      console.log('outcomes: ', this.startingPoints);
     }, error => {
       this.error = error;
     });

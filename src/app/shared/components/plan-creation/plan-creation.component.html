@@ -40,6 +40,7 @@
                     <td>
                         <mat-form-field appearance="fill">
                             <mat-select id="attemtpType" 
+                                (selectionChange)="onAttemptTypeSelected($event)"
                                 (blur)="onTouched()" 
                                 formControlName="attemptTypeName"
                             >
@@ -53,7 +54,7 @@
                 </tr>
 
                 <!-- Starting Point section. Only available for phenotyping plans -->
-                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping'">
+                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || creAlleleMod">
                     <tr>
                         <td><label for="startingPoint">Starting point (Outcome id) *:</label></td>
                         <td>
