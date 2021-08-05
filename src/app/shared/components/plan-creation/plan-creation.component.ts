@@ -99,8 +99,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       workUnitName: ['', Validators.required],
       workGroupName: ['', Validators.required],
       funderNames: [[]],
-      comment: [''],
-      startingPoint: [[]]
+      comment: ['']
     });
   }
 
@@ -117,12 +116,20 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     this.handlePlanTypeSelected(e.value);
   }
 
-  onAttemptTypeSelected(e) {
-
+  onStartingPointChanged(e) {
+    console.log(e.value);
+    this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
+    this.plan.phenotypingStartingPoint.outcomeTpo = e.value;
   }
 
   create() {
-    this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+    this.plan = Object.assign(this.plan, this.planCreationForm.value);
+
+    if (this.plan.typeName === 'crispr') {
+      this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+    }
+
+    console.log('plan after: ', this.plan);
     this.loading = true;
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;
@@ -265,6 +272,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   private loadOutcomesSummaries(tpn: string) {
     this.projectService.getProductionOutcomesSummariesByProject(tpn).subscribe(data => {
       this.startingPoints = data;
+      console.log('outcomes: ', this.startingPoints);
     }, error => {
       this.error = error;
     });
@@ -279,7 +287,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     }
 
     if (planType === 'phenotyping') {
-      this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
+      // this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
     }
     if (planType === 'crispr') {
 

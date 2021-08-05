@@ -20,11 +20,9 @@
                             <input matInput *ngIf="!selectType"
                                 (blur)="onTouched()" 
                                 formControlName="typeName"
-                                
                                 readonly />
                             <mat-select *ngIf="selectType"
                                 (selectionChange)="onPlanTypeSelected($event)"
-                                
                                 (blur)="onTouched()" 
                                 formControlName="typeName"
                             >
@@ -42,10 +40,8 @@
                     <td>
                         <mat-form-field appearance="fill">
                             <mat-select id="attemtpType" 
-                                    (selectionChange)="onAttemptTypeSelected($event)"
-                                    
-                                    (blur)="onTouched()" 
-                                    formControlName="attemptTypeName"
+                                (blur)="onTouched()" 
+                                formControlName="attemptTypeName"
                             >
                                 <mat-option></mat-option>
                                 <mat-option *ngFor="let attemptType of filteredAttemptTypesByPlanType" [value]="attemptType.name">
@@ -63,8 +59,8 @@
                         <td>
                             <mat-form-field appearance="fill">
                                 <mat-select 
-                                        (blur)="onTouched()" 
-                                        formControlName="startingPoint"
+                                    (blur)="onTouched()" 
+                                    (selectionChange)="onStartingPointChanged($event)" 
                                 >
                                     <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.tpo">
                                         {{ startingPoint.tpo + ' (' + startingPoint.externalReference + ')' }}
@@ -79,10 +75,10 @@
                     <td><label for="workUnit">Work Unit *:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select (selectionChange)="onWorkUnitChanged($event)" id="workUnit" 
-                                    
-                                    (blur)="onTouched()" 
-                                    formControlName="workUnitName"
+                            <mat-select id="workUnit" 
+                                (selectionChange)="onWorkUnitChanged($event)" 
+                                (blur)="onTouched()" 
+                                formControlName="workUnitName"
                             >
                                 <mat-option></mat-option>
                                 <mat-option *ngFor="let workUnit of workUnits" [value]="workUnit.name">
@@ -97,10 +93,10 @@
                     <td><label for="workGroup">Work Group *:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select (selectionChange)="onWorkGroupChanged($event)" id="workGroup"
-                                    
-                                    (blur)="onTouched()" 
-                                    formControlName="workGroupName"
+                            <mat-select id="workGroup"
+                                (selectionChange)="onWorkGroupChanged($event)"
+                                (blur)="onTouched()" 
+                                formControlName="workGroupName"
                             >
                                 <mat-option></mat-option>
                                 <mat-option *ngFor="let workGroup of filteredWorkGroupsByWorkUnit" [value]="workGroup.name">
@@ -116,7 +112,6 @@
                     <td>
                         <mat-form-field appearance="fill">
                             <mat-select multiple id="funderNames"
-                                
                                 (blur)="onTouched()" 
                                 formControlName="funderNames"
                             >
