@@ -2,11 +2,11 @@
     <mat-card-subtitle>Original Allele Details</mat-card-subtitle>
     <mat-card-content>
         <label for="modificationExternalRef">Original outcome:</label>
-        <a target="_blank" routerLink="/outcomes/{{ creAlleleModificationStartingPoint.outcomeTpo }}">
+        <a target="_blank" routerLink="/projects/{{ tpn }}/plans/{{ creAlleleModificationStartingPoint.productionPlanPin }}/outcomes/{{ creAlleleModificationStartingPoint.outcomeTpo }}">
             {{ creAlleleModificationStartingPoint.outcomeTpo }}</a>
         <div class="separation"></div>
         <label for="modificationExternalRef">Production Plan:</label>
-        <a target="_blank" routerLink="/outcomes/{{ creAlleleModificationStartingPoint.productionPlanPin }}">
+        <a target="_blank" routerLink="/projects/{{ tpn }}/production-plan/{{ creAlleleModificationStartingPoint.productionPlanPin }}">
             {{ creAlleleModificationStartingPoint.productionPlanPin }}</a>
         <div class="separation"></div>
     </mat-card-content>

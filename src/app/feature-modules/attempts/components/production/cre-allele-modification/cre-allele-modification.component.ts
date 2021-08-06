@@ -29,6 +29,7 @@ export class CreAlleleModificationComponent implements OnInit, ControlValueAcces
   @Input() creAlleleModificationAttempt: CreAlleleModificationAttempt;
   @Input() creAlleleModificationStartingPoint: CreAlleleModificationStartingPoint;
   @Input() canUpdatePlan: boolean;
+  @Input() tpn: string;
 
   deleterStrains: NamedValue[];
   configurationData: ConfigurationData;

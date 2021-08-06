@@ -1,0 +1,47 @@
+<!-- dialog-box.component.html -->
+<div mat-dialog-content>
+
+  <mat-radio-group aria-label="Select an option" name="search" [(ngModel)]="searchTypeSelected">
+    <mat-radio-button *ngFor="let op of searchTypes" name="search" [value]="op.name" (change)="radioChange()" style="margin: 10px">
+      {{ op.placeholder }}
+    </mat-radio-button>
+  </mat-radio-group>  
+  <br>
+
+  <ng-container *ngIf="searchTypeSelected === 'geneSymbol'">
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Type marker symbol" [(ngModel)]="markerSymbol" />
+    </mat-form-field>
+    <button mat-button matSuffix (click)="searchByGene()" mat-flat-button color="primary" aria-label="search">
+      Search
+    </button>
+  </ng-container>
+  
+  <ng-container *ngIf="searchTypeSelected === 'esCellName'">
+    <mat-form-field appearance="fill">
+      <input matInput placeholder="Type ES Cell name" [(ngModel)]="esCellName" />
+    </mat-form-field>
+    <button mat-button matSuffix (click)="searchByEsCellName()" mat-flat-button color="primary" aria-label="search">
+      Search
+    </button>
+  </ng-container>
+
+  <table mat-table [dataSource]="esCells">
+    <!-- Es Cells Name Column -->
+    <ng-container matColumnDef="es_cell_name" sticky>
+        <th mat-header-cell *matHeaderCellDef> ES Cell Name </th>
+        <td mat-cell *matCellDef="let element"> {{ element.name }} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedEsCellColumns sticky: true"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedEsCellColumns;"
+        class="element-row"
+        [style.background-color]="highlightedRows.indexOf(row) !== -1 ? 'orange' : ''"
+        (click)="esCellSelectedInfo(row); highlightEsCell(row);"></tr>
+  </table>
+
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="doAction()">{{ action }}</button>
+  <button mat-button (click)="closeDialog()" mat-flat-button color="warn">Cancel</button>
+</div>

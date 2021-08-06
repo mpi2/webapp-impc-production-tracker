@@ -1,10 +1,13 @@
-import { Component, Input, OnInit, forwardRef } from '@angular/core';
+import { Component, Input, OnInit, forwardRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
   AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTable } from '@angular/material/table';
 
 import { EsCellAttempt } from '../../../model/production/escell/escell-attempt';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { EsCellDialogBoxComponent } from './es-cell-dialog-box/es-cell-dialog-box.component';
 
 
 @Component({
@@ -25,20 +28,21 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
   ]
 })
 export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Validator {
-
   @Input() esCellAttempt: EsCellAttempt;
   @Input() canUpdatePlan: boolean;
+  @ViewChild('esCellNameTable') esCellNameTable: MatTable<any>;
 
   blastStrains: NamedValue[];
   testCrossStrains: NamedValue[];
   configurationData: ConfigurationData;
-
   esCellAttemptForm: FormGroup;
 
   emptyString: string;
+  action: string;
 
   constructor(private configurationDataService: ConfigurationDataService,
-              private fb: FormBuilder) { }
+              private fb: FormBuilder,
+              public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.loadConfigurationData();
@@ -98,10 +102,6 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
       this.blastStrains = this.configurationData.blastStrains.map(x => ({ name: x }));
       this.testCrossStrains = this.configurationData.testCrossStrains.map(x => ({ name: x }));
     });
-  }
-
-  onEsCellNameChange() {
-    this.esCellAttempt.esCellName = this.esCellAttemptForm.get('esCellName').value;
   }
 
   onMiDateChanged() {
@@ -242,6 +242,25 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
     this.esCellAttempt.numberOfLiveGltOffspring = this.esCellAttemptForm.get('numberOfLiveGltOffspring').value;
   }
 
+  openDialog(action, obj) {
+    obj.action = action;
+    const dialogRef = this.dialog.open(EsCellDialogBoxComponent, {
+      width: '600px',
+      data: obj
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result.event === 'Add'){
+        this.addEsCellData(result.data);
+      }
+    });
+  }
+
+  addEsCellData(rowObj){
+    this.esCellAttemptForm.get('esCellName').setValue(rowObj.name);
+    // this.esCellAttempt.esCellName = rowObj.name;
+  }
+
   writeValue(obj: any): void {
     if (obj) {
       this.esCellAttemptForm.setValue(obj, { emitEvent: false });
@@ -270,10 +289,6 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
   registerOnChange(fn: any): void {
     this.esCellAttemptForm.valueChanges.subscribe(fn);
   }
-
-  // onChange(event) {
-  //   this.esCellAttempt = Object.assign(this.esCellAttempt, this.esCellAttemptForm.value);
-  // }
 
   validate(c: AbstractControl): ValidationErrors | null {
     // console.log('escellAttemptForm validation: ', this.esCellAttemptForm.valid);

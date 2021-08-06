@@ -3,6 +3,7 @@ import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
   AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
+
 import { ConfigurationDataService, ConfigurationData, LoggedUserService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
@@ -15,6 +16,7 @@ import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ProductionOutcomeSummary } from 'src/app/feature-modules/plans/model/outcomes/production-outcome-summary';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
+import { EsCellAttempt } from 'src/app/feature-modules/attempts';
 
 
 @Component({
@@ -42,7 +44,8 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   error;
   loading = false;
   planCreation = true;
-  creAlleleMod = false;
+  creAlleleModType = false;
+  esCellType = false;
 
   plan: Plan = new Plan();
   showAllElementsInLists = false;
@@ -117,9 +120,14 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
 
   onAttemptTypeSelected(e) {
     if (e.value === 'cre allele modification') {
-      this.creAlleleMod = true;
+      this.creAlleleModType = true;
     } else {
-      this.creAlleleMod = false;
+      this.creAlleleModType = false;
+    }
+    if (e.value === 'es cell') {
+      this.esCellType = true;
+    } else {
+      this.esCellType = false;
     }
   }
 

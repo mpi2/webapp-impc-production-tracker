@@ -5,17 +5,30 @@ mat-select {
     padding: 0;
 }
 
-#experimental {
-    width: 10%;
-}
-
-.separation {
-    padding-top: 10px;
-}
-
 label {
     clear: both;
     float: left;
     padding-bottom: 5px;
     width: 200px;
+}
+
+#experimental {
+    width: 10%;
+}
+
+#elementESCellData {
+    margin-bottom: 10px;
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center flex-start;
+    align-items: center;
+}
+
+#elementESCellData mat-form-field {
+    padding-right: 10px;
+}
+
+.separation {
+    padding-top: 10px;
 }

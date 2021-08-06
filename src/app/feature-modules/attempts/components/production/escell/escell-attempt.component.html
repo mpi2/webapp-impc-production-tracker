@@ -4,26 +4,21 @@
     <mat-card-content>
       <table>
         <tr>
-          <td>ES Cell Name:</td>
-          <div
-            *ngIf="
-              canUpdatePlan;
-              then esCellNameEditable;
-              else esCellNameReadOnly
-            "
-          ></div>
+          <td>ES Cell Name *:</td>
+          <div *ngIf="esCellAttempt.esCellName === undefined && canUpdatePlan; then esCellNameEditable; else esCellNameReadOnly"></div>
           <ng-template #esCellNameEditable>
-            <td>
+            <td id=elementESCellData>
               <mat-form-field appearance="fill">
                 <input
                   matInput
                   (blur)="onTouched()" 
                   formControlName="esCellName"
-                  class="form-control"
-                  (change)="onEsCellNameChange()"
-                  (keyup)="onEsCellNameChange()"
+                  readonly
                 />
               </mat-form-field>
+              <button mat-button matSuffix (click)="openDialog('Add',{})" mat-flat-button color="primary" aria-label="search">
+                <mat-icon>search</mat-icon>Find ES Cell
+              </button>
             </td>
           </ng-template>
 

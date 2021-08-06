@@ -21,6 +21,8 @@ import { PhenotypingAttemptDetailsComponent } from './components/phenotyping/phe
 import { PhenotypingStagesComponent } from './components/phenotyping/phenotyping-stages/phenotyping-stages.component';
 import { PhenotypingStageDetailsComponent } from './components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
 import { CreAlleleModificationComponent } from './components/production/cre-allele-modification/cre-allele-modification.component';
+import { EsCellDialogBoxComponent } from './components/production/escell/es-cell-dialog-box/es-cell-dialog-box.component';
+
 
 @NgModule({
   declarations: [
@@ -40,7 +42,8 @@ import { CreAlleleModificationComponent } from './components/production/cre-alle
     GuidesComponent,
     NucleaseComponent,
     EscellAttemptComponent,
-    CreAlleleModificationComponent
+    CreAlleleModificationComponent,
+    EsCellDialogBoxComponent
   ],
   imports: [
     SharedModule,
@@ -51,7 +54,8 @@ import { CreAlleleModificationComponent } from './components/production/cre-alle
     CrisprAttemptDetailsComponent,
     EscellAttemptComponent,
     CreAlleleModificationComponent,
-    PhenotypingAttemptComponent
+    PhenotypingAttemptComponent,
+    EsCellDialogBoxComponent
   ]
 })
 export class AttemptsModule { }
