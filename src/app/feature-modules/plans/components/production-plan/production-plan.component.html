@@ -33,7 +33,7 @@
 
         <app-cre-allele-modification *ngIf="plan.attemptTypeName === 'cre allele modification'" formControlName="creAlleleModificationAttempt"
           [creAlleleModificationAttempt]="plan.creAlleleModificationAttempt" [creAlleleModificationStartingPoint]="plan.creAlleleModificationStartingPoint"
-          [canUpdatePlan]="canUpdatePlan">
+          [canUpdatePlan]="canUpdatePlan" [tpn]="project.tpn">
         </app-cre-allele-modification>
 
         <app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [attemptType]=plan.attemptTypeName [canUpdate]="canUpdatePlan">
