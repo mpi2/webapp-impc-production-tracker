@@ -33,6 +33,7 @@
       <label for="funderNames">Funders:</label>
       {{ plan.funderNames || 'Not defined' }}
       <div class="separation"></div>
+      <br>
 
       <label for="comment">Comment:</label>
       <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>

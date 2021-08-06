@@ -7,6 +7,8 @@ import { ConfigurationDataService, ConfigurationData, LoggedUserService } from '
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
+import { CreAlleleModificationStartingPoint } from
+        'src/app/feature-modules/attempts/model/production/cre-allele-modification/starting-point/cre-allele-modification-starting-point';
 import { ProjectService } from 'src/app/feature-modules/projects';
 import { User } from 'src/app/core/model/user/user';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
@@ -34,11 +36,13 @@ import { Nuclease } from 'src/app/feature-modules/attempts/model/production/cris
 })
 export class PlanCreationComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() projectCreation: boolean;
+  @Input() firstAttemptType: string;
 
   tpn: string;
   error;
   loading = false;
   planCreation = true;
+  creAlleleMod = false;
 
   plan: Plan = new Plan();
   showAllElementsInLists = false;
@@ -98,8 +102,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       workUnitName: ['', Validators.required],
       workGroupName: ['', Validators.required],
       funderNames: [[]],
-      comment: [''],
-      startingPoint: [[]]
+      comment: ['']
     });
   }
 
@@ -112,18 +115,36 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     this.filteredFundersByWorkGroup = this.fundersByWorkGroups.get(e.value);
   }
 
+  onAttemptTypeSelected(e) {
+    if (e.value === 'cre allele modification') {
+      this.creAlleleMod = true;
+    } else {
+      this.creAlleleMod = false;
+    }
+  }
+
   onPlanTypeSelected(e) {
     this.handlePlanTypeSelected(e.value);
   }
 
-  onAttemptTypeSelected(e) {
-
+  onStartingPointChanged(e) {
+    if (this.planCreationForm.get('attemptTypeName').value === 'cre allele modification') {
+      this.plan.creAlleleModificationStartingPoint = new CreAlleleModificationStartingPoint();
+      this.plan.creAlleleModificationStartingPoint.outcomeTpo = e.value;
+    }
+    if (this.preSelectedPlanType === 'phenotyping') {
+      this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
+      this.plan.phenotypingStartingPoint.outcomeTpo = e.value;
+    }
   }
 
   create() {
-    // console.log(this.plan);
-    // console.log(this.planCreationForm.value);
-    this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+    this.plan = Object.assign(this.plan, this.planCreationForm.value);
+
+    if (this.plan.typeName === 'crispr') {
+      this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
+    }
+
     this.loading = true;
     this.planService.createPlan(this.plan).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;
@@ -238,6 +259,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.setAttemptTypesForProjectCreation();
     } else {
       this.preSelectedPlanType = this.getValidatedPreSelectedPlanType(this.planTypes, this.getPlanTypeFromUrl());
+      this.setAttemptTypesForPlanCreation();
     }
     if (this.preSelectedPlanType) {
       this.planTypes = this.planTypes.filter(x => x.name === this.preSelectedPlanType);
@@ -250,6 +272,14 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.attemptTypesByPlanTypes.delete('phenotyping');
       const prod = this.attemptTypesByPlanTypes.get('production')
                                                       .filter(t => !(t.name === 'cre allele modification' || t.name === 'breeding'));
+      this.attemptTypesByPlanTypes.set('production', prod);
+    }
+  }
+
+  private setAttemptTypesForPlanCreation() {
+    if (this.planCreation) {
+      const prod = this.attemptTypesByPlanTypes.get('production')
+                                                      .filter(t => !(t.name === 'breeding'));
       this.attemptTypesByPlanTypes.set('production', prod);
     }
   }
@@ -270,17 +300,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.selectType = true;
     }
 
-    if (planType === 'phenotyping') {
-      this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
-    }
     this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
-
-    if (planType === 'crispr') {
-
-    }
-
-    if (planType === 'es cell') {
-
-    }
   }
+
 }
