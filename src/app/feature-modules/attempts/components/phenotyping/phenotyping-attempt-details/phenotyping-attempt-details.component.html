@@ -71,12 +71,12 @@
             <mat-card-subtitle>Starting Point</mat-card-subtitle>
             <mat-card-content>
                 <label class="startingPoint" for="outcomeTpo">Outcome:</label>
-                <a target="_blank" routerLink="/outcomes/{{ plan.phenotypingStartingPoint.outcomeTpo }}">
+                <a target="_blank" routerLink="/projects/{{ plan.tpn }}/plans/{{ plan.phenotypingStartingPoint.productionPlanPin }}/outcomes/{{ plan.phenotypingStartingPoint.outcomeTpo }}">
                     {{ plan.phenotypingStartingPoint.outcomeTpo }}</a>
                 <div class="separation"></div>
 
                 <label class="startingPoint" for="productionPlanPin">Production Plan:</label>
-                <a target="_blank" routerLink="/plan/{{ plan.phenotypingStartingPoint.productionPlanPin }}">
+                <a target="_blank" routerLink="/projects/{{ plan.tpn }}/production-plan/{{ plan.phenotypingStartingPoint.productionPlanPin }}">
                     {{ plan.phenotypingStartingPoint.productionPlanPin }}</a>
                 <div class="separation"></div>
             </mat-card-content>
