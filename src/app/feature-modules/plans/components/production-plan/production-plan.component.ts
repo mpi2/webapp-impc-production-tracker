@@ -145,6 +145,7 @@ export class ProductionPlanComponent implements OnInit {
    * Updates the information of the plan.
    */
   update() {
+    this.plan = Object.assign(this.plan, this.prodPlanForm.value);
     if (this.planHasChanged()) {
       this.updatePlan();
     } else {
@@ -160,6 +161,14 @@ export class ProductionPlanComponent implements OnInit {
       if (this.plan.crisprAttempt.nucleases !== undefined){
         this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
       }
+      delete this.plan.esCellAttempt;
+      delete this.plan.creAlleleModificationAttempt;
+    } else if (this.plan.attemptTypeName === 'es cell') {
+      delete this.plan.crisprAttempt;
+      delete this.plan.creAlleleModificationAttempt;
+    } else if (this.plan.attemptTypeName === 'cre allele modification') {
+      delete this.plan.crisprAttempt;
+      delete this.plan.esCellAttempt;
     }
 
     this.loading = true;
