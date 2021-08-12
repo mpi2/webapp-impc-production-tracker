@@ -3,7 +3,6 @@ import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
   AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 
-
 import { ConfigurationDataService, ConfigurationData, LoggedUserService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
@@ -16,7 +15,6 @@ import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { ProductionOutcomeSummary } from 'src/app/feature-modules/plans/model/outcomes/production-outcome-summary';
 import { PlanService } from 'src/app/feature-modules/plans';
 import { Nuclease } from 'src/app/feature-modules/attempts/model/production/crispr/nuclease';
-import { EsCellAttempt } from 'src/app/feature-modules/attempts';
 
 
 @Component({
@@ -38,42 +36,36 @@ import { EsCellAttempt } from 'src/app/feature-modules/attempts';
 })
 export class PlanCreationComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() projectCreation: boolean;
-  @Input() firstAttemptType: string;
-
-  tpn: string;
-  error;
-  loading = false;
-  planCreation = true;
-  creAlleleModType = false;
-  esCellType = false;
-
-  plan: Plan = new Plan();
-  showAllElementsInLists = false;
-
-  configurationData: ConfigurationData;
-  loggedUser: User;
+  @Input() queryParams: any;
 
   planTypes: NamedValue[];
   filteredAttemptTypesByPlanType: NamedValue[] = [];
   workUnits: NamedValue[];
   filteredWorkGroupsByWorkUnit: NamedValue[] = [];
   filteredFundersByWorkGroup: NamedValue[] = [];
-
-  startingPoints: ProductionOutcomeSummary[];
-
   workGroupsByWorkGroup = new Map<string, NamedValue[]>();
   attemptTypesByPlanTypes = new Map<string, NamedValue[]>();
   fundersByWorkGroups = new Map<string, NamedValue[]>();
-
-  preSelectedPlanType: string;
-
-  nucleases: Nuclease[];
-
   nucleaseTypes: NamedValue[];
   nucleaseClasses: NamedValue[];
 
-  planCreationForm: FormGroup;
+  preSelectedPlanType: string;
+  originalProductionAttemptType: string;
+  originalProductionWorkUnit: string;
+  tpn: string;
+  error;
+  loading = false;
+  planCreation = true;
+  creAlleleModType = false;
+  esCellType = false;
+  plan: Plan = new Plan();
+  showAllElementsInLists = false;
+  configurationData: ConfigurationData;
+  loggedUser: User;
+  nucleases: Nuclease[];
+  startingPoints: ProductionOutcomeSummary[];
   selectType: boolean;
+  planCreationForm: FormGroup;
 
   constructor(
     private route: ActivatedRoute,
@@ -83,18 +75,25 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     private configurationDataService: ConfigurationDataService,
     private projectService: ProjectService,
     private planService: PlanService
-  ) {
-    this.loadConfigurationData();
-  }
+  ) { }
 
   ngOnInit(): void {
     if (!this.projectCreation) {
       this.tpn = this.route.snapshot.params.id;
-      this.plan.tpn = this.tpn;
-      this.loadOutcomesSummaries(this.tpn);
     } else {
       this.planCreation = false;
     }
+    this.plan.tpn = this.tpn;
+
+    this.projectService.getFirstPlan(this.tpn).subscribe(data => {
+      this.originalProductionAttemptType = data.attemptTypeName;
+      this.originalProductionWorkUnit = data.workUnitName;
+      this.loadConfigurationData();
+    }, error => {
+      this.error = error;
+    });
+
+    this.loadOutcomesSummaries(this.tpn);
     this.planCreationReactiveForm();
   }
 
@@ -286,8 +285,16 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
 
   private setAttemptTypesForPlanCreation() {
     if (this.planCreation) {
-      const prod = this.attemptTypesByPlanTypes.get('production')
-                                                      .filter(t => !(t.name === 'breeding'));
+      let prod = this.attemptTypesByPlanTypes.get('production');
+
+      if (this.originalProductionAttemptType === 'crispr') {
+        prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'es cell'
+                                                    || t.name === 'cre allele modification' || t.name === 'breeding'));
+      } else if (this.originalProductionAttemptType === 'es cell') {
+        prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'crispr'
+                                                    || t.name === 'haplo-essential crispr' || t.name === 'breeding'));
+      }
+
       this.attemptTypesByPlanTypes.set('production', prod);
     }
   }

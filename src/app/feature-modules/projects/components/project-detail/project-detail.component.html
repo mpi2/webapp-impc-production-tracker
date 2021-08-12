@@ -136,9 +136,11 @@
 
     <div *ngIf="canCreateProductionPlan; then enabledProductionPlanButton else disabledProductionPlanButton"></div>
     <ng-template #enabledProductionPlanButton>
-      <a routerLink="plan-creation" [queryParams]="{planType: 'production'}" target="_blank"><button
-          class="create-button" mat-raised-button color="primary">Add Production
-          Plan</button></a>
+      <a routerLink="plan-creation" [queryParams]="{planType: 'production'}" target="_blank">
+        <button class="create-button" mat-raised-button color="primary">
+          Add Production Plan
+        </button>
+      </a>
     </ng-template>
     <ng-template #disabledProductionPlanButton>
       <button class="create-button" disabled="true" mat-raised-button color="primary">Add Production Plan</button>
