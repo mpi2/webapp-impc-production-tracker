@@ -24,7 +24,6 @@ import { OutcomeService } from 'src/app/feature-modules/plans/services/outcome.s
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
-
   project: Project = new Project();
   originalProjectAsString;
   productionPlansDetails: Plan[] = [];

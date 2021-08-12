@@ -6,4 +6,5 @@ export class PlanDetails {
     statusName: string;
     productionPlanReference: string;
     comments: string;
+    attemptTypeName: string;
 }

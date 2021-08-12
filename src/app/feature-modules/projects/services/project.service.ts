@@ -9,6 +9,7 @@ import { AssetConfiguration } from 'src/app/core/model/conf/asset-configuration'
 import { mergeMap } from 'rxjs/operators';
 import { ProductionOutcomeSummary } from '../../plans/model/outcomes/production-outcome-summary';
 import { ProjectCreation } from '../model/project-creation';
+import { PlanDetails } from '../../plans';
 
 @Injectable({
   providedIn: 'root'
@@ -97,5 +98,9 @@ export class ProjectService {
 
   public createProject(project: ProjectCreation) {
     return this.http.post<any>(this.apiServiceUrl + '/api/projects/', project);
+  }
+
+  public getFirstPlan(tpn: string) {
+    return this.http.get<PlanDetails>(this.apiServiceUrl + '/api/projects/' + tpn + '/firstProductionPlanData');
   }
 }
