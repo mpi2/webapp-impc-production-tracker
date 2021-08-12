@@ -50,6 +50,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   nucleaseClasses: NamedValue[];
 
   preSelectedPlanType: string;
+  preSelectedAttemptType: string;
   originalProductionAttemptType: string;
   originalProductionWorkUnit: string;
   tpn: string;
@@ -80,20 +81,20 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   ngOnInit(): void {
     if (!this.projectCreation) {
       this.tpn = this.route.snapshot.params.id;
+      this.plan.tpn = this.tpn;
+      this.projectService.getFirstPlan(this.tpn).subscribe(data => {
+        this.originalProductionAttemptType = data.attemptTypeName;
+        this.originalProductionWorkUnit = data.workUnitName;
+        this.loadConfigurationData();
+        this.loadOutcomesSummaries(this.tpn);
+      }, error => {
+        this.error = error;
+      });
     } else {
+      this.loadConfigurationData();
       this.planCreation = false;
     }
-    this.plan.tpn = this.tpn;
 
-    this.projectService.getFirstPlan(this.tpn).subscribe(data => {
-      this.originalProductionAttemptType = data.attemptTypeName;
-      this.originalProductionWorkUnit = data.workUnitName;
-      this.loadConfigurationData();
-    }, error => {
-      this.error = error;
-    });
-
-    this.loadOutcomesSummaries(this.tpn);
     this.planCreationReactiveForm();
   }
 
@@ -203,10 +204,27 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     return queryParams.planType;
   }
 
+  private getAttemptTypeFromUrl(): string {
+    const queryParams = this.route.snapshot.queryParams;
+    return queryParams.attemptType;
+  }
+
   private getValidatedPreSelectedPlanType(validPlanTypes: NamedValue[], selectedValue) {
     if (selectedValue) {
       if (validPlanTypes.filter(x => x.name === selectedValue).length === 0) {
         this.error = 'Plan type ' + selectedValue + ' is not valid. The valid options are: ' + validPlanTypes.map(x => x.name);
+        return null;
+      } else {
+        return selectedValue;
+      }
+    }
+  }
+
+  private getValidatedPreSelectedAttemptType(validAttemptTypes: Map<string, NamedValue[]>, selectedValue) {
+    if (selectedValue) {
+      if (validAttemptTypes.get('production').filter(x => x.name === selectedValue).length === 0) {
+        this.error = 'Plan type "' + selectedValue + '" is not valid. The valid options are: ' +
+                            validAttemptTypes.get('production').map(x => x.name);
         return null;
       } else {
         return selectedValue;
@@ -268,6 +286,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.preSelectedPlanType = this.getValidatedPreSelectedPlanType(this.planTypes, this.getPlanTypeFromUrl());
       this.setAttemptTypesForPlanCreation();
     }
+
     if (this.preSelectedPlanType) {
       this.planTypes = this.planTypes.filter(x => x.name === this.preSelectedPlanType);
       this.handlePlanTypeSelected(this.preSelectedPlanType);
@@ -280,22 +299,27 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       const prod = this.attemptTypesByPlanTypes.get('production')
                                                       .filter(t => !(t.name === 'cre allele modification' || t.name === 'breeding'));
       this.attemptTypesByPlanTypes.set('production', prod);
+      this.handleAttemptTypeSelected(null, this.attemptTypesByPlanTypes);
     }
   }
 
   private setAttemptTypesForPlanCreation() {
     if (this.planCreation) {
+      this.preSelectedAttemptType = this.getValidatedPreSelectedAttemptType(this.attemptTypesByPlanTypes, this.getAttemptTypeFromUrl());
       let prod = this.attemptTypesByPlanTypes.get('production');
-
-      if (this.originalProductionAttemptType === 'crispr') {
-        prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'es cell'
-                                                    || t.name === 'cre allele modification' || t.name === 'breeding'));
-      } else if (this.originalProductionAttemptType === 'es cell') {
-        prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'crispr'
-                                                    || t.name === 'haplo-essential crispr' || t.name === 'breeding'));
+      if (this.preSelectedAttemptType) {
+        prod = prod.filter(x => x.name === this.preSelectedAttemptType);
+      } else {
+        if (this.originalProductionAttemptType === 'crispr') {
+          prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'es cell'
+                                                      || t.name === 'cre allele modification' || t.name === 'breeding'));
+        } else if (this.originalProductionAttemptType === 'es cell') {
+          prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'crispr'
+                                                      || t.name === 'haplo-essential crispr' || t.name === 'breeding'));
+        }
       }
-
       this.attemptTypesByPlanTypes.set('production', prod);
+      this.handleAttemptTypeSelected(this.preSelectedAttemptType, this.attemptTypesByPlanTypes);
     }
   }
 
@@ -314,8 +338,16 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     } else {
       this.selectType = true;
     }
-
     this.filteredAttemptTypesByPlanType = this.attemptTypesByPlanTypes.get(planType);
   }
 
+  private handleAttemptTypeSelected(attemptType: string, types: Map<string, NamedValue[]>) {
+    if (attemptType) {
+      this.planCreationForm.get('attemptTypeName').patchValue(attemptType);
+      this.selectType = false;
+    } else {
+      this.selectType = true;
+    }
+    this.filteredAttemptTypesByPlanType = types.get(attemptType);
+  }
 }
