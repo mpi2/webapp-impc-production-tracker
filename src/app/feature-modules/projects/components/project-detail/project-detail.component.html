@@ -136,18 +136,50 @@
 
     <div *ngIf="canCreateProductionPlan; then enabledProductionPlanButton else disabledProductionPlanButton"></div>
     <ng-template #enabledProductionPlanButton>
-      <a routerLink="plan-creation" [queryParams]="{planType: 'production'}" target="_blank">
-        <button class="create-button" mat-raised-button color="primary">
-          Add Production Plan
-        </button>
-      </a>
+      <div *ngIf="isEsCellProject">
+        <a routerLink="plan-creation" [queryParams]="{planType: 'production', attemptType: 'es cell'}" target="_blank"><button
+          class="create-button" mat-raised-button color="primary">Add Production Plan</button></a>
+      </div>
+      <div *ngIf="!isEsCellProject">
+        <a routerLink="plan-creation" [queryParams]="{planType: 'production'}" target="_blank"><button
+          class="create-button" mat-raised-button color="primary">Add Production Plan</button></a>
+      </div>
+      
     </ng-template>
     <ng-template #disabledProductionPlanButton>
       <button class="create-button" disabled="true" mat-raised-button color="primary">Add Production Plan</button>
     </ng-template>
   </fieldset>
-
   <div class="separation"></div>
+
+  <div *ngIf="isEsCellProject">
+    <fieldset>
+      <legend class="subtitle">
+        Cre Allele Modification Plans
+      </legend>
+      <table style="width: 100%;" *ngIf="creAlleModPlansDetails.length > 0">
+        <tbody>
+          <tr *ngFor="let creAlleleModPlanDetail of sortByPid(creAlleModPlansDetails)">
+            <app-plan-summary [plan]="creAlleleModPlanDetail"></app-plan-summary>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+
+      <div *ngIf="canCreateProductionPlan  && numberGenotypeConfirmedColonies > 0; then enabledCreAlleleModButton else disabledCreAlleleModPlanButton"></div>
+      <ng-template #enabledCreAlleleModButton>
+        <a routerLink="plan-creation" [queryParams]="{planType: 'production', attemptType: 'cre allele modification'}" target="_blank"><button
+            class="create-button" mat-raised-button color="primary">Add Cre Allele Modification Plan</button></a>
+      </ng-template>
+      <ng-template #disabledCreAlleleModPlanButton>
+        <button class="create-button" disabled="true" mat-raised-button color="primary" 
+        matTooltip="You cannot add cre allele modification plans or there are not genotype confirmed colonies yet.">
+          Add Cre Allele Modification Plan
+        </button>
+      </ng-template>
+    </fieldset>
+    <div class="separation"></div>
+  </div>
 
   <fieldset>
     <legend class="subtitle">
@@ -160,19 +192,16 @@
         </tr>
       </tbody>
     </table>
-
     <br>
     
-    <div *ngIf="canCreatePhenotypingPlan; then enabledPhenotypingPlanButton else disabledPhenotypingPlanButton"></div>
+    <div *ngIf="canCreatePhenotypingPlan && numberGenotypeConfirmedColonies > 0; then enabledPhenotypingPlanButton else disabledPhenotypingPlanButton"></div>
     <ng-template #enabledPhenotypingPlanButton>
       <a routerLink="plan-creation" [queryParams]="{planType: 'phenotyping'}" target="_blank"><button
-          class="create-button" mat-raised-button color="primary">Add Phenotyping
-          Plan</button></a>
+          class="create-button" mat-raised-button color="primary">Add Phenotyping Plan</button></a>
       </ng-template>
     <ng-template #disabledPhenotypingPlanButton>
       <button class="create-button" mat-raised-button color="primary" disabled="true"
-        matTooltip="Info about the action">Add Phenotyping
-        Plan</button>
+        matTooltip="You cannot add phenotyping plans or there are not genotype confirmed colonies yet.">Add Phenotyping Plan</button>
     </ng-template>
   </fieldset>
 </mat-card>

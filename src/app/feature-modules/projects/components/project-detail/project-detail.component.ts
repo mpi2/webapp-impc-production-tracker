@@ -27,11 +27,14 @@ export class ProjectDetailComponent implements OnInit {
   project: Project = new Project();
   originalProjectAsString;
   productionPlansDetails: Plan[] = [];
+  creAlleModPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
   outcomes: Outcome[] = [];
   canUpdateProject: boolean;
   canCreateProductionPlan: boolean;
   canCreatePhenotypingPlan: boolean;
+  isEsCellProject: boolean;
+  numberGenotypeConfirmedColonies: number;
   error;
   changeDetails: ChangesHistory;
   configurationData: ConfigurationData;
@@ -39,9 +42,7 @@ export class ProjectDetailComponent implements OnInit {
   privacies: NamedValue[] = [];
   completionNotes: NamedValue[] = [];
   selectedPrivacy = [];
-
   projectForm: FormGroup;
-  isEsCellProject: boolean;
 
   constructor(
     private fb: FormBuilder,
@@ -61,12 +62,12 @@ export class ProjectDetailComponent implements OnInit {
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
       this.completionNotes = this.configurationData.completionNotes.map(x => ({ name: x }));
     });
-    this.projectReactiveForm();
     this.getProjectData();
-    this.coloniesExist();
+    this.projectReactiveForm();
 
     setTimeout (() => {
       this.isEsCellProject = this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
+      this.coloniesExist();
     }, 1000);
   }
 
@@ -130,11 +131,24 @@ export class ProjectDetailComponent implements OnInit {
   }
 
   private coloniesExist(): void {
-    this.productionPlansDetails.forEach(plan => {
+    this.numberGenotypeConfirmedColonies = 0;
+    const productionPlans = this.productionPlansDetails.concat(this.creAlleModPlansDetails);
+
+    productionPlans.forEach(plan => {
       this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
         /* eslint-disable @typescript-eslint/dot-notation */
         if (data['_embedded']) {
-          this.outcomes.push(data['_embedded']['outcomes']);
+          if (this.outcomes.length === 0 ) {
+            this.outcomes = data['_embedded']['outcomes'];
+          } else {
+            this.outcomes = this.outcomes.concat(data['_embedded']['outcomes']);
+          }
+
+          data['_embedded']['outcomes'].forEach(outcome => {
+            if (outcome.colony.statusName === 'Genotype Confirmed') {
+              this.numberGenotypeConfirmedColonies = this.numberGenotypeConfirmedColonies + 1;
+            }
+          });
         }
         /* eslint-enable @typescript-eslint/dot-notation */
       }, error => {
@@ -142,17 +156,6 @@ export class ProjectDetailComponent implements OnInit {
         console.log(error);
       });
     });
-    let genotypeConfirmedColonies = 0;
-    this.outcomes.forEach(outcome => {
-      if (outcome.colony.statusName.localeCompare('Genotype Confirmed')) {
-        genotypeConfirmedColonies = genotypeConfirmedColonies + 1;
-      }
-    });
-    if (genotypeConfirmedColonies === 0) {
-      this.canCreatePhenotypingPlan = false;
-    } else {
-      this.loadPermissions();
-    }
   }
 
   private getProjectData(): void {
@@ -204,7 +207,11 @@ export class ProjectDetailComponent implements OnInit {
     if (this.project._links.productionPlans) {
       this.project._links.productionPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
-          this.productionPlansDetails.push(plan);
+          if (plan.attemptTypeName === 'cre allele modification') {
+            this.creAlleModPlansDetails.push(plan);
+          } else {
+            this.productionPlansDetails.push(plan);
+          }
           this.error = null;
         }, error => {
           this.error = error;
