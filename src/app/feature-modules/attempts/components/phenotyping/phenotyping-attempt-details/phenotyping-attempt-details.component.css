@@ -1,16 +1,14 @@
+.separation {
+  padding-top: 20px;
+}
+
+.startingPoint {
+  width: 150px;
+}
+
 label {
-    clear: both;
-    float: left;
-    width: 300px;
-    margin-right: 25px;
-    vertical-align: middle;
-  }
-  input,
-  mat-select {
-    width: 200px;
-  }
-  .content {
-    float: none;
-    margin-top: 5px;
-    margin-bottom: 5px;
-  }
+  clear: both;
+  float: left;
+  padding-bottom: 5px;
+  width: 250px;
+}

@@ -2,29 +2,44 @@
     <mat-card-subtitle>Status transition</mat-card-subtitle>
     <mat-card-content>
         <form [formGroup]="statusTransitionForm">
-            <fieldset>
+            <div *ngIf="canUpdate; then statusTransitionEditable else statusTransitionReadOnly"></div>
+            <ng-template #statusTransitionEditable>
+                <table>
+                    <tr>
+                        <td><label for="currentStatus">Current Status:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="currentStatus">
+                                <input matInput [(ngModel)]="statusTransition.currentStatus" [ngModelOptions]="{standalone: true}" [readonly]="true" >   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="transition">Next step:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" class="content">
+                                <mat-select class="select-content" [(value)]="statusTransition.actionToExecute">
+                                    <mat-option (click)="onTransitionSelected(null)"></mat-option>
+                                    <mat-option *ngFor="let transition of userTransitions" [value]="transition.action" (click)="onTransitionSelected(transition)">
+                                        {{ transition.nextStatus }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                            <div *ngIf="transitionNote" class="note">
+                                <tr>
+                                    <td><label for="note">Note:</label></td>
+                                    <td>{{ transitionNote }}</td>
+                                </tr>
+                            </div>
+                        </td>
+                    </tr>
+                </table> 
+            </ng-template>
+            <ng-template #statusTransitionReadOnly>
                 <label for="currentStatus">Current Status:</label>
-                <div id="currentStatus">{{ statusTransition.currentStatus }}</div>
-                <div *ngIf="canUpdate">
-                    <label for="transition">Next step:</label>
-                    <div id="transition">
-                        <mat-form-field appearance="fill" class="content">
-                            <mat-label>Select the new status on update</mat-label>
-                            <mat-select>
-                                <mat-option (click)="onTransitionSelected(null)">None</mat-option>
-                                <mat-option *ngFor="let transition of userTransitions"
-                                    (click)="onTransitionSelected(transition)" [value]="transition.description">
-                                    {{transition.nextStatus}}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-            </fieldset>
-            <fieldset *ngIf="selectedTransition && selectedTransition.note">
-                <label for="note">Note:</label>
-                <div class="note">{{selectedTransition ?  selectedTransition.note : '' }}</div>
-            </fieldset>
+                {{ statusTransition.currentStatus }}
+                <br>
+            </ng-template>
+                   
         </form>
     </mat-card-content>
 </mat-card>

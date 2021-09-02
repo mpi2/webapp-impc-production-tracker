@@ -1,57 +1,64 @@
-<form [formGroup]="colonyForm">
+<mat-card>
+    <mat-card-subtitle>Colony Details</mat-card-subtitle>
+    <mat-card-content>
+        <div *ngIf="canUpdate; then colonyEditable else colonyReadOnly"></div>
+        <ng-template #colonyEditable>
+            <tr>
+                <td><label for="name">Name:</label></td>
+                <td>
+                    <mat-form-field appearance="fill">
+                        <input matInput [(ngModel)]="colony.name" [ngModelOptions]="{standalone: true}">
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="genotypingComment">Genotyping comment:</label></td>
+                <td>
+                    <mat-form-field appearance="fill">
+                        <textarea matInput (keyup)="onCommentChanged($event)" [(ngModel)]="colony.genotypingComment"
+                            [ngModelOptions]="{standalone: true}"></textarea>
+                    </mat-form-field>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="backgroundStrainName">Background Strain:</label></td>
+                <td>
+                    <mat-form-field appearance="fill">
+                        <mat-select class="select-content" [(value)]="colony.backgroundStrainName">
+                            <mat-option></mat-option>
+                            <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
+                                {{ backGroundStrain.name }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </tr>
+        </ng-template>
 
-    <div *ngIf="canUpdate; then editable else readOnly"></div>
-    <ng-template #editable>
-
-        <label for="name">Name:</label>
-        <div id="name" class="content, name">
-            <mat-form-field appearance="fill" class="example-full-width">
-                <input matInput [(ngModel)]="colony.name" [ngModelOptions]="{standalone: true}">
+        <ng-template #colonyReadOnly>
+            <label for="name">Name:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="colony.name" />
             </mat-form-field>
-        </div>
-
-        <label for="genotypingComment">Genotyping comment:</label>
-        <div id="genotypingComment" class="content">
-            <mat-form-field appearance="fill" class="example-full-width">
-                <textarea matInput (keyup)="onCommentChanged($event)" [(ngModel)]="colony.genotypingComment"
-                    [ngModelOptions]="{standalone: true}"></textarea>
+            <br>
+            <label for="backgroundStrainName">Background Strain:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="colony.backgroundStrainName" />
             </mat-form-field>
-        </div>
+            <br>
+            <label for="genotypingComment">Genotyping comment:</label>
+            <mat-form-field appearance="fill">
+                <textarea matInput readonly [value]="colony.genotypingComment"></textarea>
+            </mat-form-field>
+            <br>
+        </ng-template>
+    </mat-card-content>
+</mat-card>
 
-        <label for="backgroundStrainName">Background Strain:</label>
-        <div id="backgroundStrainName" class="content">
-            <mat-select class="select-content" [(value)]="colony.backgroundStrainName">
-                <mat-option></mat-option>
-                <mat-option *ngFor="let backGroundStrain of backGroundStrains" [value]="backGroundStrain.name">
-                    {{backGroundStrain.name}}
-                </mat-option>
-            </mat-select>
-        </div>
+<div class="section">
+    <app-status-transition *ngIf="colony.statusTransition" [statusTransition]="colony.statusTransition"
+        [canUpdate]="canUpdate">
+    </app-status-transition>
 
-    </ng-template>
-
-    <ng-template #readOnly>
-
-        <label for="name">Name:</label>
-        <div id="name" class="content, name">{{ colony.name}}</div>
-
-        <label for="genotypingComment">Genotyping comment:</label>
-        <div id="genotypingComment" class="content">{{ colony.genotypingComment }}</div>
-
-        <label for="backgroundStrainName">Background Strain:</label>
-        <div id="backgroundStrainName" class="content">{{ colony.backgroundStrainName}}</div>
-
-    </ng-template>
-
-    <div class="space"></div>
-    <div class="section">
-        <app-status-transition *ngIf="colony.statusTransition" [statusTransition]="colony.statusTransition"
-            [canUpdate]="canUpdate">
-        </app-status-transition>
-
-        <app-status-date *ngIf="!isNew" [statusDates]="colony.statusDates" [title]='"Colony Status History"'></app-status-date>
-    </div>
-
-    <div class="space"></div>
-
-</form>
+    <app-status-date *ngIf="!isNew" [statusDates]="colony.statusDates" [title]='"Colony Status History"'></app-status-date>
+</div>

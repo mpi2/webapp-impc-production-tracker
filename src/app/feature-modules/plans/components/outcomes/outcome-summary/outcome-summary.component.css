@@ -1,28 +1,22 @@
-label,
-.label {
+fieldset {
+  font-size: 14px;
+  border: 0;
+  border-spacing: 10px;
+}
+
+label {
   clear: both;
   float: left;
   padding-bottom: 5px;
-  width: 180px;
+  width: 200px;
 }
-input,
-select {
-  float: left;
+
+mat-table {
+  display: inline-block;
 }
-.content {
-  width: 300px;
-  float: left;
-  padding-bottom: 5px;
-}
-.note {
-  width: 300px;
-  float: left;
-  font-size: 12px;
-  padding-bottom: 5px;
-}
-fieldset {
-  border: 0;
-  border-spacing: 10px;
+
+.mat-cell {
+  padding: 15px 15px 1px 0;
 }
 
 .section {
@@ -30,6 +24,6 @@ fieldset {
   float: left;
 }
 
-td, th {
-  min-width: 150px;
+.separation {
+  padding-top: 10px;
 }

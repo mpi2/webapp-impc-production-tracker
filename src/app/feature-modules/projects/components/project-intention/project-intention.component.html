@@ -1,83 +1,75 @@
 <mat-card>
-  <mat-card-subtitle>Intention(s)</mat-card-subtitle>
-  <mat-card-content>
-      <table class="mat-elevation-z8">
-          <tr>
-              <th>Molecular mutation type *</th>
-              <th>Mutation categorization(s)</th>
-              <th>Gene symbol *</th>
-              <th></th>
-          </tr>
-          <ng-template ngFor let-projectIntention [ngForOf]="projectCreation.projectIntentions">
-              <tr>
-                  <td>
-                    <mat-form-field appearance="fill">
-                        <mat-select class="molecularMutaionType"
-                            [(value)]="projectIntention.molecularMutationTypeName">
-                            <mat-option></mat-option>
-                            <mat-option *ngFor="let molecularMutationType of molecularMutationTypes" [value]="molecularMutationType.name">
-                                {{ molecularMutationType.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field appearance="fill">
-                        <mat-select (selectionChange)="addMutationCategorization(projectIntention, mutationCategorizationNames)" class="class"
-                            [(value)]="mutationCategorizationNames" multiple>
-                            <mat-option></mat-option>
-                            <mat-option *ngFor="let mutationCategorization of allMutationCategorizations" [value]="mutationCategorization.name">
-                                {{ mutationCategorization.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                  </td>
-                  <td>
-                    <mat-form-field appearance="fill" class="content">
-                        <input matInput placeholder="" aria-label="State" [matAutocomplete]="auto" [formControl]="searchGeneCtrl" />
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
-                            <ng-container *ngIf="!isLoading">
-                                <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol" (onSelectionChange)="addGeneToIntention(projectIntention, gene)">
-                                    <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
-                                </mat-option>
-                            </ng-container>
-                        </mat-autocomplete>
-                    </mat-form-field>
-                    <!-- <app-autocomplete-gene [symbols]="symbols"></app-autocomplete-gene> -->
-                  </td>
-                  <td>
-                      <button (click)="deleteRow(projectIntention)">
-                          <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
-                      </button>
-                  </td>
-
-              </tr>
-
-              <ng-template>
-                  <tr>
-                      <td>
-                        {{ projectIntention.molecularMutationTypeName || "Not defined" }}
-                      </td>
-                      <td>
-                        {{ projectIntention.mutationCategorizations || "Not defined" }}
-                      </td>
-                      <td>
-                        {{ projectIntention.intentionByGene.gene.symbol || "Not defined" }}	
-                      </td>
-
-                  </tr>
-              </ng-template>
-          </ng-template>
-
-          <tr>
-            <td class="no_border"><button (click)="addRow()" [disabled]="false">
-                <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
-            </button>
-            </td>
-          </tr>
-
-      </table>
-
-  </mat-card-content>
+    <mat-card-subtitle>Intention(s)</mat-card-subtitle>
+    <mat-card-content>
+        <ng-container [formGroup]="projectIntentionsForm">
+            <table class="mat-elevation-z8">
+                <tr>
+                    <th>Molecular mutation type *</th>
+                    <th>Mutation categorization(s)</th>
+                    <th>Gene symbol *</th>
+                    <th></th>
+                </tr>
+                <tr formArrayName="intentions" *ngFor="let intention of projectIntentionsForm.get('intentions')['controls']; let i = index">
+                    <ng-container [formGroupName]="i">
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select
+                                    (blur)="onTouched()" 
+                                    [id]="'molecularMutationType' + i"
+                                    formControlName="molecularMutationType">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let molecularMutationType of molecularMutationTypes" [value]="molecularMutationType.name">
+                                        {{ molecularMutationType.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select multiple
+                                            (blur)="onTouched()" 
+                                            [id]="'mutationCategorizations' + i"
+                                            formControlName="mutationCategorizations">
+                                    <mat-option *ngFor="let mutationCategorization of mutationCategorizationsByType[alleleCategoryKey]" [value]="mutationCategorization.name">
+                                        {{ mutationCategorization.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <mat-form-field appearance="fill" class="content">
+                                <input matInput 
+                                    placeholder="" 
+                                    aria-label="Gene" 
+                                    [matAutocomplete]="auto" 
+                                    [formControl]="searchGeneCtrl" 
+                                    [id]="'geneSymbol' + i" 
+                                    (change)="geneInput(i, $event.target.value)" /> 
+                                <mat-autocomplete #auto="matAutocomplete">
+                                    <mat-option *ngIf="isLoading" class="is-loading">Loading...</mat-option>
+                                    <ng-container *ngIf="!isLoading" >
+                                        <mat-option *ngFor="let gene of filteredGenes" [value]="gene.symbol" (onSelectionChange)="geneSelected(i, gene)">
+                                            <span><b>{{ gene.symbol }}</b> ({{ gene.accId }})</span>
+                                        </mat-option>
+                                    </ng-container>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <button type="button" (click)="removeIntentionButtonClick(i)">
+                                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                            </button>
+                        </td>
+                    </ng-container>
+                </tr>
+                <tr>
+                    <td>
+                        <button type="button" (click)="addIntentionButtonClick()">
+                            <mat-icon aria-hidden="false" aria-label="add icon">add</mat-icon>
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </ng-container>
+    </mat-card-content>
 </mat-card>

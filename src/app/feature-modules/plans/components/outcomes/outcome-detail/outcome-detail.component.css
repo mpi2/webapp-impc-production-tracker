@@ -1,42 +1,27 @@
-label,
-.label {
-  clear: both;
-  float: left;
-  padding-bottom: 5px;
-  width: 180px;
-}
-input,
-select {
-  float: left;
-}
-.content {
-  width: 300px;
-  float: left;
-  padding-bottom: 5px;
-}
-.note {
-  width: 300px;
-  float: left;
-  font-size: 12px;
-  padding-bottom: 5px;
-}
-fieldset {
-  border: 0;
-  border-spacing: 10px;
+.separation {
+    padding-top: 10px;
 }
 
-.section {
-  clear: both;
-  float: left;
+label {
+    clear: both;
+    float: left;
+    padding-bottom: 5px;
+    width: 200px;
 }
 
-.distributionProductsSection {
-  clear: both;
-  float: none;
+table {
+    border-collapse: collapse;
+    width: 40%;
 }
 
-.create-button {
-  clear: both;
-  float: left;
-  margin-top: 15px;
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    text-align: left;
+    background-color: #ddd;
 }

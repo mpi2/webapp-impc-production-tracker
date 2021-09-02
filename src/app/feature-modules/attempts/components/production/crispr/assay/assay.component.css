@@ -1,35 +1,27 @@
 label {
   clear: both;
   float: left;
-  width: 300px;
-  margin-top: 5px;
-  margin-bottom: 5px;
-  margin-right: 25px;
-}
-input,
-mat-select {
+  padding-bottom: 5px;
   width: 200px;
 }
-.content {
-  float: none;
-  margin-top: 5px;
-  margin-bottom: 5px;
+
+table {
+  border-collapse: collapse;
+  width: 40%;
 }
 
-.readOnlySection > .content {
-  float: left;
+td, th {
+  border: 1px solid #ddd;
+  padding: 8px;
 }
 
-fieldset {
-  width: 100%;
-  float: none;
-  clear: both;
+th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: #ddd;
 }
 
-fieldset > label {
-    width: 285px;
-}
-
-.readOnlySection {
-  height: 500px;
+.separation {
+  padding-top: 10px;
 }

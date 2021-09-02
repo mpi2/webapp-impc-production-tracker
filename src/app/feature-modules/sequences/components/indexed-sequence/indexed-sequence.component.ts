@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { IndexedSequence } from '../../model/indexed-sequence';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { Mutation } from 'src/app/feature-modules/plans/model/outcomes/mutation';
 
 @Component({
   selector: 'app-indexed-sequence',
@@ -9,16 +10,19 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
   styleUrls: ['./indexed-sequence.component.css']
 })
 export class IndexedSequenceComponent implements OnInit {
-  @Input() indexedSequence: IndexedSequence;
+  @Input() mutation: Mutation;
+  // @Input() indexedSequence: IndexedSequence;
   @Input() canUpdate: boolean;
   @Input() showSequenceCategory: boolean;
   @Input() showLocations: boolean;
   @Output() sequenceDeleted = new EventEmitter<IndexedSequence>();
 
   configurationData: ConfigurationData;
-
   sequenceTypes: NamedValue[];
   sequenceCategories: NamedValue[];
+
+  tmpIndexRowName = 'tmp_id';
+  nextNewId = -1;
 
   constructor(private configurationDataService: ConfigurationDataService) { }
 
@@ -34,8 +38,15 @@ export class IndexedSequenceComponent implements OnInit {
     });
   }
 
-  delete() {
-    this.sequenceDeleted.emit(this.indexedSequence);
+  deleteSequence(indexedSequence: IndexedSequence) {
+    console.log(indexedSequence);
+    this.sequenceDeleted.emit(indexedSequence);
+  }
+
+  createSequence() {
+    const indexedSequence: IndexedSequence = new IndexedSequence();
+    indexedSequence[this.tmpIndexRowName] = this.nextNewId--;
+    this.mutation.mutationSequences.push(indexedSequence);
   }
 
 }

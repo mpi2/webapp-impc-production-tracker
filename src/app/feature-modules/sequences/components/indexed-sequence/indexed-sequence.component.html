@@ -1,85 +1,93 @@
-<mat-card class="sequence-card">
-    <mat-card-content>
-
-        <mat-card-actions>
-            <button mat-raised-button color="warn" *ngIf="canUpdate" matTooltip="Click to Delete"
-                (click)="delete()">Delete sequence</button>
-        </mat-card-actions>
-
+<mat-accordion>
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+            <mat-panel-title>Sequence(s) information</mat-panel-title>
+        </mat-expansion-panel-header>
         <div *ngIf="canUpdate; then editable else readOnly"></div>
-
         <ng-template #editable>
-
-            <label for="index">Index:</label>
-            <div id="index">
-                <mat-form-field appearance="fill" class="example-full-width">
-                    <input appDigitOnly matInput [(ngModel)]="indexedSequence.index">
-                </mat-form-field>
-            </div>
-
-            <label for="sequence">Sequence:</label>
-            <div id="sequence" class="sequenceDiv">
-                <mat-form-field appearance="fill" class="matFormFieldSequence">
-                    <textarea matInput class="textareaSequence"
-                        [(ngModel)]="indexedSequence.sequence.sequence"
-                        [ngModelOptions]="{standalone: true}">
-                    </textarea>
-                </mat-form-field>
-            </div>
-
-            <br>
-            <br>
-
-            <label for="type">Type:</label>
-            <div id="sequenceType">
-                <mat-form-field appearance="fill" class="content">
-                    <mat-select [(value)]="indexedSequence.sequence.typeName">
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let sequenceType of sequenceTypes" [value]="sequenceType.name">
-                            {{sequenceType.name}}
-                        </mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
-
-            <div id="sequenceCategory" *ngIf="showSequenceCategory">
-                <label for="type">Category:</label>
-                <div id="type" class="content">
-                    <mat-select [(value)]="indexedSequence.sequence.categoryName">
-                        <mat-option></mat-option>
-                        <mat-option *ngFor="let sequenceCategory of sequenceCategories" [value]="sequenceCategory.name">
-                            {{sequenceCategory.name}}
-                        </mat-option>
-                    </mat-select>
-                </div>
-            </div>
-
+            <table class="mat-elevation-z8">
+                <tr>
+                    <th>Index</th>
+                    <th>Sequence</th>
+                    <th>Type</th>
+                    <th></th>
+                </tr>
+                <ng-container *ngFor="let mutationSequence of mutation.mutationSequences">
+                    <tr>
+                        <td style="width: 5%;">
+                            <mat-form-field appearance="fill">
+                                <input appDigitOnly 
+                                        matInput 
+                                        [(ngModel)]="mutationSequence.index" />
+                            </mat-form-field>
+                        </td>
+                        <td style="width: 80%;">
+                            <mat-form-field appearance="fill" class="textarea-full-width">
+                                <textarea matInput 
+                                    matTextareaAutosize
+                                    [(ngModel)]="mutationSequence.sequence.sequence"
+                                    [ngModelOptions]="{standalone: true}">
+                                </textarea>
+                            </mat-form-field>
+                        </td>
+                        <td style="width: 15%;">
+                            <mat-form-field appearance="fill">
+                                <mat-select [(value)]="mutationSequence.sequence.typeName">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let sequenceType of sequenceTypes" [value]="sequenceType.name">
+                                        {{ sequenceType.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td>
+                            <button type="button" (click)="deleteSequence(mutationSequence)">
+                                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+                            </button>
+                        </td>
+                    </tr>
+                </ng-container>
+                <tr>
+                    <td>
+                        <button class="create-button" mat-raised-button (click)="createSequence()" color="primary" type="button"
+                                    *ngIf="canUpdate">Add sequence</button>
+                    </td>
+                </tr>
+            </table>
         </ng-template>
 
         <ng-template #readOnly>
-            <label for="index">Index:</label>
-            <div id="index">{{ indexedSequence.index }}</div>
-
-            <label for="sequence">Sequence:</label>
-            <div id="sequence" class="content">
-                <textarea class="content" matInput [(ngModel)]="indexedSequence.sequence.sequence"
-                    [ngModelOptions]="{standalone: true}" [readonly]="true"></textarea>
-            </div>
-
-            <label for="type">Type:</label>
-            <div id="type" class="content">{{ indexedSequence.sequence.typeName }}</div>
-
-            <div id="sequenceCategory" *ngIf="showSequenceCategory">
-                <label for="type">Category:</label>
-                <div id="type" class="content">{{ indexedSequence.sequence.categoryName }}</div>
-            </div>
-
+            <table class="mat-elevation-z8">
+                <thead>
+                    <tr>
+                        <th>Index</th>
+                        <th>Sequence</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let mutationSequence of mutation.mutationSequences">
+                        <tr>
+                            <td style="width: 5%;">
+                                <mat-form-field appearance="fill" id="sequenceInput">
+                                    <input matInput readonly [(value)]="mutationSequence.index">
+                                </mat-form-field>
+                            </td>
+                            <td style="width: 80%;">
+                                <mat-form-field appearance="fill" class="textarea-full-width" id="sequenceTextarea">
+                                    <textarea matInput readonly matTextareaAutosize [(value)]="mutationSequence.sequence.sequence"></textarea>
+                                </mat-form-field>
+                            </td>
+                            <td style="width: 15%;">
+                                <mat-form-field appearance="fill" id="sequenceSelect">
+                                    <input matInput readonly [(value)]="mutationSequence.sequence.typeName">
+                                </mat-form-field>
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
         </ng-template>
-
-        <div *ngIf="showLocations">
-            <label>Locations:</label>
-            <app-indexed-locations [indexedSequence]="indexedSequence" [canUpdate]="canUpdate"></app-indexed-locations>
-        </div>
-        
-    </mat-card-content>
-</mat-card>
+    </mat-expansion-panel>
+</mat-accordion> 
+<div class="separation"></div>

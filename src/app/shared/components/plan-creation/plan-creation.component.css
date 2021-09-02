@@ -1,32 +1,17 @@
-mat-card-title {
-  font-size: large;
+mat-select {
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  padding: 0;
 }
 
-.fieldsSection {
-  padding-top: 20px;
-  line-height: 2;
-  height: 600px;
+.separation {
+  padding-top: 10px;
 }
 
-label,
-.label {
+label {
   clear: both;
   float: left;
   padding-bottom: 5px;
-  width: 200px;
-}
-
-input {
-  float: left;
-}
-
-.section {
-  clear: both;
-}
-
-.update-button {
-  /* clear: both; */
-  height: 80px;
-  clear: left;
-  float: none;
+  width: 120px;
 }

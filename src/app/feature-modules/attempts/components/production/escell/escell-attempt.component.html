@@ -1,0 +1,723 @@
+<ng-container [formGroup]="esCellAttemptForm">
+  <mat-card>
+    <mat-card-subtitle>ES Cell Attempt Details</mat-card-subtitle>
+    <mat-card-content>
+      <table>
+        <tr>
+          <td>ES Cell Name *:</td>
+          <div *ngIf="esCellAttempt.esCellName === undefined && canUpdatePlan; then esCellNameEditable; else esCellNameReadOnly"></div>
+          <ng-template #esCellNameEditable>
+            <td id=elementESCellData>
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  (blur)="onTouched()" 
+                  formControlName="esCellName"
+                  readonly
+                />
+              </mat-form-field>
+              <button mat-button matSuffix type="button" (click)="openDialog('Add',{})" mat-flat-button color="primary" aria-label="search">
+                <mat-icon>search</mat-icon>Find ES Cell
+              </button>
+            </td>
+          </ng-template>
+
+          <ng-template #esCellNameReadOnly>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.esCellName" />
+            </mat-form-field>
+            <br>
+          </ng-template>
+        </tr>
+
+        <tr>
+          <td>MI date:</td>
+          <div
+            *ngIf="canUpdatePlan; then miDateEditable; else miDateReadOnly"
+          ></div>
+          <ng-template #miDateEditable>
+            <td>
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  [matDatepicker]="datePicker"
+                  (blur)="onTouched()" 
+                  formControlName="miDate"
+                  (dateChange)="onMiDateChanged()"
+                  class="form-control"
+                />
+                <mat-datepicker-toggle
+                  matSuffix
+                  [for]="datePicker"
+                ></mat-datepicker-toggle>
+                <mat-datepicker #datePicker></mat-datepicker>
+              </mat-form-field>
+            </td>
+          </ng-template>
+
+          <ng-template #miDateReadOnly>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.miDate | date" />
+            </mat-form-field>
+            <br>
+          </ng-template>
+        </tr>
+        <tr>
+          <td>MI external Ref:</td>
+          <div
+            *ngIf="
+              canUpdatePlan;
+              then miExternalRefEditable;
+              else miExternalRefReadOnly
+            "
+          ></div>
+          <ng-template #miExternalRefEditable>
+            <td>
+              <mat-form-field appearance="fill">
+                <input
+                  matInput
+                  (blur)="onTouched()" 
+                  formControlName="attemptExternalRef"
+                  class="form-control"
+                  (change)="onAttemptExternalRefChange()"
+                  (keyup)="onAttemptExternalRefChange()"
+                />
+              </mat-form-field>
+            </td>
+          </ng-template>
+          <ng-template #miExternalRefReadOnly>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.attemptExternalRef" />
+            </mat-form-field>
+            <br>
+          </ng-template>
+        </tr>
+
+        <tr>
+          <td>Experimental:</td>
+          <div *ngIf="canUpdatePlan; then experimentaltEditable; else experimentalReadOnly"></div>
+          <ng-template #experimentaltEditable>
+            <td>
+                <input id="experimental"
+                  type="checkbox"
+                  (blur)="onTouched()" 
+                  formControlName="experimental"
+                  class="form-control"
+                  (change)="onExperimentalChange()"
+                />
+            </td>
+        </ng-template>
+        <ng-template #experimentalReadOnly>
+            <input
+                type="checkbox"
+                disabled="true"
+                [checked]="esCellAttempt.experimental"
+            />
+        </ng-template>
+        </tr>
+        <tr>
+          <td>Comments:</td>
+          <div *ngIf="canUpdatePlan; then commentEditable; else commentReadOnly"></div>
+          <ng-template #commentEditable>
+            <td>
+              <mat-form-field appearance="fill">
+                <textarea
+                  matInput
+                  #box
+                  (blur)="onTouched()" 
+                  formControlName="comment"
+                  class="form-control"
+                  (change)="onCommentChange()"
+                  (keyup)="onCommentChange()"
+                ></textarea>
+              </mat-form-field>
+            </td>
+          </ng-template>
+
+          <ng-template #commentReadOnly>
+            <mat-form-field appearance="fill">
+                <textarea matInput readonly [value]="esCellAttempt.comment"></textarea>
+            </mat-form-field>
+            <br>
+          </ng-template>
+        </tr>
+      </table>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-subtitle>Transfer Details</mat-card-subtitle>
+    <mat-card-content> 
+        <div *ngIf="canUpdatePlan; then transferDetailsEditable else transferDetailsReadOnly"></div>
+        <ng-template #transferDetailsEditable>
+            <table>
+                <tr>
+                    <td><label for="blastStrainName">Blast Strain Name:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill">
+                            <mat-select class="form-control"
+                                    (blur)="onTouched()" 
+                                    formControlName="blastStrainName" 
+                                    (selectionChange)="onBlastStrainNameChange()" >
+                                <mat-option></mat-option>
+                                <mat-option *ngFor="let strain of blastStrains" [value]="strain.name">
+                                    {{ strain.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalBlastsInjected">Total Blasts Injected:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalBlastsInjected">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalBlastsInjected"
+                                (change)="onTotalBlastsInjectedChange()"
+                                (keyup)="onTotalBlastsInjectedChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalTransferred">Total Transferred:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalTransferred">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalTransferred"
+                                (change)="onTotalTransferredChange()"
+                                (keyup)="onTotalTransferredChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberSurrogatesReceiving">Number Surrogates Receiving:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberSurrogatesReceiving">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberSurrogatesReceiving"
+                                (change)="onNumberSurrogatesReceivingChange()"
+                                (keyup)="onNumberSurrogatesReceivingChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </ng-template>
+          
+        <ng-template #transferDetailsReadOnly>
+            <label for="blastStrainName">Blast Strain Name:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.blastStrainName" />
+            </mat-form-field>
+            <br>
+
+            <label for="totalBlastsInjected">Total Blasts Injected:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.totalBlastsInjected" />
+            </mat-form-field>
+            <br>
+
+            <label for="totalTransferred">Total Transferred:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.totalTransferred" />
+            </mat-form-field>
+            <br>
+
+            <label for="numberSurrogatesReceiving">Number Surrogates Receiving:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.numberSurrogatesReceiving" />
+            </mat-form-field>
+            <br>
+        </ng-template>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-subtitle>Litter Details</mat-card-subtitle>
+    <mat-card-content> 
+        <div *ngIf="canUpdatePlan; then litterDetailsEditable else litterDetailsReadOnly"></div>
+        <ng-template #litterDetailsEditable>
+            <table>
+                <tr>
+                    <td><label for="totalPupsBorn">Total Pups Born:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalPupsBorn">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalPupsBorn"
+                                (change)="onTotalPupsBornChange()"
+                                (keyup)="onTotalPupsBornChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalFemaleChimeras">Total Female Chimeras:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalFemaleChimeras">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalFemaleChimeras"
+                                (change)="onTotalFemaleChimerasChange()"
+                                (keyup)="onTotalFemaleChimerasChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="totalMaleChimeras">Total Male Chimeras:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="totalMaleChimeras">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="totalMaleChimeras"
+                                (change)="onTotalMaleChimerasChange()"
+                                (keyup)="onTotalMaleChimerasChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith0To39PercentChimerism">Number of Males with 0-39% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith0To39PercentChimerism">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith0To39PercentChimerism"
+                                (change)="onNumberOfMalesWith0To39PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith0To39PercentChimerismChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith40To79PercentChimerism">Number of Males with 40-79% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith40To79PercentChimerism">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith40To79PercentChimerism"
+                                (change)="onNumberOfMalesWith40To79PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith40To79PercentChimerismChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith80To99PercentChimerism">Number of Males with 80-99% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith80To99PercentChimerism">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith80To99PercentChimerism"
+                                (change)="onNumberOfMalesWith80To99PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith80To99PercentChimerismChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="numberOfMalesWith100PercentChimerism">Number of Males with 100% Chimerism:</label></td>
+                    <td>
+                        <mat-form-field appearance="fill" id="numberOfMalesWith100PercentChimerism">
+                            <input matInput appDigitOnly 
+                                (blur)="onTouched()" 
+                                formControlName="numberOfMalesWith100PercentChimerism"
+                                (change)="onNumberOfMalesWith100PercentChimerismChange()"
+                                (keyup)="onNumberOfMalesWith100PercentChimerismChange()"
+                                class="form-control"
+                            />   
+                        </mat-form-field>
+                    </td>
+                </tr>
+            </table>
+        </ng-template>
+        
+        <ng-template #litterDetailsReadOnly>
+            <label for="totalPupsBorn">Total Pups Born:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.totalPupsBorn" />
+            </mat-form-field>
+            <br>
+
+            <label for="totalFemaleChimeras">Total Female Chimeras:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.totalFemaleChimeras" />
+            </mat-form-field>
+            <br>
+
+            <label for="totalMaleChimeras">Total Male Chimeras:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.totalMaleChimeras" />
+            </mat-form-field>
+            <br>
+
+            <label for="numberOfMalesWith0To39PercentChimerism">Number of Males with 0-39% Chimerism:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.numberOfMalesWith0To39PercentChimerism" />
+            </mat-form-field>
+            <br>
+
+            <label for="numberOfMalesWith40To79PercentChimerism">Number of Males with 40-79% Chimerism:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.numberOfMalesWith40To79PercentChimerism" />
+            </mat-form-field>
+            <br>
+
+            <label for="numberOfMalesWith80To99PercentChimerism">Number of Males with 80-99% Chimerism:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.numberOfMalesWith80To99PercentChimerism" />
+            </mat-form-field>
+            <br>
+
+            <label for="numberOfMalesWith100PercentChimerism">Number of Males with 100% Chimerism:</label>
+            <mat-form-field appearance="fill">
+                <input matInput readonly [value]="esCellAttempt.numberOfMalesWith100PercentChimerism" />
+            </mat-form-field>
+            <br>               
+        </ng-template>
+    </mat-card-content>
+</mat-card>
+
+<mat-card>
+    <mat-card-subtitle>Chimera Mating Details</mat-card-subtitle>
+    <mat-card-content> 
+        <div *ngIf="canUpdatePlan; then chimeraMatingDetailsEditable else chimeraMatingDetailsReadOnly"></div>
+            <ng-template #chimeraMatingDetailsEditable>
+                <table>
+                    <tr>
+                        <td><label for="testCrossStrainName">Test Cross Strain Name:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="select-content" 
+                                    (blur)="onTouched()" 
+                                    formControlName="testCrossStrainName"
+                                    (selectionChange)="onTestCrossStrainNameChange()"
+                                    class="form-control">
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let strain of testCrossStrains" [value]="strain.name">
+                                        {{ strain.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="dateChimerasMated">Date Chimeras Mated:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <input
+                                matInput
+                                [matDatepicker]="datePickerChimeras"
+                                (blur)="onTouched()" 
+                                formControlName="dateChimerasMated"
+                                (dateChange)="onMatingDateChanged()"
+                                class="form-control"
+                                />
+                                <mat-datepicker-toggle
+                                matSuffix
+                                [for]="datePickerChimeras"
+                                ></mat-datepicker-toggle>
+                                <mat-datepicker #datePickerChimeras></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimeraMatingsAttempted">Number Of Chimera Matings Attempted:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimeraMatingsAttempted">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimeraMatingsAttempted"
+                                    (change)="onNumberOfChimeraMatingsAttemptedChange()"
+                                    (keyup)="onNumberOfChimeraMatingsAttemptedChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimeraMatingsSuccessful">Number Of Chimera Matings Successful:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimeraMatingsSuccessful">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimeraMatingsSuccessful"
+                                    (change)="onNumberOfChimeraMatingsSuccessfulChange()"
+                                    (keyup)="onNumberOfChimeraMatingsSuccessfulChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimerasWithGltFromCct">Number Of Chimeras With GLT From CCT:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimerasWithGltFromCct">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimerasWithGltFromCct"
+                                    (change)="onNumberOfChimeraWithGltFromCctChange()"
+                                    (keyup)="onNumberOfChimeraWithGltFromCctChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimerasWithGltFromGenotyping">Number Of Chimeras With GLT From Genotyping:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimerasWithGltFromGenotyping">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimerasWithGltFromGenotyping"
+                                    (change)="onNumberOfChimeraWithGltFromGenotypingChange()"
+                                    (keyup)="onNumberOfChimeraWithGltFromGenotypingChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimerasWith0To9PercentGlt">Number of Chimeras with 0-9% GLT:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimerasWith0To9PercentGlt">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimerasWith0To9PercentGlt"
+                                    (change)="onNumberOfChimeraWith0To9PercentGltChange()"
+                                    (keyup)="onNumberOfChimeraWith0To9PercentGltChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimerasWith10To49PercentGlt">Number of Chimeras with 10-49% GLT:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimerasWith10To49PercentGlt">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimerasWith10To49PercentGlt"
+                                    (change)="onNumberOfChimeraWith10To49PercentGltChange()"
+                                    (keyup)="onNumberOfChimeraWith10To49PercentGltChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimerasWith50To99PercentGlt">Number of Chimeras with 50-99% GLT:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimerasWith50To99PercentGlt">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimerasWith50To99PercentGlt"
+                                    (change)="onNumberOfChimeraWith50To99PercentGltChange()"
+                                    (keyup)="onNumberOfChimeraWith50To99PercentGltChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfChimerasWith100PercentGlt">Number of Chimeras with 100% GLT:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfChimerasWith100PercentGlt">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfChimerasWith100PercentGlt"
+                                    (change)="onNumberOfChimeraWith100PercentGltChange()"
+                                    (keyup)="onNumberOfChimeraWith100PercentGltChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="totalF1MiceFromMatings">Total F1 Mice From Matings:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="totalF1MiceFromMatings">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="totalF1MiceFromMatings"
+                                    (change)="onTotalF1MiceFromMatingsChange()"
+                                    (keyup)="onTotalF1MiceFromMatingsChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfCctOffspring">Number Of CCT Offspring:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfCctOffspring">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfCctOffspring"
+                                    (change)="onNumberOfCctOffspringChange()"
+                                    (keyup)="onNumberOfCctOffspringChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="cassetteTransmissionVerified">Cassette Transmission Verified:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <input
+                                matInput
+                                [matDatepicker]="datePickerCassette"
+                                (blur)="onTouched()" 
+                                formControlName="cassetteTransmissionVerified"
+                                (dateChange)="onCassetteTransmissionChanged()"
+                                class="form-control"
+                                />
+                                <mat-datepicker-toggle
+                                matSuffix
+                                [for]="datePickerCassette"
+                                ></mat-datepicker-toggle>
+                                <mat-datepicker #datePickerCassette></mat-datepicker>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfHetOffspring">Number Of HET Offspring:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfHetOffspring">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfHetOffspring"
+                                    (change)="onNumberOfHetOffspringChange()"
+                                    (keyup)="onNumberOfHetOffspringChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfLiveGltOffspring">Number Of Live GLT Offspring:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfLiveGltOffspring">
+                                <input matInput appDigitOnly 
+                                    (blur)="onTouched()" 
+                                    formControlName="numberOfLiveGltOffspring"
+                                    (change)="onNumberOfLiveGltOffspringChange()"
+                                    (keyup)="onNumberOfLiveGltOffspringChange()"
+                                    class="form-control"
+                                />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </ng-template>
+            
+            <ng-template #chimeraMatingDetailsReadOnly>
+                <label for="testCrossStrainName">Test Cross Strain Name:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.testCrossStrainName" />
+                </mat-form-field>
+                <br>
+
+                <label for="dateChimerasMated">Date Chimeras Mated:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.dateChimerasMated | date" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfChimeraMatingsAttempted">Number Of Chimera Matings Attempted:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimeraMatingsAttempted" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfChimeraMatingsSuccessful">Number Of Chimera Matings Successful:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimeraMatingsSuccessful" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfChimerasWithGltFromCct">Number Of Chimeras With GLT From CCT:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimerasWithGltFromCct" />
+                </mat-form-field>
+                <br>
+ 
+                <label for="numberOfChimerasWithGltFromGenotyping">Number Of Chimeras With GLT From Genotyping:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimerasWithGltFromGenotyping" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfChimerasWith0To9PercentGlt">Number of Chimeras with 0-9% GLT:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimerasWith0To9PercentGlt" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfChimerasWith10To49PercentGlt">Number of Chimeras with 10-49% GLT:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimerasWith10To49PercentGlt" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfChimerasWith50To99PercentGlt">Number of Chimeras with 50-99% GLT:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimerasWith10To49PercentGlt" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfChimerasWith100PercentGlt">Number of Chimeras with 100% GLT:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfChimerasWith100PercentGlt" />
+                </mat-form-field>
+                <br>
+
+                <label for="totalF1MiceFromMatings">Total F1 Mice From Matings:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.totalF1MiceFromMatings" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfCctOffspring">Number Of CCT Offspring:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfCctOffspring" />
+                </mat-form-field>
+                <br>
+
+                <label for="cassetteTransmissionVerified">Cassette Transmission Verified:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.cassetteTransmissionVerified | date" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfHetOffspring">Number Of HET Offspring:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfHetOffspring" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfLiveGltOffspring">Number Of Live GLT Offspring:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="esCellAttempt.numberOfLiveGltOffspring" />
+                </mat-form-field>
+                <br>
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
+</ng-container>

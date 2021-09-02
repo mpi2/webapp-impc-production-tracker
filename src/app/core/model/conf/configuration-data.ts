@@ -15,6 +15,9 @@ export class ConfigurationData {
     roles: string[];
     trackedStrains: string[];
     backgroundStrains: string[];
+    deleterStrains: string[];
+    blastStrains: string[];
+    testCrossStrains: string[];
     materialTypes: string[];
     preparationTypes: string[];
     searchTypes: string[];
@@ -44,4 +47,7 @@ export class ConfigurationData {
     recordTypesByConsortium: Map<string, any[]>;
     guideFormatNames: string[];
     guideSourceNames: string[];
+    receivedFromCentres: string[];
+    qcComments: string[];
+    completionNotes: string[];
 }

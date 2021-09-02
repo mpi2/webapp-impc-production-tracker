@@ -1,0 +1,34 @@
+mat-select {
+    border: none;
+    border-radius: 0;
+    background-color: transparent;
+    padding: 0;
+}
+
+label {
+    clear: both;
+    float: left;
+    padding-bottom: 5px;
+    width: 200px;
+}
+
+#experimental {
+    width: 10%;
+}
+
+#elementESCellData {
+    margin-bottom: 10px;
+    flex-direction: row;
+    box-sizing: border-box;
+    display: flex;
+    place-content: center flex-start;
+    align-items: center;
+}
+
+#elementESCellData mat-form-field {
+    padding-right: 10px;
+}
+
+.separation {
+    padding-top: 10px;
+}

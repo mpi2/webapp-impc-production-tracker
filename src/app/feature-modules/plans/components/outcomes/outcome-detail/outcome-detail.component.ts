@@ -16,6 +16,8 @@ import { Mutation } from '../../../model/outcomes/mutation';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Colony } from '../../../model/outcomes/colony';
 import { Specimen } from '../../../model/outcomes/specimen';
+import { PlanService } from 'src/app/feature-modules/plans';
+
 
 @Component({
   selector: 'app-outcome-detail',
@@ -24,8 +26,6 @@ import { Specimen } from '../../../model/outcomes/specimen';
 })
 export class OutcomeDetailComponent implements OnInit {
   outcome: Outcome = new Outcome();
-  outcomeForm: FormGroup;
-
   project: Project;
 
   tpn: string;
@@ -50,10 +50,11 @@ export class OutcomeDetailComponent implements OnInit {
   mutationsToDelete: Mutation[] = [];
   outcomeTypes: NamedValue[];
 
+  attemptType: string;
+  mutations: Mutation[];
   configurationData: ConfigurationData;
 
   constructor(
-    private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -61,7 +62,8 @@ export class OutcomeDetailComponent implements OnInit {
     private mutationService: MutationService,
     private configurationDataService: ConfigurationDataService,
     private permissionsService: PermissionsService,
-    private loggedUserService: LoggedUserService) { }
+    private loggedUserService: LoggedUserService,
+    private planService: PlanService) { }
 
   ngOnInit(): void {
     this.tpn = this.route.snapshot.params.id;
@@ -70,8 +72,14 @@ export class OutcomeDetailComponent implements OnInit {
     this.evaluateUpdatePermissions();
     this.loadConfigurationData();
     this.fetchOrCreateOutcome();
-    this.outcomeForm = this.formBuilder.group({
-      outcomeTypeName: [''],
+    this.getAttemptType();
+  }
+
+  getAttemptType() {
+    this.planService.getPlanByPin(this.pin).subscribe(data => {
+      this.attemptType = data.attemptTypeName;
+    }, error => {
+      this.error = error;
     });
   }
 
@@ -102,7 +110,7 @@ export class OutcomeDetailComponent implements OnInit {
       mutations.forEach(x => {
         this.completeDataInMutation(x);
       });
-      this.outcome.mutations = mutations;
+      this.outcome.mutations = mutations.sort((a,b) => a.id - b.id);
       this.originalOutcomeAsString = JSON.stringify(this.outcome);
     }
   }
@@ -259,7 +267,6 @@ export class OutcomeDetailComponent implements OnInit {
       } else {
         this.fetchOutcomeByTpo();
       }
-
     } else {
       this.isOutcomeBeingCreated = true;
       this.outcome = new Outcome();

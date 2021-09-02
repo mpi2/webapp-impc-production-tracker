@@ -1,0 +1,101 @@
+<mat-card>
+    <mat-card-subtitle>Original Allele Details</mat-card-subtitle>
+    <mat-card-content>
+        <label for="modificationExternalRef">Original outcome:</label>
+        <a target="_blank" routerLink="/projects/{{ tpn }}/plans/{{ creAlleleModificationStartingPoint.productionPlanPin }}/outcomes/{{ creAlleleModificationStartingPoint.outcomeTpo }}">
+            {{ creAlleleModificationStartingPoint.outcomeTpo }}</a>
+        <div class="separation"></div>
+        <label for="modificationExternalRef">Production Plan:</label>
+        <a target="_blank" routerLink="/projects/{{ tpn }}/production-plan/{{ creAlleleModificationStartingPoint.productionPlanPin }}">
+            {{ creAlleleModificationStartingPoint.productionPlanPin }}</a>
+        <div class="separation"></div>
+    </mat-card-content>
+</mat-card>
+
+<ng-container [formGroup]="creAlleleModificationAttemptForm">    
+    <mat-card>
+        <mat-card-subtitle>Allele Modification Details</mat-card-subtitle>
+        <mat-card-content>
+            <div *ngIf="canUpdatePlan; then alleleModificationEditable else alleleModificationReadOnly"></div>
+            <ng-template #alleleModificationEditable>
+                <table>
+                    <tr>
+                        <td><label for="modificationExternalRef">Cre Allele Modification external Ref *:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <input matInput 
+                                    (blur)="onTouched()" 
+                                    formControlName="modificationExternalRef"
+                                    class="form-control"
+                                    (change)="onExternalRefChange()"
+                                    (keyup)="onExternalRefChange()"
+                                />
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="tatCre">Cre Excision via TAT-Cre?:</label></td>
+                        <td>
+                            <section id="tatCre">
+                                <input id="tat-cre" type="checkbox" (blur)="onTouched()" formControlName="tatCre" class="form-control" (change)="onTatCreChange()" />
+                            </section>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="deleterStrainName">Deleter Strain Name :</label></td>
+                        <td>
+                            <mat-form-field appearance="fill">
+                                <mat-select class="form-control"
+                                            (blur)="onTouched()" 
+                                            formControlName="deleterStrainName" 
+                                            (selectionChange)="onDeleterStrainNameChange()" >
+                                    <mat-option></mat-option>
+                                    <mat-option *ngFor="let strain of deleterStrains" [value]="strain.name">
+                                        {{ strain.name }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><label for="numberOfCreMatingsSuccessful">Number Of Cre Matings Successful:</label></td>
+                        <td>
+                            <mat-form-field appearance="fill" id="numberOfCreMatingsSuccessful">
+                                <input matInput appDigitOnly 
+                                        (blur)="onTouched()" 
+                                        formControlName="numberOfCreMatingsSuccessful"
+                                        class="form-control"
+                                        (change)="onNumberOfCreMatingsSuccessfulChange()"
+                                        (keyup)="onNumberOfCreMatingsSuccessfulChange()" />   
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </table>
+            </ng-template>
+              
+            <ng-template #alleleModificationReadOnly>
+                <label for="modificationExternalRef">Cre Allele Modification external Ref:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="creAlleleModificationAttempt.modificationExternalRef" />
+                </mat-form-field>
+                <br>
+                
+                <label for="tatCre">Cre Excision via TAT-Cre?:</label>
+                <input type="checkbox" disabled="true" [checked]="creAlleleModificationAttempt.tatCre" />
+                <br>
+
+                <label for="deleterStrainName">Deleter Strain Name:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="creAlleleModificationAttempt.deleterStrainName" />
+                </mat-form-field>
+                <br>
+
+                <label for="numberOfCreMatingsSuccessful">Number Of Cre Matings Successful:</label>
+                <mat-form-field appearance="fill">
+                    <input matInput readonly [value]="creAlleleModificationAttempt.numberOfCreMatingsSuccessful" />
+                </mat-form-field>
+                <br>
+            </ng-template>
+        </mat-card-content>
+    </mat-card>
+</ng-container>

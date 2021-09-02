@@ -8,6 +8,7 @@ import { IndexedSequence } from 'src/app/feature-modules/sequences';
 import { MatDialog } from '@angular/material/dialog';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import { Outcome } from '../../../model/outcomes/outcome';
 
 
 @Component({
@@ -16,8 +17,10 @@ import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-co
   styleUrls: ['./mutation-detail.component.css']
 })
 export class MutationDetailComponent implements OnInit {
+  @Input() outcome: Outcome;
   @Input() mutation: Mutation;
   @Input() canUpdate: boolean;
+  @Input() attemptType: string;
 
   @Output() mutationDeleted = new EventEmitter<Mutation>();
 
@@ -26,6 +29,7 @@ export class MutationDetailComponent implements OnInit {
 
   repairMechanismsNames: string;
   alleleCategoriesNames: string[];
+  esCellAlleleTypes: string;
 
   selectedConsortium = '';
   selected: any;
@@ -33,12 +37,13 @@ export class MutationDetailComponent implements OnInit {
 
   consortia: NamedValue[] = [];
   molecularMutationTypes: NamedValue[] = [];
-  molecularMutationTypesByType = new Map<string, NamedValue[]>();
+  mutationCategorizationsByType = new Map<string, NamedValue[]>();
 
   shouldSuggestSymbol: boolean;
 
   repairMechanismKey = 'repair_mechanism';
   alleleCategoryKey = 'allele_category';
+  esCellAlleleClass = 'esc_allele_class';
 
   mutationForm: FormGroup;
 
@@ -66,6 +71,10 @@ export class MutationDetailComponent implements OnInit {
     if (mutationCategotizations) {
       const repairMechanisms = mutationCategotizations.filter(x => x.typeName === this.repairMechanismKey);
       this.repairMechanismsNames = repairMechanisms.map(x => x.name).join(',');
+
+      const esCellAlleleTypes = mutationCategotizations.filter(x => x.typeName === this.esCellAlleleClass);
+      this.esCellAlleleTypes = esCellAlleleTypes.map(x => x.name).join(',');
+
       const alleleCategories = mutationCategotizations.filter(x => x.typeName === this.alleleCategoryKey);
       this.alleleCategoriesNames = alleleCategories.map(x => x.name);
     }
@@ -83,7 +92,7 @@ export class MutationDetailComponent implements OnInit {
 
       Object.keys(this.configurationData.mutationCategorizationsByType).map(key => {
         const list = this.configurationData.mutationCategorizationsByType[key];
-        this.molecularMutationTypesByType[key] = list.map(x => ({ name: x }));
+        this.mutationCategorizationsByType[key] = list.map(x => ({ name: x }));
       });
     });
   }
@@ -122,6 +131,16 @@ export class MutationDetailComponent implements OnInit {
     this.mutation.mutationCategorizations.push(newRepairMechanism);
   }
 
+  onEsCellAlleleTypeChanged(e) {
+    const esCellAlleleTypeValue = e.value;
+    this.mutation.mutationCategorizations = this.mutation.mutationCategorizations.filter(x => x.typeName !== this.esCellAlleleClass);
+    const newEsCellAlleleType = {
+      name: esCellAlleleTypeValue,
+      typeName: this.esCellAlleleClass
+    };
+    this.mutation.mutationCategorizations.push(newEsCellAlleleType);
+  }
+
   onAlleleCategoriesChanged(e) {
     const alleleCategoriesValues: string[] = e.value;
 
@@ -138,14 +157,7 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
-  create() {
-    const indexedSequence: IndexedSequence = new IndexedSequence();
-    indexedSequence[this.tmpIndexRowName] = this.nextNewId--;
-    this.mutation.mutationSequences.push(indexedSequence);
-  }
-
   onDeleteMutation() {
-
     if (this.mutation.min) {
       this.showDeleteMutationConfirmationDialog();
 
@@ -203,6 +215,7 @@ export class MutationDetailComponent implements OnInit {
   onDescriptionChanged(e) {
     this.mutation.description = this.inputHandlerService.getValueOrNull(e.target.value);
   }
+
   private isNewRecord(indexedSequence: IndexedSequence) {
     return indexedSequence.id === null;
   }

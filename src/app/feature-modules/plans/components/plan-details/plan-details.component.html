@@ -1,93 +1,58 @@
-<mat-card>
-  <mat-card-subtitle>Plan Details</mat-card-subtitle>
-  <mat-card-content>
-    <form [formGroup]="editPlanDetails">
-      <table>
-        <tr>
-          <td>
-            Id:
-          </td>
-          <td>
-            {{plan.pin}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Type:
-          </td>
-          <td>
-            {{plan.typeName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Attempt Type:
-          </td>
-          <td>
-            {{plan.attemptTypeName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Project id:
-          </td>
-          <td>
-            <a routerLink="/projects/{{ plan.tpn }}">{{ plan.tpn }}</a>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Summary Status:
-          </td>
-          <td>
-            {{plan.summaryStatusName}}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Work Unit:
-          </td>
-          <td>
-            {{plan.workUnitName || 'Not defined' }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Work Group:
-          </td>
-          <td>
-            {{plan.workGroupName || 'Not defined' }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Funders:
-          </td>
-          <td>
-            {{plan.funderNames || 'Not defined' }}
-          </td>
-        </tr>
-        <tr>
-          <td>
-            Comment:
-          </td>
-          <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
-          <ng-template #commentEditable>
-            <td>
-              <mat-form-field appearance="fill">
-                <textarea matInput formControlName="comment" class="form-control"
-                  (keyup)="onTextCommentChanged()"></textarea>
-              </mat-form-field>
-            </td>
-          </ng-template>
+<ng-container [formGroup]="planDetailsForm">
+  <mat-card>
+    <mat-card-subtitle>Plan Details</mat-card-subtitle>
+    <mat-card-content>
+      <label for="tpn">Project id:</label>
+      <a routerLink="/projects/{{ plan.tpn }}">{{ plan.tpn }}</a>
+      <div class="separation"></div>
 
-          <ng-template #commentReadOnly>
-            <td>
-              {{plan.comment}}
-            </td>
-          </ng-template>
-        </tr>
-      </table>
-    </form>
-  </mat-card-content>
-</mat-card>
+      <label for="pin">Plan id:</label>
+      {{ plan.pin }}
+      <div class="separation"></div>
+
+      <label for="typeName">Plan Type:</label>
+      {{ plan.typeName }}
+      <div class="separation"></div>
+
+      <label for="attemptTypeName">Attempt Type:</label>
+      {{ plan.attemptTypeName }}
+      <div class="separation"></div>
+
+      <label for="summaryStatusName">Summary Status:</label>
+      {{ plan.summaryStatusName }}
+      <div class="separation"></div>
+
+      <label for="workUnitName">Work Unit:</label>
+      {{ plan.workUnitName || 'Not defined' }}
+      <div class="separation"></div>
+      
+      <label for="workGroupName">Work Group:</label>
+      {{ plan.workGroupName || 'Not defined' }}
+      <div class="separation"></div>
+
+      <label for="funderNames">Funders:</label>
+      {{ plan.funderNames || 'Not defined' }}
+      <div class="separation"></div>
+      <br>
+
+      <label for="comment">Comment:</label>
+      <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
+      <ng-template #commentEditable>
+          <mat-form-field appearance="fill" class="example-full-width">
+            <textarea matInput 
+                      formControlName="comment"
+                      class="form-control"
+                      (blur)="onTouched()" 
+                      (change)="onCommentChange($event.target.value)">
+            </textarea>
+          </mat-form-field>
+      </ng-template>
+      <ng-template #commentReadOnly>
+        <mat-form-field appearance="fill">
+            <textarea matInput readonly [(value)]="plan.comment"></textarea> 
+        </mat-form-field>
+        <br>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

@@ -24,27 +24,28 @@ import { OutcomeService } from 'src/app/feature-modules/plans/services/outcome.s
   styleUrls: ['./project-detail.component.css']
 })
 export class ProjectDetailComponent implements OnInit {
-
   project: Project = new Project();
   originalProjectAsString;
   productionPlansDetails: Plan[] = [];
+  creAlleModPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
   outcomes: Outcome[] = [];
   canUpdateProject: boolean;
   canCreateProductionPlan: boolean;
   canCreatePhenotypingPlan: boolean;
+  isEsCellProject: boolean;
+  numberGenotypeConfirmedColonies: number;
   error;
   changeDetails: ChangesHistory;
-
   configurationData: ConfigurationData;
 
   privacies: NamedValue[] = [];
+  completionNotes: NamedValue[] = [];
   selectedPrivacy = [];
-
   projectForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder,
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private projectService: ProjectService,
     private projectAdapter: ProjectAdapter,
@@ -56,21 +57,33 @@ export class ProjectDetailComponent implements OnInit {
     private snackBar: MatSnackBar ) { }
 
   ngOnInit() {
-    this.projectForm = this.formBuilder.group({
-      privacy: ['', Validators.required],
-      comments: ['', Validators.required],
-    });
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
+      this.completionNotes = this.configurationData.completionNotes.map(x => ({ name: x }));
     });
-
     this.getProjectData();
-    this.coloniesExist();
+    this.projectReactiveForm();
+
+    setTimeout (() => {
+      this.isEsCellProject = this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
+      this.coloniesExist();
+    }, 1000);
   }
 
-  shouldUpdateBeEnabled(): boolean {
-    return this.originalProjectAsString !== JSON.stringify(this.project);
+  showEsCellDetails(): boolean {
+    return this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
+  }
+
+  projectReactiveForm() {
+    this.projectForm = this.fb.group({
+      privacyName: ['', Validators.required],
+      recovery: [false],
+      comment: [''],
+      completionComment: [''],
+      completionNote: [''],
+      esCellDetails: [null]
+    });
   }
 
   sortByPid(plans: Plan[]): Plan[] {
@@ -88,20 +101,12 @@ export class ProjectDetailComponent implements OnInit {
     return plans;
   }
 
-  onAddPlan() {
-
-  }
-
-  onTextCommentChanged(e): void {
-    const newComments = this.projectForm.get('comments').value;
-    this.project.comment = newComments;
-  }
-
-  onItemSelect(e): void {
-    this.project.privacyName = e;
-  }
-
   updateProject(): void {
+    this.project = Object.assign(this.project, this.projectForm.value);
+
+    console.log('form: ', this.projectForm.value);
+    console.log('project: ', this.project);
+
     this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
       if (changeResponse && changeResponse.history.length > 0) {
         this.changeDetails = changeResponse.history[0];
@@ -114,24 +119,36 @@ export class ProjectDetailComponent implements OnInit {
     }, error => {
       this.error = error;
     });
-    this.coloniesExist();
   }
 
   private setFormValues(): void {
-    this.projectForm.get('comments').setValue(this.project.comment);
-    this.selectedPrivacy = [{ name: this.project.privacyName }];
-    this.projectForm.get('privacy').setValue(this.selectedPrivacy);
+    this.projectForm.get('privacyName').setValue(this.project.privacyName);
+    this.projectForm.get('comment').setValue(this.project.comment);
+    this.projectForm.get('completionComment').setValue(this.project.completionComment);
+    this.projectForm.get('completionNote').setValue(this.project.completionNote);
+    this.projectForm.get('recovery').setValue(this.project.recovery);
+    this.projectForm.get('esCellDetails').setValue(this.project.esCellDetails);
   }
 
   private coloniesExist(): void {
-    this.productionPlansDetails.forEach(plan => {
-      console.log('pin => ', plan);
+    this.numberGenotypeConfirmedColonies = 0;
+    const productionPlans = this.productionPlansDetails.concat(this.creAlleModPlansDetails);
+
+    productionPlans.forEach(plan => {
       this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
         /* eslint-disable @typescript-eslint/dot-notation */
-        console.log('data => ', data);
         if (data['_embedded']) {
-          this.outcomes.push(data['_embedded']['outcomes']);
-          console.log('outcomes => ', this.outcomes);
+          if (this.outcomes.length === 0 ) {
+            this.outcomes = data['_embedded']['outcomes'];
+          } else {
+            this.outcomes = this.outcomes.concat(data['_embedded']['outcomes']);
+          }
+
+          data['_embedded']['outcomes'].forEach(outcome => {
+            if (outcome.colony.statusName === 'Genotype Confirmed') {
+              this.numberGenotypeConfirmedColonies = this.numberGenotypeConfirmedColonies + 1;
+            }
+          });
         }
         /* eslint-enable @typescript-eslint/dot-notation */
       }, error => {
@@ -139,18 +156,6 @@ export class ProjectDetailComponent implements OnInit {
         console.log(error);
       });
     });
-    let genotypeConfirmedColonies = 0;
-    this.outcomes.forEach(outcome => {
-      if (outcome.colony.statusName.localeCompare('Genotype Confirmed')) {
-        genotypeConfirmedColonies = genotypeConfirmedColonies + 1;
-        console.log('inside => ', genotypeConfirmedColonies);
-      }
-    });
-    if (genotypeConfirmedColonies === 0) {
-      this.canCreatePhenotypingPlan = false;
-    } else {
-      this.loadPermissions();
-    }
   }
 
   private getProjectData(): void {
@@ -202,7 +207,11 @@ export class ProjectDetailComponent implements OnInit {
     if (this.project._links.productionPlans) {
       this.project._links.productionPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
-          this.productionPlansDetails.push(plan);
+          if (plan.attemptTypeName === 'cre allele modification') {
+            this.creAlleModPlansDetails.push(plan);
+          } else {
+            this.productionPlansDetails.push(plan);
+          }
           this.error = null;
         }, error => {
           this.error = error;
@@ -223,5 +232,4 @@ export class ProjectDetailComponent implements OnInit {
       });
     }
   }
-
 }

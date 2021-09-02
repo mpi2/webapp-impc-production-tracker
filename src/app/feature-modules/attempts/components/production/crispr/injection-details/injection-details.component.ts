@@ -10,6 +10,8 @@ export class InjectionDetailsComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
 
+  transferDays = ['Same Day', 'Next Day'];
+
   constructor() { }
 
   ngOnInit(): void {

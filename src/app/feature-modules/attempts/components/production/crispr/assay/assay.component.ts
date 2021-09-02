@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
+import { Assay } from 'src/app/feature-modules/attempts/model/production/crispr/assay';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 
 @Component({
@@ -11,8 +12,6 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
 export class AssayComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
-
-  transferDays = ['Same Day', 'Next Day'];
 
   configurationData: ConfigurationData;
   assayTypes: NamedValue[] = [];

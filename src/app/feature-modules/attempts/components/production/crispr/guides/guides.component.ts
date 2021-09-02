@@ -1,15 +1,15 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormControl } from '@angular/forms';
+import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
+
+import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 import { Exon, Guide } from 'src/app/feature-modules/attempts';
 import { GeneService } from 'src/app/core';
 import { MatDialog } from '@angular/material/dialog';
-import { FormControl } from '@angular/forms';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { AttemptServiceService } from 'src/app/feature-modules/attempts/services/attempt-service.service';
-import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 
 
 @Component({
@@ -18,7 +18,6 @@ import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
   styleUrls: ['./guides.component.css']
 })
 export class GuidesComponent implements OnInit {
-
   @Input() crisprAttempt: CrisprAttempt;
   @Input() canUpdatePlan: boolean;
 
@@ -149,7 +148,7 @@ export class GuidesComponent implements OnInit {
   selectedGene(gene: any) {
     if (gene === undefined) {
       this.error = 'Enter a valid gene symbol.';
-      console.log('error => ', this.error);
+      // console.log('error => ', this.error);
       this.geneSymbol = undefined;
       this.exons = undefined;
       this.guides = undefined;

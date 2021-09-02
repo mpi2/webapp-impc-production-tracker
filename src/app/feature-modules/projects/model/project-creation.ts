@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Adapter } from 'src/app/core/model/adapter';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
-import { InstitutesConsortium } from 'src/app/model';
+import { EsCellQc, InstitutesConsortium } from 'src/app/model';
 import { Plan } from '../../plans/model/plan';
 import { ProjectIntention } from './project-intention';
 
@@ -13,6 +13,7 @@ export class ProjectCreation {
     consortia: InstitutesConsortium[];
     planDetails: Plan;
     projectIntentions: ProjectIntention[];
+    esCellDetails: EsCellQc;
 }
 
 @Injectable({
