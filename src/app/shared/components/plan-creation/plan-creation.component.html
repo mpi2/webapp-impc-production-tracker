@@ -54,7 +54,7 @@
                 </tr>
 
                 <!-- Starting Point section. Only available for phenotyping and cre allele modification plans -->
-                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || creAlleleModType">
+                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || 'creAlleleModType'">
                     <tr>
                         <td><label for="startingPoint">Starting point (Outcome id) *:</label></td>
                         <td>
@@ -140,11 +140,14 @@
 
             </table>
 
+        <div *ngIf="!projectCreation">
             <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
             <br>
             <span style="font-size: 12px; ">* required fields</span>
             <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
             </mat-spinner>
+        </div>
+            
 
         </ng-container>
     </mat-card-content>
