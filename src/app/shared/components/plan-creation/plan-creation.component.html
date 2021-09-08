@@ -54,7 +54,7 @@
                 </tr>
 
                 <!-- Starting Point section. Only available for phenotyping and cre allele modification plans -->
-                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || 'creAlleleModType'">
+                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || preSelectedAttemptType === 'cre allele modification'">
                     <tr>
                         <td><label for="startingPoint">Starting point (Outcome id) *:</label></td>
                         <td>
