@@ -9,8 +9,8 @@ export * from './model/production/crispr/assay';
 export * from './model/production/crispr/strain-injected';
 export * from './model/production/crispr/exon';
 export * from './model/production/escell/escell-attempt';
-export * from './model/production/cre-allele-modification/cre-allele-modification-attempt';
-export * from './model/production/cre-allele-modification/starting-point/cre-allele-modification-starting-point';
+export * from './model/production/es-cell-allele-modification/es-cell-allele-modification-attempt';
+export * from './model/production/es-cell-allele-modification/starting-point/es-cell-allele-modification-starting-point';
 
 export * from './model/phenotyping/phenotyping_attempt';
 export * from './model/phenotyping/phenotyping_starting_point';

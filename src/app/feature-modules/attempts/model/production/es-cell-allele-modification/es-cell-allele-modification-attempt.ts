@@ -1,4 +1,4 @@
-export class CreAlleleModificationAttempt {
+export class EsCellAlleleModificationAttempt {
     planId: number;
     modificationExternalRef: string;
     numberOfCreMatingsSuccessful: number;

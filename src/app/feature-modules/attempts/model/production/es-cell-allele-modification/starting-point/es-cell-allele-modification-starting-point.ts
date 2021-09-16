@@ -1,4 +1,4 @@
-export class CreAlleleModificationStartingPoint {
+export class EsCellAlleleModificationStartingPoint {
     outcomeTpo: string;
     productionPlanPin: string;
 }

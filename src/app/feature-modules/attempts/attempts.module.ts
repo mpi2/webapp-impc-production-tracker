@@ -20,7 +20,8 @@ import { EscellAttemptComponent } from './components/production/escell/escell-at
 import { PhenotypingAttemptDetailsComponent } from './components/phenotyping/phenotyping-attempt-details/phenotyping-attempt-details.component';
 import { PhenotypingStagesComponent } from './components/phenotyping/phenotyping-stages/phenotyping-stages.component';
 import { PhenotypingStageDetailsComponent } from './components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
-import { CreAlleleModificationComponent } from './components/production/cre-allele-modification/cre-allele-modification.component';
+// eslint-disable-next-line max-len
+import { EsCellAlleleModificationAttemptComponent } from './components/production/es-cell-allele-modification/es-cell-allele-modification-attempt.component';
 import { EsCellDialogBoxComponent } from './components/production/escell/es-cell-dialog-box/es-cell-dialog-box.component';
 
 
@@ -42,7 +43,7 @@ import { EsCellDialogBoxComponent } from './components/production/escell/es-cell
     GuidesComponent,
     NucleaseComponent,
     EscellAttemptComponent,
-    CreAlleleModificationComponent,
+    EsCellAlleleModificationAttemptComponent,
     EsCellDialogBoxComponent
   ],
   imports: [
@@ -53,7 +54,7 @@ import { EsCellDialogBoxComponent } from './components/production/escell/es-cell
     CrisprAttemptComponent,
     CrisprAttemptDetailsComponent,
     EscellAttemptComponent,
-    CreAlleleModificationComponent,
+    EsCellAlleleModificationAttemptComponent,
     PhenotypingAttemptComponent,
     EsCellDialogBoxComponent
   ]

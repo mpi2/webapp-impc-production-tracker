@@ -6,9 +6,10 @@ import { StatusTransition } from 'src/app/model/status_transition/status_transit
 import { PhenotypingStartingPoint } from '../../attempts/model/phenotyping/phenotyping_starting_point';
 import { CrisprAttempt, CrisprAttemptAdapter } from '../../attempts/model/production/crispr/crispr-attempt';
 import { EsCellAttempt, EsCellAttemptAdapter } from '../../attempts/model/production/escell/escell-attempt';
-import { CreAlleleModificationAttempt } from '../../attempts/model/production/cre-allele-modification/cre-allele-modification-attempt';
+import { EsCellAlleleModificationAttempt } from
+    '../../attempts/model/production/es-cell-allele-modification/es-cell-allele-modification-attempt';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
-import { CreAlleleModificationStartingPoint } from '../../attempts';
+import { EsCellAlleleModificationStartingPoint } from '../../attempts';
 
 export class Plan {
     id: number;
@@ -28,8 +29,8 @@ export class Plan {
     comment: string;
     crisprAttempt: CrisprAttempt;
     esCellAttempt: EsCellAttempt;
-    creAlleleModificationAttempt: CreAlleleModificationAttempt;
-    creAlleleModificationStartingPoint: CreAlleleModificationStartingPoint;
+    esCellAlleleModificationAttempt: EsCellAlleleModificationAttempt;
+    esCellAlleleModificationStartingPoint: EsCellAlleleModificationStartingPoint;
     phenotypingAttemptResponse: PhenotypingAttempt;
     // Need to keep this copy because phenotypingAttemptResponse is not processed by the update/create endpoint
     phenotypingAttempt: PhenotypingAttempt;
@@ -71,9 +72,9 @@ export class PlanAdapter implements Adapter<Plan> {
             }
         }
 
-        if (plan.attemptTypeName === 'cre allele modification') {
-            if (!plan.creAlleleModificationAttempt) {
-                plan.creAlleleModificationAttempt = new CreAlleleModificationAttempt();
+        if (plan.attemptTypeName === 'es cell allele modification') {
+            if (!plan.esCellAlleleModificationAttempt) {
+                plan.esCellAlleleModificationAttempt = new EsCellAlleleModificationAttempt();
             }
         }
 
