@@ -53,8 +53,8 @@
                     </td>
                 </tr>
 
-                <!-- Starting Point section. Only available for phenotyping and es cell allele modification plans -->
-                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || 'esCellAlleleModType'">
+                <!-- Starting Point section. Only available for phenotyping and cre allele modification plans -->
+                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || preSelectedAttemptType === 'es cell allele modification'">
                     <tr>
                         <td><label for="startingPoint">Starting point (Outcome id) *:</label></td>
                         <td>
