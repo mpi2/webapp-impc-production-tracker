@@ -7,8 +7,8 @@ import { ConfigurationDataService, ConfigurationData, LoggedUserService } from '
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
-import { CreAlleleModificationStartingPoint } from
-        'src/app/feature-modules/attempts/model/production/cre-allele-modification/starting-point/cre-allele-modification-starting-point';
+// eslint-disable-next-line max-len
+import { EsCellAlleleModificationStartingPoint } from 'src/app/feature-modules/attempts/model/production/es-cell-allele-modification/starting-point/es-cell-allele-modification-starting-point';
 import { ProjectService } from 'src/app/feature-modules/projects';
 import { User } from 'src/app/core/model/user/user';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
@@ -57,7 +57,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   error;
   loading = false;
   planCreation = true;
-  creAlleleModType = false;
+  esCellAlleleModType = false;
   esCellType = false;
   plan: Plan = new Plan();
   showAllElementsInLists = false;
@@ -119,10 +119,10 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   }
 
   onAttemptTypeSelected(e) {
-    if (e.value === 'cre allele modification') {
-      this.creAlleleModType = true;
+    if (e.value === 'es cell allele modification') {
+      this.esCellAlleleModType = true;
     } else {
-      this.creAlleleModType = false;
+      this.esCellAlleleModType = false;
     }
     if (e.value === 'es cell') {
       this.esCellType = true;
@@ -136,9 +136,9 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
   }
 
   onStartingPointChanged(e) {
-    if (this.planCreationForm.get('attemptTypeName').value === 'cre allele modification') {
-      this.plan.creAlleleModificationStartingPoint = new CreAlleleModificationStartingPoint();
-      this.plan.creAlleleModificationStartingPoint.outcomeTpo = e.value;
+    if (this.planCreationForm.get('attemptTypeName').value === 'es cell allele modification') {
+      this.plan.esCellAlleleModificationStartingPoint = new EsCellAlleleModificationStartingPoint();
+      this.plan.esCellAlleleModificationStartingPoint.outcomeTpo = e.value;
     }
     if (this.preSelectedPlanType === 'phenotyping') {
       this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
@@ -297,7 +297,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     if (this.projectCreation) {
       this.attemptTypesByPlanTypes.delete('phenotyping');
       const prod = this.attemptTypesByPlanTypes.get('production')
-                                                      .filter(t => !(t.name === 'cre allele modification' || t.name === 'breeding'));
+                                                      .filter(t => !(t.name === 'es cell allele modification' || t.name === 'breeding'));
       this.attemptTypesByPlanTypes.set('production', prod);
       this.handleAttemptTypeSelected(null, this.attemptTypesByPlanTypes);
     }
@@ -312,7 +312,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       } else {
         if (this.originalProductionAttemptType === 'crispr') {
           prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'es cell'
-                                                      || t.name === 'cre allele modification' || t.name === 'breeding'));
+                                                      || t.name === 'es cell allele modification' || t.name === 'breeding'));
         } else if (this.originalProductionAttemptType === 'es cell') {
           prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'crispr'
                                                       || t.name === 'haplo-essential crispr' || t.name === 'breeding'));

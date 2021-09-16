@@ -155,26 +155,26 @@
   <div *ngIf="isEsCellProject">
     <fieldset>
       <legend class="subtitle">
-        Cre Allele Modification Plans
+        ES Cell Allele Modification Plans
       </legend>
-      <table style="width: 100%;" *ngIf="creAlleModPlansDetails.length > 0">
+      <table style="width: 100%;" *ngIf="esCellAlleModPlansDetails.length > 0">
         <tbody>
-          <tr *ngFor="let creAlleleModPlanDetail of sortByPid(creAlleModPlansDetails)">
-            <app-plan-summary [plan]="creAlleleModPlanDetail"></app-plan-summary>
+          <tr *ngFor="let esCellAlleleModPlanDetail of sortByPid(esCellAlleModPlansDetails)">
+            <app-plan-summary [plan]="esCellAlleleModPlanDetail"></app-plan-summary>
           </tr>
         </tbody>
       </table>
       <br>
 
-      <div *ngIf="canCreateProductionPlan  && numberGenotypeConfirmedColonies > 0; then enabledCreAlleleModButton else disabledCreAlleleModPlanButton"></div>
-      <ng-template #enabledCreAlleleModButton>
-        <a routerLink="plan-creation" [queryParams]="{planType: 'production', attemptType: 'cre allele modification'}" target="_blank"><button
-            class="create-button" mat-raised-button color="primary">Add Cre Allele Modification Plan</button></a>
+      <div *ngIf="canCreateProductionPlan  && numberGenotypeConfirmedColonies > 0; then enabledEsCellAlleleModButton else disabledEsCellAlleleModPlanButton"></div>
+      <ng-template #enabledEsCellAlleleModButton>
+        <a routerLink="plan-creation" [queryParams]="{planType: 'production', attemptType: 'es cell allele modification'}" target="_blank"><button
+            class="create-button" mat-raised-button color="primary">Add ES Cell Allele Modification Plan</button></a>
       </ng-template>
-      <ng-template #disabledCreAlleleModPlanButton>
+      <ng-template #disabledEsCellAlleleModPlanButton>
         <button class="create-button" disabled="true" mat-raised-button color="primary" 
-        matTooltip="You cannot add cre allele modification plans or there are not genotype confirmed colonies yet.">
-          Add Cre Allele Modification Plan
+        matTooltip="You cannot add ES Cell allele modification plans or there are not genotype confirmed colonies yet.">
+          Add ES Cell Allele Modification Plan
         </button>
       </ng-template>
     </fieldset>

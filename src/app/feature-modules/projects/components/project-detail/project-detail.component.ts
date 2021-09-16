@@ -27,7 +27,7 @@ export class ProjectDetailComponent implements OnInit {
   project: Project = new Project();
   originalProjectAsString;
   productionPlansDetails: Plan[] = [];
-  creAlleModPlansDetails: Plan[] = [];
+  esCellAlleModPlansDetails: Plan[] = [];
   phenotypingPlansDetails: Plan[] = [];
   outcomes: Outcome[] = [];
   canUpdateProject: boolean;
@@ -132,7 +132,7 @@ export class ProjectDetailComponent implements OnInit {
 
   private coloniesExist(): void {
     this.numberGenotypeConfirmedColonies = 0;
-    const productionPlans = this.productionPlansDetails.concat(this.creAlleModPlansDetails);
+    const productionPlans = this.productionPlansDetails.concat(this.esCellAlleModPlansDetails);
 
     productionPlans.forEach(plan => {
       this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
@@ -207,8 +207,8 @@ export class ProjectDetailComponent implements OnInit {
     if (this.project._links.productionPlans) {
       this.project._links.productionPlans.map(x => {
         this.planService.getPlanByUrl(x.href).subscribe(plan => {
-          if (plan.attemptTypeName === 'cre allele modification') {
-            this.creAlleModPlansDetails.push(plan);
+          if (plan.attemptTypeName === 'es cell allele modification') {
+            this.esCellAlleModPlansDetails.push(plan);
           } else {
             this.productionPlansDetails.push(plan);
           }
