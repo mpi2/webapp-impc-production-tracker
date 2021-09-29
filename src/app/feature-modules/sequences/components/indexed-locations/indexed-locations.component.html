@@ -7,7 +7,6 @@
         <th>Strand</th>
         <th>Genome Build</th>
         <th>Strain</th>
-        <th>Species</th>
         <th></th>
     </tr>
     <ng-template ngFor let-sequenceLocation [ngForOf]="indexedSequence.sequence.sequenceLocations">
@@ -63,18 +62,6 @@
                             <mat-option></mat-option>
                             <mat-option *ngFor="let strain of strains" [value]="strain.name">
                                 {{strain.name}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </td>
-
-                <td>
-                    <mat-form-field appearance="fill" >
-                        <mat-select (selectionChange)="onChange(sequenceLocation)"
-                            [(value)]="sequenceLocation.location.speciesName">
-                            <mat-option></mat-option>
-                            <mat-option *ngFor="let speciesElement of species" [value]="speciesElement.name">
-                                {{speciesElement.name}}
                             </mat-option>
                         </mat-select>
                     </mat-form-field>

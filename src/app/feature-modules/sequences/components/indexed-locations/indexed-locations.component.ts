@@ -19,15 +19,11 @@ export class IndexedLocationsComponent implements OnInit {
   nextNewId = -1;
 
   configurationData: ConfigurationData;
-
-  species: NamedValue[];
   strains: NamedValue[];
-
-  tmpIndexRowName = 'tmp_id';
-
   originalData: IndexedLocation[];
 
-  displayedColumns: string[] = ['index', 'chr', 'start', 'stop', 'strand', 'genomeBuild', 'strain', 'species'];
+  tmpIndexRowName = 'tmp_id';
+  displayedColumns: string[] = ['index', 'chr', 'start', 'stop', 'strand', 'genomeBuild', 'strain'];
 
   constructor(
     private configurationDataService: ConfigurationDataService,
@@ -43,7 +39,6 @@ export class IndexedLocationsComponent implements OnInit {
   loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.species = this.configurationData.species.map(x => ({ name: x }));
       this.strains = this.configurationData.trackedStrains.map(x => ({ name: x }));
     });
   }
