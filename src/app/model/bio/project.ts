@@ -15,7 +15,6 @@ export class Project {
     isObjectRestricted: boolean;
     consortia: InstitutesConsortium[];
     privacyName: string;
-    species: string[];
     projectIntentions: ProjectIntention[];
     comment: string;
     relatedWorkUnitNames: string[];
