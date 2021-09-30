@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormBuilder, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ConfigurationDataService, ConfigurationData, LoggedUserService } from 'src/app/core';
+import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Plan } from '../../model/plan';
 
 
@@ -22,19 +24,36 @@ export class PlanDetailsComponent implements OnInit, ControlValueAccessor {
   @Input() canUpdatePlan: boolean;
 
   planDetailsForm: FormGroup;
+  configurationData: ConfigurationData;
+  filteredFundersByWorkGroup: NamedValue[] = [];
+  fundersByWorkGroups = new Map<string, NamedValue[]>();
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: FormBuilder,
+              private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit() {
     this.createPlanDetailsForm();
 
+    this.configurationDataService.getConfigurationData().subscribe(data => {
+      this.configurationData = data;
+      Object.keys(this.configurationData.fundersByWorkGroups).map(key => {
+        const list = this.configurationData.fundersByWorkGroups[key];
+        this.fundersByWorkGroups.set(key, list.map(x => ({ name: x })));
+      });
+    }, error => {
+      console.log('error => ', error);
+    });
+
     setTimeout (() => {
       this.planDetailsForm.get('comment').setValue(this.plan.comment);
+      this.planDetailsForm.get('funderNames').setValue(this.plan.funderNames);
+      this.filteredFundersByWorkGroup = this.fundersByWorkGroups.get(this.plan.workGroupName);
     }, 1000);
   }
 
   createPlanDetailsForm() {
     this.planDetailsForm = this.fb.group({
+      funderNames: [this.plan.funderNames],
       comment: [this.plan.comment]
     });
   }
@@ -59,6 +78,12 @@ export class PlanDetailsComponent implements OnInit, ControlValueAccessor {
       this.planDetailsForm.disable();
     } else {
       this.planDetailsForm.enable();
+    }
+  }
+
+  fundersChanged(e): void {
+    if (e.value !== null) {
+      this.plan.funderNames = e.value;
     }
   }
 

@@ -148,7 +148,6 @@ export class GuidesComponent implements OnInit {
   selectedGene(gene: any) {
     if (gene === undefined) {
       this.error = 'Enter a valid gene symbol.';
-      // console.log('error => ', this.error);
       this.geneSymbol = undefined;
       this.exons = undefined;
       this.guides = undefined;

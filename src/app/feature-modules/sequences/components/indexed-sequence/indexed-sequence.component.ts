@@ -39,7 +39,6 @@ export class IndexedSequenceComponent implements OnInit {
   }
 
   deleteSequence(indexedSequence: IndexedSequence) {
-    console.log(indexedSequence);
     this.sequenceDeleted.emit(indexedSequence);
   }
 

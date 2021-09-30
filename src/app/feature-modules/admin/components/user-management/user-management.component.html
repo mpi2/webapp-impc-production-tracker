@@ -77,7 +77,6 @@
             <mat-form-field appearance="fill">
               <mat-label>Work Unit</mat-label>
               <mat-select [(value)]="selectedWorkUnits" multiple>
-                <mat-option></mat-option>
                 <mat-option *ngFor="let workUnit of workUnits" value="{{ workUnit.name }}">{{workUnit.name}}
                 </mat-option>
               </mat-select>
@@ -130,7 +129,6 @@
               <mat-form-field appearance="fill">
                   <mat-label>Consortium</mat-label>
                   <mat-select [(value)]="selectedConsortia" multiple>
-                    <mat-option></mat-option>
                     <mat-option *ngFor="let consortium of consortia" value="{{ consortium.name }}">{{consortium.name}}
                     </mat-option>
                   </mat-select>

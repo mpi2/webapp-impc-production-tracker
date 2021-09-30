@@ -162,7 +162,6 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   }
 
   update() {
-    console.log(this.phenotypingStage);
     this.loading = true;
     this.phenotypingStageService.updatePhenotypingStage(this.pin, this.phenotypingStage).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;

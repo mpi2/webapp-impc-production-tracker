@@ -110,7 +110,6 @@ export class ProjectCreationComponent implements OnInit {
       this.projectCreation.projectIntentions.push(intention);
     });
 
-    // console.log(this.projectCreation);
     this.loading = true;
     this.projectService.createProject(this.projectCreation).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;

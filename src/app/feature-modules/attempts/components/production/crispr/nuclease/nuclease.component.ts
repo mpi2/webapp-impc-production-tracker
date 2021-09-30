@@ -33,7 +33,6 @@ export class NucleaseComponent implements OnInit {
     public dialog: MatDialog) { }
 
   ngOnInit() {
-    // this.canUpdatePlan = false;
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.nucleaseTypes = this.configurationData.nucleaseTypes.map(x => ({ name: x }));
@@ -44,14 +43,13 @@ export class NucleaseComponent implements OnInit {
   }
 
   setInitialData(): void {
-    const nuclease = new Nuclease();
-    nuclease.id = -1;
-    if (this.nucleaseTypes !== undefined) {
-      nuclease.typeName = this.nucleaseTypes[0].name;
-      this.crisprAttempt.nucleases.push(nuclease);
-    }
-    if (this.crisprAttempt.nucleases.length > 1) {
-      this.crisprAttempt.nucleases = this.crisprAttempt.nucleases.filter(({ id }) => id !== -1);
+    if (this.crisprAttempt.nucleases.length === 0) {
+      const nuclease = new Nuclease();
+      nuclease.id = -1;
+      if (this.nucleaseTypes !== undefined) {
+        nuclease.typeName = this.nucleaseTypes[0].name;
+        this.crisprAttempt.nucleases.push(nuclease);
+      }
     }
     this.dataSource = this.crisprAttempt.nucleases;
   }

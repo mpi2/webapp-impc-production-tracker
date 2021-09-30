@@ -109,14 +109,10 @@
                 </tr>
 
                 <tr>
-                    <td><label for="workGroup">Funders:</label></td>
+                    <td><label for="funders">Funders:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select multiple id="funderNames"
-                                (blur)="onTouched()" 
-                                formControlName="funderNames"
-                            >
-                                <mat-option></mat-option>
+                            <mat-select multiple id="funderNames" (blur)="onTouched()" formControlName="funderNames">
                                 <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
                                     {{ funder.name }}
                                 </mat-option>
