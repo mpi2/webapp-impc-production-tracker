@@ -77,7 +77,8 @@
         <form [formGroup]="guidesForm">
             <div *ngIf="canUpdatePlan; then editable else readOnly"></div>
             <ng-template #editable>
-                <table class="mat-elevation-z8">
+                <div style="overflow-x:auto;" class="mat-elevation-z8">
+                <table>
                     <tr>
                         <th>Sequence **</th>
                         <th>Guide Sequence **</th>
@@ -205,6 +206,7 @@
                         </td>
                     </tr>
                 </table>
+            </div>
                 <br>
                 <span style="font-size: 12px; ">** Please enter sequence in 5' to 3' orientation</span>
                 <br>
