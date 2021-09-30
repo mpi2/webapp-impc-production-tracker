@@ -109,7 +109,6 @@ export class EsCellAlleleModificationAttemptComponent implements OnInit, Control
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    // console.log('esCellAlleleModificationAttemptForm validation: ', this.esCellAlleleModificationAttemptForm.valid);
     return this.esCellAlleleModificationAttemptForm.valid ? null : { invalidForm: {valid: false,
                                       message: 'esCellAlleleModAttemptForm fields are invalid'} };
   }

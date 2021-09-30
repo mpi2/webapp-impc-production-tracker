@@ -103,10 +103,6 @@ export class ProjectDetailComponent implements OnInit {
 
   updateProject(): void {
     this.project = Object.assign(this.project, this.projectForm.value);
-
-    console.log('form: ', this.projectForm.value);
-    console.log('project: ', this.project);
-
     this.projectService.updateProject(this.project).subscribe((changeResponse: ChangeResponse) => {
       if (changeResponse && changeResponse.history.length > 0) {
         this.changeDetails = changeResponse.history[0];
