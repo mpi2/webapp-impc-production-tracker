@@ -1,4 +1,3 @@
-<div *ngIf="error && !projectCreation" class="alert alert-danger">{{ error }}</div>
 <mat-card>
     <mat-card-title>
         Plan Creation
@@ -136,15 +135,16 @@
 
             </table>
 
-        <div *ngIf="!projectCreation">
-            <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
-            <br>
-            <span style="font-size: 12px; ">* required fields</span>
-            <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
-            </mat-spinner>
-        </div>
-            
-
+            <div *ngIf="!projectCreation">
+                <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
+                <br>
+                <span style="font-size: 12px; ">* required fields</span>
+                <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
+                </mat-spinner>
+                <div class="separation"></div>
+                <div *ngIf="error && !projectCreation" class="alert alert-danger">{{ error }}</div>
+            </div>
+        
         </ng-container>
     </mat-card-content>
 </mat-card>
