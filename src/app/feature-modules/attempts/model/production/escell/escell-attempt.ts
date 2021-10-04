@@ -4,8 +4,9 @@ import { InputHandlerService } from 'src/app/core/services/input-handler.service
 
 export class EsCellAttempt {
     planId: number;
+    imitsMiAttemptId: number;
     attemptTypeName: string;
-    esCellName: string;
+    targRepEsCellName: string;
     miDate: Date;
     attemptExternalRef: string;
     experimental: boolean;
