@@ -57,7 +57,9 @@ export class EsCellAlleleModificationAttemptComponent implements OnInit, Control
       numberOfCreMatingsSuccessful: [this.esCellAlleleModificationAttempt.numberOfCreMatingsSuccessful,
                                       Validators.pattern('^[0-9]*$')], // number;
       tatCre: [this.esCellAlleleModificationAttempt.tatCre], // boolean;
-      deleterStrainName: [this.esCellAlleleModificationAttempt.deleterStrainName] // string;
+      deleterStrainName: [this.esCellAlleleModificationAttempt.deleterStrainName], // string;
+      imitsMouseAlleleModId: [this.esCellAlleleModificationAttempt.imitsMouseAlleleModId],
+      targRepAlleleId: [this.esCellAlleleModificationAttempt.targRepAlleleId]
     });
   }
 

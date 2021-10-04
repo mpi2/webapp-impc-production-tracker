@@ -133,10 +133,6 @@ export class ProductionPlanComponent implements OnInit {
     }
   }
 
-  enableUpdateButton() {
-    return this.planHasChanged();
-  }
-
   planHasChanged() {
     return this.originalPlanAsString !== JSON.stringify(this.plan);
   }

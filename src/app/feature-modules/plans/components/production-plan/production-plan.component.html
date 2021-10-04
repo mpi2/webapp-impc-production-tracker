@@ -40,7 +40,7 @@
         <!-- Submit -->
         <br>
         <div class="button-wrapper">
-          <button mat-raised-button color="primary" type="submit" *ngIf="canUpdatePlan">Update</button>
+          <button mat-raised-button color="primary" type="submit" *ngIf="canUpdatePlan" [disabled]="!planHasChanged()">Update</button>
           <br>
           <span style="font-size: 12px; ">* required fields</span>
           <div class="separation"></div>
