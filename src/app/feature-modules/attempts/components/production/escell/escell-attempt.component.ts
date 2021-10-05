@@ -52,7 +52,7 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
 
   createEsCellAttemptForm() {
     this.esCellAttemptForm = this.fb.group({
-      esCellName: [this.esCellAttempt.targRepEsCellName, Validators.required],
+      esCellName: [this.esCellAttempt.esCellName, Validators.required],
       miDate: [this.esCellAttempt.miDate], // date
       attemptExternalRef: [this.esCellAttempt.attemptExternalRef, Validators.required], // string
       experimental: [this.esCellAttempt.experimental], // boolean
