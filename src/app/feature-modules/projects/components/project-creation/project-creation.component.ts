@@ -42,7 +42,6 @@ export class ProjectCreationComponent implements OnInit {
   loggedUser: User;
 
   privacies: NamedValue[];
-  allSpecies: NamedValue[];
   allMutationCategorizations: NamedValue[];
   molecularMutationTypes: NamedValue[];
 
@@ -66,8 +65,7 @@ export class ProjectCreationComponent implements OnInit {
       planDetails:[''],
       privacyName: ['', Validators.required],
       projectIntentions: [''],
-      recovery: [false],
-      species: ['']
+      recovery: [false]
     });
   }
 
@@ -75,7 +73,6 @@ export class ProjectCreationComponent implements OnInit {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
       this.privacies = this.configurationData.privacies.map(x => ({ name: x }));
-      this.allSpecies = this.configurationData.species.map(x => ({ name: x }));
       this.allMutationCategorizations = this.configurationData.mutationCategorizations.map(x => ({ name: x }));
       this.molecularMutationTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
     }, error => {
@@ -113,7 +110,6 @@ export class ProjectCreationComponent implements OnInit {
       this.projectCreation.projectIntentions.push(intention);
     });
 
-    // console.log(this.projectCreation);
     this.loading = true;
     this.projectService.createProject(this.projectCreation).subscribe((changeResponse: ChangeResponse) => {
       this.loading = false;

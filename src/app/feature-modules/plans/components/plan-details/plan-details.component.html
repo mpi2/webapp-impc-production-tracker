@@ -30,8 +30,22 @@
       {{ plan.workGroupName || 'Not defined' }}
       <div class="separation"></div>
 
-      <label for="funderNames">Funders:</label>
-      {{ plan.funderNames || 'Not defined' }}
+      <div *ngIf="canUpdatePlan; then funderEditable else funderReadOnly"></div>
+      <ng-template #funderEditable>
+        <label for="funders">Funders:</label>
+        <mat-form-field appearance="fill">
+          <mat-select multiple id="funderNames" (blur)="onTouched()" formControlName="funderNames" (selectionChange)="fundersChanged($event)">
+              <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
+                  {{ funder.name }}
+              </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </ng-template>
+      <ng-template #funderReadOnly>
+        <label for="funderNames">Funders:</label>
+        {{ plan.funderNames || 'Not defined' }}
+      </ng-template>
+      
       <div class="separation"></div>
       <br>
 

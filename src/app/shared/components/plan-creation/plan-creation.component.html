@@ -1,4 +1,3 @@
-<div *ngIf="error && !projectCreation" class="alert alert-danger">{{ error }}</div>
 <mat-card>
     <mat-card-title>
         Plan Creation
@@ -54,7 +53,7 @@
                 </tr>
 
                 <!-- Starting Point section. Only available for phenotyping and cre allele modification plans -->
-                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || preSelectedAttemptType === 'cre allele modification'">
+                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || preSelectedAttemptType === 'es cell allele modification'">
                     <tr>
                         <td><label for="startingPoint">Starting point (Outcome id) *:</label></td>
                         <td>
@@ -109,14 +108,10 @@
                 </tr>
 
                 <tr>
-                    <td><label for="workGroup">Funders:</label></td>
+                    <td><label for="funders">Funders:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select multiple id="funderNames"
-                                (blur)="onTouched()" 
-                                formControlName="funderNames"
-                            >
-                                <mat-option></mat-option>
+                            <mat-select multiple id="funderNames" (blur)="onTouched()" formControlName="funderNames">
                                 <mat-option *ngFor="let funder of filteredFundersByWorkGroup" [value]="funder.name">
                                     {{ funder.name }}
                                 </mat-option>
@@ -140,15 +135,16 @@
 
             </table>
 
-        <div *ngIf="!projectCreation">
-            <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
-            <br>
-            <span style="font-size: 12px; ">* required fields</span>
-            <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
-            </mat-spinner>
-        </div>
-            
-
+            <div *ngIf="!projectCreation">
+                <button mat-raised-button color="primary" (click)="create()">Create Plan</button>
+                <br>
+                <span style="font-size: 12px; ">* required fields</span>
+                <mat-spinner style="margin:0 auto;" *ngIf="loading" matSuffix mode="indeterminate" diameter=20>
+                </mat-spinner>
+                <div class="separation"></div>
+                <div *ngIf="error && !projectCreation" class="alert alert-danger">{{ error }}</div>
+            </div>
+        
         </ng-container>
     </mat-card-content>
 </mat-card>

@@ -43,15 +43,11 @@
             <div *ngIf="checkEditable(); then editableType else readOnlyType">
             </div>
             <ng-template #editableType>
-
-              <mat-select multiple class="selectContent" [(ngModel)]="element.recordTypes"
-                [ngModelOptions]="{standalone: true}">
-                <mat-option></mat-option>
+              <mat-select multiple class="selectContent" [(ngModel)]="element.recordTypes" [ngModelOptions]="{standalone: true}">
                 <mat-option *ngFor="let recordType of filteredRecordTypes" [value]="recordType.name">
-                  {{recordType.name}}
+                  {{ recordType.name }}
                 </mat-option>
               </mat-select>
-
             </ng-template>
             <ng-template #readOnlyType>
               {{ element.recordTypes }}
