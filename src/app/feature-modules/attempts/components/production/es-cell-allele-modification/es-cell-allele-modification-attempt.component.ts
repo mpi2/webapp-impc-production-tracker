@@ -59,7 +59,7 @@ export class EsCellAlleleModificationAttemptComponent implements OnInit, Control
       tatCre: [this.esCellAlleleModificationAttempt.tatCre], // boolean;
       deleterStrainName: [this.esCellAlleleModificationAttempt.deleterStrainName], // string;
       imitsMouseAlleleModId: [this.esCellAlleleModificationAttempt.imitsMouseAlleleModId],
-      targRepAlleleId: [this.esCellAlleleModificationAttempt.targRepAlleleId]
+      imitsTargRepAlleleId: [this.esCellAlleleModificationAttempt.imitsTargRepAlleleId]
     });
   }
 

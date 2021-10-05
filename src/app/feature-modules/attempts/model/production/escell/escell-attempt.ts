@@ -6,7 +6,7 @@ export class EsCellAttempt {
     planId: number;
     imitsMiAttemptId: number;
     attemptTypeName: string;
-    targRepEsCellName: string;
+    esCellName: string;
     miDate: Date;
     attemptExternalRef: string;
     experimental: boolean;

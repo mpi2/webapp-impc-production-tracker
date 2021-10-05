@@ -7,7 +7,7 @@ export class Mutation {
     pin: string;
     tpo: string;
     mgiAlleleId: string;
-    imitsAllele: number;
+    imitsAlleleId: number;
     symbol: string;
     mgiAlleleSymbolWithoutImpcAbbreviation: boolean;
     mgiAlleleSymbolRequiresConstruction: boolean;
