@@ -5,7 +5,7 @@
       <table>
         <tr>
           <td>ES Cell Name *:</td>
-          <div *ngIf="esCellAttempt.targRepEsCellName === undefined && canUpdatePlan; then esCellNameEditable; else esCellNameReadOnly"></div>
+          <div *ngIf="esCellAttempt.esCellName === undefined && canUpdatePlan; then esCellNameEditable; else esCellNameReadOnly"></div>
           <ng-template #esCellNameEditable>
             <td id=elementESCellData>
               <mat-form-field appearance="fill">
@@ -24,7 +24,7 @@
 
           <ng-template #esCellNameReadOnly>
             <mat-form-field appearance="fill">
-                <input matInput readonly [value]="esCellAttempt.targRepEsCellName" />
+                <input matInput readonly [value]="esCellAttempt.esCellName" />
             </mat-form-field>
             <br>
           </ng-template>
