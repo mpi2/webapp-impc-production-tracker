@@ -25,7 +25,8 @@ RUN $(npm bin)/ng lint && npm audit ---production && $(npm bin)/ng build --confi
 FROM nginx:mainline-alpine
 
 
-# Copy the default nginx.conf
+# Copy the nginx.conf files
+COPY nginx/nginx.conf /etc/nginx/nginx.conf
 COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 
 
@@ -39,5 +40,8 @@ COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
 COPY docker-scripts/start.sh /
 
 RUN ["chmod", "+x", "/start.sh"]
+RUN chown -R nginx:nginx /start.sh
 
 ENTRYPOINT ["/start.sh"]
+
+USER nginx
