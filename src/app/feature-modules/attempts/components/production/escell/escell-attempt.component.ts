@@ -56,10 +56,11 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
       miDate: [this.esCellAttempt.miDate], // date
       attemptExternalRef: [this.esCellAttempt.attemptExternalRef, Validators.required], // string
       experimental: [this.esCellAttempt.experimental], // boolean
+      imitsMiAttemptId: [this.esCellAttempt.imitsMiAttemptId],
       comment: [this.esCellAttempt.comment],
       blastStrainName: [this.esCellAttempt.blastStrainName], // string
       totalBlastsInjected: [this.esCellAttempt.totalBlastsInjected,
-                                  Validators.pattern('^[0-9]*$')], // number; , [Validators.pattern('^[0-9]*$')]
+                                  Validators.pattern('^[0-9]*$')], // number;
       totalTransferred: [this.esCellAttempt.totalTransferred, Validators.pattern('^[0-9]*$')], // number;
       numberSurrogatesReceiving: [this.esCellAttempt.numberSurrogatesReceiving, Validators.pattern('^[0-9]*$')], // number;
       totalPupsBorn: [this.esCellAttempt.totalPupsBorn, Validators.pattern('^[0-9]*$')], // number;
@@ -291,7 +292,6 @@ export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Val
   }
 
   validate(c: AbstractControl): ValidationErrors | null {
-    // console.log('escellAttemptForm validation: ', this.esCellAttemptForm.valid);
     return this.esCellAttemptForm.valid ? null : { invalidForm: {valid: false, message: 'escellAttemptForm fields are invalid'} };
   }
 

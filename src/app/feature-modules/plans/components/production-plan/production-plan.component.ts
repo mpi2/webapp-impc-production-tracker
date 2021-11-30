@@ -133,10 +133,6 @@ export class ProductionPlanComponent implements OnInit {
     }
   }
 
-  enableUpdateButton() {
-    return this.planHasChanged();
-  }
-
   planHasChanged() {
     return this.originalPlanAsString !== JSON.stringify(this.plan);
   }
@@ -158,9 +154,6 @@ export class ProductionPlanComponent implements OnInit {
    */
   private updatePlan() {
     if (this.plan.attemptTypeName === 'crispr') {
-      if (this.plan.crisprAttempt.nucleases !== undefined){
-        this.plan.crisprAttempt.nucleases.forEach(x => this.setIdNull(x));
-      }
       delete this.plan.esCellAttempt;
       delete this.plan.esCellAlleleModificationAttempt;
     } else if (this.plan.attemptTypeName === 'es cell') {
@@ -172,8 +165,6 @@ export class ProductionPlanComponent implements OnInit {
     }
 
     this.loading = true;
-
-    console.log('plan: ', this.plan);
 
     this.planService.updatePlan(
       this.plan.pin, this.plan).subscribe((changeResponse: ChangeResponse) => {
@@ -194,9 +185,5 @@ export class ProductionPlanComponent implements OnInit {
           this.error = error;
         }
       );
-  }
-
-  private setIdNull(object) {
-    object.id = null;
   }
 }
