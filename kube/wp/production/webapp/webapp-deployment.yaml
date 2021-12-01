@@ -37,6 +37,6 @@ spec:
         - name: REDEPLOY_KEY
           value: "STRING_REPLACED_DURING_REDEPLOY"
         ports:
-        - containerPort: 80
+        - containerPort: 8000
           protocol: TCP
         resources: {}
