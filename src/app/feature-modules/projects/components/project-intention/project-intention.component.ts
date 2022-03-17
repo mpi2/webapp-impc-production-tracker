@@ -52,6 +52,10 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
     this.loadConfigurationData();
   }
 
+  get intentions(): FormArray {
+    return this.projectIntentionsForm.get('intentions') as FormArray;
+  }
+
   ngOnInit() {
     this.createProjectIntentionsForm();
 
@@ -81,16 +85,13 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
           this.filteredGenes = data;
         }
       });
+
   }
 
   createProjectIntentionsForm() {
     this.projectIntentionsForm = this.fb.group({
       intentions: this.fb.array([this.newIntentionFormGroup()])
     });
-  }
-
-  get intentions(): FormArray {
-    return this.projectIntentionsForm.get('intentions') as FormArray;
   }
 
   newIntentionFormGroup(): FormGroup {
@@ -118,6 +119,7 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
     }
   }
 
+
   geneInput(i: number, symbol: string) {
 
   }
@@ -139,6 +141,7 @@ export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, 
       });
     });
   }
+
 
   writeValue(obj: any): void {
     if (obj) {
