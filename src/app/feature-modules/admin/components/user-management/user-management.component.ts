@@ -59,6 +59,9 @@ export class UserManagementComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog) { }
 
+  // convenience getter for easy access to form fields
+  get f() { return this.signupForm.controls; }
+
   ngOnInit() {
     this.signupForm = this.formBuilder.group({
       name: ['', Validators.required],
@@ -85,9 +88,6 @@ export class UserManagementComponent implements OnInit {
       this.initLists();
     });
   }
-
-  // convenience getter for easy access to form fields
-  get f() { return this.signupForm.controls; }
 
   onSubmit() {
     this.loading = true;
