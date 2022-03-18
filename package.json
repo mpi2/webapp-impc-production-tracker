@@ -28,7 +28,6 @@
     "ajv": "^8.10.0",
     "angular-scrollable-table": "^1.1.2",
     "audit": "^0.0.6",
-    "fix": "^0.0.6",
     "moment": "^2.29.1",
     "msw": "^0.39.2",
     "ngx-trim-directive": "^2.0.0",
