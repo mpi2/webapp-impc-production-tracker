@@ -23,6 +23,9 @@ export class ForgotPasswordComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) { }
 
+  // convenience getter for easy access to form fields
+  get f() { return this.resetPasswordForm.controls; }
+
   ngOnInit(): void {
     this.resetPasswordForm = this.formBuilder.group({
       userName: ['', Validators.required]
@@ -31,9 +34,6 @@ export class ForgotPasswordComponent implements OnInit {
     // get return url from route parameters or default to '/'
     this.returnUrl = this.route.snapshot.queryParams.returnUrl || '/';
   }
-
-  // convenience getter for easy access to form fields
-  get f() { return this.resetPasswordForm.controls; }
 
   onSubmit() {
     this.submitted = true;

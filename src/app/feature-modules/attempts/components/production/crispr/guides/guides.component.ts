@@ -108,10 +108,6 @@ export class GuidesComponent implements OnInit {
     });
   }
 
-  get f(){
-    return this.guidesForm.controls;
-  }
-
   highlightExon(row) {
     if (this.highlightedRows.indexOf(row) > -1) {
       this.highlightedRows.splice(this.highlightedRows.indexOf(row), 1);
