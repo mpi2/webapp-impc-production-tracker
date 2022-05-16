@@ -153,7 +153,11 @@ export class ProductionPlanComponent implements OnInit {
    * Updates the plan
    */
   private updatePlan() {
-    if (this.plan.attemptTypeName === 'crispr') {
+    if(this.plan.statusTransition.actionToExecute === 'abandonWhenCreated'){
+      delete this.plan.esCellAttempt;
+      delete this.plan.esCellAlleleModificationAttempt;
+      delete this.plan.crisprAttempt;
+    } else if (this.plan.attemptTypeName === 'crispr') {
       delete this.plan.esCellAttempt;
       delete this.plan.esCellAlleleModificationAttempt;
     } else if (this.plan.attemptTypeName === 'es cell') {
@@ -163,7 +167,6 @@ export class ProductionPlanComponent implements OnInit {
       delete this.plan.crisprAttempt;
       delete this.plan.esCellAttempt;
     }
-
     this.loading = true;
 
     this.planService.updatePlan(
