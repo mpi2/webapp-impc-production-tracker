@@ -54,6 +54,8 @@ export class OutcomeDetailComponent implements OnInit {
   mutations: Mutation[];
   configurationData: ConfigurationData;
 
+  showDeleteButton: boolean;
+
   constructor(
     private route: ActivatedRoute,
     private router: Router,
@@ -69,10 +71,17 @@ export class OutcomeDetailComponent implements OnInit {
     this.tpn = this.route.snapshot.params.id;
     this.pin = this.route.snapshot.params.pid;
     this.tpo = this.route.snapshot.params.tpo;
+    this.showDeleteButton=false;
     this.evaluateUpdatePermissions();
     this.loadConfigurationData();
     this.fetchOrCreateOutcome();
     this.getAttemptType();
+  }
+
+  sleep(ms) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, ms);
+    });
   }
 
   getAttemptType() {
@@ -158,10 +167,17 @@ export class OutcomeDetailComponent implements OnInit {
     this.router.navigate(['/projects/' + this.tpn + '/plans/' + this.pin + '/outcomes/' + tpo]);
   }
 
-  update() {
-    this.updateOutcome();
-    this.updateMutations();
+  async update() {
     this.createMutations();
+     await  this.sleep(1000);
+     this.updateMutations();
+    await this.sleep(1000);
+    this.updateOutcome();
+    await this.sleep(2000);
+
+    this.router.navigateByUrl('/outcome-detail', { skipLocationChange: true }).then(() => {
+      this.reloadForTpo(this.tpo);
+    });
 
     // We don't allow to delete mutations at the moment.
     // this.deleteMutations();
@@ -238,23 +254,40 @@ export class OutcomeDetailComponent implements OnInit {
       this.outcome.mutations = [];
     }
     this.outcome.mutations.push(mutation);
+    this.showDeleteButton=true;
   }
 
   onMutationDeleted(e) {
     this.deleteMutation(e);
     this.mutationsToDelete.push(e);
+
   }
 
   // Deletes the mutation in memory
   deleteMutation(mutation: Mutation) {
     if (this.isNewRecord(mutation)) {
       this.outcome.mutations = this.outcome.mutations
-        .filter(x => x[this.tmpIndexRowName] !== mutation[this.tmpIndexRowName]);
+        .filter(x => (x[this.tmpIndexRowName] !== mutation[this.tmpIndexRowName]) || x[this.tmpIndexRowName].genes.length !== 0 || (typeof x[this.tmpIndexRowName].symbol !== 'undefined' && x[this.tmpIndexRowName].symbol.length !== 0));
     } else {
       this.outcome.mutations = this.outcome.mutations
-        .filter(x => x.min !== mutation.min);
+        .filter(x => x.min !== mutation.min || x.genes.length !== 0 || (typeof x.symbol !== 'undefined' && x.symbol.length !== 0));
+    }
+    this.showDeleteMutationButton(mutation);
+  }
+
+
+  showDeleteMutationButton(mutation: Mutation) {
+
+    let mutations = this.outcome.mutations
+      .filter(x => x.min === mutation.min && (x.genes.length !== 0 || (typeof x.symbol !== 'undefined' && x.symbol.length !== 0)));
+    if (mutations.length !== 0 ) {
+      this.error = 'remove gene and mutation symbol to delete newly created mutations';
+    }else {
+      this.error = '';
+      this.showDeleteButton=false;
     }
   }
+
 
   onTypeSelected(e) {
     this.initiOutcomeType(e.value);
