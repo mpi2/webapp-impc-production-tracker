@@ -267,7 +267,8 @@ export class OutcomeDetailComponent implements OnInit {
   deleteMutation(mutation: Mutation) {
     if (this.isNewRecord(mutation)) {
       this.outcome.mutations = this.outcome.mutations
-        .filter(x => (x[this.tmpIndexRowName] !== mutation[this.tmpIndexRowName]) || x[this.tmpIndexRowName].genes.length !== 0 || (typeof x[this.tmpIndexRowName].symbol !== 'undefined' && x[this.tmpIndexRowName].symbol.length !== 0));
+        .filter(x => (x[this.tmpIndexRowName] !== mutation[this.tmpIndexRowName]) || x[this.tmpIndexRowName].genes.length !== 0 ||
+          (typeof x[this.tmpIndexRowName].symbol !== 'undefined' && x[this.tmpIndexRowName].symbol.length !== 0));
     } else {
       this.outcome.mutations = this.outcome.mutations
         .filter(x => x.min !== mutation.min || x.genes.length !== 0 || (typeof x.symbol !== 'undefined' && x.symbol.length !== 0));
@@ -278,7 +279,7 @@ export class OutcomeDetailComponent implements OnInit {
 
   showDeleteMutationButton(mutation: Mutation) {
 
-    let mutations = this.outcome.mutations
+    const mutations = this.outcome.mutations
       .filter(x => x.min === mutation.min && (x.genes.length !== 0 || (typeof x.symbol !== 'undefined' && x.symbol.length !== 0)));
     if (mutations.length !== 0 ) {
       this.error = 'remove gene and mutation symbol to delete newly created mutations';
