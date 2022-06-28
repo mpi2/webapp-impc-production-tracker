@@ -65,6 +65,9 @@
                             <td>
                                 <button class="create-button" mat-raised-button (click)="onAddMutation()" color="primary" type="button"
                                    >Add Mutation</button>
+
+                              <button *ngIf="showDeleteButton" class="create-button" style="margin-left: 20px" mat-raised-button (click)="onMutationDeleted($event)" color="" type="button"
+                              >Delete Empty Mutations</button>
                             </td>
                         </tr>
                     </tbody>
@@ -74,7 +77,7 @@
         </mat-card>
     </div>
 </div>
-    
+
 <div *ngIf="outcome.colony">
     <app-distribution-product-list class="distributionProductsSection" [colony]="outcome.colony"
         [canUpdate]="canUpdate">
