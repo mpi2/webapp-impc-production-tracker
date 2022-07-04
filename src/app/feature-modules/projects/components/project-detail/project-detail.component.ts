@@ -68,7 +68,7 @@ export class ProjectDetailComponent implements OnInit {
     setTimeout (() => {
       this.isEsCellProject = this.productionPlansDetails.some(plan => plan.attemptTypeName === 'es cell');
       this.coloniesExist();
-    }, 1000);
+    }, 2000);
   }
 
   showEsCellDetails(): boolean {
