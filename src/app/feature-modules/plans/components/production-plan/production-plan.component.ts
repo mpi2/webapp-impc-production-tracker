@@ -55,11 +55,11 @@ export class ProductionPlanComponent implements OnInit {
 
   prodPlanReactiveForm() {
     this.prodPlanForm = this.fb.group({
-      planDetails: [''],
+      planDetails: [null],
       // statusTransitionForm: [''],
       // crisprAttemptForm: [''],
-      esCellAttempt: [''],
-      esCellAlleleModificationAttempt: [''],
+      esCellAttempt: [null],
+      esCellAlleleModificationAttempt: [null],
       // outcomeForm: ['']
     });
   }
