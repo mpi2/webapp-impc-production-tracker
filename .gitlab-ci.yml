@@ -80,8 +80,8 @@ build_image:
     - echo "${CI_REGISTRY_PASSWORD}" | docker login -u "${CI_REGISTRY_USER}" --password-stdin  ${CI_REGISTRY}
   script:
 
-    - sed -i "s|FROM node|FROM ${LOCAL_GITLAB_NODE_IMAGE}|g" Dockerfile       
-    - sed -i "s|FROM nginx|FROM ${LOCAL_GITLAB_NGINX_IMAGE}|g" Dockerfile       
+    - sed -i "s|FROM node|FROM ${LOCAL_GITLAB_NODE_IMAGE}|g" Dockerfile
+    - sed -i "s|FROM nginx|FROM ${LOCAL_GITLAB_NGINX_IMAGE}|g" Dockerfile
     - docker build -t "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}" -t "${CI_REGISTRY_IMAGE}":latest .  | tee ${MOUNT_POINT}/build.log
 
     - docker push "${CI_REGISTRY_IMAGE}":"${CI_COMMIT_SHA:0:12}"  | tee ${MOUNT_POINT}/push.log
@@ -102,7 +102,7 @@ build_image:
       fi
   artifacts:
     paths:
-      - "$MOUNT_POINT/"
+      - mnt/
 
 
 
@@ -265,7 +265,7 @@ hh-dev:
 
         REGISTRY_JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/")
         REGISTRY_REPOSITORY_ID=$(echo $REGISTRY_JSON | jq '.[0].id')
-        
+
         JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${REGISTRY_REPOSITORY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
@@ -394,7 +394,7 @@ hh-test:
 
         REGISTRY_JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/")
         REGISTRY_REPOSITORY_ID=$(echo $REGISTRY_JSON | jq '.[0].id')
-        
+
         JSON=$( curl --header "PRIVATE-TOKEN: ${GITLAB_API_ACCESS_TOKEN}" "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/registry/repositories/${REGISTRY_REPOSITORY_ID}/tags/${CI_COMMIT_SHA:0:12}/")
         IMAGE_TAG_NAME=$(echo $JSON | jq  -r '.name')
 
