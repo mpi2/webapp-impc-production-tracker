@@ -43,65 +43,63 @@
           <br>
 
 
+
+              <div *ngIf="attemptType === 'crispr'">
+                <label for="repairMechanism">Repair Mechanism:</label>
+                <mat-form-field appearance="fill">
+                  <mat-select [(value)]="repairMechanismsNames" (selectionChange)="onRepairMechanismChanged($event)">
+                    <mat-option
+                      *ngFor="let repairMechanism of this.mutationCategorizationsByType[repairMechanismKey]"
+                      [value]="repairMechanism.name">
+                      {{ repairMechanism.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+              </div>
+
+              <div *ngIf="(attemptType === 'es cell' || attemptType === 'es cell allele modification')">
+                <label for="esCellAlleleType">Mutation type:</label>
+                <mat-form-field appearance="fill">
+                  <mat-select [(value)]="esCellAlleleTypes" (selectionChange)="onEsCellAlleleTypeChanged($event)">
+                    <mat-option
+                      *ngFor="let esCellAlleleType of this.mutationCategorizationsByType[esCellAlleleClass]"
+                      [value]="esCellAlleleType.name">
+                      {{ esCellAlleleType.name }}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <br>
+              </div>
+
+              <label for="alleleCategory">Allele Categories:</label>
+              <mat-form-field appearance="fill">
+                <mat-select [(value)]="alleleCategoriesNames"
+                            (selectionChange)="onAlleleCategoriesChanged($event)" multiple>
+                  <mat-option
+                    *ngFor="let alleleCategory of this.mutationCategorizationsByType[alleleCategoryKey]"
+                    [value]="alleleCategory.name">
+                    {{ alleleCategory.name }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <br>
+
+
           <label>Mutation symbol:</label>
             <mat-form-field appearance="fill">
                 <input matInput [(ngModel)]="mutation.symbol" [ngModelOptions]="{standalone: true}">
-                <mat-hint>E.g: Otog&#60;em1(IMPC)J&#62;</mat-hint>
+                <mat-hint *ngIf=!showSymbolMessageError>E.g: Otog&#60;em1(IMPC)J&#62;</mat-hint>
+              <mat-hint *ngIf=showSymbolMessageError  style="color: red" >{{symbolMessageError}}</mat-hint>
             </mat-form-field>
             <ng-container *ngIf=shouldSuggestSymbol>
                 <button id="suggestSymbolButton" (click)="suggestSymbol()" mat-raised-button color="primary">Suggest Symbol</button>
             </ng-container>
             <br>
             <br>
+          <br>
+          <br>
 
-            <mat-accordion>
-                <mat-expansion-panel [expanded]="true">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>Mutation Categorizations</mat-panel-title>
-                    </mat-expansion-panel-header>
-
-                    <div *ngIf="attemptType === 'crispr'">
-                        <label for="repairMechanism">Repair Mechanism:</label>
-                        <mat-form-field appearance="fill">
-                            <mat-select [(value)]="repairMechanismsNames" (selectionChange)="onRepairMechanismChanged($event)">
-                                <mat-option
-                                    *ngFor="let repairMechanism of this.mutationCategorizationsByType[repairMechanismKey]"
-                                    [value]="repairMechanism.name">
-                                    {{ repairMechanism.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <br>
-                    </div>
-
-                    <div *ngIf="attemptType === 'es cell'">
-                        <label for="esCellAlleleType">Mutation type:</label>
-                        <mat-form-field appearance="fill">
-                            <mat-select [(value)]="esCellAlleleTypes" (selectionChange)="onEsCellAlleleTypeChanged($event)">
-                                <mat-option
-                                    *ngFor="let esCellAlleleType of this.mutationCategorizationsByType[esCellAlleleClass]"
-                                    [value]="esCellAlleleType.name">
-                                    {{ esCellAlleleType.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                        <br>
-                    </div>
-
-                    <label for="alleleCategory">Allele Categories:</label>
-                    <mat-form-field appearance="fill">
-                        <mat-select [(value)]="alleleCategoriesNames"
-                            (selectionChange)="onAlleleCategoriesChanged($event)" multiple>
-                            <mat-option
-                                *ngFor="let alleleCategory of this.mutationCategorizationsByType[alleleCategoryKey]"
-                                [value]="alleleCategory.name">
-                                {{ alleleCategory.name }}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                    <br>
-                </mat-expansion-panel>
-            </mat-accordion>
 
             <app-indexed-sequence
                 [canUpdate]="canUpdate"
