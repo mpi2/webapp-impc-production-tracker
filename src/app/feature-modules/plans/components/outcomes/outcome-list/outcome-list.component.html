@@ -7,8 +7,11 @@
             </div>
         </div>
         <div *ngIf="outcomes?.length === 1 && (attemptType === 'es cell allele modification' || attemptType === 'es cell'); then NoAdd; else add"></div>
-        <ng-template #NoAdd></ng-template>
+        <ng-template #NoAdd>
+          <div class="alert alert-danger">You can not create an outcome in current state</div>
+        </ng-template>
         <ng-template #add>
+          <div *ngIf="!canUpdate" class="alert alert-danger">You can not create an outcome in current state</div>
             <a routerLink="/projects/{{ tpn }}/plans/{{ pin }}/outcome-creation"><button class="create-button"
                 mat-raised-button color="primary" *ngIf="canUpdate">Add Outcome</button></a>
         </ng-template>

@@ -33,6 +33,7 @@ export class ProductionPlanComponent implements OnInit {
   changeDetails: ChangesHistory;
 
   canUpdatePlan: boolean;
+  canAddOutcome: boolean;
   loading = false;
   error: string;
 
@@ -66,6 +67,9 @@ export class ProductionPlanComponent implements OnInit {
 
   reloadForPin(pin: string) {
     this.planService.getPlanByPin(pin).subscribe(data => {
+
+      this.setOutcomeStatus(data);
+
       this.plan = this.planAdapter.adapt(data);
       // eslint-disable-next-line no-underscore-dangle
       const projectUrl = this.plan._links.project.href;
@@ -188,5 +192,21 @@ export class ProductionPlanComponent implements OnInit {
           this.error = error;
         }
       );
+  }
+  // this logic also exist in the backend
+  private setOutcomeStatus(data) {
+    if (data.isAbortionStatus) {
+      this.canAddOutcome = false;
+    } else if (data.attemptTypeName === 'es cell' && data.statusName !== 'Chimeras/Founder Obtained') {
+      this.canAddOutcome = false;
+    } else if (data.attemptTypeName === 'es cell allele modification' && data.statusName !== 'Cre Excision Complete') {
+      this.canAddOutcome = false;
+    } else if (data.attemptTypeName === 'crispr' && data.statusName !== 'Founder Obtained') {
+      this.canAddOutcome = false;
+    } else if (data.attemptTypeName === 'haplo-essential crispr' && data.statusName !== 'Embryos Obtained') {
+      this.canAddOutcome = false;
+    } else {
+      this.canAddOutcome = true;
+    }
   }
 }
