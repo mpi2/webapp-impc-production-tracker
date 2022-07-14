@@ -32,6 +32,15 @@ export class PlanService {
    *
    * @param pin The identifier for the plan.
    */
+  getCanCreateOutcome(pin: string) {
+    return this.http.get<boolean>(this.apiServiceUrl + '/api/plans/can-create-outcome/' + pin );
+  }
+
+  /**
+   * Get a plan using its identifier.
+   *
+   * @param pin The identifier for the plan.
+   */
   getPlanByUrl(url: string) {
     return this.http.get<Plan>(url);
   }
