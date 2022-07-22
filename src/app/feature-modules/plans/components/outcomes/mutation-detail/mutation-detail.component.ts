@@ -40,7 +40,8 @@ export class MutationDetailComponent implements OnInit {
   mutationCategorizationsByType = new Map<string, NamedValue[]>();
 
   shouldSuggestSymbol: boolean;
-
+  showSymbolMessageError: boolean;
+  symbolMessageError: string;
   repairMechanismKey = 'repair_mechanism';
   alleleCategoryKey = 'allele_category';
   esCellAlleleClass = 'esc_allele_class';
@@ -113,7 +114,13 @@ export class MutationDetailComponent implements OnInit {
     this.mutation.symbolSuggestionRequest = symbolSuggestionRequest;
     this.mutationService.getSuggestedSymbol(this.mutation.pin, this.mutation).subscribe(data => {
       this.mutation.symbol = data;
-
+      this.showSymbolMessageError=false;
+      if(this.mutation.symbol.includes('Error')){
+        this.showSymbolMessageError=true;
+        this.symbolMessageError=this.mutation.symbol;
+        this.mutation.symbol = '';
+      }
+      this.mutation.symbol=this.mutation.symbol.replace(/'/g, '');
     }, error => {
       console.log(error);
     });

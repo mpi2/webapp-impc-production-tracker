@@ -33,6 +33,7 @@ export class ProductionPlanComponent implements OnInit {
   changeDetails: ChangesHistory;
 
   canUpdatePlan: boolean;
+  canAddOutcome: boolean;
   loading = false;
   error: string;
 
@@ -66,6 +67,11 @@ export class ProductionPlanComponent implements OnInit {
 
   reloadForPin(pin: string) {
     this.planService.getPlanByPin(pin).subscribe(data => {
+
+      this.planService.getCanCreateOutcome(pin).subscribe(result=>{
+        this.canAddOutcome=result;
+      });
+
       this.plan = this.planAdapter.adapt(data);
       // eslint-disable-next-line no-underscore-dangle
       const projectUrl = this.plan._links.project.href;
