@@ -3,7 +3,7 @@
 FROM node:lts-buster as build-stage
 
 
-COPY package*.json ./
+COPY package.json ./
 
 RUN npm install -g npm && npm set progress=false && npm config set depth 0 && npm cache clean --force
 
