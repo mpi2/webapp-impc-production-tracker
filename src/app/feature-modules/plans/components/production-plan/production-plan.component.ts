@@ -66,6 +66,7 @@ export class ProductionPlanComponent implements OnInit {
   }
 
   reloadForPin(pin: string) {
+    this.canAddOutcome=true;
     this.planService.getPlanByPin(pin).subscribe(data => {
 
       this.planService.getCanCreateOutcome(pin).subscribe(result=>{
