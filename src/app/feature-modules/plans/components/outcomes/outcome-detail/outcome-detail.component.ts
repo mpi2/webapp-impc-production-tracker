@@ -25,6 +25,7 @@ import { PlanService } from 'src/app/feature-modules/plans';
   styleUrls: ['./outcome-detail.component.css']
 })
 export class OutcomeDetailComponent implements OnInit {
+  static staticError: string;
   outcome: Outcome = new Outcome();
   project: Project;
 
@@ -68,6 +69,7 @@ export class OutcomeDetailComponent implements OnInit {
     private planService: PlanService) { }
 
   ngOnInit(): void {
+    this.error=OutcomeDetailComponent.staticError;
     this.tpn = this.route.snapshot.params.id;
     this.pin = this.route.snapshot.params.pid;
     this.tpo = this.route.snapshot.params.tpo;
@@ -104,7 +106,6 @@ export class OutcomeDetailComponent implements OnInit {
       this.permissionsService.evaluatePermissionByActionOnResource(
         PermissionsService.UPDATE_PLAN_ACTION, this.pin).subscribe(canUpdate => {
           this.canUpdate = canUpdate;
-          this.error = null;
         },
           error => {
             this.error = error;
@@ -168,13 +169,15 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   async update() {
+    OutcomeDetailComponent.staticError=null;
+    this.error=null;
     this.createMutations();
      await  this.sleep(1000);
      this.updateMutations();
     await this.sleep(1000);
     this.updateOutcome();
     await this.sleep(2000);
-
+    OutcomeDetailComponent.staticError = this.error;
     this.router.navigateByUrl('/outcome-detail', { skipLocationChange: true }).then(() => {
       this.reloadForTpo(this.tpo);
     });
