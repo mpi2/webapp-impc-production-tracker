@@ -85,6 +85,9 @@ export class PhenotypingPlanComponent implements OnInit {
             duration: 3000,
             data: this.changeDetails
           });
+          this.router.navigateByUrl('/outcome-detail', { skipLocationChange: true }).then(() => {
+            this.reloadPage();
+          });
         }
         this.error = null;
       },
@@ -97,6 +100,10 @@ export class PhenotypingPlanComponent implements OnInit {
 
   onAttemptChanged(e) {
     console.log('To be implemented');
+  }
+
+  reloadPage() {
+    this.router.navigate(['/projects/' + this.plan.tpn + '/phenotyping-plan/' + this.plan.pin]);
   }
 
 }
