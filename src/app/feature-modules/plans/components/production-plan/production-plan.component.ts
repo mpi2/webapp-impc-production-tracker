@@ -89,6 +89,7 @@ export class ProductionPlanComponent implements OnInit {
   loadProject(projectUrl: any) {
     this.projectService.getProjectByUrl(projectUrl).subscribe(data => {
       this.project = data;
+      this.plan.geneSymbol = this.project.projectIntentions[0].intentionByGene.gene.symbol;
     }, error => {
       this.error = error;
       console.log(error);

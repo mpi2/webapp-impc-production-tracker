@@ -10,6 +10,11 @@
       {{ plan.pin }}
       <div class="separation"></div>
 
+      <label for="geneSymbol">Gene Symbol:</label>
+      {{ plan.geneSymbol }}
+      <div class="separation"></div>
+
+
       <label for="typeName">Plan Type:</label>
       {{ plan.typeName }}
       <div class="separation"></div>
@@ -25,7 +30,7 @@
       <label for="workUnitName">Work Unit:</label>
       {{ plan.workUnitName || 'Not defined' }}
       <div class="separation"></div>
-      
+
       <label for="workGroupName">Work Group:</label>
       {{ plan.workGroupName || 'Not defined' }}
       <div class="separation"></div>
@@ -45,7 +50,7 @@
         <label for="funderNames">Funders:</label>
         {{ plan.funderNames || 'Not defined' }}
       </ng-template>
-      
+
       <div class="separation"></div>
       <br>
 
@@ -53,17 +58,17 @@
       <div *ngIf="canUpdatePlan; then commentEditable else commentReadOnly"></div>
       <ng-template #commentEditable>
           <mat-form-field appearance="fill" class="example-full-width">
-            <textarea matInput 
+            <textarea matInput
                       formControlName="comment"
                       class="form-control"
-                      (blur)="onTouched()" 
+                      (blur)="onTouched()"
                       (change)="onCommentChange($event.target.value)">
             </textarea>
           </mat-form-field>
       </ng-template>
       <ng-template #commentReadOnly>
         <mat-form-field appearance="fill">
-            <textarea matInput readonly [(value)]="plan.comment"></textarea> 
+            <textarea matInput readonly [(value)]="plan.comment"></textarea>
         </mat-form-field>
         <br>
       </ng-template>

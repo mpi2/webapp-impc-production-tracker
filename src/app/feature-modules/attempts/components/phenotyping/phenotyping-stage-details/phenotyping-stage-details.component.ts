@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from 'src/app/feature-modules/plans/components/update-notification/update-notification.component';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { PlanService } from 'src/app/feature-modules/plans';
+import { ProjectService } from '../../../../projects';
 
 @Component({
   selector: 'app-phenotyping-stage-details',
@@ -23,6 +24,7 @@ export class PhenotypingStageDetailsComponent implements OnInit {
   canUpdate: boolean;
   loading = false;
   error: string;
+  geneSymbol: string;
 
   phenotypingStagesTypesByAttemptTypes = new Map<string, NamedValue[]>();
 
@@ -52,6 +54,7 @@ export class PhenotypingStageDetailsComponent implements OnInit {
     private configurationDataService: ConfigurationDataService,
     private permissionsService: PermissionsService,
     private planService: PlanService,
+    private projectService: ProjectService,
     private loggedUserService: LoggedUserService) { }
 
   ngOnInit(): void {
@@ -70,8 +73,20 @@ export class PhenotypingStageDetailsComponent implements OnInit {
     this.planService.getPlanByPin(pin).subscribe(data => {
       this.plan = data;
       this.filteredPhenotypingStagesTypesByAttemptTypes = this.phenotypingStagesTypesByAttemptTypes.get(this.plan.attemptTypeName);
+      // eslint-disable-next-line no-underscore-dangle
+      const projectUrl = data._links.project.href;
+      this.loadProject(projectUrl);
     }, error => {
       this.error = error;
+    });
+  }
+
+  loadProject(projectUrl: any) {
+    this.projectService.getProjectByUrl(projectUrl).subscribe(data => {
+      this.geneSymbol = data.projectIntentions[0].intentionByGene.gene.symbol;
+    }, error => {
+      this.error = error;
+      console.log(error);
     });
   }
 
