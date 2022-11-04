@@ -14,6 +14,10 @@
         <a routerLink="/projects/{{ tpn }}/production-plan/{{pin}}">{{ pin }}</a>
         <div class="separation"></div>
 
+      <label for="geneSymbol">Gene Symbol:</label>
+      {{ geneSymbol }}
+      <div class="separation"></div>
+
         <div *ngIf="!isOutcomeBeingCreated">
             <label for="tpo">Outcome id:</label>
             {{ outcome.tpo }}
