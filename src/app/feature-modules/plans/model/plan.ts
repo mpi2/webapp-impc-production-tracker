@@ -16,6 +16,7 @@ export class Plan {
     pin: string;
     projectId: number;
     tpn: string;
+    geneSymbol: string;
     funderNames: string[];
     workUnitName: string;
     workGroupName: string;

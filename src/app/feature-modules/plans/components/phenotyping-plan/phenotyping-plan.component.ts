@@ -6,6 +6,7 @@ import { PermissionsService, LoggedUserService, ChangesHistory } from 'src/app/c
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
+import { ProjectService } from '../../../projects';
 
 @Component({
   selector: 'app-phenotyping-plan',
@@ -31,6 +32,7 @@ export class PhenotypingPlanComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private planService: PlanService,
+    private projectService: ProjectService,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService
   ) { }
@@ -45,8 +47,22 @@ export class PhenotypingPlanComponent implements OnInit {
       this.plan = data;
       this.originalPlanAsString = JSON.stringify(this.plan);
       this.evaluateUpdatePermissions();
+      // eslint-disable-next-line no-underscore-dangle
+      const projectUrl = this.plan._links.project.href;
+      this.loadProject(projectUrl);
     }, error => {
       this.error = error;
+    });
+
+  }
+
+
+  loadProject(projectUrl: any) {
+    this.projectService.getProjectByUrl(projectUrl).subscribe(data => {
+      this.plan.geneSymbol = data.projectIntentions[0].intentionByGene.gene.symbol;
+    }, error => {
+      this.error = error;
+      console.log(error);
     });
   }
 

@@ -17,6 +17,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Colony } from '../../../model/outcomes/colony';
 import { Specimen } from '../../../model/outcomes/specimen';
 import { PlanService } from 'src/app/feature-modules/plans';
+import { ProjectService } from '../../../../projects';
 
 
 @Component({
@@ -32,6 +33,7 @@ export class OutcomeDetailComponent implements OnInit {
   tpn: string;
   tpo: string;
   pin: string;
+  geneSymbol: string;
 
   canUpdate: boolean;
   loading = false;
@@ -63,6 +65,7 @@ export class OutcomeDetailComponent implements OnInit {
     private snackBar: MatSnackBar,
     private outcomeService: OutcomeService,
     private mutationService: MutationService,
+    private projectService: ProjectService,
     private configurationDataService: ConfigurationDataService,
     private permissionsService: PermissionsService,
     private loggedUserService: LoggedUserService,
@@ -89,8 +92,20 @@ export class OutcomeDetailComponent implements OnInit {
   getAttemptType() {
     this.planService.getPlanByPin(this.pin).subscribe(data => {
       this.attemptType = data.attemptTypeName;
+      // eslint-disable-next-line no-underscore-dangle
+      const projectUrl = data._links.project.href;
+      this.loadProject(projectUrl);
     }, error => {
       this.error = error;
+    });
+  }
+
+  loadProject(projectUrl: any) {
+    this.projectService.getProjectByUrl(projectUrl).subscribe(data => {
+      this.geneSymbol = data.projectIntentions[0].intentionByGene.gene.symbol;
+    }, error => {
+      this.error = error;
+      console.log(error);
     });
   }
 

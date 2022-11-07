@@ -20,6 +20,10 @@
             <a routerLink="/projects/{{ tpn }}/phenotyping-plan/{{pin}}">{{ pin }}</a>
             <div class="separation"></div>
 
+          <label for="geneSymbol">Gene Symbol:</label>
+          {{ geneSymbol }}
+          <div class="separation"></div>
+
             <div *ngIf="canUpdate; then editable else readOnly"></div>
 
             <ng-template #editable>
@@ -38,7 +42,7 @@
                             </mat-option>
                         </mat-select>
                     </mat-form-field>
-                    <br>                        
+                    <br>
                 </ng-template>
 
                 <ng-template #readOnlyType>
@@ -57,7 +61,7 @@
                 <label for="phenotypingExperimentsStarted">Phenotyping Experiments Started:</label>
                 <mat-form-field appearance="fill" id="phenotypingExperimentsStarted">
                     <input matInput [matDatepicker]="phenotypingExperimentsStarted"
-                        [(ngModel)]="phenotypingStage.phenotypingExperimentsStarted" 
+                        [(ngModel)]="phenotypingStage.phenotypingExperimentsStarted"
                         [ngModelOptions]="{standalone: true}">
                     <mat-datepicker-toggle matSuffix [for]="phenotypingExperimentsStarted"></mat-datepicker-toggle>
                     <mat-datepicker #phenotypingExperimentsStarted></mat-datepicker>
@@ -67,7 +71,7 @@
                 <label for="initialDataReleaseDate">Initial Data Release date:</label>
                 <mat-form-field appearance="fill" id="initialDataReleaseDate">
                     <input matInput [matDatepicker]="initialDataReleaseDate"
-                        [(ngModel)]="phenotypingStage.initialDataReleaseDate" 
+                        [(ngModel)]="phenotypingStage.initialDataReleaseDate"
                         [ngModelOptions]="{standalone: true}">
                     <mat-datepicker-toggle matSuffix [for]="initialDataReleaseDate"></mat-datepicker-toggle>
                     <mat-datepicker #initialDataReleaseDate></mat-datepicker>
@@ -101,7 +105,7 @@
         </form>
 
         <div *ngIf="canUpdate; then statusTransition else status"></div>
-        
+
         <ng-template #statusTransition>
             <app-status-transition *ngIf="phenotypingStage.statusTransition"
                 [statusTransition]="phenotypingStage.statusTransition" [canUpdate]="canUpdate">
@@ -131,7 +135,7 @@
             (click)="updateOrCreate()">{{ isNew ? 'Create' : 'Update' }}</button>
         <br>
         <span style="font-size: 12px; ">* required fields</span>
-        <div class="separation"></div>    
+        <div class="separation"></div>
         <div *ngIf="error" class="alert alert-danger">{{error}}</div>
     </mat-card-content>
 </mat-card>
