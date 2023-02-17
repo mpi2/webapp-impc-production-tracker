@@ -15,7 +15,9 @@ export class StatusTransitionComponent implements OnInit , OnChanges {
   statusTransitionForm: FormGroup;
   nextStatus: string;
   userTransitions: Transition[];
+  systemTransitions: Transition[];
   transitionNote: string;
+  systemTransitionNote: string;
 
   constructor(private formBuilder: FormBuilder ) { }
 
@@ -28,6 +30,9 @@ export class StatusTransitionComponent implements OnInit , OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     this.userTransitions = [...this.statusTransition.transitions.filter(x => x.triggeredByUser)];
+    this.systemTransitions = [...this.statusTransition.transitions.filter(x => !x.triggeredByUser)];
+    console.log(this.systemTransitions);
+    this.getSystemTransitionNote(this.systemTransitions, this.userTransitions);
   }
 
   onTransitionSelected(transition: Transition) {
@@ -36,6 +41,19 @@ export class StatusTransitionComponent implements OnInit , OnChanges {
     } else {
       this.transitionNote = null;
     }
+  }
+
+
+  getSystemTransitionNote(systemTransitions: Transition[], userTransitions: Transition[]) {
+    if (systemTransitions.length > 0
+      && (systemTransitions[0].action === 'updateToCreExcisionStarted'
+      || systemTransitions[0].action === 'updateToCreExcisionComplete'
+        || systemTransitions[0].action === 'updateToMouseAlleleModificationGenotypeConfirmed')) {
+      this.systemTransitionNote = systemTransitions[0].note;
+    } else {
+      this.systemTransitionNote = null;
+    }
+    this.transitionNote = null;
   }
 
 }

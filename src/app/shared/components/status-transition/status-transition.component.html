@@ -9,7 +9,7 @@
                         <td><label for="currentStatus">Current Status:</label></td>
                         <td>
                             <mat-form-field appearance="fill" id="currentStatus">
-                                <input matInput [(ngModel)]="statusTransition.currentStatus" [ngModelOptions]="{standalone: true}" [readonly]="true" >   
+                                <input matInput [(ngModel)]="statusTransition.currentStatus" [ngModelOptions]="{standalone: true}" [readonly]="true" >
                             </mat-form-field>
                         </td>
                     </tr>
@@ -32,14 +32,14 @@
                             </div>
                         </td>
                     </tr>
-                </table> 
+                </table>
             </ng-template>
             <ng-template #statusTransitionReadOnly>
                 <label for="currentStatus">Current Status:</label>
                 {{ statusTransition.currentStatus }}
                 <br>
             </ng-template>
-                   
+          <div *ngIf="systemTransitionNote" ><h4 class="system-transition-note">{{systemTransitionNote}}</h4></div>
         </form>
     </mat-card-content>
 </mat-card>
