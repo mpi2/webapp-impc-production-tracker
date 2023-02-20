@@ -16,8 +16,11 @@ WORKDIR /app
 
 COPY . .
 
+
 ## Build the angular app in production mode and store the artifacts in dist folder
-RUN $(npm bin)/ng lint && npm audit ---production && $(npm bin)/ng build --configuration=production --build-optimizer --output-path=./dist/out --base-href ./ --deploy-url ./
+RUN node_modules/.bin/ng lint
+RUN npm audit --omit=dev
+RUN node_modules/.bin/ng build --configuration=production --build-optimizer --output-path=./dist/out --base-href ./ --deploy-url ./
 
 
 # Stage 2, based on Nginx, to have only the compiled app, ready for production with Nginx
