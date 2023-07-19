@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ProjectIntention } from 'src/app/feature-modules/projects';
 

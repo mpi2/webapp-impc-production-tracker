@@ -8,10 +8,10 @@ import { LoggedUserService } from 'src/app/core';
 import { RoleWorkUnit } from 'src/app/core/model/user/role_work_unit';
 import { RoleConsortium } from 'src/app/core/model/user/role_consortium';
 import { ActivatedRoute } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { InformativeDialogComponent } from 'src/app/shared/components/informative-dialog/informative-dialog.component';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 
 
 @Component({

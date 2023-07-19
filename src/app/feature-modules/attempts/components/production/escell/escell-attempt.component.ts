@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, forwardRef, ViewChild } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
   AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatTable } from '@angular/material/table';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatLegacyTable as MatTable } from '@angular/material/legacy-table';
 
 import { EsCellAttempt } from '../../../model/production/escell/escell-attempt';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';

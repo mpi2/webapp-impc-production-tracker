@@ -5,7 +5,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { IndexedLocation } from '../../model/indexed-location';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 @Component({
   selector: 'app-indexed-locations',

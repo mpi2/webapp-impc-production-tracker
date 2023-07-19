@@ -2,9 +2,9 @@ import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter }
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatLegacyAutocomplete as MatAutocomplete, MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
 import { Gene, GeneService } from 'src/app/core';
-import { MatChipInputEvent } from '@angular/material/chips';
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
 
 @Component({
   selector: 'app-autocomplete-gene',

@@ -7,7 +7,7 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { User } from 'src/app/core/model/user/user';
 import { InstitutesConsortium, IntentionByGene, MutationCategorization } from 'src/app/model';
 import { ProjectService } from '../../services/project.service';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { ProjectCreation } from '../../model/project-creation';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';

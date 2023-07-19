@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService, LoggedUserService } from 'src/app/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { MatSidenav } from '@angular/material/sidenav';
 import { SearchService, Search, SearchType } from '../..';
 import { SearchResult } from '../../model/search.result';

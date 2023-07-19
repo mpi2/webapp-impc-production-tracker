@@ -3,7 +3,7 @@ import { Mutation } from '../../../model/outcomes/mutation';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { QcResult } from '../../../model/outcomes/qc_result';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({

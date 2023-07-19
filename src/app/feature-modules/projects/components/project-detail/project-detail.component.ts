@@ -12,7 +12,7 @@ import {
 } from 'src/app/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
 import { UpdateNotificationComponent } from 'src/app/feature-modules/plans/components/update-notification/update-notification.component';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { OutcomeService } from 'src/app/feature-modules/plans/services/outcome.service';

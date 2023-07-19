@@ -5,7 +5,7 @@ import { MutationService } from '../../../services/mutation.service';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { IndexedSequence } from 'src/app/feature-modules/sequences';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { Outcome } from '../../../model/outcomes/outcome';

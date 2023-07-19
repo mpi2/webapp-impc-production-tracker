@@ -1,7 +1,7 @@
 import { Component, Input, OnInit, forwardRef } from '@angular/core';
 import { ControlValueAccessor, FormGroup, FormBuilder, Validators, Validator,
   AbstractControl, ValidationErrors, NG_VALUE_ACCESSOR, NG_VALIDATORS } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
 
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
