@@ -1,8 +1,8 @@
 import { Component, OnInit, Input, ViewChild, AfterViewInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { GeneListRecord } from 'src/app/model';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 import { FilterService } from 'src/app/feature-modules/filters/services/filter.service';
 import { merge, of } from 'rxjs';
@@ -10,7 +10,7 @@ import { startWith, switchMap, catchError } from 'rxjs/operators';
 import { MessageService } from 'src/app/core/services/message.service';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Page } from 'src/app/model/page_structure/page';
 import { Sort } from 'src/app/model/page_structure/sort';
 

@@ -5,7 +5,7 @@ import { ControlValueAccessor, FormControl, FormGroup, FormBuilder, Validators, 
 import { debounceTime, tap, switchMap, finalize } from 'rxjs/operators';
 
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-project-intention',

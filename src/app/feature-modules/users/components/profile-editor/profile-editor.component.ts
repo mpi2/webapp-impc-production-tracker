@@ -3,7 +3,7 @@ import { LoggedUserService } from 'src/app/core';
 import { User } from 'src/app/core/model/user/user';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/core/services/user.service';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile-editor',

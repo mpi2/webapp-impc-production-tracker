@@ -3,8 +3,8 @@ import { Component, OnInit, Input, ViewChild, ElementRef } from '@angular/core';
 import { GeneService, Gene } from 'src/app/core';
 import { Observable, of } from 'rxjs';
 import { FormControl } from '@angular/forms';
-import { MatLegacyAutocomplete as MatAutocomplete, MatLegacyAutocompleteSelectedEvent as MatAutocompleteSelectedEvent } from '@angular/material/legacy-autocomplete';
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips';
+import { MatAutocomplete, MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
 import { GeneListRecord } from 'src/app/model';
 
 @Component({

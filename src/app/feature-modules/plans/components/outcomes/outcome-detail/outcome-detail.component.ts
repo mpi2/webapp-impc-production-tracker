@@ -8,7 +8,7 @@ import {
   ConfigurationDataService, ConfigurationData
 } from 'src/app/core';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../../update-notification/update-notification.component';
 import { Project } from 'src/app/model';
 import { MutationService } from '../../../services/mutation.service';

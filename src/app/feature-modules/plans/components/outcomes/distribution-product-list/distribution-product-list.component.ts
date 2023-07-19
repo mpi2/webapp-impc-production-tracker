@@ -3,7 +3,7 @@ import { Colony } from '../../../model/outcomes/colony';
 import { DistributionProduct } from '../../../model/outcomes/distribution-product';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({

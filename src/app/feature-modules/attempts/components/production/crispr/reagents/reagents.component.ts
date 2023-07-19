@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { Reagent } from 'src/app/feature-modules/attempts/model/production/crispr/reagent';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';

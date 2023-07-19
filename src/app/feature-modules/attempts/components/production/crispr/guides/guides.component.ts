@@ -6,7 +6,7 @@ import { ConfigurationData, ConfigurationDataService } from 'src/app/core';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 import { Exon, Guide } from 'src/app/feature-modules/attempts';
 import { GeneService } from 'src/app/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { AttemptServiceService } from 'src/app/feature-modules/attempts/services/attempt-service.service';
 import { NamedValue } from 'src/app/core/model/common/named-value';

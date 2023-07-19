@@ -6,7 +6,7 @@ import { PhenotypingStageService } from 'src/app/feature-modules/plans/services/
 import { PhenotypingStage } from '../../../model/phenotyping/phenotyping-stage';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from 'src/app/feature-modules/plans/components/update-notification/update-notification.component';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 import { PlanService } from 'src/app/feature-modules/plans';

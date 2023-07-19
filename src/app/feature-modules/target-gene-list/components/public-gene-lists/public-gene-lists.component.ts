@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { GeneListRecord } from 'src/app/model';
 import { GeneListDescription } from 'src/app/model/bio/target_gene_list/gene-list-description';
 import { Page } from 'src/app/model/page_structure/page';

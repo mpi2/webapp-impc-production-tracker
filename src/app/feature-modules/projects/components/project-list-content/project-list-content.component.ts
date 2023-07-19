@@ -3,7 +3,7 @@ import { Project } from 'src/app/model';
 import { Page } from 'src/app/model/page_structure/page';
 import { ConfigurationData } from 'src/app/core';
 import { ProjectFilter, ProjectService } from '../..';
-import { MatLegacyPaginator as MatPaginator } from '@angular/material/legacy-paginator';
+import { MatPaginator } from '@angular/material/paginator';
 import { Sort } from 'src/app/model/page_structure/sort';
 
 @Component({

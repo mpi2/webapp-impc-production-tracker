@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { TissueDistributionCentre } from '../../../model/phenotyping/phenotyping_attempt';
 import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { PhenotypingStage } from '../../../model/phenotyping/phenotyping-stage';
 

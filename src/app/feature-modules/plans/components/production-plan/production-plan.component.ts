@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { PlanService } from '../../services/plan.service';
 import { Plan, PlanAdapter } from '../../model/plan';
 import { PermissionsService, ChangesHistory, LoggedUserService } from 'src/app/core';
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { UpdateNotificationComponent } from '../update-notification/update-notification.component';
 import { Project } from 'src/app/model/bio/project';
 import { ChangeResponse } from 'src/app/core/model/history/change-response';

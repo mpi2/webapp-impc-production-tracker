@@ -2,7 +2,7 @@
 <ng-container [formGroup]="esCellDetailsForm">
     <div *ngIf="canUpdate; then orderInfoEditable else orderInfoReadOnly"></div>
     <ng-template #orderInfoEditable>
-        <mat-card>
+        <mat-card appearance="outlined">
             <mat-card-subtitle>Order Info</mat-card-subtitle>
             <mat-card-content>
                 <label for="numberOfEsCellsReceived">Number Of ES Cells Received:</label>
@@ -59,7 +59,7 @@
         <br>
     </ng-template>
 
-    <mat-card>
+    <mat-card appearance="outlined">
         <mat-card-subtitle>ES Cell QC</mat-card-subtitle>
         <mat-card-content>
             <div *ngIf="canUpdate; then esCellQcEditable else esCellQcReadOnly"></div>

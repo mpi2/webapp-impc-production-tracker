@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, SimpleChanges, ChangeDetectorRef, OnChanges, AfterContentChecked } from '@angular/core';
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 import { GenotypePrimer } from 'src/app/feature-modules/attempts';
