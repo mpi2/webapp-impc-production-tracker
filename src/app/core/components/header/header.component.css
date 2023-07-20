@@ -22,7 +22,7 @@
     color: white;
   } */
 
-  
+
 
 /* .button.active .mat-button-focus-overlay{
   background-color:orange !important;
@@ -50,4 +50,10 @@
 
 .navigation {
   padding-left: 20px;
+}
+
+.mat-mdc-menu-item {
+  color: #000;
+  font-size: 14px;
+  font-weight: 400;
 }
