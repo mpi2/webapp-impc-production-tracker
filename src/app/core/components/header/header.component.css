@@ -50,6 +50,13 @@
 
 .navigation {
   padding-left: 20px;
+  display: flex;
+  flex: 1 1 100%;
+  flex-direction: row;
+  align-items: center;
+  max-width: 40%;
+  place-content: center flex-start;
+
 }
 
 .mat-mdc-menu-item {
