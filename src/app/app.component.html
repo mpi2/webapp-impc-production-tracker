@@ -1,13 +1,13 @@
-<div fxFlexFill fxLayout="column">
+<div class="app-wrapper">
   <app-header></app-header>
-  <div fxLayout="column" fxFlex>
-    <div fxFlex style="margin: 1%">
+  <div class="content-wrapper">
+    <div style="margin: 1%; flex: 1 1">
       <router-outlet></router-outlet>
     </div>
-    <footer fxLayout="column">
-      <div fxLayout="row">
+    <footer class="flex-col">
+      <div class="flex-row">
       </div>
-      <div fxFlexAlign="center"><app-footer></app-footer></div>
+      <div style="align-self: center"><app-footer></app-footer></div>
     </footer>
   </div>
 </div>
