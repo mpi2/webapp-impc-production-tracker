@@ -62,9 +62,15 @@ mat-toolbar {
   }
 .mat-mdc-card {
   padding: 16px;
+  .mat-mdc-card-content {
+    padding: 0;
+  }
   .mat-mdc-card-title {
     font-size: 24px;
     font-weight: 600;
+  }
+  .mat-mdc-card-subtitle {
+    margin-bottom: 16px;
   }
   .mdc-card__actions {
     padding: 8px 0;
@@ -73,4 +79,19 @@ mat-toolbar {
     margin-bottom: -8px;
     padding-bottom: 0;
   }
+}
+.mat-mdc-table {
+  .mdc-data-table__header-cell {
+    color: #0000008a;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  .mat-mdc-cell:first-of-type {
+    padding-left: 24px;
+  }
+}
+
+.filter-form .mdc-list-item__primary-text {
+  font-size: 12px !important;
 }

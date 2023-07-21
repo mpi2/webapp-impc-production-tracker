@@ -6,3 +6,11 @@
 .mat-icon {
     font-size: 15px;
 }
+
+.filter-form {
+  max-width: 370px;
+}
+.clear-filters-wrapper {
+  display: flex;
+  align-items: center;
+}
