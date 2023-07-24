@@ -123,6 +123,18 @@
             </mat-form-field>
             <br>
 
+          <label for="qcNote">QC Note:</label>
+          <mat-form-field appearance="fill" class="textarea-full-width">
+                <textarea matInput
+                          matTextareaAutosize
+                          class="textareaMutationDescription"
+                          (keyup)="onQcNoteChanged($event)"
+                          [(ngModel)]="mutation.qcNote"
+                          [ngModelOptions]="{standalone: true}" >
+                </textarea>
+          </mat-form-field>
+          <br>
+
             <app-qc-results class="qcResultsSection" [mutation]="mutation" [canUpdate]="canUpdate">
             </app-qc-results>
         </td>

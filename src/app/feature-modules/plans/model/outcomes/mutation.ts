@@ -20,4 +20,5 @@ export class Mutation {
     calculatedMgiAlleleSymbol: string;
     symbolSuggestionRequest: any;
     description: string;
+    qcNote: string;
 }
