@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
     <mat-card-subtitle>Original Allele Details</mat-card-subtitle>
     <mat-card-content>
         <label for="modificationExternalRef">Original outcome:</label>
@@ -13,7 +13,7 @@
 </mat-card>
 
 <ng-container [formGroup]="esCellAlleleModificationAttemptForm">    
-    <mat-card>
+    <mat-card appearance="outlined">
         <mat-card-subtitle>Allele Modification Details</mat-card-subtitle>
         <mat-card-content>
             <div *ngIf="canUpdatePlan; then alleleModificationEditable else alleleModificationReadOnly"></div>

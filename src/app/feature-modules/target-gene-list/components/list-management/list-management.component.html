@@ -11,7 +11,7 @@
       <app-filter-container [filters]="filters"></app-filter-container>
     </mat-sidenav>
     <mat-sidenav-content class="page-wrap">
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-content>
           <h4>Gene List {{ currentConsortium ?  'for ' + currentConsortium : ''}} </h4>
           <app-consortium-selector (updatePermissionSet)="onUpdatePermissionSet($event)">
@@ -19,7 +19,7 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-content>
 
           <app-list-controls [canUpdateList]="canUpdateList" [currentConsortium]="currentConsortium"

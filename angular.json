@@ -122,7 +122,6 @@
       }
     }
   },
-  "defaultProject": "web-production-tracker",
   "cli": {
     "analytics": false
   }

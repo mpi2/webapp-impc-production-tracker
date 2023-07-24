@@ -1,5 +1,5 @@
 <form [formGroup]="editCrisprAttemptDetails">
-  <mat-card>
+  <mat-card appearance="outlined">
     <mat-card-subtitle>Crispr Attempt Details</mat-card-subtitle>
     <mat-card-content>
       <div *ngIf="canUpdatePlan; then attemptEditable else attemptReadOnly"></div>
