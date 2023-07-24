@@ -1,6 +1,6 @@
 ## Stage 1, "build-stage", based on Node.js, to build and compile Angular
 
-FROM node:lts-buster as build-stage
+FROM node:lts-bookworm as build-stage
 
 
 COPY package.json ./
