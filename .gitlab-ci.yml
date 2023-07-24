@@ -111,7 +111,7 @@ hh-production:
   stage: production-deploy
   image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
-    - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_COMMIT_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -153,7 +153,7 @@ hx-production:
   stage: production-deploy
   image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
-    - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$PRODUCTION_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_COMMIT_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -195,7 +195,7 @@ hh-sandbox:
   stage: sandbox-deploy
   image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
-    - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_COMMIT_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -236,7 +236,7 @@ hx-sandbox:
   stage: sandbox-deploy
   image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
-    - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
+    - if: '$KUBERNETES_DEPLOYMENT == "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_COMMIT_REF_NAME == "master" && $CI_PIPELINE_SOURCE == "schedule"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -280,7 +280,7 @@ hh-dev:
       alias: docker
   image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
-    - if: '$PRODUCTION_DEPLOYMENT != "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master"'
+    - if: '$PRODUCTION_DEPLOYMENT != "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_COMMIT_REF_NAME == "master"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
@@ -342,7 +342,7 @@ hx-dev:
   stage: dev-deploy
   image: $CI_REGISTRY/mouse-informatics/helm-kubectl-alpine:latest
   rules:
-    - if: '$PRODUCTION_DEPLOYMENT != "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_BUILD_REF_NAME == "master"'
+    - if: '$PRODUCTION_DEPLOYMENT != "true" && $CI_PROJECT_NAMESPACE == "mouse-informatics" && $CI_COMMIT_REF_NAME == "master"'
   script:
     # Only deploy from the MPI2 webapp-impc-production-tracker repository rather than repository forks
     - |
