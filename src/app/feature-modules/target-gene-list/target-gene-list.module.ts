@@ -25,8 +25,5 @@ import { PublicGeneListsComponent } from './components/public-gene-lists/public-
     SharedModule,
     FiltersModule
   ],
-  entryComponents: [
-    ImportListDialogComponent
-  ]
 })
 export class TargetGeneListModule { }

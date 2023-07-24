@@ -161,9 +161,6 @@ export const MY_DATE_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
     { provide: MAT_MOMENT_DATE_ADAPTER_OPTIONS, useValue: { useUtc: true } }
   ],
-  entryComponents: [
-    DeleteConfirmationComponent, InformativeDialogComponent, DialogBoxComponent
-  ],
 })
 
 export class SharedModule { }
