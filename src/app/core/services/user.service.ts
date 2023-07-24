@@ -10,7 +10,6 @@ import { AssetConfiguration } from '../model/conf/asset-configuration';
   providedIn: 'root'
 })
 export class UserService {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly TOKEN_INFO_KEY = 'tokenInfo';
 
   private apiServiceUrl;

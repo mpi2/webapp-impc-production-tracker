@@ -6,7 +6,6 @@ import { AssetConfiguration } from '../model/conf/asset-configuration';
 })
 export class ConfigAssetLoaderService {
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   private readonly CONFIG_URL = 'assets/config/config.json';
   private cachedResponse: AssetConfiguration = null;
 

@@ -66,14 +66,12 @@ export class ProjectListContentComponent implements OnInit, OnDestroy {
   }
 
   private processResponseData(data: Project[]) {
-    /* eslint-disable @typescript-eslint/dot-notation */
     if (data['_embedded']) {
       this.dataSource = data['_embedded']['projects'];
       this.page = data['page'];
     } else {
       this.dataSource = [];
     }
-    /* eslint-enable @typescript-eslint/dot-notation */
   }
 
   private subscribeToFilterChanges() {

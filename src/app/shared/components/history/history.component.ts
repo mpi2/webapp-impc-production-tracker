@@ -21,7 +21,6 @@ export class HistoryComponent implements OnInit {
   private entity: string;
   private id: string;
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   private readonly LENGTH_LIMIT = 100;
 
   constructor(

@@ -352,7 +352,6 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   private fetchMutationsByTpo(outcome: Outcome) {
-    /* eslint-disable @typescript-eslint/dot-notation */
     this.outcomeService.getMutationsByTpn(outcome.tpo).subscribe(data => {
       if (data['_embedded']) {
         const mutations = data['_embedded'].mutations;
@@ -362,11 +361,9 @@ export class OutcomeDetailComponent implements OnInit {
     }, error => {
       this.error = error;
     });
-    /* eslint-enable @typescript-eslint/dot-notation */
   }
 
   private fetchMutationsByPinAndTpo(outcome: Outcome) {
-    /* eslint-disable @typescript-eslint/dot-notation */
     this.outcomeService.getMutationsByPinAndTpn(this.pin, outcome.tpo).subscribe(data => {
       if (data['_embedded']) {
         const mutations = data['_embedded'].mutations;
@@ -376,7 +373,6 @@ export class OutcomeDetailComponent implements OnInit {
     }, error => {
       this.error = error;
     });
-    /* eslint-enable @typescript-eslint/dot-notation */
   }
 
   private showChangeNotification(changeResponse: ChangeResponse) {
