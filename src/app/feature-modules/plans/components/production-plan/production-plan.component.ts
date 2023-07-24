@@ -98,7 +98,6 @@ export class ProductionPlanComponent implements OnInit {
 
   loadOutcomes() {
     this.outcomeService.getOutcomesByPin(this.plan.pin).subscribe(data => {
-      /* eslint-disable @typescript-eslint/dot-notation */
       if (data['_embedded']) {
         this.outcomes = data['_embedded']['outcomes'];
         this.outcomes.forEach(x => {
@@ -106,7 +105,6 @@ export class ProductionPlanComponent implements OnInit {
           this.loadMutationsByOutcomes(x);
         });
       }
-      /* eslint-enable @typescript-eslint/dot-notation */
     }, error => {
       this.error = error;
       console.log(error);
@@ -115,11 +113,9 @@ export class ProductionPlanComponent implements OnInit {
 
   loadMutationsByOutcomes(outcome: Outcome) {
     this.outcomeService.getMutationsByPinAndTpn(this.plan.pin, outcome.tpo).subscribe(data => {
-      /* eslint-disable @typescript-eslint/dot-notation */
       if (data['_embedded']) {
         outcome.mutations = data['_embedded']['mutations'];
       }
-      /* eslint-enable @typescript-eslint/dot-notation */
     }, error => {
       this.error = error;
       console.log(error);

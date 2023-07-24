@@ -132,7 +132,6 @@ export class ProjectDetailComponent implements OnInit {
 
     productionPlans.forEach(plan => {
       this.outcomeService.getOutcomesByPin(plan.pin).subscribe(data => {
-        /* eslint-disable @typescript-eslint/dot-notation */
         if (data['_embedded']) {
           if (this.outcomes.length === 0 ) {
             this.outcomes = data['_embedded']['outcomes'];
@@ -146,7 +145,6 @@ export class ProjectDetailComponent implements OnInit {
             }
           });
         }
-        /* eslint-enable @typescript-eslint/dot-notation */
       }, error => {
         this.error = error;
         console.log(error);

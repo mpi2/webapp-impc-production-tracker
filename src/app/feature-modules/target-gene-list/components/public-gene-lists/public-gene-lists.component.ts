@@ -101,11 +101,9 @@ export class PublicGeneListsComponent implements OnInit {
 
   private extractDataFromServerResponse(data) {
     if (data) {
-      /* eslint-disable @typescript-eslint/dot-notation */
       if (data['_embedded']) {
         this.dataSource = data['_embedded'].records;
         this.page = data['page'];
-        /* eslint-enable @typescript-eslint/dot-notation */
 
       }
     }
