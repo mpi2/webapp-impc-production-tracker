@@ -99,12 +99,10 @@ export class SearchContentComponent implements OnInit, OnDestroy {
   }
 
   private processResponseData(data: SearchResult[]) {
-    /* eslint-disable @typescript-eslint/dot-notation */
     this.dataSource = data['results'];
     this.dataSource.map(x => this.buildSearchResultComments(x));
     this.refreshVisibleColumns();
     this.page = data['page'];
-    /* eslint-enable @typescript-eslint/dot-notation */
   }
 
   private refreshVisibleColumns(): void {

@@ -1,10 +1,11 @@
 <h3>Filter</h3>
-<div>Clear all
-    <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="clearFilters()">
+<div class="clear-filters-wrapper">
+  Clear all
+    <button matSuffix mat-icon-button aria-label="Clear" (click)="clearFilters()">
         <mat-icon>close</mat-icon>
     </button>
 </div>
-<form *ngIf="filters" [formGroup]="filterForm">
+<form class="filter-form" *ngIf="filters" [formGroup]="filterForm">
     <mat-expansion-panel class="sidenav-section" [expanded]="filter.expanded" *ngFor="let filter of filters">
         <mat-expansion-panel-header>
             <mat-panel-title>

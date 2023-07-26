@@ -22,6 +22,5 @@ import { ReportsComponent } from './components/reports/reports.component';
     PermissionsService
   ],
   exports: [HeaderComponent, FooterComponent],
-  entryComponents: [UpdateNotificationComponent]
 })
 export class CoreModule { }

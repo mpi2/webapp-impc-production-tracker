@@ -17,7 +17,6 @@ export class AutocompleteGeneComponent implements OnInit {
   @ViewChild('geneInput') geneInput: ElementRef<HTMLInputElement>;
   @ViewChild('auto') matAutocomplete: MatAutocomplete;
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly GENE_SYMBOL_LENGTH_THRESHOLD = 3;
 
   options: string[] = [];

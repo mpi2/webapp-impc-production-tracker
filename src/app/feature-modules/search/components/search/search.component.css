@@ -23,6 +23,9 @@ table {
   font-size: 15px;
 }
 .table-controllers {
+  display: flex;
+  flex-direction: row;
+  column-gap: 20px;
   margin-left: auto;
   margin-right: auto;
   background: white;

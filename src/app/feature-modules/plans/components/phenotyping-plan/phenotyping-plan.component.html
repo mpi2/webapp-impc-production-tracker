@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <mat-card-content>
     <a [routerLink]="['history']">History</a>
     <div>
@@ -21,7 +21,7 @@
   [canUpdatePlan]="canUpdatePlan">
 </app-phenotyping-attempt>
 
-<mat-card>
+<mat-card appearance="outlined">
   <mat-card-content>
     <button mat-raised-button color="primary" [disabled]="!shouldShowUpdateButton()" *ngIf="canUpdatePlan"
       (click)="updatePlan()">Update</button>

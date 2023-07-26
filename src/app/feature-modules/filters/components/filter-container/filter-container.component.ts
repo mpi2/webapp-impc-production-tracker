@@ -1,13 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FilterDefinition } from '../../model/filter-definition';
-import { FormGroup, FormControl } from '@angular/forms';
-import { FilterService } from '../../services/filter.service';
-import { FilterType } from '../../model/filter-type';
+import {Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
+import {FilterDefinition} from '../../model/filter-definition';
+import {FormControl, FormGroup} from '@angular/forms';
+import {FilterService} from '../../services/filter.service';
+import {FilterType} from '../../model/filter-type';
 
 @Component({
   selector: 'app-filter-container',
   templateUrl: './filter-container.component.html',
-  styleUrls: ['./filter-container.component.css']
+  styleUrls: ['./filter-container.component.css'],
 })
 
 export class FilterContainerComponent implements OnInit {

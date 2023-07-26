@@ -153,11 +153,11 @@
     <td>
         <br>
         <label for="genes">Gene(s) *:</label>
-        <mat-chip-list>
-            <mat-chip *ngFor="let geneSymbolOrAccessionId of geneSymbols">
+        <mat-chip-listbox>
+            <mat-chip-option *ngFor="let geneSymbolOrAccessionId of geneSymbols">
                 {{ geneSymbolOrAccessionId }}
-            </mat-chip>
-        </mat-chip-list>
+            </mat-chip-option>
+        </mat-chip-listbox>
         <br>
 
         <label for="mutationSymbol">Symbol:</label>

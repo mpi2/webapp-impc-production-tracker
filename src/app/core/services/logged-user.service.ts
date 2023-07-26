@@ -21,7 +21,6 @@ import { BASE_API_URL_TOKEN } from 'src/app/injectors';
  */
 export class LoggedUserService {
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly TOKEN_INFO_KEY = 'tokenInfo';
   private apiServiceUrl;
   private config$: Observable<AssetConfiguration>;

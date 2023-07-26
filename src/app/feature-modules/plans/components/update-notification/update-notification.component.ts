@@ -9,7 +9,6 @@ import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 })
 export class UpdateNotificationComponent implements OnInit {
 
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   readonly NUMBER_DETAILS_THRESHOLD = 10;
 
   changeDetails: ChangesHistory;

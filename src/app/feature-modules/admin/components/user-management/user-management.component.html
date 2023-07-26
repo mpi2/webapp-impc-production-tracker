@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card appearance="outlined">
   <mat-card-content>
 
     <mat-card-title>
@@ -7,7 +7,7 @@
 
     <form [formGroup]="signupForm"  class="my-form">
 
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-subtitle>Basic information</mat-card-subtitle>
         <mat-card-content>
           <mat-form-field appearance="fill" class="full-width">
@@ -33,15 +33,14 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-subtitle>Work unit association(s)</mat-card-subtitle>
         <mat-card-content>
           <div *ngIf="adminUser; then sectionWorkUnitsWithRoles else sectionWorkUnitsWithoutRoles">
           </div>
           <ng-template #sectionWorkUnitsWithRoles>
             <div class="content" *ngFor="let roleWorkUnit of roleWorkUnits">
-              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
-                fxLayoutGap.xs="0">
+              <div class="container">
                 <div class="item item-1" fxFlex="40%">
                   <mat-select placeholder="Work Unit" [(value)]="roleWorkUnit.workUnitName">
                     <mat-option></mat-option>
@@ -84,7 +83,7 @@
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card appearance="outlined">
         <mat-card-subtitle>Consortium association(s)</mat-card-subtitle>
         <mat-card-content>
 
@@ -92,8 +91,7 @@
           </div>
           <ng-template #sectionConsortiaWithRoles>
             <div class="content" *ngFor="let roleConsortium of roleConsortia">
-              <div class="container" fxLayout fxLayout.xs="column" fxLayoutAlign="center" fxLayoutGap="10px"
-                fxLayoutGap.xs="0">
+              <div class="container">
                 <div class="item item-1" fxFlex="40%">
                   <mat-select placeholder="Consortium" [(value)]="roleConsortium.consortiumName">
                     <mat-option></mat-option>

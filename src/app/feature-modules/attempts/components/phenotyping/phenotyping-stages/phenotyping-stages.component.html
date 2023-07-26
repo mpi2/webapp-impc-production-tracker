@@ -1,8 +1,8 @@
-<mat-card>
+<mat-card appearance="outlined">
     <mat-card-subtitle>Phenotyping Stages</mat-card-subtitle>
     <mat-card-content>
 
-        <mat-card *ngFor="let phenotypingStage of phenotypingStages">
+        <mat-card appearance="outlined" *ngFor="let phenotypingStage of phenotypingStages">
 
             <label for="psn">Phenotyping Stage id:</label>
             <div id="psn" class="content">{{ phenotypingStage.psn}}</div>

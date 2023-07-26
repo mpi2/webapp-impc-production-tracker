@@ -1,10 +1,10 @@
-@import '~@angular/material/theming';
+@use '@angular/material' as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-@include mat-core();
+@include mat.core();
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
@@ -12,26 +12,44 @@
 // $impc-app-primary: mat-palette($mat-grey, 200);
 // $impc-app-secondary: mat-palette($mat-light-blue, 800);
 // $impc-app-accent:  mat-palette($mat-orange, 600);
-$impc-app-primary: mat-palette($mat-blue, 600);
-$impc-app-secondary: mat-palette($mat-light-blue, 800);
-$impc-app-accent:  mat-palette($mat-blue, 300);
+$impc-app-primary: mat.define-palette(mat.$blue-palette, 600);
+$impc-app-secondary: mat.define-palette(mat.$light-blue-palette, 800);
+$impc-app-accent:  mat.define-palette(mat.$blue-palette, 300);
 
 // The warn palette is optional (defaults to red).
-$impc-app-warn:    mat-palette($mat-grey, 200);
+$impc-app-warn:    mat.define-palette(mat.$grey-palette, 200);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$impc-app-theme: mat-light-theme($impc-app-primary, $impc-app-accent, $impc-app-warn);
+$impc-app-theme: mat.define-light-theme((
+  color: (
+    primary: $impc-app-primary,
+    accent: $impc-app-accent,
+    warn: $impc-app-warn
+  ),
+  typography: mat.define-typography-config(),
+  density: 0
+));
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-@include angular-material-theme($impc-app-theme);
+@include mat.core-theme($impc-app-theme);
+@include mat.all-component-themes($impc-app-theme);
 
+.flex-row {
+  display: flex;
+  flex-direction: row;
+}
+
+.flex-col {
+  display: flex;
+  flex-direction: column;
+}
 
 mat-toolbar {
     box-shadow: 0 3px 5px -1px rgba(0, 0, 0, 0.2), 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
     z-index: 900;
-    >.mat-mini-fab {
+    >.mat-mdc-mini-fab {
         margin-right: 10px;
     }
     .spacer {
@@ -52,3 +70,38 @@ mat-toolbar {
         }
     }
   }
+.mat-mdc-card {
+  padding: 16px;
+  .mat-mdc-card-content {
+    padding: 0;
+  }
+  .mat-mdc-card-title {
+    font-size: 24px;
+    font-weight: 600;
+  }
+  .mat-mdc-card-subtitle {
+    margin-bottom: 16px;
+  }
+  .mdc-card__actions {
+    padding: 8px 0;
+  }
+  .mdc-card__actions:last-child {
+    margin-bottom: -8px;
+    padding-bottom: 0;
+  }
+}
+.mat-mdc-table {
+  .mdc-data-table__header-cell {
+    color: #0000008a;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1.15;
+  }
+  .mat-mdc-cell:first-of-type {
+    padding-left: 24px;
+  }
+}
+
+.filter-form .mdc-list-item__primary-text {
+  font-size: 12px !important;
+}

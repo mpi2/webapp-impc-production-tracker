@@ -38,6 +38,7 @@ table {
 .medium-large-field {
     width: 150px;
 }
+/* TODO(mdc-migration): The following rule targets internal classes of select that may no longer apply for the MDC version. */
 mat-select {
     width: 150px;
 }

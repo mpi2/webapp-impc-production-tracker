@@ -259,11 +259,9 @@ export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private extractDataFromServerResponse(data) {
     if (data) {
-      /* eslint-disable @typescript-eslint/dot-notation */
       if (data['_embedded']) {
         const records = data['_embedded'].records;
         this.page = data['page'];
-        /* eslint-enable @typescript-eslint/dot-notation */
         this.getDataSource(records);
       }
     } else {
