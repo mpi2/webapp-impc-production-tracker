@@ -1,0 +1,21 @@
+a {
+  color:gray;
+}
+
+a.hover {
+  color:blue;
+}
+
+li {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: row;
+  & > div {
+    flex: 1 1 auto;
+  }
+}
+

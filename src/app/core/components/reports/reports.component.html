@@ -1,43 +1,54 @@
 
+<div class="main-container">
+  <div class="container">
+    <h1>Reports</h1>
+    <h3>IMPC Production Numbers</h3>
+    <ul>
+      <li>
+        <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers/overlap/union" download>
+          Number of genes with genotype confirmed lines
+        </a>
+      </li>
+      <li>
+        <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers/overlap/intersection" download>
+          Genes studied by both ES Cell and CRISPR based techniques
+        </a>
+      </li>
+      <li>
+        <h4>CRISPR </h4>
+        <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=year&attempt=crispr" download>
+          Cumulative number of genes with genotype confirmed lines per year
+        </a>
+      </li>
+      <li>
+        <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=month&attempt=crispr" download>
+          <i class="fas fa-download"></i>
+          Cumulative number of genes with genotype confirmed lines per month
+        </a>
+      </li>
 
-<div class="container">
-  <h1>Reports</h1>
-  <h3>IMPC Production Numbers</h3>
-  <ul>
-    <li>
-      <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers/overlap/union" download>
-        Number of genes with genotype confirmed lines
-      </a>
-    </li>
-    <li>
-      <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers/overlap/intersection" download>
-        Genes studied by both ES Cell and CRISPR based techniques
-      </a>
-    </li>
-    <li>
-      <h4>CRISPR </h4>
-      <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=year&attempt=crispr" download>
-        Cumulative number of genes with genotype confirmed lines per year
-      </a>
-    </li>
-    <li>
-      <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=month&attempt=crispr" download>
-        <i class="fas fa-download"></i>
-        Cumulative number of genes with genotype confirmed lines per month
-      </a>
-    </li>
+      <li>
+        <h4>ES Cell</h4>
+        <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=year&attempt=escell" download>
+          Cumulative number of genes with genotype confirmed lines per year
+        </a>
+      </li>
+      <li>
+        <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=month&attempt=escell" download>
+          Cumulative number of genes with genotype confirmed lines per month
+        </a>
+      </li>
 
-    <li>
-      <h4>ES Cell</h4>
-      <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=year&attempt=escell" download>
-        Cumulative number of genes with genotype confirmed lines per year
-      </a>
-    </li>
-    <li>
-      <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers?reporttype=month&attempt=escell" download>
-        Cumulative number of genes with genotype confirmed lines per month
-      </a>
-    </li>
-
-  </ul>
+    </ul>
+  </div>
+  <div class="charts-container">
+    <canvas
+      baseChart
+      class="chart"
+      [type]="'line'"
+      [data]="chartData"
+      [options]="lineChartOptions"
+    >
+    </canvas>
+  </div>
 </div>

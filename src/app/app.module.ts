@@ -20,6 +20,7 @@ import { TargetGeneListModule } from './feature-modules/target-gene-list/target-
 import { UsersModule } from './feature-modules/users/users.module';
 
 import { BASE_API_URL_TOKEN } from './injectors';
+import { NgChartsModule } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { BASE_API_URL_TOKEN } from './injectors';
     IntentionsModule,
     SequencesModule,
     TargetGeneListModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgChartsModule
   ],
   exports: [
   ],
