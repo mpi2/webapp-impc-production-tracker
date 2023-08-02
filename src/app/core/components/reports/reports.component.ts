@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfigAssetLoaderService } from '../../services/config-asset-loader.service';
 import { HttpClient } from "@angular/common/http";
-import { forkJoin } from "rxjs";
+import {forkJoin, Observable} from "rxjs";
 import { ChartConfiguration } from "chart.js";
 import 'chartjs-adapter-moment';
+import {map} from "rxjs/operators";
 
 type EndpointData = {
   year: number,
@@ -36,10 +37,11 @@ export class ReportsComponent implements OnInit {
     plugins: {
       title: {
         display: true,
-        text: 'Genes studied by both ES Cell and CRISPR based techniques'
+        text: 'Cumulative number of genes studied by ES Cell and CRISPR based techniques'
       }
     }
   }
+  public totalNumOfGenes$: Observable<number>;
   constructor(
     private configAssetLoaderService: ConfigAssetLoaderService,
     private httpClient: HttpClient
@@ -47,11 +49,11 @@ export class ReportsComponent implements OnInit {
     this.configAssetLoaderService.getConfig().then(data => {
       this.apiServiceUrl = data.appServerUrl;
       this.fetchDataForCharts();
-
     });
   }
 
   ngOnInit() {
+    this.fetchTotalNumOfGenes();
   }
 
   fetchDataForCharts() {
@@ -80,6 +82,11 @@ export class ReportsComponent implements OnInit {
           ]
         }
       });
+  }
+
+  fetchTotalNumOfGenes() {
+    const endpointURL = `${this.apiServiceUrl}/api/glt_production_numbers/overlap/union`;
+    this.totalNumOfGenes$ = this.httpClient.get(endpointURL).pipe(map((data: Array<number>) => data[0]));
   }
 
   private transformData(data: Array<EndpointData>) {

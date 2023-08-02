@@ -13,9 +13,20 @@ li {
 
 .main-container {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  padding: 0 7em;
   & > div {
     flex: 1 1 auto;
   }
 }
 
+.total-genes-wrapper {
+  display: flex;
+  column-gap: 20px;
+  & > * {
+    flex: 1 1 auto;
+  }
+  ngx-skeleton-loader {
+    max-width: 80px;
+  }
+}
