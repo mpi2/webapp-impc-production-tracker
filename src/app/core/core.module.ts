@@ -10,13 +10,15 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
 import { UpdateNotificationComponent } from '../feature-modules/plans/components/update-notification/update-notification.component';
 import { ReportsComponent } from './components/reports/reports.component';
 import {NgChartsModule} from "ng2-charts";
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
 
 
 @NgModule({
   declarations: [HeaderComponent, FooterComponent, HomeComponent, NotFoundComponent, ReportsComponent],
   imports: [
     SharedModule,
-    NgChartsModule
+    NgChartsModule,
+    NgxSkeletonLoaderModule
   ],
   providers: [
     LoggedUserService,
