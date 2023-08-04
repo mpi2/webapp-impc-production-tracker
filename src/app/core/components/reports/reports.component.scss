@@ -14,9 +14,34 @@ li {
 .main-container {
   display: flex;
   flex-direction: column;
-  padding: 0 7em;
+  padding: 0 7em 4em;
   & > div {
     flex: 1 1 auto;
+  }
+  .container {
+    display: flex;
+    justify-content: space-between;
+  }
+  .controls {
+    display: flex;
+    flex-direction: row;
+    column-gap: 2em;
+    padding-top: 2em;
+  }
+  .chart-container {
+    position: relative;
+    padding-top: 2em;
+    .loading-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: rgba(250, 250, 250, 0.7);
+    }
   }
 }
 
@@ -28,5 +53,8 @@ li {
   }
   ngx-skeleton-loader {
     max-width: 80px;
+    .skeleton-loader {
+      margin-bottom: 10px;
+    }
   }
 }
