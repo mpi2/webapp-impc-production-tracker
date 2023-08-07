@@ -21,8 +21,8 @@
     </div>
   </div>
   <div class="chart-container">
-    <div class="loading-overlay" *ngIf="isLoading || !charDataIsAvailable ">
-      <mat-spinner *ngIf="isLoading"></mat-spinner>
+    <div class="loading-overlay" *ngIf="isFetchingData || !charDataIsAvailable ">
+      <mat-spinner *ngIf="isFetchingData"></mat-spinner>
       <h2 *ngIf="!charDataIsAvailable">There is no data available for the filters selected</h2>
     </div>
     <div class="title-wrapper">

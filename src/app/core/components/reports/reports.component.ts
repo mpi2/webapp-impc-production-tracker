@@ -71,7 +71,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   public workUnits$: Observable<Array<string>>;
   public selectedWorkGroup;
   public selectedWorkUnit;
-  public isLoading: boolean;
+  public isFetchingData: boolean;
   public charDataIsAvailable = true;
   public selectedStartDate: Date;
   public selectedEndDate: Date;
@@ -119,14 +119,14 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       endpointESCELL += `&endyear=${this.selectedEndDate.getFullYear()}&endmonth=${this.selectedEndDate.getMonth() + 1}`;
       endpointCRISPR += `&endyear=${this.selectedEndDate.getFullYear()}&endmonth=${this.selectedEndDate.getMonth() + 1}`;
     }
-    this.isLoading = true;
+    this.isFetchingData = true;
     this.charDataIsAvailable = true;
     forkJoin([
       this.httpClient.get<Array<EndpointData>>(endpointESCELL),
       this.httpClient.get<Array<EndpointData>>(endpointCRISPR),
     ])
       .subscribe(data => {
-        this.isLoading = false;
+        this.isFetchingData = false;
         if (data[0].length === 0 && data[1].length === 0) {
           this.charDataIsAvailable = false;
         } else {
