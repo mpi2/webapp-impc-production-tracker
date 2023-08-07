@@ -212,7 +212,7 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       link.download += `-${this.selectedWorkUnit}`;
     }
     if (this.selectedWorkGroup) {
-      link.download += `-${this.selectedWorkUnit}`;
+      link.download += `-${this.selectedWorkGroup}`;
     }
     if (this.selectedStartDate && !this.selectedEndDate) {
       link.download += `-from-${formatDate(this.selectedStartDate)}`;
