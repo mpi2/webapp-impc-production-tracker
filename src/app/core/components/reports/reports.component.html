@@ -25,6 +25,21 @@
       <mat-spinner *ngIf="isLoading"></mat-spinner>
       <h2 *ngIf="!charDataIsAvailable">There is no data available for the filters selected</h2>
     </div>
+    <div class="title-wrapper">
+      <h3>Cumulative number of genes studied by ES Cell and CRISPR based techniques</h3>
+      <div class="legends" *ngIf="chartDirective && chartDirective?.chart as chart">
+        <div
+            class="legend-item"
+            *ngFor="let item of chart.legend.legendItems"
+            (click)="onLegendItemClick($event, item)"
+        >
+          <span class="color" [ngStyle]="{ background: item.fillStyle, 'border-color': item.strokeStyle }"></span>
+          <span class="text" [ngClass]="{ 'active-filter': isItemFilterActive(item) }">
+            {{ item.text }}
+          </span>
+        </div>
+      </div>
+    </div>
     <canvas
       baseChart
       class="chart"
@@ -104,5 +119,6 @@
       >
       </mat-datepicker>
     </mat-form-field>
+    <button mat-raised-button color="primary" (click)="downloadChart()">Download chart</button>
   </div>
 </div>

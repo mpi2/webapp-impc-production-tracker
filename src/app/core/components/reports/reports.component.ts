@@ -1,15 +1,17 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { ConfigAssetLoaderService } from '../../services/config-asset-loader.service';
 import { HttpClient } from "@angular/common/http";
-import {forkJoin, from, fromEvent, merge, Observable} from "rxjs";
+import { forkJoin, from, fromEvent, merge, Observable } from "rxjs";
 import {debounceTime, distinctUntilChanged, map, shareReplay} from "rxjs/operators";
 import { ChartConfiguration } from "chart.js";
+import { MatAutocomplete } from "@angular/material/autocomplete";
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
+import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
+import { MatDatepicker, MatDatepickerInputEvent } from "@angular/material/datepicker";
+import { Moment } from "moment";
+import { BaseChartDirective } from "ng2-charts";
 import 'chartjs-adapter-moment';
-import {MatAutocomplete} from "@angular/material/autocomplete";
-import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from "@angular/material/core";
-import {MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter} from "@angular/material-moment-adapter";
-import {MatDatepicker, MatDatepickerInputEvent} from "@angular/material/datepicker";
-import {Moment} from "moment";
+import * as moment from 'moment';
 
 type EndpointData = {
   year: number,
@@ -60,10 +62,8 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       }
     },
     plugins: {
-      title: {
-        display: true,
-        text: 'Cumulative number of genes studied by ES Cell and CRISPR based techniques'
-      }
+      title: { display: false },
+      legend: { display: false }
     }
   }
   public totalNumOfGenes$: Observable<number>;
@@ -75,10 +75,12 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   public charDataIsAvailable = true;
   public selectedStartDate: Date;
   public selectedEndDate: Date;
+  private activeFilters: { [filterKey: string]: boolean } = {};
   @ViewChild('workGroupInput') workGroupInput: ElementRef<HTMLInputElement>;
   @ViewChild('workGroupAutocomplete') workGroupAutocomplete: MatAutocomplete;
   @ViewChild('workUnitInput') workUnitInput: ElementRef<HTMLInputElement>;
   @ViewChild('workUnitAutocomplete') workUnitAutocomplete: MatAutocomplete;
+  @ViewChild(BaseChartDirective) public chartDirective: BaseChartDirective;
   constructor(
     private configAssetLoaderService: ConfigAssetLoaderService,
     private httpClient: HttpClient
@@ -201,6 +203,29 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       });
   }
 
+  downloadChart() {
+    const imageData = this.chartDirective.chart.toBase64Image();
+    const link =  document.createElement('a');
+    const formatDate = date => moment(date).format('MMM-YYYY');
+    link.download = 'report-chart';
+    if (this.selectedWorkUnit) {
+      link.download += `-${this.selectedWorkUnit}`;
+    }
+    if (this.selectedWorkGroup) {
+      link.download += `-${this.selectedWorkUnit}`;
+    }
+    if (this.selectedStartDate && !this.selectedEndDate) {
+      link.download += `-from-${formatDate(this.selectedStartDate)}`;
+    } else if (!this.selectedStartDate && this.selectedEndDate) {
+      link.download += `-to-${formatDate(this.selectedEndDate)}`;
+    } else {
+      link.download += `-from-${formatDate(this.selectedStartDate)}-to-${formatDate(this.selectedEndDate)}`;
+    }
+    link.download += '.png'
+    link.href = imageData;
+    link.click();
+  }
+
   onSelectedMonth(field: string, date: Moment, datepicker: MatDatepicker<Moment>) {
     this[field] = date.toDate();
     datepicker.close();
@@ -210,6 +235,16 @@ export class ReportsComponent implements OnInit, AfterViewInit {
   onChangedDate(field: string, event: MatDatepickerInputEvent<Moment>) {
     this[field] = !!event.value ? event.value.toDate() : null;
     this.fetchDataForCharts();
+  }
+
+  onLegendItemClick(event: Event, legend) {
+    const filterKey = legend.text.replace(/ /g, '_');
+    this.activeFilters[filterKey] = !this.activeFilters[filterKey];
+    this.toggleDatasetVisibility(filterKey);
+  }
+  isItemFilterActive(item): boolean {
+    const filterKey = item.text.replace(/ /g, '_');
+    return this.activeFilters[filterKey];
   }
   private transformData(data: Array<EndpointData>) {
     return data
@@ -262,5 +297,14 @@ export class ReportsComponent implements OnInit, AfterViewInit {
       i+=1;
     }
     return tempData;
+  }
+
+  private toggleDatasetVisibility(filterKey: string) {
+    const dataSetIndex = filterKey === 'ES_Cell' ? 0 : 1;
+    if (this.activeFilters[filterKey]) {
+      this.chartDirective.chart.hide(dataSetIndex);
+    } else {
+      this.chartDirective.chart.show(dataSetIndex);
+    }
   }
 }
