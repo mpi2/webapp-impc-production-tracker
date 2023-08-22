@@ -1,0 +1,76 @@
+a {
+  color:gray;
+}
+
+a.hover {
+  color:blue;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+}
+
+.controls {
+  display: flex;
+  flex-direction: row;
+  column-gap: 2em;
+  padding-top: 2em;
+}
+
+.chart-container {
+  position: relative;
+  padding-top: 2em;
+  .title-wrapper {
+    text-align: center;
+  }
+  .loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(250, 250, 250, 0.7);
+  }
+  .legends {
+    display: flex;
+    flex-direction: row;
+    column-gap: 1em;
+    justify-content: center;
+  }
+  .legend-item {
+    cursor: pointer;
+    display: flex;
+    align-items: flex-start;
+    user-select: none;
+    flex-direction: row;
+    column-gap: 5px;
+  }
+  .color {
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    position: relative;
+    flex: 0 0 1em;
+    border: 1px solid;
+  }
+  .text.active-filter {
+    text-decoration: line-through;
+  }
+}
+.total-genes-wrapper {
+  display: flex;
+  column-gap: 20px;
+  & > * {
+    flex: 1 1 auto;
+  }
+  ngx-skeleton-loader {
+    max-width: 80px;
+    .skeleton-loader {
+      margin-bottom: 10px;
+    }
+  }
+}
