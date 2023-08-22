@@ -1,124 +1,64 @@
 
 <div class="main-container">
   <h1>Reports</h1>
-  <h3>IMPC Production Numbers</h3>
-  <div class="container">
-    <div>
-      <div class="total-genes-wrapper">
-        Number of genes with genotype confirmed lines:
-        <ng-container *ngIf="totalNumOfGenes$ | async as totalNumOfGenes; else loading">
-          {{ totalNumOfGenes | number }}
-        </ng-container>
-        <ng-template #loading>
-          <ngx-skeleton-loader count="1" [theme]="{'margin-bottom': 0}"></ngx-skeleton-loader>
-        </ng-template>
-      </div>
-      <p>
-        <a href="https://www.gentar.org/tracker-api/api/reports/glt_production_numbers/overlap/intersection" download>
-          Genes studied by both ES Cell and CRISPR based techniques
-        </a>
-      </p>
-    </div>
-  </div>
-  <div class="chart-container">
-    <div class="loading-overlay" *ngIf="isFetchingData || !charDataIsAvailable ">
-      <mat-spinner *ngIf="isFetchingData"></mat-spinner>
-      <h2 *ngIf="!charDataIsAvailable">There is no data available for the filters selected</h2>
-    </div>
-    <div class="title-wrapper">
-      <h3>Cumulative number of genes studied by ES Cell and CRISPR based techniques</h3>
-      <div class="legends" *ngIf="chartDirective && chartDirective?.chart as chart">
-        <div
-            class="legend-item"
-            *ngFor="let item of chart.legend.legendItems"
-            (click)="onLegendItemClick($event, item)"
+  <mat-tab-group dynamicHeight>
+    <mat-tab label="IMPC Production numbers">
+      <app-production-numbers-tab></app-production-numbers-tab>
+    </mat-tab>
+    <mat-tab label="Work Units Attempts">
+      <h3>Work Units Attempts Report</h3>
+      <div class="controls-container">
+        <mat-form-field>
+          <mat-label>Work unit</mat-label>
+          <input
+            type="text"
+            placeholder="Pick one"
+            aria-label="Work unit"
+            matInput
+            (change)="onOptionActivated($event)"
+            #workUnitInput
+            [matAutocomplete]="WUAutocomplete"
+          >
+          <mat-autocomplete #WUAutocomplete="matAutocomplete" (optionSelected)="onOptionActivated($event)">
+            <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">
+              {{ unit }}
+            </mat-option>
+          </mat-autocomplete>
+          <mat-hint>Please select a value in both selects to enable the download</mat-hint>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Attempt</mat-label>
+          <mat-select [(value)]="attemptTypeSelected">
+            <mat-option value="crispr">CRISPR</mat-option>
+            <mat-option value="escell">ES Cell</mat-option>
+            <mat-option value="escellallelemodification">ES Cell Allele Modification</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="downloadWorkUnitAttemptsReport()"
+          [disabled]="!attemptWorkUnitSelected || !attemptTypeSelected"
         >
-          <span class="color" [ngStyle]="{ background: item.fillStyle, 'border-color': item.strokeStyle }"></span>
-          <span class="text" [ngClass]="{ 'active-filter': isItemFilterActive(item) }">
-            {{ item.text }}
-          </span>
-        </div>
+          Download report
+        </button>
       </div>
-    </div>
-    <canvas
-      baseChart
-      class="chart"
-      [type]="'line'"
-      [data]="chartData"
-      [options]="lineChartOptions"
-    >
-    </canvas>
-    <div>
-      <p *ngIf="selectedWorkUnit">Filtering by {{selectedWorkUnit}} work unit</p>
-    </div>
-  </div>
-  <div class="controls">
-    <mat-form-field>
-      <mat-label>Work unit</mat-label>
-      <input
-        type="text"
-        placeholder="Pick one"
-        aria-label="Work unit"
-        matInput
-        #workUnitInput
-        [matAutocomplete]="workUnitAutocomplete"
-      >
-      <mat-autocomplete #workUnitAutocomplete="matAutocomplete">
-        <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">
-          {{ unit }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Work group</mat-label>
-      <input
-        type="text"
-        placeholder="Pick one"
-        aria-label="Work group"
-        matInput
-        #workGroupInput
-        [matAutocomplete]="workGroupAutocomplete"
-      >
-      <mat-autocomplete #workGroupAutocomplete="matAutocomplete">
-        <mat-option *ngFor="let group of workGroups$ | async" [value]="group">
-          {{ group }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Start date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="startDateDP"
-        [value]="selectedStartDate"
-        (dateChange)="onChangedDate('selectedStartDate', $event)"
-      >
-      <mat-hint>MM/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="startDateDP"></mat-datepicker-toggle>
-      <mat-datepicker
-        #startDateDP
-        startView="multi-year"
-        (monthSelected)="onSelectedMonth('selectedStartDate', $event, startDateDP)"
-      >
-      </mat-datepicker>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>End date</mat-label>
-      <input
-        matInput
-        [matDatepicker]="endDateDP"
-        [value]="selectedEndDate"
-        (dateChange)="onChangedDate('selectedEndDate', $event)"
-      >
-      <mat-hint>MM/YYYY</mat-hint>
-      <mat-datepicker-toggle matIconSuffix [for]="endDateDP"></mat-datepicker-toggle>
-      <mat-datepicker
-        #endDateDP
-        startView="multi-year"
-        (monthSelected)="onSelectedMonth('selectedEndDate', $event, endDateDP)"
-      >
-      </mat-datepicker>
-    </mat-form-field>
-    <button mat-raised-button color="primary" (click)="downloadChart()">Download chart</button>
-  </div>
+    </mat-tab>
+    <mat-tab label="Languishing Project">
+      <h3>Languishing Project Report</h3>
+      <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/languishing_project_report'">Download report</a>
+    </mat-tab>
+    <mat-tab label="Multiple assigned genes">
+      <h3>Multiple assigned genes Report</h3>
+      <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/multiple_assigned_project_report'">Download report</a>
+    </mat-tab>
+    <mat-tab label="No assigned project">
+      <h3>No assigned project report</h3>
+      <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/no_assigned_project_report'">Download report</a>
+    </mat-tab>
+    <mat-tab label="All inactive project">
+      <h3>All inactive project report</h3>
+      <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/all_inactive_project_report'">Download report</a>
+    </mat-tab>
+  </mat-tab-group>
 </div>

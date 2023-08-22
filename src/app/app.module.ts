@@ -41,7 +41,7 @@ import { NgChartsModule } from 'ng2-charts';
     SequencesModule,
     TargetGeneListModule,
     AppRoutingModule,
-    NgChartsModule
+    NgChartsModule,
   ],
   exports: [
   ],
