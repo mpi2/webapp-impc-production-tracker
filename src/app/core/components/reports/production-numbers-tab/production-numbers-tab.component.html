@@ -58,6 +58,7 @@
       aria-label="Work unit"
       matInput
       #workUnitInput
+      [formControl]="workUnitControl"
       [matAutocomplete]="workUnitAutocomplete"
     >
     <mat-autocomplete #workUnitAutocomplete="matAutocomplete">
@@ -74,6 +75,7 @@
       aria-label="Work group"
       matInput
       #workGroupInput
+      [formControl]="workGroupControl"
       [matAutocomplete]="workGroupAutocomplete"
     >
     <mat-autocomplete #workGroupAutocomplete="matAutocomplete">

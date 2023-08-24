@@ -1,6 +1,13 @@
 import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { forkJoin, from, fromEvent, merge, Observable } from "rxjs";
-import { debounceTime, distinctUntilChanged, map, shareReplay } from "rxjs/operators";
+import {
+  debounceTime,
+  distinctUntilChanged,
+  map,
+  shareReplay,
+  startWith,
+  switchMap, tap,
+} from "rxjs/operators";
 import * as moment from "moment/moment";
 import { Moment } from "moment/moment";
 import { MatDatepicker, MatDatepickerInputEvent } from "@angular/material/datepicker";
@@ -11,6 +18,7 @@ import { ConfigAssetLoaderService } from "../../../services/config-asset-loader.
 import { HttpClient } from "@angular/common/http";
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from "@angular/material/core";
 import { MAT_MOMENT_DATE_ADAPTER_OPTIONS, MomentDateAdapter } from "@angular/material-moment-adapter";
+import { FormControl } from "@angular/forms";
 
 type EndpointData = {
   year: number,
@@ -46,7 +54,7 @@ const MY_FORMATS = {
   ]
 })
 export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
-  apiServiceUrl;
+  apiServiceUrl: string;
   public chartData;
   public lineChartOptions: ChartConfiguration<'line'>['options'] = {
     scales: {
@@ -67,8 +75,10 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   public totalNumOfGenes$: Observable<number>;
   public workGroups$: Observable<Array<string>>;
   public workUnits$: Observable<Array<string>>;
-  public selectedWorkGroup;
-  public selectedWorkUnit;
+  public workGroupControl = new FormControl('');
+  public workUnitControl = new FormControl('');
+  public selectedWorkGroup: string;
+  public selectedWorkUnit: string;
   public isFetchingData: boolean;
   public charDataIsAvailable = true;
   public selectedStartDate: Date;
@@ -93,6 +103,7 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   ngOnInit() {
     this.fetchTotalNumOfGenes();
     this.fetchConfig();
+    this.workGroupControl.disable();
   }
 
   ngAfterViewInit() {
@@ -166,8 +177,20 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   fetchConfig() {
     const endpointURL = `${this.apiServiceUrl}/api/conf`;
     const configObservable = this.httpClient.get(endpointURL).pipe(shareReplay(1));
-    this.workGroups$ = configObservable.pipe(map((data: any) => data.workGroups.sort()));
-    this.workUnits$ = configObservable.pipe(map((data: any) => data.workUnits.sort()));
+    this.workGroups$ = configObservable.pipe(
+      map((data: any) => data.workGroups.sort()),
+      switchMap((items: Array<string>) => this.workGroupControl.valueChanges.pipe(
+        startWith(""),
+        map(inputValue => this.filterValues(items, inputValue))
+      ))
+    );
+    this.workUnits$ = configObservable.pipe(
+      map((data: any) => data.workUnits.sort()),
+      switchMap((items: Array<string>) => this.workUnitControl.valueChanges.pipe(
+        startWith(""),
+        map(inputValue => this.filterValues(items, inputValue))
+      ))
+    );
   }
 
   setUpInputs() {
@@ -193,6 +216,7 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     )
       .pipe(
         map((event: any) => event.target ? event.target.value : event.option.value),
+        tap(value => !!value ? this.workGroupControl.enable() : this.workGroupControl.disable()),
         distinctUntilChanged(),
         debounceTime(300),
       )
@@ -200,6 +224,11 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
         this.selectedWorkUnit = selectedWorkUnit;
         this.fetchDataForCharts();
       });
+  }
+
+  filterValues(items: Array<string>, valueToFilter: string) {
+    const value = valueToFilter.toUpperCase();
+    return items.filter(item => item.toUpperCase().includes(value));
   }
 
   downloadChart() {
