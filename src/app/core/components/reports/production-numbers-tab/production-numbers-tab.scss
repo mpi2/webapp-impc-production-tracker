@@ -11,11 +11,18 @@ a.hover {
   justify-content: space-between;
 }
 
+.button-container {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1em;
+}
+
 .controls {
   display: flex;
   flex-direction: row;
   column-gap: 2em;
   padding-top: 2em;
+  align-items: flex-start;
 }
 
 .chart-container {

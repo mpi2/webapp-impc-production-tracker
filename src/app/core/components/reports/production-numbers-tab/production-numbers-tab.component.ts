@@ -111,24 +111,8 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   }
 
   fetchDataForCharts() {
-    let endpointESCELL = `${this.apiServiceUrl}/api/glt_production_numbers?reporttype=month&attempt=escell`;
-    let endpointCRISPR = `${this.apiServiceUrl}/api/glt_production_numbers?reporttype=month&attempt=crispr`;
-    if (this.selectedWorkGroup) {
-      endpointESCELL += `&workGroup=${this.selectedWorkGroup}`;
-      endpointCRISPR += `&workGroup=${this.selectedWorkGroup}`;
-    }
-    if (this.selectedWorkUnit) {
-      endpointESCELL += `&workunit=${this.selectedWorkUnit}`;
-      endpointCRISPR += `&workunit=${this.selectedWorkUnit}`;
-    }
-    if (this.selectedStartDate) {
-      endpointESCELL += `&startyear=${this.selectedStartDate.getFullYear()}&startmonth=${this.selectedStartDate.getMonth() + 1}`;
-      endpointCRISPR += `&startyear=${this.selectedStartDate.getFullYear()}&startmonth=${this.selectedStartDate.getMonth() + 1}`;
-    }
-    if (this.selectedEndDate) {
-      endpointESCELL += `&endyear=${this.selectedEndDate.getFullYear()}&endmonth=${this.selectedEndDate.getMonth() + 1}`;
-      endpointCRISPR += `&endyear=${this.selectedEndDate.getFullYear()}&endmonth=${this.selectedEndDate.getMonth() + 1}`;
-    }
+    const endpointESCELL = this.generateURL(`${this.apiServiceUrl}/api/glt_production_numbers?reporttype=month&attempt=escell`);
+    const endpointCRISPR = this.generateURL(`${this.apiServiceUrl}/api/glt_production_numbers?reporttype=month&attempt=crispr`);
     this.isFetchingData = true;
     this.charDataIsAvailable = true;
     forkJoin([
@@ -165,7 +149,6 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
             ]
           }
         }
-
       });
   }
 
@@ -178,18 +161,16 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     const endpointURL = `${this.apiServiceUrl}/api/conf`;
     const configObservable = this.httpClient.get(endpointURL).pipe(shareReplay(1));
     this.workGroups$ = configObservable.pipe(
-      map((data: any) => data.workGroups.sort()),
-      switchMap((items: Array<string>) => this.workGroupControl.valueChanges.pipe(
-        startWith(""),
-        map(inputValue => this.filterValues(items, inputValue))
+      map((data: any) => data.workGroupsByWorkUnits),
+      map(workGroups => new Map(Object.keys(workGroups).map(key => [key, workGroups[key]]))),
+      switchMap((workGroupMap) =>
+        this.workUnitControl.valueChanges.pipe(
+          startWith(""),
+          map(inputValue => workGroupMap.get(inputValue))
       ))
     );
     this.workUnits$ = configObservable.pipe(
       map((data: any) => data.workUnits.sort()),
-      switchMap((items: Array<string>) => this.workUnitControl.valueChanges.pipe(
-        startWith(""),
-        map(inputValue => this.filterValues(items, inputValue))
-      ))
     );
   }
 
@@ -226,11 +207,6 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
       });
   }
 
-  filterValues(items: Array<string>, valueToFilter: string) {
-    const value = valueToFilter.toUpperCase();
-    return items.filter(item => item.toUpperCase().includes(value));
-  }
-
   downloadChart() {
     const imageData = this.chartDirective.chart.toBase64Image();
     const link =  document.createElement('a');
@@ -251,6 +227,18 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     }
     link.download += '.png'
     link.href = imageData;
+    link.click();
+  }
+
+  downloadFile(type: string) {
+    let endpointURL: string;
+    if (type === 'ES Cell') {
+      endpointURL = this.generateURL(`${this.apiServiceUrl}/api/reports/glt_production_numbers?reporttype=month&attempt=escell`);
+    } else {
+      endpointURL = this.generateURL(`${this.apiServiceUrl}/api/reports/glt_production_numbers?reporttype=month&attempt=crispr`);
+    }
+    const link =  document.createElement('a');
+    link.href = endpointURL;
     link.click();
   }
 
@@ -334,5 +322,21 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     } else {
       this.chartDirective.chart.show(dataSetIndex);
     }
+  }
+
+  private generateURL(endpointURL: string) {
+    if (this.selectedWorkGroup) {
+      endpointURL += `&workGroup=${this.selectedWorkGroup}`;
+    }
+    if (this.selectedWorkUnit) {
+      endpointURL += `&workunit=${this.selectedWorkUnit}`;
+    }
+    if (this.selectedStartDate) {
+      endpointURL += `&startyear=${this.selectedStartDate.getFullYear()}&startmonth=${this.selectedStartDate.getMonth() + 1}`;
+    }
+    if (this.selectedEndDate) {
+      endpointURL += `&endyear=${this.selectedEndDate.getFullYear()}&endmonth=${this.selectedEndDate.getMonth() + 1}`;
+    }
+    return endpointURL;
   }
 }
