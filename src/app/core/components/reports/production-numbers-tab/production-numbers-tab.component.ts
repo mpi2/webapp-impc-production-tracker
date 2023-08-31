@@ -158,6 +158,10 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   }
 
   fetchConfig() {
+    const workUnitsToFilter = [
+      'EBI - Informatics Support',
+      'EMBL-Rome'
+    ];
     const endpointURL = `${this.apiServiceUrl}/api/conf`;
     const configObservable = this.httpClient.get(endpointURL).pipe(shareReplay(1));
     this.workGroups$ = configObservable.pipe(
@@ -171,6 +175,7 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     );
     this.workUnits$ = configObservable.pipe(
       map((data: any) => data.workUnits.sort()),
+      map(workUnits => workUnits.filter((unit: string) => !workUnitsToFilter.includes(unit)))
     );
   }
 
