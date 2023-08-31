@@ -47,19 +47,31 @@
     <mat-tab label="Project reports">
       <div>
         <h3>Languishing Project Report</h3>
-        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/languishing_project_report'">Download report</a>
+        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/languishing_project_report'">
+          <mat-icon>file_download</mat-icon>
+          Download report
+        </a>
       </div>
       <div>
-        <h3>Multiple assigned genes Report</h3>
-        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/multiple_assigned_project_report'">Download report</a>
+        <h3>Projects with multiple genes assigned report</h3>
+        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/multiple_assigned_project_report'">
+          <mat-icon>file_download</mat-icon>
+          Download report
+        </a>
       </div>
       <div>
-        <h3>No assigned project report</h3>
-        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/no_assigned_project_report'">Download report</a>
+        <h3>Projects in no assigned report</h3>
+        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/no_assigned_project_report'">
+          <mat-icon>file_download</mat-icon>
+          Download report
+        </a>
       </div>
       <div>
-        <h3>All inactive project report</h3>
-        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/all_inactive_project_report'">Download report</a>
+        <h3>Inactive projects with genes assigned report</h3>
+        <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/all_inactive_project_report'">
+          <mat-icon>file_download</mat-icon>
+          Download report
+        </a>
       </div>
     </mat-tab>
   </mat-tab-group>

@@ -118,5 +118,18 @@
     >
     </mat-datepicker>
   </mat-form-field>
-  <button mat-raised-button color="primary" (click)="downloadChart()">Download chart</button>
+  <div class="button-container">
+    <button mat-raised-button color="primary" (click)="downloadChart()">
+      <mat-icon>file_download</mat-icon>
+      Download chart
+    </button>
+    <button mat-raised-button color="primary" (click)="downloadFile('ES Cell')">
+      <mat-icon>file_download</mat-icon>
+      Download ES Cell tsv
+    </button>
+    <button mat-raised-button color="primary" (click)="downloadFile('CRISPR')">
+      <mat-icon>file_download</mat-icon>
+      Download CRISPR tsv
+    </button>
+  </div>
 </div>
