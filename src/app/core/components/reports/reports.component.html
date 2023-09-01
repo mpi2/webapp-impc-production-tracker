@@ -1,11 +1,11 @@
 
-<div class="main-container">
+<div id="reports-page" class="main-container">
   <h1>Reports</h1>
   <mat-tab-group dynamicHeight>
-    <mat-tab label="IMPC Production numbers">
+    <mat-tab bodyClass="tab" label="IMPC Production numbers">
       <app-production-numbers-tab></app-production-numbers-tab>
     </mat-tab>
-    <mat-tab label="Work Units Attempts">
+    <mat-tab bodyClass="tab" label="Work Units Attempts">
       <h3>Work Units Attempts Report</h3>
       <div class="controls-container">
         <mat-form-field>
@@ -44,30 +44,30 @@
         </button>
       </div>
     </mat-tab>
-    <mat-tab label="Project reports">
+    <mat-tab bodyClass="tab" label="Project reports">
       <div>
-        <h3>Languishing Project Report</h3>
+        <h3>Languishing Projects</h3>
         <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/languishing_project_report'">
           <mat-icon>file_download</mat-icon>
           Download report
         </a>
       </div>
       <div>
-        <h3>Projects with multiple genes assigned report</h3>
+        <h3>Genes with multiple assigned projects</h3>
         <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/multiple_assigned_project_report'">
           <mat-icon>file_download</mat-icon>
           Download report
         </a>
       </div>
       <div>
-        <h3>Projects in no assigned report</h3>
+        <h3>Genes that only have inactive projects</h3>
         <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/no_assigned_project_report'">
           <mat-icon>file_download</mat-icon>
           Download report
         </a>
       </div>
       <div>
-        <h3>Inactive projects with genes assigned report</h3>
+        <h3>Genes with no assigned projects</h3>
         <a mat-raised-button color="primary" [href]="apiServiceUrl + '/api/reports/all_inactive_project_report'">
           <mat-icon>file_download</mat-icon>
           Download report
