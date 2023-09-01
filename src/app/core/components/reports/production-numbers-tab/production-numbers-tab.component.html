@@ -46,78 +46,97 @@
   >
   </canvas>
   <div>
-    <p *ngIf="selectedWorkUnit">Filtering by {{selectedWorkUnit}} work unit</p>
+    <p *ngIf="selectedOption === 'IMPC'">Displaying data from the whole IMPC </p>
+    <p *ngIf="selectedOption === 'WorkUnit' && selectedWorkUnit">Filtering by {{selectedWorkUnit}} work unit</p>
   </div>
 </div>
 <div class="controls">
-  <mat-form-field>
-    <mat-label>Work unit</mat-label>
-    <input
-      type="text"
-      placeholder="Pick one"
-      aria-label="Work unit"
-      matInput
-      #workUnitInput
-      [formControl]="workUnitControl"
-      [matAutocomplete]="workUnitAutocomplete"
+  <div class="radio-wrapper">
+    <mat-radio-button
+      [checked]="selectedOption === 'IMPC'"
+      (change)="updateSelection('IMPC')"
     >
-    <mat-autocomplete #workUnitAutocomplete="matAutocomplete">
-      <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">
-        {{ unit }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Work group</mat-label>
-    <input
-      type="text"
-      placeholder="Pick one"
-      aria-label="Work group"
-      matInput
-      #workGroupInput
-      [formControl]="workGroupControl"
-      [matAutocomplete]="workGroupAutocomplete"
+      IMPC
+    </mat-radio-button>
+    <mat-radio-button
+      [checked]="selectedOption === 'WorkUnit'"
+      (change)="updateSelection('WorkUnit')"
     >
-    <mat-autocomplete #workGroupAutocomplete="matAutocomplete">
-      <mat-option *ngFor="let group of workGroups$ | async" [value]="group">
-        {{ group }}
-      </mat-option>
-    </mat-autocomplete>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>Start date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="startDateDP"
-      [value]="selectedStartDate"
-      (dateChange)="onChangedDate('selectedStartDate', $event)"
-    >
-    <mat-hint>MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="startDateDP"></mat-datepicker-toggle>
-    <mat-datepicker
-      #startDateDP
-      startView="multi-year"
-      (monthSelected)="onSelectedMonth('selectedStartDate', $event, startDateDP)"
-    >
-    </mat-datepicker>
-  </mat-form-field>
-  <mat-form-field>
-    <mat-label>End date</mat-label>
-    <input
-      matInput
-      [matDatepicker]="endDateDP"
-      [value]="selectedEndDate"
-      (dateChange)="onChangedDate('selectedEndDate', $event)"
-    >
-    <mat-hint>MM/YYYY</mat-hint>
-    <mat-datepicker-toggle matIconSuffix [for]="endDateDP"></mat-datepicker-toggle>
-    <mat-datepicker
-      #endDateDP
-      startView="multi-year"
-      (monthSelected)="onSelectedMonth('selectedEndDate', $event, endDateDP)"
-    >
-    </mat-datepicker>
-  </mat-form-field>
+      By work unit
+    </mat-radio-button>
+  </div>
+  <div class="autocomplete-wrapper">
+    <mat-form-field>
+      <mat-label>Work unit</mat-label>
+      <input
+        type="text"
+        placeholder="Pick one"
+        aria-label="Work unit"
+        matInput
+        #workUnitInput
+        [formControl]="workUnitControl"
+        [matAutocomplete]="workUnitAutocomplete"
+      >
+      <mat-autocomplete #workUnitAutocomplete="matAutocomplete">
+        <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">
+          {{ unit }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Work group</mat-label>
+      <input
+        type="text"
+        placeholder="Pick one"
+        aria-label="Work group"
+        matInput
+        #workGroupInput
+        [formControl]="workGroupControl"
+        [matAutocomplete]="workGroupAutocomplete"
+      >
+      <mat-autocomplete #workGroupAutocomplete="matAutocomplete">
+        <mat-option *ngFor="let group of workGroups$ | async" [value]="group">
+          {{ group }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+  <div class="datepickers-wrapper">
+    <mat-form-field>
+      <mat-label>Start date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="startDateDP"
+        [value]="selectedStartDate"
+        (dateChange)="onChangedDate('selectedStartDate', $event)"
+      >
+      <mat-hint>MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="startDateDP"></mat-datepicker-toggle>
+      <mat-datepicker
+        #startDateDP
+        startView="multi-year"
+        (monthSelected)="onSelectedMonth('selectedStartDate', $event, startDateDP)"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>End date</mat-label>
+      <input
+        matInput
+        [matDatepicker]="endDateDP"
+        [value]="selectedEndDate"
+        (dateChange)="onChangedDate('selectedEndDate', $event)"
+      >
+      <mat-hint>MM/YYYY</mat-hint>
+      <mat-datepicker-toggle matIconSuffix [for]="endDateDP"></mat-datepicker-toggle>
+      <mat-datepicker
+        #endDateDP
+        startView="multi-year"
+        (monthSelected)="onSelectedMonth('selectedEndDate', $event, endDateDP)"
+      >
+      </mat-datepicker>
+    </mat-form-field>
+  </div>
   <div class="button-container">
     <button mat-raised-button color="primary" (click)="downloadChart()">
       <mat-icon>file_download</mat-icon>

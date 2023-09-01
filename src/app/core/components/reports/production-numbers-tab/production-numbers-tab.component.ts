@@ -56,6 +56,7 @@ const MY_FORMATS = {
 export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   apiServiceUrl: string;
   public chartData;
+  public selectedOption: 'IMPC' | 'WorkUnit' = 'IMPC';
   public lineChartOptions: ChartConfiguration<'line'>['options'] = {
     scales: {
       y: {
@@ -83,6 +84,7 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   public charDataIsAvailable = true;
   public selectedStartDate: Date;
   public selectedEndDate: Date;
+  public previousURL: string;
   private activeFilters: { [filterKey: string]: boolean } = {};
   @ViewChild('workGroupInput') workGroupInput: ElementRef<HTMLInputElement>;
   @ViewChild('workGroupAutocomplete') workGroupAutocomplete: MatAutocomplete;
@@ -104,6 +106,7 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     this.fetchTotalNumOfGenes();
     this.fetchConfig();
     this.workGroupControl.disable();
+    this.workUnitControl.disable();
   }
 
   ngAfterViewInit() {
@@ -113,6 +116,10 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   fetchDataForCharts() {
     const endpointESCELL = this.generateURL(`${this.apiServiceUrl}/api/glt_production_numbers?reporttype=month&attempt=escell`);
     const endpointCRISPR = this.generateURL(`${this.apiServiceUrl}/api/glt_production_numbers?reporttype=month&attempt=crispr`);
+    if (this.previousURL === endpointESCELL) {
+      return;
+    }
+    this.previousURL = endpointESCELL;
     this.isFetchingData = true;
     this.charDataIsAvailable = true;
     forkJoin([
@@ -267,6 +274,17 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     const filterKey = item.text.replace(/ /g, '_');
     return this.activeFilters[filterKey];
   }
+
+  updateSelection(newSelection: 'IMPC' | 'WorkUnit') {
+    this.selectedOption = newSelection;
+    if (newSelection === 'IMPC') {
+      this.workGroupControl.disable();
+      this.workUnitControl.disable();
+    } else {
+      this.workUnitControl.enable();
+    }
+    this.fetchDataForCharts();
+  }
   private transformData(data: Array<EndpointData>) {
     return data
       .map(d => ({
@@ -330,10 +348,11 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   }
 
   private generateURL(endpointURL: string) {
-    if (this.selectedWorkGroup) {
+    const workUnitIsSelected = this.selectedOption === 'WorkUnit';
+    if (this.selectedWorkGroup && workUnitIsSelected) {
       endpointURL += `&workGroup=${this.selectedWorkGroup}`;
     }
-    if (this.selectedWorkUnit) {
+    if (this.selectedWorkUnit && workUnitIsSelected) {
       endpointURL += `&workunit=${this.selectedWorkUnit}`;
     }
     if (this.selectedStartDate) {
