@@ -14,6 +14,7 @@ import { MatTabsModule } from "@angular/material/tabs";
 import {
   ProductionNumbersTabComponent
 } from "./components/reports/production-numbers-tab/production-numbers-tab.component";
+import { MatRadioModule } from "@angular/material/radio";
 
 
 @NgModule({
@@ -29,7 +30,8 @@ import {
     SharedModule,
     NgChartsModule,
     NgxSkeletonLoaderModule,
-    MatTabsModule
+    MatTabsModule,
+    MatRadioModule,
   ],
   providers: [
     LoggedUserService,
