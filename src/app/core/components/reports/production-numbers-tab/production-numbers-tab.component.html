@@ -47,6 +47,7 @@
   </canvas>
   <div>
     <p *ngIf="selectedOption === 'IMPC'">Displaying data from the whole IMPC </p>
+    <p *ngIf="selectedOption === 'WorkUnit' && !selectedWorkUnit">Please select a work unit</p>
     <p *ngIf="selectedOption === 'WorkUnit' && selectedWorkUnit">Filtering by {{selectedWorkUnit}} work unit</p>
   </div>
 </div>
