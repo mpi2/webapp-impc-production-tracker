@@ -1,0 +1,26 @@
+a {
+  color:gray;
+}
+
+a.hover {
+  color:blue;
+}
+
+li {
+  list-style-type: none;
+  padding: 10px;
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  padding: 0 7em 4em;
+  & > div {
+    flex: 1 1 auto;
+  }
+}
+.controls-container {
+  display: flex;
+  align-items: baseline;
+  column-gap: 2em;
+}

@@ -105,3 +105,20 @@ mat-toolbar {
 .filter-form .mdc-list-item__primary-text {
   font-size: 12px !important;
 }
+
+#reports-page {
+  .mat-mdc-tab {
+    border: 1px solid transparent;
+    border-bottom-color: rgba(0,0,0,.12);
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out;
+    .mdc-tab-indicator .mdc-tab-indicator__content {
+      border: 0
+    }
+    &.mdc-tab--active.mdc-tab-indicator--active, &:hover {
+      border-color: rgba(0,0,0, .12);
+      border-bottom-color: transparent;
+      border-top-left-radius: 0.375em;
+      border-top-right-radius: 0.375em;
+    }
+  }
+}

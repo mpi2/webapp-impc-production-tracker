@@ -7,14 +7,31 @@ import { PermissionsService } from './services/permissions.service';
 import { SharedModule } from '../shared/shared.module';
 import { HomeComponent } from './components/home/home.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
-import { UpdateNotificationComponent } from '../feature-modules/plans/components/update-notification/update-notification.component';
 import { ReportsComponent } from './components/reports/reports.component';
+import {NgChartsModule} from "ng2-charts";
+import {NgxSkeletonLoaderModule} from "ngx-skeleton-loader";
+import { MatTabsModule } from "@angular/material/tabs";
+import {
+  ProductionNumbersTabComponent
+} from "./components/reports/production-numbers-tab/production-numbers-tab.component";
+import { MatRadioModule } from "@angular/material/radio";
 
 
 @NgModule({
-  declarations: [HeaderComponent, FooterComponent, HomeComponent, NotFoundComponent, ReportsComponent],
+  declarations: [
+    HeaderComponent,
+    FooterComponent,
+    HomeComponent,
+    NotFoundComponent,
+    ReportsComponent,
+    ProductionNumbersTabComponent,
+  ],
   imports: [
-    SharedModule
+    SharedModule,
+    NgChartsModule,
+    NgxSkeletonLoaderModule,
+    MatTabsModule,
+    MatRadioModule,
   ],
   providers: [
     LoggedUserService,
