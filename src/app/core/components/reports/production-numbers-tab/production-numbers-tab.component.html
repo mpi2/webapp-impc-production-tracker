@@ -47,8 +47,10 @@
   </canvas>
   <div>
     <p *ngIf="selectedOption === 'IMPC'">Displaying data from the whole IMPC </p>
-    <p *ngIf="selectedOption === 'WorkUnit' && !selectedWorkUnit">Please select a work unit</p>
-    <p *ngIf="selectedOption === 'WorkUnit' && selectedWorkUnit">Filtering by {{selectedWorkUnit}} work unit</p>
+    <p *ngIf="selectedOption === 'WorkUnit' && !workUnitControl.value">Please select a work unit</p>
+    <p *ngIf="selectedOption === 'WorkUnit' && workUnitControl.value">Filtering by {{workUnitControl.value}} work unit</p>
+    <p *ngIf="selectedOption === 'MultipleWorkUnit'">Please select a work unit</p>
+    <p *ngIf="selectedOption === 'MultipleWorkUnit' && multipleWorkUnitControl.value.length">Filtering by {{multipleWorkUnitControl.value.join(', ')}} work unit</p>
   </div>
 </div>
 <div class="controls">
@@ -65,42 +67,64 @@
     >
       By work unit
     </mat-radio-button>
+    <mat-radio-button
+      [checked]="selectedOption === 'MultipleWorkUnit'"
+      (change)="updateSelection('MultipleWorkUnit')"
+    >
+      By multiple work unit
+    </mat-radio-button>
   </div>
   <div class="autocomplete-wrapper">
-    <mat-form-field>
-      <mat-label>Work unit</mat-label>
-      <input
-        type="text"
-        placeholder="Pick one"
-        aria-label="Work unit"
-        matInput
-        #workUnitInput
-        [formControl]="workUnitControl"
-        [matAutocomplete]="workUnitAutocomplete"
-      >
-      <mat-autocomplete #workUnitAutocomplete="matAutocomplete">
-        <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">
-          {{ unit }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Work group</mat-label>
-      <input
-        type="text"
-        placeholder="Pick one"
-        aria-label="Work group"
-        matInput
-        #workGroupInput
-        [formControl]="workGroupControl"
-        [matAutocomplete]="workGroupAutocomplete"
-      >
-      <mat-autocomplete #workGroupAutocomplete="matAutocomplete">
-        <mat-option *ngFor="let group of workGroups$ | async" [value]="group">
-          {{ group }}
-        </mat-option>
-      </mat-autocomplete>
-    </mat-form-field>
+    <div class="inner-wrapper" [class.hidden]="selectedOption !== 'WorkUnit'">
+      <mat-form-field>
+        <mat-label>Work unit</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Work unit"
+          matInput
+          #workUnitInput
+          [formControl]="workUnitControl"
+          [matAutocomplete]="workUnitAutocomplete"
+        >
+        <mat-autocomplete #workUnitAutocomplete="matAutocomplete">
+          <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">
+            {{ unit }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Work group</mat-label>
+        <input
+          type="text"
+          placeholder="Pick one"
+          aria-label="Work group"
+          matInput
+          #workGroupInput
+          [formControl]="workGroupControl"
+          [matAutocomplete]="workGroupAutocomplete"
+        >
+        <mat-autocomplete #workGroupAutocomplete="matAutocomplete">
+          <mat-option *ngFor="let group of workGroups$ | async" [value]="group">
+            {{ group }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+    <div class="inner-wrapper" [class.hidden]="selectedOption !== 'MultipleWorkUnit'">
+      <mat-form-field>
+        <mat-label>Work unit</mat-label>
+        <mat-select [formControl]="multipleWorkUnitControl" multiple>
+          <mat-select-trigger>
+            {{multipleWorkUnitControl.value?.[0] || ''}}
+            <span *ngIf="(multipleWorkUnitControl.value?.length || 0) > 1" class="example-additional-selection">
+              (+{{(multipleWorkUnitControl.value?.length || 0) - 1}} {{multipleWorkUnitControl.value?.length === 2 ? 'other' : 'others'}})
+            </span>
+          </mat-select-trigger>
+          <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">{{unit}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
   </div>
   <div class="datepickers-wrapper">
     <mat-form-field>
