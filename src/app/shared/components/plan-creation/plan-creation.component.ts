@@ -9,6 +9,7 @@ import { ChangeResponse } from 'src/app/core/model/history/change-response';
 import { PhenotypingStartingPoint } from 'src/app/feature-modules/attempts/model/phenotyping/phenotyping_starting_point';
 // eslint-disable-next-line max-len
 import { EsCellAlleleModificationStartingPoint } from 'src/app/feature-modules/attempts/model/production/es-cell-allele-modification/starting-point/es-cell-allele-modification-starting-point';
+import { CrisprAlleleModificationStartingPoint } from 'src/app/feature-modules/attempts/model/production/crispr-allele-modification/starting-point/crispr-allele-modification-starting-point';
 import { ProjectService } from 'src/app/feature-modules/projects';
 import { User } from 'src/app/core/model/user/user';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
@@ -139,6 +140,11 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     if (this.planCreationForm.get('attemptTypeName').value === 'es cell allele modification') {
       this.plan.esCellAlleleModificationStartingPoint = new EsCellAlleleModificationStartingPoint();
       this.plan.esCellAlleleModificationStartingPoint.outcomeTpo = e.value;
+    }
+
+    if (this.planCreationForm.get('attemptTypeName').value === 'crispr allele modification') {
+      this.plan.crisprAlleleModificationStartingPoint = new CrisprAlleleModificationStartingPoint();
+      this.plan.crisprAlleleModificationStartingPoint.outcomeTpo = e.value;
     }
     if (this.preSelectedPlanType === 'phenotyping') {
       this.plan.phenotypingStartingPoint = new PhenotypingStartingPoint();
@@ -297,7 +303,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
     if (this.projectCreation) {
       this.attemptTypesByPlanTypes.delete('phenotyping');
       const prod = this.attemptTypesByPlanTypes.get('production')
-                                                      .filter(t => !(t.name === 'es cell allele modification' || t.name === 'breeding'));
+                                                      .filter(t => !(t.name === 'es cell allele modification' || t.name === 'crispr allele modification' || t.name === 'breeding'));
       this.attemptTypesByPlanTypes.set('production', prod);
       this.handleAttemptTypeSelected(null, this.attemptTypesByPlanTypes);
     }
@@ -315,7 +321,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
                                                       || t.name === 'es cell allele modification' || t.name === 'breeding'));
         } else if (this.originalProductionAttemptType === 'es cell') {
           prod = this.attemptTypesByPlanTypes.get('production').filter(t => !(t.name === 'crispr'
-                                                      || t.name === 'haplo-essential crispr' || t.name === 'breeding'));
+                                                      || t.name === 'crispr allele modification' || t.name === 'haplo-essential crispr' || t.name === 'breeding'));
         }
       }
       this.attemptTypesByPlanTypes.set('production', prod);

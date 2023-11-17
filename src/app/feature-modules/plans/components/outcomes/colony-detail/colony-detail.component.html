@@ -4,7 +4,7 @@
         <div *ngIf="canUpdate; then colonyEditable else colonyReadOnly"></div>
         <ng-template #colonyEditable>
             <tr>
-                <td><label for="name">Name:</label></td>
+                <td><label for="name">Name: *</label></td>
                 <td>
                     <mat-form-field appearance="fill">
                         <input matInput [(ngModel)]="colony.name" [ngModelOptions]="{standalone: true}">
@@ -21,7 +21,7 @@
                 </td>
             </tr>
             <tr>
-                <td><label for="backgroundStrainName">Background Strain:</label></td>
+                <td><label for="backgroundStrainName">Background Strain: *</label></td>
                 <td>
                     <mat-form-field appearance="fill">
                         <mat-select class="select-content" [(value)]="colony.backgroundStrainName">
