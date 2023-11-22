@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { forkJoin, from, fromEvent, merge, Observable } from "rxjs";
 import {
   debounceTime,
@@ -53,10 +53,10 @@ const MY_FORMATS = {
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
   ]
 })
-export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
+export class ProductionNumbersTabComponent implements OnInit {
   apiServiceUrl: string;
   public chartData;
-  public selectedOption: 'IMPC' | 'WorkUnit' = 'IMPC';
+  public selectedOption: 'IMPC' | 'WorkUnit' | 'MultipleWorkUnit' = 'IMPC';
   public lineChartOptions: ChartConfiguration<'line'>['options'] = {
     scales: {
       y: {
@@ -78,14 +78,15 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
   public workUnits$: Observable<Array<string>>;
   public workGroupControl = new FormControl('');
   public workUnitControl = new FormControl('');
-  public selectedWorkGroup: string;
-  public selectedWorkUnit: string;
+  public multipleWorkUnitControl = new FormControl<Array<string>>([]);
   public isFetchingData: boolean;
   public charDataIsAvailable = true;
   public selectedStartDate: Date;
   public selectedEndDate: Date;
   public previousURL: string;
   private activeFilters: { [filterKey: string]: boolean } = {};
+  private hasSetupControlsForWorkUnit = false;
+  private hasSetupControlsForMultiple = false;
   @ViewChild('workGroupInput') workGroupInput: ElementRef<HTMLInputElement>;
   @ViewChild('workGroupAutocomplete') workGroupAutocomplete: MatAutocomplete;
   @ViewChild('workUnitInput') workUnitInput: ElementRef<HTMLInputElement>;
@@ -107,10 +108,6 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     this.fetchConfig();
     this.workGroupControl.disable();
     this.workUnitControl.disable();
-  }
-
-  ngAfterViewInit() {
-    this.setUpInputs();
   }
 
   fetchDataForCharts() {
@@ -186,37 +183,46 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     );
   }
 
-  setUpInputs() {
-    merge(
-      fromEvent<InputEvent>(this.workGroupInput.nativeElement, 'change'),
-      fromEvent<InputEvent>(this.workGroupInput.nativeElement, 'keyup'),
-      from(this.workGroupAutocomplete.optionSelected),
-    )
-      .pipe(
-        map((event: any) => event.target ? event.target.value : event.option.value),
-        distinctUntilChanged(),
-        debounceTime(300),
+  setUpInputsForWorkUnit() {
+    if (!this.hasSetupControlsForWorkUnit) {
+      merge(
+        fromEvent<InputEvent>(this.workGroupInput.nativeElement, 'change'),
+        fromEvent<InputEvent>(this.workGroupInput.nativeElement, 'keyup'),
+        from(this.workGroupAutocomplete.optionSelected),
       )
-      .subscribe(selectedWorkGroup => {
-        this.selectedWorkGroup = selectedWorkGroup;
-        this.fetchDataForCharts();
-      });
+        .pipe(
+          map((event: any) => event.target ? event.target.value : event.option.value),
+          distinctUntilChanged(),
+          debounceTime(300),
+        )
+        .subscribe(() => this.fetchDataForCharts());
 
-    merge(
-      fromEvent<InputEvent>(this.workUnitInput.nativeElement, 'change'),
-      fromEvent<InputEvent>(this.workUnitInput.nativeElement, 'keyup'),
-      from(this.workUnitAutocomplete.optionSelected),
-    )
-      .pipe(
-        map((event: any) => event.target ? event.target.value : event.option.value),
-        tap(value => !!value ? this.workGroupControl.enable() : this.workGroupControl.disable()),
-        distinctUntilChanged(),
-        debounceTime(300),
+      merge(
+        fromEvent<InputEvent>(this.workUnitInput.nativeElement, 'change'),
+        fromEvent<InputEvent>(this.workUnitInput.nativeElement, 'keyup'),
+        from(this.workUnitAutocomplete.optionSelected),
       )
-      .subscribe(selectedWorkUnit => {
-        this.selectedWorkUnit = selectedWorkUnit;
-        this.fetchDataForCharts();
-      });
+        .pipe(
+          map((event: any) => event.target ? event.target.value : event.option.value),
+          tap(value => !!value ? this.workGroupControl.enable() : this.workGroupControl.disable()),
+          distinctUntilChanged(),
+          debounceTime(300),
+        )
+        .subscribe(() => this.fetchDataForCharts());
+      this.hasSetupControlsForWorkUnit = true;
+    }
+  }
+
+  setupInputForMultipleWU() {
+    if (!this.hasSetupControlsForMultiple) {
+      this.multipleWorkUnitControl.valueChanges
+        .pipe(
+          distinctUntilChanged(),
+          debounceTime(500)
+        )
+        .subscribe(() => this.fetchDataForCharts());
+      this.hasSetupControlsForMultiple = true;
+    }
   }
 
   downloadChart() {
@@ -224,17 +230,19 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     const link =  document.createElement('a');
     const formatDate = date => moment(date).format('MMM-YYYY');
     link.download = 'report-chart';
-    if (this.selectedWorkUnit) {
-      link.download += `-${this.selectedWorkUnit}`;
+    if (this.workUnitControl.value) {
+      link.download += `-${this.workUnitControl.value}`;
+    } else if (this.multipleWorkUnitControl.value) {
+      link.download += `${this.multipleWorkUnitControl.value.join('-')}-`;
     }
-    if (this.selectedWorkGroup) {
-      link.download += `-${this.selectedWorkGroup}`;
+    if (this.workGroupControl.value) {
+      link.download += `-${this.workGroupControl.value}`;
     }
     if (this.selectedStartDate && !this.selectedEndDate) {
       link.download += `-from-${formatDate(this.selectedStartDate)}`;
     } else if (!this.selectedStartDate && this.selectedEndDate) {
       link.download += `-to-${formatDate(this.selectedEndDate)}`;
-    } else {
+    } else if (this.selectedStartDate && this.selectedEndDate) {
       link.download += `-from-${formatDate(this.selectedStartDate)}-to-${formatDate(this.selectedEndDate)}`;
     }
     link.download += '.png'
@@ -275,13 +283,18 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
     return this.activeFilters[filterKey];
   }
 
-  updateSelection(newSelection: 'IMPC' | 'WorkUnit') {
+  updateSelection(newSelection: 'IMPC' | 'WorkUnit' | 'MultipleWorkUnit') {
     this.selectedOption = newSelection;
     if (newSelection === 'IMPC') {
       this.workGroupControl.disable();
       this.workUnitControl.disable();
-    } else {
+      this.multipleWorkUnitControl.disable();
+    } else if (newSelection === 'WorkUnit') {
+      this.setUpInputsForWorkUnit();
       this.workUnitControl.enable();
+    } else if (newSelection === 'MultipleWorkUnit') {
+      this.multipleWorkUnitControl.enable();
+      this.setupInputForMultipleWU();
     }
     this.fetchDataForCharts();
   }
@@ -349,12 +362,18 @@ export class ProductionNumbersTabComponent implements OnInit, AfterViewInit {
 
   private generateURL(endpointURL: string) {
     const workUnitIsSelected = this.selectedOption === 'WorkUnit';
-    if (this.selectedWorkGroup && workUnitIsSelected) {
-      endpointURL += `&workGroup=${this.selectedWorkGroup}`;
+    const multipleWorkUnitIsSelected = this.selectedOption === 'MultipleWorkUnit';
+    if (this.multipleWorkUnitControl.value?.length > 0 && multipleWorkUnitIsSelected) {
+      endpointURL += `&workunit=${this.multipleWorkUnitControl.value.join(',')}`;
+    } else {
+      if (this.workGroupControl.value && workUnitIsSelected) {
+        endpointURL += `&workGroup=${this.workGroupControl.value}`;
+      }
+      if (this.workUnitControl.value && workUnitIsSelected) {
+        endpointURL += `&workunit=${this.workUnitControl.value}`;
+      }
     }
-    if (this.selectedWorkUnit && workUnitIsSelected) {
-      endpointURL += `&workunit=${this.selectedWorkUnit}`;
-    }
+
     if (this.selectedStartDate) {
       endpointURL += `&startyear=${this.selectedStartDate.getFullYear()}&startmonth=${this.selectedStartDate.getMonth() + 1}`;
     }

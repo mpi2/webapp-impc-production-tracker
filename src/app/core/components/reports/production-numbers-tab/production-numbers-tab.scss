@@ -6,6 +6,9 @@ a.hover {
   color:blue;
 }
 
+.hidden {
+  display: none !important;
+}
 .container {
   display: flex;
   justify-content: space-between;
@@ -28,6 +31,13 @@ a.hover {
 .autocomplete-wrapper, .datepickers-wrapper, .radio-wrapper {
   display: flex;
   flex-direction: column;
+  .inner-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+}
+.autocomplete-wrapper {
+  min-width: 212px;
 }
 .chart-container {
   position: relative;
