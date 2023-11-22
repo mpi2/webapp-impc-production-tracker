@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { forkJoin, from, fromEvent, merge, Observable } from "rxjs";
 import {
   debounceTime,
@@ -232,15 +232,17 @@ export class ProductionNumbersTabComponent implements OnInit {
     link.download = 'report-chart';
     if (this.workUnitControl.value) {
       link.download += `-${this.workUnitControl.value}`;
+    } else if (this.multipleWorkUnitControl.value) {
+      link.download += `${this.multipleWorkUnitControl.value.join('-')}-`;
     }
-    if (this.workGroupControl) {
-      link.download += `-${this.workGroupControl}`;
+    if (this.workGroupControl.value) {
+      link.download += `-${this.workGroupControl.value}`;
     }
     if (this.selectedStartDate && !this.selectedEndDate) {
       link.download += `-from-${formatDate(this.selectedStartDate)}`;
     } else if (!this.selectedStartDate && this.selectedEndDate) {
       link.download += `-to-${formatDate(this.selectedEndDate)}`;
-    } else {
+    } else if (this.selectedStartDate && this.selectedEndDate) {
       link.download += `-from-${formatDate(this.selectedStartDate)}-to-${formatDate(this.selectedEndDate)}`;
     }
     link.download += '.png'
