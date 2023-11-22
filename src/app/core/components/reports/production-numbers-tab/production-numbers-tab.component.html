@@ -49,7 +49,7 @@
     <p *ngIf="selectedOption === 'IMPC'">Displaying data from the whole IMPC </p>
     <p *ngIf="selectedOption === 'WorkUnit' && !workUnitControl.value">Please select a work unit</p>
     <p *ngIf="selectedOption === 'WorkUnit' && workUnitControl.value">Filtering by {{workUnitControl.value}} work unit</p>
-    <p *ngIf="selectedOption === 'MultipleWorkUnit'">Please select a work unit</p>
+    <p *ngIf="selectedOption === 'MultipleWorkUnit' && !multipleWorkUnitControl.value.length">Please select a work unit</p>
     <p *ngIf="selectedOption === 'MultipleWorkUnit' && multipleWorkUnitControl.value.length">Filtering by {{multipleWorkUnitControl.value.join(', ')}} work unit</p>
   </div>
 </div>
