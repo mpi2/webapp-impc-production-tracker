@@ -13,4 +13,5 @@ export class Guide {
     reversed: boolean;
     formatName: string;
     sourceName: string;
+    gid: string;
 }
