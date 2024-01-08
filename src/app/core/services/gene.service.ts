@@ -26,7 +26,8 @@ export class GeneService {
 
       return this.http.get<string[]>(this.apiServiceUrl + '/api/genesNamesInExternalData?input=' + input);
     } else {
-      return of(['']);
+      return this.http.get<string[]>(this.apiServiceUrl + '/api/genesNamesInExternalData?input=' + symbol);
+
     }
   }
 

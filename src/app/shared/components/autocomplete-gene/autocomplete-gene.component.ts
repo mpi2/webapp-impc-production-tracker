@@ -31,7 +31,8 @@ export class AutocompleteGeneComponent implements OnInit {
 
   public onSearchChange(value: string) {
     this.resetGeneSymbolValuesIfNeeded(value);
-    if (value.length === this.GENE_SYMBOL_LENGTH_THRESHOLD) {
+    if (value.length <= this.GENE_SYMBOL_LENGTH_THRESHOLD) {
+      console.log(value);
       this.geneService.findGenesNamesStartingWith(value).subscribe(x => {
         this.options = x;
         this.filteredOptions = of(x);
