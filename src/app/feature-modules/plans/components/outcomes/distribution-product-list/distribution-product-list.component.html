@@ -3,6 +3,7 @@
     <mat-card-content>
         <table>
             <tr class="header">
+                <th>Distribution Identifier</th>
                 <th>Distribution Centre</th>
                 <th>Product Type</th>
                 <th>Distribution Network</th>
@@ -15,6 +16,11 @@
                 </div>
                 <ng-template #editableRow>
                     <tr>
+                      <td>
+                        <mat-form-field appearance="fill" class="large">
+                          <input matInput [(ngModel)]="distributionProduct.distributionIdentifier" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                      </td>
                         <td>
                             <mat-form-field appearance="fill">
                                 <mat-select class="select-content" [(ngModel)]="distributionProduct.distributionCentreName">
@@ -78,6 +84,9 @@
                 </ng-template>
                 <ng-template #readOnlyRow>
                     <tr>
+                        <td>
+                          {{ distributionProduct.distributionIdentifier }}
+                       </td>
                         <td>
                             {{ distributionProduct.distributionCentreName }}
                         </td>

@@ -5,4 +5,5 @@ export class DistributionProduct {
     distributionNetworkName: string;
     startDate: Date;
     endDate: Date;
+    distributionIdentifier: string;
 }
