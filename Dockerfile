@@ -5,12 +5,13 @@ FROM node:lts-bookworm as build-stage
 
 COPY package.json ./
 
-RUN npm install -g npm && npm set progress=false && npm config set depth 0 && rm -rf node_modules
+
+RUN npm install -g npm -g increase-memory-limit && npm set progress=false && npm config set depth 0 && rm -rf node_modules
 
 
 ## Storing node modules on a separate layer
 ## will prevent unnecessary npm installs at each build
-RUN npm install && mkdir /app && cp -R ./node_modules ./app
+RUN npm install -g increase-memory-limit && mkdir /app && cp -R ./node_modules ./app
 
 
 WORKDIR /app
@@ -18,7 +19,7 @@ WORKDIR /app
 COPY . .
 
 # Set the environment variable for increased heap size
-ENV NODE_OPTIONS="--max-old-space-size=4096"
+
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN node_modules/.bin/ng lint
