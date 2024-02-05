@@ -17,6 +17,8 @@ WORKDIR /app
 
 COPY . .
 
+# Set the environment variable for increased heap size
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 
 ## Build the angular app in production mode and store the artifacts in dist folder
 RUN node_modules/.bin/ng lint
