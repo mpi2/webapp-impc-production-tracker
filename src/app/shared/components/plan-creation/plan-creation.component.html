@@ -17,12 +17,12 @@
                     <td>
                         <mat-form-field appearance="fill">
                             <input matInput *ngIf="!selectType"
-                                (blur)="onTouched()" 
+                                (blur)="onTouched()"
                                 formControlName="typeName"
                                 readonly />
                             <mat-select *ngIf="selectType"
                                 (selectionChange)="onPlanTypeSelected($event)"
-                                (blur)="onTouched()" 
+                                (blur)="onTouched()"
                                 formControlName="typeName"
                             >
                                 <mat-option></mat-option>
@@ -38,9 +38,9 @@
                     <td><label for="attemtpType">Attempt Type *:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select id="attemtpType" 
+                            <mat-select id="attemtpType"
                                 (selectionChange)="onAttemptTypeSelected($event)"
-                                (blur)="onTouched()" 
+                                (blur)="onTouched()"
                                 formControlName="attemptTypeName"
                             >
                                 <mat-option></mat-option>
@@ -53,14 +53,14 @@
                 </tr>
 
                 <!-- Starting Point section. Only available for phenotyping and cre allele modification plans -->
-                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || preSelectedAttemptType === 'es cell allele modification'">
+                <ng-container id="startingPoint" *ngIf="preSelectedPlanType === 'phenotyping' || preSelectedAttemptType === 'es cell allele modification' || preSelectedAttemptType === 'crispr allele modification'">
                     <tr>
                         <td><label for="startingPoint">Starting point (Outcome id) *:</label></td>
                         <td>
                             <mat-form-field appearance="fill">
-                                <mat-select 
-                                    (blur)="onTouched()" 
-                                    (selectionChange)="onStartingPointChanged($event)" 
+                                <mat-select
+                                    (blur)="onTouched()"
+                                    (selectionChange)="onStartingPointChanged($event)"
                                 >
                                     <mat-option *ngFor="let startingPoint of startingPoints" [value]="startingPoint.tpo">
                                         {{ startingPoint.tpo + ' (' + startingPoint.externalReference + ')' }}
@@ -75,9 +75,9 @@
                     <td><label for="workUnit">Work Unit *:</label></td>
                     <td>
                         <mat-form-field appearance="fill">
-                            <mat-select id="workUnit" 
-                                (selectionChange)="onWorkUnitChanged($event)" 
-                                (blur)="onTouched()" 
+                            <mat-select id="workUnit"
+                                (selectionChange)="onWorkUnitChanged($event)"
+                                (blur)="onTouched()"
                                 formControlName="workUnitName"
                             >
                                 <mat-option></mat-option>
@@ -95,7 +95,7 @@
                         <mat-form-field appearance="fill">
                             <mat-select id="workGroup"
                                 (selectionChange)="onWorkGroupChanged($event)"
-                                (blur)="onTouched()" 
+                                (blur)="onTouched()"
                                 formControlName="workGroupName"
                             >
                                 <mat-option></mat-option>
@@ -124,8 +124,8 @@
                     <td><label for="comment">Comment:</label></td>
                     <td>
                         <mat-form-field appearance="fill" id="comment" >
-                            <textarea matInput 
-                                (blur)="onTouched()" 
+                            <textarea matInput
+                                (blur)="onTouched()"
                                 formControlName="comment"
                             >
                             </textarea>
@@ -144,7 +144,7 @@
                 <div class="separation"></div>
                 <div *ngIf="error && !projectCreation" class="alert alert-danger">{{ error }}</div>
             </div>
-        
+
         </ng-container>
     </mat-card-content>
 </mat-card>

@@ -61,6 +61,7 @@ export class ProductionPlanComponent implements OnInit {
       // crisprAttemptForm: [''],
       esCellAttempt: [null],
       esCellAlleleModificationAttempt: [null],
+      crisprAlleleModificationAttempt: [null],
       // outcomeForm: ['']
     });
   }
@@ -160,16 +161,24 @@ export class ProductionPlanComponent implements OnInit {
     if(this.plan.statusTransition.actionToExecute === 'abandonWhenCreated'){
       delete this.plan.esCellAttempt;
       delete this.plan.esCellAlleleModificationAttempt;
+      delete this.plan.crisprAlleleModificationAttempt;
       delete this.plan.crisprAttempt;
     } else if (this.plan.attemptTypeName === 'crispr') {
       delete this.plan.esCellAttempt;
       delete this.plan.esCellAlleleModificationAttempt;
+      delete this.plan.crisprAlleleModificationAttempt;
     } else if (this.plan.attemptTypeName === 'es cell') {
       delete this.plan.crisprAttempt;
       delete this.plan.esCellAlleleModificationAttempt;
+      delete this.plan.crisprAlleleModificationAttempt;
     } else if (this.plan.attemptTypeName === 'es cell allele modification') {
       delete this.plan.crisprAttempt;
       delete this.plan.esCellAttempt;
+      delete this.plan.crisprAlleleModificationAttempt;
+    } else if (this.plan.attemptTypeName === 'crispr allele modification') {
+      delete this.plan.crisprAttempt;
+      delete this.plan.esCellAttempt;
+      delete this.plan.esCellAlleleModificationAttempt;
     }
     this.loading = true;
 

@@ -13,15 +13,15 @@
       <label for="tpn">Project id:</label>
       {{ project.tpn }}
       <div class="separation"></div>
-    
+
       <label for="assignmentStatus">Assignment Status:</label>
       {{ project.assignmentStatusName }}
       <div class="separation"></div>
-    
+
       <label for="summaryStatusName">Summary Status:</label>
       {{ project.summaryStatusName }}
       <div class="separation"></div>
- 
+
       <label for="intentions">Intentions:</label>
       <app-intention-list *ngIf="project.projectIntentions" [projectIntentions]="project.projectIntentions"></app-intention-list>
       <div class="separation"></div>
@@ -38,11 +38,11 @@
           </mat-select>
         </mat-form-field>
         <br>
-        
+
         <label for="recovery">Recovery:</label>
         <mat-checkbox formControlName="recovery"></mat-checkbox>
         <div class="separation"></div>
-        
+
         <app-project-consortium-institutes [projectConsortia]="project.consortia" [canUpdate]="false"></app-project-consortium-institutes>
         <br>
 
@@ -86,7 +86,7 @@
 
         <label for="comment">Comment:</label>
         <mat-form-field appearance="fill">
-            <textarea matInput readonly [(value)]="project.comment"></textarea> 
+            <textarea matInput readonly [(value)]="project.comment"></textarea>
         </mat-form-field>
         <br>
 
@@ -98,7 +98,7 @@
 
         <label for="completionComment">Completion Comment:</label>
         <mat-form-field appearance="fill">
-            <textarea matInput readonly [(value)]="project.completionComment"></textarea> 
+            <textarea matInput readonly [(value)]="project.completionComment"></textarea>
         </mat-form-field>
         <br>
       </ng-template>
@@ -147,7 +147,7 @@
         <a routerLink="plan-creation" [queryParams]="{planType: 'production'}" target="_blank"><button
           class="create-button" mat-raised-button color="primary">Add Production Plan</button></a>
       </div>
-      
+
     </ng-template>
     <ng-template #disabledProductionPlanButton>
       <button class="create-button" disabled="true" mat-raised-button color="primary">Add Production Plan</button>
@@ -175,13 +175,43 @@
             class="create-button" mat-raised-button color="primary">Add ES Cell Allele Modification Plan</button></a>
       </ng-template>
       <ng-template #disabledEsCellAlleleModPlanButton>
-        <button class="create-button" disabled="true" mat-raised-button color="primary" 
+        <button class="create-button" disabled="true" mat-raised-button color="primary"
         matTooltip="You cannot add ES Cell allele modification plans or there are not genotype confirmed colonies yet.">
           Add ES Cell Allele Modification Plan
         </button>
       </ng-template>
     </fieldset>
     <div class="separation"></div>
+  </div>
+  <div *ngIf="isCrisprProject && hasConditionalCrisprPlan">
+    <div *ngIf=" hasConditionalCrisprPlan | async">
+    <fieldset>
+      <legend class="subtitle">
+       Crispr Allele Modification Plans
+      </legend>
+      <table style="width: 100%;" *ngIf="crisprAlleModPlansDetails.length > 0">
+        <tbody>
+        <tr *ngFor="let crisprAlleleModPlanDetail of sortByPid(crisprAlleModPlansDetails)">
+          <app-plan-summary [plan]="crisprAlleleModPlanDetail"></app-plan-summary>
+        </tr>
+        </tbody>
+      </table>
+      <br>
+
+      <div *ngIf="canCreateProductionPlan && numberGenotypeConfirmedColonies  > 0; then enabledCrisprAlleleModButton else disabledCrisprAlleleModPlanButton"></div>
+      <ng-template #enabledCrisprAlleleModButton>
+        <a routerLink="plan-creation" [queryParams]="{planType: 'production', attemptType: 'crispr allele modification'}" target="_blank"><button
+          class="create-button" mat-raised-button color="primary">Add Crispr Allele Modification Plan</button></a>
+      </ng-template>
+      <ng-template #disabledCrisprAlleleModPlanButton>
+        <button class="create-button" disabled="true" mat-raised-button color="primary"
+                matTooltip="You cannot add Crispr allele modification plans or there are not genotype confirmed colonies yet.">
+          Add Crispr Allele Modification Plan
+        </button>
+      </ng-template>
+    </fieldset>
+    <div class="separation"></div>
+  </div>
   </div>
 
   <fieldset>
@@ -196,7 +226,7 @@
       </tbody>
     </table>
     <br>
-    
+
     <div *ngIf="canCreatePhenotypingPlan && numberGenotypeConfirmedColonies > 0; then enabledPhenotypingPlanButton else disabledPhenotypingPlanButton"></div>
     <ng-template #enabledPhenotypingPlanButton>
       <a routerLink="plan-creation" [queryParams]="{planType: 'phenotyping'}" target="_blank"><button

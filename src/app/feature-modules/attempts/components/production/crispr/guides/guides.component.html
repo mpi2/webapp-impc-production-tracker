@@ -33,10 +33,10 @@
                                 <th mat-header-cell *matHeaderCellDef> Exons </th>
                                 <td mat-cell *matCellDef="let element"> {{ element.exonId }} </td>
                             </ng-container>
-                        
+
                             <tr mat-header-row *matHeaderRowDef="displayedExonColumns sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedExonColumns; let idx=index;"
-                                class="element-row" 
+                                class="element-row"
                                 [style.background-color]="highlightedRows.indexOf(row) !== -1 ? 'orange' : ''"
                                 (click)="exonSelected(row, !row.rowClicked); highlightExon(row);"></tr>
                         </table>
@@ -47,15 +47,15 @@
                             <!-- Sequence Column -->
                             <ng-container matColumnDef="sequence" sticky>
                                 <th mat-header-cell *matHeaderCellDef> Sequences </th>
-                                <td mat-cell *matCellDef="let element"> 
-                                    {{ element.sequence }} 
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.sequence }}
                                     <span *ngIf="element.reversed" style="font-size:8px;vertical-align:sub;">(reversed)</span>
                                 </td>
                                 </ng-container>
-                        
+
                             <tr mat-header-row *matHeaderRowDef="displayedGuideColumns sticky: true"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedGuideColumns;"
-                                class="element-row" 
+                                class="element-row"
                                 [style.background-color]="row.rowClicked ? 'orange' : ''"
                                 (click)="sequenceSelected(row, !row.rowClicked); highlightSequence(row);"></tr>
                         </table>
@@ -80,6 +80,7 @@
                 <div style="overflow-x:auto;" class="mat-elevation-z8">
                 <table>
                     <tr>
+                        <th>GID</th>
                         <th>Sequence **</th>
                         <th>Guide Sequence **</th>
                         <th>PAM</th>
@@ -94,6 +95,14 @@
                     </tr>
                     <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides">
                         <tr>
+
+                          <td>
+                            <mat-form-field appearance="fill" style="width:180px;">
+                              <input matInput [(ngModel)]="guide.gid" [ngModelOptions]="{standalone: true}"
+                                     oninput="this.value = this.value.toUpperCase()" disabled>
+                            </mat-form-field>
+                          </td>
+
                             <td style="width: 200px;">
                                 <mat-form-field appearance="fill" style="width: 200px;">
                                     <textarea matInput [(ngModel)]="guide.sequence" [ngModelOptions]="{standalone: true}"
@@ -108,7 +117,7 @@
                             </td>
                             <td>
                                 <mat-form-field appearance="fill" class="mediumShort">
-                                    <input matInput [(ngModel)]="guide.pam" [ngModelOptions]="{standalone: true}" 
+                                    <input matInput [(ngModel)]="guide.pam" [ngModelOptions]="{standalone: true}"
                                         oninput="this.value = this.value.toUpperCase()" trim>
                                 </mat-form-field>
                             </td>
@@ -167,7 +176,7 @@
                                     </mat-select>
                                 </mat-form-field>
                             </td>
-                        
+
                             <div *ngIf="sameConcentrationForAll; then sameConcentrationForAllTemplate else individualConcentrationTemplate "></div>
                             <ng-template #sameConcentrationForAllTemplate>
                                 <td *ngIf="isFirst" [attr.rowspan]="this.crisprAttempt.guides.length">
@@ -188,7 +197,7 @@
                             </ng-template>
 
                             <td *ngIf="canUpdatePlan">
-                                <button class="iconbutton delete-button" mat-icon-button matTooltip="Click to Delete" 
+                                <button class="iconbutton delete-button" mat-icon-button matTooltip="Click to Delete"
                                     (click)="deleteRow(guide)">
                                     <mat-icon aria-label="Delete">delete</mat-icon>
                                 </button>

@@ -34,6 +34,11 @@
           [canUpdatePlan]="canUpdatePlan" [tpn]="project.tpn">
         </app-es-cell-allele-modification-attempt>
 
+        <app-crispr-allele-modification-attempt *ngIf="plan.attemptTypeName === 'crispr allele modification'" formControlName="crisprAlleleModificationAttempt"
+                                                 [crisprAlleleModificationAttempt]="plan.crisprAlleleModificationAttempt" [crisprAlleleModificationStartingPoint]="plan.crisprAlleleModificationStartingPoint"
+                                                 [canUpdatePlan]="canUpdatePlan" [tpn]="project.tpn">
+        </app-crispr-allele-modification-attempt>
+
         <app-outcome-list [outcomes]=outcomes [tpn]=project.tpn [pin]=plan.pin [attemptType]=plan.attemptTypeName [canUpdate]="canAddOutcome">
         </app-outcome-list>
 

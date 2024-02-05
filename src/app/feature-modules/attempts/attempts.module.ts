@@ -22,6 +22,7 @@ import { PhenotypingStagesComponent } from './components/phenotyping/phenotyping
 import { PhenotypingStageDetailsComponent } from './components/phenotyping/phenotyping-stage-details/phenotyping-stage-details.component';
 // eslint-disable-next-line max-len
 import { EsCellAlleleModificationAttemptComponent } from './components/production/es-cell-allele-modification/es-cell-allele-modification-attempt.component';
+import { CrisprAlleleModificationAttemptComponent } from './components/production/crispr-allele-modification/crispr-allele-modification-attempt.component';
 import { EsCellDialogBoxComponent } from './components/production/escell/es-cell-dialog-box/es-cell-dialog-box.component';
 
 
@@ -44,6 +45,7 @@ import { EsCellDialogBoxComponent } from './components/production/escell/es-cell
     NucleaseComponent,
     EscellAttemptComponent,
     EsCellAlleleModificationAttemptComponent,
+    CrisprAlleleModificationAttemptComponent,
     EsCellDialogBoxComponent
   ],
   imports: [
@@ -55,6 +57,7 @@ import { EsCellDialogBoxComponent } from './components/production/escell/es-cell
     CrisprAttemptDetailsComponent,
     EscellAttemptComponent,
     EsCellAlleleModificationAttemptComponent,
+    CrisprAlleleModificationAttemptComponent,
     PhenotypingAttemptComponent,
     EsCellDialogBoxComponent
   ]

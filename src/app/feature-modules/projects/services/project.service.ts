@@ -103,4 +103,8 @@ export class ProjectService {
   public getFirstPlan(tpn: string) {
     return this.http.get<PlanDetails>(this.apiServiceUrl + '/api/projects/' + tpn + '/firstProductionPlanData');
   }
+
+  public hasConditionalCrisprPlan(tpn: string) {
+    return this.http.get<boolean>(this.apiServiceUrl + '/api/projects/' + tpn + '/hasConditionalCrisprPlan');
+  }
 }

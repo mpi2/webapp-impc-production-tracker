@@ -10,6 +10,12 @@ import { EsCellAlleleModificationAttempt } from
     '../../attempts/model/production/es-cell-allele-modification/es-cell-allele-modification-attempt';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 import { EsCellAlleleModificationStartingPoint } from '../../attempts';
+import {
+  CrisprAlleleModificationAttempt
+} from "../../attempts/model/production/crispr-allele-modification/crispr-allele-modification-attempt";
+import {
+  CrisprAlleleModificationStartingPoint
+} from "../../attempts/model/production/crispr-allele-modification/starting-point/crispr-allele-modification-starting-point";
 
 export class Plan {
     id: number;
@@ -32,6 +38,8 @@ export class Plan {
     esCellAttempt: EsCellAttempt;
     esCellAlleleModificationAttempt: EsCellAlleleModificationAttempt;
     esCellAlleleModificationStartingPoint: EsCellAlleleModificationStartingPoint;
+    crisprAlleleModificationAttempt: CrisprAlleleModificationAttempt;
+    crisprAlleleModificationStartingPoint: CrisprAlleleModificationStartingPoint;
     phenotypingAttemptResponse: PhenotypingAttempt;
     // Need to keep this copy because phenotypingAttemptResponse is not processed by the update/create endpoint
     phenotypingAttempt: PhenotypingAttempt;
@@ -72,6 +80,12 @@ export class PlanAdapter implements Adapter<Plan> {
                 plan.esCellAttempt = new EsCellAttempt();
             }
         }
+
+      if (plan.attemptTypeName === 'crispr allele modification') {
+        if (!plan.crisprAlleleModificationAttempt) {
+          plan.crisprAlleleModificationAttempt = new CrisprAlleleModificationAttempt();
+        }
+      }
 
         if (plan.attemptTypeName === 'es cell allele modification') {
             if (!plan.esCellAlleleModificationAttempt) {
