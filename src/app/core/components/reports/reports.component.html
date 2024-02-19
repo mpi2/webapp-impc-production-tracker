@@ -74,5 +74,43 @@
         </a>
       </div>
     </mat-tab>
+    <mat-tab label="RRID Reports">
+      <h3>RRID Reports</h3>
+      <div class="controls-container">
+        <mat-form-field>
+          <mat-label>Network</mat-label>
+          <input
+            type="text"
+            placeholder="Pick one"
+            aria-label="Work unit"
+            matInput
+            #rridAutoComplete
+            [formControl]="rridAutocompleteFormControl"
+            [matAutocomplete]="rridReportAutoComplete"
+          >
+          <mat-autocomplete #rridReportAutoComplete="matAutocomplete">
+            <mat-option *ngFor="let unit of networks$ | async" [value]="unit">
+              {{ unit }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select [(value)]="rridReportType">
+            <mat-option value="colony">Colony</mat-option>
+            <mat-option value="esCell">ES Cell</mat-option>
+            <mat-option value="targetingvector">Targeting vector</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!rridAutocompleteFormControl.valid || !rridReportType"
+          (click)="downloadRRIDReport()"
+        >
+          Download report
+        </button>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </div>
