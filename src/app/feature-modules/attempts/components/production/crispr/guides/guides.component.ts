@@ -33,6 +33,7 @@ export class GuidesComponent implements OnInit {
   exons: Exon[];
   geneSymbol: string;
   guides: Guide[];
+  guides1: Guide[];
 
   displayedExonColumns = ['exon_id'];
   displayedGuideColumns = ['sequence'];
@@ -106,6 +107,8 @@ export class GuidesComponent implements OnInit {
       this.formatNames = this.configurationData.guideFormatNames.map(x => ({ name: x }));
       this.sourceNames = this.configurationData.guideSourceNames.map(x => ({ name: x }));
     });
+
+    this.crisprAttempt.guides.sort((guide1, guide2) => guide1.id - guide2.  id);
   }
 
   highlightExon(row) {
@@ -167,9 +170,11 @@ export class GuidesComponent implements OnInit {
     guide[this.tmpIndexRowName] = this.nextNewId--;
     if (click === true) {
       this.crisprAttempt.guides.push(guide);
+
     } else {
       this.crisprAttempt.guides = this.crisprAttempt.guides.filter(({ guideSequence }) => guideSequence !== guide.guideSequence);
     }
+
   }
 
   getCommonConcentration(): number {
