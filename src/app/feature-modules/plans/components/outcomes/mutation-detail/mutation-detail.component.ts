@@ -41,6 +41,7 @@ export class MutationDetailComponent implements OnInit {
 
   shouldSuggestSymbol: boolean;
   showSymbolMessageError: boolean;
+  showGeneMessageError: boolean;
   symbolMessageError: string;
   repairMechanismKey = 'repair_mechanism';
   alleleCategoryKey = 'allele_category';
@@ -58,6 +59,7 @@ export class MutationDetailComponent implements OnInit {
     private inputHandlerService: InputHandlerService) { }
 
   ngOnInit(): void {
+    this.showGeneMessageError = false;
     this.loadConfigurationData();
     this.setMutationCategorizationsData();
     this.shouldSuggestSymbol = this.mutation.symbol ? false : true;
@@ -65,6 +67,16 @@ export class MutationDetailComponent implements OnInit {
     this.mutationForm = this.formBuilder.group({
       abbreviation: []
     });
+
+  }
+
+  onPaste(event: ClipboardEvent): void {
+    event.preventDefault();
+    this.showGeneMessageError=true;
+  }
+
+  onInput(): void {
+    this.showGeneMessageError=false;
   }
 
   setMutationCategorizationsData() {
