@@ -67,18 +67,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "web-production-tracker:build"
+            "buildTarget": "web-production-tracker:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "web-production-tracker:build:production"
+              "buildTarget": "web-production-tracker:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "web-production-tracker:build"
+            "buildTarget": "web-production-tracker:build"
           }
         },
         "test": {
