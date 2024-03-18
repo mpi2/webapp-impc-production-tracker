@@ -12,8 +12,13 @@
         <td>
             <br>
             <label for="genes">Gene(s) *:</label>
-            <app-autocomplete-gene [symbols]="geneSymbols"
-                            (symbolSelectedEmmiter)="onSymbolSelected($event)"></app-autocomplete-gene>
+            <app-autocomplete-gene (paste)="onPaste($event)"   (input)="onInput()" [symbols]="geneSymbols"
+                            (symbolSelectedEmmiter)="onSymbolSelected($event)" >
+            </app-autocomplete-gene>
+          <div style="margin-left: 200px">
+            <mat-hint *ngIf=showGeneMessageError  style="color: red;font-size: 12px" >Type gene symbol and select the gene from the list.</mat-hint>
+          </div>
+
             <br>
 
             <div id="symbolSugestionSection" *ngIf=shouldSuggestSymbol>
