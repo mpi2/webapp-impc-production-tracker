@@ -17,7 +17,7 @@ footer {
     color: whitesmoke;
     padding: 10px;
 }
-  
+
 .privacy {
     font-size: 0.9rem;
 }
@@ -63,6 +63,11 @@ footer {
     color: #721c24;
     background-color: #f8d7da;
     border-color: #f5c6cb;
+}
+
+.alert-warning {
+    color: black;
+
 }
 
 .alert-success {
