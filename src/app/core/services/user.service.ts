@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { User } from '../model/user/user';
-import { map, publishReplay, refCount, mergeMap } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
-import { ConfigAssetLoaderService } from './config-asset-loader.service';
-import { Observable, from } from 'rxjs';
-import { AssetConfiguration } from '../model/conf/asset-configuration';
+import {Injectable} from '@angular/core';
+import {User} from '../model/user/user';
+import {map, publishReplay, refCount, mergeMap} from 'rxjs/operators';
+import {HttpClient} from '@angular/common/http';
+import {ConfigAssetLoaderService} from './config-asset-loader.service';
+import {Observable, from} from 'rxjs';
+import {AssetConfiguration} from '../model/conf/asset-configuration';
 
 @Injectable({
   providedIn: 'root'
@@ -50,6 +50,11 @@ export class UserService {
 
   updateUser(user: User) {
     return this.http.put<User[]>(this.apiServiceUrl + '/api/people', user)
+      .pipe(map(result => result));
+  }
+
+  resetPassword() {
+    return this.http.put(this.apiServiceUrl + '/api/people/resetPassword', {})
       .pipe(map(result => result));
   }
 
