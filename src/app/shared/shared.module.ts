@@ -80,7 +80,6 @@ export const MY_DATE_FORMATS = {
         FormsModule,
         ReactiveFormsModule,
         RouterModule,
-        HttpClientModule,
         DigitOnlyDirective,
         MatExpansionModule,
         MatFormFieldModule,
