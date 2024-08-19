@@ -2,7 +2,7 @@ import {Injectable, Inject} from '@angular/core';
 import {EMPTY, from, Observable} from 'rxjs';
 import {MessageService} from './message.service';
 import {Permission} from '../model/conf/permission';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import {mergeMap, map} from 'rxjs/operators';
 import {ConfigAssetLoaderService} from './config-asset-loader.service';
 import {AuthenticationResponse} from '../model/user/authentication-response';
