@@ -225,6 +225,7 @@
             <ng-template #readOnly>
                 <table class="mat-elevation-z8">
                     <tr>
+                        <th>GID</th>
                         <th>Sequence</th>
                         <th>Guide Sequence</th>
                         <th>PAM</th>
@@ -237,6 +238,10 @@
                     </tr>
                     <ng-template ngFor let-guide let-isFirst="first" [ngForOf]="crisprAttempt.guides">
                         <tr>
+                          <td>
+                            {{ guide.gid }}
+                          </td>
+
                             <td>
                                 {{ guide.sequence }}
                             </td>
