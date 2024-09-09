@@ -135,8 +135,10 @@ export class ProductionNumbersTabComponent implements OnInit {
           const latestDateEsCell = escellData[escellData.length - 1]?.x;
           const latestDateOverall = latestDateCRISPR > latestDateEsCell ? latestDateCRISPR : latestDateEsCell;
           const earliestEsCellDate = new Date(escellData[0].x);
-          earliestEsCellDate.setMonth(earliestEsCellDate.getMonth() - 2);
-          this.lineChartOptions.scales.x.min = earliestEsCellDate.toISOString();
+          const earliestCrisprDate = new Date(crisprData[0].x);
+          const earliestDate = earliestEsCellDate < earliestCrisprDate ? earliestEsCellDate : earliestCrisprDate;
+          earliestDate.setMonth(earliestDate.getMonth() - 2);
+          this.lineChartOptions.scales.x.min = earliestDate.toISOString();
           this.chartData = {
             labels: ['ES Cell', 'CRISPR'],
             datasets: [
