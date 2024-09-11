@@ -131,12 +131,30 @@ export class ProductionNumbersTabComponent implements OnInit {
           this.charDataIsAvailable = true;
           const crisprData = this.transformData(data[1]);
           const escellData = this.transformData(data[0]);
-          const latestDateCRISPR = crisprData[crisprData.length - 1]?.x;
-          const latestDateEsCell = escellData[escellData.length - 1]?.x;
-          const latestDateOverall = latestDateCRISPR > latestDateEsCell ? latestDateCRISPR : latestDateEsCell;
-          const earliestEsCellDate = new Date(escellData[0].x);
-          const earliestCrisprDate = new Date(crisprData[0].x);
-          const earliestDate = earliestEsCellDate < earliestCrisprDate ? earliestEsCellDate : earliestCrisprDate;
+
+          let latestDateOverall: Date;
+          let earliestDate: Date;
+
+          // Check if either data set is empty
+          if (crisprData.length === 0 && escellData.length > 0) {
+            // CRISPR is empty, use only EsCell data
+            latestDateOverall = escellData[escellData.length - 1]?.x;
+            earliestDate = new Date(escellData[0].x);
+          } else if (escellData.length === 0 && crisprData.length > 0) {
+            // EsCell is empty, use only CRISPR data
+            latestDateOverall = crisprData[crisprData.length - 1]?.x;
+            earliestDate = new Date(crisprData[0].x);
+          } else if (crisprData.length > 0 && escellData.length > 0) {
+            // Both are non-empty, use the existing logic
+            const latestDateCRISPR = crisprData[crisprData.length - 1]?.x;
+            const latestDateEsCell = escellData[escellData.length - 1]?.x;
+            latestDateOverall = latestDateCRISPR > latestDateEsCell ? latestDateCRISPR : latestDateEsCell;
+
+            const earliestEsCellDate = new Date(escellData[0].x);
+            const earliestCrisprDate = new Date(crisprData[0].x);
+            earliestDate = earliestEsCellDate < earliestCrisprDate ? earliestEsCellDate : earliestCrisprDate;
+          }
+
           earliestDate.setMonth(earliestDate.getMonth() - 2);
           this.lineChartOptions.scales.x.min = earliestDate.toISOString();
           this.chartData = {
