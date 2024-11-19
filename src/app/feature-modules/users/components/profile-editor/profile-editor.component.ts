@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { LoggedUserService } from 'src/app/core';
-import { User } from 'src/app/core/model/user/user';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { UserService } from 'src/app/core/services/user.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {Component, OnInit} from '@angular/core';
+import {LoggedUserService} from 'src/app/core';
+import {User} from 'src/app/core/model/user/user';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {UserService} from 'src/app/core/services/user.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-profile-editor',
@@ -13,10 +13,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class ProfileEditorComponent implements OnInit {
 
   loggedUser: User = new User();
-  currentPassword;
-  newPassword;
-  newPasswordConfirmation;
   error;
+  successMaessage;
   isLoading = false;
 
   formGroup: FormGroup;
@@ -28,12 +26,12 @@ export class ProfileEditorComponent implements OnInit {
     private formBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private loggedUserService: LoggedUserService,
-    private userService: UserService) { }
+    private userService: UserService) {
+  }
 
   ngOnInit(): void {
     this.setCurrentUser();
-    this.formGroup = this.formBuilder.group({
-    });
+    this.formGroup = this.formBuilder.group({});
   }
 
   setCurrentUser(): void {
@@ -54,14 +52,6 @@ export class ProfileEditorComponent implements OnInit {
     this.isLoading = true;
     this.error = null;
 
-    if (this.newPassword) {
-      if (this.newPassword !== this.newPasswordConfirmation) {
-        this.error = 'Please confirm correctly the new password.';
-      } else {
-        this.loggedUser.currentPassword = this.currentPassword;
-        this.loggedUser.newPassword = this.newPassword;
-      }
-    }
 
     this.userService.updateUser(this.loggedUser).subscribe(data => {
       this.isLoading = false;
@@ -74,5 +64,25 @@ export class ProfileEditorComponent implements OnInit {
       this.error = error;
     });
   }
+
+  onResetPassword() {
+    this.isLoading = true;
+    this.error = null;
+    this.successMaessage = null;
+
+
+    this.userService.resetPassword().subscribe(data => {
+      this.isLoading = false;
+      this.successMaessage = "Reset password email sent, Please check your email address."
+      this.snackBar.open('Reset password email sent.', 'Close', {
+        duration: 1500,
+      });
+
+    }, error => {
+      this.isLoading = false;
+      this.error = error;
+    });
+  }
+
 
 }
