@@ -33,7 +33,13 @@ export class ErrorInterceptor implements HttpInterceptor {
     }
 
     private handlePermissionError(errorResponse: HttpErrorResponse) {
-        if (this.isUnauthorisedError(errorResponse) || this.isForbiddenError(errorResponse)) {
+
+        const suppressedRoutes = ['/login'];
+
+        if(suppressedRoutes.includes(this.router.url)){
+          console.log("Access denied.");
+        }
+        else if (this.isUnauthorisedError(errorResponse) || this.isForbiddenError(errorResponse)) {
             window.alert(
                 'Access denied. Please log as a user with the corresponding permissions ' +
                 'to execute the required action.');
