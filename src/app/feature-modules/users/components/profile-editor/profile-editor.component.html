@@ -65,17 +65,9 @@
                 <fieldset>
                     <legend> Change Password</legend>
 
-                    <label for="currentPassword">Current Password:</label>
-                    <input matInput class="content" [(ngModel)]="currentPassword" type="password" autocomplete="on"
-                        [ngModelOptions]="{standalone: true}">
-
-                    <label for="currentPassword">New Password:</label>
-                    <input matInput class="content" [(ngModel)]="newPassword" type="password" autocomplete="on"
-                        [ngModelOptions]="{standalone: true}">
-
-                    <label for="currentPassword">Confirm New Password:</label>
-                    <input matInput class="content" [(ngModel)]="newPasswordConfirmation" type="password"
-                        autocomplete="on" [ngModelOptions]="{standalone: true}">
+                  <button mat-raised-button color="primary" [disabled]="!enableUpdateButton()"
+                          (click)="onResetPassword()">Reset Password</button>
+                  <div *ngIf="successMaessage" class="alert alert-success">{{ successMaessage }}</div>
 
                 </fieldset>
             </div>
