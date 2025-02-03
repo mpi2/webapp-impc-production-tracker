@@ -12,21 +12,21 @@
 // $impc-app-primary: mat-palette($mat-grey, 200);
 // $impc-app-secondary: mat-palette($mat-light-blue, 800);
 // $impc-app-accent:  mat-palette($mat-orange, 600);
-$impc-app-primary: mat.define-palette(mat.$blue-palette, 600);
-$impc-app-secondary: mat.define-palette(mat.$light-blue-palette, 800);
-$impc-app-accent:  mat.define-palette(mat.$blue-palette, 300);
+$impc-app-primary: mat.m2-define-palette(mat.$m2-blue-palette, 600);
+$impc-app-secondary: mat.m2-define-palette(mat.$m2-light-blue-palette, 800);
+$impc-app-accent:  mat.m2-define-palette(mat.$m2-blue-palette, 300);
 
 // The warn palette is optional (defaults to red).
-$impc-app-warn:    mat.define-palette(mat.$grey-palette, 200);
+$impc-app-warn:    mat.m2-define-palette(mat.$m2-grey-palette, 200);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$impc-app-theme: mat.define-light-theme((
+$impc-app-theme: mat.m2-define-light-theme((
   color: (
     primary: $impc-app-primary,
     accent: $impc-app-accent,
     warn: $impc-app-warn
   ),
-  typography: mat.define-typography-config(),
+  typography: mat.m2-define-typography-config(),
   density: 0
 ));
 
