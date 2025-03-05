@@ -31,7 +31,6 @@ export class StatusTransitionComponent implements OnInit , OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     this.userTransitions = [...this.statusTransition.transitions.filter(x => x.triggeredByUser)];
     this.systemTransitions = [...this.statusTransition.transitions.filter(x => !x.triggeredByUser)];
-    console.log(this.systemTransitions);
     this.getSystemTransitionNote(this.systemTransitions, this.userTransitions);
   }
 

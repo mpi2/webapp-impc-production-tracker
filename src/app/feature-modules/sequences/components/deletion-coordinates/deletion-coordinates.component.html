@@ -1,0 +1,70 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title>Calculated Deletion Coordinates</mat-panel-title>
+    </mat-expansion-panel-header>
+
+
+    <table class="mat-elevation-z8">
+      <thead>
+      <tr>
+        <th>Chr</th>
+        <th>Start</th>
+        <th>Stop</th>
+        <th>Deletion Size</th>
+      </tr>
+      </thead>
+      <tbody>
+      <ng-container *ngFor="let molecularMutationDeletion of mutation.molecularMutationDeletions">
+        <div *ngIf="mutation.isMutationDeletionChecked || !canUpdate; then readOnlyFields else editableFields"></div>
+        <ng-template #editableFields>
+          <tr>
+            <td>
+              <mat-form-field appearance="fill" class="small">
+                <input matInput [(ngModel)]="molecularMutationDeletion.chr" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="fill" class="small">
+                <input matInput [(ngModel)]="molecularMutationDeletion.start" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field appearance="fill" class="small">
+                <input matInput [(ngModel)]="molecularMutationDeletion.stop" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </td>
+
+            <td>
+              <mat-form-field appearance="fill" class="small">
+                <input matInput [(ngModel)]="molecularMutationDeletion.size" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </td>
+          </tr>
+        </ng-template>
+        <ng-template #readOnlyFields>
+          <tr>
+            <td>
+              {{molecularMutationDeletion.chr }}
+            </td>
+            <td>
+              {{molecularMutationDeletion.start}}
+            </td>
+            <td>
+              {{molecularMutationDeletion.stop}}
+            </td>
+            <td>
+              {{molecularMutationDeletion.size }}
+            </td>
+
+          </tr>
+        </ng-template>
+
+      </ng-container>
+      </tbody>
+      <span style="font-size: 12px; color: red ">**Calculated deletion coordinates are refreshed every 24 hours</span>
+    </table>
+
+  </mat-expansion-panel>
+</mat-accordion>
+<div class="separation"></div>
