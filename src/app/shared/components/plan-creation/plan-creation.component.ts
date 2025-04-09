@@ -240,6 +240,7 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
 
   private loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
+
       this.configurationData = data;
       this.planTypes = this.configurationData.planTypes.map(x => ({ name: x }));
       this.workUnits = this.configurationData.workUnits.map(x => ({ name: x }));
@@ -247,7 +248,9 @@ export class PlanCreationComponent implements OnInit, ControlValueAccessor, Vali
       this.nucleaseClasses = this.configurationData.nucleaseClasses.map(x => ({ name: x }));
 
       Object.keys(this.configurationData.workGroupsByWorkUnits).map(key => {
+
         const list = this.configurationData.workGroupsByWorkUnits[key];
+
         this.workGroupsByWorkGroup.set(key, list.map(x => ({ name: x })));
       });
 

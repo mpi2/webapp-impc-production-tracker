@@ -1,14 +1,23 @@
 import { NgModule } from '@angular/core';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { IndexedSequenceComponent } from './components/indexed-sequence/indexed-sequence.component';
+import {
+  IndexedSequenceComponent,
+
+} from './components/indexed-sequence/indexed-sequence.component';
+import {InsertionSequenceComponent} from './components/insertion-sequence/insertion-sequence.component';
 import { IndexedLocationsComponent } from './components/indexed-locations/indexed-locations.component';
+import { DeletionCoordinatesComponent } from './components/deletion-coordinates/deletion-coordinates.component';
+import {TargetedExonsComponent} from "./components/targeted-exons/targeted-exons.component";
 
 @NgModule({
-  declarations: [ IndexedSequenceComponent, IndexedLocationsComponent],
+  declarations: [ IndexedSequenceComponent, InsertionSequenceComponent, IndexedLocationsComponent,DeletionCoordinatesComponent,TargetedExonsComponent],
   imports: [
     SharedModule
   ], exports: [
-    IndexedSequenceComponent
+    IndexedSequenceComponent,
+    InsertionSequenceComponent,
+    DeletionCoordinatesComponent,
+    TargetedExonsComponent
   ]
 })
 export class SequencesModule { }

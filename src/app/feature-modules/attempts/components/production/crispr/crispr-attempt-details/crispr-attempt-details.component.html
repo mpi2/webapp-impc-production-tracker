@@ -20,7 +20,7 @@
         </mat-form-field>
         <br>
 
-        <label for="privacy">Recovery:</label>
+        <label for="experimental">Experimental:</label>
         <mat-checkbox (change)="onExperimentalChecked()" [checked]="this.crisprAttempt.experimental"></mat-checkbox>
         <div class="separation"></div>
 
@@ -51,7 +51,7 @@
 
         <label for="comment">Comment:</label>
         <mat-form-field appearance="fill">
-            <textarea matInput readonly [(value)]="crisprAttempt.comment"></textarea> 
+            <textarea matInput readonly [(value)]="crisprAttempt.comment"></textarea>
         </mat-form-field>
         <br>
       </ng-template>

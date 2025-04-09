@@ -1,14 +1,14 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
-import { Mutation } from '../../../model/outcomes/mutation';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MutationService } from '../../../services/mutation.service';
-import { NamedValue } from 'src/app/core/model/common/named-value';
-import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
-import { IndexedSequence } from 'src/app/feature-modules/sequences';
-import { MatDialog } from '@angular/material/dialog';
-import { InputHandlerService } from 'src/app/core/services/input-handler.service';
-import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
-import { Outcome } from '../../../model/outcomes/outcome';
+import {Component, OnInit, Input, EventEmitter, Output} from '@angular/core';
+import {Mutation} from '../../../model/outcomes/mutation';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import {MutationService} from '../../../services/mutation.service';
+import {NamedValue} from 'src/app/core/model/common/named-value';
+import {ConfigurationDataService, ConfigurationData} from 'src/app/core';
+import {IndexedSequence} from 'src/app/feature-modules/sequences';
+import {MatDialog} from '@angular/material/dialog';
+import {InputHandlerService} from 'src/app/core/services/input-handler.service';
+import {DeleteConfirmationComponent} from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import {Outcome} from '../../../model/outcomes/outcome';
 
 
 @Component({
@@ -56,7 +56,8 @@ export class MutationDetailComponent implements OnInit {
     private mutationService: MutationService,
     private configurationDataService: ConfigurationDataService,
     public dialog: MatDialog,
-    private inputHandlerService: InputHandlerService) { }
+    private inputHandlerService: InputHandlerService) {
+  }
 
   ngOnInit(): void {
     this.showGeneMessageError = false;
@@ -72,11 +73,11 @@ export class MutationDetailComponent implements OnInit {
 
   onPaste(event: ClipboardEvent): void {
     event.preventDefault();
-    this.showGeneMessageError=true;
+    this.showGeneMessageError = true;
   }
 
   onInput(): void {
-    this.showGeneMessageError=false;
+    this.showGeneMessageError = false;
   }
 
   setMutationCategorizationsData() {
@@ -96,22 +97,22 @@ export class MutationDetailComponent implements OnInit {
   loadConfigurationData() {
     this.configurationDataService.getConfigurationData().subscribe(data => {
       this.configurationData = data;
-      this.consortia = this.configurationData.consortiaToConstructSymbols.map(x => ({ name: x }));
+      this.consortia = this.configurationData.consortiaToConstructSymbols.map(x => ({name: x}));
       if (this.consortia.length > 0) {
         this.selectedConsortium = this.consortia[0].name;
       }
 
-      this.molecularMutationTypes = this.configurationData.molecularMutationTypes.map(x => ({ name: x }));
+      this.molecularMutationTypes = this.configurationData.molecularMutationTypes.map(x => ({name: x}));
 
       Object.keys(this.configurationData.mutationCategorizationsByType).map(key => {
         const list = this.configurationData.mutationCategorizationsByType[key];
-        this.mutationCategorizationsByType[key] = list.map(x => ({ name: x }));
+        this.mutationCategorizationsByType[key] = list.map(x => ({name: x}));
       });
     });
   }
 
   onSymbolSelected(e) {
-    this.mutation.genes = this.geneSymbols.map(x => ({ symbol: x }));
+    this.mutation.genes = this.geneSymbols.map(x => ({symbol: x}));
   }
 
   formatAlleleSymbol(symbol: string) {
@@ -126,13 +127,13 @@ export class MutationDetailComponent implements OnInit {
     this.mutation.symbolSuggestionRequest = symbolSuggestionRequest;
     this.mutationService.getSuggestedSymbol(this.mutation.pin, this.mutation).subscribe(data => {
       this.mutation.symbol = data;
-      this.showSymbolMessageError=false;
-      if(this.mutation.symbol.includes('Error')){
-        this.showSymbolMessageError=true;
-        this.symbolMessageError=this.mutation.symbol;
+      this.showSymbolMessageError = false;
+      if (this.mutation.symbol.includes('Error')) {
+        this.showSymbolMessageError = true;
+        this.symbolMessageError = this.mutation.symbol;
         this.mutation.symbol = '';
       }
-      this.mutation.symbol=this.mutation.symbol.replace(/'/g, '');
+      this.mutation.symbol = this.mutation.symbol.replace(/'/g, '');
     }, error => {
       console.log(error);
     });
@@ -192,7 +193,7 @@ export class MutationDetailComponent implements OnInit {
   showDeleteMutationConfirmationDialog() {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '250px',
-      data: { confirmed: false }
+      data: {confirmed: false}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -222,7 +223,7 @@ export class MutationDetailComponent implements OnInit {
   showDeleteConfirmationDialog(indexedSequence: IndexedSequence) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '250px',
-      data: { confirmed: false }
+      data: {confirmed: false}
     });
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -241,6 +242,10 @@ export class MutationDetailComponent implements OnInit {
 
   private isNewRecord(indexedSequence: IndexedSequence) {
     return indexedSequence.id === null;
+  }
+
+  dataChanged(e) {
+    this.mutation.isMutationDeletionChecked = e.checked;
   }
 
 }
