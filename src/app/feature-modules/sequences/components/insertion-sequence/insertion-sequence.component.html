@@ -1,7 +1,7 @@
 <mat-accordion>
     <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-            <mat-panel-title>Insertion(s) information</mat-panel-title>
+            <mat-panel-title>Insertion sequence(s)</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="canUpdate; then editable else readOnly"></div>
         <ng-template #editable>

@@ -231,7 +231,7 @@ export class OutcomeDetailComponent implements OnInit {
         // If true, set molecularMutationDeletions of each mutation to null
         mutationsToUpdate = mutationsToUpdate.map(x => ({
           ...x,
-          molecularMutationDeletionxs: [],
+          molecularMutationDeletions: [],
           targetedExons: [],
           alignedFastas: [],
           isMutationDeletionChecked: false,
@@ -382,7 +382,6 @@ export class OutcomeDetailComponent implements OnInit {
       if (data['_embedded']) {
         const mutations = data['_embedded'].mutations;
         this.originalMutationsAsString = JSON.stringify(mutations);
-
 
         this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
         this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
