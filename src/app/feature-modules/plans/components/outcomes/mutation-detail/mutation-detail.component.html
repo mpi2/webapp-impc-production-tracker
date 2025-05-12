@@ -230,16 +230,13 @@
 
     <app-indexed-sequence [mutation]="mutation"></app-indexed-sequence>
     <div class="separation"></div>
-    <div style="display: none">
     <app-insertion-sequence [mutation]="mutation"></app-insertion-sequence>
     <div class="separation"></div>
-
     <br>
     <app-deletion-coordinates [mutation]="mutation" [canUpdate]="canUpdate"></app-deletion-coordinates>
     <br>
     <app-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate"></app-targeted-exons>
     <br>
-    </div>
     <label for="mutationDescription">Mutation description:</label>
     <mat-form-field appearance="fill" class="textarea-full-width">
             <textarea matInput readonly matTextareaAutosize
