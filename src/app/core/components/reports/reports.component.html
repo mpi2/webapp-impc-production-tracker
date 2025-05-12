@@ -115,5 +115,38 @@
         </button>
       </div>
     </mat-tab>
+    <mat-tab bodyClass="tab" label="Deletion Coordinates">
+      <h3>Deletion Coordinates</h3>
+      <div class="controls-container">
+        <mat-form-field>
+          <mat-label>Work unit</mat-label>
+          <input
+            type="text"
+            placeholder="Pick one"
+            aria-label="Work unit"
+            matInput
+            (change)="onOptionActivated($event)"
+            #workUnitInput
+            [matAutocomplete]="WUAutocomplete"
+          >
+          <mat-autocomplete #WUAutocomplete="matAutocomplete" (optionSelected)="onOptionActivated($event)">
+            <mat-option *ngFor="let unit of workUnits$ | async" [value]="unit">
+              {{ unit }}
+            </mat-option>
+          </mat-autocomplete>
+        </mat-form-field>
+
+        <button
+          mat-raised-button
+          color="primary"
+          (click)="downloadDeletionCoordinatesReport()"
+        >
+          Download report
+        </button>
+      </div>
+      <div>
+        <mat-hint>Please select a value in both selects to enable the download</mat-hint>
+      </div>
+    </mat-tab>
   </mat-tab-group>
 </div>
