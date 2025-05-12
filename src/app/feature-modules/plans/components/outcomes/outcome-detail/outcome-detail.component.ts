@@ -45,6 +45,7 @@ export class OutcomeDetailComponent implements OnInit {
   originalSequenceAsString: string;
   originalMutationDeletionsAsString: string;
   originalTargetedExonsAsString: string;
+  originalCanonicalTargetedExonsAsString: string;
 
 
   changeDetails: ChangesHistory;
@@ -233,6 +234,7 @@ export class OutcomeDetailComponent implements OnInit {
           ...x,
           molecularMutationDeletions: [],
           targetedExons: [],
+          canonicalTargetedExons: [],
           alignedFastas: [],
           isMutationDeletionChecked: false,
           isManualMutationDeletion: false,
@@ -240,7 +242,8 @@ export class OutcomeDetailComponent implements OnInit {
       }
 
       if (this.originalMutationDeletionsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.molecularMutationDeletions))
-        || this.originalTargetedExonsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.targetedExons))) {
+        || this.originalTargetedExonsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.targetedExons)) ||
+        this.originalCanonicalTargetedExonsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.canonicalTargetedExons))) {
         // If true, set molecularMutationDeletions of each mutation to null
         mutationsToUpdate = mutationsToUpdate.map(x => ({
           ...x,
@@ -386,7 +389,7 @@ export class OutcomeDetailComponent implements OnInit {
         this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
         this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
         this.originalTargetedExonsAsString = JSON.stringify(mutations.map(g => g.targetedExons))
-        console.log(this.originalSequenceAsString)
+        this.originalCanonicalTargetedExonsAsString = JSON.stringify(mutations.map(g => g.canonicaltargetedExons))
         this.setMutations(mutations);
       }
     }, error => {
@@ -402,6 +405,7 @@ export class OutcomeDetailComponent implements OnInit {
         this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
         this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
         this.originalTargetedExonsAsString = JSON.stringify(mutations.map(g => g.targetedExons))
+        this.originalCanonicalTargetedExonsAsString = JSON.stringify(mutations.map(g => g.canonicaltargetedExons))
         this.setMutations(mutations);
       }
     }, error => {

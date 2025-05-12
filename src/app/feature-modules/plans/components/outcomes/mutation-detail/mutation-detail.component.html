@@ -132,6 +132,8 @@
       <br>
       <app-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate"></app-targeted-exons>
       <br>
+      <app-canonical-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate"></app-canonical-targeted-exons>
+      <br>
 
       <label for="mutationDescription">Mutation description:</label>
       <mat-form-field appearance="fill" class="textarea-full-width">
@@ -234,6 +236,8 @@
     <app-deletion-coordinates [mutation]="mutation" [canUpdate]="canUpdate"></app-deletion-coordinates>
     <br>
     <app-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate"></app-targeted-exons>
+    <br>
+    <app-canonical-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate"></app-canonical-targeted-exons>
     <br>
     <label for="mutationDescription">Mutation description:</label>
     <mat-form-field appearance="fill" class="textarea-full-width">

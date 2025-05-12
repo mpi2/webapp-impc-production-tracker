@@ -8,16 +8,18 @@ import {InsertionSequenceComponent} from './components/insertion-sequence/insert
 import { IndexedLocationsComponent } from './components/indexed-locations/indexed-locations.component';
 import { DeletionCoordinatesComponent } from './components/deletion-coordinates/deletion-coordinates.component';
 import {TargetedExonsComponent} from "./components/targeted-exons/targeted-exons.component";
+import {CanonicalTargetedExonsComponent} from "./components/canonical-targeted-exons/canonical-targeted-exons.component";
 
 @NgModule({
-  declarations: [ IndexedSequenceComponent, InsertionSequenceComponent, IndexedLocationsComponent,DeletionCoordinatesComponent,TargetedExonsComponent],
+  declarations: [ IndexedSequenceComponent, InsertionSequenceComponent, IndexedLocationsComponent,DeletionCoordinatesComponent,TargetedExonsComponent,CanonicalTargetedExonsComponent],
   imports: [
     SharedModule
   ], exports: [
     IndexedSequenceComponent,
     InsertionSequenceComponent,
     DeletionCoordinatesComponent,
-    TargetedExonsComponent
+    TargetedExonsComponent,
+    CanonicalTargetedExonsComponent
   ]
 })
 export class SequencesModule { }

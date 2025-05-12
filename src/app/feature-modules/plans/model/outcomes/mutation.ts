@@ -17,6 +17,7 @@ export class Mutation {
   mutationSequences: any[] = [];
   molecularMutationDeletions: any[] = [];
   targetedExons: any[] = [];
+  canonicalTargetedExons: any[] = [];
   alignedFastas: any[] = [];
   insertionSequences: any[] = [];
   mutationCategorizations: any[] = [];
