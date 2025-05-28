@@ -247,7 +247,7 @@ export class OutcomeDetailComponent implements OnInit {
         // If true, set molecularMutationDeletions of each mutation to null
         mutationsToUpdate = mutationsToUpdate.map(x => ({
           ...x,
-          isManualMutationDeletion: false,
+          isManualMutationDeletion: true,
         }));
       }
 
