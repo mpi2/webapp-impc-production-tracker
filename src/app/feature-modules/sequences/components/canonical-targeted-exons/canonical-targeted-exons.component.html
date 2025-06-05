@@ -1,16 +1,38 @@
 <mat-accordion>
-  <mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
-      <mat-panel-title>Canonical Targeted Exons</mat-panel-title>
+      <mat-panel-title style="font-weight: bold">Canonical Transcript Exons</mat-panel-title>
     </mat-expansion-panel-header>
 
     <div *ngFor="let canonicalTargetedExon of mutation.canonicalTargetedExons">
-      <div *ngIf="mutation.isMutationDeletionChecked || !canUpdate;  then readOnlyFields else editableFields"></div>
+      <div *ngIf="!editCoordinatesChecked || !canUpdate;  then readOnlyFields else editableFields"></div>
 
       <ng-template #readOnlyFields>
-        <table class="mat-elevation-z2">
+        <table class="mat-elevation-z2 exon-table">
+          <thead>
+          <tr>
+            <th>Exon ID</th>
+            <th>Transcript</th>
+          </tr>
+          </thead>
           <tbody>
-          <td style="padding: 8px; font-size: 14px;">{{ canonicalTargetedExon.exonId }}</td>
+          <tr>
+            <td>{{ canonicalTargetedExon.exonId }}</td>
+            <td>
+              <div class="transcript-group">
+                <div *ngFor="let t of canonicalTargetedExon.transcriptsParsed">
+                  <a [href]="'https://www.ensembl.org/Mus_musculus/Transcript/Summary?t=' + t.name" target="_blank">
+                    <div class="transcript-item">
+                      {{ t.name }}
+                      <br />
+                      {{ t.transcriptId }}
+                    </div>
+                  </a>
+
+                </div>
+              </div>
+            </td>
+          </tr>
           </tbody>
         </table>
         <br/>

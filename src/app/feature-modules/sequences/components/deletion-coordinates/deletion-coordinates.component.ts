@@ -9,7 +9,7 @@ import {Mutation} from 'src/app/feature-modules/plans/model/outcomes/mutation';
 export class DeletionCoordinatesComponent implements OnInit {
   @Input() mutation: Mutation;
   @Input() canUpdate: boolean;
-
+  @Input() editCoordinatesChecked: boolean;
   constructor() {
   }
 

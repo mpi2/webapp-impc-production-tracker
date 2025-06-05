@@ -26,6 +26,6 @@ export class Mutation {
   symbolSuggestionRequest: any;
   description: string;
   qcNote: string;
-  isManualMutationDeletion: boolean;
   isMutationDeletionChecked: boolean;
+  isDeletionCoordinatesUpdatedManually: boolean;
 }

@@ -228,6 +228,18 @@ export class OutcomeDetailComponent implements OnInit {
   updateMutations() {
     if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
       let mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
+
+      if (this.originalMutationDeletionsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.molecularMutationDeletions))
+        || this.originalTargetedExonsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.targetedExons)) ||
+        this.originalCanonicalTargetedExonsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.canonicalTargetedExons))) {
+        // If true, set molecularMutationDeletions of each mutation to null
+        mutationsToUpdate = mutationsToUpdate.map(x => ({
+          ...x,
+
+          isDeletionCoordinatesUpdatedManually : true,
+        }));
+      }
+
       if (this.originalSequenceAsString !== JSON.stringify(this.outcome.mutations.map(g => g.mutationSequences))) {
         // If true, set molecularMutationDeletions of each mutation to null
         mutationsToUpdate = mutationsToUpdate.map(x => ({
@@ -236,20 +248,11 @@ export class OutcomeDetailComponent implements OnInit {
           targetedExons: [],
           canonicalTargetedExons: [],
           alignedFastas: [],
-          isMutationDeletionChecked: false,
-          isManualMutationDeletion: false,
+          isDeletionCoordinatesUpdatedManually : false,
         }));
       }
 
-      if (this.originalMutationDeletionsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.molecularMutationDeletions))
-        || this.originalTargetedExonsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.targetedExons)) ||
-        this.originalCanonicalTargetedExonsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.canonicalTargetedExons))) {
-        // If true, set molecularMutationDeletions of each mutation to null
-        mutationsToUpdate = mutationsToUpdate.map(x => ({
-          ...x,
-          isManualMutationDeletion: true,
-        }));
-      }
+
 
       mutationsToUpdate.forEach(x => {
         this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {

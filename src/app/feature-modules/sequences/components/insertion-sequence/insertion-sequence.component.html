@@ -1,18 +1,22 @@
 <mat-accordion>
     <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-            <mat-panel-title>Insertion sequence(s)</mat-panel-title>
+            <mat-panel-title style="font-weight: bold">Insertion sequence(s)</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="canUpdate; then editable else readOnly"></div>
         <ng-template #editable>
             <table class="mat-elevation-z8">
-                <tr>
+              <thead>
+              <tr>
+                <th style="width: 80%;">Sequence</th>
+                <th style="width: 20%;">Location</th>
+              </tr>
 
-                    <th></th>
-                </tr>
+              </thead>
+              <tbody>
                 <ng-container *ngFor="let insertionSequence of mutation.insertionSequences">
                     <tr>
-                        <td style="width: 95%;">
+                        <td style="width: 80%;">
                             <mat-form-field appearance="fill" class="textarea-full-width">
                                 <textarea matInput
                                     matTextareaAutosize
@@ -21,6 +25,11 @@
                                 </textarea>
                             </mat-form-field>
                         </td>
+                      <td style="width: 20%;">
+                        <mat-form-field appearance="fill" class="small">
+                          <input matInput [(ngModel)]="insertionSequence.location" [ngModelOptions]="{standalone: true}">
+                        </mat-form-field>
+                      </td>
                         <td>
                             <button type="button" (click)="deleteSequence(insertionSequence)">
                                 <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
@@ -34,6 +43,7 @@
                                     *ngIf="canUpdate">Add Insertion</button>
                     </td>
                 </tr>
+              </tbody>
             </table>
         </ng-template>
 
@@ -41,17 +51,23 @@
             <table class="mat-elevation-z8">
                 <thead>
                     <tr>
-                        <th>Sequence</th>
+                      <th style="width: 80%;">Sequence</th>
+                      <th style="width: 20%;">Location</th>
                     </tr>
                 </thead>
                 <tbody>
                     <ng-container *ngFor="let insertionSequence of mutation.insertionSequences">
                         <tr>
-                            <td style="width: 95%;">
+                            <td style="width: 80%;">
                                 <mat-form-field appearance="fill" class="textarea-full-width" id="sequenceTextarea">
                                     <textarea matInput readonly matTextareaAutosize [(value)]="insertionSequence.sequence"></textarea>
                                 </mat-form-field>
                             </td>
+                          <td style="width: 20%;">
+                            <mat-form-field appearance="fill" id="sequenceInput">
+                              <input matInput readonly [(value)]="insertionSequence.location">
+                            </mat-form-field>
+                          </td>
                         </tr>
                     </ng-container>
                 </tbody>

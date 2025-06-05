@@ -51,6 +51,10 @@ export class MutationDetailComponent implements OnInit {
 
   geneSymbols = [];
 
+  selectedOption: boolean;
+
+  editCoordinatesChecked: boolean;
+
   constructor(
     private formBuilder: FormBuilder,
     private mutationService: MutationService,
@@ -61,6 +65,8 @@ export class MutationDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.showGeneMessageError = false;
+    this.editCoordinatesChecked = false;
+    this.selectedOption = this.mutation.isMutationDeletionChecked
     this.loadConfigurationData();
     this.setMutationCategorizationsData();
     this.shouldSuggestSymbol = this.mutation.symbol ? false : true;
@@ -244,8 +250,12 @@ export class MutationDetailComponent implements OnInit {
     return indexedSequence.id === null;
   }
 
-  dataChanged(e) {
-    this.mutation.isMutationDeletionChecked = e.checked;
+  editCoordinates(e){
+    this.editCoordinatesChecked = e.checked;
+  }
+  dataChanged(newSelection: true | false) {
+    this.selectedOption = newSelection;
+    this.mutation.isMutationDeletionChecked = newSelection;
   }
 
 }

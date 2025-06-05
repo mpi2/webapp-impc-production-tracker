@@ -1,7 +1,7 @@
 <mat-accordion>
-  <mat-expansion-panel [expanded]="true">
+  <mat-expansion-panel [expanded]="false">
     <mat-expansion-panel-header>
-      <mat-panel-title>Calculated Deletion Coordinates</mat-panel-title>
+      <mat-panel-title style="font-weight: bold">Deletion Coordinates</mat-panel-title>
     </mat-expansion-panel-header>
 
 
@@ -16,7 +16,7 @@
       </thead>
       <tbody>
       <ng-container *ngFor="let molecularMutationDeletion of mutation.molecularMutationDeletions">
-        <div *ngIf="mutation.isMutationDeletionChecked || !canUpdate; then readOnlyFields else editableFields"></div>
+        <div *ngIf="!editCoordinatesChecked || !canUpdate; then readOnlyFields else editableFields"></div>
         <ng-template #editableFields>
           <tr>
             <td>

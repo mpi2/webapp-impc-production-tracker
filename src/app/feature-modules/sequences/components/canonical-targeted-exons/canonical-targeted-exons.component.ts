@@ -9,11 +9,19 @@ import {Mutation} from 'src/app/feature-modules/plans/model/outcomes/mutation';
 export class CanonicalTargetedExonsComponent implements OnInit {
   @Input() mutation: Mutation;
   @Input() canUpdate: boolean;
-
+  @Input() editCoordinatesChecked: boolean;
   constructor() {
   }
 
-  ngOnInit(): void {
-  }
 
+  ngOnInit(): void {
+    this.mutation.canonicalTargetedExons.forEach(exon => {
+      exon.transcriptsParsed = exon.transcript
+        ? exon.transcript.split(',').map(t => {
+          const [name, transcriptId] = t.split('__');
+          return { name, transcriptId };
+        })
+        : [];
+    });
+  }
 }

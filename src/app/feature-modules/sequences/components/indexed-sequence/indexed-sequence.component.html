@@ -1,7 +1,7 @@
 <mat-accordion>
     <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
-            <mat-panel-title>Sequence(s) information</mat-panel-title>
+            <mat-panel-title style="font-weight: bold">Sequence(s) information</mat-panel-title>
         </mat-expansion-panel-header>
         <div *ngIf="canUpdate; then editable else readOnly"></div>
         <ng-template #editable>
@@ -16,14 +16,14 @@
                     <tr>
                         <td style="width: 5%;">
                             <mat-form-field appearance="fill">
-                                <input appDigitOnly 
-                                        matInput 
+                                <input appDigitOnly
+                                        matInput
                                         [(ngModel)]="mutationSequence.index" />
                             </mat-form-field>
                         </td>
                         <td style="width: 80%;">
                             <mat-form-field appearance="fill" class="textarea-full-width">
-                                <textarea matInput 
+                                <textarea matInput
                                     matTextareaAutosize
                                     [(ngModel)]="mutationSequence.sequence.sequence"
                                     [ngModelOptions]="{standalone: true}">
@@ -89,5 +89,5 @@
             </table>
         </ng-template>
     </mat-expansion-panel>
-</mat-accordion> 
+</mat-accordion>
 <div class="separation"></div>
