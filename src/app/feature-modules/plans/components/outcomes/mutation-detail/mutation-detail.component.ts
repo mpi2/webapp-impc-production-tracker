@@ -8,6 +8,7 @@ import {IndexedSequence} from 'src/app/feature-modules/sequences';
 import {MatDialog} from '@angular/material/dialog';
 import {InputHandlerService} from 'src/app/core/services/input-handler.service';
 import {DeleteConfirmationComponent} from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import {CoordinatesEditConfirmationComponent} from 'src/app/shared/components/coordinates-edit-confirmation/coordinates-edit-confirmation.component';
 import {Outcome} from '../../../model/outcomes/outcome';
 
 
@@ -208,6 +209,20 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
+  showCoordinatesEditConfirmationDialog(e) {
+    const dialogRef = this.dialog.open(CoordinatesEditConfirmationComponent, {
+      width: '900px',
+      height: '250px',
+      data: {confirmed: false}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editCoordinatesChecked = true;
+        e.disable =true;
+      }
+    });
+  }
+
   onDeleteSequence(indexedSequence: IndexedSequence) {
     if (this.isNewRecord(indexedSequence)) {
       this.deleteSequence(indexedSequence);
@@ -250,12 +265,17 @@ export class MutationDetailComponent implements OnInit {
     return indexedSequence.id === null;
   }
 
-  editCoordinates(e){
-    this.editCoordinatesChecked = e.checked;
-  }
   dataChanged(newSelection: true | false) {
     this.selectedOption = newSelection;
     this.mutation.isMutationDeletionChecked = newSelection;
+  }
+
+  onEditCoordinates(e) {
+      this.showCoordinatesEditConfirmationDialog(e);
+  }
+
+  onCancelEditCoordinates(e) {
+    this.editCoordinatesChecked = false;
   }
 
 }

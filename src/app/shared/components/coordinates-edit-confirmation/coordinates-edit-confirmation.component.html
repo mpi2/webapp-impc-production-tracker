@@ -1,0 +1,23 @@
+<script src="../delete-confirmation/delete-confirmation.component.spec.ts"></script>
+<script src="../delete-confirmation/delete-confirmation.component.ts"></script>
+
+<h2 mat-dialog-title>
+  <mat-icon aria-hidden="false">warning</mat-icon>
+  Warning
+</h2>
+
+<div mat-dialog-content>
+  <p><small>Note: The item will be updated in the system once you click the "Update" button. The following changes will occur:</small></p>
+  <ul>
+    <li>Manually updated entries will not be recalculated. The edited version will be considered final.</li>
+    <li>If you edit deletion coordinates aligned fastas wont b shown in genome browser.</li>
+    <li>If you update  Targeted or Canonical Targeted exons, related transcripts will be deleted.</li>
+    <li></li>
+  </ul>
+
+</div>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="data.confirmed" cdkFocusInitial>Ok</button>
+</div>

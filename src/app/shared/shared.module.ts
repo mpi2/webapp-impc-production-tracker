@@ -37,6 +37,7 @@ import { NgxTrimDirectiveModule } from 'ngx-trim-directive';
 import { GoBackComponent } from './components/go-back/go-back.component';
 import { HistoryComponent } from './components/history/history.component';
 import { DeleteConfirmationComponent } from './components/delete-confirmation/delete-confirmation.component';
+import { CoordinatesEditConfirmationComponent } from './components/coordinates-edit-confirmation/coordinates-edit-confirmation.component';
 import { ExpandableContentComponent } from './components/expandable-content/expandable-content.component';
 import { DigitOnlyDirective } from './directives/digit-only.directive';
 import { InformativeDialogComponent } from './components/informative-dialog/informative-dialog.component';
@@ -72,7 +73,8 @@ export const MY_DATE_FORMATS = {
         StatusTransitionComponent,
         StatusDateComponent,
         AutocompleteGeneComponent,
-        PlanCreationComponent
+        PlanCreationComponent,
+        CoordinatesEditConfirmationComponent
     ],
     exports: [
         MatAutocompleteModule,

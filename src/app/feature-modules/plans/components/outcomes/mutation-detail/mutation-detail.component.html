@@ -135,18 +135,37 @@
         Deletion Coordinates And Targeted Exons
       </div>
         <br>
-      <div style="display: flex; justify-content: space-between; align-items: center;">
-        <mat-checkbox
-          (change)="editCoordinates($event)"
-          [(ngModel)]="this.editCoordinatesChecked"
-          [ngModelOptions]="{standalone: true}">
-          Edit
-        </mat-checkbox>
 
-        <label
-          *ngIf="mutation.isDeletionCoordinatesUpdatedManually">
-          updated manually</label>
-      </div>
+        <br>
+
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+
+          <!-- Left side: buttons -->
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button
+              [disabled]="editCoordinatesChecked"
+              (click)="onEditCoordinates($event)"
+              mat-raised-button
+              color="primary">
+              Enable Edit
+            </button>
+
+            <button
+              *ngIf="editCoordinatesChecked"
+              (click)="onCancelEditCoordinates($event)"
+              mat-raised-button
+              color="primary">
+              Cancel
+            </button>
+          </div>
+
+          <!-- Right side: label -->
+          <label style="background-color: #FFCC33; padding: 10px 10px; border-radius: 4px; font-size: 01em;" *ngIf="mutation.isDeletionCoordinatesUpdatedManually">
+           Manually Updated
+          </label>
+
+        </div>
+
 
 
       <div class="radio-wrapper">
