@@ -5,9 +5,10 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
 import { GenotypePrimer } from 'src/app/feature-modules/attempts';
 
 @Component({
-  selector: 'app-genotype-primers',
-  templateUrl: './genotype-primers.component.html',
-  styleUrls: ['./genotype-primers.component.css']
+    selector: 'app-genotype-primers',
+    templateUrl: './genotype-primers.component.html',
+    styleUrls: ['./genotype-primers.component.css'],
+    standalone: false
 })
 export class GenotypePrimersComponent implements OnInit, OnChanges, AfterContentChecked {
 

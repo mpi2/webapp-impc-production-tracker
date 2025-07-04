@@ -41,17 +41,18 @@ const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-production-numbers-tab',
-  templateUrl: './production-numbers-tab.component.html',
-  styleUrls: ['./production-numbers-tab.scss'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
-  ]
+    selector: 'app-production-numbers-tab',
+    templateUrl: './production-numbers-tab.component.html',
+    styleUrls: ['./production-numbers-tab.scss'],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+        },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    ],
+    standalone: false
 })
 export class ProductionNumbersTabComponent implements OnInit {
   apiServiceUrl: string;

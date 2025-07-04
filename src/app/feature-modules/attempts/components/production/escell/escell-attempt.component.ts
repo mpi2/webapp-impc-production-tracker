@@ -11,21 +11,22 @@ import { EsCellDialogBoxComponent } from './es-cell-dialog-box/es-cell-dialog-bo
 
 
 @Component({
-  selector: 'app-escell-attempt',
-  templateUrl: './escell-attempt.component.html',
-  styleUrls: ['./escell-attempt.component.css'],
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => EscellAttemptComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EscellAttemptComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-escell-attempt',
+    templateUrl: './escell-attempt.component.html',
+    styleUrls: ['./escell-attempt.component.css'],
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => EscellAttemptComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => EscellAttemptComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class EscellAttemptComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() esCellAttempt: EsCellAttempt;

@@ -17,9 +17,10 @@ export interface ESCellData {
 }
 
 @Component({
-  selector: 'app-es-cell-dialog-box',
-  templateUrl: './es-cell-dialog-box.component.html',
-  styleUrls: ['./es-cell-dialog-box.component.css']
+    selector: 'app-es-cell-dialog-box',
+    templateUrl: './es-cell-dialog-box.component.html',
+    styleUrls: ['./es-cell-dialog-box.component.css'],
+    standalone: false
 })
 export class EsCellDialogBoxComponent implements OnInit {
   action: string;

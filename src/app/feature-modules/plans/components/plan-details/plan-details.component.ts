@@ -6,16 +6,17 @@ import { Plan } from '../../model/plan';
 
 
 @Component({
-  selector: 'app-plan-details',
-  templateUrl: './plan-details.component.html',
-  styleUrls: ['./plan-details.component.css'],
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PlanDetailsComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-plan-details',
+    templateUrl: './plan-details.component.html',
+    styleUrls: ['./plan-details.component.css'],
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PlanDetailsComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 
 export class PlanDetailsComponent implements OnInit, ControlValueAccessor {

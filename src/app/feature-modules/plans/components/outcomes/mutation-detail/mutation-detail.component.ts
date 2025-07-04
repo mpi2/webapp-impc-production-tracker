@@ -13,9 +13,10 @@ import {Outcome} from '../../../model/outcomes/outcome';
 
 
 @Component({
-  selector: 'app-mutation-detail',
-  templateUrl: './mutation-detail.component.html',
-  styleUrls: ['./mutation-detail.component.css']
+    selector: 'app-mutation-detail',
+    templateUrl: './mutation-detail.component.html',
+    styleUrls: ['./mutation-detail.component.css'],
+    standalone: false
 })
 export class MutationDetailComponent implements OnInit {
   @Input() outcome: Outcome;

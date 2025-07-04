@@ -6,9 +6,10 @@ import {UserService} from 'src/app/core/services/user.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-profile-editor',
-  templateUrl: './profile-editor.component.html',
-  styleUrls: ['./profile-editor.component.css']
+    selector: 'app-profile-editor',
+    templateUrl: './profile-editor.component.html',
+    styleUrls: ['./profile-editor.component.css'],
+    standalone: false
 })
 export class ProfileEditorComponent implements OnInit {
 

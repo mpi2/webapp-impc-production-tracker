@@ -21,9 +21,10 @@ import {ProjectService} from '../../../../projects';
 
 
 @Component({
-  selector: 'app-outcome-detail',
-  templateUrl: './outcome-detail.component.html',
-  styleUrls: ['./outcome-detail.component.css']
+    selector: 'app-outcome-detail',
+    templateUrl: './outcome-detail.component.html',
+    styleUrls: ['./outcome-detail.component.css'],
+    standalone: false
 })
 export class OutcomeDetailComponent implements OnInit {
   static staticError: string;

@@ -4,9 +4,10 @@ import { PhenotypingStageService } from 'src/app/feature-modules/plans/services/
 import { PhenotypingStage } from '../../../model/phenotyping/phenotyping-stage';
 
 @Component({
-  selector: 'app-phenotyping-stages',
-  templateUrl: './phenotyping-stages.component.html',
-  styleUrls: ['./phenotyping-stages.component.css']
+    selector: 'app-phenotyping-stages',
+    templateUrl: './phenotyping-stages.component.html',
+    styleUrls: ['./phenotyping-stages.component.css'],
+    standalone: false
 })
 export class PhenotypingStagesComponent implements OnInit {
 

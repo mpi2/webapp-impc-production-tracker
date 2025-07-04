@@ -10,9 +10,10 @@ import { FilterType } from 'src/app/feature-modules/filters/model/filter-type';
 import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
-  selector: 'app-list-management',
-  templateUrl: './list-management.component.html',
-  styleUrls: ['./list-management.component.css']
+    selector: 'app-list-management',
+    templateUrl: './list-management.component.html',
+    styleUrls: ['./list-management.component.css'],
+    standalone: false
 })
 export class ListManagementComponent implements OnInit, OnDestroy {
 

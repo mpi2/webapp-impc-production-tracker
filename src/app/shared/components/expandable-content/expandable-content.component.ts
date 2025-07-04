@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
-  selector: 'app-expandable-content',
-  templateUrl: './expandable-content.component.html',
-  styleUrls: ['./expandable-content.component.css']
+    selector: 'app-expandable-content',
+    templateUrl: './expandable-content.component.html',
+    styleUrls: ['./expandable-content.component.css'],
+    standalone: false
 })
 export class ExpandableContentComponent {
 

@@ -13,9 +13,10 @@ import { PlanService } from 'src/app/feature-modules/plans';
 import { ProjectService } from '../../../../projects';
 
 @Component({
-  selector: 'app-phenotyping-stage-details',
-  templateUrl: './phenotyping-stage-details.component.html',
-  styleUrls: ['./phenotyping-stage-details.component.css']
+    selector: 'app-phenotyping-stage-details',
+    templateUrl: './phenotyping-stage-details.component.html',
+    styleUrls: ['./phenotyping-stage-details.component.css'],
+    standalone: false
 })
 export class PhenotypingStageDetailsComponent implements OnInit {
 

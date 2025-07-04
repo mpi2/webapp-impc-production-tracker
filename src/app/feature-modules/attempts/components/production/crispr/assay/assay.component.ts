@@ -5,9 +5,10 @@ import { Assay } from 'src/app/feature-modules/attempts/model/production/crispr/
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 
 @Component({
-  selector: 'app-assay',
-  templateUrl: './assay.component.html',
-  styleUrls: ['./assay.component.css']
+    selector: 'app-assay',
+    templateUrl: './assay.component.html',
+    styleUrls: ['./assay.component.css'],
+    standalone: false
 })
 export class AssayComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;

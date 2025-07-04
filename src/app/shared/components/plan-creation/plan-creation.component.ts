@@ -19,21 +19,22 @@ import { Nuclease } from 'src/app/feature-modules/attempts/model/production/cris
 
 
 @Component({
-  selector: 'app-plan-creation',
-  templateUrl: './plan-creation.component.html',
-  styleUrls: ['./plan-creation.component.css'],
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => PlanCreationComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PlanCreationComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-plan-creation',
+    templateUrl: './plan-creation.component.html',
+    styleUrls: ['./plan-creation.component.css'],
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => PlanCreationComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => PlanCreationComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class PlanCreationComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() projectCreation: boolean;

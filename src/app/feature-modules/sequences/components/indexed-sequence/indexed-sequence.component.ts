@@ -5,9 +5,10 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Mutation } from 'src/app/feature-modules/plans/model/outcomes/mutation';
 
 @Component({
-  selector: 'app-indexed-sequence',
-  templateUrl: './indexed-sequence.component.html',
-  styleUrls: ['./indexed-sequence.component.css']
+    selector: 'app-indexed-sequence',
+    templateUrl: './indexed-sequence.component.html',
+    styleUrls: ['./indexed-sequence.component.css'],
+    standalone: false
 })
 export class IndexedSequenceComponent implements OnInit {
   @Input() mutation: Mutation;

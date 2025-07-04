@@ -7,9 +7,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
-  selector: 'app-distribution-product-list',
-  templateUrl: './distribution-product-list.component.html',
-  styleUrls: ['./distribution-product-list.component.css']
+    selector: 'app-distribution-product-list',
+    templateUrl: './distribution-product-list.component.html',
+    styleUrls: ['./distribution-product-list.component.css'],
+    standalone: false
 })
 export class DistributionProductListComponent implements OnInit, OnChanges {
   @Input() colony: Colony;

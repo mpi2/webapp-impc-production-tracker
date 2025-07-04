@@ -7,9 +7,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 
 @Component({
-  selector: 'app-qc-results',
-  templateUrl: './qc-results.component.html',
-  styleUrls: ['./qc-results.component.css']
+    selector: 'app-qc-results',
+    templateUrl: './qc-results.component.html',
+    styleUrls: ['./qc-results.component.css'],
+    standalone: false
 })
 export class QcResultsComponent implements OnInit {
   @Input() mutation: Mutation;

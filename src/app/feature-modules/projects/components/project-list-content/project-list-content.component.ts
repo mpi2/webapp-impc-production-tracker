@@ -7,9 +7,10 @@ import { MatPaginator } from '@angular/material/paginator';
 import { Sort } from 'src/app/model/page_structure/sort';
 
 @Component({
-  selector: 'app-project-list-content',
-  templateUrl: './project-list-content.component.html',
-  styleUrls: ['./project-list-content.component.css']
+    selector: 'app-project-list-content',
+    templateUrl: './project-list-content.component.html',
+    styleUrls: ['./project-list-content.component.css'],
+    standalone: false
 })
 export class ProjectListContentComponent implements OnInit, OnDestroy {
 

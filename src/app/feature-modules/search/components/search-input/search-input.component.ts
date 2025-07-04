@@ -2,9 +2,10 @@ import { Component, OnInit, Output, EventEmitter, ViewChild } from '@angular/cor
 import { SearchInput, SearchInputType } from '../../model/search-input';
 
 @Component({
-  selector: 'app-search-input',
-  templateUrl: './search-input.component.html',
-  styleUrls: ['./search-input.component.css']
+    selector: 'app-search-input',
+    templateUrl: './search-input.component.html',
+    styleUrls: ['./search-input.component.css'],
+    standalone: false
 })
 export class SearchInputComponent implements OnInit {
   @Output() searchDefined = new EventEmitter<SearchInput>();

@@ -4,9 +4,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Transition } from 'src/app/model/status_transition/transition';
 
 @Component({
-  selector: 'app-status-transition',
-  templateUrl: './status-transition.component.html',
-  styleUrls: ['./status-transition.component.css']
+    selector: 'app-status-transition',
+    templateUrl: './status-transition.component.html',
+    styleUrls: ['./status-transition.component.css'],
+    standalone: false
 })
 export class StatusTransitionComponent implements OnInit , OnChanges {
 
