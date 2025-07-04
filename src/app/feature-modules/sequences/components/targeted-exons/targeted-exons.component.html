@@ -17,7 +17,13 @@
           </thead>
           <tbody>
           <tr>
-            <td>{{ targetedExon.exonId }}</td>
+            <td>
+              <a [href]="'https://www.ensembl.org/Mus_musculus/Transcript/Summary?exon=' + targetedExon.exonId" target="_blank">
+                <div class="transcript-item">
+                  {{ targetedExon.exonId }}
+                </div>
+              </a>
+              </td>
             <td>
               <div class="transcript-group">
                 <div *ngFor="let t of targetedExon.transcriptsParsed">
