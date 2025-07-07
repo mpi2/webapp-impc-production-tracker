@@ -253,8 +253,8 @@ export class ProductionNumbersTabComponent implements OnInit {
     link.download = 'report-chart';
     if (this.workUnitControl.value) {
       link.download += `-${this.workUnitControl.value}`;
-    } else if (this.multipleWorkUnitControl.value) {
-      link.download += `${this.multipleWorkUnitControl.value.join('-')}-`;
+    } else if (this.multipleWorkUnitControl.value.length) {
+      link.download += `-${this.multipleWorkUnitControl.value.join('-')}`;
     }
     if (this.workGroupControl.value) {
       link.download += `-${this.workGroupControl.value}`;
