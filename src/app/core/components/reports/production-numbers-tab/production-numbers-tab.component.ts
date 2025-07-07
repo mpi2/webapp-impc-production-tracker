@@ -8,7 +8,7 @@ import {
   startWith,
   switchMap, tap,
 } from "rxjs/operators";
-import * as moment from "moment/moment";
+import moment from "moment";
 import { Moment } from "moment/moment";
 import { MatDatepicker, MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { ChartConfiguration } from "chart.js";
