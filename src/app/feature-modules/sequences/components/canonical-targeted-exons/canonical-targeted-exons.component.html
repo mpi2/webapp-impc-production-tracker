@@ -5,9 +5,7 @@
     </mat-expansion-panel-header>
 
     <div *ngFor="let canonicalTargetedExon of mutation.canonicalTargetedExons">
-      <div *ngIf="!editCoordinatesChecked || !canUpdate;  then readOnlyFields else editableFields"></div>
 
-      <ng-template #readOnlyFields>
         <table class="mat-elevation-z2 exon-table">
           <thead>
           <tr>
@@ -42,19 +40,6 @@
           </tbody>
         </table>
         <br/>
-      </ng-template>
-
-      <ng-template #editableFields>
-        <table >
-          <tbody>
-          <td style="font-size: 14px;" >
-            <mat-form-field appearance="fill" style="width: 250px">
-              <input matInput [(ngModel)]="canonicalTargetedExon.exonId" [ngModelOptions]="{standalone: true}">
-            </mat-form-field>
-          </td>
-          </tbody>
-        </table>
-      </ng-template>
 
     </div>
   </mat-expansion-panel>

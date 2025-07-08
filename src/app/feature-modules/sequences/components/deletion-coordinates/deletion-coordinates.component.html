@@ -40,6 +40,11 @@
                 <input matInput [(ngModel)]="molecularMutationDeletion.size" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </td>
+            <td>
+              <button type="button" (click)="deleteInsertedCoordinates(molecularMutationDeletion)">
+                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+              </button>
+            </td>
           </tr>
         </ng-template>
         <ng-template #readOnlyFields>
@@ -61,6 +66,9 @@
         </ng-template>
 
       </ng-container>
+
+          <button  class="create-button" mat-raised-button (click)="addDeletionCoordinates()" color="primary" type="button"
+                   *ngIf="editCoordinatesChecked && canUpdate;">Add Coordinate</button>
       </tbody>
     </table>
 
