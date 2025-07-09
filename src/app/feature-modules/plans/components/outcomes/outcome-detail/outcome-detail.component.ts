@@ -224,42 +224,57 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-    if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
-      let mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
+    const originalSequences = JSON.parse(this.originalSequenceAsString);
+    const originalDeletions = JSON.parse(this.originalMutationDeletionsAsString);
 
-      if (this.originalMutationDeletionsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.molecularMutationDeletions))) {
-        // If true, set molecularMutationDeletions of each mutation to null
-        mutationsToUpdate = mutationsToUpdate.map(x => ({
-          ...x,
-          targetedExons: [],
-          canonicalTargetedExons: [],
-          isDeletionCoordinatesUpdatedManually : true,
-        }));
-      }
+    const mutationsToUpdate = this.outcome.mutations
+      .map((mutation, index) => {
+        if (!mutation.min) return null;
 
+        const currentSequence = JSON.stringify(mutation.mutationSequences);
+        const originalSequence = JSON.stringify(originalSequences[index]);
 
-      if (this.originalSequenceAsString !== JSON.stringify(this.outcome.mutations.map(g => g.mutationSequences))) {
-        // If true, set molecularMutationDeletions of each mutation to null
-        mutationsToUpdate = mutationsToUpdate.map(x => ({
-          ...x,
-          molecularMutationDeletions: [],
-          targetedExons: [],
-          canonicalTargetedExons: [],
-          alignedFastas: [],
-          isDeletionCoordinatesUpdatedManually : false,
-        }));
-      }
+        const currentDeletions = JSON.stringify(mutation.molecularMutationDeletions);
+        const originalDeletion = JSON.stringify(originalDeletions[index]);
 
-      mutationsToUpdate.forEach(x => {
-        this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {
-            this.showChangeNotification(changeResponse);
-          },
-          error => {
-            this.error = error;
-            console.log('update min: ', x, error);
-          });
-      });
-    }
+        const sequenceChanged = currentSequence !== originalSequence;
+        const deletionChanged = currentDeletions !== originalDeletion;
+
+        if (sequenceChanged) {
+          return {
+            ...mutation,
+            molecularMutationDeletions: [],
+            targetedExons: [],
+            canonicalTargetedExons: [],
+            alignedFastas: [],
+            isDeletionCoordinatesUpdatedManually: false
+          };
+        }
+
+        if (deletionChanged) {
+          return {
+            ...mutation,
+            targetedExons: [],
+            canonicalTargetedExons: [],
+            isDeletionCoordinatesUpdatedManually: true
+          };
+        }
+
+        return null; // No update needed
+      })
+      .filter(m => m !== null);
+
+    mutationsToUpdate.forEach(mutation => {
+      this.mutationService.updateMutation(mutation).subscribe(
+        (changeResponse: ChangeResponse) => {
+          this.showChangeNotification(changeResponse);
+        },
+        error => {
+          this.error = error;
+          console.log('update min: ', mutation, error);
+        }
+      );
+    });
   }
 
   createMutations() {
