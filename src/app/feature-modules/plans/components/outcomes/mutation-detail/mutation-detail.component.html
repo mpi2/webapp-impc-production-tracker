@@ -121,7 +121,7 @@
         [canUpdate]="canUpdate"
         [showSequenceCategory]=false
         [showLocations]=false
-        (sequenceDeleted)="onDeleteSequence($event)"
+        (sequenceDeleted)="onDeleteInsertionSequence($event)"
         [mutation]="mutation"
       >
       </app-insertion-sequence>
@@ -169,29 +169,36 @@
 
         </div>
 
+        <form [formGroup]="form">
+          <div class="radio-wrapper">
+            <mat-radio-group formControlName="cb">
+              <mat-radio-button
+                [value]="true"
+                (change)="dataChanged(true)"
+              >
+                Release to MGI.
+              </mat-radio-button>
+              <mat-radio-button
 
-
-      <div class="radio-wrapper">
-        <mat-radio-button
-          [checked]="selectedOption === true"
-          (change)="dataChanged(true)"
+                [value]="false"
+                (change)="dataChanged(false)"
+              >
+                Do Not Release.
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </form>
+        <app-deletion-coordinates [mutation]="mutation" [canUpdate]="canUpdate"
+                                  [editCoordinatesChecked]="editCoordinatesChecked"
+                                  (coordinatesDeleted)="onDeleteDeletionCoordinates($event)"
         >
-          Release to MGI.
-        </mat-radio-button>
-        <mat-radio-button
-          [checked]="selectedOption === false"
-          (change)="dataChanged(false)"
-        >
-          Do Not Release.
-        </mat-radio-button>
-      </div>
 
-      <app-deletion-coordinates [mutation]="mutation" [canUpdate]="canUpdate" [editCoordinatesChecked]="editCoordinatesChecked"></app-deletion-coordinates>
-      <br>
-
-        <app-canonical-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate" [editCoordinatesChecked]="editCoordinatesChecked"></app-canonical-targeted-exons>
+        </app-deletion-coordinates>
         <br>
-      <app-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate" [editCoordinatesChecked]="editCoordinatesChecked"></app-targeted-exons>
+
+        <app-canonical-targeted-exons [mutation]="mutation"></app-canonical-targeted-exons>
+        <br>
+      <app-targeted-exons [mutation]="mutation"></app-targeted-exons>
       <br>
 
 
@@ -296,11 +303,11 @@
     <app-insertion-sequence [mutation]="mutation"></app-insertion-sequence>
     <div class="separation"></div>
     <br>
-    <app-deletion-coordinates [mutation]="mutation" [canUpdate]="canUpdate"></app-deletion-coordinates>
+    <app-deletion-coordinates [mutation]="mutation" [canUpdate]="canUpdate" ></app-deletion-coordinates>
     <br>
-    <app-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate"></app-targeted-exons>
+    <app-canonical-targeted-exons [mutation]="mutation"></app-canonical-targeted-exons>
     <br>
-    <app-canonical-targeted-exons [mutation]="mutation" [canUpdate]="canUpdate"></app-canonical-targeted-exons>
+    <app-targeted-exons [mutation]="mutation" ></app-targeted-exons>
     <br>
     <label for="mutationDescription">Mutation description:</label>
     <mat-form-field appearance="fill" class="textarea-full-width">

@@ -45,8 +45,6 @@ export class OutcomeDetailComponent implements OnInit {
   originalMutationsAsString: string;
   originalSequenceAsString: string;
   originalMutationDeletionsAsString: string;
-  originalTargetedExonsAsString: string;
-  originalCanonicalTargetedExonsAsString: string;
 
 
   changeDetails: ChangesHistory;
@@ -227,100 +225,57 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-    if (this.originalMutationsAsString !== JSON.stringify(this.outcome.mutations)) {
-      let mutationsToUpdate = this.outcome.mutations.filter(x => x.min);
+    const originalSequences = JSON.parse(this.originalSequenceAsString);
+    const originalDeletions = JSON.parse(this.originalMutationDeletionsAsString);
 
-      if (this.originalMutationDeletionsAsString !== JSON.stringify(this.outcome.mutations.map(g => g.molecularMutationDeletions))) {
-        // If true, set molecularMutationDeletions of each mutation to null
-        mutationsToUpdate = mutationsToUpdate.map(x => ({
-          ...x,
+    const mutationsToUpdate = this.outcome.mutations
+      .map((mutation, index) => {
+        if (!mutation.min) return null;
 
-          isDeletionCoordinatesUpdatedManually : true,
-        }));
-      }
+        const currentSequence = JSON.stringify(mutation.mutationSequences);
+        const originalSequence = JSON.stringify(originalSequences[index]);
 
-      let newCanonicalTargetedExon = JSON.stringify(
-        (this.outcome.mutations || []).reduce((acc, g) => {
-          const exons = g?.canonicalTargetedExons || [];
-          return acc.concat(exons.map(e => e.exonId));
-        }, [])
-      );
+        const currentDeletions = JSON.stringify(mutation.molecularMutationDeletions);
+        const originalDeletion = JSON.stringify(originalDeletions[index]);
 
-      const originalCanonicalExonIds = JSON.parse(this.originalCanonicalTargetedExonsAsString || '[]');
-      const newCanonicalExonIds = JSON.parse(newCanonicalTargetedExon || '[]');
+        const sequenceChanged = currentSequence !== originalSequence;
+        const deletionChanged = currentDeletions !== originalDeletion;
 
-      const changedCanonicalExonIds = newCanonicalExonIds.filter((id, index) => originalCanonicalExonIds [index] !== id);
-
-      if (changedCanonicalExonIds.length > 0) {
-        mutationsToUpdate = mutationsToUpdate.map(mutation => {
-          const updatedCanonicalExons = (mutation.canonicalTargetedExons || []).map(exon => {
-            if (changedCanonicalExonIds.includes(exon.exonId)) {
-              return { ...exon, transcript: null };
-            }
-            return exon;
-          });
-
+        if (sequenceChanged) {
           return {
             ...mutation,
-            canonicalTargetedExons: updatedCanonicalExons,
-            isDeletionCoordinatesUpdatedManually: true,
+            molecularMutationDeletions: [],
+            targetedExons: [],
+            canonicalTargetedExons: [],
+            alignedFastas: [],
+            isDeletionCoordinatesUpdatedManually: false
           };
-        });
-      }
+        }
 
-      let newTargetedExon = JSON.stringify(
-        (this.outcome.mutations || []).reduce((acc, g) => {
-          const exons = g?.targetedExons || [];
-          return acc.concat(exons.map(e => e.exonId));
-        }, [])
-      );
-
-      const originalExonIds = JSON.parse(this.originalTargetedExonsAsString || '[]');
-      const newExonIds = JSON.parse(newTargetedExon || '[]');
-
-      const changedExonIds = newExonIds.filter((id, index) => originalExonIds[index] !== id);
-
-      if (changedExonIds.length > 0) {
-        mutationsToUpdate = mutationsToUpdate.map(mutation => {
-          const updatedExons = (mutation.targetedExons || []).map(exon => {
-            if (changedExonIds.includes(exon.exonId)) {
-              return { ...exon, transcript: null };
-            }
-            return exon;
-          });
-
+        if (deletionChanged) {
           return {
             ...mutation,
-            targetedExons: updatedExons,
-            isDeletionCoordinatesUpdatedManually: true,
+            targetedExons: [],
+            canonicalTargetedExons: [],
+            isDeletionCoordinatesUpdatedManually: true
           };
-        });
-      }
+        }
 
-      if (this.originalSequenceAsString !== JSON.stringify(this.outcome.mutations.map(g => g.mutationSequences))) {
-        // If true, set molecularMutationDeletions of each mutation to null
-        mutationsToUpdate = mutationsToUpdate.map(x => ({
-          ...x,
-          molecularMutationDeletions: [],
-          targetedExons: [],
-          canonicalTargetedExons: [],
-          alignedFastas: [],
-          isDeletionCoordinatesUpdatedManually : false,
-        }));
-      }
+        return null; // No update needed
+      })
+      .filter(m => m !== null);
 
-
-
-      mutationsToUpdate.forEach(x => {
-        this.mutationService.updateMutation(x).subscribe((changeResponse: ChangeResponse) => {
-            this.showChangeNotification(changeResponse);
-          },
-          error => {
-            this.error = error;
-            console.log('update min: ', x, error);
-          });
-      });
-    }
+    mutationsToUpdate.forEach(mutation => {
+      this.mutationService.updateMutation(mutation).subscribe(
+        (changeResponse: ChangeResponse) => {
+          this.showChangeNotification(changeResponse);
+        },
+        error => {
+          this.error = error;
+          console.log('update min: ', mutation, error);
+        }
+      );
+    });
   }
 
   createMutations() {
@@ -448,8 +403,6 @@ export class OutcomeDetailComponent implements OnInit {
 
         this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
         this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
-        this.originalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.targetedExons.map(e => e.exonId)))
-        this.originalCanonicalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.canonicalTargetedExons.map(e => e.exonId)))
         this.setMutations(mutations);
       }
     }, error => {
@@ -464,8 +417,6 @@ export class OutcomeDetailComponent implements OnInit {
         this.originalMutationsAsString = JSON.stringify(mutations);
         this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
         this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
-        this.originalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.targetedExons.map(e => e.exonId)))
-        this.originalCanonicalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.canonicalTargetedExons.map(e => e.exonId)))
         this.setMutations(mutations);
       }
     }, error => {
