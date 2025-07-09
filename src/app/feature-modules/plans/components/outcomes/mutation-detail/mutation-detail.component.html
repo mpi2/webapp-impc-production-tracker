@@ -169,23 +169,25 @@
 
         </div>
 
+        <form [formGroup]="form">
+          <div class="radio-wrapper">
+            <mat-radio-group formControlName="cb">
+              <mat-radio-button
+                [value]="true"
+                (change)="dataChanged(true)"
+              >
+                Release to MGI.
+              </mat-radio-button>
+              <mat-radio-button
 
-
-      <div class="radio-wrapper">
-        <mat-radio-button
-          [checked]="selectedOption === true"
-          (change)="dataChanged(true)"
-        >
-          Release to MGI.
-        </mat-radio-button>
-        <mat-radio-button
-          [checked]="selectedOption === false"
-          (change)="dataChanged(false)"
-        >
-          Do Not Release.
-        </mat-radio-button>
-      </div>
-
+                [value]="false"
+                (change)="dataChanged(false)"
+              >
+                Do Not Release.
+              </mat-radio-button>
+            </mat-radio-group>
+          </div>
+        </form>
         <app-deletion-coordinates [mutation]="mutation" [canUpdate]="canUpdate"
                                   [editCoordinatesChecked]="editCoordinatesChecked"
                                   (coordinatesDeleted)="onDeleteDeletionCoordinates($event)"

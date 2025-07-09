@@ -44,8 +44,6 @@ export class OutcomeDetailComponent implements OnInit {
   originalMutationsAsString: string;
   originalSequenceAsString: string;
   originalMutationDeletionsAsString: string;
-  originalTargetedExonsAsString: string;
-  originalCanonicalTargetedExonsAsString: string;
 
 
   changeDetails: ChangesHistory;
@@ -389,8 +387,6 @@ export class OutcomeDetailComponent implements OnInit {
 
         this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
         this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
-        this.originalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.targetedExons.map(e => e.exonId)))
-        this.originalCanonicalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.canonicalTargetedExons.map(e => e.exonId)))
         this.setMutations(mutations);
       }
     }, error => {
@@ -405,8 +401,6 @@ export class OutcomeDetailComponent implements OnInit {
         this.originalMutationsAsString = JSON.stringify(mutations);
         this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
         this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
-        this.originalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.targetedExons.map(e => e.exonId)))
-        this.originalCanonicalTargetedExonsAsString = JSON.stringify(mutations.flatMap(g => g.canonicalTargetedExons.map(e => e.exonId)))
         this.setMutations(mutations);
       }
     }, error => {

@@ -24,7 +24,6 @@ export class DeletionCoordinatesComponent implements OnInit {
   constructor(private configurationDataService: ConfigurationDataService) { }
 
   ngOnInit(): void {
-    console.log(this.mutation)
   }
 
   loadConfigurationData() {

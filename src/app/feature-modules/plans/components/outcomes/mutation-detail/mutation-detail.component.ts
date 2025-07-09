@@ -54,25 +54,35 @@ export class MutationDetailComponent implements OnInit {
 
   geneSymbols = [];
 
-  selectedOption: boolean;
+  selectedOption: boolean = true;
 
   editCoordinatesChecked: boolean;
+
+  form: FormGroup;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private mutationService: MutationService,
     private configurationDataService: ConfigurationDataService,
     public dialog: MatDialog,
-    private inputHandlerService: InputHandlerService) {
+    private inputHandlerService: InputHandlerService,
+    private fb: FormBuilder) {
+    this.form = this.fb.group({
+      cb: [true,false] // default selected
+    });
   }
 
   ngOnInit(): void {
+    debugger
     this.showGeneMessageError = false;
     this.editCoordinatesChecked = false;
     this.selectedOption = this.mutation.isMutationDeletionChecked
+    this.form.get('cb')?.setValue(this.selectedOption );  // Set to checked
+
     this.loadConfigurationData();
     this.setMutationCategorizationsData();
-    this.shouldSuggestSymbol = this.mutation.symbol ? false : true;
+    this.shouldSuggestSymbol = !this.mutation.symbol;
     this.geneSymbols = this.mutation.genes.map(x => x.symbol);
     this.mutationForm = this.formBuilder.group({
       abbreviation: []
