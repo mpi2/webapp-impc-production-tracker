@@ -224,31 +224,31 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-    const originalSequences = JSON.parse(this.originalSequenceAsString);
-    const originalDeletions = JSON.parse(this.originalMutationDeletionsAsString);
+
+    const currentMutations = this.outcome.mutations.filter(m => m.min);
     const originalMutations = JSON.parse(this.originalMutationsAsString);
 
-    const mutationsToUpdate = this.outcome.mutations
-      .map((mutation, index) => {
-        if (!mutation.min) return null;
+    const mutationsToUpdate = currentMutations
+      .map((mutation) => {
+        const originalMutation = originalMutations.find(orig => orig.id === mutation.id);
+        if (!originalMutation) return null;
 
-        const originalMutation = originalMutations[index];
+        // Compare mutationSequences and molecularMutationDeletions
+        const sequenceChanged = JSON.stringify(mutation.mutationSequences) !== JSON.stringify(originalMutation.mutationSequences);
+        const deletionChanged = JSON.stringify(mutation.molecularMutationDeletions) !== JSON.stringify(originalMutation.molecularMutationDeletions);
 
-        // Check sequences and deletions changes
-        const sequenceChanged = JSON.stringify(mutation.mutationSequences) !== JSON.stringify(originalSequences[index]);
-        const deletionChanged = JSON.stringify(mutation.molecularMutationDeletions) !== JSON.stringify(originalDeletions[index]);
-
-        // Check if anything else changed by comparing mutation to originalMutation except sequences and deletions
+        // Compare other fields (excluding sequences and deletions)
         const mutationCopy = { ...mutation };
         delete mutationCopy.mutationSequences;
         delete mutationCopy.molecularMutationDeletions;
 
-        const originalMutationCopy = { ...originalMutation };
-        delete originalMutationCopy.mutationSequences;
-        delete originalMutationCopy.molecularMutationDeletions;
+        const originalCopy = { ...originalMutation };
+        delete originalCopy.mutationSequences;
+        delete originalCopy.molecularMutationDeletions;
 
-        const otherChanges = JSON.stringify(mutationCopy) !== JSON.stringify(originalMutationCopy);
+        const otherChanges = JSON.stringify(mutationCopy) !== JSON.stringify(originalCopy);
 
+        // Build the updated mutation based on what changed
         if (sequenceChanged) {
           return {
             ...mutation,
@@ -272,10 +272,13 @@ export class OutcomeDetailComponent implements OnInit {
         if (otherChanges) {
           return mutation;
         }
+
+        // No update needed
         return null;
       })
       .filter(m => m !== null);
 
+    // Send updates
     mutationsToUpdate.forEach(mutation => {
       this.mutationService.updateMutation(mutation).subscribe(
         (changeResponse: ChangeResponse) => {
@@ -288,6 +291,7 @@ export class OutcomeDetailComponent implements OnInit {
       );
     });
   }
+
 
 
   createMutations() {
