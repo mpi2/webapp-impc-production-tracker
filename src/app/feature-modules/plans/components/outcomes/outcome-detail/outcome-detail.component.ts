@@ -226,19 +226,28 @@ export class OutcomeDetailComponent implements OnInit {
   updateMutations() {
     const originalSequences = JSON.parse(this.originalSequenceAsString);
     const originalDeletions = JSON.parse(this.originalMutationDeletionsAsString);
+    const originalMutations = JSON.parse(this.originalMutationsAsString);
 
     const mutationsToUpdate = this.outcome.mutations
       .map((mutation, index) => {
         if (!mutation.min) return null;
 
-        const currentSequence = JSON.stringify(mutation.mutationSequences);
-        const originalSequence = JSON.stringify(originalSequences[index]);
+        const originalMutation = originalMutations[index];
 
-        const currentDeletions = JSON.stringify(mutation.molecularMutationDeletions);
-        const originalDeletion = JSON.stringify(originalDeletions[index]);
+        // Check sequences and deletions changes
+        const sequenceChanged = JSON.stringify(mutation.mutationSequences) !== JSON.stringify(originalSequences[index]);
+        const deletionChanged = JSON.stringify(mutation.molecularMutationDeletions) !== JSON.stringify(originalDeletions[index]);
 
-        const sequenceChanged = currentSequence !== originalSequence;
-        const deletionChanged = currentDeletions !== originalDeletion;
+        // Check if anything else changed by comparing mutation to originalMutation except sequences and deletions
+        const mutationCopy = { ...mutation };
+        delete mutationCopy.mutationSequences;
+        delete mutationCopy.molecularMutationDeletions;
+
+        const originalMutationCopy = { ...originalMutation };
+        delete originalMutationCopy.mutationSequences;
+        delete originalMutationCopy.molecularMutationDeletions;
+
+        const otherChanges = JSON.stringify(mutationCopy) !== JSON.stringify(originalMutationCopy);
 
         if (sequenceChanged) {
           return {
@@ -260,7 +269,10 @@ export class OutcomeDetailComponent implements OnInit {
           };
         }
 
-        return null; // No update needed
+        if (otherChanges) {
+          return mutation;
+        }
+        return null;
       })
       .filter(m => m !== null);
 
@@ -276,6 +288,7 @@ export class OutcomeDetailComponent implements OnInit {
       );
     });
   }
+
 
   createMutations() {
     if (this.outcome.mutations) {
