@@ -17,6 +17,7 @@ export class Mutation {
   mutationSequences: any[] = [];
   molecularMutationDeletions: any[] = [];
   targetedExons: any[] = [];
+  canonicalTargetedExons: any[] = [];
   alignedFastas: any[] = [];
   insertionSequences: any[] = [];
   mutationCategorizations: any[] = [];
@@ -25,6 +26,6 @@ export class Mutation {
   symbolSuggestionRequest: any;
   description: string;
   qcNote: string;
-  isManualMutationDeletion: boolean;
   isMutationDeletionChecked: boolean;
+  isDeletionCoordinatesUpdatedManually: boolean;
 }

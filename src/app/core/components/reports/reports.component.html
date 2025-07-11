@@ -115,8 +115,8 @@
         </button>
       </div>
     </mat-tab>
-    <mat-tab bodyClass="tab" label="Deletion Coordinates" *ngIf="false">
-      <h3>Deletion Coordinates</h3>
+    <mat-tab bodyClass="tab" label="Crispr Alleles">
+      <h3>Deletions and Exons Identified for Crispr Alleles</h3>
       <div class="controls-container">
         <mat-form-field>
           <mat-label>Work unit</mat-label>
@@ -139,13 +139,12 @@
         <button
           mat-raised-button
           color="primary"
-          (click)="downloadDeletionCoordinatesReport()"
+          (click)="downloadCrisprAllelesReport()"
         >
           Download report
         </button>
       </div>
       <div>
-        <mat-hint>Please select a value in both selects to enable the download</mat-hint>
       </div>
     </mat-tab>
   </mat-tab-group>

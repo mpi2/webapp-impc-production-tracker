@@ -1,7 +1,7 @@
 <mat-accordion>
   <mat-expansion-panel [expanded]="true">
     <mat-expansion-panel-header>
-      <mat-panel-title>Calculated Deletion Coordinates</mat-panel-title>
+      <mat-panel-title style="font-weight: bold">Deletion Coordinates</mat-panel-title>
     </mat-expansion-panel-header>
 
 
@@ -16,7 +16,7 @@
       </thead>
       <tbody>
       <ng-container *ngFor="let molecularMutationDeletion of mutation.molecularMutationDeletions">
-        <div *ngIf="mutation.isMutationDeletionChecked || !canUpdate; then readOnlyFields else editableFields"></div>
+        <div *ngIf="!editCoordinatesChecked || !canUpdate; then readOnlyFields else editableFields"></div>
         <ng-template #editableFields>
           <tr>
             <td>
@@ -40,6 +40,11 @@
                 <input matInput [(ngModel)]="molecularMutationDeletion.size" [ngModelOptions]="{standalone: true}">
               </mat-form-field>
             </td>
+            <td>
+              <button type="button" (click)="deleteInsertedCoordinates(molecularMutationDeletion)">
+                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+              </button>
+            </td>
           </tr>
         </ng-template>
         <ng-template #readOnlyFields>
@@ -61,8 +66,10 @@
         </ng-template>
 
       </ng-container>
+
+          <button  class="create-button" mat-raised-button (click)="addDeletionCoordinates()" color="primary" type="button"
+                   *ngIf="editCoordinatesChecked && canUpdate;">Add Coordinate</button>
       </tbody>
-      <span style="font-size: 12px; color: red ">**Calculated deletion coordinates are refreshed every 24 hours</span>
     </table>
 
   </mat-expansion-panel>

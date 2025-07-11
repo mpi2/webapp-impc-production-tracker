@@ -8,7 +8,10 @@ import {IndexedSequence} from 'src/app/feature-modules/sequences';
 import {MatDialog} from '@angular/material/dialog';
 import {InputHandlerService} from 'src/app/core/services/input-handler.service';
 import {DeleteConfirmationComponent} from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
+import {CoordinatesEditConfirmationComponent} from 'src/app/shared/components/coordinates-edit-confirmation/coordinates-edit-confirmation.component';
 import {Outcome} from '../../../model/outcomes/outcome';
+import {InsertedSequence} from "../../../../sequences/model/inserted-sequence";
+import {InsertedCoordinates} from "../../../../sequences/model/inserted-coordinates";
 
 
 @Component({
@@ -51,19 +54,34 @@ export class MutationDetailComponent implements OnInit {
 
   geneSymbols = [];
 
+  selectedOption: boolean = true;
+
+  editCoordinatesChecked: boolean;
+
+  form: FormGroup;
+
+
   constructor(
     private formBuilder: FormBuilder,
     private mutationService: MutationService,
     private configurationDataService: ConfigurationDataService,
     public dialog: MatDialog,
-    private inputHandlerService: InputHandlerService) {
+    private inputHandlerService: InputHandlerService,
+    private fb: FormBuilder) {
+    this.form = this.fb.group({
+      cb: [true,false] // default selected
+    });
   }
 
   ngOnInit(): void {
     this.showGeneMessageError = false;
+    this.editCoordinatesChecked = false;
+    this.selectedOption = this.mutation.isMutationDeletionChecked
+    this.form.get('cb')?.setValue(this.selectedOption );  // Set to checked
+
     this.loadConfigurationData();
     this.setMutationCategorizationsData();
-    this.shouldSuggestSymbol = this.mutation.symbol ? false : true;
+    this.shouldSuggestSymbol = !this.mutation.symbol;
     this.geneSymbols = this.mutation.genes.map(x => x.symbol);
     this.mutationForm = this.formBuilder.group({
       abbreviation: []
@@ -202,11 +220,41 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
+  showCoordinatesEditConfirmationDialog(e) {
+    const dialogRef = this.dialog.open(CoordinatesEditConfirmationComponent, {
+      width: '900px',
+      height: '250px',
+      data: {confirmed: false}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.editCoordinatesChecked = true;
+        e.disable =true;
+      }
+    });
+  }
+
   onDeleteSequence(indexedSequence: IndexedSequence) {
     if (this.isNewRecord(indexedSequence)) {
       this.deleteSequence(indexedSequence);
     } else {
       this.showDeleteConfirmationDialog(indexedSequence);
+    }
+  }
+
+  onDeleteInsertionSequence(insertedSequence: InsertedSequence) {
+    if (this.isNewInsertedSequenceRecord(insertedSequence)) {
+      this.deleteInsertedSequence(insertedSequence);
+    } else {
+      this.showInsertionSequenceDeleteConfirmationDialog(insertedSequence);
+    }
+  }
+
+  onDeleteDeletionCoordinates(insertedCoordinates: InsertedCoordinates) {
+    if (this.isNewInsertedCoordinatesRecord(insertedCoordinates)) {
+      this.deleteInsertedCoordinates(insertedCoordinates);
+    } else {
+      this.showInsertionCoordinatesDeleteConfirmationDialog(insertedCoordinates);
     }
   }
 
@@ -220,6 +268,28 @@ export class MutationDetailComponent implements OnInit {
     }
   }
 
+  deleteInsertedSequence(insertedSequence: InsertedSequence) {
+    if (this.isNewInsertedSequenceRecord(insertedSequence)) {
+      this.mutation.insertionSequences = this.mutation.insertionSequences
+        .filter(x => x[this.tmpIndexRowName] !== insertedSequence[this.tmpIndexRowName]);
+    } else {
+      this.mutation.insertionSequences = this.mutation.insertionSequences
+        .filter(x => x.id !== insertedSequence.id);
+    }
+  }
+
+  deleteInsertedCoordinates(insertedCoordinates: InsertedCoordinates) {
+    if (this.isNewInsertedCoordinatesRecord(insertedCoordinates)) {
+      this.mutation.molecularMutationDeletions = this.mutation.molecularMutationDeletions
+        .filter(x => x[this.tmpIndexRowName] !== insertedCoordinates[this.tmpIndexRowName]);
+    } else {
+      this.mutation.molecularMutationDeletions = this.mutation.molecularMutationDeletions
+        .filter(x => x.id !== insertedCoordinates.id);
+    }
+  }
+
+
+
   showDeleteConfirmationDialog(indexedSequence: IndexedSequence) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '250px',
@@ -232,6 +302,29 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
+  showInsertionSequenceDeleteConfirmationDialog(insertedSequence: InsertedSequence) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '250px',
+      data: {confirmed: false}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteInsertedSequence(insertedSequence);
+      }
+    });
+  }
+
+  showInsertionCoordinatesDeleteConfirmationDialog(insertedCoordinates: InsertedCoordinates) {
+    const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
+      width: '250px',
+      data: {confirmed: false}
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.deleteInsertedCoordinates(insertedCoordinates);
+      }
+    });
+  }
   onDescriptionChanged(e) {
     this.mutation.description = this.inputHandlerService.getValueOrNull(e.target.value);
   }
@@ -244,8 +337,25 @@ export class MutationDetailComponent implements OnInit {
     return indexedSequence.id === null;
   }
 
-  dataChanged(e) {
-    this.mutation.isMutationDeletionChecked = e.checked;
+  private isNewInsertedSequenceRecord(insertedSequence: InsertedSequence) {
+    return insertedSequence.id === null;
+  }
+
+  private isNewInsertedCoordinatesRecord(insertedCoordinates: InsertedCoordinates) {
+    return insertedCoordinates.id === null;
+  }
+
+  dataChanged(newSelection: true | false) {
+    this.selectedOption = newSelection;
+    this.mutation.isMutationDeletionChecked = newSelection;
+  }
+
+  onEditCoordinates(e) {
+      this.showCoordinatesEditConfirmationDialog(e);
+  }
+
+  onCancelEditCoordinates(e) {
+    this.editCoordinatesChecked = false;
   }
 
 }

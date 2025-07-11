@@ -52,7 +52,7 @@ export class ReportsComponent {
     link.href = `${this.apiServiceUrl}/api/reports/distribution?networkname=${this.rridAutocompleteFormControl.value}&reporttype=${this.rridReportType}`;
     link.click();
   }
-  downloadDeletionCoordinatesReport() {
+  downloadCrisprAllelesReport() {
     const link =  document.createElement('a');
     link.href = `${this.apiServiceUrl}/api/reports/mutation/genome_browser_combined?workUnit=${this.attemptWorkUnitSelected}`;
     link.click();

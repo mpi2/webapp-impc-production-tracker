@@ -2,20 +2,18 @@ import {Component, OnInit, Input} from '@angular/core';
 import {Mutation} from 'src/app/feature-modules/plans/model/outcomes/mutation';
 
 @Component({
-  selector: 'app-targeted-exons',
-  templateUrl: './targeted-exons.component.html',
-  styleUrls: ['./targeted-exons.component.css']
+  selector: 'app-canonical-targeted-exons',
+  templateUrl: './canonical-targeted-exons.component.html',
+  styleUrls: ['./canonical-targeted-exons.component.css']
 })
-export class TargetedExonsComponent implements OnInit {
+export class CanonicalTargetedExonsComponent implements OnInit {
   @Input() mutation: Mutation;
-  @Input() canUpdate: boolean;
-  @Input() editCoordinatesChecked: boolean;
-
   constructor() {
   }
 
+
   ngOnInit(): void {
-    this.mutation.targetedExons.forEach(exon => {
+    this.mutation.canonicalTargetedExons.forEach(exon => {
       exon.transcriptsParsed = exon.transcript
         ? exon.transcript.split(',').map(t => {
           const [name, transcriptId] = t.split('__');
