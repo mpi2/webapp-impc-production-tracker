@@ -225,22 +225,31 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-    const originalSequences = JSON.parse(this.originalSequenceAsString);
-    const originalDeletions = JSON.parse(this.originalMutationDeletionsAsString);
 
-    const mutationsToUpdate = this.outcome.mutations
-      .map((mutation, index) => {
-        if (!mutation.min) return null;
+    const currentMutations = this.outcome.mutations.filter(m => m.min);
+    const originalMutations = JSON.parse(this.originalMutationsAsString);
 
-        const currentSequence = JSON.stringify(mutation.mutationSequences);
-        const originalSequence = JSON.stringify(originalSequences[index]);
+    const mutationsToUpdate = currentMutations
+      .map((mutation) => {
+        const originalMutation = originalMutations.find(orig => orig.id === mutation.id);
+        if (!originalMutation) return null;
 
-        const currentDeletions = JSON.stringify(mutation.molecularMutationDeletions);
-        const originalDeletion = JSON.stringify(originalDeletions[index]);
+        // Compare mutationSequences and molecularMutationDeletions
+        const sequenceChanged = JSON.stringify(mutation.mutationSequences) !== JSON.stringify(originalMutation.mutationSequences);
+        const deletionChanged = JSON.stringify(mutation.molecularMutationDeletions) !== JSON.stringify(originalMutation.molecularMutationDeletions);
 
-        const sequenceChanged = currentSequence !== originalSequence;
-        const deletionChanged = currentDeletions !== originalDeletion;
+        // Compare other fields (excluding sequences and deletions)
+        const mutationCopy = { ...mutation };
+        delete mutationCopy.mutationSequences;
+        delete mutationCopy.molecularMutationDeletions;
 
+        const originalCopy = { ...originalMutation };
+        delete originalCopy.mutationSequences;
+        delete originalCopy.molecularMutationDeletions;
+
+        const otherChanges = JSON.stringify(mutationCopy) !== JSON.stringify(originalCopy);
+
+        // Build the updated mutation based on what changed
         if (sequenceChanged) {
           return {
             ...mutation,
@@ -261,10 +270,16 @@ export class OutcomeDetailComponent implements OnInit {
           };
         }
 
-        return null; // No update needed
+        if (otherChanges) {
+          return mutation;
+        }
+
+        // No update needed
+        return null;
       })
       .filter(m => m !== null);
 
+    // Send updates
     mutationsToUpdate.forEach(mutation => {
       this.mutationService.updateMutation(mutation).subscribe(
         (changeResponse: ChangeResponse) => {
@@ -277,6 +292,8 @@ export class OutcomeDetailComponent implements OnInit {
       );
     });
   }
+
+
 
   createMutations() {
     if (this.outcome.mutations) {
