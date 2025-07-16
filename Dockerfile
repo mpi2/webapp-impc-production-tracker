@@ -25,7 +25,7 @@ ENV NODE_OPTIONS="--max_old_space_size=4096"
 # Build the Angular app in production mode and store the artifacts in the 'dist' folder
 RUN node_modules/.bin/ng lint && \
     npm audit --omit=dev && \
-    node_modules/.bin/ng build --configuration=production --build-optimizer --output-path=./dist/out --base-href ./ --deploy-url ./
+    node_modules/.bin/ng build --configuration=production --output-path=./dist/out --base-href ./ --deploy-url ./
 
 ## Stage 2, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:mainline-alpine
