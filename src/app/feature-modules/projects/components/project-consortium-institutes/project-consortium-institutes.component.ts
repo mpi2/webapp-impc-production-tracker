@@ -9,21 +9,22 @@ import { InstitutesConsortium, Project } from 'src/app/model';
 
 
 @Component({
-  selector: 'app-project-consortium-institutes',
-  templateUrl: './project-consortium-institutes.component.html',
-  styleUrls: ['./project-consortium-institutes.component.css'],
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ProjectConsortiumInstitutesComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ProjectConsortiumInstitutesComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-project-consortium-institutes',
+    templateUrl: './project-consortium-institutes.component.html',
+    styleUrls: ['./project-consortium-institutes.component.css'],
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ProjectConsortiumInstitutesComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ProjectConsortiumInstitutesComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ProjectConsortiumInstitutesComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() projectConsortia: InstitutesConsortium[];

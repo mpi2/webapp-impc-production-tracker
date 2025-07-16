@@ -3,9 +3,10 @@ import { ChangesHistory } from 'src/app/core';
 import { MAT_SNACK_BAR_DATA } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-update-notification',
-  templateUrl: './update-notification.component.html',
-  styleUrls: ['./update-notification.component.css']
+    selector: 'app-update-notification',
+    templateUrl: './update-notification.component.html',
+    styleUrls: ['./update-notification.component.css'],
+    standalone: false
 })
 export class UpdateNotificationComponent implements OnInit {
 

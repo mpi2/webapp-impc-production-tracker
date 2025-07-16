@@ -4,9 +4,10 @@ import { PlanService } from '../..';
 import { Plan } from '../../model/plan';
 
 @Component({
-  selector: 'app-plan-router',
-  templateUrl: './plan-router.component.html',
-  styleUrls: ['./plan-router.component.css']
+    selector: 'app-plan-router',
+    templateUrl: './plan-router.component.html',
+    styleUrls: ['./plan-router.component.css'],
+    standalone: false
 })
 export class PlanRouterComponent implements OnInit {
   error;

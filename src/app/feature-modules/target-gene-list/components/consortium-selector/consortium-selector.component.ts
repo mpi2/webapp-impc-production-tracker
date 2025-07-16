@@ -5,9 +5,10 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MessageService } from 'src/app/core/services/message.service';
 
 @Component({
-  selector: 'app-consortium-selector',
-  templateUrl: './consortium-selector.component.html',
-  styleUrls: ['./consortium-selector.component.css']
+    selector: 'app-consortium-selector',
+    templateUrl: './consortium-selector.component.html',
+    styleUrls: ['./consortium-selector.component.css'],
+    standalone: false
 })
 export class ConsortiumSelectorComponent implements OnInit {
 

@@ -4,9 +4,10 @@ import { Outcome } from '../../../model/outcomes/outcome';
 import { MutationService } from '../../../services/mutation.service';
 
 @Component({
-  selector: 'app-outcome-summary',
-  templateUrl: './outcome-summary.component.html',
-  styleUrls: ['./outcome-summary.component.css']
+    selector: 'app-outcome-summary',
+    templateUrl: './outcome-summary.component.html',
+    styleUrls: ['./outcome-summary.component.css'],
+    standalone: false
 })
 export class OutcomeSummaryComponent implements OnInit {
   @Input() outcome: Outcome;

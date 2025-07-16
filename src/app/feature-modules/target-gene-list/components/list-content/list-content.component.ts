@@ -15,9 +15,10 @@ import { Page } from 'src/app/model/page_structure/page';
 import { Sort } from 'src/app/model/page_structure/sort';
 
 @Component({
-  selector: 'app-list-content',
-  templateUrl: './list-content.component.html',
-  styleUrls: ['./list-content.component.css']
+    selector: 'app-list-content',
+    templateUrl: './list-content.component.html',
+    styleUrls: ['./list-content.component.css'],
+    standalone: false
 })
 export class ListContentComponent implements OnInit, AfterViewInit, OnDestroy {
 

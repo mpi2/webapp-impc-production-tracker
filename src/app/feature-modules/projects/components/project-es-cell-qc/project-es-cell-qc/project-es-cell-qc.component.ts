@@ -8,21 +8,22 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 
 
 @Component({
-  selector: 'app-project-es-cell-qc',
-  templateUrl: './project-es-cell-qc.component.html',
-  styleUrls: ['./project-es-cell-qc.component.css'],
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ProjectEsCellQcComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ProjectEsCellQcComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-project-es-cell-qc',
+    templateUrl: './project-es-cell-qc.component.html',
+    styleUrls: ['./project-es-cell-qc.component.css'],
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ProjectEsCellQcComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ProjectEsCellQcComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ProjectEsCellQcComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() esCellQc: EsCellQc;

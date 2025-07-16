@@ -15,9 +15,10 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
 
 
 @Component({
-  selector: 'app-production-plan',
-  templateUrl: './production-plan.component.html',
-  styleUrls: ['./production-plan.component.css']
+    selector: 'app-production-plan',
+    templateUrl: './production-plan.component.html',
+    styleUrls: ['./production-plan.component.css'],
+    standalone: false
 })
 export class ProductionPlanComponent implements OnInit {
 

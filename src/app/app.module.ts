@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule, APP_INITIALIZER } from '@angular/core';
+import { NgModule, inject, provideAppInitializer } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CoreModule } from './core/core.module';
@@ -48,12 +48,10 @@ import { NgChartsModule } from 'ng2-charts';
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: BearerTokenAuth, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    {
-      provide: APP_INITIALIZER,
-      useFactory: (configService: ConfigAssetLoaderService) => () => configService.getConfig(),
-      deps: [ConfigAssetLoaderService],
-      multi: true
-    },
+    provideAppInitializer(() => {
+        const initializerFn = ((configService: ConfigAssetLoaderService) => () => configService.getConfig())(inject(ConfigAssetLoaderService));
+        return initializerFn();
+      }),
     {
       provide: BASE_API_URL_TOKEN,
       useFactory: (config: ConfigAssetLoaderService) => config.baseUrl,

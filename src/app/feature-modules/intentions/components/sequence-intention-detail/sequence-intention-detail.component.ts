@@ -3,9 +3,10 @@ import { IntentionBySequence } from 'src/app/model';
 import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-sequence-intention-detail',
-  templateUrl: './sequence-intention-detail.component.html',
-  styleUrls: ['./sequence-intention-detail.component.css']
+    selector: 'app-sequence-intention-detail',
+    templateUrl: './sequence-intention-detail.component.html',
+    styleUrls: ['./sequence-intention-detail.component.css'],
+    standalone: false
 })
 export class SequenceIntentionDetailComponent implements OnInit {
   @Input() intentionBySequence: IntentionBySequence;

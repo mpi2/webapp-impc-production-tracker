@@ -9,9 +9,10 @@ import { Sort } from 'src/app/model/page_structure/sort';
 import { ProjectIntention } from 'src/app/feature-modules/projects/model/project-intention';
 
 @Component({
-  selector: 'app-search-content',
-  templateUrl: './search-content.component.html',
-  styleUrls: ['./search-content.component.css']
+    selector: 'app-search-content',
+    templateUrl: './search-content.component.html',
+    styleUrls: ['./search-content.component.css'],
+    standalone: false
 })
 export class SearchContentComponent implements OnInit, OnDestroy {
   @Input() search: Search;

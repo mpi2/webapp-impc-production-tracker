@@ -9,9 +9,10 @@ import { UpdateNotificationComponent } from '../update-notification/update-notif
 import { ProjectService } from '../../../projects';
 
 @Component({
-  selector: 'app-phenotyping-plan',
-  templateUrl: './phenotyping-plan.component.html',
-  styleUrls: ['./phenotyping-plan.component.css']
+    selector: 'app-phenotyping-plan',
+    templateUrl: './phenotyping-plan.component.html',
+    styleUrls: ['./phenotyping-plan.component.css'],
+    standalone: false
 })
 export class PhenotypingPlanComponent implements OnInit {
 

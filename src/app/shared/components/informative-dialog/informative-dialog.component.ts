@@ -7,9 +7,10 @@ interface Message {
 }
 
 @Component({
-  selector: 'app-informative-dialog',
-  templateUrl: './informative-dialog.component.html',
-  styleUrls: ['./informative-dialog.component.css']
+    selector: 'app-informative-dialog',
+    templateUrl: './informative-dialog.component.html',
+    styleUrls: ['./informative-dialog.component.css'],
+    standalone: false
 })
 export class InformativeDialogComponent implements OnInit {
 

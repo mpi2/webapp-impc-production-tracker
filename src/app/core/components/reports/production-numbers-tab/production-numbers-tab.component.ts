@@ -8,7 +8,7 @@ import {
   startWith,
   switchMap, tap,
 } from "rxjs/operators";
-import * as moment from "moment/moment";
+import moment from "moment";
 import { Moment } from "moment/moment";
 import { MatDatepicker, MatDatepickerInputEvent } from "@angular/material/datepicker";
 import { ChartConfiguration } from "chart.js";
@@ -41,17 +41,18 @@ const MY_FORMATS = {
 };
 
 @Component({
-  selector: 'app-production-numbers-tab',
-  templateUrl: './production-numbers-tab.component.html',
-  styleUrls: ['./production-numbers-tab.scss'],
-  providers: [
-    {
-      provide: DateAdapter,
-      useClass: MomentDateAdapter,
-      deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
-    },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
-  ]
+    selector: 'app-production-numbers-tab',
+    templateUrl: './production-numbers-tab.component.html',
+    styleUrls: ['./production-numbers-tab.scss'],
+    providers: [
+        {
+            provide: DateAdapter,
+            useClass: MomentDateAdapter,
+            deps: [MAT_DATE_LOCALE, MAT_MOMENT_DATE_ADAPTER_OPTIONS]
+        },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS }
+    ],
+    standalone: false
 })
 export class ProductionNumbersTabComponent implements OnInit {
   apiServiceUrl: string;
@@ -252,8 +253,8 @@ export class ProductionNumbersTabComponent implements OnInit {
     link.download = 'report-chart';
     if (this.workUnitControl.value) {
       link.download += `-${this.workUnitControl.value}`;
-    } else if (this.multipleWorkUnitControl.value) {
-      link.download += `${this.multipleWorkUnitControl.value.join('-')}-`;
+    } else if (this.multipleWorkUnitControl.value.length) {
+      link.download += `-${this.multipleWorkUnitControl.value.join('-')}`;
     }
     if (this.workGroupControl.value) {
       link.download += `-${this.workGroupControl.value}`;

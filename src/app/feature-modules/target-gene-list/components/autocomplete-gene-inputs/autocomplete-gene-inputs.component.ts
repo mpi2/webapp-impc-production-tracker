@@ -8,9 +8,10 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { GeneListRecord } from 'src/app/model';
 
 @Component({
-  selector: 'app-autocomplete-gene-inputs',
-  templateUrl: './autocomplete-gene-inputs.component.html',
-  styleUrls: ['./autocomplete-gene-inputs.component.css']
+    selector: 'app-autocomplete-gene-inputs',
+    templateUrl: './autocomplete-gene-inputs.component.html',
+    styleUrls: ['./autocomplete-gene-inputs.component.css'],
+    standalone: false
 })
 export class AutocompleteGeneInputsComponent implements OnInit {
 

@@ -5,9 +5,10 @@ import {FilterService} from '../../services/filter.service';
 import {FilterType} from '../../model/filter-type';
 
 @Component({
-  selector: 'app-filter-container',
-  templateUrl: './filter-container.component.html',
-  styleUrls: ['./filter-container.component.css'],
+    selector: 'app-filter-container',
+    templateUrl: './filter-container.component.html',
+    styleUrls: ['./filter-container.component.css'],
+    standalone: false
 })
 
 export class FilterContainerComponent implements OnInit {

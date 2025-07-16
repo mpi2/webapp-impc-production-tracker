@@ -7,9 +7,10 @@ import { OutcomeService } from 'src/app/feature-modules/plans/services/outcome.s
 import { PhenotypingStageService } from 'src/app/feature-modules/plans/services/phenotyping-stage.service';
 
 @Component({
-  selector: 'app-history',
-  templateUrl: './history.component.html',
-  styleUrls: ['./history.component.css']
+    selector: 'app-history',
+    templateUrl: './history.component.html',
+    styleUrls: ['./history.component.css'],
+    standalone: false
 })
 export class HistoryComponent implements OnInit {
 

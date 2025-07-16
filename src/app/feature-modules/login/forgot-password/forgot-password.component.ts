@@ -5,9 +5,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/core/services/authentication.service';
 
 @Component({
-  selector: 'app-forgot-password',
-  templateUrl: './forgot-password.component.html',
-  styleUrls: ['./forgot-password.component.css']
+    selector: 'app-forgot-password',
+    templateUrl: './forgot-password.component.html',
+    styleUrls: ['./forgot-password.component.css'],
+    standalone: false
 })
 export class ForgotPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;

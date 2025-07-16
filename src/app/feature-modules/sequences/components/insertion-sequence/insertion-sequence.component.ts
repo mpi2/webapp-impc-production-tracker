@@ -5,9 +5,10 @@ import { Mutation } from 'src/app/feature-modules/plans/model/outcomes/mutation'
 import {InsertedSequence} from "../../model/inserted-sequence";
 
 @Component({
-  selector: 'app-insertion-sequence',
-  templateUrl: './insertion-sequence.component.html',
-  styleUrls: ['./insertion-sequence.component.css']
+    selector: 'app-insertion-sequence',
+    templateUrl: './insertion-sequence.component.html',
+    styleUrls: ['./insertion-sequence.component.css'],
+    standalone: false
 })
 export class InsertionSequenceComponent implements OnInit {
   @Input() mutation: Mutation;

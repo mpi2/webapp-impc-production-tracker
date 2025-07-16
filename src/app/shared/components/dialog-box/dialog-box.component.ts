@@ -7,9 +7,10 @@ export interface UsersData {
 }
 
 @Component({
-  selector: 'app-dialog-box',
-  templateUrl: './dialog-box.component.html',
-  styleUrls: ['./dialog-box.component.css']
+    selector: 'app-dialog-box',
+    templateUrl: './dialog-box.component.html',
+    styleUrls: ['./dialog-box.component.css'],
+    standalone: false
 })
 export class DialogBoxComponent implements OnInit {
   action: string;

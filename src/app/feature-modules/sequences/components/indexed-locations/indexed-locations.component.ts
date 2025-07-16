@@ -8,9 +8,10 @@ import { DeleteConfirmationComponent } from 'src/app/shared/components/delete-co
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-indexed-locations',
-  templateUrl: './indexed-locations.component.html',
-  styleUrls: ['./indexed-locations.component.css']
+    selector: 'app-indexed-locations',
+    templateUrl: './indexed-locations.component.html',
+    styleUrls: ['./indexed-locations.component.css'],
+    standalone: false
 })
 export class IndexedLocationsComponent implements OnInit {
   @Input() indexedSequence: IndexedSequence;
