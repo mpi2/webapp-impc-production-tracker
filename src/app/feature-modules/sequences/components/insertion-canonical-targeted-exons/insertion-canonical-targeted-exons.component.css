@@ -1,36 +1,5 @@
-label {
-  clear: both;
-  float: left;
-  padding-bottom: 5px;
-  width: 200px;
-}
-
-table {
-  width: 100%;
-}
-
-table,
-th,
-tr,
-td {
-  padding: 10px;
-  text-align: left;
-  border-bottom-style: solid;
-  border-bottom-width: 1px;
-  border-bottom-color: rgba(0, 0, 0, 0.12);
-  font-size: 14px;
-}
-
-.separation {
-  padding-top: 10px;
-}
-
-.textarea-full-width {
-  width: 100%;
-}
-
 .exon-table {
-  width: 130%;
+  width: 100%;
   border-collapse: collapse;
   margin-bottom: 12px;
   table-layout: fixed; /* Important: enables fixed column widths */
@@ -49,13 +18,13 @@ td {
 
 .exon-table th:nth-child(1),
 .exon-table td:nth-child(1) {
-  width: 20%;
+  width: 50%;
   word-wrap: break-word;
 }
 
 .exon-table th:nth-child(2),
 .exon-table td:nth-child(2) {
-  width: 80%;
+  width: 50%;
 }
 
 .transcript-group {

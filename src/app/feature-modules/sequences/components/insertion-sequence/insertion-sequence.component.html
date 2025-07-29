@@ -25,7 +25,7 @@
                                 </textarea>
                             </mat-form-field>
                         </td>
-                      <td style="width: 20%;">
+                        <td style="width: 20%;">
                         <mat-form-field appearance="fill" class="small">
                           <input matInput [(ngModel)]="insertionSequence.location" [ngModelOptions]="{standalone: true}">
                         </mat-form-field>
@@ -36,6 +36,17 @@
                             </button>
                         </td>
                     </tr>
+
+
+                  <tr>
+                    <td colspan="3" style="padding: 0;">
+                      <div style="display: flex; gap: 16px; width: 100%;">
+                        <app-insertion-canonical-targeted-exons [insertionSequence]="insertionSequence" style="flex: 1;"></app-insertion-canonical-targeted-exons>
+                        <app-insertion-targeted-exons [insertionSequence]="insertionSequence" style="flex: 1;"></app-insertion-targeted-exons>
+                      </div>
+                    </td>
+                  </tr>
+
                 </ng-container>
                 <tr>
                     <td>
@@ -69,6 +80,9 @@
                             </mat-form-field>
                           </td>
                         </tr>
+                      <app-insertion-canonical-targeted-exons [insertionSequence]="insertionSequence"></app-insertion-canonical-targeted-exons>
+                      <br>
+                      <app-insertion-targeted-exons [insertionSequence]="insertionSequence"></app-insertion-targeted-exons>
                     </ng-container>
                 </tbody>
             </table>

@@ -1,5 +1,6 @@
 import {Gene} from 'src/app/core';
 import {QcResult} from './qc_result';
+import {InsertionSequence} from "../../../sequences/model/insertionSequence";
 
 export class Mutation {
   id: number;

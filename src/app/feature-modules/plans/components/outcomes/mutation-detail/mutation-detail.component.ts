@@ -10,7 +10,7 @@ import {InputHandlerService} from 'src/app/core/services/input-handler.service';
 import {DeleteConfirmationComponent} from 'src/app/shared/components/delete-confirmation/delete-confirmation.component';
 import {CoordinatesEditConfirmationComponent} from 'src/app/shared/components/coordinates-edit-confirmation/coordinates-edit-confirmation.component';
 import {Outcome} from '../../../model/outcomes/outcome';
-import {InsertedSequence} from "../../../../sequences/model/inserted-sequence";
+import {InsertionSequence} from "../../../../sequences/model/insertionSequence";
 import {InsertedCoordinates} from "../../../../sequences/model/inserted-coordinates";
 
 
@@ -84,6 +84,7 @@ export class MutationDetailComponent implements OnInit {
     this.setMutationCategorizationsData();
     this.shouldSuggestSymbol = !this.mutation.symbol;
     this.geneSymbols = this.mutation.genes.map(x => x.symbol);
+
     this.mutationForm = this.formBuilder.group({
       abbreviation: []
     });
@@ -243,7 +244,7 @@ export class MutationDetailComponent implements OnInit {
     }
   }
 
-  onDeleteInsertionSequence(insertedSequence: InsertedSequence) {
+  onDeleteInsertionSequence(insertedSequence: InsertionSequence) {
     if (this.isNewInsertedSequenceRecord(insertedSequence)) {
       this.deleteInsertedSequence(insertedSequence);
     } else {
@@ -269,7 +270,7 @@ export class MutationDetailComponent implements OnInit {
     }
   }
 
-  deleteInsertedSequence(insertedSequence: InsertedSequence) {
+  deleteInsertedSequence(insertedSequence: InsertionSequence) {
     if (this.isNewInsertedSequenceRecord(insertedSequence)) {
       this.mutation.insertionSequences = this.mutation.insertionSequences
         .filter(x => x[this.tmpIndexRowName] !== insertedSequence[this.tmpIndexRowName]);
@@ -303,7 +304,7 @@ export class MutationDetailComponent implements OnInit {
     });
   }
 
-  showInsertionSequenceDeleteConfirmationDialog(insertedSequence: InsertedSequence) {
+  showInsertionSequenceDeleteConfirmationDialog(insertedSequence: InsertionSequence) {
     const dialogRef = this.dialog.open(DeleteConfirmationComponent, {
       width: '250px',
       data: {confirmed: false}
@@ -338,7 +339,7 @@ export class MutationDetailComponent implements OnInit {
     return indexedSequence.id === null;
   }
 
-  private isNewInsertedSequenceRecord(insertedSequence: InsertedSequence) {
+  private isNewInsertedSequenceRecord(insertedSequence: InsertionSequence) {
     return insertedSequence.id === null;
   }
 
