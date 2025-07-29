@@ -75,6 +75,7 @@ export class MutationDetailComponent implements OnInit {
   }
 
   ngOnInit(): void {
+
     this.showGeneMessageError = false;
     this.editCoordinatesChecked = false;
     this.selectedOption = this.mutation.isMutationDeletionChecked

@@ -20,7 +20,7 @@ export class Mutation {
   targetedExons: any[] = [];
   canonicalTargetedExons: any[] = [];
   alignedFastas: any[] = [];
-  insertionSequences: any[] = [];
+  insertionSequences: InsertionSequence[] = [];
   mutationCategorizations: any[] = [];
   genes: Gene[] = [];
   calculatedMgiAlleleSymbol: string;
