@@ -1,92 +1,106 @@
 <mat-accordion>
-    <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header>
-            <mat-panel-title style="font-weight: bold">Insertion sequence(s)</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div *ngIf="canUpdate; then editable else readOnly"></div>
-        <ng-template #editable>
-            <table class="mat-elevation-z8">
-              <thead>
-              <tr>
-                <th style="width: 80%;">Sequence</th>
-                <th style="width: 20%;">Location</th>
-              </tr>
+  <mat-expansion-panel [expanded]="true">
+    <mat-expansion-panel-header>
+      <mat-panel-title style="font-weight: bold">Insertion sequence(s)</mat-panel-title>
+    </mat-expansion-panel-header>
+    <div *ngIf="canUpdate; then editable else readOnly"></div>
+    <ng-template #editable>
+      <table class="mat-elevation-z8">
+        <thead>
+        <tr>
+          <th style="width: 80%;">Sequence</th>
+          <th style="width: 20%;">Location</th>
+        </tr>
 
-              </thead>
-              <tbody>
-                <ng-container *ngFor="let insertionSequence of mutation.insertionSequences">
-                    <tr>
-                        <td style="width: 80%;">
-                            <mat-form-field appearance="fill" class="textarea-full-width">
+        </thead>
+        <tbody>
+
+        <ng-container *ngFor="let insertionSequence of mutation.insertionSequences">
+          <tr>
+            <td style="width: 80%;">
+              <mat-form-field appearance="fill" class="textarea-full-width">
                                 <textarea matInput
-                                    matTextareaAutosize
-                                    [(ngModel)]="insertionSequence.sequence"
-                                    [ngModelOptions]="{standalone: true}">
+                                          matTextareaAutosize
+                                          [(ngModel)]="insertionSequence.sequence"
+                                          [ngModelOptions]="{standalone: true}">
                                 </textarea>
-                            </mat-form-field>
-                        </td>
-                        <td style="width: 20%;">
-                        <mat-form-field appearance="fill" class="small">
-                          <input matInput [(ngModel)]="insertionSequence.location" [ngModelOptions]="{standalone: true}">
-                        </mat-form-field>
-                      </td>
-                        <td>
-                            <button type="button" (click)="deleteSequence(insertionSequence)">
-                                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
-                            </button>
-                        </td>
-                    </tr>
+              </mat-form-field>
+            </td>
+            <td style="width: 20%;">
+              <mat-form-field appearance="fill" class="small">
+                <input matInput [(ngModel)]="insertionSequence.location" [ngModelOptions]="{standalone: true}">
+              </mat-form-field>
+            </td>
+            <td>
+              <button type="button" (click)="deleteSequence(insertionSequence)">
+                <mat-icon aria-hidden="false" aria-label="icon">delete</mat-icon>
+              </button>
+            </td>
+          </tr>
 
+          <div *ngIf="insertionSequence.insertionCanonicalTargetedExons?.length > 0 || insertionSequence.insertionTargetedExons?.length > 0">
+          <tr>
+            <td colspan="3" style="padding: 0;">
+              <div style="display: flex; gap: 16px; width: 100%;">
+                <app-insertion-canonical-targeted-exons [insertionSequence]="insertionSequence"
+                                                        style="flex: 1;"></app-insertion-canonical-targeted-exons>
+                <app-insertion-targeted-exons [insertionSequence]="insertionSequence"
+                                              style="flex: 1;"></app-insertion-targeted-exons>
+              </div>
+            </td>
+          </tr>
+          </div>
+        </ng-container>
+        <tr>
+          <td>
+            <button class="create-button" mat-raised-button (click)="createSequence()" color="primary" type="button"
+                    *ngIf="canUpdate">Add Insertion
+            </button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+    </ng-template>
 
-                  <tr>
-                    <td colspan="3" style="padding: 0;">
-                      <div style="display: flex; gap: 16px; width: 100%;">
-                        <app-insertion-canonical-targeted-exons [insertionSequence]="insertionSequence" style="flex: 1;"></app-insertion-canonical-targeted-exons>
-                        <app-insertion-targeted-exons [insertionSequence]="insertionSequence" style="flex: 1;"></app-insertion-targeted-exons>
-                      </div>
-                    </td>
-                  </tr>
+    <ng-template #readOnly>
+      <table class="mat-elevation-z8">
+        <thead>
+        <tr>
+          <th style="width: 80%;">Sequence</th>
+          <th style="width: 20%;">Location</th>
+        </tr>
+        </thead>
+        <tbody>
+        <ng-container *ngFor="let insertionSequence of mutation.insertionSequences">
+          <tr>
+            <td style="width: 80%;">
+              <mat-form-field appearance="fill" class="textarea-full-width" id="sequenceTextarea">
+                <textarea matInput readonly matTextareaAutosize [(value)]="insertionSequence.sequence"></textarea>
+              </mat-form-field>
+            </td>
+            <td style="width: 20%;">
+              <mat-form-field appearance="fill" id="sequenceInput">
+                <input matInput readonly [(value)]="insertionSequence.location">
+              </mat-form-field>
+            </td>
+          </tr>
+          <div *ngIf="insertionSequence.insertionCanonicalTargetedExons?.length > 0 || insertionSequence.insertionTargetedExons?.length > 0">
+            <tr>
+              <td colspan="3" style="padding: 0;">
+                <div style="display: flex; gap: 16px; width: 100%;">
+                  <app-insertion-canonical-targeted-exons [insertionSequence]="insertionSequence"
+                                                          style="flex: 1;"></app-insertion-canonical-targeted-exons>
+                  <app-insertion-targeted-exons [insertionSequence]="insertionSequence"
+                                                style="flex: 1;"></app-insertion-targeted-exons>
+                </div>
+              </td>
+            </tr>
+          </div>
+        </ng-container>
 
-                </ng-container>
-                <tr>
-                    <td>
-                        <button class="create-button" mat-raised-button (click)="createSequence()" color="primary" type="button"
-                                    *ngIf="canUpdate">Add Insertion</button>
-                    </td>
-                </tr>
-              </tbody>
-            </table>
-        </ng-template>
-
-        <ng-template #readOnly>
-            <table class="mat-elevation-z8">
-                <thead>
-                    <tr>
-                      <th style="width: 80%;">Sequence</th>
-                      <th style="width: 20%;">Location</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <ng-container *ngFor="let insertionSequence of mutation.insertionSequences">
-                        <tr>
-                            <td style="width: 80%;">
-                                <mat-form-field appearance="fill" class="textarea-full-width" id="sequenceTextarea">
-                                    <textarea matInput readonly matTextareaAutosize [(value)]="insertionSequence.sequence"></textarea>
-                                </mat-form-field>
-                            </td>
-                          <td style="width: 20%;">
-                            <mat-form-field appearance="fill" id="sequenceInput">
-                              <input matInput readonly [(value)]="insertionSequence.location">
-                            </mat-form-field>
-                          </td>
-                        </tr>
-                      <app-insertion-canonical-targeted-exons [insertionSequence]="insertionSequence"></app-insertion-canonical-targeted-exons>
-                      <br>
-                      <app-insertion-targeted-exons [insertionSequence]="insertionSequence"></app-insertion-targeted-exons>
-                    </ng-container>
-                </tbody>
-            </table>
-        </ng-template>
-    </mat-expansion-panel>
+        </tbody>
+      </table>
+    </ng-template>
+  </mat-expansion-panel>
 </mat-accordion>
 <div class="separation"></div>
