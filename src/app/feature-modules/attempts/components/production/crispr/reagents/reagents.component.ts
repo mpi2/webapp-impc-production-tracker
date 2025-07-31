@@ -8,9 +8,10 @@ import { InputHandlerService } from 'src/app/core/services/input-handler.service
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 
 @Component({
-  selector: 'app-reagents',
-  templateUrl: './reagents.component.html',
-  styleUrls: ['./reagents.component.css']
+    selector: 'app-reagents',
+    templateUrl: './reagents.component.html',
+    styleUrls: ['./reagents.component.css'],
+    standalone: false
 })
 export class ReagentsComponent implements OnInit {
   @Input() crisprAttempt: CrisprAttempt;

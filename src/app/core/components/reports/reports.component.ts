@@ -7,9 +7,10 @@ import { Observable } from "rxjs";
 import { FormControl, Validators } from "@angular/forms";
 
 @Component({
-  selector: 'app-reports',
-  templateUrl: './reports.component.html',
-  styleUrls: ['./reports.component.scss'],
+    selector: 'app-reports',
+    templateUrl: './reports.component.html',
+    styleUrls: ['./reports.component.scss'],
+    standalone: false
 })
 export class ReportsComponent {
   apiServiceUrl: string;

@@ -9,21 +9,22 @@ import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 
 @Component({
-  selector: 'app-crispr-allele-modification-attempt',
-  templateUrl: './crispr-allele-modification-attempt.component.html',
-  styleUrls: ['./crispr-allele-modification-attempt.component.css'],
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => CrisprAlleleModificationAttemptComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => CrisprAlleleModificationAttemptComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-crispr-allele-modification-attempt',
+    templateUrl: './crispr-allele-modification-attempt.component.html',
+    styleUrls: ['./crispr-allele-modification-attempt.component.css'],
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => CrisprAlleleModificationAttemptComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => CrisprAlleleModificationAttemptComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class CrisprAlleleModificationAttemptComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() crisprAlleleModificationAttempt: CrisprAlleleModificationAttempt;

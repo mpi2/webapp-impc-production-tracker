@@ -5,9 +5,10 @@ import { FilterService } from 'src/app/feature-modules/filters/services/filter.s
 import { ImportListDialogComponent } from '../import-list-dialog/import-list-dialog.component';
 
 @Component({
-  selector: 'app-list-controls',
-  templateUrl: './list-controls.component.html',
-  styleUrls: ['./list-controls.component.css']
+    selector: 'app-list-controls',
+    templateUrl: './list-controls.component.html',
+    styleUrls: ['./list-controls.component.css'],
+    standalone: false
 })
 export class ListControlsComponent implements OnInit, OnDestroy {
   @Input() canUpdateList;

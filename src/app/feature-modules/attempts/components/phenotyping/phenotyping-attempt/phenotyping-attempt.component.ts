@@ -4,9 +4,10 @@ import { FormGroup, FormBuilder } from '@angular/forms';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 
 @Component({
-  selector: 'app-phenotyping-attempt',
-  templateUrl: './phenotyping-attempt.component.html',
-  styleUrls: ['./phenotyping-attempt.component.css']
+    selector: 'app-phenotyping-attempt',
+    templateUrl: './phenotyping-attempt.component.html',
+    styleUrls: ['./phenotyping-attempt.component.css'],
+    standalone: false
 })
 export class PhenotypingAttemptComponent implements OnInit {
 

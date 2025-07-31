@@ -3,9 +3,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production/crispr/crispr-attempt';
 
 @Component({
-  selector: 'app-crispr-attempt-details',
-  templateUrl: './crispr-attempt-details.component.html',
-  styleUrls: ['./crispr-attempt-details.component.css']
+    selector: 'app-crispr-attempt-details',
+    templateUrl: './crispr-attempt-details.component.html',
+    styleUrls: ['./crispr-attempt-details.component.css'],
+    standalone: false
 })
 export class CrisprAttemptDetailsComponent implements OnInit {
 

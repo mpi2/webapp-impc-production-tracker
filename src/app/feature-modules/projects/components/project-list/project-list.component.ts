@@ -15,9 +15,10 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 
 
 @Component({
-  selector: 'app-project-list',
-  templateUrl: './project-list.component.html',
-  styleUrls: ['./project-list.component.css']
+    selector: 'app-project-list',
+    templateUrl: './project-list.component.html',
+    styleUrls: ['./project-list.component.css'],
+    standalone: false
 })
 export class ProjectListComponent implements OnInit, OnDestroy {
   @ViewChild(FilterContainerComponent) filter: FilterContainerComponent;

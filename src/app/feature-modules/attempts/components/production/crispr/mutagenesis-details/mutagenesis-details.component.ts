@@ -4,9 +4,10 @@ import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 
 @Component({
-  selector: 'app-mutagenesis-details',
-  templateUrl: './mutagenesis-details.component.html',
-  styleUrls: ['./mutagenesis-details.component.css']
+    selector: 'app-mutagenesis-details',
+    templateUrl: './mutagenesis-details.component.html',
+    styleUrls: ['./mutagenesis-details.component.css'],
+    standalone: false
 })
 export class MutagenesisDetailsComponent implements OnInit {
 

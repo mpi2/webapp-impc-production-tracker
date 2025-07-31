@@ -5,9 +5,10 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { InputHandlerService } from 'src/app/core/services/input-handler.service';
 
 @Component({
-  selector: 'app-colony-detail',
-  templateUrl: './colony-detail.component.html',
-  styleUrls: ['./colony-detail.component.css']
+    selector: 'app-colony-detail',
+    templateUrl: './colony-detail.component.html',
+    styleUrls: ['./colony-detail.component.css'],
+    standalone: false
 })
 export class ColonyDetailComponent implements OnInit {
   @Input() colony: Colony;

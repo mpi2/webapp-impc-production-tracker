@@ -11,9 +11,10 @@ export interface DialogData {
 }
 
 @Component({
-  selector: 'app-tissue-distribution-centre',
-  templateUrl: './tissue-distribution-centre.component.html',
-  styleUrls: ['./tissue-distribution-centre.component.css']
+    selector: 'app-tissue-distribution-centre',
+    templateUrl: './tissue-distribution-centre.component.html',
+    styleUrls: ['./tissue-distribution-centre.component.css'],
+    standalone: false
 })
 export class TissueDistributionCentreComponent implements OnInit {
 

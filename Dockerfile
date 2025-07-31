@@ -1,5 +1,5 @@
 ## Stage 1, "build-stage", based on Node.js, to build and compile Angular
-FROM node:lts-bookworm as build-stage
+FROM node:lts-bookworm AS build-stage
 
 # Set the working directory
 WORKDIR /app
@@ -25,7 +25,7 @@ ENV NODE_OPTIONS="--max_old_space_size=4096"
 # Build the Angular app in production mode and store the artifacts in the 'dist' folder
 RUN node_modules/.bin/ng lint && \
     npm audit --omit=dev && \
-    node_modules/.bin/ng build --configuration=production --build-optimizer --output-path=./dist/out --base-href ./ --deploy-url ./
+    node_modules/.bin/ng build --configuration=production --output-path=./dist/out --base-href ./ --deploy-url ./
 
 ## Stage 2, based on Nginx, to have only the compiled app, ready for production with Nginx
 FROM nginx:mainline-alpine
@@ -38,7 +38,7 @@ COPY nginx/default.conf /etc/nginx/conf.d/default.conf
 RUN rm -rf /usr/share/nginx/html/*
 
 # From the 'build-stage' copy the artifacts in 'dist' folder to the default nginx public folder
-COPY --from=build-stage /app/dist/out/ /usr/share/nginx/html
+COPY --from=build-stage /app/dist/out/browser/ /usr/share/nginx/html
 
 # Set ownership of the nginx html folder and start script
 RUN chown -R nginx:nginx /usr/share/nginx/html

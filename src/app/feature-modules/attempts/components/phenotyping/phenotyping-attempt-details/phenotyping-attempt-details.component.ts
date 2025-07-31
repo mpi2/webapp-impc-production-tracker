@@ -5,9 +5,10 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { Plan } from 'src/app/feature-modules/plans/model/plan';
 
 @Component({
-  selector: 'app-phenotyping-attempt-details',
-  templateUrl: './phenotyping-attempt-details.component.html',
-  styleUrls: ['./phenotyping-attempt-details.component.css']
+    selector: 'app-phenotyping-attempt-details',
+    templateUrl: './phenotyping-attempt-details.component.html',
+    styleUrls: ['./phenotyping-attempt-details.component.css'],
+    standalone: false
 })
 export class PhenotypingAttemptDetailsComponent implements OnInit {
   @Input() plan: Plan;

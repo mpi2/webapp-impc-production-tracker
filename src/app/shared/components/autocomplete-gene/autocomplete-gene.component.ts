@@ -7,9 +7,10 @@ import { Gene, GeneService } from 'src/app/core';
 import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
-  selector: 'app-autocomplete-gene',
-  templateUrl: './autocomplete-gene.component.html',
-  styleUrls: ['./autocomplete-gene.component.css']
+    selector: 'app-autocomplete-gene',
+    templateUrl: './autocomplete-gene.component.html',
+    styleUrls: ['./autocomplete-gene.component.css'],
+    standalone: false
 })
 export class AutocompleteGeneComponent implements OnInit {
   @Input() symbols: string[];

@@ -1,0 +1,42 @@
+.exon-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+  table-layout: fixed; /* Important: enables fixed column widths */
+}
+
+.exon-table th, .exon-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.exon-table th {
+  background-color: #f1f1f1;
+}
+
+.exon-table th:nth-child(1),
+.exon-table td:nth-child(1) {
+  width: 50%;
+  word-wrap: break-word;
+}
+
+.exon-table th:nth-child(2),
+.exon-table td:nth-child(2) {
+  width: 50%;
+}
+
+.transcript-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.transcript-item {
+  padding: 6px 10px;
+  background-color: #eef3fc;
+  border: 1px solid #90caf9;
+  border-radius: 8px;
+  font-size: 14px;
+}

@@ -9,9 +9,10 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
 
 
 @Component({
-  selector: 'app-nuclease',
-  templateUrl: './nuclease.component.html',
-  styleUrls: ['./nuclease.component.css']
+    selector: 'app-nuclease',
+    templateUrl: './nuclease.component.html',
+    styleUrls: ['./nuclease.component.css'],
+    standalone: false
 })
 export class NucleaseComponent implements OnInit {
 

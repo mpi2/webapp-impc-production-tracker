@@ -7,9 +7,10 @@ import { Sort } from 'src/app/model/page_structure/sort';
 import { TargetGeneListService } from '../../services/target-gene-list.service';
 
 @Component({
-  selector: 'app-public-gene-lists',
-  templateUrl: './public-gene-lists.component.html',
-  styleUrls: ['./public-gene-lists.component.css']
+    selector: 'app-public-gene-lists',
+    templateUrl: './public-gene-lists.component.html',
+    styleUrls: ['./public-gene-lists.component.css'],
+    standalone: false
 })
 export class PublicGeneListsComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;

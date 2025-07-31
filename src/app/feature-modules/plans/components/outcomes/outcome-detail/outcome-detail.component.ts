@@ -21,9 +21,10 @@ import {ProjectService} from '../../../../projects';
 
 
 @Component({
-  selector: 'app-outcome-detail',
-  templateUrl: './outcome-detail.component.html',
-  styleUrls: ['./outcome-detail.component.css']
+    selector: 'app-outcome-detail',
+    templateUrl: './outcome-detail.component.html',
+    styleUrls: ['./outcome-detail.component.css'],
+    standalone: false
 })
 export class OutcomeDetailComponent implements OnInit {
   static staticError: string;
@@ -42,8 +43,6 @@ export class OutcomeDetailComponent implements OnInit {
 
   originalOutcomeAsString: string;
   originalMutationsAsString: string;
-  originalSequenceAsString: string;
-  originalMutationDeletionsAsString: string;
 
 
   changeDetails: ChangesHistory;
@@ -224,7 +223,7 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-
+debugger
     const currentMutations = this.outcome.mutations.filter(m => m.min);
     const originalMutations = JSON.parse(this.originalMutationsAsString);
 
@@ -236,14 +235,17 @@ export class OutcomeDetailComponent implements OnInit {
         // Compare mutationSequences and molecularMutationDeletions
         const sequenceChanged = JSON.stringify(mutation.mutationSequences) !== JSON.stringify(originalMutation.mutationSequences);
         const deletionChanged = JSON.stringify(mutation.molecularMutationDeletions) !== JSON.stringify(originalMutation.molecularMutationDeletions);
+        const insertionSequenceChanged = JSON.stringify(mutation.insertionSequences) !== JSON.stringify(originalMutation.insertionSequences);
 
         // Compare other fields (excluding sequences and deletions)
         const mutationCopy = { ...mutation };
         delete mutationCopy.mutationSequences;
         delete mutationCopy.molecularMutationDeletions;
+        delete mutationCopy.insertionSequences;
 
         const originalCopy = { ...originalMutation };
         delete originalCopy.mutationSequences;
+        delete originalCopy.insertionSequences;
         delete originalCopy.molecularMutationDeletions;
 
         const otherChanges = JSON.stringify(mutationCopy) !== JSON.stringify(originalCopy);
@@ -266,6 +268,17 @@ export class OutcomeDetailComponent implements OnInit {
             targetedExons: [],
             canonicalTargetedExons: [],
             isDeletionCoordinatesUpdatedManually: true
+          };
+        }
+
+        if (insertionSequenceChanged) {
+          return {
+            ...mutation,
+            insertionSequences: mutation.insertionSequences.map(seq => ({
+              ...seq,
+              insertionCanonicalTargetedExons: [],
+              insertionTargetedExons: []
+            }))
           };
         }
 
@@ -417,8 +430,6 @@ export class OutcomeDetailComponent implements OnInit {
         const mutations = data['_embedded'].mutations;
         this.originalMutationsAsString = JSON.stringify(mutations);
 
-        this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
-        this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
         this.setMutations(mutations);
       }
     }, error => {
@@ -431,8 +442,6 @@ export class OutcomeDetailComponent implements OnInit {
       if (data['_embedded']) {
         const mutations = data['_embedded'].mutations;
         this.originalMutationsAsString = JSON.stringify(mutations);
-        this.originalSequenceAsString = JSON.stringify(mutations.map(g => g.mutationSequences))
-        this.originalMutationDeletionsAsString = JSON.stringify(mutations.map(g => g.molecularMutationDeletions))
         this.setMutations(mutations);
       }
     }, error => {

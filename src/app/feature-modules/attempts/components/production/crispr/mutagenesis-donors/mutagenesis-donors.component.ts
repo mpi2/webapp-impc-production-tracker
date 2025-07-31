@@ -8,9 +8,10 @@ import { CrisprAttempt } from 'src/app/feature-modules/attempts/model/production
 
 
 @Component({
-  selector: 'app-mutagenesis-donors',
-  templateUrl: './mutagenesis-donors.component.html',
-  styleUrls: ['./mutagenesis-donors.component.css']
+    selector: 'app-mutagenesis-donors',
+    templateUrl: './mutagenesis-donors.component.html',
+    styleUrls: ['./mutagenesis-donors.component.css'],
+    standalone: false
 })
 export class MutagenesisDonorsComponent implements OnInit, OnChanges {
 

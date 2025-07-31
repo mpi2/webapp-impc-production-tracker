@@ -1,0 +1,47 @@
+<mat-accordion>
+  <mat-expansion-panel [expanded]="false">
+    <mat-expansion-panel-header>
+      <mat-panel-title style="font-weight: bold">Insertion Canonical Transcript Exons</mat-panel-title>
+    </mat-expansion-panel-header>
+
+    <div *ngFor="let canonicalTargetedExon of insertionSequence.insertionCanonicalTargetedExons">
+
+        <table class="mat-elevation-z2 exon-table">
+          <thead>
+          <tr>
+            <th>Exon ID</th>
+            <th>Transcript</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <td>
+              <a [href]="'https://www.ensembl.org/Mus_musculus/Transcript/Summary?exon=' + canonicalTargetedExon.exonId" target="_blank">
+                <div class="transcript-item">
+                  {{ canonicalTargetedExon.exonId }}
+                </div>
+              </a>
+            </td>
+            <td>
+              <div class="transcript-group">
+                <div *ngFor="let t of canonicalTargetedExon.transcriptsParsed">
+                  <a [href]="'https://www.ensembl.org/Mus_musculus/Transcript/Summary?t=' + t.name" target="_blank">
+                    <div class="transcript-item">
+                      {{ t.name }}
+                      <br />
+                      {{ t.transcriptId }}
+                    </div>
+                  </a>
+
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+        <br/>
+
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+<div class="separation"></div>

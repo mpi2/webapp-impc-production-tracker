@@ -9,21 +9,22 @@ import { ConfigurationDataService, ConfigurationData } from 'src/app/core';
 import { NamedValue } from 'src/app/core/model/common/named-value';
 
 @Component({
-  selector: 'app-es-cell-allele-modification-attempt',
-  templateUrl: './es-cell-allele-modification-attempt.component.html',
-  styleUrls: ['./es-cell-allele-modification-attempt.component.css'],
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => EsCellAlleleModificationAttemptComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => EsCellAlleleModificationAttemptComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-es-cell-allele-modification-attempt',
+    templateUrl: './es-cell-allele-modification-attempt.component.html',
+    styleUrls: ['./es-cell-allele-modification-attempt.component.css'],
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => EsCellAlleleModificationAttemptComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => EsCellAlleleModificationAttemptComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class EsCellAlleleModificationAttemptComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() esCellAlleleModificationAttempt: EsCellAlleleModificationAttempt;

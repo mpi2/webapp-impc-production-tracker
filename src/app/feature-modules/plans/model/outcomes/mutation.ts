@@ -1,5 +1,6 @@
 import {Gene} from 'src/app/core';
 import {QcResult} from './qc_result';
+import {InsertionSequence} from "../../../sequences/model/insertionSequence";
 
 export class Mutation {
   id: number;
@@ -19,7 +20,7 @@ export class Mutation {
   targetedExons: any[] = [];
   canonicalTargetedExons: any[] = [];
   alignedFastas: any[] = [];
-  insertionSequences: any[] = [];
+  insertionSequences: InsertionSequence[] = [];
   mutationCategorizations: any[] = [];
   genes: Gene[] = [];
   calculatedMgiAlleleSymbol: string;

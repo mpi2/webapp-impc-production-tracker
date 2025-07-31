@@ -8,21 +8,22 @@ import { NamedValue } from 'src/app/core/model/common/named-value';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-project-intention',
-  templateUrl: './project-intention.component.html',
-  styleUrls: ['./project-intention.component.css'],
-  providers: [
-    {
-      provide: NG_VALIDATORS,
-      useExisting: forwardRef(() => ProjectIntentionComponent),
-      multi: true
-    },
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => ProjectIntentionComponent),
-      multi: true
-    }
-  ]
+    selector: 'app-project-intention',
+    templateUrl: './project-intention.component.html',
+    styleUrls: ['./project-intention.component.css'],
+    providers: [
+        {
+            provide: NG_VALIDATORS,
+            useExisting: forwardRef(() => ProjectIntentionComponent),
+            multi: true
+        },
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => ProjectIntentionComponent),
+            multi: true
+        }
+    ],
+    standalone: false
 })
 export class ProjectIntentionComponent implements OnInit, ControlValueAccessor, Validator {
   @Input() projectCreation: boolean;
