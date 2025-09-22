@@ -152,7 +152,7 @@
         <th mat-header-cell *matHeaderCellDef>Access Status</th>
         <td mat-cell *matCellDef="let searchResult">
             <div *ngIf="searchResult.project">
-                <div *ngIf="searchResult.project && searchResult.project.isObjectRestricted; else checkedAccess">
+                <div *ngIf="searchResult.project && searchResult.project.relatedWorkUnitNames.length ===0 && searchResult.project.relatedWorkGroupNames.length === 0; else checkedAccess">
                     <mat-icon matTooltip="You are seeing a restricted version of this project." aria-hidden="false"
                         aria-label="icon">block</mat-icon>
                 </div>

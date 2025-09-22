@@ -43,8 +43,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             window.alert(
                 'Access denied. Please log as a user with the corresponding permissions ' +
                 'to execute the required action.');
-            this.authenticationService.logout();
-            this.router.navigateByUrl(`/login`);
+            this.router.navigateByUrl(`/`);
         }
     }
 
