@@ -45,4 +45,7 @@ export class DeletionCoordinatesComponent implements OnInit {
     this.mutation.molecularMutationDeletions.push(insertedCoordinates);
   }
 
+  onStartChange(newValue: number, deletion: any) {
+    deletion.start = newValue - 1;
+  }
 }

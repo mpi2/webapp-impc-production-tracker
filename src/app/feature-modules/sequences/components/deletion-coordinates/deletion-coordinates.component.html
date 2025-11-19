@@ -26,8 +26,11 @@
             </td>
             <td>
               <mat-form-field appearance="fill" class="small">
-                <input matInput [(ngModel)]="molecularMutationDeletion.start" [ngModelOptions]="{standalone: true}">
-              </mat-form-field>
+                <input
+                  matInput
+                  [ngModel]="molecularMutationDeletion.start + 1"
+                  (ngModelChange)="onStartChange($event, molecularMutationDeletion)"
+                  [ngModelOptions]="{standalone: true}">              </mat-form-field>
             </td>
             <td>
               <mat-form-field appearance="fill" class="small">
@@ -53,7 +56,7 @@
               {{molecularMutationDeletion.chr }}
             </td>
             <td>
-              {{molecularMutationDeletion.start}}
+              {{molecularMutationDeletion.start + 1}}
             </td>
             <td>
               {{molecularMutationDeletion.stop}}
