@@ -22,7 +22,7 @@ export class UserService {
   }
 
   public createUser(user: User) {
-    return this.http.post<User>(this.apiServiceUrl + '/api/people/', user);
+    return this.http.post<User>(this.apiServiceUrl + '/api/people', user);
   }
 
   getCurrentLoggedUser(): Observable<User> {

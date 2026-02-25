@@ -223,7 +223,6 @@ export class OutcomeDetailComponent implements OnInit {
   }
 
   updateMutations() {
-debugger
     const currentMutations = this.outcome.mutations.filter(m => m.min);
     const originalMutations = JSON.parse(this.originalMutationsAsString);
 
